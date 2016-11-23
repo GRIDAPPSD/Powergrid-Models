@@ -1846,7 +1846,7 @@ ALTER TABLE `Fuse` ADD FOREIGN KEY ( `SwtParent` ) REFERENCES `Switch` ( `mRID` 
 ALTER TABLE `Disconnector` ADD COLUMN `SwtParent` VARCHAR(50) NOT NULL UNIQUE;
 ALTER TABLE `Disconnector` ADD FOREIGN KEY ( `SwtParent` ) REFERENCES `Switch` ( `mRID` );
 
--- manually added for many-to-many AssetInfo to PowerSystemResource joins
+-- manually added for many-to-many AssetInfo to PowerSystemResource joins (superceding use of the Asset table)
 CREATE TABLE `PowerSystemResource`
 	(
     `mRID`  varchar(50) NOT NULL UNIQUE
@@ -1866,6 +1866,15 @@ CREATE TABLE `AssetInfoJoin`
 	 );
 ALTER TABLE `AssetInfoJoin` ADD FOREIGN KEY ( `AssetInfo` ) REFERENCES `AssetInfo` ( `mRID` );
 ALTER TABLE `AssetInfoJoin` ADD FOREIGN KEY ( `PSR` ) REFERENCES `PowerSystemResource` ( `mRID` );
+
+-- manually added for one-to-many ShortCircuitTest to TransformerEndInfo joins
+CREATE TABLE `GroundedEndJoin`
+	(
+    `GroundedEnd`  varchar(50) NOT NULL,
+    `SCTest`  varchar(50) NOT NULL
+	 );
+ALTER TABLE `GroundedEndJoin` ADD FOREIGN KEY ( `GroundedEnd` ) REFERENCES `TransformerEndInfo` ( `mRID` );
+ALTER TABLE `GroundedEndJoin` ADD FOREIGN KEY ( `SCTest` ) REFERENCES `ShortCircuitTest` ( `mRID` );
 
 -- association constraint
 ALTER TABLE `ACLineSegment` ADD FOREIGN KEY ( `BaseVoltage` ) REFERENCES `BaseVoltage` ( `mRID` );
