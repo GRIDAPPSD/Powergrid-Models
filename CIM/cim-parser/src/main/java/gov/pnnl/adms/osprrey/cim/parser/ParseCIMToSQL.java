@@ -1,12 +1,7 @@
 package gov.pnnl.adms.osprrey.cim.parser;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -16,6 +11,7 @@ import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -36,6 +32,7 @@ public class ParseCIMToSQL {
 	public static final String RDF_NS = "http://www.w3.org/1999/02/22-rdf-syntax-ns#";
 	public static final String ID_ATTRIBUTE = "ID";
 	public static final String RESOURCE_ATTRIBUTE = "resource";
+	public static final String MODEL_COMPONENT_TABLE = "ModelComponents";
 	public static void main(String[] args){
 		
 		
@@ -82,6 +79,7 @@ public class ParseCIMToSQL {
 	public void doParse(String cimXMLFile, Connection conn) throws IOException{
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		factory.setNamespaceAware(true);
+		String modelMRID = UUID.randomUUID().toString();
 		DocumentBuilder builder;
 		try {
 			builder = factory.newDocumentBuilder();
@@ -141,7 +139,7 @@ public class ParseCIMToSQL {
 							for(SimpleEntry<String, Object> entry: fieldValues){
 								
 								
-								if(!fieldNames.contains(entry.getKey().toString())){
+								if(!fieldNames.contains(entry.getKey().toString()) && !entry.getKey().toString().equals("mRID")){
 									fieldsStr += ""+entry.getKey()+",";
 									fieldNames.add(entry.getKey());
 									if(isNumeric(entry.getValue().toString()) || isBoolean(entry.getValue().toString())){
@@ -153,13 +151,14 @@ public class ParseCIMToSQL {
 								
 								
 							}
-							if(!fieldNames.contains("mRID")){
-								fieldsStr += "mRID";
-								valuesStr += "'"+entryId.getNodeValue()+"'";
-							} else {
-								fieldsStr = fieldsStr.substring(0, fieldsStr.length()-1);
-								valuesStr = valuesStr.substring(0, valuesStr.length()-1);
-							}
+							
+//							if(!fieldNames.contains("mRID")){
+							fieldsStr += "mRID";
+							valuesStr += "'"+entryId.getNodeValue()+"'";
+//							} else {
+//								fieldsStr = fieldsStr.substring(0, fieldsStr.length()-1);
+//								valuesStr = valuesStr.substring(0, valuesStr.length()-1);
+//							}
 							
 							
 							String insertStmtStr = "INSERT INTO "+table+"("+fieldsStr+") VALUES ("+valuesStr+")";
@@ -167,6 +166,14 @@ public class ParseCIMToSQL {
 							Statement insertStmt = conn.createStatement();
 							int result = insertStmt.executeUpdate(insertStmtStr);
 							System.out.println("Result "+result);
+							
+							
+							insertStmtStr = "INSERT INTO "+MODEL_COMPONENT_TABLE+"(mRID, componentMRID, tableName) VALUES ('"+modelMRID+"',+'"+entryId.getNodeValue()+"',+'"+table+"')";
+							System.out.println(insertStmtStr);
+							insertStmt = conn.createStatement();
+							result = insertStmt.executeUpdate(insertStmtStr);
+							System.out.println("Result "+result);
+							
 						
 						
 						}

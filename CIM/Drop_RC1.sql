@@ -1,3 +1,5 @@
+DROP TABLE IF EXISTS ModelComponents
+;
 DROP TABLE IF EXISTS ACLineSegment
 ;
 DROP TABLE IF EXISTS ACLineSegmentPhase
