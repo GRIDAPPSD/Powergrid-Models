@@ -1,0 +1,335 @@
+
+
+
+object capacitor {
+  name "cap_cap2";
+  parent "nd_611";
+  phases CN;
+  phases_connected CN;
+  cap_nominal_voltage 2400.00;
+  capacitor_C 100000;
+  control VOLT;
+  voltage_set_low 2300.00;
+  voltage_set_high 2500.00;
+  remote_sense "line_684611";
+  pt_phase E;
+  control_level BANK;
+  time_delay 15.0000;
+}
+object capacitor {
+  name "cap_cap1";
+  parent "nd_675";
+  phases ABCN;
+  phases_connected ABCN;
+  cap_nominal_voltage 2401.78;
+  capacitor_A 200000;
+  capacitor_B 200000;
+  capacitor_C 200000;
+  control MANUAL;
+  pt_phase A;
+  control_level BANK;
+  time_delay 15.0000;
+}
+
+object transformer_configuration {
+  name "xcon_regleg";
+  connect_type SINGLE_PHASE;
+  primary_voltage 2400.00;
+  secondary_voltage 2400.00;
+  power_rating 1666.00;
+  resistance 0.000100000;
+  reactance 0.000100000;
+}
+object transformer_configuration {
+  name "xcon_fdrxfmr";
+  connect_type WYE_WYE;
+  primary_voltage 2401.78;
+  secondary_voltage 277.128;
+  power_rating 500.000;
+  resistance 0.0110000;
+  reactance 0.0200000;
+  shunt_resistance 166.667;
+  shunt_reactance 63.0846;
+}
+object transformer_configuration {
+  name "xcon_subxfmr";
+  connect_type DELTA_GWYE;
+  primary_voltage 66395.3;
+  secondary_voltage 2401.78;
+  power_rating 5000.00;
+  resistance 1.00000e-05;
+  reactance 8.00000e-05;
+}
+
+object regulator_configuration {
+  name "rcon_Reg";
+  connect_type WYE_WYE;
+  band_center 2440.00;
+  band_width 40.0000;
+  time_delay 15.0000;
+  raise_taps 16;
+  lower_taps 16;
+  regulation 0.100000;
+  Control LINE_DROP_COMP;
+  current_transducer_ratio 700.000;
+  power_transducer_ratio 20.0000;
+  compensator_r_setting_A 3.00000;
+  compensator_x_setting_A 9.00000;
+  compensator_r_setting_B 3.00000;
+  compensator_x_setting_B 9.00000;
+  compensator_r_setting_C 3.00000;
+  compensator_x_setting_C 9.00000;
+}
+object regulator {
+  name "reg_Reg";
+  from "nd_650";
+  to "nd_rg60";
+  phases ABC;
+  configuration "rcon_Reg";
+}
+
+object transformer {
+  name "xf_xfm1";
+  from "nd_633";
+  to "nd_634";
+  phases ABC;
+  // Yy
+  configuration "xcon_fdrxfmr";
+}
+
+object transformer {
+  name "xf_sub";
+  from "nd_sourcebus";
+  to "nd_650";
+  phases ABC;
+  // Dy1
+  configuration "xcon_subxfmr";
+}
+
+
+
+
+
+
+object line_configuration {
+  name "lcon_645646_PUZ_AB";
+  z11 2130.45+2183.72j;
+  c11 4506.06;
+  z12 332.490+738.850j;
+  c12 -965.584;
+  z21 332.490+738.850j;
+  c21 -965.584;
+  z22 2139.46+2167.95j;
+  c22 4506.06;
+}
+object line_configuration {
+  name "lcon_645646_PUZ_BC";
+  z22 2130.45+2183.72j;
+  c22 4506.06;
+  z23 332.490+738.850j;
+  c23 -965.584;
+  z32 332.490+738.850j;
+  c32 -965.584;
+  z33 2139.46+2167.95j;
+  c33 4506.06;
+}
+object line_configuration {
+  name "lcon_645646_PUZ_AC";
+  z11 2130.45+2183.72j;
+  c11 4506.06;
+  z13 332.490+738.850j;
+  c13 -965.584;
+  z31 332.490+738.850j;
+  c31 -965.584;
+  z33 2139.46+2167.95j;
+  c33 4506.06;
+}
+
+
+object overhead_line {
+  name "line_684652";
+  phases A;
+  from "nd_652";
+  to "nd_684";
+  length 800.000;
+}
+object overhead_line {
+  name "line_670671";
+  phases ABC;
+  from "nd_671";
+  to "nd_670";
+  length 1333.00;
+}
+object overhead_line {
+  name "line_692675";
+  phases ABC;
+  from "nd_675";
+  to "nd_692";
+  length 500.000;
+}
+object overhead_line {
+  name "line_671684";
+  phases AC;
+  from "nd_671";
+  to "nd_684";
+  length 300.000;
+}
+object overhead_line {
+  name "line_645646";
+  phases BC;
+  from "nd_645";
+  to "nd_646";
+  length 0.186352;
+  configuration "lcon_645646_PUZ_BC";
+}
+object overhead_line {
+  name "line_632633";
+  phases ABC;
+  from "nd_633";
+  to "nd_632";
+  length 500.000;
+}
+object overhead_line {
+  name "line_671680";
+  phases ABC;
+  from "nd_671";
+  to "nd_680";
+  length 1000.00;
+}
+object overhead_line {
+  name "line_632645";
+  phases BC;
+  from "nd_632";
+  to "nd_645";
+  length 500.000;
+}
+object overhead_line {
+  name "line_632670";
+  phases ABC;
+  from "nd_670";
+  to "nd_632";
+  length 667.000;
+}
+object overhead_line {
+  name "line_684611";
+  phases C;
+  from "nd_611";
+  to "nd_684";
+  length 300.000;
+}
+object overhead_line {
+  name "line_650632";
+  phases ABC;
+  from "nd_632";
+  to "nd_rg60";
+  length 2000.00;
+}
+object switch {
+  name "swt_671692";
+  phases ABC;
+  from "nd_692";
+  to "nd_671";
+  status CLOSED;
+}
+
+object load {
+  name "nd_692";
+  phases ABCD;
+  nominal_voltage 2401.78;
+  constant_current_C 19.0567+92.7331j;
+}
+object load {
+  name "nd_670";
+  phases ABCN;
+  nominal_voltage 2401.78;
+  constant_power_A 17000.0+10000.0j;
+  constant_power_B 66000.0+38000.0j;
+  constant_power_C 117000+68000.0j;
+}
+object load {
+  name "nd_671";
+  phases ABCD;
+  nominal_voltage 2401.78;
+  constant_power_A 385000+220000j;
+  constant_power_B 385000+220000j;
+  constant_power_C 385000+220000j;
+}
+object node {
+  name "nd_680";
+  phases ABCN;
+  nominal_voltage 2401.78;
+}
+object load {
+  name "nd_652";
+  phases AN;
+  nominal_voltage 2401.78;
+  constant_impedance_A 31.0501+20.8618j;
+}
+object load {
+  name "nd_675";
+  phases ABCN;
+  nominal_voltage 2401.78;
+  constant_power_A 485000+190000j;
+  constant_power_B 68000.0+60000.0j;
+  constant_power_C 290000+212000j;
+}
+object node {
+  name "nd_650";
+  phases ABCN;
+  nominal_voltage -1.00000;
+}
+object node {
+  name "nd_684";
+  phases ACN;
+  nominal_voltage 2401.78;
+}
+object load {
+  name "nd_634";
+  phases ABCN;
+  nominal_voltage 277.128;
+  constant_power_A 160000+110000j;
+  constant_power_B 120000+90000.0j;
+  constant_power_C 120000+90000.0j;
+}
+object node {
+  bustype SWING;
+  name "nd_sourcebus";
+  phases ABCD;
+  nominal_voltage -1.00000;
+}
+object load {
+  name "nd_645";
+  phases BCN;
+  nominal_voltage 2401.78;
+  constant_power_B 170000+125000j;
+}
+object load {
+  name "nd_646";
+  phases BCD;
+  nominal_voltage 2401.78;
+  constant_impedance_B 18.8664+10.8277j;
+}
+object node {
+  name "nd_632";
+  phases ABCN;
+  nominal_voltage 2401.78;
+}
+object load {
+  name "nd_611";
+  phases CN;
+  nominal_voltage 2401.78;
+  constant_current_C -6.54431+77.9524j;
+}
+object node {
+  name "nd_633";
+  phases ABCN;
+  nominal_voltage 2401.78;
+}
+object node {
+  name "nd_rg60";
+  phases ABCN;
+  nominal_voltage 2401.78;
+}
+
+// total load = 3.46600e+06 W
+// buscoords ieee13_assets_busxy.glm
