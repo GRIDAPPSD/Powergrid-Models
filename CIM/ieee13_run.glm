@@ -1,0 +1,34 @@
+clock {
+	timezone EST+5EDT;
+	starttime '2000-01-01 0:00:00';
+	stoptime '2000-01-01 0:00:00';
+}
+
+#set relax_naming_rules=1
+#set profiler=1
+
+module powerflow {
+	solver_method NR;
+	line_capacitance TRUE;
+};
+module tape;
+
+#include "ieee13_base.glm";
+
+object voltdump {
+  filename Volt_Dump_NR.csv;
+	mode polar;
+}
+
+object currdump {
+  filename Current_Dump_NR.csv;
+	mode polar;
+}
+
+object recorder {
+  parent reg_Reg;
+  file reg1_output.csv;
+  interval 1;
+  limit 1;
+  property tap_A,tap_B,tap_C,power_in_A.real,power_in_A.imag,power_in_B.real,power_in_B.imag,power_in_C.real,power_in_C.imag,power_in.real,power_in.imag;
+};
