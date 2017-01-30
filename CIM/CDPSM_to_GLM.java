@@ -882,10 +882,10 @@ public class CDPSM_to_GLM extends Object {
 
 		bufX.append ("object transformer {\n");
 		bufX.append ("  name \"xf_" + xfName + "\";\n");
-		bufX.append ("  configuration \"xcon_" + xfName + "\";\n");
 		bufX.append ("  from \"" + bus[0] + "\";\n");
 		bufX.append ("  to \"" + bus[1] + "\";\n");
 		bufX.append ("  phases " + xfmrPhase + ";\n");  // no difference between primary and secondary phases
+		bufX.append ("  configuration \"xcon_" + xfName + "\";\n");
 		bufX.append ("}\n");
 
 		for (i = 0; i < nwdg; i++) {
