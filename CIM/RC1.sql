@@ -1589,7 +1589,9 @@ CREATE TABLE `TransformerMeshImpedance`
     `x0` DOUBLE PRECISION NOT NULL,
     -- From end this mesh impedance is connected to. It determines the voltage
     -- reference.
-    `FromTransformerEnd` varchar(50) NOT NULL
+    `FromTransformerEnd` varchar(50) NOT NULL,
+    -- All transformer ends this mesh impedance is connected to.
+    `ToTransformerEnd` varchar(50) NOT NULL
 );
 
 -- An assembly of two or more coupled windings that transform electrical power
