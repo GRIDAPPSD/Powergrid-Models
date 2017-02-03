@@ -1,7 +1,7 @@
 # file: glm_to_json.py
 # for now, manually delete comma after the last array entry
-ip = open ("ieee8500_base.glm", "r")
-op = open ("ieee8500_base.json", "w")
+ip = open ("oneline_base.glm", "r")
+op = open ("oneline_base.json", "w")
 print("{\"feeder\":[", file=op)
 
 print("{\"swing_nodes\":[", file=op)

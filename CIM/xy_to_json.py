@@ -1,7 +1,7 @@
 # file: xy_to_json.py
 # for now, manually delete comma after the last array entry
-ip = open ("ieee8500_busxy.glm", "r")
-op = open ("ieee8500_xy.json", "w")
+ip = open ("oneline_busxy.glm", "r")
+op = open ("oneline_xy.json", "w")
 print("{\"coordinates\":[", file=op)
 for line in ip:
 	lst = line.split(",")
