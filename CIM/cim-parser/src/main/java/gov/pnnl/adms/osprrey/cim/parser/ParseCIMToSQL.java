@@ -18,7 +18,6 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.jena.atlas.logging.Log;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.PathResource;
@@ -40,6 +39,8 @@ public class ParseCIMToSQL {
 	
 	protected static List<String> typesWithParent = new ArrayList<String>();
 	protected static List<String> typesWithSwtParent = new ArrayList<String>();
+	protected static List<String> typesWithPSR = new ArrayList<String>();
+
 	protected static List<String> joinFields = new ArrayList<String>();
 	
 	static{
@@ -74,6 +75,12 @@ public class ParseCIMToSQL {
 		typesWithSwtParent.add("Fuse");
 		typesWithSwtParent.add("Disconnector");
 		
+		typesWithPSR.add("ACLineSegment");
+		typesWithPSR.add("ACLineSegmentPhase");
+		typesWithPSR.add("RatioTapChanger");
+		typesWithPSR.add("TransformerTank");
+	
+		
 		
 		joinFields.add("ShortCircuitTest.GroundedEnds");
 		joinFields.add("Asset.PowerSystemResources");
@@ -104,7 +111,7 @@ public class ParseCIMToSQL {
 			conn = DriverManager.getConnection(db, user, pw);
 			ParseCIMToSQL parse = new ParseCIMToSQL();
 			parse.resetDB(dbDropFile, dbCreateFile, conn);
-//			parse.doParse(cimXMLFile, conn);
+			parse.doParse(cimXMLFile, conn);
 			parse.doParse(cimXML2File, conn);
 		
 		} catch (SQLException e) {
@@ -221,6 +228,10 @@ public class ParseCIMToSQL {
 							}
 							if(typesWithSwtParent.contains(table)){
 								fieldsStr += "SwtParent,";
+								valuesStr += "'"+entryId.getNodeValue()+"',";
+							}
+							if(typesWithPSR.contains(table)){
+								fieldsStr += "PowerSystemResource,";
 								valuesStr += "'"+entryId.getNodeValue()+"',";
 							}
 							
