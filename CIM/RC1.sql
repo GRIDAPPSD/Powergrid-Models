@@ -1104,7 +1104,8 @@ CREATE TABLE RegulatingControl
     -- model). Sometimes it is useful to model regulation at a terminal of a bus
     -- bar object since the bus bar can be present in both a bus-branch model
     -- or a model with switch detail.
-    Terminal varchar(50) NOT NULL
+    Terminal varchar(50) NOT NULL,
+	RegulatingCondEq varchar(50)
 );
 
 -- The kind of regulation model. For example regulating voltage, reactive
@@ -1755,7 +1756,7 @@ CREATE TABLE WireSpacingInfo
     -- Distance between wire sub-conductors in a symmetrical bundle.
     phaseWireSpacing DOUBLE PRECISION NOT NULL,
     -- Usage of the associated wires.
-    usageString varchar(50) NOT NULL
+    `usage` varchar(50) NOT NULL
 );
 
 -- Kind of wire usage.
@@ -1858,14 +1859,14 @@ CREATE TABLE PowerSystemResource
 	(
     mRID  varchar(50) NOT NULL UNIQUE
 	 );
-ALTER TABLE ACLineSegment ADD COLUMN PSR VARCHAR(50) NOT NULL UNIQUE;
-ALTER TABLE ACLineSegment ADD FOREIGN KEY ( PSR ) REFERENCES PowerSystemResource ( mRID );
-ALTER TABLE ACLineSegmentPhase ADD COLUMN PSR VARCHAR(50) NOT NULL UNIQUE;
-ALTER TABLE ACLineSegmentPhase ADD FOREIGN KEY ( PSR ) REFERENCES PowerSystemResource ( mRID );
-ALTER TABLE RatioTapChanger ADD COLUMN PSR VARCHAR(50) NOT NULL UNIQUE;
-ALTER TABLE RatioTapChanger ADD FOREIGN KEY ( PSR ) REFERENCES PowerSystemResource ( mRID );
-ALTER TABLE TransformerTank ADD COLUMN PSR VARCHAR(50) NOT NULL UNIQUE;
-ALTER TABLE TransformerTank ADD FOREIGN KEY ( PSR ) REFERENCES PowerSystemResource ( mRID );
+ALTER TABLE ACLineSegment ADD COLUMN PowerSystemResource VARCHAR(50) NOT NULL UNIQUE;
+ALTER TABLE ACLineSegment ADD FOREIGN KEY ( PowerSystemResource ) REFERENCES PowerSystemResource ( mRID );
+ALTER TABLE ACLineSegmentPhase ADD COLUMN PowerSystemResource VARCHAR(50) NOT NULL UNIQUE;
+ALTER TABLE ACLineSegmentPhase ADD FOREIGN KEY ( PowerSystemResource ) REFERENCES PowerSystemResource ( mRID );
+ALTER TABLE RatioTapChanger ADD COLUMN PowerSystemResource VARCHAR(50) NOT NULL UNIQUE;
+ALTER TABLE RatioTapChanger ADD FOREIGN KEY ( PowerSystemResource ) REFERENCES PowerSystemResource ( mRID );
+ALTER TABLE TransformerTank ADD COLUMN PowerSystemResource VARCHAR(50) NOT NULL UNIQUE;
+ALTER TABLE TransformerTank ADD FOREIGN KEY ( PowerSystemResource ) REFERENCES PowerSystemResource ( mRID );
 CREATE TABLE AssetPowerSystemResourcesJoin
 	(
     Asset  varchar(50) NOT NULL,
@@ -2096,5 +2097,5 @@ ALTER TABLE WirePosition ADD FOREIGN KEY ( phase ) REFERENCES SinglePhaseKind ( 
 -- association constraint
 ALTER TABLE WirePosition ADD FOREIGN KEY ( WireSpacingInfo ) REFERENCES WireSpacingInfo ( mRID );
 -- association constraint
-ALTER TABLE WireSpacingInfo ADD FOREIGN KEY ( usageString ) REFERENCES WireUsageKind ( name );
+ALTER TABLE WireSpacingInfo ADD FOREIGN KEY ( `usage` ) REFERENCES WireUsageKind ( name );
 
