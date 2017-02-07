@@ -1867,22 +1867,22 @@ ALTER TABLE `RatioTapChanger` ADD COLUMN `PowerSystemResource` VARCHAR(50) NOT N
 ALTER TABLE `RatioTapChanger` ADD FOREIGN KEY ( `PowerSystemResource` ) REFERENCES `PowerSystemResource` ( `mRID` );
 ALTER TABLE `TransformerTank` ADD COLUMN `PowerSystemResource` VARCHAR(50) NOT NULL UNIQUE;
 ALTER TABLE `TransformerTank` ADD FOREIGN KEY ( `PowerSystemResource` ) REFERENCES `PowerSystemResource` ( `mRID` );
-CREATE TABLE `AssetPowerSystemResourcesJoin`
+CREATE TABLE `Asset_PowerSystemResourcesJoin`
 	(
     `Asset`  varchar(50) NOT NULL,
     `PowerSystemResources`  varchar(50) NOT NULL
 	 );
-ALTER TABLE `AssetPowerSystemResourcesJoin` ADD FOREIGN KEY ( `Asset` ) REFERENCES `Asset` ( `mRID` );
-ALTER TABLE `AssetPowerSystemResourcesJoin` ADD FOREIGN KEY ( `PowerSystemResources` ) REFERENCES `PowerSystemResource` ( `mRID` );
+ALTER TABLE `Asset_PowerSystemResourcesJoin` ADD FOREIGN KEY ( `Asset` ) REFERENCES `Asset` ( `mRID` );
+ALTER TABLE `Asset_PowerSystemResourcesJoin` ADD FOREIGN KEY ( `PowerSystemResources` ) REFERENCES `PowerSystemResource` ( `mRID` );
 
 -- manually added for one-to-many ShortCircuitTest to TransformerEndInfo joins
-CREATE TABLE `ShortCircuitTestGroundedEndsJoin`
+CREATE TABLE `ShortCircuitTest_GroundedEndsJoin`
 	(
     `ShortCircuitTest`  varchar(50) NOT NULL,
     `GroundedEnds`  varchar(50) NOT NULL
 	 );
-ALTER TABLE `ShortCircuitTestGroundedEndsJoin` ADD FOREIGN KEY ( `GroundedEnds` ) REFERENCES `TransformerEndInfo` ( `mRID` );
-ALTER TABLE `ShortCircuitTestGroundedEndsJoin` ADD FOREIGN KEY ( `ShortCircuitTest` ) REFERENCES `ShortCircuitTest` ( `mRID` );
+ALTER TABLE `ShortCircuitTest_GroundedEndsJoin` ADD FOREIGN KEY ( `GroundedEnds` ) REFERENCES `TransformerEndInfo` ( `mRID` );
+ALTER TABLE `ShortCircuitTest_GroundedEndsJoin` ADD FOREIGN KEY ( `ShortCircuitTest` ) REFERENCES `ShortCircuitTest` ( `mRID` );
 
 -- association constraint
 ALTER TABLE `ACLineSegment` ADD FOREIGN KEY ( `BaseVoltage` ) REFERENCES `BaseVoltage` ( `mRID` );
