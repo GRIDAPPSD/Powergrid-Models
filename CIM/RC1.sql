@@ -13,6 +13,11 @@
 -- different BaseVoltage.nominalVoltages and variation is allowed. Larger
 -- voltage difference in general requires use of an equivalent branch.
 
+CREATE TABLE `ModelComponents`  ( 
+	`mRID`         	varchar(50) NULL,
+	`componentMRID`	varchar(50) NULL,
+	`tableName`    	varchar(50) NULL 
+	);
 CREATE TABLE `ACLineSegment`
 (
     `mRID`  varchar(50) NOT NULL UNIQUE,
@@ -1099,7 +1104,8 @@ CREATE TABLE `RegulatingControl`
     -- model). Sometimes it is useful to model regulation at a terminal of a bus
     -- bar object since the bus bar can be present in both a bus-branch model
     -- or a model with switch detail.
-    `Terminal` varchar(50) NOT NULL
+    `Terminal` varchar(50) NOT NULL,
+	RegulatingCondEq varchar(50)
 );
 
 -- The kind of regulation model. For example regulating voltage, reactive
@@ -1589,7 +1595,9 @@ CREATE TABLE `TransformerMeshImpedance`
     `x0` DOUBLE PRECISION NOT NULL,
     -- From end this mesh impedance is connected to. It determines the voltage
     -- reference.
-    `FromTransformerEnd` varchar(50) NOT NULL
+    `FromTransformerEnd` varchar(50) NOT NULL,
+    -- All transformer ends this mesh impedance is connected to.
+    `ToTransformerEnd` varchar(50) NOT NULL
 );
 
 -- An assembly of two or more coupled windings that transform electrical power
@@ -1851,30 +1859,30 @@ CREATE TABLE `PowerSystemResource`
 	(
     `mRID`  varchar(50) NOT NULL UNIQUE
 	 );
-ALTER TABLE `ACLineSegment` ADD COLUMN `PSR` VARCHAR(50) NOT NULL UNIQUE;
-ALTER TABLE `ACLineSegment` ADD FOREIGN KEY ( `PSR` ) REFERENCES `PowerSystemResource` ( `mRID` );
-ALTER TABLE `ACLineSegmentPhase` ADD COLUMN `PSR` VARCHAR(50) NOT NULL UNIQUE;
-ALTER TABLE `ACLineSegmentPhase` ADD FOREIGN KEY ( `PSR` ) REFERENCES `PowerSystemResource` ( `mRID` );
-ALTER TABLE `RatioTapChanger` ADD COLUMN `PSR` VARCHAR(50) NOT NULL UNIQUE;
-ALTER TABLE `RatioTapChanger` ADD FOREIGN KEY ( `PSR` ) REFERENCES `PowerSystemResource` ( `mRID` );
-ALTER TABLE `TransformerTank` ADD COLUMN `PSR` VARCHAR(50) NOT NULL UNIQUE;
-ALTER TABLE `TransformerTank` ADD FOREIGN KEY ( `PSR` ) REFERENCES `PowerSystemResource` ( `mRID` );
-CREATE TABLE `AssetInfoJoin`
+ALTER TABLE `ACLineSegment` ADD COLUMN `PowerSystemResource` VARCHAR(50) NOT NULL UNIQUE;
+ALTER TABLE `ACLineSegment` ADD FOREIGN KEY ( `PowerSystemResource` ) REFERENCES `PowerSystemResource` ( `mRID` );
+ALTER TABLE `ACLineSegmentPhase` ADD COLUMN `PowerSystemResource` VARCHAR(50) NOT NULL UNIQUE;
+ALTER TABLE `ACLineSegmentPhase` ADD FOREIGN KEY ( `PowerSystemResource` ) REFERENCES `PowerSystemResource` ( `mRID` );
+ALTER TABLE `RatioTapChanger` ADD COLUMN `PowerSystemResource` VARCHAR(50) NOT NULL UNIQUE;
+ALTER TABLE `RatioTapChanger` ADD FOREIGN KEY ( `PowerSystemResource` ) REFERENCES `PowerSystemResource` ( `mRID` );
+ALTER TABLE `TransformerTank` ADD COLUMN `PowerSystemResource` VARCHAR(50) NOT NULL UNIQUE;
+ALTER TABLE `TransformerTank` ADD FOREIGN KEY ( `PowerSystemResource` ) REFERENCES `PowerSystemResource` ( `mRID` );
+CREATE TABLE `Asset_PowerSystemResourcesJoin`
 	(
-    `AssetInfo`  varchar(50) NOT NULL,
-    `PSR`  varchar(50) NOT NULL
+    `Asset`  varchar(50) NOT NULL,
+    `PowerSystemResources`  varchar(50) NOT NULL
 	 );
-ALTER TABLE `AssetInfoJoin` ADD FOREIGN KEY ( `AssetInfo` ) REFERENCES `AssetInfo` ( `mRID` );
-ALTER TABLE `AssetInfoJoin` ADD FOREIGN KEY ( `PSR` ) REFERENCES `PowerSystemResource` ( `mRID` );
+ALTER TABLE `Asset_PowerSystemResourcesJoin` ADD FOREIGN KEY ( `Asset` ) REFERENCES `Asset` ( `mRID` );
+ALTER TABLE `Asset_PowerSystemResourcesJoin` ADD FOREIGN KEY ( `PowerSystemResources` ) REFERENCES `PowerSystemResource` ( `mRID` );
 
 -- manually added for one-to-many ShortCircuitTest to TransformerEndInfo joins
-CREATE TABLE `GroundedEndJoin`
+CREATE TABLE `ShortCircuitTest_GroundedEndsJoin`
 	(
-    `GroundedEnd`  varchar(50) NOT NULL,
-    `SCTest`  varchar(50) NOT NULL
+    `ShortCircuitTest`  varchar(50) NOT NULL,
+    `GroundedEnds`  varchar(50) NOT NULL
 	 );
-ALTER TABLE `GroundedEndJoin` ADD FOREIGN KEY ( `GroundedEnd` ) REFERENCES `TransformerEndInfo` ( `mRID` );
-ALTER TABLE `GroundedEndJoin` ADD FOREIGN KEY ( `SCTest` ) REFERENCES `ShortCircuitTest` ( `mRID` );
+ALTER TABLE `ShortCircuitTest_GroundedEndsJoin` ADD FOREIGN KEY ( `GroundedEnds` ) REFERENCES `TransformerEndInfo` ( `mRID` );
+ALTER TABLE `ShortCircuitTest_GroundedEndsJoin` ADD FOREIGN KEY ( `ShortCircuitTest` ) REFERENCES `ShortCircuitTest` ( `mRID` );
 
 -- association constraint
 ALTER TABLE `ACLineSegment` ADD FOREIGN KEY ( `BaseVoltage` ) REFERENCES `BaseVoltage` ( `mRID` );
@@ -2090,4 +2098,3 @@ ALTER TABLE `WirePosition` ADD FOREIGN KEY ( `phase` ) REFERENCES `SinglePhaseKi
 ALTER TABLE `WirePosition` ADD FOREIGN KEY ( `WireSpacingInfo` ) REFERENCES `WireSpacingInfo` ( `mRID` );
 -- association constraint
 ALTER TABLE `WireSpacingInfo` ADD FOREIGN KEY ( `usage` ) REFERENCES `WireUsageKind` ( `name` );
-
