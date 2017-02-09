@@ -16,7 +16,10 @@
 CREATE TABLE `ModelComponents`  ( 
 	`mRID`         	varchar(50) NULL,
 	`componentMRID`	varchar(50) NULL,
-	`tableName`    	varchar(50) NULL 
+	`tableName`    	varchar(50) NULL,
+    `created`       TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    `id`   int NOT NULL AUTO_INCREMENT,
+     PRIMARY KEY (id)	
 	);
 CREATE TABLE `ACLineSegment`
 (
