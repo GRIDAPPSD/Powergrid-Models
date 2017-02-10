@@ -1108,7 +1108,8 @@ CREATE TABLE `RegulatingControl`
     -- bar object since the bus bar can be present in both a bus-branch model
     -- or a model with switch detail.
     `Terminal` varchar(50) NOT NULL,
-	RegulatingCondEq varchar(50)
+    -- The equipment that participates in this regulating control scheme.
+	   RegulatingCondEq varchar(50) NOT NULL
 );
 
 -- The kind of regulation model. For example regulating voltage, reactive
@@ -2023,6 +2024,8 @@ ALTER TABLE `RegulatingControl` ADD FOREIGN KEY ( `monitoredPhase` ) REFERENCES 
 ALTER TABLE `RegulatingControl` ADD FOREIGN KEY ( `Location` ) REFERENCES `Location` ( `mRID` );
 -- association constraint
 ALTER TABLE `RegulatingControl` ADD FOREIGN KEY ( `Terminal` ) REFERENCES `Terminal` ( `mRID` );
+-- association constraint
+ALTER TABLE `RegulatingControl` ADD FOREIGN KEY ( `RegulatingCondEq` ) REFERENCES `LinearShuntCompensator` ( `mRID` );
 -- association constraint
 ALTER TABLE `Sectionaliser` ADD FOREIGN KEY ( `BaseVoltage` ) REFERENCES `BaseVoltage` ( `mRID` );
 -- association constraint

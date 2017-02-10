@@ -111,7 +111,7 @@ public class ParseCIMToSQL {
 			conn = DriverManager.getConnection(db, user, pw);
 			ParseCIMToSQL parse = new ParseCIMToSQL();
 			parse.resetDB(dbDropFile, dbCreateFile, conn);
-			parse.doParse(cimXMLFile, conn);
+//			parse.doParse(cimXMLFile, conn);
 			parse.doParse(cimXML2File, conn);
 		
 		} catch (SQLException e) {
@@ -193,18 +193,15 @@ public class ParseCIMToSQL {
 							ArrayList<String> fieldNames = new ArrayList<String>();
 
 							List<SimpleEntry<String, Object>> fieldValues = tableEntries.get(table);
-							
+							String parentId = entryId.getNodeValue();
 							String fieldsStr = "";
 							String valuesStr = "";
 							for(SimpleEntry<String, Object> entry: fieldValues){
 								
-								if("GroundedEnds".equals(entry.getKey())){
-									System.out.println("grounded ends");
-								}
 								
 								if(joinFields.contains(table+"."+entry.getKey())){
 									//TODO add to join table table+entry+"Join"
-									String insertStmtStr = "insert into "+table+entry.getKey()+"Join("+table+","+entry.getKey()+") values ('"+entryId.getNodeValue()+"','"+entry.getValue()+"')";
+									String insertStmtStr = "insert into "+table+"_"+entry.getKey()+"Join("+table+","+entry.getKey()+") values ('"+entryId.getNodeValue()+"','"+entry.getValue()+"')";
 									insertData(insertStmtStr, conn);
 									
 								}else if(!fieldNames.contains(entry.getKey().toString()) && !entry.getKey().toString().equals("mRID")){
@@ -215,24 +212,28 @@ public class ParseCIMToSQL {
 									} else {
 										valuesStr += "'"+entry.getValue()+"',";	
 									}
-								}
+								} //else if(entry.getKey().toString().equals("mRID")){
+//									parentId = entry.getValue().toString();
+//								}
 								
 								
 							}
 							
+							
+							
 							if(typesWithParent.contains(table)){
 								fieldsStr += "Parent,";
-								valuesStr += "'"+entryId.getNodeValue()+"',";
+								valuesStr += "'"+parentId+"',";
 							} else {
 								log.warn("Table does not have parent "+table);
 							}
 							if(typesWithSwtParent.contains(table)){
 								fieldsStr += "SwtParent,";
-								valuesStr += "'"+entryId.getNodeValue()+"',";
+								valuesStr += "'"+parentId+"',";
 							}
 							if(typesWithPSR.contains(table)){
 								fieldsStr += "PowerSystemResource,";
-								valuesStr += "'"+entryId.getNodeValue()+"',";
+								valuesStr += "'"+parentId+"',";
 							}
 							
 //							if(!fieldNames.contains("mRID")){
@@ -245,7 +246,7 @@ public class ParseCIMToSQL {
 							
 							try{
 								for(String parentTable: parentTables){
-									String insertStmtStr = "INSERT INTO "+parentTable+"(mRID) VALUES ("+entryId.getNodeValue()+")";
+									String insertStmtStr = "INSERT INTO "+parentTable+"(mRID) VALUES ("+parentId+")";
 									insertData(insertStmtStr, conn);
 								}
 							}catch(SQLException e){
