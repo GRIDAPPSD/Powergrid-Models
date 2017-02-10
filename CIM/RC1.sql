@@ -1109,7 +1109,7 @@ CREATE TABLE `RegulatingControl`
     -- or a model with switch detail.
     `Terminal` varchar(50) NOT NULL,
     -- The equipment that participates in this regulating control scheme.
-	   RegulatingCondEq varchar(50) NOT NULL
+	   `RegulatingCondEq` varchar(50) NOT NULL
 );
 
 -- The kind of regulation model. For example regulating voltage, reactive
