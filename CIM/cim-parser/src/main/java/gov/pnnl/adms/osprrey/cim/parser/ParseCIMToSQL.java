@@ -111,7 +111,7 @@ public class ParseCIMToSQL {
 			conn = DriverManager.getConnection(db, user, pw);
 			ParseCIMToSQL parse = new ParseCIMToSQL();
 			parse.resetDB(dbDropFile, dbCreateFile, conn);
-//			parse.doParse(cimXMLFile, conn);
+			parse.doParse(cimXMLFile, conn);
 			parse.doParse(cimXML2File, conn);
 		
 		} catch (SQLException e) {
