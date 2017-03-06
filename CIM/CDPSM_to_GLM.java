@@ -1389,8 +1389,10 @@ public class CDPSM_to_GLM extends Object {
 		double dU[] = new double[nWindings];
 		double dS[] = new double[nWindings];
 		double dR[] = new double[nWindings];
+		double dXsc[] = new double[nWindings];
+		double Zbase[] = new double[nWindings];
 		String sC[] = new String[nWindings];
-		double dNLL = 0.0, dImag = 0.0, dXsc = 0.0, dXhl = 0.0, dXlt = 0.0, dXht = 0.0;
+		double dNLL = 0.0, dImag = 0.0, dXhl = 0.0, dXlt = 0.0, dXht = 0.0;
 
 		// load the winding data
     iter = mdl.listResourcesWithProperty (ptInfo, xfRes);
@@ -1400,8 +1402,8 @@ public class CDPSM_to_GLM extends Object {
       dU[i] = vmult * SafeDouble (wdg, ptU, 1); // v
       dS[i] = smult * SafeDouble (wdg, ptS, 1); // va
       dR[i] = SafeDouble (wdg, ptR, 0);
-      double Zbase = dU[i] * dU[i] / dS[i];
-      dR[i] /= Zbase;
+			Zbase[i] = dU[i] * dU[i] / dS[i];
+      dR[i] /= Zbase[i];
       sC[i] = GetWdgConnection (wdg, ptC, "Y");
       if (sC[i].equals ("I")) {
         nPhases = 1;
@@ -1410,7 +1412,7 @@ public class CDPSM_to_GLM extends Object {
       ResIterator iterTest = mdl.listResourcesWithProperty (ptFrom, wdg);
       while (iterTest.hasNext()) {
         Resource test = iterTest.nextResource();
-        dXsc = SafeDouble (test, ptZsc, 0.0001) / Zbase;
+        dXsc[i] = SafeDouble (test, ptZsc, 0.0001) / Zbase[i];
       }
 			// find the first no-load test
 			iterTest = mdl.listResourcesWithProperty (ptEnd, wdg);
@@ -1438,8 +1440,26 @@ public class CDPSM_to_GLM extends Object {
 		buf.append ("  primary_voltage " + String.format("%6g", dU[0]) + ";\n");
 		buf.append ("  secondary_voltage " + String.format("%6g", dU[1]) + ";\n");
 		buf.append ("  power_rating " + String.format("%6g", 0.001 * dS[0]) + ";\n"); // kva
-		buf.append ("  resistance " + String.format("%6g", dR[0] + dR[1]) + ";\n");
-		buf.append ("  reactance " + String.format("%6g", dXsc) + ";\n");
+		if (ConnectType.equals("SINGLE_PHASE_CENTER_TAPPED")) { 
+			buf.append ("  // the default split puts 50% of R and 80% of X on the H branch\n");
+			buf.append ("  // resistance " + String.format("%6g", dR[1]) + ";\n");
+			buf.append ("  // reactance " + String.format("%6g", dXsc[0]) + ";\n");
+			// assume Xhl = Xht = dXsc[0] and Xlt = dXsc[1], which is good only for balanced center-tapped transformers
+			double dX0 = 0.5 * (dXsc[0] + dXsc[0] - dXsc[1]);
+			double dX1 = 0.5 * (dXsc[0] + dXsc[1] - dXsc[0]);
+			double dX2 = 0.5 * (dXsc[0] + dXsc[1] - dXsc[0]);
+			// TODO - the following prints dXsc[2] = 0; need to unpack the pairwise dXsc using the To ends above
+//			buf.append ("  // Xsc = " + String.format("%6g", dXsc[0]) + ":" + String.format("%6g", dXsc[1]) + ":" + String.format("%6g", dXsc[2]) + "\n");
+			String impedance = CFormat (new Complex (dR[0], dX0));
+			String impedance1 = CFormat (new Complex (dR[1], dX1));
+			String impedance2 = CFormat (new Complex (dR[2], dX2));
+			buf.append ("  impedance " + impedance + ";\n");
+			buf.append ("  impedance1 " + impedance1 + ";\n");
+			buf.append ("  impedance2 " + impedance2 + ";\n");
+		} else {
+			buf.append ("  resistance " + String.format("%6g", dR[0] + dR[1]) + ";\n");
+			buf.append ("  reactance " + String.format("%6g", dXsc[0]) + ";\n");
+		}
 		if (dNLL > 0.0) {
 			buf.append ("  shunt_resistance " + String.format("%6g", 1.0 / dNLL) + ";\n");
 		}
