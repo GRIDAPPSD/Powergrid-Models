@@ -1,7 +1,7 @@
 clock {
 	timezone EST+5EDT;
-	starttime '2000-01-01 0:00:00';
-	stoptime '2000-01-01 4:00:00';
+	starttime '2009-07-21 00:00:00 EDT';
+	stoptime '2009-07-21 04:00:00 EDT';
 }
 
 #set relax_naming_rules=1;
