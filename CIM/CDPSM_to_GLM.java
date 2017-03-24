@@ -1461,8 +1461,8 @@ public class CDPSM_to_GLM extends Object {
       ibase /= Math.sqrt(3.0);
       for (int i = 0; i < nWindings; i++) dU[i] /= Math.sqrt(3.0);
     }
-    dNLL /= dS[0];
-    dImag /= ibase;
+    dNLL /= dS[0];  // TODO - this was supposed to be % in CIM; may have been exported as Watts
+    dImag /= 100.0;  // this puts dImag in per-unit    dImag /= ibase;
     String ConnectType = GetGldTransformerConnection (sC, nWindings);
     if (!bWantSec && ConnectType.equals("SINGLE_PHASE_CENTER_TAPPED")) {
       return "";
