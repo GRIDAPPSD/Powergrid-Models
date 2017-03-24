@@ -22,8 +22,8 @@ object player {
 	loop 0;
 }
 
-//#include "ieee8500_base.glm";
-#include "ieee8500zip_base.glm";
+#include "ieee8500_base.glm";
+//#include "ieee8500zip_base.glm";
 
 object recorder {
 	parent line_hvmv_sub_hsb;
