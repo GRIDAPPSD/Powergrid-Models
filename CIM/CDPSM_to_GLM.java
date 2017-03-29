@@ -2072,9 +2072,18 @@ public class CDPSM_to_GLM extends Object {
 				out.println("  phases_connected " + phs + "N;");
 			}
 			out.println ("	cap_nominal_voltage " + String.format("%6g", cap_v) + ";");
-			if (phs.contains("A")) out.println ("  capacitor_A " + String.format("%6g", cap_q) + ";");
-			if (phs.contains("B")) out.println ("  capacitor_B " + String.format("%6g", cap_q) + ";");
-			if (phs.contains("C")) out.println ("  capacitor_C " + String.format("%6g", cap_q) + ";");
+			if (phs.contains("A")) {
+				out.println ("  capacitor_A " + String.format("%6g", cap_q) + ";");
+				out.println ("  switchA CLOSED;");
+			}
+			if (phs.contains("B")) {
+				out.println ("  capacitor_B " + String.format("%6g", cap_q) + ";");
+				out.println ("  switchB CLOSED;");
+			}
+			if (phs.contains("C")) {
+				out.println ("  capacitor_C " + String.format("%6g", cap_q) + ";");
+				out.println ("  switchC CLOSED;");
+			}
 
 			// see if we have capacitor control settings
 			ResIterator itCtl = model.listResourcesWithProperty (ptCapCtl, res);
