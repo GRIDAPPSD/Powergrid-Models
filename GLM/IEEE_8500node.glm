@@ -12,8 +12,8 @@ clock {
 }
 
 module powerflow {
-//    solver_method FBS;
-    solver_method NR;
+    solver_method FBS;
+//    solver_method NR;
     line_limits TRUE;
     default_maximum_voltage_error 1e-4;
 };
@@ -25,13 +25,13 @@ module tape;
 // Regulators and regulator configurations
 
 object regulator_configuration {
-//	Control MANUAL;
-//	tap_pos_A 2;
-//	tap_pos_B 2;
-//	tap_pos_C 1;
+	Control MANUAL;
+	tap_pos_A 2;
+	tap_pos_B 2;
+	tap_pos_C 1;
      connect_type 1;
      name reg_config_1;
-     Control LINE_DROP_COMP;
+//     Control LINE_DROP_COMP;
      band_center 125.0;
      band_width 2.0;
      current_transducer_ratio 0;
@@ -50,13 +50,13 @@ object regulator_configuration {
 }
 
 object regulator_configuration {
-//	Control MANUAL;
-//	tap_pos_A 10;
-//	tap_pos_B 6;
-//	tap_pos_C 2;
+	Control MANUAL;
+	tap_pos_A 10;
+	tap_pos_B 6;
+	tap_pos_C 2;
      connect_type 1;
      name reg_config_2;
-     Control LINE_DROP_COMP;
+//     Control LINE_DROP_COMP;
      band_center 124.7;
      band_width 2.0;
      current_transducer_ratio 0;
@@ -75,13 +75,13 @@ object regulator_configuration {
 }
 
 object regulator_configuration {
-//	Control MANUAL;
-//	tap_pos_A 16;
-//	tap_pos_B 10;
-//	tap_pos_C 1;
+	Control MANUAL;
+	tap_pos_A 16;
+	tap_pos_B 10;
+	tap_pos_C 1;
      connect_type 1;
      name reg_config_3;
-     Control LINE_DROP_COMP;
+//     Control LINE_DROP_COMP;
      band_center 124.7;
      band_width 2.0;
      current_transducer_ratio 0;
@@ -100,13 +100,13 @@ object regulator_configuration {
 }
 
 object regulator_configuration {
-//	Control MANUAL;
-//	tap_pos_A 12;
-//	tap_pos_B 12;
-//	tap_pos_C 5;
+	Control MANUAL;
+	tap_pos_A 12;
+	tap_pos_B 12;
+	tap_pos_C 5;
      connect_type 1;
      name reg_config_4;
-     Control LINE_DROP_COMP;
+//     Control LINE_DROP_COMP;
      band_center 125.0;
      band_width 2.0;
      current_transducer_ratio 0;
