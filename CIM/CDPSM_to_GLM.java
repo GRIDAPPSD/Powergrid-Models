@@ -895,10 +895,10 @@ public class CDPSM_to_GLM extends Object {
 				g = SafeDouble(rCore, ptCoreG, 0.0) * zb[i];
 				b = SafeDouble(rCore, ptCoreB, 0.0) * zb[i];
 				if (g > 0.0) {
-					bufX.append ("	shunt_resistance " + String.format("%6g", 1.0 / g) + ";\n");
+					bufX.append ("	// shunt_resistance " + String.format("%6g", 1.0 / g) + ";\n");
 				}
 				if (b > 0.0) {
-					bufX.append ("	shunt_reactance " + String.format("%6g", 1.0 / b) + ";\n");
+					bufX.append ("	// shunt_reactance " + String.format("%6g", 1.0 / b) + ";\n");
 				}
 			}
 		}
@@ -960,8 +960,8 @@ public class CDPSM_to_GLM extends Object {
 					double ldcR = SafeDouble (ctl, mdl.getProperty (nsCIM, "TapChangerControl.lineDropR"), 0.0);
 					Vreg = SafeDouble (ctl, mdl.getProperty (nsCIM, "RegulatingControl.targetValue"), 120.0);
 					Vband = SafeDouble (ctl, mdl.getProperty (nsCIM, "RegulatingControl.targetDeadband"), 2.0);
-					Vreg *= PT;
-					Vband *= PT;
+//					Vreg *= PT;
+//					Vband *= PT;
 					bLTC = SafeBoolean (rtc, mdl.getProperty(nsCIM, "TapChanger.ltcFlag"), false);
 					highStep = SafeInt (rtc, mdl.getProperty(nsCIM, "TapChanger.highStep"), 32);
 					lowStep = SafeInt (rtc, mdl.getProperty(nsCIM, "TapChanger.lowStep"), 0);
@@ -1021,6 +1021,7 @@ public class CDPSM_to_GLM extends Object {
 		buf.append ("  raise_taps " + String.format("%d", Math.abs (highStep - neutralStep)) + ";\n");
 		buf.append ("  lower_taps " + String.format("%d", Math.abs (neutralStep - lowStep)) + ";\n");
 		buf.append ("  regulation " + String.format("%6g", dReg) + ";\n");
+		buf.append ("  Type B;\n");
 		if (Vreg > 0.0 && Vband > 0.0 && bLTC) {
 			if (bLineDrop) {
 				buf.append("	Control MANUAL; // LINE_DROP_COMP;\n");
@@ -1495,10 +1496,10 @@ public class CDPSM_to_GLM extends Object {
 			buf.append ("  reactance " + String.format("%6g", dXsc[0]) + ";\n");
 		}
 		if (dNLL > 0.0) {
-			buf.append ("  shunt_resistance " + String.format("%6g", 1.0 / dNLL) + ";\n");
+			buf.append ("  // shunt_resistance " + String.format("%6g", 1.0 / dNLL) + ";\n");
 		}
 		if (dImag > 0.0) {
-			buf.append ("  shunt_reactance " + String.format("%6g", 1.0 / dImag) + ";\n");
+			buf.append ("  // shunt_reactance " + String.format("%6g", 1.0 / dImag) + ";\n");
 		}
 		buf.append("}");
 		return buf.toString();
