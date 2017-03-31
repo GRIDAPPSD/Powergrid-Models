@@ -7,6 +7,33 @@
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
   </properties>
+  <build>
+	  <plugins>
+	      <plugin>
+	        <artifactId>maven-assembly-plugin</artifactId>
+	        <version>3.0.0</version>
+	        <configuration>
+	          <descriptorRefs>
+	            <descriptorRef>jar-with-dependencies</descriptorRef>
+	          </descriptorRefs>
+	          <archive>
+	          	<manifest>
+	          		<mainClass>gov.pnnl.adms.osprrey.cim.parser.ParseCIMToSQL</mainClass>
+	          	</manifest>
+	          </archive>
+	        </configuration>
+	        <executions>
+	          <execution>
+	            <id>make-assembly</id> <!-- this is used for inheritance merges -->
+	            <phase>package</phase> <!-- bind to the packaging phase -->
+	            <goals>
+	              <goal>single</goal>
+	            </goals>
+	          </execution>
+	        </executions>
+	      </plugin>
+	  </plugins>
+  </build>
   <dependencies>
   	<dependency>
   		<groupId>org.apache.commons</groupId>
