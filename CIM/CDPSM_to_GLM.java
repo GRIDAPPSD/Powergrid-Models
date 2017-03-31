@@ -2673,92 +2673,50 @@ public class CDPSM_to_GLM extends Object {
 				Complex vmagsq = new Complex(nd.nomvln * nd.nomvln);
 				if (nd.bSecondary) {
 					if (bWantSec) {
+						out.println("object triplex_load {");
+						out.println("	 name \"" + nd.name + "\";");
+						out.println("	 phases " + nd.GetPhases() + ";");
+						out.println("	 nominal_voltage " + String.format("%6g", nd.nomvln) + ";");
+						Complex base1 = new Complex(nd.pa_z + nd.pa_i + nd.pa_p, nd.qa_z + nd.qa_i + nd.qa_p);
+						Complex base2 = new Complex(nd.pb_z + nd.pb_i + nd.pb_p, nd.qb_z + nd.qb_i + nd.qb_p);
 						if (bWantSched) {
-							out.println("object triplex_load {");
-							out.println("	 name \"" + nd.name + "\";");
-							out.println("	 phases " + nd.GetPhases() + ";");
-							out.println("	 nominal_voltage " + String.format("%6g", nd.nomvln) + ";");
-							Complex base1 = new Complex(nd.pa_z + nd.pa_i + nd.pa_p, nd.qa_z + nd.qa_i + nd.qa_p);
-							Complex base2 = new Complex(nd.pb_z + nd.pb_i + nd.pb_p, nd.qb_z + nd.qb_i + nd.qb_p);
 							out.println("	 base_power_1 " + fSched + ".value*" + String.format("%6g", base1.abs()) + ";");
 							out.println("	 base_power_2 " + fSched + ".value*" + String.format("%6g", base2.abs()) + ";");
-							if (nd.pa_p > 0.0) {
-								Complex base = new Complex(nd.pa_p, nd.qa_p);
-								out.println("  power_pf_1 " + String.format("%6g", nd.pa_p / base.abs()) + ";");
-								out.println("  power_fraction_1 " + String.format("%6g", nd.pa_p / base1.getReal()) + ";");
-							}
-							if (nd.pb_p > 0.0) {
-								Complex base = new Complex(nd.pb_p, nd.qb_p);
-								out.println("  power_pf_2 " + String.format("%6g", nd.pb_p / base.abs()) + ";");
-								out.println("  power_fraction_2 " + String.format("%6g", nd.pb_p / base2.getReal()) + ";");
-							}
-							if (nd.pa_i > 0.0) {
-								Complex base = new Complex(nd.pa_i, nd.qa_i);
-								out.println("  current_pf_1 " + String.format("%6g", nd.pa_i / base.abs()) + ";");
-								out.println("  current_fraction_1 " + String.format("%6g", nd.pa_i / base1.getReal()) + ";");
-							}
-							if (nd.pb_i > 0.0) {
-								Complex base = new Complex(nd.pb_i, nd.qb_i);
-								out.println("  current_pf_2 " + String.format("%6g", nd.pb_i / base.abs()) + ";");
-								out.println("  current_fraction_2 " + String.format("%6g", nd.pb_i / base2.getReal()) + ";");
-							}
-							if (nd.pa_z > 0.0) {
-								Complex base = new Complex(nd.pa_z, nd.qa_z);
-								out.println("  impedance_pf_1 " + String.format("%6g", nd.pa_z / base.abs()) + ";");
-								out.println("  impedance_fraction_1 " + String.format("%6g", nd.pa_z / base1.getReal()) + ";");
-							}
-							if (nd.pb_z > 0.0) {
-								Complex base = new Complex(nd.pb_z, nd.qb_z);
-								out.println("  impedance_pf_2 " + String.format("%6g", nd.pb_z / base.abs()) + ";");
-								out.println("  impedance_fraction_2 " + String.format("%6g", nd.pb_z / base2.getReal()) + ";");
-							}
-							out.println("}");
 						} else {
-							out.println("object triplex_node {");
-							if (nd.bSwing) out.println("  bustype SWING;");
-							out.println("	 name \"" + nd.name + "\";");
-							out.println("	 phases " + nd.GetPhases() + ";");
-							out.println("	 nominal_voltage " + String.format("%6g", nd.nomvln) + ";");
-							if (nd.pa_p > 0.0 || nd.qa_p != 0.0)	{
-								out.println("	 power_1 " + CFormat(new Complex(nd.pa_p, nd.qa_p)) + ";");
-							}
-							if (nd.pb_p > 0.0 || nd.qb_p != 0.0)	{
-								out.println("	 power_2 " + CFormat(new Complex(nd.pb_p, nd.qb_p)) + ";");
-							}
-							if (nd.pa_z > 0.0 || nd.qa_z != 0.0) {
-								Complex s = new Complex(nd.pa_z, nd.qa_z);
-								Complex z = vmagsq.divide(s.conjugate());
-								out.println("	 impedance_1 " + CFormat(z) + ";");
-							}
-							if (nd.pb_z > 0.0 || nd.qb_z != 0.0) {
-								Complex s = new Complex(nd.pb_z, nd.qb_z);
-								Complex z = vmagsq.divide(s.conjugate());
-								out.println("	 impedance_2 " + CFormat(z) + ";");
-							}
-							if (nd.pa_i > 0.0 || nd.qa_i != 0.0) {
-								Complex s = new Complex(nd.pa_i, nd.qa_i);
-								if (nd.phases.contains("B")) {
-								     amps = s.divide(vb).conjugate();
-								 } else if (nd.phases.contains("C")) {
-								     amps = s.divide(vc).conjugate();
-								 } else {
-								     amps = s.divide(va).conjugate();
-								 }
-								out.println("	 current_1 " + CFormat(amps) + ";");
-							}
-							if (nd.pb_i > 0.0 || nd.qb_i != 0.0) {
-								Complex s = new Complex(nd.pb_i, nd.qb_i);
-								if (nd.phases.contains("B")) {
-								     amps = s.divide(vb).conjugate();
-								 } else if (nd.phases.contains("C")) {
-								     amps = s.divide(vc).conjugate();
-								 } else {
-								     amps = s.divide(va).conjugate();
-								 }
-								out.println("	 current_2 " + CFormat(amps) + ";");
-							}
-							out.println("}");
+							out.println("	 base_power_1 " + String.format("%6g", base1.abs()) + ";");
+							out.println("	 base_power_2 " + String.format("%6g", base2.abs()) + ";");
 						}
+						if (nd.pa_p > 0.0) {
+							Complex base = new Complex(nd.pa_p, nd.qa_p);
+							out.println("  power_pf_1 " + String.format("%6g", nd.pa_p / base.abs()) + ";");
+							out.println("  power_fraction_1 " + String.format("%6g", nd.pa_p / base1.getReal()) + ";");
+						}
+						if (nd.pb_p > 0.0) {
+							Complex base = new Complex(nd.pb_p, nd.qb_p);
+							out.println("  power_pf_2 " + String.format("%6g", nd.pb_p / base.abs()) + ";");
+							out.println("  power_fraction_2 " + String.format("%6g", nd.pb_p / base2.getReal()) + ";");
+						}
+						if (nd.pa_i > 0.0) {
+							Complex base = new Complex(nd.pa_i, nd.qa_i);
+							out.println("  current_pf_1 " + String.format("%6g", nd.pa_i / base.abs()) + ";");
+							out.println("  current_fraction_1 " + String.format("%6g", nd.pa_i / base1.getReal()) + ";");
+						}
+						if (nd.pb_i > 0.0) {
+							Complex base = new Complex(nd.pb_i, nd.qb_i);
+							out.println("  current_pf_2 " + String.format("%6g", nd.pb_i / base.abs()) + ";");
+							out.println("  current_fraction_2 " + String.format("%6g", nd.pb_i / base2.getReal()) + ";");
+						}
+						if (nd.pa_z > 0.0) {
+							Complex base = new Complex(nd.pa_z, nd.qa_z);
+							out.println("  impedance_pf_1 " + String.format("%6g", nd.pa_z / base.abs()) + ";");
+							out.println("  impedance_fraction_1 " + String.format("%6g", nd.pa_z / base1.getReal()) + ";");
+						}
+						if (nd.pb_z > 0.0) {
+							Complex base = new Complex(nd.pb_z, nd.qb_z);
+							out.println("  impedance_pf_2 " + String.format("%6g", nd.pb_z / base.abs()) + ";");
+							out.println("  impedance_fraction_2 " + String.format("%6g", nd.pb_z / base2.getReal()) + ";");
+						}
+						out.println("}");
 					}
 				} else {
 					if (bWantSched) { // TODO
