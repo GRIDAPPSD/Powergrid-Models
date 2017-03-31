@@ -3,6 +3,10 @@
   <groupId>gov.pnnl.adms.osprrey</groupId>
   <artifactId>cim-parser</artifactId>
   <version>0.0.1-SNAPSHOT</version>
+  <properties>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
+  </properties>
   <dependencies>
   	<dependency>
   		<groupId>org.apache.commons</groupId>
@@ -30,14 +34,14 @@
 	    <version>3.6.1</version>
 	</dependency>
 	<dependency>
-	    <groupId>org.apache.jena</groupId>
-	    <artifactId>jena-core</artifactId>
-	    <version>3.1.1</version>
+		<groupId>org.apache.jena</groupId>
+		<artifactId>jena-core</artifactId>
+		<version>3.1.1</version>
 	</dependency>
 	<dependency>
-	    <groupId>org.apache.jena</groupId>
-	    <artifactId>jena-arq</artifactId>
-	    <version>3.1.1</version>
+		<groupId>org.apache.jena</groupId>
+		<artifactId>jena-arq</artifactId>
+		<version>3.1.1</version>
 	</dependency>
   </dependencies>
   
