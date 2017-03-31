@@ -895,10 +895,10 @@ public class CDPSM_to_GLM extends Object {
 				g = SafeDouble(rCore, ptCoreG, 0.0) * zb[i];
 				b = SafeDouble(rCore, ptCoreB, 0.0) * zb[i];
 				if (g > 0.0) {
-					bufX.append ("	// shunt_resistance " + String.format("%6g", 1.0 / g) + ";\n");
+					bufX.append ("	shunt_resistance " + String.format("%6g", 1.0 / g) + ";\n");
 				}
 				if (b > 0.0) {
-					bufX.append ("	// shunt_reactance " + String.format("%6g", 1.0 / b) + ";\n");
+					bufX.append ("	shunt_reactance " + String.format("%6g", 1.0 / b) + ";\n");
 				}
 			}
 		}
@@ -1496,10 +1496,10 @@ public class CDPSM_to_GLM extends Object {
 			buf.append ("  reactance " + String.format("%6g", dXsc[0]) + ";\n");
 		}
 		if (dNLL > 0.0) {
-			buf.append ("  // shunt_resistance " + String.format("%6g", 1.0 / dNLL) + ";\n");
+			buf.append ("  shunt_resistance " + String.format("%6g", 1.0 / dNLL) + ";\n");
 		}
 		if (dImag > 0.0) {
-			buf.append ("  // shunt_reactance " + String.format("%6g", 1.0 / dImag) + ";\n");
+			buf.append ("  shunt_reactance " + String.format("%6g", 1.0 / dImag) + ";\n");
 		}
 		buf.append("}");
 		return buf.toString();
@@ -2667,6 +2667,9 @@ public class CDPSM_to_GLM extends Object {
 					nd.ApplyZIP(Zcoeff, Icoeff, Pcoeff);
 				}
 				Complex va = new Complex(nd.nomvln);
+				Complex vb = va.multiply(neg120);
+				Complex vc = va.multiply(pos120);
+				Complex amps;
 				Complex vmagsq = new Complex(nd.nomvln * nd.nomvln);
 				if (nd.bSecondary) {
 					if (bWantSec) {
@@ -2734,12 +2737,24 @@ public class CDPSM_to_GLM extends Object {
 							}
 							if (nd.pa_i > 0.0 || nd.qa_i != 0.0) {
 								Complex s = new Complex(nd.pa_i, nd.qa_i);
-								Complex amps = s.divide(va).conjugate();
+								if (nd.phases.contains("B")) {
+								     amps = s.divide(vb).conjugate();
+								 } else if (nd.phases.contains("C")) {
+								     amps = s.divide(vc).conjugate();
+								 } else {
+								     amps = s.divide(va).conjugate();
+								 }
 								out.println("	 current_1 " + CFormat(amps) + ";");
 							}
 							if (nd.pb_i > 0.0 || nd.qb_i != 0.0) {
 								Complex s = new Complex(nd.pb_i, nd.qb_i);
-								Complex amps = s.divide(va).conjugate();
+								if (nd.phases.contains("B")) {
+								     amps = s.divide(vb).conjugate();
+								 } else if (nd.phases.contains("C")) {
+								     amps = s.divide(vc).conjugate();
+								 } else {
+								     amps = s.divide(va).conjugate();
+								 }
 								out.println("	 current_2 " + CFormat(amps) + ";");
 							}
 							out.println("}");
@@ -2778,17 +2793,17 @@ public class CDPSM_to_GLM extends Object {
 						}
 						if (nd.pa_i > 0.0 || nd.qa_i != 0.0) {
 							Complex s = new Complex(nd.pa_i, nd.qa_i);
-							Complex amps = s.divide(va).conjugate();
+							amps = s.divide(va).conjugate();
 							out.println("	 constant_current_A " + CFormat(amps) + ";");
 						}
 						if (nd.pb_i > 0.0 || nd.qb_i != 0.0) {
 							Complex s = new Complex(nd.pb_i, nd.qb_i);
-							Complex amps = s.divide(va.multiply(neg120)).conjugate();
+							amps = s.divide(va.multiply(neg120)).conjugate();
 							out.println("	 constant_current_B " + CFormat(amps) + ";");
 						}
 						if (nd.pc_i > 0.0 || nd.qc_i != 0.0) {
 							Complex s = new Complex(nd.pc_i, nd.qc_i);
-							Complex amps = s.divide(va.multiply(pos120)).conjugate();
+							amps = s.divide(va.multiply(pos120)).conjugate();
 							out.println("	 constant_current_C " + CFormat(amps) + ";");
 						}
 						out.println("}");
