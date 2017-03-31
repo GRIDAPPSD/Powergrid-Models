@@ -59,10 +59,10 @@ object transformer_configuration {
 }
 object transformer {
   name "xf_xfm1";
-  configuration "xcon_xfm1";
   from "nd_633";
   to "nd_634";
   phases ABCN;
+  configuration "xcon_xfm1";
 }
 
 object regulator_configuration {
@@ -103,10 +103,10 @@ object transformer_configuration {
 }
 object transformer {
   name "xf_sub";
-  configuration "xcon_sub";
   from "nd_sourcebus";
   to "nd_650";
   phases ABCN;
+  configuration "xcon_sub";
 }
 
 

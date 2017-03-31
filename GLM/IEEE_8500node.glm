@@ -1,6 +1,10 @@
 //IEEE 8500 node test system.
 //  Generated 18-Nov-2016 16:45:13 using Matlab 8.5.0.197613 (R2015a).
 
+#define CAPSTATUS=CLOSED
+#define XFMR_REACTANCE=0.1551  // just the transformer
+// #define XFMR_REACTANCE=0.1859  // with transmission source (high-side reactor)
+
 clock {
      timezone PST+8PDT;
      starttime '2000-09-01 12:00:00';
@@ -9,27 +13,25 @@ clock {
 
 module powerflow {
     solver_method FBS;
+//    solver_method NR;
     line_limits TRUE;
     default_maximum_voltage_error 1e-4;
 };
-module market;
 module tape;
-
-#include "schedules.glm";
 
 #set profiler=1;
 #set relax_naming_rules=1;
-#set suppress_repeat_messages=0;
-#set savefile="8500_balanced_FBS.xml";
-#set randomseed=10
-//#define stylesheet=C:/Documents and Settings/d3x289/My Documents/GridLAB-D/trunk/VS2005/gridlabd-2_0;
 
 // Regulators and regulator configurations
 
 object regulator_configuration {
+	Control MANUAL;
+	tap_pos_A 2;
+	tap_pos_B 2;
+	tap_pos_C 1;
      connect_type 1;
      name reg_config_1;
-     Control LINE_DROP_COMP;
+//     Control LINE_DROP_COMP;
      band_center 125.0;
      band_width 2.0;
      current_transducer_ratio 0;
@@ -48,9 +50,13 @@ object regulator_configuration {
 }
 
 object regulator_configuration {
+	Control MANUAL;
+	tap_pos_A 10;
+	tap_pos_B 6;
+	tap_pos_C 2;
      connect_type 1;
      name reg_config_2;
-     Control LINE_DROP_COMP;
+//     Control LINE_DROP_COMP;
      band_center 124.7;
      band_width 2.0;
      current_transducer_ratio 0;
@@ -69,9 +75,13 @@ object regulator_configuration {
 }
 
 object regulator_configuration {
+	Control MANUAL;
+	tap_pos_A 16;
+	tap_pos_B 10;
+	tap_pos_C 1;
      connect_type 1;
      name reg_config_3;
-     Control LINE_DROP_COMP;
+//     Control LINE_DROP_COMP;
      band_center 124.7;
      band_width 2.0;
      current_transducer_ratio 0;
@@ -90,9 +100,13 @@ object regulator_configuration {
 }
 
 object regulator_configuration {
+	Control MANUAL;
+	tap_pos_A 12;
+	tap_pos_B 12;
+	tap_pos_C 5;
      connect_type 1;
      name reg_config_4;
-     Control LINE_DROP_COMP;
+//     Control LINE_DROP_COMP;
      band_center 125.0;
      band_width 2.0;
      current_transducer_ratio 0;
@@ -154,6 +168,9 @@ object capacitor {
      capacitor_A 0.4 MVAr;
      capacitor_B 0.4 MVAr;
      capacitor_C 0.4 MVAr;
+		 switchA ${CAPSTATUS};
+		 switchB ${CAPSTATUS};
+		 switchC ${CAPSTATUS};
      control_level INDIVIDUAL;
      voltage_set_high 7680.0;
      voltage_set_low 6840.0;
@@ -176,6 +193,9 @@ object capacitor {
      capacitor_A 0.3 MVAr;
      capacitor_B 0.3 MVAr;
      capacitor_C 0.3 MVAr;
+		 switchA ${CAPSTATUS};
+		 switchB ${CAPSTATUS};
+		 switchC ${CAPSTATUS};
      control_level INDIVIDUAL;
      voltage_set_high 7680.0;
      voltage_set_low 6840.0;
@@ -198,6 +218,9 @@ object capacitor {
      capacitor_A 0.3 MVAr;
      capacitor_B 0.3 MVAr;
      capacitor_C 0.3 MVAr;
+		 switchA ${CAPSTATUS};
+		 switchB ${CAPSTATUS};
+		 switchC ${CAPSTATUS};
      control_level INDIVIDUAL;
      voltage_set_high 7800.0;
      voltage_set_low 6840.0;
@@ -219,6 +242,9 @@ object capacitor {
      capacitor_A 0.3 MVAr;
      capacitor_B 0.3 MVAr;
      capacitor_C 0.3 MVAr;
+		 switchA ${CAPSTATUS};
+		 switchB ${CAPSTATUS};
+		 switchC ${CAPSTATUS};
      control_level INDIVIDUAL;
      switchA CLOSED;
      switchB CLOSED;
@@ -235,7 +261,7 @@ object transformer_configuration:27500 {
      power_rating 27500kVA;
      primary_voltage 115.0kV;
      secondary_voltage 12.47kV;
-     reactance 0.15510;
+     reactance ${XFMR_REACTANCE};
      resistance 0.01344;
 }
 
@@ -76783,55 +76809,29 @@ object triplex_line {
 
 object recorder {
 	parent FEEDER_REG;
-	interval 4;
-	file main_regulator_DR0.csv;
+	interval 60;
+	file main_regulator.csv;
 	property power_in_A.real,power_in_A.imag,power_in_B.real,power_in_B.imag,power_in_C.real,power_in_C.imag;
 };
 object multi_recorder {
 	parent FEEDER_REG;
-	interval 4;
-	file regulator_taps_DR0.csv;
+	interval 60;
+	file regulator_taps.csv;
 	property tap_A,tap_B,tap_C,VREG2:tap_A,VREG2:tap_B,VREG2:tap_C,VREG3:tap_A,VREG3:tap_B,VREG3:tap_C,VREG4:tap_A,VREG4:tap_B,VREG4:tap_C;
 };
 object multi_recorder {
 	parent CapBank0;
 	interval 60;
-	file capacitor_state_DR0.csv;
+	file capacitor_state.csv;
 	property CapBank0:switchA,CapBank0:switchB,CapBank0:switchC,CapBank1:switchA,CapBank1:switchB,CapBank1:switchC,CapBank2:switchA,CapBank2:switchB,CapBank2:switchC;
 };
-object group_recorder {
-     group class=triplex_meter;
-     file meter_voltage_12_DR0.csv;
-     interval 4;
-     property voltage_12;
-     in '2000-09-01 14:00:00';
-     out '2000-09-01 16:00:00';
-};
+object voltdump {
+  filename Voltage_8500.csv;
+  mode polar;
+}
+object currdump {
+  filename Current_8500.csv;
+  mode polar;
+}
 
-object group_recorder {
-     group class=waterheater;
-     file wh_actual_load_DR0.csv;
-     interval 4;
-     property actual_load;
-     in '2000-09-01 14:00:00';
-     out '2000-09-01 16:00:00';
-};
-
-object group_recorder {
-     group class=waterheater;
-     file wh_rated_load_DR0.csv;
-     interval 4;
-     property heating_element_capacity;
-     in '2000-09-01 14:00:00';
-     out '2000-09-01 16:00:00';
-};
-
-object group_recorder {
-     group class=waterheater;
-     file wh_state_DR0.csv;
-     interval 4;
-     property is_waterheater_on;
-     in '2000-09-01 14:00:00';
-     out '2000-09-01 16:00:00';
-};
 

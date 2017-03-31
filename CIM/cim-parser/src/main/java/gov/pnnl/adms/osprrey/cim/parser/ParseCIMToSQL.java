@@ -92,28 +92,25 @@ public class ParseCIMToSQL {
 		
 		
 		if(args.length<4){
-			System.out.println("Usage: <model location> <database url> <database user> <database password>");
+			System.out.println("Usage: <model file> <database host> <database user> <database password>");
 			System.exit(1);
 		}
 
 		String dataLocation = args[0];
-		String db = args[1];
+		String db = "jdbc:mysql://"+args[1]+":3306/gridappsd";
 		String user = args[2];
 		String pw = args[3];
 		
 		
-		String cimXMLFile = dataLocation+File.separator+"ieee8500.xml";
-		String cimXML2File = dataLocation+File.separator+"ieee13.xml";
-		String dbDropFile = dataLocation+File.separator+"Drop_RC1.sql";
-		String dbCreateFile = dataLocation+File.separator+"RC1.sql";
+//		String dbDropFile = dataLocation+File.separator+"Drop_RC1.sql";
+//		String dbCreateFile = dataLocation+File.separator+"RC1.sql";
 		Connection conn = null;
 		try {
 			conn = DriverManager.getConnection(db, user, pw);
 			ParseCIMToSQL parse = new ParseCIMToSQL();
-			parse.resetDB(dbDropFile, dbCreateFile, conn);
-			parse.doParse(cimXMLFile, conn);
-			parse.doParse(cimXML2File, conn);
-		
+//			parse.resetDB(dbDropFile, dbCreateFile, conn);
+
+			parse.doParse(dataLocation, conn);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
