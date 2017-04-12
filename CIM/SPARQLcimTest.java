@@ -87,15 +87,16 @@ public class SPARQLcimTest extends Object {
 		DecimalFormat df = new DecimalFormat("#.00");
 
 		// LinearShuntCompensator ==> Capacitor
-		query = QueryFactory.create (qPrefix + "SELECT ?s ?name ?nomu ?bsection ?bus WHERE {" + 
-					     " ?s r:type c:LinearShuntCompensator." +
-					     " ?s c:IdentifiedObject.name ?name." +
-					     " ?s c:ShuntCompensator.nomU ?nomu." + 
-					     " ?s c:LinearShuntCompensator.bPerSection ?bsection." + 
-					     " ?t c:Terminal.ConductingEquipment ?s." + 
-					     " ?t c:Terminal.ConnectivityNode ?cn." + 
-					     " ?cn c:IdentifiedObject.name ?bus" + 
-					     "}");
+		query = QueryFactory.create (qPrefix + 
+							"SELECT ?s ?name ?nomu ?bsection ?bus WHERE {" + 
+					    " ?s r:type c:LinearShuntCompensator." +
+					    " ?s c:IdentifiedObject.name ?name." +
+					    " ?s c:ShuntCompensator.nomU ?nomu." + 
+					    " ?s c:LinearShuntCompensator.bPerSection ?bsection." + 
+					    " ?t c:Terminal.ConductingEquipment ?s." + 
+					    " ?t c:Terminal.ConnectivityNode ?cn." + 
+					    " ?cn c:IdentifiedObject.name ?bus" + 
+					    "}");
 		qexec = QueryExecutionFactory.create (query, model);
 		results=qexec.execSelect();
 		while (results.hasNext()) {
@@ -109,7 +110,7 @@ public class SPARQLcimTest extends Object {
 			double kvar = nomu * nomu * bsection / 1000.0;
 
 			System.out.println (id + ": " + name + " @ " + bus + "  " + 
-													df.format(nomu/1000.0) + " [kV]  " + df.format(kvar) + " [kvar]");
+				df.format(nomu/1000.0) + " [kV] " + df.format(kvar) + " [kvar]");
 		}
 	}
 }
