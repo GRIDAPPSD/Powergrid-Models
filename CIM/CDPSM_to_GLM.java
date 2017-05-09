@@ -4,31 +4,71 @@
 //	All rights reserved.
 //	----------------------------------------------------------
 
-// package pnnl.gov.gridlabd.cim ;
-
 // additions 11/22/2016: aVRDelay, TopologicalNodes, TopologicalIslands
 // removals  11/22/2016: targetValueUnitMultiplier
 
-import java.io.*;
-import java.util.HashMap;
+// package gov.pnnl.gridlabd.cim;
 
-import org.apache.jena.ontology.*;
-import org.apache.jena.query.*;
-import org.apache.jena.rdf.model.*;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+
+import java.util.HashMap;
+// import java.util.Random;
+
+import org.apache.jena.ontology.OntModelSpec;
+import org.apache.jena.ontology.OntResource;
+import org.apache.jena.query.Query;
+import org.apache.jena.query.QueryExecution;
+import org.apache.jena.query.QueryExecutionFactory;
+import org.apache.jena.query.QueryFactory;
+import org.apache.jena.query.QuerySolution;
+import org.apache.jena.query.ResultSet;
+import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.ModelFactory;
+import org.apache.jena.rdf.model.Property;
+import org.apache.jena.rdf.model.ResIterator;
+import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.util.FileManager;
 
 import org.apache.commons.math3.complex.Complex;
-import org.apache.commons.math3.complex.ComplexFormat;
+// import org.apache.commons.math3.complex.ComplexFormat;
 
-public class CDPSM_to_GLM extends Object {
+/**
+ * This class converts CIM (IEC 61968) RDF to GridLAB-D format 
+ * @author Tom McDermott 
+ * @version 1.0 
+ *  
+ * @see <a href="http://www.ucaiug.org/default.aspx">CIM Users 
+ *  		Group</a>
+ *  
+ * @see <a 
+ *  		href="https://github.com/GRIDAPPSD/Powergrid-Models/blob/temcdrm/CIM/CDPSM_RC1.docx">CIM
+ *  		Profile and Queries for Feeder Modeling in GridLAB-D</a>
+ *  
+ * @see <a href="http://www.gridlabd.org/">GridLAB-D</a>
+ */
+
+public class CDPSM_to_GLM {
 	static final String nsCIM = "http://iec.ch/TC57/2012/CIM-schema-cim16#";
 	static final String nsRDF = "http://www.w3.org/1999/02/22-rdf-syntax-ns#";
 	static final String baseURI = "http://gridlabd";
 
-	static final String combinedOwl = "Combined.owl";
-
+	/**
+	 * Rotates a phasor +120 degrees by multiplication
+	 */
 	static final Complex pos120 = new Complex (-0.5, 0.5 * Math.sqrt(3.0));
+	/**
+	 * Rotates a phasor -120 degrees by multiplication
+	 */
 	static final Complex neg120 = new Complex (-0.5, -0.5 * Math.sqrt(3.0));
+	/**
+	 * Formats a complex number for GridLAB-D input files 
+	 * @param c complex number to output 
+	 * @return Formatted string with 'j' at the end 
+	 */
 	static String CFormat (Complex c) {
 		String sgn;
 		if (c.getImaginary() < 0.0)  {
@@ -125,37 +165,37 @@ public class CDPSM_to_GLM extends Object {
 		}
 
 		public void ApplyZIP(double Z, double I, double P) {
-	double total = Z + I + P; // make sure they sum to 1
-	Z = Z / total;
-	I = I / total;
-	P = P / total;
+			double total = Z + I + P; // make sure they sum to 1
+			Z = Z / total;
+			I = I / total;
+			P = P / total;
 
-	total = pa_z + pa_i + pa_p;
-	pa_z = total * Z;
-	pa_i = total * I;
-	pa_p = total * P;
-	total = qa_z + qa_i + qa_p;
-	qa_z = total * Z;
-	qa_i = total * I;
-	qa_p = total * P;
+			total = pa_z + pa_i + pa_p;
+			pa_z = total * Z;
+			pa_i = total * I;
+			pa_p = total * P;
+			total = qa_z + qa_i + qa_p;
+			qa_z = total * Z;
+			qa_i = total * I;
+			qa_p = total * P;
 
-	total = pb_z + pb_i + pb_p;
-	pb_z = total * Z;
-	pb_i = total * I;
-	pb_p = total * P;
-	total = qb_z + qb_i + qb_p;
-	qb_z = total * Z;
-	qb_i = total * I;
-	qb_p = total * P;
+			total = pb_z + pb_i + pb_p;
+			pb_z = total * Z;
+			pb_i = total * I;
+			pb_p = total * P;
+			total = qb_z + qb_i + qb_p;
+			qb_z = total * Z;
+			qb_i = total * I;
+			qb_p = total * P;
 
-	total = pc_z + pc_i + pc_p;
-	pc_z = total * Z;
-	pc_i = total * I;
-	pc_p = total * P;
-	total = qc_z + qc_i + qc_p;
-	qc_z = total * Z;
-	qc_i = total * I;
-	qc_p = total * P;
+			total = pc_z + pc_i + pc_p;
+			pc_z = total * Z;
+			pc_i = total * I;
+			pc_p = total * P;
+			total = qc_z + qc_i + qc_p;
+			qc_z = total * Z;
+			qc_i = total * I;
+			qc_p = total * P;
 		}
 
 		public void RescaleLoad(double scale) {
@@ -1716,6 +1756,35 @@ public class CDPSM_to_GLM extends Object {
 		return "";
 	}
 
+	/** 
+	  * Reads command-line input for the converter 
+	  * @see CDPSM_to_GLM 
+	  * @param args will be CDPSM_to_GLM [options] input.xml 
+	  *   					output_root
+	  * <p>options are:</p> 
+	  * <p>-l={1}	load scaling factor, defaults to 1</p> 
+	  * <p>-t={y|n}	triplex; y/n to include secondary</p> 
+		*	<p>-e={u|i}	encoding; UTF-8 or ISO-8859-1</p>
+		*	<p>-f={50|60}	system frequency</p>
+	  * <p>-v={1|0.001}	multiplier that converts voltage to
+	  *    V for GridLAB-D</p>
+	  * <p>-s={1000|1|0.001} multiplier that converts p,q,s to 
+	  *    VA for GridLAB-D</p>
+		*	<p>-q={y|n}	are unique names used?</p>
+	  * <p>-n={schedule_name} root filename for scheduled 
+	  * ZIPloads (defaults to none)</p> 
+	  * <p>-z={0..1} 	constant Z portion (defaults to 0
+	  *    for CIM-defined</p>
+	  * <p>-i={0..1} 	constant I portion (defaults to 0
+	  *    for CIM-defined</p>
+	  * <p>-p={0..1} 	constant P portion (defaults to 0
+	  *    for CIM-defined</p>
+	  *   
+		* @exception java.io.UnsupportedEncodingException 
+		*   If the UTF encoding flag is wrong 
+		* @exception FileNotFoundException 
+		*   If the CIM RDF input file is not found 
+	 */
 	public static void main (String args[]) throws UnsupportedEncodingException, FileNotFoundException {
 
 		String fName = "", fOut = "", fBus = "", fEnc = "";
@@ -1747,41 +1816,41 @@ public class CDPSM_to_GLM extends Object {
 				char opt = args[i].charAt(1);
 				String optVal = args[i].substring(3);
 				if (opt == 't') {
-						if (optVal.charAt(0) == 'n') {
-								bWantSec = false;
-						}
-				} else if (opt=='e') {
+					if (optVal.charAt(0) == 'n') {
+						bWantSec = false;
+					}
+				} else if (opt == 'e') {
 					if (optVal.charAt(0) == 'u') {
 						fEnc = "UTF8";
 					} else {
 						fEnc = "ISO-8859-1";
 					}
-				} else if (opt=='q') {
+				} else if (opt == 'q') {
 					if (optVal.charAt(0) == 'y') {
 						fNameSeq = 0;
 					} else {
 						fNameSeq = 1;
 					}
-	} else if (opt=='l') {
-		load_scale = Double.parseDouble(optVal);
-				} else if (opt=='f') {
+				} else if (opt == 'l') {
+					load_scale = Double.parseDouble(optVal);
+				} else if (opt == 'f') {
 					freq = Double.parseDouble(optVal);
-				} else if (opt=='v') {
+				} else if (opt == 'v') {
 					vmult = Double.parseDouble(optVal);
-				} else if (opt=='s') {
+				} else if (opt == 's') {
 					smult = Double.parseDouble(optVal);
-	} else if (opt=='n') {
-		fSched = optVal;
-		bWantSched = true;
-	} else if (opt=='z') {
-		Zcoeff = Double.parseDouble(optVal);
-		bWantZIP = true;
-	} else if (opt=='i') {
-		Icoeff = Double.parseDouble(optVal);
-		bWantZIP = true;
-	} else if (opt=='p') {
-		Pcoeff = Double.parseDouble(optVal);
-		bWantZIP = true;
+				} else if (opt == 'n') {
+					fSched = optVal;
+					bWantSched = true;
+				} else if (opt == 'z') {
+					Zcoeff = Double.parseDouble(optVal);
+					bWantZIP = true;
+				} else if (opt == 'i') {
+					Icoeff = Double.parseDouble(optVal);
+					bWantZIP = true;
+				} else if (opt == 'p') {
+					Pcoeff = Double.parseDouble(optVal);
+					bWantZIP = true;
 				}
 			} else if (fInFile < 1) {
 				fInFile = 1;
