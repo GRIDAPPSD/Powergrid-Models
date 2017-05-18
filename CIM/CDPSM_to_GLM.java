@@ -53,9 +53,7 @@ import org.apache.commons.math3.complex.Complex;
  *  
  * @see <a href="http://www.ucaiug.org/default.aspx">CIM User Group</a>
  *  
- * @see <a 
- *  		href="https://github.com/GRIDAPPSD/Powergrid-Models/blob/temcdrm/CIM/CDPSM_RC1.docx">CIM
- *  		Profile and Queries for Feeder Modeling in GridLAB-D</a>
+ * @see <a href="https://github.com/GRIDAPPSD/Powergrid-Models/blob/temcdrm/CIM/CDPSM_RC1.docx">CIM Profile and Queries for Feeder Modeling in GridLAB-D</a>
  *  
  * @see <a href="http://www.gridlabd.org">GridLAB-D</a>
  *  
@@ -91,7 +89,8 @@ public class CDPSM_to_GLM {
 	static final Complex neg120 = new Complex (-0.5, -0.5 * Math.sqrt(3.0));
 
 	/** 
-	 *  Formats a complex number, c, for GridLAB-D input files with 'j' at the end
+	 *  @param c complex number
+	 *  @return formatted string for GridLAB-D input files with 'j' at the end
 	   */
 	static String CFormat (Complex c) {
 		String sgn;
@@ -111,18 +110,20 @@ public class CDPSM_to_GLM {
 		private final int nconds;
 		private final int nphases;
 
-		/** construct with number of conductors and phases */
+		/** construct with number of conductors and phases
+		 *  @param nconds number of phases plus neutrals (1..4)
+		 *  @param nphases number of phase conductors (1..3) */
 		public SpacingCount(int nconds, int nphases) {
 				this.nconds = nconds;
 				this.nphases = nphases;
 		}
 
-		/** accessor to number of conductors */
+		/** @return accessor to number of conductors */
 		public int getNumConductors() {
 				return nconds;
 		}
 
-		/** accessor to number of phases */
+		/** @return accessor to number of phases */
 		public int getNumPhases() {
 				return nphases;
 		}
@@ -140,36 +141,47 @@ public class CDPSM_to_GLM {
 	 parent nodes, closer to what OpenDSS does</p>  
 	*/
 	static class GldNode {
-		/** root name of the node (or load), will have nd_ prepended */
+		/** root name of the node (or load), will have `nd_` prepended */
 		public final String name;
 		/** ABC allowed */
 		public String phases;
-		/** this is always line-to-neutral */
+		/** this nominal voltage is always line-to-neutral */
 		public double nomvln;
-/**
-     <p>for zip load parameters like pa_z</p>                                                          
- *  	<p>first character denotes real power (p) or reactive power (q)</p> <p>second character denotes
- *  	the phase (a, b, c, s1==a, s2==b)</p> <p>fourth character denotes constant impedance (z),
- *  	constant
- *  	current (i) or constant power (p) share</p>
-*/
+		/** real power on phase A or s1, constant impedance portion */
 		public double pa_z;
+		/** real power on phase B or s2, constant impedance portion */
 		public double pb_z;
+		/** real power on phase C, constant impedance portion */
 		public double pc_z;
+		/** reactive power on phase A or s1, constant impedance portion */
 		public double qa_z;
+		/** reactive power on phase B or s2, constant impedance portion */
 		public double qb_z;
+		/** reactive power on phase C, constant impedance portion */
 		public double qc_z;
+		/** real power on phase A or s1, constant current portion */
 		public double pa_i;
+		/** real power on phase B or s2, constant current portion */
 		public double pb_i;
+		/** real power on phase C, constant current portion */
 		public double pc_i;
+		/** reactive power on phase A or s1, constant current portion */
 		public double qa_i;
+		/** reactive power on phase B or s2, constant current portion */
 		public double qb_i;
+		/** reactive power on phase C, constant current portion */
 		public double qc_i;
+		/** real power on phase A or s1, constant power portion */
 		public double pa_p;
+		/** real power on phase B or s2, constant power portion */
 		public double pb_p;
+		/** real power on phase C, constant power portion */
 		public double pc_p;
+		/** reactive power on phase A or s1, constant power portion */
 		public double qa_p;
+		/** reactive power on phase B or s2, constant power portion */
 		public double qb_p;
+		/** reactive power on phase C, constant power portion */
 		public double qc_p;
 		/** will add N or D phasing, if not S */
 		public boolean bDelta;	
@@ -183,7 +195,8 @@ public class CDPSM_to_GLM {
 */
 		public boolean bSecondary; 
 
-		/** defaults to zero load and zero phases present */
+		/** constructor defaults to zero load and zero phases present
+		 *  @param name CIM name of the bus */
 		public GldNode(String name) {
 			this.name = name;
 			nomvln = -1.0;
@@ -196,7 +209,9 @@ public class CDPSM_to_GLM {
 			bSecondary = false;
 		}
 
-		/** accumulates phases present, always returns true */
+		/** accumulates phases present
+		 *  @param phs phases to add, may contain ABCDSs
+		 *  @return always true */
 		public boolean AddPhases(String phs) {
 			StringBuilder buf = new StringBuilder("");
 			if (phases.contains("A") || phs.contains("A")) buf.append("A");
@@ -209,14 +224,17 @@ public class CDPSM_to_GLM {
 			return true;
 		}
 
-		/** returns phasing string for GridLAB-D with appropriate D, S or N suffix */
+		/** @return phasing string for GridLAB-D with appropriate D, S or N suffix */
 		public String GetPhases() {
 			if (bDelta && !bSecondary) return phases + "D";
 			if (bSecondary) return phases + "S";
 			return phases + "N";
 		}
 
-		/** reapportion loads according to constant power (Z/sum), constant current (I/sum) and constant power (P/sum) */
+		/** reapportion loads according to constant power (Z/sum), constant current (I/sum) and constant power (P/sum)
+		 *  @param Z portion of constant-impedance load
+		 *  @param I portion of constant-current load
+		 *  @param P portion of constant-power load */
 		public void ApplyZIP(double Z, double I, double P) {
 			double total = Z + I + P;
 			Z = Z / total;
@@ -251,7 +269,8 @@ public class CDPSM_to_GLM {
 			qc_p = total * P;
 		}
 
-		/** scales the load by a factor that probably came from the command line's -l option */
+		/** scales the load by a factor that probably came from the command line's -l option
+		 *  @param scale multiplying factor on all of the load components */
 		public void RescaleLoad(double scale) {
 			pa_z *= scale;
 			pb_z *= scale;
@@ -273,7 +292,7 @@ public class CDPSM_to_GLM {
 			qc_p *= scale;
 		}
 
-		/** true if a non-zero real or reactive load on any phase */
+		/** @return true if a non-zero real or reactive load on any phase */
 		public boolean HasLoad() {
 			if (pa_z != 0.0) return true;
 			if (pb_z != 0.0) return true;
@@ -299,13 +318,22 @@ public class CDPSM_to_GLM {
 	/** to look up nodes by name */
 	static HashMap<String,GldNode> mapNodes = new HashMap<>();
 
-	/** look up Jena string property p from resource r, returns def if not found */
+	/** look up Jena string property
+	 *  @param r an RDF resource, will have a CIM mrID
+	 *  @param p an RDF property, will be a CIM attribute
+	 *  @param def default value if property is not found
+	 *  @return the property (or default value) as a string
+	 *   */
 	static String SafeProperty (Resource r, Property p, String def) {
 		if (r.hasProperty(p)) return r.getProperty(p).getString();
 		return def;
 	}
 
-	/** look up Jena phase property p from resource r, returns ABCN if not found */
+	/** look up Jena phase property
+	 *  @param r an RDF resource, will have a CIM mrID
+	 *  @param p an RDF property, will be a CIM attribute
+	 *  @return phases in string format, or ABCN if not found
+ */
 	static String SafePhasesX (Resource r, Property p) {
 		if (r.hasProperty(p)) {
 			return r.getProperty(p).getObject().toString();
@@ -313,7 +341,12 @@ public class CDPSM_to_GLM {
 		return "#PhaseCode.ABCN";
 	}
 
-	/** parse the CIM regulating control mode enum as Jena property p from resource r */
+	/** parse the CIM regulating control mode enum 
+	*  @param r an RDF resource, will have a CIM mrID
+	*  @param p an RDF property, will be a CIM attribute
+	*  @param def default value if property is not found
+	*  @return voltage, timeScheduled, reactivePower, temperature, powerFactor, currentFlow, userDefined
+	 */
 	static String SafeRegulatingMode (Resource r, Property p, String def) {
 		if (r.hasProperty(p)) {
 			String arg = r.getProperty(p).getObject().toString();
@@ -323,7 +356,9 @@ public class CDPSM_to_GLM {
 		return def;
 	}
 
-	/** translate the capacitor control mode from CIM to GridLAB-D */
+	/** translate the capacitor control mode from CIM to GridLAB-D
+	 *  @param s CIM regulating control mode enum
+	 *  @return MANUAL, CURRENT, VOLT, VAR */
 	static String GLDCapMode (String s) {
 		if (s.equals("currentFlow")) return "CURRENT";
 		if (s.equals("voltage")) return "VOLT";
@@ -334,25 +369,43 @@ public class CDPSM_to_GLM {
 		return "time";
 	}
 
-	/** look up Jena double property p from resource r, returns def if not found */
+	/** look up Jena double value
+	*  @param r an RDF resource, will have a CIM mrID
+	*  @param p an RDF property, will be a CIM attribute
+	*  @param def default value if property is not found
+	*  @return double value, or default if not found
+ */
 	static double SafeDouble (Resource r, Property p, double def) {
 		if (r.hasProperty(p)) return r.getProperty(p).getDouble();
 		return def;
 	}
 
-	/** look up Jena integer property p from resource r, returns def if not found */
+	/** look up Jena integer value
+	*  @param r an RDF resource, will have a CIM mrID
+	*  @param p an RDF property, will be a CIM attribute
+	*  @param def default value if property is not found
+	*  @return integer value, or default if not found
+ */
 	static int SafeInt (Resource r, Property p, int def) {
 		if (r.hasProperty(p)) return r.getProperty(p).getInt();
 		return def;
 	}
 
-	/** look up Jena boolean property p from resource r, returns def if not found */
+	/** look up Jena boolean value
+	*  @param r an RDF resource, will have a CIM mrID
+	*  @param p an RDF property, will be a CIM attribute
+	*  @param def default value if property is not found
+	*  @return boolean value, or default if not found
+ */
 	static boolean SafeBoolean (Resource r, Property p, boolean def) {
 		if (r.hasProperty(p)) return r.getProperty(p).getString().equals("true");
 		return def;
 	}
 
-	/** find the type of monitored equipment for controlled capacitors, usually a line or the capacitor itself */
+	/** find the type of monitored equipment for controlled capacitors, usually a line or the capacitor itself
+	*  @param r an RDF resource, will have a CIM mrID, should be a LinearShuntCompensator, ACLineSegment, EnergyConsumer or PowerTransformer
+	*  @return cap, line, xf if supported in GridLAB-D; NULL or ##UNKNOWN## if unsupported
+ */
 	static String GetEquipmentType (Resource r) {  // GLD conversion
 		// TODO: .listRDFTypes() might be more robust
 		String s = r.as(OntResource.class).getRDFType().toString();
@@ -365,7 +418,9 @@ public class CDPSM_to_GLM {
 		return "##UNKNOWN##";
 	}
 
-	/** prefix all bus names with nd_ for GridLAB-D, so they "should" be unique
+	/** prefix all bus names with `nd_` for GridLAB-D, so they "should" be unique
+	 *  @param arg the root bus name, aka CIM name
+	 *  @return nd_arg
 	   */
 	static String GldPrefixedNodeName (String arg) {
 		return "nd_" + arg;
@@ -373,6 +428,9 @@ public class CDPSM_to_GLM {
 
 	/** 
 	 *  convert a CIM name to GridLAB-D name, replacing unallowed characters and prefixing for a bus/node
+	 *  @param arg the root bus or component name, aka CIM name
+	 *  @param bus to flag whether `nd_` should be prepended
+	 *  @return the compatible name for GridLAB-D
 	 */  
 	static String GLD_Name (String arg, boolean bus) {	// GLD conversion
 		String s = arg.replace (' ', '_');
@@ -393,13 +451,19 @@ public class CDPSM_to_GLM {
 		return s;
 	}
 
-	/** parse the GridLAB-D name from a CIM name, based on # position */
+	/** parse the GridLAB-D name from a CIM name, based on # position
+	 *  @param arg the CIM IdentifiedObject.name attribute, not the mrID
+	 *  @return the compatible name for GridLAB-D */
 	static String GLD_ID (String arg) {  // GLD conversion
 		int hash = arg.lastIndexOf ("#");
 		return GLD_Name (arg.substring (hash + 1), false);
 	}
 
-	/** returns the CIM name from r.p if it exists, or the r.mrID if not, in GridLAB-D format */
+	/** for components (not buses) returns the CIM name from r.p attribute if it exists, or the r.mrID if not, in GridLAB-D format
+	*  @param r an RDF resource, will have a CIM mrID
+	*  @param p an RDF property, will be a CIM attribute
+	*  @return a name compatible with GridLAB-D
+ */
 	static String SafeResName (Resource r, Property p) {
 		String s;
 		if (r.hasProperty(p)) {
@@ -411,9 +475,12 @@ public class CDPSM_to_GLM {
 	}
 
 /**
-   <p>returns the GridLAB-D formatted name of a resource referenced by r.p</p>                
-   <p>ptName should be the IdentifiedObject.Name property of the resource we are looking for</p>
-   <p>mdl will always be the ontology model created when reading the CIM XML file</p>           
+   @param mdl an RDF model (set of statements) read from the CIM imput file 
+   @param ptName should be the IdentifiedObject.Name property of the resource we are looking for
+	 @param r an RDF resource, will have a CIM mrID
+	 @param p an RDF property, will be a CIM attribute
+	 @param def default value if property is not found
+ 	@return the GridLAB-D formatted name of a resource referenced by r.p                
 */
 	static String SafeResourceLookup (Model mdl, Property ptName, Resource r, Property p, String def) {
 		if (r.hasProperty(p)) {
@@ -425,7 +492,11 @@ public class CDPSM_to_GLM {
 	}
 
 	/** converts the [row,col] of nxn matrix into the sequence number for CIM PerLengthPhaseImpedanceData
-	(only valid for the lower triangle) */
+	(only valid for the lower triangle) *  
+	@param n 2x2 matrix order 
+	@param row first index of the element 
+	@param col second index 
+	@return sequence number */ 
 	static int GetMatIdx (int n, int row, int col) {
 		int seq = -1;
 		int i, j;
@@ -439,10 +510,13 @@ public class CDPSM_to_GLM {
 	}
 
 /**
-   <p>returns the GridLAB-D formatted impedance matrix for a line configuration</p>           
-   <p>r is the PerLengthPhaseImpedance and ptCount should reference its conductorCount</p>     
-   <p>if (by name) it appears to be triplex and bWantSec is false, nothing will be returned</p>
-   <p>we have to write 3 of these in the case of 1-phase or 2-phase matrices</p>               
+  <p>Convert CIM PerLengthPhaseImpedance to GridLAB-D line_configuration</p>     
+  @param mdl an RDF model (set of statements) read from the CIM imput file 
+  @param name root name of the line_configuration(s), should be the CIM name 
+  @param r an RDF resource, will have a CIM mrID, should be PerLengthPhaseImpedance 
+  @param ptCount an RDF property for the PerLengthPhaseImpedance.conductorCount 
+  @param bWantSec flags the inclusion of triplex, true except for debugging 
+	@return the GridLAB-D formatted impedance matrix for a line configuration. We have to write 3 of these in the case of 1-phase or 2-phase matrices. If (by name) it appears to be triplex and bWantSec is false, nothing will be returned.       
 */
 	static String GetImpedanceMatrix (Model mdl, String name, Property ptCount, Resource r, boolean bWantSec) {  // TODO - line ratings?
 		int nphases, seq, size, i, j;
@@ -582,33 +656,45 @@ public class CDPSM_to_GLM {
 		return buf.toString();
 	}
 
-	/** parses the phase string from CIM phaseCode */
+	/** parses the phase string from CIM phaseCode
+	 *  @param arg CIM PhaseCode enum
+	 *  @return some combination of A, B, C, N, s1, s2, s12*/
 	static String Phase_String (String arg) {
 		int hash = arg.lastIndexOf ("#PhaseCode.");
 		return arg.substring (hash + 11);
 	}
 
-	/** parses a single phase from CIM SinglePhaseKind */
+	/** parses a single phase from CIM SinglePhaseKind
+	 *  @param arg CIM SinglePhaseKind enum
+	 *  @return A, B, C, N, s1 or s2 */
 	static String Phase_Kind_String (String arg) {
 		int hash = arg.lastIndexOf ("#SinglePhaseKind.");
 		return arg.substring (hash + 17);
 	}
 
-	/** returns the first phase found as A, B, or C */
+	/** @param phs a parsed CIM PhaseCode
+	 *  @return the first phase found as A, B, or C */
 	static String FirstPhase (String phs) {
 		if (phs.contains ("A")) return "A";
 		if (phs.contains ("B")) return "B";
 		return "C";
 	}
 
-	/** appends N or D for GridLAB-D loads and capacitors, based on wye or delta connection */
+	/** appends N or D for GridLAB-D loads and capacitors, based on wye or delta connection
+	 *  @param phs from CIM PhaseCode
+	 *  @param conn contains `w` for wye connection and `d` for delta connection
+	 *  @return phs with N or D possibly appended */
 	static String Bus_ShuntPhases (String phs, String conn) {
 		if (conn.contains("w") && !phs.contains("N")) return phs + "N";
 		if (conn.contains("d") && !phs.contains("D")) return phs + "D";
 		return phs;
 	}
 
-	/** for loads and capacitors, returns true only if CIM PhaseShuntConnectionKind indicates delta */
+	/** for loads and capacitors, returns true only if CIM PhaseShuntConnectionKind indicates delta
+	*  @param r an RDF resource, will have a CIM mrID, should be LinearShuntCompensator or EnergyConsumer
+	*  @param p an RDF property, will be a CIM attribute for phaseConnection
+	*  @return true if delta connection
+ */
 	static boolean Shunt_Delta (Resource r, Property p) {
 		if (r.hasProperty(p)) {
 			String arg = r.getProperty(p).getObject().toString();
@@ -622,7 +708,13 @@ public class CDPSM_to_GLM {
 	}
 
 	/** Returns GridLAB-D formatted phase string by accumulating CIM single phases, if such are found,
-	or assuming ABC if not found.  Note that in CIM, secondaries have their own phases s1 and s2. */
+	or assuming ABC if not found.  Note that in CIM, secondaries have their own phases s1 and s2. *  
+  @param mdl an RDF model (set of statements) read from the CIM imput file 
+	@param r an RDF resource, will have a CIM mrID, should be something that can have single phases attached
+	@param p1 an RDF property, will be a CIM attribute, should associate from a single phase back to r 
+	@param p2 an RDF property, will be a CIM attribute, should be the single phase instance's phase attribute 
+	@return concatenation of A, B, C, s1 and/or s2 based on the found individual phases 
+ */ 
 	static String WirePhases (Model mdl, Resource r, Property p1, Property p2) {
 		ResIterator it = mdl.listResourcesWithProperty (p1, r);
 		if (it.hasNext()) {  // we don't know what order the phases will come
@@ -651,7 +743,9 @@ public class CDPSM_to_GLM {
 		return "ABC";
 	}
 
-	/** from the phase string, determine how many are present, but ignore D, N and S */
+	/** from the phase string, determine how many are present, but ignore D, N and S
+	 *  @param phs the parsed CIM PhaseCode
+	 *  @return (1..3) */
 	static int Count_Phases (String phs) {
 		if (phs.contains ("ABC")) {
 			return 3;
@@ -672,7 +766,12 @@ public class CDPSM_to_GLM {
 		}
 	}
 
-	/** parse the CIM WindingConnection enumeration */
+	/** parse the CIM WindingConnection enumeration
+	*  @param r an RDF resource, will have a CIM mrID, should be a transformerEnd
+	*  @param p an RDF property, will be a CIM attribute, should be connectionKind
+	*  @param def default value if property is not found, such as Y
+	*  @return D, Y, Z, Yn, Zn, A or I
+ */
 	static String GetWdgConnection (Resource r, Property p, String def) {
 		if (r.hasProperty(p)) {
 			String arg = r.getProperty(p).getObject().toString();
@@ -682,7 +781,12 @@ public class CDPSM_to_GLM {
 		return def;
 	}
 
-	/** unprotected lookup of uri.prop value, to be deprecated in favor of SafeProperty */
+	/** unprotected lookup of uri.prop value, to be deprecated in favor of SafeProperty
+	 @param mdl an RDF model (set of statements) read from the CIM imput file 
+	 @param uri an RDF resource, currently only an EquipmentContainer is used, and it should always exist
+	 @param prop currently only IdentifiedObject.name is used, and it should always exist 
+	 @return the name of the CIM object 
+ */
 	static String GetPropValue (Model mdl, String uri, String prop) {
 		Resource res = mdl.getResource (uri);
 		Property p = mdl.getProperty (nsCIM, prop);
@@ -690,13 +794,23 @@ public class CDPSM_to_GLM {
 	}
 
 	/** Distributes a total load (pL+jqL) among the phases (phs) present on GridLAB-D node (nd)
-	from a CIM LoadResponseCharacteristic: Pv and Qv are voltage exponents, Pz and Qz are constant-impedance percentages,
-	Pi and Qi are constant-current percentages, Pp and Qp are constant-power percentages */
+	@param nd GridLAB-D node to receive the total load 
+	@param phs phases actually present at the node 
+	@param pL total real power 
+	@param qL total reactive power 
+	@param Pv real power voltage exponent from a CIM LoadResponseCharacteristic 
+	@param Qv reactive power voltage exponent from a CIM LoadResponseCharacteristic 
+	@param Pz real power constant-impedance percentage from a CIM LoadResponseCharacteristic 
+	@param Qz reactive power constant-impedance percentage from a CIM LoadResponseCharacteristic 
+	@param Pi real power constant-current percentage from a CIM LoadResponseCharacteristic 
+	@param Qi reactive power constant-current percentage from a CIM LoadResponseCharacteristic 
+	@param Pp real power constant-power percentage from a CIM LoadResponseCharacteristic 
+	@param Qp reactive power constant-power percentage from a CIM LoadResponseCharacteristic 
+	@return always true */ 
 	static boolean AccumulateLoads (GldNode nd, String phs, double pL, double qL, double Pv, double Qv,
 																	double Pz, double Pi, double Pp, double Qz, double Qi, double Qp) {
 
  // 		System.out.println (nd.name + ":" + phs + ":" + String.format("%6g", pL));
-			// we have to equally divide the total pL and qL among the actual phases defined in "phs"
 		double fa = 0.0, fb = 0.0, fc = 0.0, denom = 0.0;
 		if (phs.contains("A") || phs.contains("S")) {
 			fa = 1.0;
@@ -768,11 +882,12 @@ public class CDPSM_to_GLM {
 		return true;
 	}
 
-	/** finds the bus (ConnectivityNode) name for conducting equipment with mrID of eq_id
-	* seq = 1 to use the first terminal found, seq = 2 to use the second terminal found //
-	* As Terminals no longer have sequence numbers, the ordering of seq is unpredictable,*
-	* so if there are two we can get bus 1 - bus 2 or bus 2 - bus 1 *  
-	 */ 
+	/** finds the bus (ConnectivityNode) name for conducting equipment
+	@param mdl an RDF model (set of statements) read from the CIM imput file* 
+	@param eq_id the CIM mrID of the conducting equipment 
+	@param seq equals 1 to use the first terminal found, or 2 to use the second terminal found 
+	@return the GridLAB-D compatible bus name, or `x` if not found. As Terminals no longer have sequence numbers, the ordering of seq is unpredictable, so if there are two we can get bus 1 - bus 2 or bus 2 - bus 1
+	*/ 
 	static String GetBusName (Model mdl, String eq_id, int seq) {
 		String strSeq = Integer.toString (seq);
 		Property ptNode = mdl.getProperty (nsCIM, "Terminal.ConnectivityNode");
@@ -809,8 +924,11 @@ public class CDPSM_to_GLM {
 		return "x";
 	}
 
-	/** return the GridLAB-D winding connection from the array of CIM connectionKind per winding
-	<p>TODO: some of the returnable types aren't actually supported in GridLAB-D</p> */
+	/** <p>Map CIM connectionKind to GridLAB-D winding connections. TODO: some of the returnable types aren't actually supported in GridLAB-D</p>
+	@param wye array of CIM connectionKind attributes per winding 
+	@param nwdg number of transformer windings, also the size of wye 
+	@return the GridLAB-D winding connection. This may be something not supported in GridLAB-D, which should be treated as a feature request 
+	*/
 	static String GetGldTransformerConnection(String [] wye, int nwdg) {
 		if (nwdg == 3) {
 			if (wye[0].equals("I") && wye[1].equals("I") && wye[1].equals("I")) return "SINGLE_PHASE_CENTER_TAPPED"; // supported in GridLAB-D
@@ -932,7 +1050,11 @@ public class CDPSM_to_GLM {
 		return "** Unsupported **";  // TODO - this could be solvable as UNKNOWN in some cases
 	}
 
-	/** writes the GridLAB-D formatted data for PowerTransformer rXf, which should have mesh impedance data */
+	/** 
+	  @param mdl an RDF model (set of statements) read from the CIM imput file 
+	  @param rXf an RDF resource corresponding to CIM PowerTransformer; it should have mesh impedance data 
+	  @return transformer and transformer_configuration objects in GridLAB-D format 
+ */
 	static String GetPowerTransformerData (Model mdl, Resource rXf) {
 		Property ptEnd = mdl.getProperty (nsCIM, "TransformerEnd.endNumber");
 		Property ptTerm = mdl.getProperty (nsCIM, "TransformerEnd.Terminal");
@@ -1074,13 +1196,20 @@ public class CDPSM_to_GLM {
 	}
 
 /**
-   <p>connects a regulator in GridLAB-D format between bus1 and bus2, with phasing 'phs' and name 'name' </p>                                     
-   <p>rXf is the regulating transformer and xfGroup its IEC vector group </p>                                                                     
-   <p>In CIM, a regulator consists of a transformer plus the ratio tap changer, so if such is found, call GetRegulatorData                    
-     instead of just writing the transformer data. (Note: any impedance in the regulating transformer will be lost in the GridLAB-D model.)</p>
-   <p>Should be called from PowerTransformers that have RatioTapChangers attached, so we know that lookup will succeed </p>                      
-   <p>TODO: implement regulators for tank transformers</p>                                                                                      
-*/
+   <p>Connects a regulator in GridLAB-D format between bus1 and bus2; should be called from GetPowerTransformerTanks. 
+   In CIM, a regulator consists of a transformer plus the ratio tap changer, so if such is found, should call GetRegulatorData                    
+   instead of just writing the transformer data in GetPowerTransformerTanks. Any impedance in the regulating transformer will be lost in the GridLAB-D model.
+   Should be called from PowerTransformers that have RatioTapChangers attached, so we know that lookup will succeed </p>                      
+   <p>TODO: implement regulators for tank transformers</p> 
+   @param mdl an RDF model (set of statements) read from the CIM imput file 
+   @param rXf an RDF resource corresponding to a CIM PowerTransformer that has a RatioTapChanger associated
+   @param name the name of the PowerTransformer (already looked up before calling this function)
+   @param xfGroup the PowerTransformer's IEC vector group (already looked up before calling this function)
+   @param bus1 first bus (ConnectivityNode) on the regulator (already looked up before calling this function)
+   @param bus2 second bus (ConnectivityNode) on the regulator (already looked up before calling this function)
+   @param phs phases that contain A, B and/or C (already looked up before calling this function)
+   @return regulator and regulator_configuration objects in GridLAB-D format 
+ */
 	static String GetRegulatorData (Model mdl, Resource rXf, String name, String xfGroup, String bus1, String bus2, String phs) {
 
 		boolean bA = false, bB = false, bC = false, bLTC = false;
@@ -1220,10 +1349,13 @@ public class CDPSM_to_GLM {
 	}
 
 /**
-   <p>writes PowerTransformer rXf in GridLAB-D format, in the case where itTank points to a non-null                              
-     set of individual tranformer tanks that are connected together in a bank </p>                                                 
-   <p>bWantSec can be false if we don't want single-phase center-tapped transformers, which would come to this function </p>         
-   <p>GridLAB-D support for other cases is limited because only 2 windings are allowed, and phasing must be the same on both sides</p>
+  <p>writes a PowerTransformer in GridLAB-D format, in the case where individual tranformer tanks that are connected together in a bank. 
+  GridLAB-D supports only 2-winding banks with same phasing on both sides, or single-phase, center-tapped secondary transformers.</p>
+  @param mdl an RDF model (set of statements) read from the CIM imput file 
+  @param rXf an RDF resource corresponding to a CIM PowerTransformer that uses tank modeling 
+  @param itTank a Jena iterator on the tanks associated with rXf, known to be non-empty before this function is called 
+  @param bWantSec usually true, in order to include single-phase, center-tapped secondary transformers, which would come to this function 
+  @return transformer object in GridLAB-D format; the transformer_configuration comes from calling GetXfmrCode 
 */
 	static String GetPowerTransformerTanks (Model mdl, Resource rXf, ResIterator itTank, boolean bWantSec) {
 		Property ptName = mdl.getProperty (nsCIM, "IdentifiedObject.name");
@@ -1319,7 +1451,11 @@ public class CDPSM_to_GLM {
 	}
 
 	/** needs to return the line_spacing and wire/cncable/tscable assignments for this rLine in GridLAB-D format
-	<p>TODO - this is not implemented, the emitted syntax is actually for OpenDSS</p>*/
+	<p>TODO - this is not implemented, the emitted syntax is actually for OpenDSS</p> *  
+	 @param mdl an RDF model (set of statements) read from the CIM imput file
+	 @param rLine an RDF resource corresponding to a CIM ACLineSegment that should have an associated AssetInfo
+	 @return unusable OpenDSS input
+*/ 
 	static String GetLineSpacing (Model mdl, Resource rLine) {
 		StringBuilder buf = new StringBuilder (" spacing=");
 		Property ptAssetPSR = mdl.getProperty (nsCIM, "Asset.PowerSystemResources");
@@ -1426,7 +1562,11 @@ public class CDPSM_to_GLM {
 	}
 
 	/** needs to return overhead_line_conductor data in GridLAB-D format; res is the CIM OverheadWireInfo instance
-	<p>TODO - this is not implemented; the emitted syntax is actually for OpenDSS</p> */
+	<p>TODO - this is not implemented; the emitted syntax is actually for OpenDSS</p> *  
+	 @param mdl an RDF model (set of statements) read from the CIM imput file
+	 @param res an RDF resource corresponding to CIM OverheadWireInfo
+	 @return unusable OpenDSS input
+ */ 
 	static String GetWireData (Model mdl, Resource res) {
 		StringBuffer buf = new StringBuffer("");
 
@@ -1469,7 +1609,11 @@ public class CDPSM_to_GLM {
 	}
 
 	/** needs to return underground_line_conductor data in GridLAB-D format
-	<p>TODO - this is not implemented; the emitted syntax is actually for OpenDSS</p> */
+	<p>TODO - this is not implemented; the emitted syntax is actually for OpenDSS</p> *  
+	 @param mdl an RDF model (set of statements) read from the CIM imput file
+	 @param res an RDF resource corresponding to a CIM CableInfo (not a leaf/concrete class)
+	 @return unusable OpenDSS input
+ */ 
 	static String GetCableData (Model mdl, Resource res) {
 		StringBuffer buf = new StringBuffer("");
 
@@ -1490,9 +1634,10 @@ public class CDPSM_to_GLM {
 	}
 
 /**
-   <p>returns the embedded capacitor control data for a GridLAB-D capacitor object</p>                       
-   <p>rCap is the CIM capacitor, and ctl is the RegulatingControl that we found attached to the capacitor</p>
-   <p>this function still has to look up the monitored equipment</p>
+  @param mdl an RDF model (set of statements) read from the CIM imput file 
+  @param rCap an RDF resource corresponding to a CIM LinearShuntCompensator (aka capacitor) 
+  @param ctl an RDF resource corresponding to the CIM RegulatingControl that was found attached to the LinearShuntCompensator 
+	@return the embedded capacitor control data for a GridLAB-D capacitor object                       
 */
 	static String GetCapControlData (Model mdl, Resource rCap, Resource ctl) {
 		Property ptTerm = mdl.getProperty (nsCIM, "RegulatingControl.Terminal");
@@ -1561,11 +1706,16 @@ public class CDPSM_to_GLM {
 	}
 
 /**
-   <p>returns the GridLAB-D transformer_configuration corresponding to TransformerTankInfo 'id'</p>      
-   <p>bWantSec would be false to ignore single-phase center-tap configurations</p>                       
+   <p>Translates a single TransformerTankInfo into GridLAB-D format. These transformers are described
+   with short-circuit and open-circuit tests, which sometimes use
+   non-SI units like percent and kW, as they appear on transformer test reports.</p>      
    <p>TODO: smult and vmult may be removed, as they should always be 1 for valid CIM XML </p>            
-   <p>These transformers are described with short-circuit and open-circuit tests, which sometimes use
-     non-SI units like percent and kW, as they appear on transformer test reports </p>                
+  @param mdl an RDF model (set of statements) read from the CIM imput file 
+  @param id CIM mRID corresponding to a CIM TransformerTankInfo
+  @param smult scaling factor for converting winding ratings to volt-amperes (should be 1)
+  @param vmult scaling factor for converting winding ratings to volts (should be 1)
+  @param bWantSec usually true to include single-phase, center-tapped secondary tranformers, which come to this function 
+  @return transformer_configuration object in GridLAB-D format 
 */
 	static String GetXfmrCode (Model mdl, String id, double smult, double vmult, boolean bWantSec) {	
 		Property ptInfo = mdl.getProperty (nsCIM, "TransformerEndInfo.TransformerTankInfo");
@@ -1678,8 +1828,11 @@ public class CDPSM_to_GLM {
 		return buf.toString();
 	}
 
-	/** for a bus (ConnectivityNode) 'id', search for X,Y geo coordinates based on connected Terminals and equipment 
-	<p>returns in CSV format</p> */
+	/** for a bus (ConnectivityNode), search for X,Y geo coordinates based on connected Terminals and equipment 
+	@param mdl an RDF model (set of statements) read from the CIM imput file 
+	@param id name of the bus to search from 
+	@return X,Y coordinates in comma-separated value (CSV) format 
+ */ 
 	static String GetBusPositionString (Model mdl, String id) {
 		Property ptX = mdl.getProperty (nsCIM, "PositionPoint.xPosition");
 		Property ptY = mdl.getProperty (nsCIM, "PositionPoint.yPosition");
@@ -1761,6 +1914,11 @@ public class CDPSM_to_GLM {
    <p>needs to return the current rating for a line segment 'res' that has associated WireInfo at 'ptDataSheet',       
      which in turn has the current rating at ptAmps</p>                                                                
    <p>TODO - this is not implemented; emitted syntax is for OpenDSS and the function call (below, in main) needs review</p>
+  @param mdl an RDF model (set of statements) read from the CIM imput file 
+  @param res an RDF resource corresponding to a CIM ACLineSegment
+  @param ptDataSheet an RDF property corresponding to CIM AssetDatasheet attribute
+  @param ptAmps an RDF property corresponding to CIM ratedCurrent attribute
+  @return unusable OpenDSS input 
 */
 	static String FindConductorAmps (Model mdl, Resource res, Property ptDataSheet, Property ptAmps) {
 		double iMin = 1.0;
@@ -1778,10 +1936,19 @@ public class CDPSM_to_GLM {
 //		return " normamps=" + String.format("%6g", iMin);
 	} 
 
+		Property ptEqBaseV = model.getProperty (nsCIM, "ConductingEquipment.BaseVoltage"); 
+		Property ptLevBaseV = model.getProperty (nsCIM, "VoltageLevel.BaseVoltage"); 
+		Property ptEquip = model.getProperty (nsCIM, "Equipment.EquipmentContainer");
+		Property ptBaseNomV = model.getProperty (nsCIM, "BaseVoltage.nominalVoltage");
 /**
-   <p>Returns the nominal voltage for ptEquip, from either its own (ptEqBaseV) or container's (ptLevBaseV) base voltage</p>
-   <p>For example, capacitors and transformer ends have their own base voltage, but line segments don't</p>                
-   <p>When found, ptBaseNomV references the nominal voltage value from the base voltage</p>                                
+   <p>Returns the nominal voltage for conduction equipment, from either its own or container's base voltage. 
+   For example, capacitors and transformer ends have their own base voltage, but line segments don't.</p>                
+   @param res an RDF resource corresponding to a ConductingEquipment instance; we need to find its base voltage
+   @param ptEquip an RDF property corresponding to the EquipmentContainer association
+   @param ptEqBaseV an RDF property corresponding to a possible BaseVoltage association on the equipment itself
+   @param ptLevBaseV an RDF property corresponding to the EquipmentContainer's BaseVoltage association 
+   @param ptBaseNomV an RDF property corresponding to the nominalVoltage attribute of a CIM BaseVoltage
+   @return the nominal voltage as found from the equipment or its container, or 1.0 if not found
 */
 	static double FindBaseVoltage (Resource res, Property ptEquip, Property ptEqBaseV, Property ptLevBaseV, Property ptBaseNomV) {
 		Resource rBase = null;
@@ -1802,9 +1969,16 @@ public class CDPSM_to_GLM {
 	}
 
 /**
-   <p>For balanced sequence impedance, return a symmetric phase impedance matrix for GridLAB-D</p>
-   <p>We have to write 7 variations to support all combinations of 3, 2 or 1 phases used</p>      
-   @param name is the root name for these 7 variations                                            
+   <p>For balanced sequence impedance, return a symmetric phase impedance matrix for GridLAB-D.
+   We have to write 7 variations to support all combinations of 3, 2 or 1 phases used.</p>      
+   @param name is the root name for these 7 variations 
+   @param sqR1 positive sequence resistance in ohms/mile
+   @param sqX1 positive sequence reactance in ohms/mile 
+   @param sqC1 positive sequence capacitance in nF/mile
+   @param sqR0 zero sequence resistance in ohms/mile
+   @param sqX0 zero sequence reactance in ohms/mile
+   @param sqC0 zero sequence capacitance in nF/mile
+   @return text for 7 line_configuration objects 
 */
 	static String GetSequenceLineConfigurations (String name, double sqR1, double sqX1, 
 																							 double sqC1, double sqR0, double sqX0, double sqC0) {
@@ -1881,8 +2055,17 @@ public class CDPSM_to_GLM {
 		return buf.toString();
 	}
 
-	/** for a standalone ACLineSegment with sequence parameters, return the GridLAB-D formatted and normalized phase impedance matrix
-	<p>TODO - this is always three-phase, so we don't need all 7 variations from GetSequenceLineConfigurations</p> */
+	/** for a standalone ACLineSegment with sequence parameters, find GridLAB-D formatted and normalized phase impedance matrix
+	<p>TODO - this is always three-phase, so we don't need all 7 variations from GetSequenceLineConfigurations</p> *  
+	@param mdl an RDF model (set of statements) read from the CIM imput file 
+	@param name the root name of the line segment and its line_configuration 
+	@param r an RDF resource corresponding to a CIM ACLineSegment
+	@param len the length of the ACLineSegment in feet
+	@param freq frequency in Hz for converting susceptance to capacitance
+	@param phs phasing for the written line_configuration (one of 7 variations) that needs to be referenced
+	@param out the PrintWriter instance opened from the main program, passed here so that we can share code in GetSequenceLineConfigurations 
+	@return the name of the written line_configuration 
+ */ 
 	static String GetACLineParameters (Model mdl, String name, Resource r, double len, double freq, String phs, PrintWriter out) {
 		Property ptR1 = mdl.getProperty (nsCIM, "ACLineSegment.r");
 		Property ptR0 = mdl.getProperty (nsCIM, "ACLineSegment.r0");
@@ -1911,47 +2094,33 @@ public class CDPSM_to_GLM {
 	/** 
 	  * Reads command-line input for the converter 
 	  * @see CDPSM_to_GLM 
-	  * @param args will be CDPSM_to_GLM [options] input.xml
-	  *   					output_root
+	  * @param args will be CDPSM_to_GLM [options] input.xml output_root
+		* @exception java.io.UnsupportedEncodingException if the UTF encoding flag is wrong 
+	 *  @exception java.io.FileNotFoundException if the CIM RDF input file is not found
+	 *  
 	  * <p><b>Options</b>:</p> 
 	  *  
 	  * <p>-l={0..1} load scaling factor, defaults to 1</p> 
 	  *  
-	  * <p>-t={y|n}	triplex; y/n to include or ignore 
-	  * secondaries. Defaults to yes. Use no for 
-	  * debugging only, as all secondary load will 
-	  * be ignored.</p> 
+	  * <p>-t={y|n}	triplex; y/n to include or ignore secondaries. Defaults to yes. Use no for debugging only, as all secondary load will be ignored.</p> 
 	  *  
-	  * <p>-e={u|i}	encoding; UTF-8 or ISO-8859-1. No 
-	  * default, so this should be specified. Choose 'u' 
-	  * if the CIM file came frome OpenDSS.</p> 
+	  * <p>-e={u|i}	encoding; UTF-8 or ISO-8859-1. No default, so this should be specified. Choose 'u' if the CIM file came frome OpenDSS.</p> 
 	  *  
 	  * <p>-f={50|60}	system frequency; defaults to 60</p> 
 	  *  
-	  * <p>-v={1|0.001}	multiplier that converts CIM voltage
-	  * to V for GridLAB-D; defaults to 1</p> 
+	  * <p>-v={1|0.001}	multiplier that converts CIM voltage to V for GridLAB-D; defaults to 1</p> 
 	  *  
-	  * <p>-s={1000|1|0.001} multiplier that converts CIM 
-	  * p,q,s to VA for GridLAB-D; defaults to 1</p>
+	  * <p>-s={1000|1|0.001} multiplier that converts CIM p,q,s to VA for GridLAB-D; defaults to 1</p>
 	  *  
-	  * <p>-q={y|n}	are unique names used? If yes, they 
-	  * are used as unique GridLAB-D names. If no, the 
-	  * CIM mrID is de-mangled to create a unique 
-	  * GridLAB-D name, but this option is only 
-	  * implemented for ACLineSegments as written to 
-	  * some earlier GIS profiles.</p> 
+	  * <p>-q={y|n}	are unique names used? If yes, they are used as unique GridLAB-D names. If no, the CIM mrID is de-mangled to create a unique GridLAB-D name, but this option is only implemented for ACLineSegments as written to  some earlier GIS profiles.</p> 
 	  *  
-	  * <p>-n={schedule_name} root filename for scheduled 
-	  * ZIPloads (defaults to none)</p> 
+	  * <p>-n={schedule_name} root filename for scheduled ZIPloads (defaults to none)</p> 
 	  *  
-	  * <p>-z={0..1} 	constant Z portion (defaults to 0
-	  * for CIM-defined LoadResponseCharacteristic)</p>
+	  * <p>-z={0..1} 	constant Z portion (defaults to 0 for CIM-defined LoadResponseCharacteristic)</p>
 	  *  
-	  * <p>-i={0..1} 	constant I portion (defaults to 0
-	  * for CIM-defined LoadResponseCharacteristic)</p>
+	  * <p>-i={0..1} 	constant I portion (defaults to 0 for CIM-defined LoadResponseCharacteristic)</p>
 	  *  
-	  * <p>-p={0..1} 	constant P portion (defaults to 0
-	  * for CIM-defined LoadResponseCharacteristic)</p>
+	  * <p>-p={0..1} 	constant P portion (defaults to 0 for CIM-defined LoadResponseCharacteristic)</p>
 	  *   
 	 *  <p><b>Example:</b>&nbsp;java CDPSM_to_GLM -l=1
 	 *  -e=u
@@ -1982,46 +2151,28 @@ public class CDPSM_to_GLM {
 	 *  <li><b>ieee8500_busxy.glm</b> with bus geographic
 	 *  coordinates, used in GridAPPS-D but not
 	 *  GridLAB-D</li></ol>
-	  *  
-	 *  <p><b>Cautions:</b>&nbsp;this converter does not
-	 *  yet implement all variations in the CIM for
-	 *  unbalanced power flow.</p>
+	 *  
+	 *  <p><b>Cautions:</b>&nbsp;this converter does not yet implement all variations in the CIM for unbalanced power flow.</p>
 	 *  <ol>
-	 *  <li>AssetInfo links to
-	 *  WireSpacing, OverheadWireInfo,
-	 *  ConcentricNeutralCableInfo and
-	 *  TapeShieldCableInfo</li>
-	 *  <li>PerLengthSequenceImpedance has not been
-	 *  tested</li>
-	 *  <li>Capacitor
-	 *  power factor control mode - not in GridLAB-D</li>
-	 *  <li>Capacitor user-defined control mode - not in
-	 *  GridLAB-D</li>
-	 *  <li>Capacitor controlled by load (EnergyConsumer) - need to
-	 *  name loads</li>
+	 *  <li>AssetInfo links to WireSpacing, OverheadWireInfo, ConcentricNeutralCableInfo and TapeShieldCableInfo</li>
+	 *  <li>PerLengthSequenceImpedance has not been tested</li>
+	 *  <li>Capacitor power factor control mode - not in GridLAB-D</li>
+	 *  <li>Capacitor user-defined control mode - not in GridLAB-D</li>
+	 *  <li>Capacitor controlled by load (EnergyConsumer) - need to name loads</li>
 	 *  <li>Line ratings for PerLengthImpedance</li>
-	 *  <li>Dielectric constant (epsR) for cables - not
-	 *  in CIM</li>
-	 *  <li>Soil resistivity (rho) for line impedance -
-	 *  not in CIM</li>
-	 *  <li> Multi-winding transformers other than
-	 *  centertap secondary-not in GridLAB-D</li>
-	 *  <li>Unbalanced transformer banks - not in
-	 *  GridLAB-D</li>
-	 *  <li>Autotransformers have not been
-	 *  tested</li>
-	 *  <li>schedule_name implemented for secondary
-	 *  loads only, primary loads to be done</li>
+	 *  <li>Dielectric constant (epsR) for cables - not	in CIM</li>
+	 *  <li>Soil resistivity (rho) for line impedance - not in CIM</li>
+	 *  <li>Multi-winding transformers other than centertap secondary-not in GridLAB-D</li>
+	 *  <li>Unbalanced transformer banks - not in GridLAB-D</li>
+	 *  <li>Autotransformers have not been tested</li>
+	 *  <li>schedule_name implemented for secondary loads only, primary loads to be done</li>
 	 *  <li>Fuse not implemented</li>
 	 *  <li>Breaker not implemented</li>
 	 *  <li>Jumper not implemented</li>
 	 *  <li>Disconnector not implemented</li>
+	 *  
 	 *  </ol>
-	  *  
-		* @exception java.io.UnsupportedEncodingException 
-		*   If the UTF encoding flag is wrong 
-		* @exception FileNotFoundException 
-		*   If the CIM RDF input file is not found 
+	 *  
 	 */
 	public static void main (String args[]) throws UnsupportedEncodingException, FileNotFoundException {
 
