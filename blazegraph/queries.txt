@@ -1,0 +1,18 @@
+SELECT DISTINCT ?class
+WHERE {
+  ?s a ?class .
+}
+
+PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX c:  <http://iec.ch/TC57/2012/CIM-schema-cim16#>
+SELECT ?s ?name ?nomu ?bsection ?bus WHERE {
+ ?s r:type c:LinearShuntCompensator.
+ ?s c:IdentifiedObject.name ?name.
+ ?s c:ShuntCompensator.nomU ?nomu. 
+ ?s c:LinearShuntCompensator.bPerSection ?bsection. 
+ ?t c:Terminal.ConductingEquipment ?s.
+ ?t c:Terminal.ConnectivityNode ?cn. 
+ ?cn c:IdentifiedObject.name ?bus
+}
+
+com.bigdata.rwstore.RWStore.readBlobsAsync=false
