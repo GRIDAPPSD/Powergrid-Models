@@ -1,18 +1,168 @@
+
+// this needs to be in the properties file for Blazegraph to work on Windows
+com.bigdata.rwstore.RWStore.readBlobsAsync=false
+
 SELECT DISTINCT ?class
 WHERE {
   ?s a ?class .
 }
 
+// source
 PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX c:  <http://iec.ch/TC57/2012/CIM-schema-cim16#>
-SELECT ?s ?name ?nomu ?bsection ?bus WHERE {
- ?s r:type c:LinearShuntCompensator.
+SELECT ?name ?bus ?nomv ?vmag ?vang ?r1 ?x1 ?r0 ?x0 WHERE {
+ ?s r:type c:EnergySource.
  ?s c:IdentifiedObject.name ?name.
- ?s c:ShuntCompensator.nomU ?nomu. 
- ?s c:LinearShuntCompensator.bPerSection ?bsection. 
+ ?s c:EnergySource.nominalVoltage ?nomv. 
+ ?s c:EnergySource.voltageMagnitude ?vmag. 
+ ?s c:EnergySource.voltageAngle ?vang. 
+ ?s c:EnergySource.r ?r1. 
+ ?s c:EnergySource.x ?x1. 
+ ?s c:EnergySource.r0 ?r0. 
+ ?s c:EnergySource.x0 ?x0. 
  ?t c:Terminal.ConductingEquipment ?s.
  ?t c:Terminal.ConnectivityNode ?cn. 
  ?cn c:IdentifiedObject.name ?bus
 }
 
-com.bigdata.rwstore.RWStore.readBlobsAsync=false
+// capacitors (does not account for 2+ unequal phases on same LinearShuntCompensator)
+PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX c:  <http://iec.ch/TC57/2012/CIM-schema-cim16#>
+SELECT ?name ?nomu ?bsection ?bus ?conn ?grnd ?phs WHERE {
+ ?s r:type c:LinearShuntCompensator.
+ ?s c:IdentifiedObject.name ?name.
+ ?s c:ShuntCompensator.nomU ?nomu. 
+ ?s c:LinearShuntCompensator.bPerSection ?bsection. 
+ ?s c:ShuntCompensator.phaseConnection ?connraw.
+   bind(strafter(str(?connraw),"PhaseShuntConnectionKind.") as ?conn)
+ ?s c:ShuntCompensator.grounded ?grnd.
+ OPTIONAL {?scp c:ShuntCompensatorPhase.ShuntCompensator ?s.
+ ?ecp c:ShuntCompensatorPhase.phase ?phsraw.
+   bind(strafter(str(?phsraw),"SinglePhaseKind.") as ?phs) }
+ ?t c:Terminal.ConductingEquipment ?s.
+ ?t c:Terminal.ConnectivityNode ?cn. 
+ ?cn c:IdentifiedObject.name ?bus
+}
+
+// loads (need to account for 2+ unequal EnergyConsumerPhases per EnergyConsumer)
+PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX c:  <http://iec.ch/TC57/2012/CIM-schema-cim16#>
+SELECT ?name ?bus ?p ?q ?conn ?pz ?qz ?pi ?qi ?pp ?qp ?pe ?qe ?phs WHERE {
+ ?s r:type c:EnergyConsumer.
+ ?s c:IdentifiedObject.name ?name.
+ ?s c:EnergyConsumer.pfixed ?p.
+ ?s c:EnergyConsumer.qfixed ?q.
+ ?s c:EnergyConsumer.phaseConnection ?connraw.
+   bind(strafter(str(?connraw),"PhaseShuntConnectionKind.") as ?conn)
+ ?s c:EnergyConsumer.LoadResponse ?lr.
+ ?lr c:LoadResponseCharacteristic.pConstantImpedance ?pz.
+ ?lr c:LoadResponseCharacteristic.qConstantImpedance ?qz.
+ ?lr c:LoadResponseCharacteristic.pConstantCurrent ?pi.
+ ?lr c:LoadResponseCharacteristic.qConstantCurrent ?qi.
+ ?lr c:LoadResponseCharacteristic.pConstantPower ?pp.
+ ?lr c:LoadResponseCharacteristic.qConstantPower ?qp.
+ ?lr c:LoadResponseCharacteristic.pVoltageExponent ?pe.
+ ?lr c:LoadResponseCharacteristic.qVoltageExponent ?qe.
+ OPTIONAL {?ecp c:EnergyConsumerPhase.EnergyConsumer ?s.
+ ?ecp c:EnergyConsumerPhase.phase ?phsraw.
+   bind(strafter(str(?phsraw),"SinglePhaseKind.") as ?phs) }
+ ?t c:Terminal.ConductingEquipment ?s.
+ ?t c:Terminal.ConnectivityNode ?cn. 
+ ?cn c:IdentifiedObject.name ?bus
+}
+
+// per-length phase impedance matrics
+PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX c:  <http://iec.ch/TC57/2012/CIM-schema-cim16#>
+SELECT ?name ?cnt ?seq ?r ?x ?b WHERE {
+ ?s r:type c:PerLengthPhaseImpedance.
+ ?s c:IdentifiedObject.name ?name.
+ ?s c:PerLengthPhaseImpedance.conductorCount ?cnt.
+ ?elm c:PhaseImpedanceData.PhaseImpedance ?s.
+ ?elm c:PhaseImpedanceData.sequenceNumber ?seq.
+ ?elm c:PhaseImpedanceData.r ?r.
+ ?elm c:PhaseImpedanceData.x ?x.
+ ?elm c:PhaseImpedanceData.b ?b
+}
+ORDER BY ?name ?seq
+
+// per-length sequence impedance matrices (need to test)
+PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX c:  <http://iec.ch/TC57/2012/CIM-schema-cim16#>
+SELECT ?name ?r1 ?x1 ?b1 ?r0 ?x0 ?b0 WHERE {
+ ?s r:type c:PerLengthSequenceImpedance.
+ ?s c:IdentifiedObject.name ?name.
+ ?s c:PerLengthSequenceImpedance.r ?r.
+ ?s c:PerLengthSequenceImpedance.x ?x.
+ ?s c:PerLengthSequenceImpedance.b ?b.
+ ?s c:PerLengthSequenceImpedance.r0 ?r0.
+ ?s c:PerLengthSequenceImpedance.x0 ?x0.
+ ?s c:PerLengthSequenceImpedance.b0 ?b0
+}
+
+// lines referencing linecodes
+PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX c:  <http://iec.ch/TC57/2012/CIM-schema-cim16#>
+SELECT ?name ?bus ?len ?lname ?phs WHERE {
+ ?s r:type c:ACLineSegment.
+ ?s c:IdentifiedObject.name ?name.
+ ?s c:Conductor.length ?len.
+ ?s c:ACLineSegment.PerLengthImpedance ?lcode.
+ ?lcode c:IdentifiedObject.name ?lname. 
+ OPTIONAL {?acp c:ACLineSegmentPhase.ACLineSegment ?s.
+ ?acp c:ACLineSegmentPhase.phase ?phsraw.
+   bind(strafter(str(?phsraw),"SinglePhaseKind.") as ?phs) }
+ ?t c:Terminal.ConductingEquipment ?s.
+ ?t c:Terminal.ConnectivityNode ?cn. 
+ ?cn c:IdentifiedObject.name ?bus
+}
+ORDER BY ?name ?bus ?phs
+
+PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX c:  <http://iec.ch/TC57/2012/CIM-schema-cim16#>
+SELECT ?name ?len ?lname (group_concat(?phs;separator="") as ?phases) WHERE {
+ ?s r:type c:ACLineSegment.
+ ?s c:IdentifiedObject.name ?name.
+ ?s c:Conductor.length ?len.
+ ?s c:ACLineSegment.PerLengthImpedance ?lcode.
+ ?lcode c:IdentifiedObject.name ?lname. 
+ OPTIONAL {?acp c:ACLineSegmentPhase.ACLineSegment ?s.
+ ?acp c:ACLineSegmentPhase.phase ?phsraw.
+   bind(strafter(str(?phsraw),"SinglePhaseKind.") as ?phs) }
+}
+GROUP BY ?name ?len ?lname
+ORDER BY ?name
+
+PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX c:  <http://iec.ch/TC57/2012/CIM-schema-cim16#>
+SELECT ?name (group_concat(?bus) as ?buses) WHERE {
+ ?s r:type c:ACLineSegment.
+ ?s c:IdentifiedObject.name ?name.
+ ?s c:ACLineSegment.PerLengthImpedance ?lcode.
+ ?t c:Terminal.ConductingEquipment ?s.
+ ?t c:Terminal.ConnectivityNode ?cn. 
+ ?cn c:IdentifiedObject.name ?bus
+}
+GROUP BY ?name
+ORDER BY ?name
+
+PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX c:  <http://iec.ch/TC57/2012/CIM-schema-cim16#>
+SELECT ?name (group_concat(?bus) as ?buses) (group_concat(?phs;separator="") as ?phases) ?len ?lname WHERE {
+ ?s r:type c:ACLineSegment.
+ ?s c:IdentifiedObject.name ?name.
+ ?s c:Conductor.length ?len.
+ ?s c:ACLineSegment.PerLengthImpedance ?lcode.
+ ?lcode c:IdentifiedObject.name ?lname. 
+ ?t c:Terminal.ConductingEquipment ?s.
+ ?t c:Terminal.ConnectivityNode ?cn. 
+ ?cn c:IdentifiedObject.name ?bus
+ OPTIONAL {?acp c:ACLineSegmentPhase.ACLineSegment ?s.
+ ?acp c:ACLineSegmentPhase.phase ?phsraw.
+   bind(strafter(str(?phsraw),"SinglePhaseKind.") as ?phs) }
+}
+GROUP BY ?name ?len ?lname
+ORDER BY ?name
+
+
+
