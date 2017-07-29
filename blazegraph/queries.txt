@@ -2,6 +2,9 @@
 // this needs to be in the properties file for Blazegraph to work on Windows
 com.bigdata.rwstore.RWStore.readBlobsAsync=false
 
+// deletes everything
+DROP ALL
+
 // enumerates all classes found; see appendix of Learning SPARQL for more useful cookbook recipes
 SELECT DISTINCT ?class
 WHERE {
@@ -29,7 +32,7 @@ SELECT ?name ?bus ?nomv ?vmag ?vang ?r1 ?x1 ?r0 ?x0 WHERE {
 // capacitors (does not account for 2+ unequal phases on same LinearShuntCompensator)
 PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX c:  <http://iec.ch/TC57/2012/CIM-schema-cim16#>
-SELECT ?name ?nomu ?bsection ?bus ?conn ?grnd ?phs WHERE {
+SELECT ?name ?nomu ?bsection ?bus ?conn ?grnd ?phs ?ctrlenabled ?discrete ?mode ?deadband ?setpoint ?monclass ?moneq ?monbus ?monphs WHERE {
  ?s r:type c:LinearShuntCompensator.
  ?s c:IdentifiedObject.name ?name.
  ?s c:ShuntCompensator.nomU ?nomu. 
@@ -40,6 +43,23 @@ SELECT ?name ?nomu ?bsection ?bus ?conn ?grnd ?phs WHERE {
  OPTIONAL {?scp c:ShuntCompensatorPhase.ShuntCompensator ?s.
  ?ecp c:ShuntCompensatorPhase.phase ?phsraw.
    bind(strafter(str(?phsraw),"SinglePhaseKind.") as ?phs) }
+ OPTIONAL {?ctl c:RegulatingControl.RegulatingCondEq ?s.
+          ?ctl c:RegulatingControl.discrete ?discrete.
+          ?ctl c:RegulatingControl.enabled ?ctrlenabled.
+          ?ctl c:RegulatingControl.mode ?moderaw.
+           bind(strafter(str(?moderaw),"RegulatingControlModeKind.") as ?mode)
+          ?ctl c:RegulatingControl.monitoredPhase ?monraw.
+           bind(strafter(str(?monraw),"PhaseCode.") as ?monphs)
+          ?ctl c:RegulatingControl.targetDeadband ?deadband.
+          ?ctl c:RegulatingControl.targetValue ?setpoint.
+          ?ctl c:RegulatingControl.Terminal ?trm.
+          ?trm c:Terminal.ConductingEquipment ?eq.
+          ?eq a ?classraw.
+           bind(strafter(str(?classraw),"cim16#") as ?monclass)
+          ?eq c:IdentifiedObject.name ?moneq.
+          ?trm c:Terminal.ConnectivityNode ?moncn.
+          ?moncn c:IdentifiedObject.name ?monbus.
+          }
  ?t c:Terminal.ConductingEquipment ?s.
  ?t c:Terminal.ConnectivityNode ?cn. 
  ?cn c:IdentifiedObject.name ?bus
@@ -240,7 +260,7 @@ SELECT ?pname ?enum ?b ?g WHERE {
 }
 ORDER BY ?pname
 
-// power transformers on their own; mesh impedances
+// power transformers on their own; mesh impedances (need to test 3-winding)
 PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX c:  <http://iec.ch/TC57/2012/CIM-schema-cim16#>
 SELECT ?pname ?fnum ?tnum ?r ?x WHERE {
@@ -318,4 +338,168 @@ WHERE {
 }
 ORDER BY ?vnom
 
-// list the bus XY coordinates
+// list the conducting equipment XY sequences (now preferred)
+PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX c:  <http://iec.ch/TC57/2012/CIM-schema-cim16#>
+SELECT ?class ?name ?seq ?x ?y WHERE {
+ ?eq c:PowerSystemResource.Location ?loc.
+ ?eq c:IdentifiedObject.name ?name.
+ ?eq a ?classraw.
+  bind(strafter(str(?classraw),"cim16#") as ?class)
+ ?pt c:PositionPoint.Location ?loc.
+ ?pt c:PositionPoint.xPosition ?x.
+ ?pt c:PositionPoint.yPosition ?y.
+ ?pt c:PositionPoint.sequenceNumber ?seq.
+ FILTER (!regex(?class, "Phase")).
+ FILTER (!regex(?class, "TapChanger")).
+ FILTER (!regex(?class, "Tank")).
+ FILTER (!regex(?class, "RegulatingControl")).
+}
+ORDER BY ?class ?name ?seq ?x ?y
+
+// lines with stand-alone impedances (need to test)
+PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX c:  <http://iec.ch/TC57/2012/CIM-schema-cim16#>
+SELECT ?name (group_concat(distinct ?bus;separator="\n") as ?buses) ?len ?r ?x ?b ?r0 ?x0 ?b0 WHERE {
+ ?s r:type c:ACLineSegment.
+ ?s c:IdentifiedObject.name ?name.
+ ?s c:Conductor.length ?len.
+ ?s c:ACLineSegment.r ?r.
+ ?s c:ACLineSegment.x ?x.
+ OPTIONAL {?s c:ACLineSegment.b ?b.}
+ OPTIONAL {?s c:ACLineSegment.r0 ?r0.}
+ OPTIONAL {?s c:ACLineSegment.x0 ?x0.}
+ OPTIONAL {?s c:ACLineSegment.b0 ?b0.}
+ ?t c:Terminal.ConductingEquipment ?s.
+ ?t c:Terminal.ConnectivityNode ?cn. 
+ ?cn c:IdentifiedObject.name ?bus
+}
+GROUP BY ?name ?len ?r ?x ?b ?r0 ?x0 ?b0
+ORDER BY ?name
+
+// wiredata
+PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX c:  <http://iec.ch/TC57/2012/CIM-schema-cim16#>
+SELECT ?name ?rad ?corerad ?gmr ?rdc ?r25 ?r50 ?r75 ?amps ?ins ?insmat ?insthick WHERE {
+ ?w r:type c:OverheadWireInfo.
+ ?w c:IdentifiedObject.name ?name.
+ ?w c:WireInfo.radius ?rad.
+ ?w c:WireInfo.gmr ?gmr.
+ OPTIONAL {?w c:WireInfo.rDC20 ?rdc.}
+ OPTIONAL {?w c:WireInfo.rAC25 ?r25.}
+ OPTIONAL {?w c:WireInfo.rAC50 ?r50.}
+ OPTIONAL {?w c:WireInfo.rAC75 ?r75.}
+ OPTIONAL {?w c:WireInfo.coreRadius ?corerad.}
+ OPTIONAL {?w c:WireInfo.ratedCurrent ?amps.}
+ OPTIONAL {?w c:WireInfo.insulationMaterial ?insraw.
+     bind(strafter(str(?insraw),"WireInsulationKind.") as ?insmat)}
+ OPTIONAL {?w c:WireInfo.insulated ?ins.}
+ OPTIONAL {?w c:WireInfo.insulationThickness ?insthick.}
+}
+ORDER BY ?name
+
+// tape shield
+PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX c:  <http://iec.ch/TC57/2012/CIM-schema-cim16#>
+SELECT ?name ?rad ?corerad ?gmr ?rdc ?r25 ?r50 ?r75 ?amps ?ins ?insmat ?insthick ?diacore ?diains ?diascreen ?diajacket ?sheathneutral 
+       ?tapelap ?tapethickness
+WHERE {
+ ?w r:type c:TapeShieldCableInfo.
+ ?w c:IdentifiedObject.name ?name.
+ ?w c:WireInfo.radius ?rad.
+ ?w c:WireInfo.gmr ?gmr.
+ OPTIONAL {?w c:WireInfo.rDC20 ?rdc.}
+ OPTIONAL {?w c:WireInfo.rAC25 ?r25.}
+ OPTIONAL {?w c:WireInfo.rAC50 ?r50.}
+ OPTIONAL {?w c:WireInfo.rAC75 ?r75.}
+ OPTIONAL {?w c:WireInfo.coreRadius ?corerad.}
+ OPTIONAL {?w c:WireInfo.ratedCurrent ?amps.}
+ OPTIONAL {?w c:WireInfo.insulationMaterial ?insraw.
+     bind(strafter(str(?insraw),"WireInsulationKind.") as ?insmat)}
+ OPTIONAL {?w c:WireInfo.insulated ?ins.}
+ OPTIONAL {?w c:WireInfo.insulationThickness ?insthick.}
+ OPTIONAL {?w c:CableInfo.diameterOverCore ?diacore.}
+ OPTIONAL {?w c:CableInfo.diameterOverJacket ?diajacket.}
+ OPTIONAL {?w c:CableInfo.diameterOverInsulation ?diains.}
+ OPTIONAL {?w c:CableInfo.diameterOverScreen ?diascreen.}
+ OPTIONAL {?w c:CableInfo.sheathAsNeutral ?sheathneutral.}
+ OPTIONAL {?w c:TapeShieldCableInfo.tapeLap ?tapelap.}
+ OPTIONAL {?w c:TapeShieldCableInfo.tapeThickness ?tapethickness.}
+}
+ORDER BY ?name
+
+// concentric neutral
+PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX c:  <http://iec.ch/TC57/2012/CIM-schema-cim16#>
+SELECT ?name ?rad ?corerad ?gmr ?rdc ?r25 ?r50 ?r75 ?amps ?ins ?insmat ?insthick ?diacore ?diains ?diascreen ?diajacket ?dianeut ?sheathneutral 
+       ?strand_cnt ?strand_rad ?strand_gmr ?strand_rdc
+WHERE {
+ ?w r:type c:ConcentricNeutralCableInfo.
+ ?w c:IdentifiedObject.name ?name.
+ ?w c:WireInfo.radius ?rad.
+ ?w c:WireInfo.gmr ?gmr.
+ OPTIONAL {?w c:WireInfo.rDC20 ?rdc.}
+ OPTIONAL {?w c:WireInfo.rAC25 ?r25.}
+ OPTIONAL {?w c:WireInfo.rAC50 ?r50.}
+ OPTIONAL {?w c:WireInfo.rAC75 ?r75.}
+ OPTIONAL {?w c:WireInfo.coreRadius ?corerad.}
+ OPTIONAL {?w c:WireInfo.ratedCurrent ?amps.}
+ OPTIONAL {?w c:WireInfo.insulationMaterial ?insraw.
+     bind(strafter(str(?insraw),"WireInsulationKind.") as ?insmat)}
+ OPTIONAL {?w c:WireInfo.insulated ?ins.}
+ OPTIONAL {?w c:WireInfo.insulationThickness ?insthick.}
+ OPTIONAL {?w c:CableInfo.diameterOverCore ?diacore.}
+ OPTIONAL {?w c:CableInfo.diameterOverJacket ?diajacket.}
+ OPTIONAL {?w c:CableInfo.diameterOverInsulation ?diains.}
+ OPTIONAL {?w c:CableInfo.diameterOverScreen ?diascreen.}
+ OPTIONAL {?w c:CableInfo.sheathAsNeutral ?sheathneutral.}
+ OPTIONAL {?w c:ConcentricNeutralCableInfo.diameterOverNeutral ?dianeut.}
+ OPTIONAL {?w c:ConcentricNeutralCableInfo.neutralStrandCount ?strand_cnt.}
+ OPTIONAL {?w c:ConcentricNeutralCableInfo.neutralStrandGmr ?strand_gmr.}
+ OPTIONAL {?w c:ConcentricNeutralCableInfo.neutralStrandRadius ?strand_rad.}
+ OPTIONAL {?w c:ConcentricNeutralCableInfo.neutralStrandRDC20 ?strand_rdc.}
+}
+ORDER BY ?name
+
+// wire spacings
+PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX c:  <http://iec.ch/TC57/2012/CIM-schema-cim16#>
+SELECT ?name ?cable ?usage ?bundle_count ?bundle_sep 
+    (group_concat(?phs;separator="\n") as ?phases) (group_concat(?x;separator="\n") as ?xarray) (group_concat(?y;separator="\n") as ?yarray)
+WHERE {
+ ?w r:type c:WireSpacingInfo.
+ ?w c:IdentifiedObject.name ?name.
+ ?pos c:WirePosition.WireSpacingInfo ?w.
+ ?pos c:WirePosition.xCoord ?x.
+ ?pos c:WirePosition.yCoord ?y.
+ ?pos c:WirePosition.phase ?phsraw.
+   bind(strafter(str(?phsraw),"SinglePhaseKind.") as ?phs) 
+ OPTIONAL {?w c:WireSpacingInfo.isCable ?cable.}
+ OPTIONAL {?w c:WireSpacingInfo.phaseWireCount ?bundle_count.}
+ OPTIONAL {?w c:WireSpacingInfo.phaseWireSpacing ?bundle_sep.}
+ OPTIONAL {?w c:WireSpacingInfo.usage ?useraw.
+     bind(strafter(str(?useraw),"WireUsageKind.") as ?usage)}
+}
+GROUP BY ?name ?cable ?usage ?bundle_count ?bundle_sep
+ORDER BY ?name
+
+// line segments referencing wirespacing
+PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX c:  <http://iec.ch/TC57/2012/CIM-schema-cim16#>
+SELECT ?name (group_concat(distinct ?bus;separator="\n") as ?buses) (group_concat(distinct ?phs;separator="\n") as ?phases) ?len ?spacing WHERE {
+ ?s r:type c:ACLineSegment.
+ ?s c:IdentifiedObject.name ?name.
+ ?s c:Conductor.length ?len.
+ ?asset c:Asset.PowerSystemResources ?s.
+ ?asset c:Asset.AssetInfo ?inf.
+ ?inf c:IdentifiedObject.name ?spacing.
+ ?t c:Terminal.ConductingEquipment ?s.
+ ?t c:Terminal.ConnectivityNode ?cn. 
+ ?cn c:IdentifiedObject.name ?bus
+ OPTIONAL {?acp c:ACLineSegmentPhase.ACLineSegment ?s.
+ ?acp c:ACLineSegmentPhase.phase ?phsraw.
+   bind(strafter(str(?phsraw),"SinglePhaseKind.") as ?phs) }
+}
+GROUP BY ?name ?len ?spacing
+ORDER BY ?name
+
