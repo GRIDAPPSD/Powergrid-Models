@@ -41,7 +41,7 @@ SELECT ?name ?nomu ?bsection ?bus ?conn ?grnd ?phs ?ctrlenabled ?discrete ?mode 
    bind(strafter(str(?connraw),"PhaseShuntConnectionKind.") as ?conn)
  ?s c:ShuntCompensator.grounded ?grnd.
  OPTIONAL {?scp c:ShuntCompensatorPhase.ShuntCompensator ?s.
- ?ecp c:ShuntCompensatorPhase.phase ?phsraw.
+ ?scp c:ShuntCompensatorPhase.phase ?phsraw.
    bind(strafter(str(?phsraw),"SinglePhaseKind.") as ?phs) }
  OPTIONAL {?ctl c:RegulatingControl.RegulatingCondEq ?s.
           ?ctl c:RegulatingControl.discrete ?discrete.
@@ -64,6 +64,7 @@ SELECT ?name ?nomu ?bsection ?bus ?conn ?grnd ?phs ?ctrlenabled ?discrete ?mode 
  ?t c:Terminal.ConnectivityNode ?cn. 
  ?cn c:IdentifiedObject.name ?bus
 }
+ORDER by ?name
 
 # loads (need to account for 2+ unequal EnergyConsumerPhases per EnergyConsumer)
 PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
@@ -91,6 +92,7 @@ SELECT ?name ?bus ?p ?q ?conn ?pz ?qz ?pi ?qi ?pp ?qp ?pe ?qe ?phs WHERE {
  ?t c:Terminal.ConnectivityNode ?cn. 
  ?cn c:IdentifiedObject.name ?bus
 }
+ORDER by ?name ?phs
 
 # per-length phase impedance matrics
 PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
@@ -120,6 +122,7 @@ SELECT ?name ?r1 ?x1 ?b1 ?r0 ?x0 ?b0 WHERE {
  ?s c:PerLengthSequenceImpedance.x0 ?x0.
  ?s c:PerLengthSequenceImpedance.b0 ?b0
 }
+ORDER by ?name
 
 # lines referencing linecodes
 PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
@@ -357,7 +360,7 @@ SELECT ?class ?name ?seq ?x ?y WHERE {
 }
 ORDER BY ?class ?name ?seq ?x ?y
 
-# lines with stand-alone impedances (need to test)
+# lines with stand-alone impedances
 PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX c:  <http://iec.ch/TC57/2012/CIM-schema-cim16#>
 SELECT ?name (group_concat(distinct ?bus;separator="\n") as ?buses) ?len ?r ?x ?b ?r0 ?x0 ?b0 WHERE {
