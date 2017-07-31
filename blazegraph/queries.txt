@@ -1,17 +1,17 @@
 
-// this needs to be in the properties file for Blazegraph to work on Windows
+# this needs to be in the properties file for Blazegraph to work on Windows
 com.bigdata.rwstore.RWStore.readBlobsAsync=false
 
-// deletes everything
+# deletes everything
 DROP ALL
 
-// enumerates all classes found; see appendix of Learning SPARQL for more useful cookbook recipes
+# enumerates all classes found; see appendix of Learning SPARQL for more useful cookbook recipes
 SELECT DISTINCT ?class
 WHERE {
   ?s a ?class .
 }
 
-// substation source
+# substation source
 PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX c:  <http://iec.ch/TC57/2012/CIM-schema-cim16#>
 SELECT ?name ?bus ?nomv ?vmag ?vang ?r1 ?x1 ?r0 ?x0 WHERE {
@@ -29,7 +29,7 @@ SELECT ?name ?bus ?nomv ?vmag ?vang ?r1 ?x1 ?r0 ?x0 WHERE {
  ?cn c:IdentifiedObject.name ?bus
 }
 
-// capacitors (does not account for 2+ unequal phases on same LinearShuntCompensator)
+# capacitors (does not account for 2+ unequal phases on same LinearShuntCompensator)
 PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX c:  <http://iec.ch/TC57/2012/CIM-schema-cim16#>
 SELECT ?name ?nomu ?bsection ?bus ?conn ?grnd ?phs ?ctrlenabled ?discrete ?mode ?deadband ?setpoint ?monclass ?moneq ?monbus ?monphs WHERE {
@@ -65,7 +65,7 @@ SELECT ?name ?nomu ?bsection ?bus ?conn ?grnd ?phs ?ctrlenabled ?discrete ?mode 
  ?cn c:IdentifiedObject.name ?bus
 }
 
-// loads (need to account for 2+ unequal EnergyConsumerPhases per EnergyConsumer)
+# loads (need to account for 2+ unequal EnergyConsumerPhases per EnergyConsumer)
 PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX c:  <http://iec.ch/TC57/2012/CIM-schema-cim16#>
 SELECT ?name ?bus ?p ?q ?conn ?pz ?qz ?pi ?qi ?pp ?qp ?pe ?qe ?phs WHERE {
@@ -92,7 +92,7 @@ SELECT ?name ?bus ?p ?q ?conn ?pz ?qz ?pi ?qi ?pp ?qp ?pe ?qe ?phs WHERE {
  ?cn c:IdentifiedObject.name ?bus
 }
 
-// per-length phase impedance matrics
+# per-length phase impedance matrics
 PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX c:  <http://iec.ch/TC57/2012/CIM-schema-cim16#>
 SELECT ?name ?cnt ?seq ?r ?x ?b WHERE {
@@ -107,7 +107,7 @@ SELECT ?name ?cnt ?seq ?r ?x ?b WHERE {
 }
 ORDER BY ?name ?seq
 
-// per-length sequence impedance matrices (need to test)
+# per-length sequence impedance matrices (need to test)
 PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX c:  <http://iec.ch/TC57/2012/CIM-schema-cim16#>
 SELECT ?name ?r1 ?x1 ?b1 ?r0 ?x0 ?b0 WHERE {
@@ -121,7 +121,7 @@ SELECT ?name ?r1 ?x1 ?b1 ?r0 ?x0 ?b0 WHERE {
  ?s c:PerLengthSequenceImpedance.b0 ?b0
 }
 
-// lines referencing linecodes
+# lines referencing linecodes
 PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX c:  <http://iec.ch/TC57/2012/CIM-schema-cim16#>
 SELECT ?name (group_concat(distinct ?bus;separator="\n") as ?buses) (group_concat(distinct ?phs;separator="\n") as ?phases) ?len ?lname WHERE {
@@ -140,7 +140,7 @@ SELECT ?name (group_concat(distinct ?bus;separator="\n") as ?buses) (group_conca
 GROUP BY ?name ?len ?lname
 ORDER BY ?name
 
-// load-break switches (not handling different phases on each side, or different normalOpen values per phase)
+# load-break switches (not handling different phases on each side, or different normalOpen values per phase)
 PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX c:  <http://iec.ch/TC57/2012/CIM-schema-cim16#>
 SELECT ?name (group_concat(distinct ?bus;separator="\n") as ?buses) (group_concat(distinct ?phs;separator="\n") as ?phases) ?open WHERE {
@@ -157,7 +157,7 @@ SELECT ?name (group_concat(distinct ?bus;separator="\n") as ?buses) (group_conca
 GROUP BY ?name ?open
 ORDER BY ?name
 
-// transformer codes; ratings and no-load tests
+# transformer codes; ratings and no-load tests
 PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX c:  <http://iec.ch/TC57/2012/CIM-schema-cim16#>
 SELECT ?pname ?tname ?enum ?ratedS ?ratedU ?conn ?ang ?res ?nll ?iexc WHERE {
@@ -179,7 +179,7 @@ SELECT ?pname ?tname ?enum ?ratedS ?ratedU ?conn ?ang ?res ?nll ?iexc WHERE {
 }
 ORDER BY ?pname ?tname ?enum
 
-// transformer codes; short-circuit tests
+# transformer codes; short-circuit tests
 PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX c:  <http://iec.ch/TC57/2012/CIM-schema-cim16#>
 SELECT ?pname ?tname ?enum ?gnum ?z ?ll WHERE {
@@ -197,7 +197,7 @@ SELECT ?pname ?tname ?enum ?gnum ?z ?ll WHERE {
 }
 ORDER BY ?pname ?tname ?enum ?gnum
 
-// transformer tanks referencing the catalog
+# transformer tanks referencing the catalog
 PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX c:  <http://iec.ch/TC57/2012/CIM-schema-cim16#>
 SELECT ?pname ?tname ?xfmrcode ?vgrp ?enum ?bus ?phs ?grounded ?rground ?xground WHERE {
@@ -222,7 +222,7 @@ SELECT ?pname ?tname ?xfmrcode ?vgrp ?enum ?bus ?phs ?grounded ?rground ?xground
 }
 ORDER BY ?pname ?tname ?enum
 
-// power transformers on their own; windings
+# power transformers on their own; windings
 PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX c:  <http://iec.ch/TC57/2012/CIM-schema-cim16#>
 SELECT ?pname ?vgrp ?enum ?bus ?conn ?ratedS ?ratedU ?r ?ang ?grounded ?rground ?xground WHERE {
@@ -246,7 +246,7 @@ SELECT ?pname ?vgrp ?enum ?bus ?conn ?ratedS ?ratedU ?r ?ang ?grounded ?rground 
 }
 ORDER BY ?pname ?enum
 
-// power transformers on their own; core branch
+# power transformers on their own; core branch
 PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX c:  <http://iec.ch/TC57/2012/CIM-schema-cim16#>
 SELECT ?pname ?enum ?b ?g WHERE {
@@ -260,7 +260,7 @@ SELECT ?pname ?enum ?b ?g WHERE {
 }
 ORDER BY ?pname
 
-// power transformers on their own; mesh impedances (need to test 3-winding)
+# power transformers on their own; mesh impedances (need to test 3-winding)
 PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX c:  <http://iec.ch/TC57/2012/CIM-schema-cim16#>
 SELECT ?pname ?fnum ?tnum ?r ?x WHERE {
@@ -276,7 +276,7 @@ SELECT ?pname ?fnum ?tnum ?r ?x WHERE {
 }
 ORDER BY ?pname ?fnum ?tnum
 
-// voltage regulators (attached to transformer tank ends; still need power transformer ends)
+# voltage regulators (attached to transformer tank ends; still need power transformer ends)
 PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX c:  <http://iec.ch/TC57/2012/CIM-schema-cim16#>
 SELECT ?rname ?pname ?wnum ?phs ?incr ?mode ?enabled ?highStep ?lowStep ?neutralStep ?normalStep ?neutralU ?step ?initDelay ?subDelay ?ltc ?vlim 
@@ -327,7 +327,7 @@ WHERE {
 }
 ORDER BY ?rname ?wnum
 
-// list the base voltage levels
+# list the base voltage levels
 PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX c:  <http://iec.ch/TC57/2012/CIM-schema-cim16#>
 SELECT ?vnom
@@ -338,7 +338,7 @@ WHERE {
 }
 ORDER BY ?vnom
 
-// list the conducting equipment XY sequences (now preferred)
+# list the conducting equipment XY sequences (now preferred)
 PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX c:  <http://iec.ch/TC57/2012/CIM-schema-cim16#>
 SELECT ?class ?name ?seq ?x ?y WHERE {
@@ -357,7 +357,7 @@ SELECT ?class ?name ?seq ?x ?y WHERE {
 }
 ORDER BY ?class ?name ?seq ?x ?y
 
-// lines with stand-alone impedances (need to test)
+# lines with stand-alone impedances (need to test)
 PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX c:  <http://iec.ch/TC57/2012/CIM-schema-cim16#>
 SELECT ?name (group_concat(distinct ?bus;separator="\n") as ?buses) ?len ?r ?x ?b ?r0 ?x0 ?b0 WHERE {
@@ -377,7 +377,7 @@ SELECT ?name (group_concat(distinct ?bus;separator="\n") as ?buses) ?len ?r ?x ?
 GROUP BY ?name ?len ?r ?x ?b ?r0 ?x0 ?b0
 ORDER BY ?name
 
-// wiredata
+# wiredata
 PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX c:  <http://iec.ch/TC57/2012/CIM-schema-cim16#>
 SELECT ?name ?rad ?corerad ?gmr ?rdc ?r25 ?r50 ?r75 ?amps ?ins ?insmat ?insthick WHERE {
@@ -398,7 +398,7 @@ SELECT ?name ?rad ?corerad ?gmr ?rdc ?r25 ?r50 ?r75 ?amps ?ins ?insmat ?insthick
 }
 ORDER BY ?name
 
-// tape shield
+# tape shield
 PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX c:  <http://iec.ch/TC57/2012/CIM-schema-cim16#>
 SELECT ?name ?rad ?corerad ?gmr ?rdc ?r25 ?r50 ?r75 ?amps ?ins ?insmat ?insthick ?diacore ?diains ?diascreen ?diajacket ?sheathneutral 
@@ -428,7 +428,7 @@ WHERE {
 }
 ORDER BY ?name
 
-// concentric neutral
+# concentric neutral
 PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX c:  <http://iec.ch/TC57/2012/CIM-schema-cim16#>
 SELECT ?name ?rad ?corerad ?gmr ?rdc ?r25 ?r50 ?r75 ?amps ?ins ?insmat ?insthick ?diacore ?diains ?diascreen ?diajacket ?dianeut ?sheathneutral 
@@ -461,7 +461,7 @@ WHERE {
 }
 ORDER BY ?name
 
-// wire spacings
+# wire spacings
 PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX c:  <http://iec.ch/TC57/2012/CIM-schema-cim16#>
 SELECT ?name ?cable ?usage ?bundle_count ?bundle_sep 
@@ -483,16 +483,25 @@ WHERE {
 GROUP BY ?name ?cable ?usage ?bundle_count ?bundle_sep
 ORDER BY ?name
 
-// line segments referencing wirespacing
+# line segments referencing wirespacing
 PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX c:  <http://iec.ch/TC57/2012/CIM-schema-cim16#>
-SELECT ?name (group_concat(distinct ?bus;separator="\n") as ?buses) (group_concat(distinct ?phs;separator="\n") as ?phases) ?len ?spacing WHERE {
+SELECT ?name (group_concat(distinct ?bus;separator="\n") as ?buses) (group_concat(distinct ?phs;separator="\n") as ?phases) ?len ?spacing ?wname ?wclass WHERE {
  ?s r:type c:ACLineSegment.
  ?s c:IdentifiedObject.name ?name.
  ?s c:Conductor.length ?len.
  ?asset c:Asset.PowerSystemResources ?s.
  ?asset c:Asset.AssetInfo ?inf.
  ?inf c:IdentifiedObject.name ?spacing.
+ ?inf a c:WireSpacingInfo.
+ OPTIONAL {
+   ?wasset c:Asset.PowerSystemResources ?s.
+   ?wasset c:Asset.AssetInfo ?winf.
+   ?winf c:WireInfo.radius ?rad.
+   ?winf c:IdentifiedObject.name ?wname.
+   ?winf a ?classraw.
+     bind(strafter(str(?classraw),"cim16#") as ?wclass)
+ }
  ?t c:Terminal.ConductingEquipment ?s.
  ?t c:Terminal.ConnectivityNode ?cn. 
  ?cn c:IdentifiedObject.name ?bus
@@ -500,6 +509,6 @@ SELECT ?name (group_concat(distinct ?bus;separator="\n") as ?buses) (group_conca
  ?acp c:ACLineSegmentPhase.phase ?phsraw.
    bind(strafter(str(?phsraw),"SinglePhaseKind.") as ?phs) }
 }
-GROUP BY ?name ?len ?spacing
+GROUP BY ?name ?len ?spacing ?wname ?wclass
 ORDER BY ?name
 
