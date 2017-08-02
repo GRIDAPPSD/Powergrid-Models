@@ -518,8 +518,11 @@ ORDER BY ?name
 # line segments with individual phase wire assignments
 PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX c:  <http://iec.ch/TC57/2012/CIM-schema-cim16#>
-SELECT ?name (group_concat(distinct ?bus;separator="\n") as ?buses) (group_concat(distinct ?phs;separator="\n") as ?phases) ?len ?spacing ?wname ?wclass
-  (group_concat(distinct ?phname;separator="\n") as ?phwires) (group_concat(distinct ?phclass;separator="\n") as ?phclasses)
+SELECT ?name (group_concat(distinct ?bus;separator="\n") as ?buses) 
+  (group_concat(distinct ?phs;separator="\n") as ?phases) 
+	 ?len ?spacing ?wname ?wclass
+  (group_concat(distinct ?phname;separator="\n") as ?phwires) 
+	 (group_concat(distinct ?phclass;separator="\n") as ?phclasses)
 WHERE {
  ?s r:type c:ACLineSegment.
  ?s c:IdentifiedObject.name ?name.
