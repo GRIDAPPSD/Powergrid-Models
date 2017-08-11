@@ -13,6 +13,8 @@ module powerflow {
 };
 module tape;
 
+#define VSOURCE=69715.065 // 66395.3 * 1.05
+
 #include "ieee13_base.glm";
 
 object voltdump {
