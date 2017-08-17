@@ -176,9 +176,9 @@ SELECT ?pname ?tname ?enum ?ratedS ?ratedU ?conn ?ang ?res ?nll ?iexc WHERE {
  ?e c:TransformerEndInfo.phaseAngleClock ?ang.
  ?e c:TransformerEndInfo.connectionKind ?connraw.
    bind(strafter(str(?connraw),"WindingConnection.") as ?conn)
- ?nlt c:NoLoadTest.EnergisedEnd ?e.
+OPTIONAL { ?nlt c:NoLoadTest.EnergisedEnd ?e.
  ?nlt c:NoLoadTest.loss ?nll.
- ?nlt c:NoLoadTest.excitingCurrent ?iexc.
+ ?nlt c:NoLoadTest.excitingCurrent ?iexc.}
 }
 ORDER BY ?pname ?tname ?enum
 
