@@ -160,10 +160,10 @@ SELECT ?name (group_concat(distinct ?bus;separator="\n") as ?buses) (group_conca
 GROUP BY ?name ?open
 ORDER BY ?name
 
-# transformer codes; ratings and no-load tests
+# transformer codes; winding ratings
 PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX c:  <http://iec.ch/TC57/2012/CIM-schema-cim16#>
-SELECT ?pname ?tname ?enum ?ratedS ?ratedU ?conn ?ang ?res ?nll ?iexc WHERE {
+SELECT ?pname ?tname ?enum ?ratedS ?ratedU ?conn ?ang ?res WHERE {
  ?p r:type c:PowerTransformerInfo.
  ?p c:IdentifiedObject.name ?pname.
  ?t c:TransformerTankInfo.PowerTransformerInfo ?p.
@@ -176,11 +176,23 @@ SELECT ?pname ?tname ?enum ?ratedS ?ratedU ?conn ?ang ?res ?nll ?iexc WHERE {
  ?e c:TransformerEndInfo.phaseAngleClock ?ang.
  ?e c:TransformerEndInfo.connectionKind ?connraw.
    bind(strafter(str(?connraw),"WindingConnection.") as ?conn)
-OPTIONAL { ?nlt c:NoLoadTest.EnergisedEnd ?e.
- ?nlt c:NoLoadTest.loss ?nll.
- ?nlt c:NoLoadTest.excitingCurrent ?iexc.}
 }
 ORDER BY ?pname ?tname ?enum
+
+# transformer codes; no-load tests
+PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX c:  <http://iec.ch/TC57/2012/CIM-schema-cim16#>
+SELECT ?pname ?tname ?nll ?iexc WHERE {
+ ?p r:type c:PowerTransformerInfo.
+ ?p c:IdentifiedObject.name ?pname.
+ ?t c:TransformerTankInfo.PowerTransformerInfo ?p.
+ ?t c:IdentifiedObject.name ?tname.
+ ?e c:TransformerEndInfo.TransformerTankInfo ?t.
+ ?nlt c:NoLoadTest.EnergisedEnd ?e.
+ ?nlt c:NoLoadTest.loss ?nll.
+ ?nlt c:NoLoadTest.excitingCurrent ?iexc
+}
+ORDER BY ?pname ?tname
 
 # transformer codes; short-circuit tests
 PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
@@ -282,7 +294,8 @@ ORDER BY ?pname ?fnum ?tnum
 # voltage regulators (attached to transformer tank ends; still need power transformer ends)
 PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX c:  <http://iec.ch/TC57/2012/CIM-schema-cim16#>
-SELECT ?rname ?pname ?wnum ?phs ?incr ?mode ?enabled ?highStep ?lowStep ?neutralStep ?normalStep ?neutralU ?step ?initDelay ?subDelay ?ltc ?vlim 
+SELECT ?rname ?pname ?wnum ?phs ?incr ?mode ?enabled ?highStep ?lowStep ?neutralStep ?normalStep ?neutralU 
+ ?step ?initDelay ?subDelay ?ltc ?vlim 
 	?vset ?vbw ?ldc ?fwdR ?fwdX ?revR ?revX ?discrete ?ctl_enabled ?ctlmode ?monphs ?ctRating ?ctRatio ?ptRatio
 WHERE {
  ?rtc r:type c:RatioTapChanger.
