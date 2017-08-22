@@ -48,8 +48,12 @@ public class DistLinesCodeZ extends DistComponent {
 	public String DisplayString() {
 		DecimalFormat df = new DecimalFormat("#.0000");
 		StringBuilder buf = new StringBuilder ("");
-		buf.append (name + " from " + bus1 + " to " + bus2 + " phases=" + phases + " len=" + df.format(len)  + " linecode=" + lname + "\n");
+		buf.append (name + " from " + bus1 + " to " + bus2 + " phases=" + phases + " len=" + df.format(len)  + " linecode=" + lname);
 		return buf.toString();
+	}
+
+	public String GetKey() {
+		return name;
 	}
 }
 

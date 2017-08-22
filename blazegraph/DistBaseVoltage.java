@@ -19,15 +19,19 @@ public class DistBaseVoltage extends DistComponent {
 	double vnom;
 
 	public DistBaseVoltage (QuerySolution soln) {
-		name = GLD_Name (soln.get("?vnom").toString(), false);
-		double vnom = new Double (soln.get("?vnom").toString()).doubleValue();
+		name = soln.get("?vnom").toString();
+		vnom = new Double (soln.get("?vnom").toString()).doubleValue();
 	}
 
 	public String DisplayString() {
 		DecimalFormat df = new DecimalFormat("#.0000");
 		StringBuilder buf = new StringBuilder ("");
-		buf.append ("vnom=" + df.format(vnom) + "\n");
+		buf.append ("vnom=" + df.format(vnom));
 		return buf.toString();
+	}
+
+	public String GetKey() {
+		return name;
 	}
 }
 

@@ -155,8 +155,11 @@ public class DistRegulator extends DistComponent {
 		buf.append (" ctRating=" + df.format(ctRating));
 		buf.append (" ctRatio=" + df.format(ctRatio));
 		buf.append (" ptRatio=" + df.format(ptRatio));
-		buf.append ("\n");
 		return buf.toString();
+	}
+
+	public String GetKey() {
+		return rname;
 	}
 }
 

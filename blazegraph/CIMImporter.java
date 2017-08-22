@@ -8,6 +8,8 @@
 import java.io.*;
 import java.text.DecimalFormat;
 import java.util.HashMap;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import org.apache.jena.query.*;
 import org.apache.jena.rdf.model.RDFNode;
@@ -69,7 +71,7 @@ public class CIMImporter extends Object {
 		while (results.hasNext()) {
 			soln = results.next();
 			DistBaseVoltage obj = new DistBaseVoltage (soln);
-			mapBaseVoltages.put (obj.name, obj);
+			mapBaseVoltages.put (obj.GetKey(), obj);
 		}
 	}
 
@@ -79,7 +81,7 @@ public class CIMImporter extends Object {
 		while (results.hasNext()) {
 			soln = results.next();
 			DistSubstation obj = new DistSubstation (soln);
-			mapSubstations.put (obj.name, obj);
+			mapSubstations.put (obj.GetKey(), obj);
 		}
 	}
 
@@ -89,7 +91,7 @@ public class CIMImporter extends Object {
 		while (results.hasNext()) {
 			soln = results.next();
 			DistCapacitor obj = new DistCapacitor (soln);
-			mapCapacitors.put (obj.name, obj);
+			mapCapacitors.put (obj.GetKey(), obj);
 		}
 	}
 
@@ -99,7 +101,7 @@ public class CIMImporter extends Object {
 		while (results.hasNext()) {
 			soln = results.next();
 			DistLoad obj = new DistLoad (soln);
-			mapLoads.put (obj.name, obj);
+			mapLoads.put (obj.GetKey(), obj);
 		}
 	}
 
@@ -109,7 +111,7 @@ public class CIMImporter extends Object {
 		while (results.hasNext()) {
 			soln = results.next();
 			DistPhaseMatrix obj = new DistPhaseMatrix (soln);
-			mapPhaseMatrices.put (obj.name, obj);
+			mapPhaseMatrices.put (obj.GetKey(), obj);
 		}
 	}
 
@@ -119,7 +121,7 @@ public class CIMImporter extends Object {
 		while (results.hasNext()) {
 			soln = results.next();
 			DistSequenceMatrix obj = new DistSequenceMatrix (soln);
-			mapSequenceMatrices.put (obj.name, obj);
+			mapSequenceMatrices.put (obj.GetKey(), obj);
 		}
 	}
 
@@ -129,7 +131,7 @@ public class CIMImporter extends Object {
 		while (results.hasNext()) {
 			soln = results.next();
 			DistXfmrCodeRating obj = new DistXfmrCodeRating (soln);
-			mapCodeRatings.put (obj.pname, obj); // TODO: key
+			mapCodeRatings.put (obj.GetKey(), obj);
 		}
 	}
 
@@ -139,7 +141,7 @@ public class CIMImporter extends Object {
 		while (results.hasNext()) {
 			soln = results.next();
 			DistXfmrCodeOCTest obj = new DistXfmrCodeOCTest (soln);
-			mapCodeOCTests.put (obj.pname, obj); // TODO: key
+			mapCodeOCTests.put (obj.GetKey(), obj);
 		}
 	}
 
@@ -149,7 +151,7 @@ public class CIMImporter extends Object {
 		while (results.hasNext()) {
 			soln = results.next();
 			DistXfmrCodeSCTest obj = new DistXfmrCodeSCTest (soln);
-			mapCodeSCTests.put (obj.pname, obj); // TODO: key
+			mapCodeSCTests.put (obj.GetKey(), obj);
 		}
 	}
 
@@ -159,7 +161,7 @@ public class CIMImporter extends Object {
 		while (results.hasNext()) {
 			soln = results.next();
 			DistPowerXfmrCore obj = new DistPowerXfmrCore (soln);
-			mapXfmrCores.put (obj.pname, obj); // TODO: key
+			mapXfmrCores.put (obj.GetKey(), obj);
 		}
 	}
 
@@ -169,7 +171,7 @@ public class CIMImporter extends Object {
 		while (results.hasNext()) {
 			soln = results.next();
 			DistPowerXfmrMesh obj = new DistPowerXfmrMesh (soln);
-			mapXfmrMeshes.put (obj.pname, obj); // TODO: key
+			mapXfmrMeshes.put (obj.GetKey(), obj);
 		}
 	}
 
@@ -179,7 +181,7 @@ public class CIMImporter extends Object {
 		while (results.hasNext()) {
 			soln = results.next();
 			DistOverheadWire obj = new DistOverheadWire (soln);
-			mapWires.put (obj.name, obj);
+			mapWires.put (obj.GetKey(), obj);
 		}
 	}
 
@@ -189,7 +191,7 @@ public class CIMImporter extends Object {
 		while (results.hasNext()) {
 			soln = results.next();
 			DistTapeShieldCable obj = new DistTapeShieldCable (soln);
-			mapTSCables.put (obj.name, obj);
+			mapTSCables.put (obj.GetKey(), obj);
 		}
 	}
 
@@ -199,7 +201,7 @@ public class CIMImporter extends Object {
 		while (results.hasNext()) {
 			soln = results.next();
 			DistConcentricNeutralCable obj = new DistConcentricNeutralCable (soln);
-			mapCNCables.put (obj.name, obj);
+			mapCNCables.put (obj.GetKey(), obj);
 		}
 	}
 
@@ -209,7 +211,7 @@ public class CIMImporter extends Object {
 		while (results.hasNext()) {
 			soln = results.next();
 			DistLineSpacing obj = new DistLineSpacing (soln);
-			mapSpacings.put (obj.name, obj);
+			mapSpacings.put (obj.GetKey(), obj);
 		}
 	}
 
@@ -219,7 +221,7 @@ public class CIMImporter extends Object {
 		while (results.hasNext()) {
 			soln = results.next();
 			DistSwitch obj = new DistSwitch (soln);
-			mapSwitches.put (obj.name, obj);
+			mapSwitches.put (obj.GetKey(), obj);
 		}
 	}
 
@@ -229,7 +231,7 @@ public class CIMImporter extends Object {
 		while (results.hasNext()) {
 			soln = results.next();
 			DistLinesInstanceZ obj = new DistLinesInstanceZ (soln);
-			mapLinesInstanceZ.put (obj.name, obj);
+			mapLinesInstanceZ.put (obj.GetKey(), obj);
 		}
 	}
 
@@ -239,7 +241,7 @@ public class CIMImporter extends Object {
 		while (results.hasNext()) {
 			soln = results.next();
 			DistLinesCodeZ obj = new DistLinesCodeZ (soln);
-			mapLinesCodeZ.put (obj.name, obj);
+			mapLinesCodeZ.put (obj.GetKey(), obj);
 		}
 	}
 
@@ -249,7 +251,7 @@ public class CIMImporter extends Object {
 		while (results.hasNext()) {
 			soln = results.next();
 			DistLinesSpacingZ obj = new DistLinesSpacingZ (soln);
-			mapLinesSpacingZ.put (obj.name, obj);
+			mapLinesSpacingZ.put (obj.GetKey(), obj);
 		}
 	}
 
@@ -259,7 +261,7 @@ public class CIMImporter extends Object {
 		while (results.hasNext()) {
 			soln = results.next();
 			DistRegulator obj = new DistRegulator (soln);
-			mapRegulators.put (obj.rname, obj); // TODO: key
+			mapRegulators.put (obj.GetKey(), obj);
 		}
 	}
 
@@ -269,7 +271,7 @@ public class CIMImporter extends Object {
 		while (results.hasNext()) {
 			soln = results.next();
 			DistXfmrTank obj = new DistXfmrTank (soln);
-			mapTanks.put (obj.pname, obj); // TODO: key
+			mapTanks.put (obj.GetKey(), obj);
 		}
 	}
 
@@ -279,7 +281,7 @@ public class CIMImporter extends Object {
 		while (results.hasNext()) {
 			soln = results.next();
 			DistPowerXfmrWinding obj = new DistPowerXfmrWinding (soln);
-			mapXfmrWindings.put (obj.pname, obj); // TODO: key
+			mapXfmrWindings.put (obj.GetKey(), obj); 
 		}
 	}
 
@@ -289,79 +291,129 @@ public class CIMImporter extends Object {
 		while (results.hasNext()) {
 			soln = results.next();
 			DistCoordinates obj = new DistCoordinates (soln);
-			mapCoordinates.put (obj.name, obj);
+			mapCoordinates.put (obj.GetKey(), obj);
 		}
 	}
 
 	public static void PrintAllMaps() {
+		SortedSet<String> keys;
+
+		// this is the un-sorted method of display; keep as an example
+		System.out.println("** BASE VOLTAGES");
 		for (HashMap.Entry<String,DistBaseVoltage> pair : mapBaseVoltages.entrySet()) {
 			System.out.println (pair.getValue().DisplayString());
 		}
-		for (HashMap.Entry<String,DistCapacitor> pair : mapCapacitors.entrySet()) {
-			System.out.println (pair.getValue().DisplayString());
+
+		// display the following components in sorted order
+		keys = new TreeSet<String>(mapCapacitors.keySet());
+		System.out.println("** CAPACITORS");
+		for (String key : keys) {
+			System.out.println (mapCapacitors.get(key).DisplayString());
 		}
-		for (HashMap.Entry<String,DistConcentricNeutralCable> pair : mapCNCables.entrySet()) {
-			System.out.println (pair.getValue().DisplayString());
+		keys = new TreeSet<String>(mapCNCables.keySet());
+		System.out.println("** CN CABLES");
+		for (String key : keys) {
+			System.out.println (mapCNCables.get(key).DisplayString());
 		}
-		for (HashMap.Entry<String,DistCoordinates> pair : mapCoordinates.entrySet()) {
-			System.out.println (pair.getValue().DisplayString());
+		keys = new TreeSet<String>(mapCoordinates.keySet());
+		System.out.println("** COMPONENT XY COORDINATES");
+		for (String key : keys) {
+			System.out.println (mapCoordinates.get(key).DisplayString());
 		}
-		for (HashMap.Entry<String,DistLinesCodeZ> pair : mapLinesCodeZ.entrySet()) {
-			System.out.println (pair.getValue().DisplayString());
+		keys = new TreeSet<String>(mapLinesCodeZ.keySet());
+		System.out.println("** LINES REFERENCING MATRICES");
+		for (String key : keys) {
+			System.out.println (mapLinesCodeZ.get(key).DisplayString());
 		}
-		for (HashMap.Entry<String,DistLinesInstanceZ> pair : mapLinesInstanceZ.entrySet()) {
-			System.out.println (pair.getValue().DisplayString());
+		keys = new TreeSet<String>(mapLinesInstanceZ.keySet());
+		System.out.println("** LINES WITH IMPEDANCE ATTRIBUTES");
+		for (String key : keys) {
+			System.out.println (mapLinesInstanceZ.get(key).DisplayString());
 		}
-		for (HashMap.Entry<String,DistLineSpacing> pair : mapSpacings.entrySet()) {
-			System.out.println (pair.getValue().DisplayString());
+		keys = new TreeSet<String>(mapSpacings.keySet());
+		System.out.println("** LINE SPACINGS");
+		for (String key : keys) {
+			System.out.println (mapSpacings.get(key).DisplayString());
 		}
-		for (HashMap.Entry<String,DistLinesSpacingZ> pair : mapLinesSpacingZ.entrySet()) {
-			System.out.println (pair.getValue().DisplayString());
+		keys = new TreeSet<String>(mapLinesSpacingZ.keySet());
+		System.out.println("** LINES REFERENCING SPACINGS");
+		for (String key : keys) {
+			System.out.println (mapLinesSpacingZ.get(key).DisplayString());
 		}
-		for (HashMap.Entry<String,DistLoad> pair : mapLoads.entrySet()) {
-			System.out.println (pair.getValue().DisplayString());
+		keys = new TreeSet<String>(mapLoads.keySet());
+		System.out.println("** LOADS");
+		for (String key : keys) {
+			System.out.println (mapLoads.get(key).DisplayString());
 		}
-		for (HashMap.Entry<String,DistOverheadWire> pair : mapWires.entrySet()) {
-			System.out.println (pair.getValue().DisplayString());
+		keys = new TreeSet<String>(mapWires.keySet());
+		System.out.println("** OVERHEAD WIRES");
+		for (String key : keys) {
+			System.out.println (mapWires.get(key).DisplayString());
 		}
-		for (HashMap.Entry<String,DistPhaseMatrix> pair : mapPhaseMatrices.entrySet()) {
-			System.out.println (pair.getValue().DisplayString());
+		keys = new TreeSet<String>(mapPhaseMatrices.keySet());
+		System.out.println("** PHASE IMPEDANCE MATRICES");
+		for (String key : keys) {
+			System.out.println (mapPhaseMatrices.get(key).DisplayString());
 		}
-		for (HashMap.Entry<String,DistPowerXfmrCore> pair : mapXfmrCores.entrySet()) {
-			System.out.println (pair.getValue().DisplayString());
+		keys = new TreeSet<String>(mapXfmrCores.keySet());
+		System.out.println("** POWER XFMR CORE ADMITTANCES");
+		for (String key : keys) {
+			System.out.println (mapXfmrCores.get(key).DisplayString());
 		}
-		for (HashMap.Entry<String,DistPowerXfmrMesh> pair : mapXfmrMeshes.entrySet()) {
-			System.out.println (pair.getValue().DisplayString());
+		keys = new TreeSet<String>(mapXfmrMeshes.keySet());
+		System.out.println("** POWER XFMR MESH IMPEDANCES");
+		for (String key : keys) {
+			System.out.println (mapXfmrMeshes.get(key).DisplayString());
 		}
-		for (HashMap.Entry<String,DistPowerXfmrWinding> pair : mapXfmrWindings.entrySet()) {
-			System.out.println (pair.getValue().DisplayString());
+		keys = new TreeSet<String>(mapXfmrWindings.keySet());
+		System.out.println("** POWER XFMR WINDINGS");
+		for (String key : keys) {
+			System.out.println (mapXfmrWindings.get(key).DisplayString());
 		}
-		for (HashMap.Entry<String,DistRegulator> pair : mapRegulators.entrySet()) {
-			System.out.println (pair.getValue().DisplayString());
+		keys = new TreeSet<String>(mapRegulators.keySet());
+		System.out.println("** REGULATORS");
+		for (String key : keys) {
+			System.out.println (mapRegulators.get(key).DisplayString());
 		}
-		for (HashMap.Entry<String,DistSequenceMatrix> pair : mapSequenceMatrices.entrySet()) {
-			System.out.println (pair.getValue().DisplayString());
+		keys = new TreeSet<String>(mapSequenceMatrices.keySet());
+		System.out.println("** SEQUENCE IMPEDANCE MATRICES");
+		for (String key : keys) {
+			System.out.println (mapSequenceMatrices.get(key).DisplayString());
 		}
-		for (HashMap.Entry<String,DistSubstation> pair : mapSubstations.entrySet()) {
-			System.out.println (pair.getValue().DisplayString());
+		keys = new TreeSet<String>(mapSubstations.keySet());
+		System.out.println("** SUBSTATION SOURCES");
+		for (String key : keys) {
+			System.out.println (mapSubstations.get(key).DisplayString());
 		}
-		for (HashMap.Entry<String,DistSwitch> pair : mapSwitches.entrySet()) {
-			System.out.println (pair.getValue().DisplayString());
+		keys = new TreeSet<String>(mapSwitches.keySet());
+		System.out.println("** LOADBREAK SWITCHES");
+		for (String key : keys) {
+			System.out.println (mapSwitches.get(key).DisplayString());
 		}
-		for (HashMap.Entry<String,DistTapeShieldCable> pair : mapTSCables.entrySet()) {
-			System.out.println (pair.getValue().DisplayString());
+		keys = new TreeSet<String>(mapTSCables.keySet());
+		System.out.println("** TS CABLES");
+		for (String key : keys) {
+			System.out.println (mapTSCables.get(key).DisplayString());
 		}
-		for (HashMap.Entry<String,DistXfmrCodeOCTest> pair : mapCodeOCTests.entrySet()) {
-			System.out.println (pair.getValue().DisplayString());
+		keys = new TreeSet<String>(mapCodeOCTests.keySet());
+		System.out.println("** XFMR CODE OC TESTS");
+		for (String key : keys) {
+			System.out.println (mapCodeOCTests.get(key).DisplayString());
 		}
-		for (HashMap.Entry<String,DistXfmrCodeRating> pair : mapCodeRatings.entrySet()) {
-			System.out.println (pair.getValue().DisplayString());
+		keys = new TreeSet<String>(mapCodeRatings.keySet());
+		System.out.println("** XFMR CODE WINDING RATINGS");
+		for (String key : keys) {
+			System.out.println (mapCodeRatings.get(key).DisplayString());
 		}
-		for (HashMap.Entry<String,DistXfmrCodeSCTest> pair : mapCodeSCTests.entrySet()) {
-			System.out.println (pair.getValue().DisplayString());
+		keys = new TreeSet<String>(mapCodeSCTests.keySet());
+		System.out.println("** XFMR CODE SC TESTS");
+		for (String key : keys) {
+			System.out.println (mapCodeSCTests.get(key).DisplayString());
 		}
-		for (HashMap.Entry<String,DistXfmrTank> pair : mapTanks.entrySet()) {
-			System.out.println (pair.getValue().DisplayString());
+		keys = new TreeSet<String>(mapTanks.keySet());
+		System.out.println("** XFMR TANKS");
+		for (String key : keys) {
+			System.out.println (mapTanks.get(key).DisplayString());
 		}
 	}
 

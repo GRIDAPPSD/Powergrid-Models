@@ -102,11 +102,15 @@ public class DistLinesSpacingZ extends DistComponent {
 		DecimalFormat df = new DecimalFormat("#.0000");
 		StringBuilder buf = new StringBuilder ("");
 		buf.append (name + " from " + bus1 + " to " + bus2 + " len=" + df.format(len) + " spacing=" + spacing);
-		buf.append (" wname=" + wname + "wclass=" + wclass + "\n");
+		buf.append (" wname=" + wname + "wclass=" + wclass);
 		for (int i = 0; i < nwires; i++) {
-			buf.append ("  phs=" + wire_phases[i] + " wire=" + wire_names[i] + " class=" + wire_classes[i] + "\n");
+			buf.append ("\n  phs=" + wire_phases[i] + " wire=" + wire_names[i] + " class=" + wire_classes[i]);
 		}
 		return buf.toString();
+	}
+
+	public String GetKey() {
+		return name;
 	}
 }
 

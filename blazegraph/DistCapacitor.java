@@ -85,13 +85,16 @@ public class DistCapacitor extends DistComponent {
 		DecimalFormat df = new DecimalFormat("#.0000");
 		StringBuilder buf = new StringBuilder ("");
 		buf.append (name + " @ " + bus + " on " + phs);
-		buf.append (" " + df.format(nomu/1000.0) + " [kV] " + df.format(kvar) + " [kvar] " + "conn=" + conn + " grnd=" + grnd + "\n");
+		buf.append (" " + df.format(nomu/1000.0) + " [kV] " + df.format(kvar) + " [kvar] " + "conn=" + conn + " grnd=" + grnd);
 		if (ctrl.equals ("true")) {
-			buf.append("	control mode=" + mode + " set=" + df.format(setpoint) + " bandwidth=" + df.format(deadband));
+			buf.append("\n	control mode=" + mode + " set=" + df.format(setpoint) + " bandwidth=" + df.format(deadband));
 			buf.append(" monitoring: " + moneq + ":" + monclass + ":" + monbus + ":" + monphs);
-			buf.append ("\n");
 		}
 		return buf.toString();
+	}
+
+	public String GetKey() {
+		return name;
 	}
 }
 

@@ -89,8 +89,11 @@ public class DistTapeShieldCable extends DistComponent {
 		buf.append (" dcore=" + df.format(dcore) + " djacket=" + df.format(djacket) + " dins=" + df.format(dins)); 
 		buf.append (" dscreen=" + df.format(dscreen) + " sheathNeutral=" + Boolean.toString(sheathNeutral)); 
 		buf.append (" tlap=" + df.format(tlap) + " tthick=" + df.format(tthick));
-		buf.append ("\n");
 		return buf.toString();
+	}
+
+	public String GetKey() {
+		return name;
 	}
 }
 

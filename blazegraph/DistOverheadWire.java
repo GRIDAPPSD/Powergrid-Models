@@ -63,8 +63,11 @@ public class DistOverheadWire extends DistComponent {
 		buf.append (" r25=" + df.format(r25) + " r50=" + df.format(r50) + " r75=" + df.format(r75)); 
 		buf.append (" corerad=" + df.format(corerad) + " amps=" + df.format(amps)); 
 		buf.append (" ins=" + Boolean.toString(ins) + " insmat=" + insmat + " insthick=" + df.format(insthick)); 
-		buf.append ("\n");
 		return buf.toString();
+	}
+
+	public String GetKey() {
+		return name;
 	}
 }
 

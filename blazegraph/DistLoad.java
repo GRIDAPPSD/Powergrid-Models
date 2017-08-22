@@ -70,8 +70,11 @@ public class DistLoad extends DistComponent {
 		buf.append (" kw=" + df.format(p) + " kvar=" + df.format(q));
 		buf.append (" Real ZIP=" + df.format(pz) + ":" + df.format(pi) + ":" + df.format(pp));
 		buf.append (" Reactive ZIP=" + df.format(qz) + ":" + df.format(qi) + ":" + df.format(qp));
-		buf.append ("\n");
 		return buf.toString();
+	}
+
+	public String GetKey() {
+		return name;
 	}
 }
 

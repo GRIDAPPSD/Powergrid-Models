@@ -62,8 +62,12 @@ public class DistXfmrTank extends DistComponent {
 		StringBuilder buf = new StringBuilder ("");
 		buf.append (pname + ":" + tname + ":" + Integer.toString(wdg) + " on " + bus + ":" + phs);
 		buf.append (" vgrp=" + vgrp + " tankinfo=" + tankinfo);
-		buf.append (" grounded=" + Boolean.toString(grounded) + " rg=" + df.format(rg) + " xg=" + df.format(xg) + "\n");
+		buf.append (" grounded=" + Boolean.toString(grounded) + " rg=" + df.format(rg) + " xg=" + df.format(xg));
 		return buf.toString();
+	}
+
+	public String GetKey() {
+		return pname + ":" + tname + ":" + bus;
 	}
 }
 

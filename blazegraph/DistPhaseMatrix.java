@@ -41,8 +41,12 @@ public class DistPhaseMatrix extends DistComponent {
 	public String DisplayString() {
 		DecimalFormat df = new DecimalFormat("#.0000");
 		StringBuilder buf = new StringBuilder ("");
-		buf.append (name + " " + Integer.toString(seq) + ":" + Integer.toString(cnt) + " r=" + df.format(r) + " x=" + df.format(x) + " b=" + df.format(b) + "\n");
+		buf.append (name + " " + Integer.toString(seq) + ":" + Integer.toString(cnt) + " r=" + df.format(r) + " x=" + df.format(x) + " b=" + df.format(b));
 		return buf.toString();
+	}
+
+	public String GetKey() {
+		return name + ":" + Integer.toString(seq);
 	}
 }
 

@@ -45,8 +45,12 @@ public class DistXfmrCodeSCTest extends DistComponent {
 		DecimalFormat df = new DecimalFormat("#.0000");
 		StringBuilder buf = new StringBuilder ("");
 		buf.append (pname + ":" + tname + " fwdg=" + Integer.toString(fwdg) + " twdg=" + Integer.toString(twdg) +
-								" z=" + df.format(z) + " LL=" + df.format(ll) + "\n");
+								" z=" + df.format(z) + " LL=" + df.format(ll));
 		return buf.toString();
+	}
+
+	public String GetKey() {
+		return pname + ":" + tname + ":" + Integer.toString(fwdg) + ":" + Integer.toString(twdg);
 	}
 }
 

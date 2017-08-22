@@ -1,2 +1,4 @@
 *.class
 *.jar
+*.log
+*.jnl

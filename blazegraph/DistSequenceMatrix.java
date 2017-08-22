@@ -44,8 +44,12 @@ public class DistSequenceMatrix extends DistComponent {
 		DecimalFormat df = new DecimalFormat("#.0000");
 		StringBuilder buf = new StringBuilder ("");
 		buf.append (name + " r1=" + df.format(r1) + " x1=" + df.format(x1) + " b1=" + df.format(b1));
-		buf.append (" r0=" + df.format(r0) + " x0=" + df.format(x0) + " b0=" + df.format(b0) + "\n");
+		buf.append (" r0=" + df.format(r0) + " x0=" + df.format(x0) + " b0=" + df.format(b0));
 		return buf.toString();
+	}
+
+	public String GetKey() {
+		return name;
 	}
 }
 

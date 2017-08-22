@@ -44,8 +44,12 @@ public class DistCoordinates extends DistComponent {
 	public String DisplayString() {
 		DecimalFormat df = new DecimalFormat("#.0000");
 		StringBuilder buf = new StringBuilder ("");
-		buf.append (cname + ":" + name + ":" + Integer.toString(seq) + " x=" + df.format(x) + " y=" + df.format(y) + "\n");
+		buf.append (cname + ":" + name + ":" + Integer.toString(seq) + " x=" + df.format(x) + " y=" + df.format(y));
 		return buf.toString();
+	}
+
+	public String GetKey() {
+		return cname + ":" + name + ":" + Integer.toString(seq);
 	}
 }
 

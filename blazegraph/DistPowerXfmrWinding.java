@@ -32,7 +32,7 @@ public class DistPowerXfmrWinding extends DistComponent {
 		"}"+
 		" ORDER BY ?pname ?enum"		;
 
-	public String pname;
+	public String name;
 	public String bus;
 	public String phs;
 	public String vgrp;
@@ -47,7 +47,7 @@ public class DistPowerXfmrWinding extends DistComponent {
 	public double xg;
 
 	public DistPowerXfmrWinding (QuerySolution soln) {
-		pname = GLD_Name (soln.get("?pname").toString(), false);
+		name = GLD_Name (soln.get("?pname").toString(), false);
 		bus = GLD_Name (soln.get("?bus").toString(), true);
 		phs = "ABC";
 		vgrp = soln.get("?vgrp").toString();
@@ -65,11 +65,15 @@ public class DistPowerXfmrWinding extends DistComponent {
 	public String DisplayString() {
 		DecimalFormat df = new DecimalFormat("#.0000");
 		StringBuilder buf = new StringBuilder ("");
-		buf.append (pname + ":" + Integer.toString(wdg) + " on " + bus + ":" + phs);
+		buf.append (name + ":" + Integer.toString(wdg) + " on " + bus + ":" + phs);
 		buf.append (" vgrp=" + vgrp + " conn=" + conn + " ang=" + Integer.toString(ang));
 		buf.append (" U=" + df.format(ratedU) + " S=" + df.format(ratedS) + " r=" + df.format(r));
-		buf.append (" grounded=" + Boolean.toString(grounded) + " rg=" + df.format(rg) + " xg=" + df.format(xg) + "\n");
+		buf.append (" grounded=" + Boolean.toString(grounded) + " rg=" + df.format(rg) + " xg=" + df.format(xg));
 		return buf.toString();
+	}
+
+	public String GetKey() {
+		return name + ":" + bus;
 	}
 }
 

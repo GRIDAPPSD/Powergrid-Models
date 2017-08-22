@@ -56,11 +56,14 @@ public class DistLineSpacing extends DistComponent {
 		StringBuilder buf = new StringBuilder ("");
 		buf.append (name + " nwires=" + Integer.toString(nwires) + " cable=" + Boolean.toString(cable) + " usage=" + usage); 
 		buf.append (" b_cnt=" + Integer.toString(b_cnt) + " b_sep=" + df.format(b_sep));
-		buf.append("\n");
 		for (int i = 0; i < nwires; i++) {
-				buf.append ("  phs=" + phases[i] + " x=" + xarray[i] + " y=" + yarray[i] + "\n");
+				buf.append ("\n  phs=" + phases[i] + " x=" + xarray[i] + " y=" + yarray[i]);
 		}
 		return buf.toString();
+	}
+
+	public String GetKey() {
+		return name;
 	}
 }
 

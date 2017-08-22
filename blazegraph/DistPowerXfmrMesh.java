@@ -23,14 +23,14 @@ public class DistPowerXfmrMesh extends DistComponent {
 		" ?to c:TransformerEnd.endNumber ?tnum."+
 		"} ORDER BY ?pname ?fnum ?tnum";
 
-	public String pname;
+	public String name;
 	public int fwdg;
 	public int twdg;
 	public double r;
 	public double x;
 
 	public DistPowerXfmrMesh (QuerySolution soln) {
-		pname = GLD_Name (soln.get("?pname").toString(), false);
+		name = GLD_Name (soln.get("?pname").toString(), false);
 		fwdg = new Integer (soln.get("?fnum").toString()).intValue();
 		twdg = new Integer (soln.get("?tnum").toString()).intValue();
 		r = new Double (soln.get("?r").toString()).doubleValue();
@@ -40,9 +40,13 @@ public class DistPowerXfmrMesh extends DistComponent {
 	public String DisplayString() {
 		DecimalFormat df = new DecimalFormat("#.0000");
 		StringBuilder buf = new StringBuilder ("");
-		buf.append (pname + " fwdg=" + Integer.toString(fwdg) + " twdg=" + Integer.toString(twdg) + 
-								" r=" + df.format(r) + " x=" + df.format(x) + "\n");
+		buf.append (name + " fwdg=" + Integer.toString(fwdg) + " twdg=" + Integer.toString(twdg) + 
+								" r=" + df.format(r) + " x=" + df.format(x));
 		return buf.toString();
+	}
+
+	public String GetKey() {
+		return name + ":" + Integer.toString(fwdg) + ":" + Integer.toString(twdg);
 	}
 }
 

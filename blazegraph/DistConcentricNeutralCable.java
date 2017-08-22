@@ -99,8 +99,11 @@ public class DistConcentricNeutralCable extends DistComponent {
 		buf.append (" dscreen=" + df.format(dscreen) + " sheathNeutral=" + Boolean.toString(sheathNeutral)); 
 		buf.append (" dneut=" + df.format(dneut) + " strand_cnt=" + Integer.toString(strand_cnt));
 		buf.append (" strand_gmr=" + df.format(strand_gmr) + " strand_rad=" + df.format(strand_rad) + " strand_rdc=" + df.format(strand_rdc));
-		buf.append ("\n");
 		return buf.toString();
+	}
+
+	public String GetKey() {
+		return name;
 	}
 }
 

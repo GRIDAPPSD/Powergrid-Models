@@ -10,20 +10,21 @@ import org.apache.jena.query.*;
 import java.text.DecimalFormat;
 
 public class DistSubstation extends DistComponent {
-	static final String szQUERY = "SELECT ?name ?bus ?nomv ?vmag ?vang ?r1 ?x1 ?r0 ?x0 WHERE {" +
-																	" ?s r:type c:EnergySource." +
-																	" ?s c:IdentifiedObject.name ?name." +
-																	" ?s c:EnergySource.nominalVoltage ?nomv." + 
-																	" ?s c:EnergySource.voltageMagnitude ?vmag." + 
-																	" ?s c:EnergySource.voltageAngle ?vang." + 
-																	" ?s c:EnergySource.r ?r1." + 
-																	" ?s c:EnergySource.x ?x1." + 
-																	" ?s c:EnergySource.r0 ?r0." + 
-																	" ?s c:EnergySource.x0 ?x0." + 
-																	" ?t c:Terminal.ConductingEquipment ?s." +
-																	" ?t c:Terminal.ConnectivityNode ?cn." + 
-																	" ?cn c:IdentifiedObject.name ?bus" +
-																	"}";
+	static final String szQUERY = 
+		"SELECT ?name ?bus ?nomv ?vmag ?vang ?r1 ?x1 ?r0 ?x0 WHERE {" +
+		 " ?s r:type c:EnergySource." +
+		 " ?s c:IdentifiedObject.name ?name." +
+		 " ?s c:EnergySource.nominalVoltage ?nomv." + 
+		 " ?s c:EnergySource.voltageMagnitude ?vmag." + 
+		 " ?s c:EnergySource.voltageAngle ?vang." + 
+		 " ?s c:EnergySource.r ?r1." + 
+		 " ?s c:EnergySource.x ?x1." + 
+		 " ?s c:EnergySource.r0 ?r0." + 
+		 " ?s c:EnergySource.x0 ?x0." + 
+		 " ?t c:Terminal.ConductingEquipment ?s." +
+		 " ?t c:Terminal.ConnectivityNode ?cn." + 
+		 " ?cn c:IdentifiedObject.name ?bus" +
+		 "}";
 
 	public String name;
 	public String bus;
@@ -57,8 +58,11 @@ public class DistSubstation extends DistComponent {
 		buf.append (" x1=" + df.format(x1));
 		buf.append (" r0=" + df.format(r0));
 		buf.append (" x0=" + df.format(x0));
-		buf.append ("\n");
 		return buf.toString();
+	}
+
+	public String GetKey() {
+		return name;
 	}
 }
 

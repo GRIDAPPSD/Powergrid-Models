@@ -21,13 +21,13 @@ public class DistPowerXfmrCore extends DistComponent {
 		" ?adm c:TransformerCoreAdmittance.g ?g."+
 		"} ORDER BY ?pname";
 
-	public String pname;
+	public String name;
 	public int wdg;
 	public double b;
 	public double g;
 
 	public DistPowerXfmrCore (QuerySolution soln) {
-		pname = GLD_Name (soln.get("?pname").toString(), false);
+		name = GLD_Name (soln.get("?pname").toString(), false);
 		wdg = new Integer (soln.get("?enum").toString()).intValue();
 		b = new Double (soln.get("?b").toString()).doubleValue();
 		g = new Double (soln.get("?g").toString()).doubleValue();
@@ -36,8 +36,12 @@ public class DistPowerXfmrCore extends DistComponent {
 	public String DisplayString() {
 		DecimalFormat df = new DecimalFormat("#.0000");
 		StringBuilder buf = new StringBuilder ("");
-		buf.append (pname + " wdg=" + Integer.toString(wdg) + " g=" + df.format(g) + " b=" + df.format(b) + "\n");
+		buf.append (name + " wdg=" + Integer.toString(wdg) + " g=" + df.format(g) + " b=" + df.format(b));
 		return buf.toString();
+	}
+
+	public String GetKey() {
+		return name;
 	}
 }
 

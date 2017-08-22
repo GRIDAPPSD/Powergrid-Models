@@ -50,8 +50,12 @@ public class DistXfmrCodeRating extends DistComponent {
 		DecimalFormat df = new DecimalFormat("#.0000");
 		StringBuilder buf = new StringBuilder ("");
 		buf.append (pname + ":" + tname + " wdg=" + Integer.toString(wdg) + " conn=" + conn + " ang=" + Integer.toString(ang));
-		buf.append (" U=" + df.format(U) + " S=" + df.format(S) + " r=" + df.format(r) + "\n");
+		buf.append (" U=" + df.format(U) + " S=" + df.format(S) + " r=" + df.format(r));
 		return buf.toString();
+	}
+
+	public String GetKey() {
+		return pname + ":" + tname + ":" + Integer.toString(wdg);
 	}
 }
 
