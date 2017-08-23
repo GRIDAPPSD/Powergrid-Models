@@ -107,11 +107,11 @@ public class CIMImporter extends Object {
 
 	static void LoadPhaseMatrices() {
 		ResultSet results = RunQuery (DistPhaseMatrix.szQUERY);
-//		QuerySolution soln;
+		QuerySolution soln;
 		while (results.hasNext()) {
-//			soln = results.next();
-//			DistPhaseMatrix obj = new DistPhaseMatrix (soln);
-			DistPhaseMatrix obj = new DistPhaseMatrix (results);
+			soln = results.next();
+			DistPhaseMatrix obj = new DistPhaseMatrix (soln);
+//			DistPhaseMatrix obj = new DistPhaseMatrix (results);
 			mapPhaseMatrices.put (obj.GetKey(), obj);
 		}
 	}
@@ -296,126 +296,43 @@ public class CIMImporter extends Object {
 		}
 	}
 
+	public static void PrintOneMap(HashMap<String,? extends DistComponent> map, String label) {
+		System.out.println(label);
+		SortedSet<String> keys = new TreeSet<String>(map.keySet());
+		for (String key : keys) {
+			System.out.println (map.get(key).DisplayString());
+		}
+	}
+
 	public static void PrintAllMaps() {
-		SortedSet<String> keys;
+		// this is the un-sorted method of display
+//		for (HashMap.Entry<String,DistBaseVoltage> pair : mapBaseVoltages.entrySet()) {
+//			System.out.println (pair.getValue().DisplayString());
+//		}
 
-		// this is the un-sorted method of display; keep as an example
-		System.out.println("** BASE VOLTAGES");
-		for (HashMap.Entry<String,DistBaseVoltage> pair : mapBaseVoltages.entrySet()) {
-			System.out.println (pair.getValue().DisplayString());
-		}
-
-		// display the following components in sorted order
-		keys = new TreeSet<String>(mapCapacitors.keySet());
-		System.out.println("** CAPACITORS");
-		for (String key : keys) {
-			System.out.println (mapCapacitors.get(key).DisplayString());
-		}
-		keys = new TreeSet<String>(mapCNCables.keySet());
-		System.out.println("** CN CABLES");
-		for (String key : keys) {
-			System.out.println (mapCNCables.get(key).DisplayString());
-		}
-		keys = new TreeSet<String>(mapCoordinates.keySet());
-		System.out.println("** COMPONENT XY COORDINATES");
-		for (String key : keys) {
-			System.out.println (mapCoordinates.get(key).DisplayString());
-		}
-		keys = new TreeSet<String>(mapLinesCodeZ.keySet());
-		System.out.println("** LINES REFERENCING MATRICES");
-		for (String key : keys) {
-			System.out.println (mapLinesCodeZ.get(key).DisplayString());
-		}
-		keys = new TreeSet<String>(mapLinesInstanceZ.keySet());
-		System.out.println("** LINES WITH IMPEDANCE ATTRIBUTES");
-		for (String key : keys) {
-			System.out.println (mapLinesInstanceZ.get(key).DisplayString());
-		}
-		keys = new TreeSet<String>(mapSpacings.keySet());
-		System.out.println("** LINE SPACINGS");
-		for (String key : keys) {
-			System.out.println (mapSpacings.get(key).DisplayString());
-		}
-		keys = new TreeSet<String>(mapLinesSpacingZ.keySet());
-		System.out.println("** LINES REFERENCING SPACINGS");
-		for (String key : keys) {
-			System.out.println (mapLinesSpacingZ.get(key).DisplayString());
-		}
-		keys = new TreeSet<String>(mapLoads.keySet());
-		System.out.println("** LOADS");
-		for (String key : keys) {
-			System.out.println (mapLoads.get(key).DisplayString());
-		}
-		keys = new TreeSet<String>(mapWires.keySet());
-		System.out.println("** OVERHEAD WIRES");
-		for (String key : keys) {
-			System.out.println (mapWires.get(key).DisplayString());
-		}
-		keys = new TreeSet<String>(mapPhaseMatrices.keySet());
-		System.out.println("** PHASE IMPEDANCE MATRICES");
-		for (String key : keys) {
-			System.out.println (mapPhaseMatrices.get(key).DisplayString());
-		}
-		keys = new TreeSet<String>(mapXfmrCores.keySet());
-		System.out.println("** POWER XFMR CORE ADMITTANCES");
-		for (String key : keys) {
-			System.out.println (mapXfmrCores.get(key).DisplayString());
-		}
-		keys = new TreeSet<String>(mapXfmrMeshes.keySet());
-		System.out.println("** POWER XFMR MESH IMPEDANCES");
-		for (String key : keys) {
-			System.out.println (mapXfmrMeshes.get(key).DisplayString());
-		}
-		keys = new TreeSet<String>(mapXfmrWindings.keySet());
-		System.out.println("** POWER XFMR WINDINGS");
-		for (String key : keys) {
-			System.out.println (mapXfmrWindings.get(key).DisplayString());
-		}
-		keys = new TreeSet<String>(mapRegulators.keySet());
-		System.out.println("** REGULATORS");
-		for (String key : keys) {
-			System.out.println (mapRegulators.get(key).DisplayString());
-		}
-		keys = new TreeSet<String>(mapSequenceMatrices.keySet());
-		System.out.println("** SEQUENCE IMPEDANCE MATRICES");
-		for (String key : keys) {
-			System.out.println (mapSequenceMatrices.get(key).DisplayString());
-		}
-		keys = new TreeSet<String>(mapSubstations.keySet());
-		System.out.println("** SUBSTATION SOURCES");
-		for (String key : keys) {
-			System.out.println (mapSubstations.get(key).DisplayString());
-		}
-		keys = new TreeSet<String>(mapSwitches.keySet());
-		System.out.println("** LOADBREAK SWITCHES");
-		for (String key : keys) {
-			System.out.println (mapSwitches.get(key).DisplayString());
-		}
-		keys = new TreeSet<String>(mapTSCables.keySet());
-		System.out.println("** TS CABLES");
-		for (String key : keys) {
-			System.out.println (mapTSCables.get(key).DisplayString());
-		}
-		keys = new TreeSet<String>(mapCodeOCTests.keySet());
-		System.out.println("** XFMR CODE OC TESTS");
-		for (String key : keys) {
-			System.out.println (mapCodeOCTests.get(key).DisplayString());
-		}
-		keys = new TreeSet<String>(mapCodeRatings.keySet());
-		System.out.println("** XFMR CODE WINDING RATINGS");
-		for (String key : keys) {
-			System.out.println (mapCodeRatings.get(key).DisplayString());
-		}
-		keys = new TreeSet<String>(mapCodeSCTests.keySet());
-		System.out.println("** XFMR CODE SC TESTS");
-		for (String key : keys) {
-			System.out.println (mapCodeSCTests.get(key).DisplayString());
-		}
-		keys = new TreeSet<String>(mapTanks.keySet());
-		System.out.println("** XFMR TANKS");
-		for (String key : keys) {
-			System.out.println (mapTanks.get(key).DisplayString());
-		}
+		PrintOneMap (mapBaseVoltages, "** BASE VOLTAGES");
+		PrintOneMap (mapCapacitors, "** CAPACITORS");
+		PrintOneMap (mapCNCables, "** CN CABLES");
+		PrintOneMap (mapCoordinates, "** COMPONENT XY COORDINATES");
+		PrintOneMap (mapLinesCodeZ, "** LINES REFERENCING MATRICES");
+		PrintOneMap (mapLinesInstanceZ, "** LINES WITH IMPEDANCE ATTRIBUTES");
+		PrintOneMap (mapSpacings, "** LINE SPACINGS");
+		PrintOneMap (mapLinesSpacingZ, "** LINES REFERENCING SPACINGS");
+		PrintOneMap (mapLoads, "** LOADS");
+		PrintOneMap (mapWires, "** OVERHEAD WIRES");
+		PrintOneMap (mapPhaseMatrices, "** PHASE IMPEDANCE MATRICES");
+		PrintOneMap (mapXfmrCores, "** POWER XFMR CORE ADMITTANCES");
+		PrintOneMap (mapXfmrMeshes, "** POWER XFMR MESH IMPEDANCES");
+		PrintOneMap (mapXfmrWindings, "** POWER XFMR WINDINGS");
+		PrintOneMap (mapRegulators, "** REGULATORS");
+		PrintOneMap (mapSequenceMatrices, "** SEQUENCE IMPEDANCE MATRICES");
+		PrintOneMap (mapSubstations, "** SUBSTATION SOURCES");
+		PrintOneMap (mapSwitches, "** LOADBREAK SWITCHES");
+		PrintOneMap (mapTSCables, "** TS CABLES");
+		PrintOneMap (mapCodeOCTests, "** XFMR CODE OC TESTS");
+		PrintOneMap (mapCodeRatings, "** XFMR CODE WINDING RATINGS");
+		PrintOneMap (mapCodeSCTests, "** XFMR CODE SC TESTS");
+		PrintOneMap (mapTanks, "** XFMR TANKS");
 	}
 
 	public static void LoadAllMaps() {
