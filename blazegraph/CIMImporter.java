@@ -107,10 +107,11 @@ public class CIMImporter extends Object {
 
 	static void LoadPhaseMatrices() {
 		ResultSet results = RunQuery (DistPhaseMatrix.szQUERY);
-		QuerySolution soln;
+//		QuerySolution soln;
 		while (results.hasNext()) {
-			soln = results.next();
-			DistPhaseMatrix obj = new DistPhaseMatrix (soln);
+//			soln = results.next();
+//			DistPhaseMatrix obj = new DistPhaseMatrix (soln);
+			DistPhaseMatrix obj = new DistPhaseMatrix (results);
 			mapPhaseMatrices.put (obj.GetKey(), obj);
 		}
 	}

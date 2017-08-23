@@ -38,6 +38,9 @@ public class DistPhaseMatrix extends DistComponent {
 		b = new Double (soln.get("?b").toString()).doubleValue();
 	}
 
+	public DistPhaseMatrix (ResultSet results) {
+	}
+
 	public String DisplayString() {
 		DecimalFormat df = new DecimalFormat("#.0000");
 		StringBuilder buf = new StringBuilder ("");

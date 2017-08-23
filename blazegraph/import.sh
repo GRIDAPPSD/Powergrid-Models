@@ -27,5 +27,5 @@ javac -classpath ".:/Users/mcde601/src/apache-jena-3.1.0/lib/*" DistPhaseMatrix.
 #javac -classpath ".:/Users/mcde601/src/apache-jena-3.1.0/lib/*" DistXfmrCodeSCTest.java        
 #javac -classpath ".:/Users/mcde601/src/apache-jena-3.1.0/lib/*" DistXfmrTank.java              
 
-java -classpath ".:/Users/mcde601/src/apache-jena-3.1.0/lib/*" CIMImporter
+# java -classpath ".:/Users/mcde601/src/apache-jena-3.1.0/lib/*" CIMImporter
 
