@@ -26,11 +26,14 @@ public class DistPowerXfmrCore extends DistComponent {
 	public double b;
 	public double g;
 
-	public DistPowerXfmrCore (QuerySolution soln) {
-		name = GLD_Name (soln.get("?pname").toString(), false);
-		wdg = new Integer (soln.get("?enum").toString()).intValue();
-		b = new Double (soln.get("?b").toString()).doubleValue();
-		g = new Double (soln.get("?g").toString()).doubleValue();
+	public DistPowerXfmrCore (ResultSet results) {
+		if (results.hasNext()) {
+			QuerySolution soln = results.next();
+			name = GLD_Name (soln.get("?pname").toString(), false);
+			wdg = Integer.parseInt (soln.get("?enum").toString());
+			b = Double.parseDouble (soln.get("?b").toString());
+			g = Double.parseDouble (soln.get("?g").toString());
+		}		
 	}
 
 	public String DisplayString() {

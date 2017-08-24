@@ -18,9 +18,12 @@ public class DistBaseVoltage extends DistComponent {
 	public String name;
 	double vnom;
 
-	public DistBaseVoltage (QuerySolution soln) {
-		name = soln.get("?vnom").toString();
-		vnom = new Double (soln.get("?vnom").toString()).doubleValue();
+	public DistBaseVoltage (ResultSet results) {
+		if (results.hasNext()) {
+			QuerySolution soln = results.next();
+			name = soln.get("?vnom").toString();
+			vnom = Double.parseDouble (soln.get("?vnom").toString());
+		}
 	}
 
 	public String DisplayString() {

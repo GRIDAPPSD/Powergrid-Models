@@ -39,16 +39,19 @@ public class DistLineSpacing extends DistComponent {
 	public double b_sep;
 	public int b_cnt;
 
-	public DistLineSpacing (QuerySolution soln) {
-		name = GLD_Name (soln.get("?name").toString(), false);
-		phases = soln.get("?phases").toString().split("\\n");
-		xarray = soln.get("?xarray").toString().split("\\n");
-		yarray = soln.get("?yarray").toString().split("\\n");
-		nwires = phases.length;
-		cable = OptionalBoolean (soln, "?cable", false);
-		usage = OptionalString (soln, "?usage", "distribution");
-		b_sep = OptionalDouble (soln, "?bundle_sep", 0.0);
-		b_cnt = OptionalInt (soln, "?bundle_count", 0);
+	public DistLineSpacing (ResultSet results) {
+		if (results.hasNext()) {
+			QuerySolution soln = results.next();
+			name = GLD_Name (soln.get("?name").toString(), false);
+			phases = soln.get("?phases").toString().split("\\n");
+			xarray = soln.get("?xarray").toString().split("\\n");
+			yarray = soln.get("?yarray").toString().split("\\n");
+			nwires = phases.length;
+			cable = OptionalBoolean (soln, "?cable", false);
+			usage = OptionalString (soln, "?usage", "distribution");
+			b_sep = OptionalDouble (soln, "?bundle_sep", 0.0);
+			b_cnt = OptionalInt (soln, "?bundle_count", 0);
+		}		
 	}
 
 	public String DisplayString() {

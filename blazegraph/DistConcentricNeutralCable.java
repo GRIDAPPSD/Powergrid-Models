@@ -63,29 +63,32 @@ public class DistConcentricNeutralCable extends DistComponent {
 	public double strand_rad;
 	public double strand_rdc;
 
-	public DistConcentricNeutralCable (QuerySolution soln) {
-		name = GLD_Name (soln.get("?name").toString(), false);
-		rad = new Double (soln.get("?rad").toString()).doubleValue();
-		gmr = new Double (soln.get("?gmr").toString()).doubleValue();
-		rdc = OptionalDouble (soln, "?rdc", 0.0);
-		r25 = OptionalDouble (soln, "?r25", 0.0);
-		r50 = OptionalDouble (soln, "?r50", 0.0);
-		r75 = OptionalDouble (soln, "?r75", 0.0);
-		corerad = OptionalDouble (soln, "?corerad", 0.0);
-		amps = OptionalDouble (soln, "?amps", 0.0);
-		insthick = OptionalDouble (soln, "?insthick", 0.0);
-		ins = OptionalBoolean (soln, "?ins", false);
-		insmat = OptionalString (soln, "?insmat", "N/A");
-		dcore = OptionalDouble (soln, "?diacore", 0.0);
-		djacket = OptionalDouble (soln, "?diajacket", 0.0);
-		dins = OptionalDouble (soln, "?diains", 0.0);
-		dscreen = OptionalDouble (soln, "?diascreen", 0.0);
-		sheathNeutral = OptionalBoolean (soln, "?sheathneutral", false);
-		dneut = OptionalDouble (soln, "?dianeut", 0.0);
-		strand_cnt = OptionalInt (soln, "?strand_cnt", 0);
-		strand_gmr = OptionalDouble (soln, "?strand_gmr", 0.0);
-		strand_rad = OptionalDouble (soln, "?strand_rad", 0.0);
-		strand_rdc = OptionalDouble (soln, "?strand_rdc", 0.0);
+	public DistConcentricNeutralCable (ResultSet results) {
+		if (results.hasNext()) {
+			QuerySolution soln = results.next();
+			name = GLD_Name (soln.get("?name").toString(), false);
+			rad = Double.parseDouble (soln.get("?rad").toString());
+			gmr = Double.parseDouble (soln.get("?gmr").toString());
+			rdc = OptionalDouble (soln, "?rdc", 0.0);
+			r25 = OptionalDouble (soln, "?r25", 0.0);
+			r50 = OptionalDouble (soln, "?r50", 0.0);
+			r75 = OptionalDouble (soln, "?r75", 0.0);
+			corerad = OptionalDouble (soln, "?corerad", 0.0);
+			amps = OptionalDouble (soln, "?amps", 0.0);
+			insthick = OptionalDouble (soln, "?insthick", 0.0);
+			ins = OptionalBoolean (soln, "?ins", false);
+			insmat = OptionalString (soln, "?insmat", "N/A");
+			dcore = OptionalDouble (soln, "?diacore", 0.0);
+			djacket = OptionalDouble (soln, "?diajacket", 0.0);
+			dins = OptionalDouble (soln, "?diains", 0.0);
+			dscreen = OptionalDouble (soln, "?diascreen", 0.0);
+			sheathNeutral = OptionalBoolean (soln, "?sheathneutral", false);
+			dneut = OptionalDouble (soln, "?dianeut", 0.0);
+			strand_cnt = OptionalInt (soln, "?strand_cnt", 0);
+			strand_gmr = OptionalDouble (soln, "?strand_gmr", 0.0);
+			strand_rad = OptionalDouble (soln, "?strand_rad", 0.0);
+			strand_rdc = OptionalDouble (soln, "?strand_rdc", 0.0);
+		}
 	}
 
 	public String DisplayString() {

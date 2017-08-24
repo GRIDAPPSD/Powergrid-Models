@@ -33,12 +33,15 @@ public class DistCoordinates extends DistComponent {
 	public int seq;
 	public String cname;
 
-	public DistCoordinates (QuerySolution soln) {
-		name = GLD_Name (soln.get("?name").toString(), false);
-		x = Double.parseDouble (soln.get("?x").toString());
-		y = Double.parseDouble (soln.get("?y").toString());
-		seq = Integer.parseInt (soln.get("?seq").toString());
-		cname = soln.get("?class").toString();
+	public DistCoordinates (ResultSet results) {
+		if (results.hasNext()) {
+			QuerySolution soln = results.next();
+			name = GLD_Name (soln.get("?name").toString(), false);
+			x = Double.parseDouble (soln.get("?x").toString());
+			y = Double.parseDouble (soln.get("?y").toString());
+			seq = Integer.parseInt (soln.get("?seq").toString());
+			cname = soln.get("?class").toString();
+		}		
 	}
 
 	public String DisplayString() {

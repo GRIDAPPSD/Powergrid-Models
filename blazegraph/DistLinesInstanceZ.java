@@ -40,19 +40,22 @@ public class DistLinesInstanceZ extends DistComponent {
 	public double x0; 
 	public double b0; 
 
-	public DistLinesInstanceZ (QuerySolution soln) {
-		name = GLD_Name (soln.get("?name").toString(), false);
-		String[] buses = soln.get("?buses").toString().split("\\n");
-		bus1 = GLD_Name(buses[0], true); 
-		bus2 = GLD_Name(buses[1], true); 
-		phases = "ABC";
-		len = new Double (soln.get("?len").toString()).doubleValue();
-		r1 = new Double (soln.get("?r").toString()).doubleValue();
-		x1 = new Double (soln.get("?x").toString()).doubleValue();
-		b1 = OptionalDouble (soln, "?b", 0.0);
-		r0 = OptionalDouble (soln, "?r0", 0.0);
-		x0 = OptionalDouble (soln, "?x0", 0.0);
-		b0 = OptionalDouble (soln, "?b0", 0.0);
+	public DistLinesInstanceZ (ResultSet results) {
+		if (results.hasNext()) {
+			QuerySolution soln = results.next();
+			name = GLD_Name (soln.get("?name").toString(), false);
+			String[] buses = soln.get("?buses").toString().split("\\n");
+			bus1 = GLD_Name(buses[0], true); 
+			bus2 = GLD_Name(buses[1], true); 
+			phases = "ABC";
+			len = Double.parseDouble (soln.get("?len").toString());
+			r1 = Double.parseDouble (soln.get("?r").toString());
+			x1 = Double.parseDouble (soln.get("?x").toString());
+			b1 = OptionalDouble (soln, "?b", 0.0);
+			r0 = OptionalDouble (soln, "?r0", 0.0);
+			x0 = OptionalDouble (soln, "?x0", 0.0);
+			b0 = OptionalDouble (soln, "?b0", 0.0);
+		}		
 	}
 
 	public String DisplayString() {

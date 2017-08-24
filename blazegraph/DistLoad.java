@@ -48,19 +48,22 @@ public class DistLoad extends DistComponent {
 	public double pp;
 	public double qp;
 
-	public DistLoad (QuerySolution soln) {
-		name = GLD_Name (soln.get("?name").toString(), false);
-		bus = GLD_Name (soln.get("?bus").toString(), true);
-		phs = OptionalString (soln, "?phs", "ABC");
-		conn = soln.get("?conn").toString();
-		p = 0.001 * new Double (soln.get("?p").toString()).doubleValue();
-		q = 0.001 * new Double (soln.get("?q").toString()).doubleValue();
-		pz = new Double (soln.get("?pz").toString()).doubleValue();
-		qz = new Double (soln.get("?qz").toString()).doubleValue();
-		pi = new Double (soln.get("?pi").toString()).doubleValue();
-		qi = new Double (soln.get("?qi").toString()).doubleValue();
-		pp = new Double (soln.get("?pp").toString()).doubleValue();
-		qp = new Double (soln.get("?qp").toString()).doubleValue();
+	public DistLoad (ResultSet results) {
+		if (results.hasNext()) {
+			QuerySolution soln = results.next();
+			name = GLD_Name (soln.get("?name").toString(), false);
+			bus = GLD_Name (soln.get("?bus").toString(), true);
+			phs = OptionalString (soln, "?phs", "ABC");
+			conn = soln.get("?conn").toString();
+			p = 0.001 * Double.parseDouble (soln.get("?p").toString());
+			q = 0.001 * Double.parseDouble (soln.get("?q").toString());
+			pz = Double.parseDouble (soln.get("?pz").toString());
+			qz = Double.parseDouble (soln.get("?qz").toString());
+			pi = Double.parseDouble (soln.get("?pi").toString());
+			qi = Double.parseDouble (soln.get("?qi").toString());
+			pp = Double.parseDouble (soln.get("?pp").toString());
+			qp = Double.parseDouble (soln.get("?qp").toString());
+		}		
 	}
 
 	public String DisplayString() {

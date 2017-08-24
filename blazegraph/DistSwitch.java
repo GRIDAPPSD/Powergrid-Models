@@ -31,13 +31,16 @@ public class DistSwitch extends DistComponent {
 	public String phases;
 	public String open;
 
-	public DistSwitch (QuerySolution soln) {
-		name = GLD_Name (soln.get("?name").toString(), false);
-		String[] buses = soln.get("?buses").toString().split("\\n");
-		bus1 = GLD_Name(buses[0], true); 
-		bus2 = GLD_Name(buses[1], true); 
-		phases = OptionalString (soln, "?phases", "ABC");
-		open = soln.get("?open").toString();
+	public DistSwitch (ResultSet results) {
+		if (results.hasNext()) {
+			QuerySolution soln = results.next();
+			name = GLD_Name (soln.get("?name").toString(), false);
+			String[] buses = soln.get("?buses").toString().split("\\n");
+			bus1 = GLD_Name(buses[0], true); 
+			bus2 = GLD_Name(buses[1], true); 
+			phases = OptionalString (soln, "?phases", "ABC");
+			open = soln.get("?open").toString();
+		}		
 	}
 
 	public String DisplayString() {

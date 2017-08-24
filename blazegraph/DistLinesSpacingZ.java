@@ -63,39 +63,42 @@ public class DistLinesSpacingZ extends DistComponent {
 	public String[] wire_names;
 	public String[] wire_classes;
 
-	public DistLinesSpacingZ (QuerySolution soln) {
-		name = GLD_Name (soln.get("?name").toString(), false);
-		String[] buses = soln.get("?buses").toString().split("\\n");
-		bus1 = GLD_Name(buses[0], true); 
-		bus2 = GLD_Name(buses[1], true); 
-		len = new Double (soln.get("?len").toString()).doubleValue();
-		spacing = soln.get("?spacing").toString();
-		wname = soln.get("?wname").toString();
-		wclass = soln.get("?wclass").toString();
-		nwires = 0;
-		String phases = OptionalString (soln, "?phases", "");
-		if (phases.length() > 0) {
-			String phwires = OptionalString (soln, "?phwires", "");
-			String phclasses = OptionalString (soln, "?phclasses", "");
-			wire_phases = phases.split("\\n");
-			nwires = wire_phases.length;
-			wire_names = new String[nwires];
-			wire_classes = new String[nwires];
-			String[] phwire = phwires.split("\\n");
-			String[] phclass = phclasses.split("\\n");
-			String lastWire = phwire[0];
-			String lastClass = phclass[0];
-			for (int i = 0; i < nwires; i++) {
-				if (i < phwire.length) {
-					lastWire = phwire[i];
+	public DistLinesSpacingZ (ResultSet results) {
+		if (results.hasNext()) {
+			QuerySolution soln = results.next();
+			name = GLD_Name (soln.get("?name").toString(), false);
+			String[] buses = soln.get("?buses").toString().split("\\n");
+			bus1 = GLD_Name(buses[0], true); 
+			bus2 = GLD_Name(buses[1], true); 
+			len = Double.parseDouble (soln.get("?len").toString());
+			spacing = soln.get("?spacing").toString();
+			wname = soln.get("?wname").toString();
+			wclass = soln.get("?wclass").toString();
+			nwires = 0;
+			String phases = OptionalString (soln, "?phases", "");
+			if (phases.length() > 0) {
+				String phwires = OptionalString (soln, "?phwires", "");
+				String phclasses = OptionalString (soln, "?phclasses", "");
+				wire_phases = phases.split("\\n");
+				nwires = wire_phases.length;
+				wire_names = new String[nwires];
+				wire_classes = new String[nwires];
+				String[] phwire = phwires.split("\\n");
+				String[] phclass = phclasses.split("\\n");
+				String lastWire = phwire[0];
+				String lastClass = phclass[0];
+				for (int i = 0; i < nwires; i++) {
+					if (i < phwire.length) {
+						lastWire = phwire[i];
+					}
+					if (i < phclass.length) {
+						lastClass = phclass[i];
+					}
+					wire_names[i] = lastWire;
+					wire_classes[i] = lastClass;
 				}
-				if (i < phclass.length) {
-					lastClass = phclass[i];
-				}
-				wire_names[i] = lastWire;
-				wire_classes[i] = lastClass;
 			}
-		}
+		}		
 	}
 
 	public String DisplayString() {

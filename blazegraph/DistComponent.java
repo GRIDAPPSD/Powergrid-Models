@@ -10,6 +10,18 @@ import org.apache.jena.query.*;
 import org.apache.jena.rdf.model.RDFNode;
 
 public abstract class DistComponent {
+	static final String szEND = "http://localhost:9999/blazegraph/namespace/kb/sparql";
+	static final String nsCIM = "http://iec.ch/TC57/2012/CIM-schema-cim16#";
+	static final String nsRDF = "http://www.w3.org/1999/02/22-rdf-syntax-ns#";
+	static final String nsXSD = "http://www.w3.org/2001/XMLSchema#";
+
+	static ResultSet RunQuery(String szQuery) {
+		String qPrefix = "PREFIX r: <" + nsRDF + "> PREFIX c: <" + nsCIM + "> PREFIX xsd:<" + nsXSD + "> ";
+		Query query = QueryFactory.create (qPrefix + szQuery);
+		QueryExecution qexec = QueryExecutionFactory.sparqlService (szEND, query);
+		return qexec.execSelect();
+	}
+
 	static String OptionalString (QuerySolution soln, String parm, String def) {
 		RDFNode nd = soln.get(parm);
 		if (nd != null) {

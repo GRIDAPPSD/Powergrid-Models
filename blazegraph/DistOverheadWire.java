@@ -41,19 +41,22 @@ public class DistOverheadWire extends DistComponent {
 	public boolean ins;
 	public String insmat;
 
-	public DistOverheadWire (QuerySolution soln) {
-		name = GLD_Name (soln.get("?name").toString(), false);
-		rad = new Double (soln.get("?rad").toString()).doubleValue();
-		gmr = new Double (soln.get("?gmr").toString()).doubleValue();
-		rdc = OptionalDouble (soln, "?rdc", 0.0);
-		r25 = OptionalDouble (soln, "?r25", 0.0);
-		r50 = OptionalDouble (soln, "?r50", 0.0);
-		r75 = OptionalDouble (soln, "?r75", 0.0);
-		corerad = OptionalDouble (soln, "?corerad", 0.0);
-		amps = OptionalDouble (soln, "?amps", 0.0);
-		insthick = OptionalDouble (soln, "?insthick", 0.0);
-		ins = OptionalBoolean (soln, "?ins", false);
-		insmat = OptionalString (soln, "?insmat", "N/A");
+	public DistOverheadWire (ResultSet results) {
+		if (results.hasNext()) {
+			QuerySolution soln = results.next();
+			name = GLD_Name (soln.get("?name").toString(), false);
+			rad = Double.parseDouble (soln.get("?rad").toString());
+			gmr = Double.parseDouble (soln.get("?gmr").toString());
+			rdc = OptionalDouble (soln, "?rdc", 0.0);
+			r25 = OptionalDouble (soln, "?r25", 0.0);
+			r50 = OptionalDouble (soln, "?r50", 0.0);
+			r75 = OptionalDouble (soln, "?r75", 0.0);
+			corerad = OptionalDouble (soln, "?corerad", 0.0);
+			amps = OptionalDouble (soln, "?amps", 0.0);
+			insthick = OptionalDouble (soln, "?insthick", 0.0);
+			ins = OptionalBoolean (soln, "?ins", false);
+			insmat = OptionalString (soln, "?insmat", "N/A");
+		}		
 	}
 
 	public String DisplayString() {

@@ -93,38 +93,41 @@ public class DistRegulator extends DistComponent {
 	public double ctRatio;
 	public double ptRatio;
 
-	public DistRegulator (QuerySolution soln) {
-		rname = GLD_Name (soln.get("?rname").toString(), false);
-		pname = GLD_Name (soln.get("?pname").toString(), false);
-		phs = soln.get("?phs").toString();
-		monphs = soln.get("?monphs").toString();
-		mode = soln.get("?mode").toString();
-		ctlmode = soln.get("?ctlmode").toString();
-		wnum = Integer.parseInt (soln.get("?wnum").toString());
-		highStep = Integer.parseInt (soln.get("?highStep").toString());
-		lowStep = Integer.parseInt (soln.get("?lowStep").toString());
-		neutralStep = Integer.parseInt (soln.get("?neutralStep").toString());
-		normalStep = Integer.parseInt (soln.get("?normalStep").toString());
-		enabled = Boolean.parseBoolean (soln.get("?enabled").toString());
-		ldc = Boolean.parseBoolean (soln.get("?ldc").toString());
-		ltc = Boolean.parseBoolean (soln.get("?ltc").toString());
-		discrete = Boolean.parseBoolean (soln.get("?discrete").toString());
-		ctl_enabled = Boolean.parseBoolean (soln.get("?ctl_enabled").toString());
-		incr = new Double (soln.get("?incr").toString()).doubleValue();
-		neutralU = new Double (soln.get("?neutralU").toString()).doubleValue();
-		step = new Double (soln.get("?step").toString()).doubleValue();
-		initDelay = new Double (soln.get("?initDelay").toString()).doubleValue();
-		subDelay = new Double (soln.get("?subDelay").toString()).doubleValue();
-		vlim = new Double (soln.get("?vlim").toString()).doubleValue();
-		vset = new Double (soln.get("?vset").toString()).doubleValue();
-		vbw = new Double (soln.get("?vbw").toString()).doubleValue();
-		fwdR = new Double (soln.get("?fwdR").toString()).doubleValue();
-		fwdX = new Double (soln.get("?fwdX").toString()).doubleValue();
-		revR = new Double (soln.get("?revR").toString()).doubleValue();
-		revX = new Double (soln.get("?revX").toString()).doubleValue();
-		ctRating = new Double (soln.get("?ctRating").toString()).doubleValue();
-		ctRatio = new Double (soln.get("?ctRatio").toString()).doubleValue();
-		ptRatio = new Double (soln.get("?ptRatio").toString()).doubleValue();
+	public DistRegulator (ResultSet results) {
+		if (results.hasNext()) {
+			QuerySolution soln = results.next();
+			rname = GLD_Name (soln.get("?rname").toString(), false);
+			pname = GLD_Name (soln.get("?pname").toString(), false);
+			phs = soln.get("?phs").toString();
+			monphs = soln.get("?monphs").toString();
+			mode = soln.get("?mode").toString();
+			ctlmode = soln.get("?ctlmode").toString();
+			wnum = Integer.parseInt (soln.get("?wnum").toString());
+			highStep = Integer.parseInt (soln.get("?highStep").toString());
+			lowStep = Integer.parseInt (soln.get("?lowStep").toString());
+			neutralStep = Integer.parseInt (soln.get("?neutralStep").toString());
+			normalStep = Integer.parseInt (soln.get("?normalStep").toString());
+			enabled = Boolean.parseBoolean (soln.get("?enabled").toString());
+			ldc = Boolean.parseBoolean (soln.get("?ldc").toString());
+			ltc = Boolean.parseBoolean (soln.get("?ltc").toString());
+			discrete = Boolean.parseBoolean (soln.get("?discrete").toString());
+			ctl_enabled = Boolean.parseBoolean (soln.get("?ctl_enabled").toString());
+			incr = Double.parseDouble (soln.get("?incr").toString());
+			neutralU = Double.parseDouble (soln.get("?neutralU").toString());
+			step = Double.parseDouble (soln.get("?step").toString());
+			initDelay = Double.parseDouble (soln.get("?initDelay").toString());
+			subDelay = Double.parseDouble (soln.get("?subDelay").toString());
+			vlim = Double.parseDouble (soln.get("?vlim").toString());
+			vset = Double.parseDouble (soln.get("?vset").toString());
+			vbw = Double.parseDouble (soln.get("?vbw").toString());
+			fwdR = Double.parseDouble (soln.get("?fwdR").toString());
+			fwdX = Double.parseDouble (soln.get("?fwdX").toString());
+			revR = Double.parseDouble (soln.get("?revR").toString());
+			revX = Double.parseDouble (soln.get("?revX").toString());
+			ctRating = Double.parseDouble (soln.get("?ctRating").toString());
+			ctRatio = Double.parseDouble (soln.get("?ctRatio").toString());
+			ptRatio = Double.parseDouble (soln.get("?ptRatio").toString());
+		}		
 	}
 
 	public String DisplayString() {

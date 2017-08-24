@@ -179,6 +179,17 @@ SELECT ?pname ?tname ?enum ?ratedS ?ratedU ?conn ?ang ?res WHERE {
 }
 ORDER BY ?pname ?tname ?enum
 
+# transformer codes; count windings
+PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX c:  <http://iec.ch/TC57/2012/CIM-schema-cim16#>
+SELECT (count (?p) as ?count) WHERE {
+ ?p r:type c:PowerTransformerInfo.
+ ?p c:IdentifiedObject.name "cimxfmrcode_reg1_PowerXfInfo".
+ ?t c:TransformerTankInfo.PowerTransformerInfo ?p.
+ ?t c:IdentifiedObject.name "cimxfmrcode_reg1".
+ ?e c:TransformerEndInfo.TransformerTankInfo ?t.
+}
+
 # transformer codes; no-load tests
 PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX c:  <http://iec.ch/TC57/2012/CIM-schema-cim16#>
@@ -212,6 +223,18 @@ SELECT ?pname ?tname ?enum ?gnum ?z ?ll WHERE {
 }
 ORDER BY ?pname ?tname ?enum ?gnum
 
+# transformer codes; count short-circuit tests
+PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX c:  <http://iec.ch/TC57/2012/CIM-schema-cim16#>
+SELECT (count(?p) as ?count) WHERE {
+ ?p r:type c:PowerTransformerInfo.
+ ?p c:IdentifiedObject.name "cimxfmrcode_reg1_PowerXfInfo".
+ ?t c:TransformerTankInfo.PowerTransformerInfo ?p.
+ ?t c:IdentifiedObject.name "cimxfmrcode_reg1".
+ ?e c:TransformerEndInfo.TransformerTankInfo ?t.
+ ?sct c:ShortCircuitTest.EnergisedEnd ?e.
+}
+
 # transformer tanks referencing the catalog
 PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX c:  <http://iec.ch/TC57/2012/CIM-schema-cim16#>
@@ -237,6 +260,20 @@ SELECT ?pname ?tname ?xfmrcode ?vgrp ?enum ?bus ?phs ?grounded ?rground ?xground
 }
 ORDER BY ?pname ?tname ?enum
 
+# count transformer tanks referencing the catalog
+PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX c:  <http://iec.ch/TC57/2012/CIM-schema-cim16#>
+SELECT (count (?p) as ?count) WHERE {
+ ?p r:type c:PowerTransformer.
+ ?p c:IdentifiedObject.name "Reg".
+ ?t c:TransformerTank.PowerTransformer ?p.
+ ?t c:IdentifiedObject.name "reg2".
+ ?asset c:Asset.PowerSystemResources ?t.
+ ?asset c:Asset.AssetInfo ?inf.
+ ?inf c:IdentifiedObject.name ?xfmrcode.
+ ?end c:TransformerTankEnd.TransformerTank ?t
+}
+
 # power transformers on their own; windings
 PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX c:  <http://iec.ch/TC57/2012/CIM-schema-cim16#>
@@ -261,6 +298,15 @@ SELECT ?pname ?vgrp ?enum ?bus ?conn ?ratedS ?ratedU ?r ?ang ?grounded ?rground 
 }
 ORDER BY ?pname ?enum
 
+# count power transformer windings
+PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX c:  <http://iec.ch/TC57/2012/CIM-schema-cim16#>
+SELECT (count(?p) as ?count) WHERE {
+ ?p r:type c:PowerTransformer.
+ ?p c:IdentifiedObject.name "xfm1".
+ ?end c:PowerTransformerEnd.PowerTransformer ?p.
+}
+
 # power transformers on their own; core branch
 PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX c:  <http://iec.ch/TC57/2012/CIM-schema-cim16#>
@@ -275,7 +321,7 @@ SELECT ?pname ?enum ?b ?g WHERE {
 }
 ORDER BY ?pname
 
-# power transformers on their own; mesh impedances (need to test 3-winding)
+# power transformers on their own; mesh impedances
 PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX c:  <http://iec.ch/TC57/2012/CIM-schema-cim16#>
 SELECT ?pname ?fnum ?tnum ?r ?x WHERE {
@@ -290,6 +336,28 @@ SELECT ?pname ?fnum ?tnum ?r ?x WHERE {
  ?to c:TransformerEnd.endNumber ?tnum.
 }
 ORDER BY ?pname ?fnum ?tnum
+
+# count the number of transformer mesh impedances
+PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX c:  <http://iec.ch/TC57/2012/CIM-schema-cim16#>
+SELECT ?pname (count (?pname) as ?count) WHERE {
+ ?p r:type c:PowerTransformer.
+ ?p c:IdentifiedObject.name ?pname.
+ ?from c:PowerTransformerEnd.PowerTransformer ?p.
+ ?imp c:TransformerMeshImpedance.FromTransformerEnd ?from.
+}
+GROUP BY ?pname
+
+# count the number of transformer mesh impedances for "sub3"
+PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX c:  <http://iec.ch/TC57/2012/CIM-schema-cim16#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+SELECT (count (?p) as ?count) WHERE {
+ ?p r:type c:PowerTransformer.
+ ?p c:IdentifiedObject.name "sub3".
+ ?from c:PowerTransformerEnd.PowerTransformer ?p.
+ ?imp c:TransformerMeshImpedance.FromTransformerEnd ?from.
+}
 
 # voltage regulators (attached to transformer tank ends; still need power transformer ends)
 PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>

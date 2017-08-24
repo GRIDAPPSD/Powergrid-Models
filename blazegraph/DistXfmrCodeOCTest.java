@@ -27,11 +27,14 @@ public class DistXfmrCodeOCTest extends DistComponent {
 	public double nll;
 	public double iexc;
 
-	public DistXfmrCodeOCTest (QuerySolution soln) {
-		pname = GLD_Name (soln.get("?pname").toString(), false);
-		tname = GLD_Name (soln.get("?tname").toString(), false);
-		nll = new Double (soln.get("?nll").toString()).doubleValue();
-		iexc = new Double (soln.get("?iexc").toString()).doubleValue();
+	public DistXfmrCodeOCTest (ResultSet results) {
+		if (results.hasNext()) {
+			QuerySolution soln = results.next();
+			pname = GLD_Name (soln.get("?pname").toString(), false);
+			tname = GLD_Name (soln.get("?tname").toString(), false);
+			nll = Double.parseDouble (soln.get("?nll").toString());
+			iexc = Double.parseDouble (soln.get("?iexc").toString());
+		}		
 	}
 
 	public String DisplayString() {

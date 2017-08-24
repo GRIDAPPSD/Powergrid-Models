@@ -60,24 +60,27 @@ public class DistCapacitor extends DistComponent {
 	public String monbus;
 	public String monphs;
 
-	public DistCapacitor (QuerySolution soln) {
-		name = GLD_Name (soln.get("?name").toString(), false);
-		bus = GLD_Name (soln.get("?bus").toString(), true);
-		phs = OptionalString (soln, "?phs", "ABC");
-		conn = soln.get("?conn").toString();
-		grnd = soln.get("?grnd").toString();
-		ctrl = OptionalString (soln, "?ctrlenabled", "false");
-		nomu = new Double (soln.get("?nomu").toString()).doubleValue();
-		double bsection = new Double (soln.get("?bsection").toString()).doubleValue();
-		kvar = nomu * nomu * bsection / 1000.0;
-		if (ctrl.equals ("true")) {
-			mode = soln.get("?mode").toString();
-			setpoint = new Double (soln.get("?setpoint").toString()).doubleValue();
-			deadband = new Double (soln.get("?deadband").toString()).doubleValue();
-			moneq = soln.get("?moneq").toString();
-			monclass = soln.get("?monclass").toString();
-			monbus = soln.get("?monbus").toString();
-			monphs = soln.get("?monphs").toString();
+	public DistCapacitor (ResultSet results) {
+		if (results.hasNext()) {
+			QuerySolution soln = results.next();
+			name = GLD_Name (soln.get("?name").toString(), false);
+			bus = GLD_Name (soln.get("?bus").toString(), true);
+			phs = OptionalString (soln, "?phs", "ABC");
+			conn = soln.get("?conn").toString();
+			grnd = soln.get("?grnd").toString();
+			ctrl = OptionalString (soln, "?ctrlenabled", "false");
+			nomu = Double.parseDouble (soln.get("?nomu").toString());
+			double bsection = Double.parseDouble (soln.get("?bsection").toString());
+			kvar = nomu * nomu * bsection / 1000.0;
+			if (ctrl.equals ("true")) {
+				mode = soln.get("?mode").toString();
+				setpoint = Double.parseDouble (soln.get("?setpoint").toString());
+				deadband = Double.parseDouble (soln.get("?deadband").toString());
+				moneq = soln.get("?moneq").toString();
+				monclass = soln.get("?monclass").toString();
+				monbus = soln.get("?monbus").toString();
+				monphs = soln.get("?monphs").toString();
+			}
 		}
 	}
 

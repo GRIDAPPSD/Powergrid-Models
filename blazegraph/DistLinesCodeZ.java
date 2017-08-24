@@ -34,15 +34,18 @@ public class DistLinesCodeZ extends DistComponent {
 	public double len;
 	public String lname;
 
-	public DistLinesCodeZ (QuerySolution soln) {
-		name = GLD_Name (soln.get("?name").toString(), false);
-		String[] buses = soln.get("?buses").toString().split("\\n");
-		bus1 = GLD_Name(buses[0], true); 
-		bus2 = GLD_Name(buses[1], true); 
-		phases = OptionalString (soln, "?phases", "ABC");
-		phases = phases.replace ('\n', ':');
-		double len = new Double (soln.get("?len").toString()).doubleValue();
-		lname = soln.get("?lname").toString();
+	public DistLinesCodeZ (ResultSet results) {
+		if (results.hasNext()) {
+			QuerySolution soln = results.next();
+			name = GLD_Name (soln.get("?name").toString(), false);
+			String[] buses = soln.get("?buses").toString().split("\\n");
+			bus1 = GLD_Name(buses[0], true); 
+			bus2 = GLD_Name(buses[1], true); 
+			phases = OptionalString (soln, "?phases", "ABC");
+			phases = phases.replace ('\n', ':');
+			double len = Double.parseDouble (soln.get("?len").toString());
+			lname = soln.get("?lname").toString();
+		}		
 	}
 
 	public String DisplayString() {

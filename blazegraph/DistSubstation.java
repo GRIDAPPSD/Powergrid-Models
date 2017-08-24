@@ -36,16 +36,19 @@ public class DistSubstation extends DistComponent {
 	public double r0;
 	public double x0;
 
-	public DistSubstation (QuerySolution soln) {
-		name = GLD_Name (soln.get("?name").toString(), false);
-		bus = GLD_Name (soln.get("?bus").toString(), true);
-		nomv = new Double (soln.get("?nomv").toString()).doubleValue();
-		vmag = new Double (soln.get("?vmag").toString()).doubleValue();
-		vang = new Double (soln.get("?vang").toString()).doubleValue();
-		r1 = new Double (soln.get("?r1").toString()).doubleValue();
-		x1 = new Double (soln.get("?x1").toString()).doubleValue();
-		r0 = new Double (soln.get("?r0").toString()).doubleValue();
-		x0 = new Double (soln.get("?x0").toString()).doubleValue();
+	public DistSubstation (ResultSet results) {
+		if (results.hasNext()) {
+			QuerySolution soln = results.next();
+			name = GLD_Name (soln.get("?name").toString(), false);
+			bus = GLD_Name (soln.get("?bus").toString(), true);
+			nomv = Double.parseDouble (soln.get("?nomv").toString());
+			vmag = Double.parseDouble (soln.get("?vmag").toString());
+			vang = Double.parseDouble (soln.get("?vang").toString());
+			r1 = Double.parseDouble (soln.get("?r1").toString());
+			x1 = Double.parseDouble (soln.get("?x1").toString());
+			r0 = Double.parseDouble (soln.get("?r0").toString());
+			x0 = Double.parseDouble (soln.get("?x0").toString());
+		}		
 	}
 
 	public String DisplayString() {

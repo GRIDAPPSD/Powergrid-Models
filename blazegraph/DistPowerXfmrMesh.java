@@ -24,29 +24,62 @@ public class DistPowerXfmrMesh extends DistComponent {
 		"} ORDER BY ?pname ?fnum ?tnum";
 
 	public String name;
-	public int fwdg;
-	public int twdg;
-	public double r;
-	public double x;
+	public int[] fwdg;
+	public int[] twdg;
+	public double[] r;
+	public double[] x;
+	public int size;
 
-	public DistPowerXfmrMesh (QuerySolution soln) {
-		name = GLD_Name (soln.get("?pname").toString(), false);
-		fwdg = new Integer (soln.get("?fnum").toString()).intValue();
-		twdg = new Integer (soln.get("?tnum").toString()).intValue();
-		r = new Double (soln.get("?r").toString()).doubleValue();
-		x = new Double (soln.get("?x").toString()).doubleValue();
+	private void SetSize (String pname) {
+		size = 1;
+		String szCount = "SELECT (count (?p) as ?count) WHERE {"+
+			" ?p r:type c:PowerTransformer."+
+			" ?p c:IdentifiedObject.name \"" + pname + "\"."+
+			" ?from c:PowerTransformerEnd.PowerTransformer ?p."+
+			" ?imp c:TransformerMeshImpedance.FromTransformerEnd ?from."+
+			"}";
+		ResultSet results = RunQuery (szCount);
+		if (results.hasNext()) {
+			QuerySolution soln = results.next();
+			size = soln.getLiteral("?count").getInt();
+		}
+		fwdg = new int[size];
+		twdg = new int[size];
+		r = new double[size];
+		x = new double[size];
+	}
+
+	public DistPowerXfmrMesh (ResultSet results) {
+		if (results.hasNext()) {
+			QuerySolution soln = results.next();
+			String pname = soln.get("?pname").toString();
+			name = GLD_Name (pname, false);
+			SetSize (pname);
+			for (int i = 0; i < size; i++) {
+				fwdg[i] = Integer.parseInt (soln.get("?fnum").toString());
+				twdg[i] = Integer.parseInt (soln.get("?tnum").toString());
+				r[i] = Double.parseDouble (soln.get("?r").toString());
+				x[i] = Double.parseDouble (soln.get("?x").toString());
+				if ((i + 1) < size) {
+					soln = results.next();
+				}
+			}
+		}		
 	}
 
 	public String DisplayString() {
-		DecimalFormat df = new DecimalFormat("#.0000");
+		DecimalFormat df = new DecimalFormat("#.000000");
 		StringBuilder buf = new StringBuilder ("");
-		buf.append (name + " fwdg=" + Integer.toString(fwdg) + " twdg=" + Integer.toString(twdg) + 
-								" r=" + df.format(r) + " x=" + df.format(x));
+		buf.append (name + " " + Integer.toString(size));
+		for (int i = 0; i < size; i++) {
+			buf.append ("\n  fwdg=" + Integer.toString(fwdg[i]) + " twdg=" + Integer.toString(twdg[i]) +
+									" r=" + df.format(r[i]) + " x=" + df.format(x[i]));
+		}
 		return buf.toString();
 	}
 
 	public String GetKey() {
-		return name + ":" + Integer.toString(fwdg) + ":" + Integer.toString(twdg);
+		return name;
 	}
 }
 

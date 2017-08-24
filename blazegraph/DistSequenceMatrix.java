@@ -30,14 +30,17 @@ public class DistSequenceMatrix extends DistComponent {
 	public double x0;
 	public double b0;
 
-	public DistSequenceMatrix (QuerySolution soln) {
-		name = GLD_Name (soln.get("?name").toString(), false);
-		r1 = new Double (soln.get("?r").toString()).doubleValue();
-		x1 = new Double (soln.get("?x").toString()).doubleValue();
-		b1 = new Double (soln.get("?b").toString()).doubleValue();
-		r0 = new Double (soln.get("?r0").toString()).doubleValue();
-		x0 = new Double (soln.get("?x0").toString()).doubleValue();
-		b0 = new Double (soln.get("?b0").toString()).doubleValue();
+	public DistSequenceMatrix (ResultSet results) {
+		if (results.hasNext()) {
+			QuerySolution soln = results.next();
+			name = GLD_Name (soln.get("?name").toString(), false);
+			r1 = Double.parseDouble (soln.get("?r").toString());
+			x1 = Double.parseDouble (soln.get("?x").toString());
+			b1 = Double.parseDouble (soln.get("?b").toString());
+			r0 = Double.parseDouble (soln.get("?r0").toString());
+			x0 = Double.parseDouble (soln.get("?x0").toString());
+			b0 = Double.parseDouble (soln.get("?b0").toString());
+		}		
 	}
 
 	public String DisplayString() {

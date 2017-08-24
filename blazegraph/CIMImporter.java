@@ -29,17 +29,6 @@ import org.apache.jena.rdf.model.RDFNode;
  */
 
 public class CIMImporter extends Object {
-	static final String szEND = "http://localhost:9999/blazegraph/namespace/kb/sparql";
-	static final String nsCIM = "http://iec.ch/TC57/2012/CIM-schema-cim16#";
-	static final String nsRDF = "http://www.w3.org/1999/02/22-rdf-syntax-ns#";
-
-	static ResultSet RunQuery(String szQuery) {
-		String qPrefix = "PREFIX r: <" + nsRDF + "> PREFIX c: <" + nsCIM + "> ";
-		Query query = QueryFactory.create (qPrefix + szQuery);
-		QueryExecution qexec = QueryExecutionFactory.sparqlService (szEND, query);
-		return qexec.execSelect();
-	}
-
 	static HashMap<String,GldNode> mapNodes = new HashMap<>();
 	static HashMap<String,DistBaseVoltage> mapBaseVoltages = new HashMap<>();
 	static HashMap<String,DistCapacitor> mapCapacitors = new HashMap<>();
@@ -66,232 +55,185 @@ public class CIMImporter extends Object {
 	static HashMap<String,DistXfmrTank> mapTanks = new HashMap<>();
 
 	static void LoadBaseVoltages() {
-		ResultSet results = RunQuery (DistBaseVoltage.szQUERY);
-		QuerySolution soln;
+		ResultSet results = DistComponent.RunQuery (DistBaseVoltage.szQUERY);
 		while (results.hasNext()) {
-			soln = results.next();
-			DistBaseVoltage obj = new DistBaseVoltage (soln);
+			DistBaseVoltage obj = new DistBaseVoltage (results);
 			mapBaseVoltages.put (obj.GetKey(), obj);
 		}
 	}
 
 	static void LoadSubstations() {
-		ResultSet results = RunQuery (DistSubstation.szQUERY);
-		QuerySolution soln;
+		ResultSet results = DistComponent.RunQuery (DistSubstation.szQUERY);
 		while (results.hasNext()) {
-			soln = results.next();
-			DistSubstation obj = new DistSubstation (soln);
+			DistSubstation obj = new DistSubstation (results);
 			mapSubstations.put (obj.GetKey(), obj);
 		}
 	}
 
 	static void LoadCapacitors() {
-		ResultSet results = RunQuery (DistCapacitor.szQUERY);
-		QuerySolution soln;
+		ResultSet results = DistComponent.RunQuery (DistCapacitor.szQUERY);
 		while (results.hasNext()) {
-			soln = results.next();
-			DistCapacitor obj = new DistCapacitor (soln);
+			DistCapacitor obj = new DistCapacitor (results);
 			mapCapacitors.put (obj.GetKey(), obj);
 		}
 	}
 
 	static void LoadLoads() {
-		ResultSet results = RunQuery (DistLoad.szQUERY);
-		QuerySolution soln;
+		ResultSet results = DistComponent.RunQuery (DistLoad.szQUERY);
 		while (results.hasNext()) {
-			soln = results.next();
-			DistLoad obj = new DistLoad (soln);
+			DistLoad obj = new DistLoad (results);
 			mapLoads.put (obj.GetKey(), obj);
 		}
 	}
 
 	static void LoadPhaseMatrices() {
-		ResultSet results = RunQuery (DistPhaseMatrix.szQUERY);
-		QuerySolution soln;
+		ResultSet results = DistComponent.RunQuery (DistPhaseMatrix.szQUERY);
 		while (results.hasNext()) {
-			soln = results.next();
-			DistPhaseMatrix obj = new DistPhaseMatrix (soln);
-//			DistPhaseMatrix obj = new DistPhaseMatrix (results);
+			DistPhaseMatrix obj = new DistPhaseMatrix (results);
 			mapPhaseMatrices.put (obj.GetKey(), obj);
 		}
 	}
 
 	static void LoadSequenceMatrices() {
-		ResultSet results = RunQuery (DistSequenceMatrix.szQUERY);
-		QuerySolution soln;
+		ResultSet results = DistComponent.RunQuery (DistSequenceMatrix.szQUERY);
 		while (results.hasNext()) {
-			soln = results.next();
-			DistSequenceMatrix obj = new DistSequenceMatrix (soln);
+			DistSequenceMatrix obj = new DistSequenceMatrix (results);
 			mapSequenceMatrices.put (obj.GetKey(), obj);
 		}
 	}
 
 	static void LoadXfmrCodeRatings() {
-		ResultSet results = RunQuery (DistXfmrCodeRating.szQUERY);
-		QuerySolution soln;
+		ResultSet results = DistComponent.RunQuery (DistXfmrCodeRating.szQUERY);
 		while (results.hasNext()) {
-			soln = results.next();
-			DistXfmrCodeRating obj = new DistXfmrCodeRating (soln);
+			DistXfmrCodeRating obj = new DistXfmrCodeRating (results);
 			mapCodeRatings.put (obj.GetKey(), obj);
 		}
 	}
 
 	static void LoadXfmrCodeOCTests() {
-		ResultSet results = RunQuery (DistXfmrCodeOCTest.szQUERY);
-		QuerySolution soln;
+		ResultSet results = DistComponent.RunQuery (DistXfmrCodeOCTest.szQUERY);
 		while (results.hasNext()) {
-			soln = results.next();
-			DistXfmrCodeOCTest obj = new DistXfmrCodeOCTest (soln);
+			DistXfmrCodeOCTest obj = new DistXfmrCodeOCTest (results);
 			mapCodeOCTests.put (obj.GetKey(), obj);
 		}
 	}
 
 	static void LoadXfmrCodeSCTests() {
-		ResultSet results = RunQuery (DistXfmrCodeSCTest.szQUERY);
-		QuerySolution soln;
+		ResultSet results = DistComponent.RunQuery (DistXfmrCodeSCTest.szQUERY);
 		while (results.hasNext()) {
-			soln = results.next();
-			DistXfmrCodeSCTest obj = new DistXfmrCodeSCTest (soln);
+			DistXfmrCodeSCTest obj = new DistXfmrCodeSCTest (results);
 			mapCodeSCTests.put (obj.GetKey(), obj);
 		}
 	}
 
 	static void LoadPowerXfmrCore() {
-		ResultSet results = RunQuery (DistPowerXfmrCore.szQUERY);
-		QuerySolution soln;
+		ResultSet results = DistComponent.RunQuery (DistPowerXfmrCore.szQUERY);
 		while (results.hasNext()) {
-			soln = results.next();
-			DistPowerXfmrCore obj = new DistPowerXfmrCore (soln);
+			DistPowerXfmrCore obj = new DistPowerXfmrCore (results);
 			mapXfmrCores.put (obj.GetKey(), obj);
 		}
 	}
 
 	static void LoadPowerXfmrMesh() {
-		ResultSet results = RunQuery (DistPowerXfmrMesh.szQUERY);
-		QuerySolution soln;
+		ResultSet results = DistComponent.RunQuery (DistPowerXfmrMesh.szQUERY);
 		while (results.hasNext()) {
-			soln = results.next();
-			DistPowerXfmrMesh obj = new DistPowerXfmrMesh (soln);
+			DistPowerXfmrMesh obj = new DistPowerXfmrMesh (results);
 			mapXfmrMeshes.put (obj.GetKey(), obj);
 		}
 	}
 
 	static void LoadOverheadWires() {
-		ResultSet results = RunQuery (DistOverheadWire.szQUERY);
-		QuerySolution soln;
+		ResultSet results = DistComponent.RunQuery (DistOverheadWire.szQUERY);
 		while (results.hasNext()) {
-			soln = results.next();
-			DistOverheadWire obj = new DistOverheadWire (soln);
+			DistOverheadWire obj = new DistOverheadWire (results);
 			mapWires.put (obj.GetKey(), obj);
 		}
 	}
 
 	static void LoadTapeShieldCables() {
-		ResultSet results = RunQuery (DistTapeShieldCable.szQUERY);
-		QuerySolution soln;
+		ResultSet results = DistComponent.RunQuery (DistTapeShieldCable.szQUERY);
 		while (results.hasNext()) {
-			soln = results.next();
-			DistTapeShieldCable obj = new DistTapeShieldCable (soln);
+			DistTapeShieldCable obj = new DistTapeShieldCable (results);
 			mapTSCables.put (obj.GetKey(), obj);
 		}
 	}
 
 	static void LoadConcentricNeutralCables() {
-		ResultSet results = RunQuery (DistConcentricNeutralCable.szQUERY);
-		QuerySolution soln;
+		ResultSet results = DistComponent.RunQuery (DistConcentricNeutralCable.szQUERY);
 		while (results.hasNext()) {
-			soln = results.next();
-			DistConcentricNeutralCable obj = new DistConcentricNeutralCable (soln);
+			DistConcentricNeutralCable obj = new DistConcentricNeutralCable (results);
 			mapCNCables.put (obj.GetKey(), obj);
 		}
 	}
 
 	static void LoadLineSpacings() {
-		ResultSet results = RunQuery (DistLineSpacing.szQUERY);
-		QuerySolution soln;
+		ResultSet results = DistComponent.RunQuery (DistLineSpacing.szQUERY);
 		while (results.hasNext()) {
-			soln = results.next();
-			DistLineSpacing obj = new DistLineSpacing (soln);
+			DistLineSpacing obj = new DistLineSpacing (results);
 			mapSpacings.put (obj.GetKey(), obj);
 		}
 	}
 
 	static void LoadSwitches() {
-		ResultSet results = RunQuery (DistSwitch.szQUERY);
-		QuerySolution soln;
+		ResultSet results = DistComponent.RunQuery (DistSwitch.szQUERY);
 		while (results.hasNext()) {
-			soln = results.next();
-			DistSwitch obj = new DistSwitch (soln);
+			DistSwitch obj = new DistSwitch (results);
 			mapSwitches.put (obj.GetKey(), obj);
 		}
 	}
 
 	static void LoadLinesInstanceZ() {
-		ResultSet results = RunQuery (DistLinesInstanceZ.szQUERY);
-		QuerySolution soln;
+		ResultSet results = DistComponent.RunQuery (DistLinesInstanceZ.szQUERY);
 		while (results.hasNext()) {
-			soln = results.next();
-			DistLinesInstanceZ obj = new DistLinesInstanceZ (soln);
+			DistLinesInstanceZ obj = new DistLinesInstanceZ (results);
 			mapLinesInstanceZ.put (obj.GetKey(), obj);
 		}
 	}
 
 	static void LoadLinesCodeZ() {
-		ResultSet results = RunQuery (DistLinesCodeZ.szQUERY);
-		QuerySolution soln;
+		ResultSet results = DistComponent.RunQuery (DistLinesCodeZ.szQUERY);
 		while (results.hasNext()) {
-			soln = results.next();
-			DistLinesCodeZ obj = new DistLinesCodeZ (soln);
+			DistLinesCodeZ obj = new DistLinesCodeZ (results);
 			mapLinesCodeZ.put (obj.GetKey(), obj);
 		}
 	}
 
 	static void LoadLinesSpacingZ() {
-		ResultSet results = RunQuery (DistLinesSpacingZ.szQUERY);
-		QuerySolution soln;
+		ResultSet results = DistComponent.RunQuery (DistLinesSpacingZ.szQUERY);
 		while (results.hasNext()) {
-			soln = results.next();
-			DistLinesSpacingZ obj = new DistLinesSpacingZ (soln);
+			DistLinesSpacingZ obj = new DistLinesSpacingZ (results);
 			mapLinesSpacingZ.put (obj.GetKey(), obj);
 		}
 	}
 
 	static void LoadRegulators() {
-		ResultSet results = RunQuery (DistRegulator.szQUERY);
-		QuerySolution soln;
+		ResultSet results = DistComponent.RunQuery (DistRegulator.szQUERY);
 		while (results.hasNext()) {
-			soln = results.next();
-			DistRegulator obj = new DistRegulator (soln);
+			DistRegulator obj = new DistRegulator (results);
 			mapRegulators.put (obj.GetKey(), obj);
 		}
 	}
 
 	static void LoadXfmrTanks() {
-		ResultSet results = RunQuery (DistXfmrTank.szQUERY);
-		QuerySolution soln;
+		ResultSet results = DistComponent.RunQuery (DistXfmrTank.szQUERY);
 		while (results.hasNext()) {
-			soln = results.next();
-			DistXfmrTank obj = new DistXfmrTank (soln);
+			DistXfmrTank obj = new DistXfmrTank (results);
 			mapTanks.put (obj.GetKey(), obj);
 		}
 	}
 
 	static void LoadPowerXfmrWindings() {
-		ResultSet results = RunQuery (DistPowerXfmrWinding.szQUERY);
-		QuerySolution soln;
+		ResultSet results = DistComponent.RunQuery (DistPowerXfmrWinding.szQUERY);
 		while (results.hasNext()) {
-			soln = results.next();
-			DistPowerXfmrWinding obj = new DistPowerXfmrWinding (soln);
+			DistPowerXfmrWinding obj = new DistPowerXfmrWinding (results);
 			mapXfmrWindings.put (obj.GetKey(), obj); 
 		}
 	}
 
 	static void LoadCoordinates() {
-		ResultSet results = RunQuery (DistCoordinates.szQUERY);
-		QuerySolution soln;
+		ResultSet results = DistComponent.RunQuery (DistCoordinates.szQUERY);
 		while (results.hasNext()) {
-			soln = results.next();
-			DistCoordinates obj = new DistCoordinates (soln);
+			DistCoordinates obj = new DistCoordinates (results);
 			mapCoordinates.put (obj.GetKey(), obj);
 		}
 	}
