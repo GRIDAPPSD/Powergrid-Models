@@ -11,9 +11,11 @@ import java.text.DecimalFormat;
 
 public class DistLinesCodeZ extends DistLineSegment {
 	static final String szQUERY =
-		"SELECT ?name (group_concat(distinct ?bus;separator=\"\\n\") as ?buses) (group_concat(distinct ?phs;separator=\"\\n\") as ?phases) ?len ?lname WHERE {"+
+		"SELECT ?name ?basev (group_concat(distinct ?bus;separator=\"\\n\") as ?buses) (group_concat(distinct ?phs;separator=\"\\n\") as ?phases) ?len ?lname WHERE {"+
 		" ?s r:type c:ACLineSegment."+
 		" ?s c:IdentifiedObject.name ?name."+
+		" ?s c:ConductingEquipment.BaseVoltage ?bv."+
+		" ?bv c:BaseVoltage.nominalVoltage ?basev."+
 		" ?s c:Conductor.length ?len."+
 		" ?s c:ACLineSegment.PerLengthImpedance ?lcode."+
 		" ?lcode c:IdentifiedObject.name ?lname."+
@@ -24,10 +26,9 @@ public class DistLinesCodeZ extends DistLineSegment {
 		" ?acp c:ACLineSegmentPhase.phase ?phsraw."+
 		"       		bind(strafter(str(?phsraw),\"SinglePhaseKind.\") as ?phs) }"+
 		"}"+
-		" GROUP BY ?name ?len ?lname"+
+		" GROUP BY ?name ?len ?lname ?basev"+
 		" ORDER BY ?name";
 
-	public double len;
 	public String lname;
 
 	public DistLinesCodeZ (ResultSet results) {
@@ -39,6 +40,7 @@ public class DistLinesCodeZ extends DistLineSegment {
 			bus2 = GLD_Name(buses[1], true); 
 			phases = OptionalString (soln, "?phases", "ABC");
 			phases = phases.replace ('\n', ':');
+			basev = Double.parseDouble (soln.get("?basev").toString());
 			len = Double.parseDouble (soln.get("?len").toString());
 			lname = soln.get("?lname").toString();
 		}		
@@ -47,7 +49,16 @@ public class DistLinesCodeZ extends DistLineSegment {
 	public String DisplayString() {
 		DecimalFormat df = new DecimalFormat("#.0000");
 		StringBuilder buf = new StringBuilder ("");
-		buf.append (name + " from " + bus1 + " to " + bus2 + " phases=" + phases + " len=" + df.format(len)  + " linecode=" + lname);
+		buf.append (name + " from " + bus1 + " to " + bus2 + " phases=" + phases + " basev=" + df.format(basev) + " len=" + df.format(len)  + " linecode=" + lname);
+		return buf.toString();
+	}
+
+	public String GetGLM() {
+		StringBuilder buf = new StringBuilder ("object overhead_line {\n");
+		AppendSharedGLMAttributes (buf);
+		buf.append("  configuration \"lcon_" + lname + "_" + glm_phases + "\";\n");
+		buf.append("}\n");
+
 		return buf.toString();
 	}
 

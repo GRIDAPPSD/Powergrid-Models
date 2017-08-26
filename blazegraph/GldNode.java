@@ -4,6 +4,8 @@
 //	----------------------------------------------------------
 
 // package gov.pnnl.gridlabd.cim;
+import java.text.DecimalFormat;
+import org.apache.commons.math3.complex.Complex;
 
 /** 
  Helper class to accumulate nodes and loads. 
@@ -12,6 +14,30 @@
  parent nodes, closer to what OpenDSS does</p>  
 */
 public class GldNode {
+	/** 
+	 *  Rotates a phasor +120 degrees by multiplication
+		 */
+	static final Complex pos120 = new Complex (-0.5, 0.5 * Math.sqrt(3.0));
+
+	/** 
+	 *  Rotates a phasor -120 degrees by multiplication
+	 */
+	static final Complex neg120 = new Complex (-0.5, -0.5 * Math.sqrt(3.0));
+
+	/** 
+	 *  @param c complex number
+	 *  @return formatted string for GridLAB-D input files with 'j' at the end
+		 */
+	static String CFormat (Complex c) {
+		String sgn;
+		if (c.getImaginary() < 0.0)  {
+			sgn = "-";
+		} else {
+			sgn = "+";
+		}
+		return String.format("%6g", c.getReal()) + sgn + String.format("%6g", Math.abs(c.getImaginary())) + "j";
+	}
+
 	/** root name of the node (or load), will have `nd_` prepended */
 	public final String name;
 	/** ABC allowed */
@@ -90,9 +116,6 @@ public class GldNode {
 		if (phases.contains("A") || phs.contains("A")) buf.append("A");
 		if (phases.contains("B") || phs.contains("B")) buf.append("B");
 		if (phases.contains("C") || phs.contains("C")) buf.append("C");
-		if (phs.contains("s")) bSecondary = true;
-		if (phs.contains("S")) bSecondary = true;
-		if (phs.contains("D")) bDelta = true;
 		phases = buf.toString();
 		return true;
 	}
@@ -102,6 +125,93 @@ public class GldNode {
 		if (bDelta && !bSecondary) return phases + "D";
 		if (bSecondary) return phases + "S";
 		return phases + "N";
+	}
+
+	/** Distributes a total load (pL+jqL) among the phases (phs) present on GridLAB-D node
+	@param phs phases actually present at the node 
+	@param pL total real power 
+	@param qL total reactive power 
+	@param Pv real power voltage exponent from a CIM LoadResponseCharacteristic 
+	@param Qv reactive power voltage exponent from a CIM LoadResponseCharacteristic 
+	@param Pz real power constant-impedance percentage from a CIM LoadResponseCharacteristic 
+	@param Qz reactive power constant-impedance percentage from a CIM LoadResponseCharacteristic 
+	@param Pi real power constant-current percentage from a CIM LoadResponseCharacteristic 
+	@param Qi reactive power constant-current percentage from a CIM LoadResponseCharacteristic 
+	@param Pp real power constant-power percentage from a CIM LoadResponseCharacteristic 
+	@param Qp reactive power constant-power percentage from a CIM LoadResponseCharacteristic 
+	@return void */ 
+	public void AccumulateLoads (String phs, double pL, double qL, double Pv, double Qv,
+															 double Pz, double Pi, double Pp, double Qz, double Qi, double Qp) {
+		double fa = 0.0, fb = 0.0, fc = 0.0, denom = 0.0;
+		if (phs.contains("A") || phs.contains("S")) {
+			fa = 1.0;
+			denom += 1.0;
+		}
+		if (phs.contains("B") || phs.contains("S")) {  // TODO - allow for s1 and s2
+			fb = 1.0;
+			denom += 1.0;
+		}
+		if (phs.contains("C")) {
+			fc = 1.0;
+			denom += 1.0;
+		}
+		if (fa > 0.0) fa /= denom;
+		if (fb > 0.0) fb /= denom;
+		if (fc > 0.0) fc /= denom;
+
+		// we also have to divide the total pL and qL among constant ZIP components
+		double fpz = 0.0, fqz = 0.0, fpi = 0.0, fqi = 0.0, fpp = 0.0, fqp = 0.0;
+		denom = Pz + Pi + Pp;
+		if (denom > 0.0) {
+			fpz = Pz / denom;
+			fpi = Pi / denom;
+			fpp = Pp / denom;
+		} else {
+			if (Pv > 0.9 && Pv < 1.1)  {
+				fpi = 1.0;
+			} else if (Pv > 1.9 && Pv < 2.1) {
+				fpz = 1.0;
+			} else {
+				fpp = 1.0;
+			}
+		}
+		denom = Qz + Qi + Qp;
+		if (denom > 0.0) {
+			fqz = Qz / denom;
+			fqi = Qi / denom;
+			fqp = Qp / denom;
+		} else {
+			if (Qv > 0.9 && Qv < 1.1)  {
+				fqi = 1.0;
+			} else if (Qv > 1.9 && Qv < 2.1) {
+				fqz = 1.0;
+			} else {
+				fqp = 1.0;
+			}
+		}
+
+		// now update the node phases and phase loads
+		pL *= 1000.0;
+		qL *= 1000.0;
+		AddPhases(phs);
+		pa_z += fa * pL * fpz;
+		pb_z += fb * pL * fpz;
+		pc_z += fc * pL * fpz;
+		qa_z += fa * qL * fqz;
+		qb_z += fb * qL * fqz;
+		qc_z += fc * qL * fqz;
+		pa_i += fa * pL * fpi;
+		pb_i += fb * pL * fpi;
+		pc_i += fc * pL * fpi;
+		qa_i += fa * qL * fqi;
+		qb_i += fb * qL * fqi;
+		qc_i += fc * qL * fqi;
+		pa_p += fa * pL * fpp;
+		pb_p += fb * pL * fpp;
+		pc_p += fc * pL * fpp;
+		qa_p += fa * qL * fqp;
+		qb_p += fb * qL * fqp;
+		qc_p += fc * qL * fqp;
 	}
 
 	/** reapportion loads according to constant power (Z/sum), constant current (I/sum) and constant power (P/sum)
@@ -186,6 +296,87 @@ public class GldNode {
 		if (qb_p != 0.0) return true;
 		if (qc_p != 0.0) return true;
 		return false;
+	}
+
+	public String GetGLM () {
+		StringBuilder buf = new StringBuilder();
+		DecimalFormat df = new DecimalFormat("#0.00");
+		if (bSwing) {
+			buf.append ("object substation {\n");
+			buf.append ("  name \"" + name + "\";\n");
+			buf.append ("  bustype SWING;\n");
+			buf.append ("  phases " + GetPhases() + ";\n");
+			buf.append ("  nominal_voltage " + df.format(nomvln) + ";\n");
+			buf.append ("  base_power 12MVA;\n");
+			buf.append ("  power_convergence_value 100VA;\n");
+			buf.append ("  positive_sequence_voltage ${VSOURCE};\n");
+			buf.append ("}\n");
+		} else if (HasLoad()) {
+			Complex va = new Complex (nomvln);
+			Complex vb = va.multiply (neg120);
+			Complex vc = va.multiply (pos120);
+			Complex amps;
+			Complex vmagsq = new Complex (nomvln * nomvln);
+			if (bSecondary) {
+				buf.append ("object triplex_load {\n");
+			} else {
+				buf.append ("object load {\n");
+			}
+			buf.append ("  name \"" + name + "\";\n");
+			buf.append ("  phases " + GetPhases() + ";\n");
+			buf.append ("  nominal_voltage " + df.format(nomvln) + ";\n");
+			if (pa_p > 0.0 || qa_p != 0.0)	{
+				buf.append ("  constant_power_A " + CFormat(new Complex(pa_p, qa_p)) + ";\n");
+			}
+			if (pb_p > 0.0 || qb_p != 0.0)	{
+				buf.append ("  constant_power_B " + CFormat(new Complex(pb_p, qb_p)) + ";\n");
+			}
+			if (pc_p > 0.0 || qc_p != 0.0)	{
+				buf.append ("  constant_power_C " + CFormat(new Complex(pc_p, qc_p)) + ";\n");
+			}
+			if (pa_z > 0.0 || qa_z != 0.0) {
+				Complex s = new Complex(pa_z, qa_z);
+				Complex z = vmagsq.divide(s.conjugate());
+				buf.append ("  constant_impedance_A " + CFormat(z) + ";\n");
+			}
+			if (pb_z > 0.0 || qb_z != 0.0) {
+				Complex s = new Complex(pb_z, qb_z);
+				Complex z = vmagsq.divide(s.conjugate());
+				buf.append ("  constant_impedance_B " + CFormat(z) + ";\n");
+			}
+			if (pc_z > 0.0 || qc_z != 0.0) {
+				Complex s = new Complex(pc_z, qc_z);
+				Complex z = vmagsq.divide(s.conjugate());
+				buf.append ("  constant_impedance_C " + CFormat(z) + ";\n");
+			}
+			if (pa_i > 0.0 || qa_i != 0.0) {
+				Complex s = new Complex(pa_i, qa_i);
+				amps = s.divide(va).conjugate();
+				buf.append ("  constant_current_A " + CFormat(amps) + ";\n");
+			}
+			if (pb_i > 0.0 || qb_i != 0.0) {
+				Complex s = new Complex(pb_i, qb_i);
+				amps = s.divide(va.multiply(neg120)).conjugate();
+				buf.append ("  constant_current_B " + CFormat(amps) + ";\n");
+			}
+			if (pc_i > 0.0 || qc_i != 0.0) {
+				Complex s = new Complex(pc_i, qc_i);
+				amps = s.divide(va.multiply(pos120)).conjugate();
+				buf.append ("  constant_current_C " + CFormat(amps) + ";\n");
+			}
+			buf.append ("}\n");
+		} else {
+			if (bSecondary) {
+				buf.append ("object triplex_node {\n");
+			} else {
+				buf.append ("object node {\n");
+			}
+			buf.append ("  name \"" + name + "\";\n");
+			buf.append ("  phases " + GetPhases() + ";\n");
+			buf.append ("  nominal_voltage " + df.format(nomvln) + ";\n");
+			buf.append ("}\n");
+		}
+		return buf.toString();
 	}
 }
 

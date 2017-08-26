@@ -11,13 +11,15 @@ import java.text.DecimalFormat;
 
 public class DistLinesSpacingZ extends DistLineSegment {
 	static final String szQUERY =
-		"SELECT ?name (group_concat(distinct ?bus;separator=\"\\n\") as ?buses)"+
+		"SELECT ?name ?basev (group_concat(distinct ?bus;separator=\"\\n\") as ?buses)"+
 		"       (group_concat(distinct ?phs;separator=\"\\n\") as ?phases)"+
 		"       ?len ?spacing ?wname ?wclass"+
 		"       (group_concat(distinct ?phname;separator=\"\\n\") as ?phwires)"+
 		"       (group_concat(distinct ?phclass;separator=\"\\n\") as ?phclasses) WHERE {"+
 		" ?s r:type c:ACLineSegment."+
 		" ?s c:IdentifiedObject.name ?name."+
+		" ?s c:ConductingEquipment.BaseVoltage ?bv."+
+		" ?bv c:BaseVoltage.nominalVoltage ?basev."+
 		" ?s c:Conductor.length ?len."+
 		" ?asset c:Asset.PowerSystemResources ?s."+
 		" ?asset c:Asset.AssetInfo ?inf."+
@@ -48,7 +50,7 @@ public class DistLinesSpacingZ extends DistLineSegment {
 		"       	}"+
 		"       }"+
 		" }"+
-		" GROUP BY ?name ?len ?spacing ?wname ?wclass"+
+		" GROUP BY ?name ?basev ?len ?spacing ?wname ?wclass"+
 		" ORDER BY ?name";
 
 	public String spacing;
@@ -67,6 +69,7 @@ public class DistLinesSpacingZ extends DistLineSegment {
 			bus1 = GLD_Name(buses[0], true); 
 			bus2 = GLD_Name(buses[1], true); 
 			len = Double.parseDouble (soln.get("?len").toString());
+			basev = Double.parseDouble (soln.get("?basev").toString());
 			spacing = soln.get("?spacing").toString();
 			wname = soln.get("?wname").toString();
 			wclass = soln.get("?wclass").toString();
@@ -100,11 +103,20 @@ public class DistLinesSpacingZ extends DistLineSegment {
 	public String DisplayString() {
 		DecimalFormat df = new DecimalFormat("#.0000");
 		StringBuilder buf = new StringBuilder ("");
-		buf.append (name + " from " + bus1 + " to " + bus2 + " len=" + df.format(len) + " spacing=" + spacing);
+		buf.append (name + " from " + bus1 + " to " + bus2 + 
+								" basev=" + df.format(basev) + " len=" + df.format(len) + " spacing=" + spacing);
 		buf.append (" wname=" + wname + "wclass=" + wclass);
 		for (int i = 0; i < nwires; i++) {
 			buf.append ("\n  phs=" + wire_phases[i] + " wire=" + wire_names[i] + " class=" + wire_classes[i]);
 		}
+		return buf.toString();
+	}
+
+	public String GetGLM() {
+		StringBuilder buf = new StringBuilder ("object overhead_line {\n");
+		AppendSharedGLMAttributes (buf);
+		buf.append("}\n");
+
 		return buf.toString();
 	}
 

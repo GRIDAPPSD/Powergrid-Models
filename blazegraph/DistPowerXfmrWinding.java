@@ -11,7 +11,7 @@ import java.text.DecimalFormat;
 
 public class DistPowerXfmrWinding extends DistComponent {
 	static final String szQUERY = 
-		"SELECT ?pname ?vgrp ?enum ?bus ?conn ?ratedS ?ratedU ?r ?ang ?grounded ?rground ?xground WHERE {"+
+		"SELECT ?pname ?vgrp ?enum ?bus ?basev ?conn ?ratedS ?ratedU ?r ?ang ?grounded ?rground ?xground WHERE {"+
 		" ?p r:type c:PowerTransformer."+
 		" ?p c:IdentifiedObject.name ?pname."+
 		" ?p c:PowerTransformer.vectorGroup ?vgrp."+
@@ -28,7 +28,9 @@ public class DistPowerXfmrWinding extends DistComponent {
 		" OPTIONAL {?end c:TransformerEnd.xground ?xground.}"+
 		" ?end c:TransformerEnd.Terminal ?trm."+
 		" ?trm c:Terminal.ConnectivityNode ?cn. "+
-		" ?cn c:IdentifiedObject.name ?bus"+
+		" ?cn c:IdentifiedObject.name ?bus."+
+		" ?end c:TransformerEnd.BaseVoltage ?bv."+
+		" ?bv c:BaseVoltage.nominalVoltage ?basev"+
 		"}"+
 		" ORDER BY ?pname ?enum"		;
 
@@ -36,6 +38,7 @@ public class DistPowerXfmrWinding extends DistComponent {
 	public String vgrp;
 	public String[] bus;
 	public String[] conn;
+	public double[] basev;
 	public double[] ratedU;
 	public double[] ratedS;
 	public double[] r;
@@ -60,6 +63,7 @@ public class DistPowerXfmrWinding extends DistComponent {
 		}
 		bus = new String[size];
 		conn = new String[size];
+		basev = new double[size];
 		ratedU = new double[size];
 		ratedS = new double[size];
 		r = new double[size];
@@ -79,6 +83,7 @@ public class DistPowerXfmrWinding extends DistComponent {
 			SetSize (pname);
 			for (int i = 0; i < size; i++) {
 				bus[i] = GLD_Name (soln.get("?bus").toString(), true);
+				basev[i] = Double.parseDouble (soln.get("?basev").toString());
 				conn[i] = soln.get("?conn").toString();
 				ratedU[i] = Double.parseDouble (soln.get("?ratedU").toString());
 				ratedS[i] = Double.parseDouble (soln.get("?ratedS").toString());
@@ -100,7 +105,7 @@ public class DistPowerXfmrWinding extends DistComponent {
 		StringBuilder buf = new StringBuilder ("");
 		buf.append (name + " " + vgrp);
 		for (int i = 0; i < size; i++) {
-			buf.append("\n  bus=" + bus[i] + " conn=" + conn[i] + " ang=" + Integer.toString(ang[i]));
+			buf.append("\n  bus=" + bus[i] + " basev=" + df.format(basev[i]) + " conn=" + conn[i] + " ang=" + Integer.toString(ang[i]));
 			buf.append (" U=" + df.format(ratedU[i]) + " S=" + df.format(ratedS[i]) + " r=" + df.format(r[i]));
 			buf.append (" grounded=" + Boolean.toString(grounded[i]) + " rg=" + df.format(rg[i]) + " xg=" + df.format(xg[i]));
 		}

@@ -67,9 +67,6 @@ public class CIMImporter extends Object {
 		while (results.hasNext()) {
 			DistSubstation obj = new DistSubstation (results);
 			mapSubstations.put (obj.GetKey(), obj);
-			mapNodes.put (obj.bus, new GldNode(obj.bus));
-			GldNode nd = mapNodes.get (obj.bus);
-			nd.bSwing = true;
 		}
 	}
 
@@ -397,6 +394,139 @@ public class CIMImporter extends Object {
 		out.close();
 	}
 
+	public static void WriteGLMFile (String fOut) throws FileNotFoundException {
+		PrintWriter out = new PrintWriter (fOut);
+
+		// preparatory steps to build the list of nodes
+		ResultSet results = DistComponent.RunQuery (
+				"SELECT ?name WHERE {"+
+				" ?s r:type c:ConnectivityNode."+
+				" ?s c:IdentifiedObject.name ?name} ORDER by ?name");
+		while (results.hasNext()) {
+			QuerySolution soln = results.next();
+			String bus = DistComponent.GLD_Name (soln.get ("?name").toString(), true);
+			mapNodes.put (bus, new GldNode(bus));
+		}
+		for (HashMap.Entry<String,DistSubstation> pair : mapSubstations.entrySet()) {
+			DistSubstation obj = pair.getValue();
+			GldNode nd = mapNodes.get (obj.bus);
+			nd.bSwing = true;
+			nd.nomvln = obj.basev / Math.sqrt(3.0);
+			nd.phases = "ABC";
+		}
+		for (HashMap.Entry<String,DistLoad> pair : mapLoads.entrySet()) {
+			DistLoad obj = pair.getValue();
+			GldNode nd = mapNodes.get (obj.bus);
+			nd.nomvln = obj.basev / Math.sqrt(3.0);
+			nd.AccumulateLoads (obj.phs, obj.p, obj.q, obj.pe, obj.qe, obj.pz, obj.pi, obj.pp, obj.qz, obj.qi, obj.qp);
+		}
+		for (HashMap.Entry<String,DistCapacitor> pair : mapCapacitors.entrySet()) {
+			DistCapacitor obj = pair.getValue();
+			GldNode nd = mapNodes.get (obj.bus);
+			nd.nomvln = obj.basev / Math.sqrt(3.0);
+			nd.AddPhases (obj.phs);
+		}
+		for (HashMap.Entry<String,DistLinesInstanceZ> pair : mapLinesInstanceZ.entrySet()) {
+			DistLinesInstanceZ obj = pair.getValue();
+			GldNode nd1 = mapNodes.get (obj.bus1);
+			nd1.nomvln = obj.basev / Math.sqrt(3.0);
+			nd1.AddPhases (obj.phases);
+			GldNode nd2 = mapNodes.get (obj.bus2);
+			nd2.nomvln = nd1.nomvln;
+			nd2.AddPhases (obj.phases);
+		}
+		for (HashMap.Entry<String,DistLinesCodeZ> pair : mapLinesCodeZ.entrySet()) {
+			DistLinesCodeZ obj = pair.getValue();
+			DistPhaseMatrix zmat = mapPhaseMatrices.get (obj.lname);
+			zmat.MarkGLMPermutationsUsed (obj.phases);
+			GldNode nd1 = mapNodes.get (obj.bus1);
+			nd1.nomvln = obj.basev / Math.sqrt(3.0);
+			nd1.AddPhases (obj.phases);
+			GldNode nd2 = mapNodes.get (obj.bus2);
+			nd2.nomvln = nd1.nomvln;
+			nd2.AddPhases (obj.phases);
+		}
+		for (HashMap.Entry<String,DistLinesSpacingZ> pair : mapLinesSpacingZ.entrySet()) {
+			DistLinesSpacingZ obj = pair.getValue();
+			GldNode nd1 = mapNodes.get (obj.bus1);
+			nd1.nomvln = obj.basev / Math.sqrt(3.0);
+			nd1.AddPhases (obj.phases);
+			GldNode nd2 = mapNodes.get (obj.bus2);
+			nd2.nomvln = nd1.nomvln;
+			nd2.AddPhases (obj.phases);
+		}
+		for (HashMap.Entry<String,DistSwitch> pair : mapSwitches.entrySet()) {
+			DistSwitch obj = pair.getValue();
+			GldNode nd1 = mapNodes.get (obj.bus1);
+			nd1.nomvln = obj.basev / Math.sqrt(3.0);
+			nd1.AddPhases (obj.phases);
+			GldNode nd2 = mapNodes.get (obj.bus2);
+			nd2.nomvln = nd1.nomvln;
+			nd2.AddPhases (obj.phases);
+		}
+		for (HashMap.Entry<String,DistXfmrTank> pair : mapTanks.entrySet()) {
+			DistXfmrTank obj = pair.getValue();
+			DistXfmrCodeRating code = mapCodeRatings.get (obj.tankinfo);
+			code.glmUsed = true;
+			for (int i = 0; i < obj.size; i++) {
+				GldNode nd = mapNodes.get(obj.bus[i]);
+				nd.nomvln = obj.basev[i] / Math.sqrt(3.0);
+				nd.AddPhases (obj.phs[i]);
+			}
+		}
+		for (HashMap.Entry<String,DistRegulator> pair : mapRegulators.entrySet()) {
+			DistRegulator reg = pair.getValue();
+			DistXfmrTank tank = mapTanks.get (reg.rname);
+			DistXfmrCodeRating code = mapCodeRatings.get (tank.tankinfo);
+			out.print (reg.GetGLM (code, tank));
+			code.glmUsed = false;
+			tank.glmUsed = false;
+		}
+
+		// GLM configurations
+		for (HashMap.Entry<String,DistPhaseMatrix> pair : mapPhaseMatrices.entrySet()) {
+			out.print (pair.getValue().GetGLM());
+		}
+		for (HashMap.Entry<String,DistXfmrCodeRating> pair : mapCodeRatings.entrySet()) {
+			DistXfmrCodeRating code = pair.getValue();
+			if (code.glmUsed) {
+				DistXfmrCodeSCTest sct = mapCodeSCTests.get(code.tname);
+				DistXfmrCodeOCTest oct = mapCodeOCTests.get (code.tname);
+				out.print (code.GetGLM(sct, oct));
+			}
+		}
+
+		// GLM circuit components
+		for (HashMap.Entry<String,DistCapacitor> pair : mapCapacitors.entrySet()) {
+			out.print (pair.getValue().GetGLM());
+		}
+		for (HashMap.Entry<String,DistLinesSpacingZ> pair : mapLinesSpacingZ.entrySet()) {
+			out.print (pair.getValue().GetGLM());
+		}
+		for (HashMap.Entry<String,DistLinesCodeZ> pair : mapLinesCodeZ.entrySet()) {
+			out.print (pair.getValue().GetGLM());
+		}
+		for (HashMap.Entry<String,DistLinesInstanceZ> pair : mapLinesInstanceZ.entrySet()) {
+			out.print (pair.getValue().GetGLM());
+		}
+		for (HashMap.Entry<String,DistSwitch> pair : mapSwitches.entrySet()) {
+			out.print (pair.getValue().GetGLM());
+		}
+		for (HashMap.Entry<String,DistXfmrTank> pair : mapTanks.entrySet()) {
+			DistXfmrTank obj = pair.getValue();
+			if (obj.glmUsed) {
+				out.print(obj.GetGLM());
+			}
+		}
+
+		// GLM nodes and loads
+		for (HashMap.Entry<String,GldNode> pair : mapNodes.entrySet()) {
+			out.print (pair.getValue().GetGLM());
+		}
+
+		out.close();
+	}
+
 	public static void main (String args[]) throws FileNotFoundException {
 		String fOut = "", fXY = "";
 		double freq = 60.0, load_scale = 1.0;
@@ -458,9 +588,8 @@ public class CIMImporter extends Object {
 
 		LoadAllMaps();
 
+		WriteGLMFile (fOut);
 		WriteJSONSymbolFile (fXY);
-		PrintWriter out = new PrintWriter (fOut);
-		out.close();
 //		PrintAllMaps();
 	}
 }

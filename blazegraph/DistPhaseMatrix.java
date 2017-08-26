@@ -8,6 +8,7 @@
 import java.io.*;
 import org.apache.jena.query.*;
 import java.text.DecimalFormat;
+import org.apache.commons.math3.complex.Complex;
 
 public class DistPhaseMatrix extends DistComponent {
 	static final String szQUERY = 
@@ -27,6 +28,29 @@ public class DistPhaseMatrix extends DistComponent {
 	public double[] r;
 	public double[] x;
 	public double[] b;
+
+	// only write the phasing permutations that are actually used
+	private boolean glmABC;
+	private boolean glmAB;
+	private boolean glmAC;
+	private boolean glmBC;
+	private boolean glmA;
+	private boolean glmB;
+	private boolean glmC;
+
+	public void MarkGLMPermutationsUsed (String s) {
+		if (cnt == 3) {
+			glmABC = true;
+		} else if (cnt == 2) {
+			if (s.contains ("A") && s.contains ("B")) glmAB = true;
+			if (s.contains ("A") && s.contains ("C")) glmAC = true;
+			if (s.contains ("B") && s.contains ("C")) glmBC = true;
+		} else if (cnt == 1) {
+			if (s.contains ("A")) glmA = true;
+			if (s.contains ("B")) glmB = true;
+			if (s.contains ("C")) glmC = true;
+		}
+	}
 
 	private int size;
 
@@ -126,6 +150,40 @@ public class DistPhaseMatrix extends DistComponent {
 									" [" + Integer.toString(GetMatRow(seq)) + "," + Integer.toString(GetMatCol(seq)) +"]" +
 									" r=" + df.format(r[i]) + " x=" + df.format(x[i]) + " b=" + df.format(b[i]));
 		}
+		return buf.toString();
+	}
+
+	private void AppendPermutation (StringBuilder buf, String perm, int[] permidx) {
+		DecimalFormat df = new DecimalFormat("#0.0000");
+
+		buf.append("object line_configuration {\n");
+		buf.append("  name \"lcon_" + name + "_" + perm + "\";\n");
+		for (int i = 0; i < cnt; i++) {
+			for (int j = 0; j < cnt; j++) {
+				int seq = GetMatSeq (cnt, i, j);
+				// want ohms/mile and nF/mile
+				String indices = Integer.toString(permidx[i]) + Integer.toString(permidx[j]) + " ";
+				buf.append ("  z" + indices + CFormat (new Complex(gMperMILE * r[seq], gMperMILE * x[seq])) + ";\n");
+				buf.append ("  c" + indices + df.format(1.0e9 * gMperMILE * b[seq] / gOMEGA) + ";\n");
+			}
+		}
+		buf.append("}\n");
+	}
+
+	public String GetGLM() {
+		StringBuilder buf = new StringBuilder ("");
+		if ((cnt == 3) && glmABC) {
+			AppendPermutation (buf, "ABC", new int[] {1, 2, 3});
+		} else if (cnt == 2) {
+			if (glmAB) AppendPermutation (buf, "AB", new int[] {1, 2});
+			if (glmAC) AppendPermutation (buf, "AC", new int[] {1, 3});
+			if (glmBC) AppendPermutation (buf, "BC", new int[] {2, 3});
+		} else if (cnt == 1) {
+			if (glmA) AppendPermutation (buf, "A", new int[] {1});
+			if (glmB) AppendPermutation (buf, "B", new int[] {2});
+			if (glmC) AppendPermutation (buf, "C", new int[] {3});
+		}
+
 		return buf.toString();
 	}
 

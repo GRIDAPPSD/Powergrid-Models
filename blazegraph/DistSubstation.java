@@ -12,9 +12,11 @@ import java.util.HashMap;
 
 public class DistSubstation extends DistComponent {
 	static final String szQUERY = 
-		"SELECT ?name ?bus ?nomv ?vmag ?vang ?r1 ?x1 ?r0 ?x0 WHERE {" +
+		"SELECT ?name ?bus ?basev ?nomv ?vmag ?vang ?r1 ?x1 ?r0 ?x0 WHERE {" +
 		 " ?s r:type c:EnergySource." +
 		 " ?s c:IdentifiedObject.name ?name." +
+  	 " ?s c:ConductingEquipment.BaseVoltage ?bv."+
+		 " ?bv c:BaseVoltage.nominalVoltage ?basev."+
 		 " ?s c:EnergySource.nominalVoltage ?nomv." + 
 		 " ?s c:EnergySource.voltageMagnitude ?vmag." + 
 		 " ?s c:EnergySource.voltageAngle ?vang." + 
@@ -29,6 +31,7 @@ public class DistSubstation extends DistComponent {
 
 	public String name;
 	public String bus;
+	public double basev;
 	public double nomv;
 	public double vmag;
 	public double vang;
@@ -42,6 +45,7 @@ public class DistSubstation extends DistComponent {
 			QuerySolution soln = results.next();
 			name = GLD_Name (soln.get("?name").toString(), false);
 			bus = GLD_Name (soln.get("?bus").toString(), true);
+			basev = Double.parseDouble (soln.get("?basev").toString());
 			nomv = Double.parseDouble (soln.get("?nomv").toString());
 			vmag = Double.parseDouble (soln.get("?vmag").toString());
 			vang = Double.parseDouble (soln.get("?vang").toString());
@@ -55,7 +59,7 @@ public class DistSubstation extends DistComponent {
 	public String DisplayString() {
 		DecimalFormat df = new DecimalFormat("#.0000");
 		StringBuilder buf = new StringBuilder ("");
-		buf.append (name + " @ " + bus + " nomv=" + df.format(nomv));
+		buf.append (name + " @ " + bus + " basev=" + df.format(basev) + " nomv=" + df.format(nomv));
 		buf.append (" vmag=" + df.format(vmag));
 		buf.append (" vang=" + df.format(vang));
 		buf.append (" r1=" + df.format(r1));

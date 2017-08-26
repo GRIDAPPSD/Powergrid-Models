@@ -15,8 +15,28 @@ public abstract class DistLineSegment extends DistComponent {
 	public String bus2;
 	public String phases;
 	public double len;
+	public double basev;
+
+	protected String glm_phases;
 
 	public abstract String LabelString();
+
+	protected void AppendSharedGLMAttributes(StringBuilder buf) {
+		DecimalFormat df = new DecimalFormat("#0.0000");
+
+		buf.append ("  name \"line_" + name + "\";\n");
+		buf.append ("  from \"" + bus1 + "\";\n");
+		buf.append ("  to \"" + bus2 + "\";\n");
+		StringBuilder phs = new StringBuilder();
+		if (phases.contains ("A")) phs.append ("A");
+		if (phases.contains ("B")) phs.append ("B");
+		if (phases.contains ("C")) phs.append ("C");
+		if (phases.contains ("s")) phs.append ("S");
+		if (phases.contains ("N")) phs.append ("N");
+		glm_phases = phs.toString();
+		buf.append("  phases " + glm_phases + ";\n");
+		buf.append ("  length " + df.format(len * gFTperM) + ";\n");
+	}
 
 	public String GetJSONSymbols(HashMap<String,DistCoordinates> map) {
 		DistCoordinates pt1 = map.get("ACLineSegment:" + name + ":1");
@@ -35,7 +55,7 @@ public abstract class DistLineSegment extends DistComponent {
 		buf.append (",\"from\":\"" + bus1 + "\"");
 		buf.append (",\"to\":\"" + bus2 + "\"");
 		buf.append (",\"phases\":\"" + lbl_phs.toString() +"\"");
-		buf.append (",\"length\":" + df.format(len * 3.2809));
+		buf.append (",\"length\":" + df.format(len * gFTperM));
 		buf.append (",\"configuration\":\"" + LabelString() + "\"");
 		buf.append (",\"x1\":" + Double.toString(pt1.x));
 		buf.append (",\"y1\":" + Double.toString(pt1.y));

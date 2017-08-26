@@ -11,9 +11,11 @@ import java.text.DecimalFormat;
 
 public class DistLinesInstanceZ extends DistLineSegment {
 	static final String szQUERY = 
-		"SELECT ?name (group_concat(distinct ?bus;separator=\"\\n\") as ?buses) ?len ?r ?x ?b ?r0 ?x0 ?b0 WHERE {"+
+		"SELECT ?name ?basev (group_concat(distinct ?bus;separator=\"\\n\") as ?buses) ?len ?r ?x ?b ?r0 ?x0 ?b0 WHERE {"+
 		" ?s r:type c:ACLineSegment."+
 		" ?s c:IdentifiedObject.name ?name."+
+		" ?s c:ConductingEquipment.BaseVoltage ?bv."+
+		" ?bv c:BaseVoltage.nominalVoltage ?basev."+
 		" ?s c:Conductor.length ?len."+
 		" ?s c:ACLineSegment.r ?r."+
 		" ?s c:ACLineSegment.x ?x."+
@@ -25,7 +27,7 @@ public class DistLinesInstanceZ extends DistLineSegment {
 		" ?t c:Terminal.ConnectivityNode ?cn. "+
 		" ?cn c:IdentifiedObject.name ?bus"+
 		"}"+
-		" GROUP BY ?name ?len ?r ?x ?b ?r0 ?x0 ?b0"+
+		" GROUP BY ?name ?basev ?len ?r ?x ?b ?r0 ?x0 ?b0"+
 		" ORDER BY ?name";
 
 	public double r1; 
@@ -44,6 +46,7 @@ public class DistLinesInstanceZ extends DistLineSegment {
 			bus2 = GLD_Name(buses[1], true); 
 			phases = "ABC";
 			len = Double.parseDouble (soln.get("?len").toString());
+			basev = Double.parseDouble (soln.get("?basev").toString());
 			r1 = Double.parseDouble (soln.get("?r").toString());
 			x1 = Double.parseDouble (soln.get("?x").toString());
 			b1 = OptionalDouble (soln, "?b", 0.0);
@@ -56,9 +59,24 @@ public class DistLinesInstanceZ extends DistLineSegment {
 	public String DisplayString() {
 		DecimalFormat df = new DecimalFormat("#.0000");
 		StringBuilder buf = new StringBuilder ("");
-		buf.append (name + " from " + bus1 + " to " + bus2 + " phases=" + phases + " len=" + df.format(len));
+		buf.append (name + " from " + bus1 + " to " + bus2 + " phases=" + phases + " basev=" + df.format(basev) + " len=" + df.format(len));
 		buf.append (" r1=" + df.format(r1) + " x1=" + df.format(x1) + " b1=" + df.format(b1));
 		buf.append (" r0=" + df.format(r0) + " x0=" + df.format(x0) + " b0=" + df.format(b0));
+		return buf.toString();
+	}
+
+	public String GetGLM() {
+		DecimalFormat df = new DecimalFormat("#.0000");
+
+		StringBuilder buf = new StringBuilder ("object overhead_line {\n");
+		AppendSharedGLMAttributes (buf);
+		buf.append("  configuration \"lcon_" + name + "_balanced\";\n");
+		buf.append("}\n");
+
+		buf.append("object line_configuration {\n");
+		buf.append("  name \"lcon_" + name + "_balanced\";\n");
+		// TODO - generate the 3x3 balanced phase matrix from sequence parameters
+		buf.append("}\n");
 		return buf.toString();
 	}
 

@@ -11,12 +11,22 @@ WHERE {
   ?s a ?class .
 }
 
+# list all the connectivity nodes (aka bus)
+PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX c:  <http://iec.ch/TC57/2012/CIM-schema-cim16#>
+SELECT ?name WHERE {
+ ?s r:type c:ConnectivityNode.
+ ?s c:IdentifiedObject.name ?name}
+ORDER by ?name
+
 # substation source
 PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX c:  <http://iec.ch/TC57/2012/CIM-schema-cim16#>
-SELECT ?name ?bus ?nomv ?vmag ?vang ?r1 ?x1 ?r0 ?x0 WHERE {
+SELECT ?name ?bus ?basev ?nomv ?vmag ?vang ?r1 ?x1 ?r0 ?x0 WHERE {
  ?s r:type c:EnergySource.
  ?s c:IdentifiedObject.name ?name.
+ ?s c:ConductingEquipment.BaseVoltage ?bv.
+ ?bv c:BaseVoltage.nominalVoltage ?basev.
  ?s c:EnergySource.nominalVoltage ?nomv. 
  ?s c:EnergySource.voltageMagnitude ?vmag. 
  ?s c:EnergySource.voltageAngle ?vang. 
@@ -32,9 +42,11 @@ SELECT ?name ?bus ?nomv ?vmag ?vang ?r1 ?x1 ?r0 ?x0 WHERE {
 # capacitors (does not account for 2+ unequal phases on same LinearShuntCompensator)
 PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX c:  <http://iec.ch/TC57/2012/CIM-schema-cim16#>
-SELECT ?name ?nomu ?bsection ?bus ?conn ?grnd ?phs ?ctrlenabled ?discrete ?mode ?deadband ?setpoint ?monclass ?moneq ?monbus ?monphs WHERE {
+SELECT ?name ?basev ?nomu ?bsection ?bus ?conn ?grnd ?phs ?ctrlenabled ?discrete ?mode ?deadband ?setpoint ?delay ?monclass ?moneq ?monbus ?monphs WHERE {
  ?s r:type c:LinearShuntCompensator.
  ?s c:IdentifiedObject.name ?name.
+ ?s c:ConductingEquipment.BaseVoltage ?bv.
+ ?bv c:BaseVoltage.nominalVoltage ?basev.
  ?s c:ShuntCompensator.nomU ?nomu. 
  ?s c:LinearShuntCompensator.bPerSection ?bsection. 
  ?s c:ShuntCompensator.phaseConnection ?connraw.
@@ -52,6 +64,7 @@ SELECT ?name ?nomu ?bsection ?bus ?conn ?grnd ?phs ?ctrlenabled ?discrete ?mode 
            bind(strafter(str(?monraw),"PhaseCode.") as ?monphs)
           ?ctl c:RegulatingControl.targetDeadband ?deadband.
           ?ctl c:RegulatingControl.targetValue ?setpoint.
+          ?s c:ShuntCompensator.aVRDelay ?delay.
           ?ctl c:RegulatingControl.Terminal ?trm.
           ?trm c:Terminal.ConductingEquipment ?eq.
           ?eq a ?classraw.
@@ -69,9 +82,11 @@ ORDER by ?name
 # loads (need to account for 2+ unequal EnergyConsumerPhases per EnergyConsumer)
 PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX c:  <http://iec.ch/TC57/2012/CIM-schema-cim16#>
-SELECT ?name ?bus ?p ?q ?conn ?pz ?qz ?pi ?qi ?pp ?qp ?pe ?qe ?phs WHERE {
+SELECT ?name ?bus ?basev ?p ?q ?conn ?pz ?qz ?pi ?qi ?pp ?qp ?pe ?qe ?phs WHERE {
  ?s r:type c:EnergyConsumer.
  ?s c:IdentifiedObject.name ?name.
+ ?s c:ConductingEquipment.BaseVoltage ?bv.
+ ?bv c:BaseVoltage.nominalVoltage ?basev.
  ?s c:EnergyConsumer.pfixed ?p.
  ?s c:EnergyConsumer.qfixed ?q.
  ?s c:EnergyConsumer.phaseConnection ?connraw.
@@ -127,9 +142,11 @@ ORDER by ?name
 # lines referencing linecodes
 PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX c:  <http://iec.ch/TC57/2012/CIM-schema-cim16#>
-SELECT ?name (group_concat(distinct ?bus;separator="\n") as ?buses) (group_concat(distinct ?phs;separator="\n") as ?phases) ?len ?lname WHERE {
+SELECT ?name ?basev (group_concat(distinct ?bus;separator="\n") as ?buses) (group_concat(distinct ?phs;separator="\n") as ?phases) ?len ?lname WHERE {
  ?s r:type c:ACLineSegment.
  ?s c:IdentifiedObject.name ?name.
+ ?s c:ConductingEquipment.BaseVoltage ?bv.
+ ?bv c:BaseVoltage.nominalVoltage ?basev.
  ?s c:Conductor.length ?len.
  ?s c:ACLineSegment.PerLengthImpedance ?lcode.
  ?lcode c:IdentifiedObject.name ?lname. 
@@ -140,15 +157,17 @@ SELECT ?name (group_concat(distinct ?bus;separator="\n") as ?buses) (group_conca
  ?acp c:ACLineSegmentPhase.phase ?phsraw.
    bind(strafter(str(?phsraw),"SinglePhaseKind.") as ?phs) }
 }
-GROUP BY ?name ?len ?lname
+GROUP BY ?name ?len ?lname ?basev
 ORDER BY ?name
 
 # load-break switches (not handling different phases on each side, or different normalOpen values per phase)
 PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX c:  <http://iec.ch/TC57/2012/CIM-schema-cim16#>
-SELECT ?name (group_concat(distinct ?bus;separator="\n") as ?buses) (group_concat(distinct ?phs;separator="\n") as ?phases) ?open WHERE {
+SELECT ?name ?basev (group_concat(distinct ?bus;separator="\n") as ?buses) (group_concat(distinct ?phs;separator="\n") as ?phases) ?open WHERE {
  ?s r:type c:LoadBreakSwitch.
  ?s c:IdentifiedObject.name ?name.
+ ?s c:ConductingEquipment.BaseVoltage ?bv.
+ ?bv c:BaseVoltage.nominalVoltage ?basev.
  ?s c:Switch.normalOpen ?open.
  ?t c:Terminal.ConductingEquipment ?s.
  ?t c:Terminal.ConnectivityNode ?cn. 
@@ -157,7 +176,7 @@ SELECT ?name (group_concat(distinct ?bus;separator="\n") as ?buses) (group_conca
  ?swp c:SwitchPhase.phaseSide1 ?phsraw.
    bind(strafter(str(?phsraw),"SinglePhaseKind.") as ?phs) }
 }
-GROUP BY ?name ?open
+GROUP BY ?name ?basev ?open
 ORDER BY ?name
 
 # transformer codes; winding ratings
@@ -238,7 +257,7 @@ SELECT (count(?p) as ?count) WHERE {
 # transformer tanks referencing the catalog
 PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX c:  <http://iec.ch/TC57/2012/CIM-schema-cim16#>
-SELECT ?pname ?tname ?xfmrcode ?vgrp ?enum ?bus ?phs ?grounded ?rground ?xground WHERE {
+SELECT ?pname ?tname ?xfmrcode ?vgrp ?enum ?bus ?basev ?phs ?grounded ?rground ?xground WHERE {
  ?p r:type c:PowerTransformer.
  ?p c:IdentifiedObject.name ?pname.
  ?p c:PowerTransformer.vectorGroup ?vgrp.
@@ -256,7 +275,9 @@ SELECT ?pname ?tname ?xfmrcode ?vgrp ?enum ?bus ?phs ?grounded ?rground ?xground
  OPTIONAL {?end c:TransformerEnd.xground ?xground.}
  ?end c:TransformerEnd.Terminal ?trm.
  ?trm c:Terminal.ConnectivityNode ?cn. 
- ?cn c:IdentifiedObject.name ?bus
+ ?cn c:IdentifiedObject.name ?bus.
+ ?end c:TransformerEnd.BaseVoltage ?bv.
+ ?bv c:BaseVoltage.nominalVoltage ?basev
 }
 ORDER BY ?pname ?tname ?enum
 
@@ -277,7 +298,7 @@ SELECT (count (?p) as ?count) WHERE {
 # power transformers on their own; windings
 PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX c:  <http://iec.ch/TC57/2012/CIM-schema-cim16#>
-SELECT ?pname ?vgrp ?enum ?bus ?conn ?ratedS ?ratedU ?r ?ang ?grounded ?rground ?xground WHERE {
+SELECT ?pname ?vgrp ?enum ?bus ?basev ?conn ?ratedS ?ratedU ?r ?ang ?grounded ?rground ?xground WHERE {
  ?p r:type c:PowerTransformer.
  ?p c:IdentifiedObject.name ?pname.
  ?p c:PowerTransformer.vectorGroup ?vgrp.
@@ -294,7 +315,9 @@ SELECT ?pname ?vgrp ?enum ?bus ?conn ?ratedS ?ratedU ?r ?ang ?grounded ?rground 
  OPTIONAL {?end c:TransformerEnd.xground ?xground.}
  ?end c:TransformerEnd.Terminal ?trm.
  ?trm c:Terminal.ConnectivityNode ?cn. 
- ?cn c:IdentifiedObject.name ?bus
+ ?cn c:IdentifiedObject.name ?bus.
+ ?end c:TransformerEnd.BaseVoltage ?bv.
+ ?bv c:BaseVoltage.nominalVoltage ?basev
 }
 ORDER BY ?pname ?enum
 
@@ -444,9 +467,11 @@ ORDER BY ?class ?name ?seq ?x ?y
 # lines with stand-alone impedances
 PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX c:  <http://iec.ch/TC57/2012/CIM-schema-cim16#>
-SELECT ?name (group_concat(distinct ?bus;separator="\n") as ?buses) ?len ?r ?x ?b ?r0 ?x0 ?b0 WHERE {
+SELECT ?name ?basev (group_concat(distinct ?bus;separator="\n") as ?buses) ?len ?r ?x ?b ?r0 ?x0 ?b0 WHERE {
  ?s r:type c:ACLineSegment.
  ?s c:IdentifiedObject.name ?name.
+ ?s c:ConductingEquipment.BaseVoltage ?bv.
+ ?bv c:BaseVoltage.nominalVoltage ?basev.
  ?s c:Conductor.length ?len.
  ?s c:ACLineSegment.r ?r.
  ?s c:ACLineSegment.x ?x.
@@ -458,7 +483,7 @@ SELECT ?name (group_concat(distinct ?bus;separator="\n") as ?buses) ?len ?r ?x ?
  ?t c:Terminal.ConnectivityNode ?cn. 
  ?cn c:IdentifiedObject.name ?bus
 }
-GROUP BY ?name ?len ?r ?x ?b ?r0 ?x0 ?b0
+GROUP BY ?name ?basev ?len ?r ?x ?b ?r0 ?x0 ?b0
 ORDER BY ?name
 
 # wiredata
@@ -570,9 +595,11 @@ ORDER BY ?name
 # line segments referencing wirespacing
 PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX c:  <http://iec.ch/TC57/2012/CIM-schema-cim16#>
-SELECT ?name (group_concat(distinct ?bus;separator="\n") as ?buses) (group_concat(distinct ?phs;separator="\n") as ?phases) ?len ?spacing ?wname ?wclass WHERE {
+SELECT ?name ?basev (group_concat(distinct ?bus;separator="\n") as ?buses) (group_concat(distinct ?phs;separator="\n") as ?phases) ?len ?spacing ?wname ?wclass WHERE {
  ?s r:type c:ACLineSegment.
  ?s c:IdentifiedObject.name ?name.
+ ?s c:ConductingEquipment.BaseVoltage ?bv.
+ ?bv c:BaseVoltage.nominalVoltage ?basev.
  ?s c:Conductor.length ?len.
  ?asset c:Asset.PowerSystemResources ?s.
  ?asset c:Asset.AssetInfo ?inf.
@@ -593,13 +620,13 @@ SELECT ?name (group_concat(distinct ?bus;separator="\n") as ?buses) (group_conca
  ?acp c:ACLineSegmentPhase.phase ?phsraw.
    bind(strafter(str(?phsraw),"SinglePhaseKind.") as ?phs) }
 }
-GROUP BY ?name ?len ?spacing ?wname ?wclass
+GROUP BY ?name ?basev ?len ?spacing ?wname ?wclass
 ORDER BY ?name
 
 # line segments with individual phase wire assignments
 PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX c:  <http://iec.ch/TC57/2012/CIM-schema-cim16#>
-SELECT ?name (group_concat(distinct ?bus;separator="\n") as ?buses) 
+SELECT ?name ?basev (group_concat(distinct ?bus;separator="\n") as ?buses) 
   (group_concat(distinct ?phs;separator="\n") as ?phases) 
 	 ?len ?spacing ?wname ?wclass
   (group_concat(distinct ?phname;separator="\n") as ?phwires) 
@@ -607,6 +634,8 @@ SELECT ?name (group_concat(distinct ?bus;separator="\n") as ?buses)
 WHERE {
  ?s r:type c:ACLineSegment.
  ?s c:IdentifiedObject.name ?name.
+ ?s c:ConductingEquipment.BaseVoltage ?bv.
+ ?bv c:BaseVoltage.nominalVoltage ?basev.
  ?s c:Conductor.length ?len.
  ?asset c:Asset.PowerSystemResources ?s.
  ?asset c:Asset.AssetInfo ?inf.
@@ -637,6 +666,6 @@ WHERE {
      }
    }
 }
-GROUP BY ?name ?len ?spacing ?wname ?wclass
+GROUP BY ?name ?basev ?len ?spacing ?wname ?wclass
 ORDER BY ?name
 

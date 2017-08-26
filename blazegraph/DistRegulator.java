@@ -165,7 +165,7 @@ public class DistRegulator extends DistComponent {
 	public String GetJSONSymbols(HashMap<String,DistCoordinates> map, HashMap<String,DistXfmrTank> mapTank) {
 		DistCoordinates pt1 = map.get("PowerTransformer:" + pname + ":1");
 		DistCoordinates pt2 = map.get("PowerTransformer:" + pname + ":2");
-		DistXfmrTank xfmr = mapTank.get(pname + ":" + rname);
+		DistXfmrTank xfmr = mapTank.get(rname);
 		String bus1 = xfmr.bus[0];
 		String bus2 = xfmr.bus[1];
 
@@ -182,6 +182,63 @@ public class DistRegulator extends DistComponent {
 		buf.append (",\"x2\":" + Double.toString(pt2.x));
 		buf.append (",\"y2\":" + Double.toString(pt2.y));
 		buf.append ("}");
+		return buf.toString();
+	}
+
+	public String GetGLM (DistXfmrCodeRating code, DistXfmrTank tank) {
+		StringBuilder buf = new StringBuilder ("object regulator_configuration {\n");
+		DecimalFormat df = new DecimalFormat("#0.000000");
+		boolean bA = true, bB = true, bC = true;
+		double dReg = 0.01 * 0.5 * step * (highStep - lowStep);
+
+		buf.append ("  name \"rcon_" + rname + "\";\n");
+		if (tank.vgrp.contains("D") || tank.vgrp.contains("d"))  {
+			buf.append ("  connect_type CLOSED_DELTA;\n");
+		} else {
+			buf.append ("  connect_type WYE_WYE;\n");
+		}
+		buf.append ("  band_center " + df.format(vset) + ";\n");
+		buf.append ("  band_width " + df.format(vbw) + ";\n");
+		buf.append ("  dwell_time " + df.format(initDelay) + ";\n");
+		buf.append ("  raise_taps " + Integer.toString(Math.abs (highStep - neutralStep)) + ";\n");
+		buf.append ("  lower_taps " + Integer.toString(Math.abs (neutralStep - lowStep)) + ";\n");
+		buf.append ("  regulation " + df.format(dReg) + ";\n");
+		buf.append ("  Type B;\n");
+		if (vset > 0.0 && vbw > 0.0 && ltc) {  // for GridAPPS-D, we don't actually use the control modes from CIM
+			if (ldc) {
+				buf.append("	Control MANUAL; // LINE_DROP_COMP;\n");
+			} else {
+				buf.append("	Control MANUAL; // OUTPUT_VOLTAGE;\n");
+			}
+		} else {
+			buf.append("	Control MANUAL;\n");
+		}
+//		if (bA)  buf.append ("	tap_pos_A " + Integer.toString(iTapA) + ";\n");
+//		if (bB)  buf.append ("	tap_pos_B " + Integer.toString(iTapB) + ";\n");
+//		if (bC)  buf.append ("	tap_pos_C " + Integer.toString(iTapC) + ";\n");
+		buf.append ("  current_transducer_ratio " + df.format(ctRatio) + ";\n");
+		buf.append ("  power_transducer_ratio " + df.format(ptRatio) + ";\n");
+		if (bA)  {
+			buf.append ("  compensator_r_setting_A " + df.format(fwdR) + ";\n");
+			buf.append ("  compensator_x_setting_A " + df.format(fwdX) + ";\n");
+		}
+		if (bB)  {
+			buf.append ("  compensator_r_setting_B " + df.format(fwdR) + ";\n");
+			buf.append ("  compensator_x_setting_B " + df.format(fwdX) + ";\n");
+		}
+		if (bC)  {
+			buf.append ("  compensator_r_setting_C " + df.format(fwdR) + ";\n");
+			buf.append ("  compensator_x_setting_C " + df.format(fwdX) + ";\n");
+		}
+		buf.append ("}\n");
+
+		buf.append ("object regulator {\n");
+		buf.append ("  name \"reg_" + rname + "\";\n");
+		buf.append ("  from \"" + tank.bus[0] + "\";\n");
+		buf.append ("  to \"" + tank.bus[1] + "\";\n");
+		buf.append ("  phases " + tank.phs[0] + ";\n");
+		buf.append ("  configuration \"rcon_" + rname + "\";\n");
+		buf.append ("}\n");
 		return buf.toString();
 	}
 

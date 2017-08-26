@@ -12,7 +12,7 @@ import java.util.HashMap;
 
 public class DistXfmrTank extends DistComponent {
 	static final String szQUERY =
-		"SELECT ?pname ?tname ?xfmrcode ?vgrp ?enum ?bus ?phs ?grounded ?rground ?xground WHERE {"+
+		"SELECT ?pname ?tname ?xfmrcode ?vgrp ?enum ?bus ?basev ?phs ?grounded ?rground ?xground WHERE {"+
 		" ?p r:type c:PowerTransformer."+
 		" ?p c:IdentifiedObject.name ?pname."+
 		" ?p c:PowerTransformer.vectorGroup ?vgrp."+
@@ -30,7 +30,9 @@ public class DistXfmrTank extends DistComponent {
 		" OPTIONAL {?end c:TransformerEnd.xground ?xground.}"+
 		" ?end c:TransformerEnd.Terminal ?trm."+
 		" ?trm c:Terminal.ConnectivityNode ?cn."+ 
-		" ?cn c:IdentifiedObject.name ?bus"+
+		" ?cn c:IdentifiedObject.name ?bus."+
+		" ?end c:TransformerEnd.BaseVoltage ?bv."+
+		" ?bv c:BaseVoltage.nominalVoltage ?basev"+
 		"}"+
 		" ORDER BY ?pname ?tname ?enum"		;
 
@@ -40,10 +42,13 @@ public class DistXfmrTank extends DistComponent {
 	public String vgrp;
 	public String[] bus;
 	public String[] phs;
+	public double[] basev;
 	public double[] rg;
 	public double[] xg;
 	public int[] wdg;
 	public boolean[] grounded;
+
+	public boolean glmUsed;
 
 	public int size;
 
@@ -68,6 +73,7 @@ public class DistXfmrTank extends DistComponent {
 		phs = new String[size];
 		wdg = new int[size];
 		grounded = new boolean[size];
+		basev = new double[size];
 		rg = new double[size];
 		xg = new double[size];
 	}
@@ -84,6 +90,7 @@ public class DistXfmrTank extends DistComponent {
 			SetSize (p, t);
 			for (int i = 0; i < size; i++) {
 				bus[i] = GLD_Name (soln.get("?bus").toString(), true);
+				basev[i] = Double.parseDouble (soln.get("?basev").toString());
 				phs[i] = soln.get("?phs").toString();
 				rg[i] = OptionalDouble (soln, "?rground", 0.0);
 				xg[i] = OptionalDouble (soln, "?xground", 0.0);
@@ -101,7 +108,7 @@ public class DistXfmrTank extends DistComponent {
 		StringBuilder buf = new StringBuilder ("");
 		buf.append (pname + ":" + tname + " tankinfo=" + tankinfo + " vgrp=" + vgrp);
 		for (int i = 0; i < size; i++) {
-			buf.append ("\n  " + Integer.toString(wdg[i]) + " bus=" + bus[i] + " phs=" + phs[i]);
+			buf.append ("\n  " + Integer.toString(wdg[i]) + " bus=" + bus[i] + " basev=" + df.format(basev[i]) + " phs=" + phs[i]);
 			buf.append (" grounded=" + Boolean.toString(grounded[i]) + " rg=" + df.format(rg[i]) + " xg=" + df.format(xg[i]));
 		}
 		return buf.toString();
@@ -133,8 +140,21 @@ public class DistXfmrTank extends DistComponent {
 		return buf.toString();
 	}
 
+	public String GetGLM () {
+		StringBuilder buf = new StringBuilder ("object transformer {\n");
+
+		buf.append ("  name \"xf_" + tname + "\";\n");
+		buf.append ("  from \"" + bus[0] + "\";\n");
+		buf.append ("  to \"" + bus[1] + "\";\n");
+		buf.append ("  phases " + phs[0] + ";\n");
+		buf.append ("  configuration \"xcon_" + tankinfo + "\";\n");
+		buf.append ("  // vector group " + vgrp + ";\n");
+		buf.append("}\n");
+		return buf.toString();
+	}
+
 	public String GetKey() {
-		return pname + ":" + tname;
+		return tname;
 	}
 }
 

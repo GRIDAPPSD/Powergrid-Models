@@ -36,6 +36,8 @@ public class DistXfmrCodeRating extends DistComponent {
 	public double[] r;
 	public int size;
 
+	public boolean glmUsed;
+
 	private void SetSize (String p, String t) {
 		size = 1;
 		String szCount = "SELECT (count (?p) as ?count) WHERE {"+
@@ -91,8 +93,49 @@ public class DistXfmrCodeRating extends DistComponent {
 		return buf.toString();
 	}
 
+	public String GetGLM (DistXfmrCodeSCTest sct, DistXfmrCodeOCTest oct) {
+		StringBuilder buf = new StringBuilder("object transformer_configuration {\n");
+		DecimalFormat dfv = new DecimalFormat("#.000");
+		DecimalFormat dfz = new DecimalFormat("#.000000");
+
+		double rpu = 0.0;
+		double zpu = 0.0;
+		double zbase1 = ratedU[0] * ratedU[0] / ratedS[0];
+		double zbase2 = ratedU[1] * ratedU[1] / ratedS[1];
+		if (sct.ll[0] > 0.0) {
+			rpu = sct.ll[0] / ratedS[0];
+		} else {
+			rpu = (r[0] / zbase1) + (r[1] / zbase2);
+		}
+		if (sct.fwdg[0] == 1) {
+			zpu = sct.z[0] / zbase1;
+		} else if (sct.fwdg[0] == 2) {
+			zpu = sct.z[0] / zbase2;
+		}
+		double xpu = zpu;
+		if (zpu >= rpu) {
+//			xpu = Math.sqrt (zpu * zpu - rpu * rpu);  // TODO: this adjustment is correct, but was not done in RC1
+		}
+
+		buf.append ("  name \"xcon_" + tname + "\";\n");
+		buf.append ("  connect_type " + GetGldTransformerConnection (conn, size) + ";\n");
+		buf.append ("  primary_voltage " + dfv.format (ratedU[0] / Math.sqrt(3.0)) + ";\n");
+		buf.append ("  secondary_voltage " + dfv.format (ratedU[1] / Math.sqrt(3.0)) + ";\n");
+		buf.append ("  power_rating " + dfv.format (ratedS[0] * 0.001) + ";\n");
+		buf.append ("  resistance " + dfz.format (rpu) + ";\n");
+		buf.append ("  reactance " + dfz.format (xpu) + ";\n");
+		if (oct.iexc > 0.0) {
+			buf.append ("  shunt_reactance " + dfz.format (100.0 / oct.iexc) + ";\n");
+		}
+		if (oct.nll > 0.0) {
+			buf.append ("  shunt_resistance " + dfz.format (ratedS[0] / oct.nll) + ";\n");
+		}
+		buf.append("}\n");
+		return buf.toString();
+	}
+
 	public String GetKey() {
-		return pname + ":" + tname;
+		return tname;
 	}
 }
 

@@ -87,7 +87,7 @@ public class DistXfmrCodeSCTest extends DistComponent {
 	}
 
 	public String GetKey() {
-		return pname + ":" + tname;
+		return tname;
 	}
 }
 
