@@ -8,6 +8,7 @@
 import java.io.*;
 import org.apache.jena.query.*;
 import java.text.DecimalFormat;
+import java.util.HashMap;
 
 public class DistSubstation extends DistComponent {
 	static final String szQUERY = 
@@ -61,6 +62,22 @@ public class DistSubstation extends DistComponent {
 		buf.append (" x1=" + df.format(x1));
 		buf.append (" r0=" + df.format(r0));
 		buf.append (" x0=" + df.format(x0));
+		return buf.toString();
+	}
+
+	public String GetJSONSymbols(HashMap<String,DistCoordinates> map) {
+		DistCoordinates pt = map.get("EnergySource:" + name + ":1");
+
+		DecimalFormat df = new DecimalFormat("#0.0");
+		StringBuilder buf = new StringBuilder ();
+
+		buf.append ("{\"name\":\"" + name +"\"");
+		buf.append (",\"bus\":\"" + bus +"\"");
+		buf.append (",\"phases\":\"ABC\"");
+		buf.append (",\"nominal_voltage\":" + df.format(nomv / Math.sqrt(3.0)));
+		buf.append (",\"x1\":" + Double.toString(pt.x));
+		buf.append (",\"y1\":" + Double.toString(pt.y));
+		buf.append ("}");
 		return buf.toString();
 	}
 

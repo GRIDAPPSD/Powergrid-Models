@@ -67,6 +67,9 @@ public class CIMImporter extends Object {
 		while (results.hasNext()) {
 			DistSubstation obj = new DistSubstation (results);
 			mapSubstations.put (obj.GetKey(), obj);
+			mapNodes.put (obj.bus, new GldNode(obj.bus));
+			GldNode nd = mapNodes.get (obj.bus);
+			nd.bSwing = true;
 		}
 	}
 
@@ -303,9 +306,162 @@ public class CIMImporter extends Object {
 		LoadXfmrTanks();
 	}
 
-	public static void main (String args[]) throws UnsupportedEncodingException, FileNotFoundException {
+	public static void WriteJSONSymbolFile (String fXY) throws FileNotFoundException {
+		PrintWriter out = new PrintWriter (fXY);
+		int count, last;
+
+		out.println("{\"feeder\":[");
+
+		out.println("{\"swing_nodes\":[");
+		count = 1;
+		last = mapSubstations.size();
+		for (HashMap.Entry<String,DistSubstation> pair : mapSubstations.entrySet()) {
+			out.print (pair.getValue().GetJSONSymbols(mapCoordinates));
+			if (count++ < last) {
+				out.println (",");
+			} else {
+				out.println ("");
+			}
+		}
+		out.println("]},");
+
+		out.println("{\"capacitors\":[");
+		count = 1;
+		last = mapCapacitors.size();
+		for (HashMap.Entry<String,DistCapacitor> pair : mapCapacitors.entrySet()) {
+			out.print (pair.getValue().GetJSONSymbols(mapCoordinates));
+			if (count++ < last) {
+				out.println (",");
+			} else {
+				out.println ("");
+			}
+		}
+		out.println("]},");
+
+		out.println("{\"overhead_lines\":[");
+		count = 1;
+		last = mapLinesCodeZ.size() + mapLinesInstanceZ.size() + mapLinesSpacingZ.size();
+		for (HashMap.Entry<String,DistLinesCodeZ> pair : mapLinesCodeZ.entrySet()) {
+			out.print (pair.getValue().GetJSONSymbols(mapCoordinates));
+			if (count++ < last) {
+				out.println (",");
+			} else {
+				out.println ("");
+			}
+		}
+		for (HashMap.Entry<String,DistLinesInstanceZ> pair : mapLinesInstanceZ.entrySet()) {
+			out.print (pair.getValue().GetJSONSymbols(mapCoordinates));
+			if (count++ < last) {
+				out.println (",");
+			} else {
+				out.println ("");
+			}
+		}
+		for (HashMap.Entry<String,DistLinesSpacingZ> pair : mapLinesSpacingZ.entrySet()) {
+			out.print (pair.getValue().GetJSONSymbols(mapCoordinates));
+			if (count++ < last) {
+				out.println (",");
+			} else {
+				out.println ("");
+			}
+		}
+		out.println("]},");
+
+		out.println("{\"transformers\":[");
+		count = 1;
+		last = mapTanks.size();
+		for (HashMap.Entry<String,DistXfmrTank> pair : mapTanks.entrySet()) {
+			out.print (pair.getValue().GetJSONSymbols(mapCoordinates));
+			if (count++ < last) {
+				out.println (",");
+			} else {
+				out.println ("");
+			}
+		}
+		out.println("]},");
+
+		out.println("{\"regulators\":[");
+		count = 1;
+		last = mapRegulators.size();
+		for (HashMap.Entry<String,DistRegulator> pair : mapRegulators.entrySet()) {
+			out.print (pair.getValue().GetJSONSymbols(mapCoordinates, mapTanks));
+			if (count++ < last) {
+				out.println (",");
+			} else {
+				out.println ("");
+			}
+		}
+		out.println("]}");
+
+		out.println("]}");
+		out.close();
+	}
+
+	public static void main (String args[]) throws FileNotFoundException {
+		String fOut = "", fXY = "";
+		double freq = 60.0, load_scale = 1.0;
+		boolean bWantSched = false, bWantZIP = false;
+		String fSched = "";
+		double Zcoeff = 0.0, Icoeff = 0.0, Pcoeff = 0.0;
+
+		if (args.length < 2) {
+			System.out.println ("Usage: java CIMImporter [options] output_root");
+			System.out.println ("       -l={0..1}          // load scaling factor; defaults to 1");
+			System.out.println ("       -f={50|60}         // system frequency; defaults to 60");
+			System.out.println ("       -n={schedule_name} // root filename for scheduled ZIP loads (defaults to none)");
+			System.out.println ("       -z={0..1}          // constant Z portion (defaults to 0 for CIM-defined LoadResponseCharacteristic)");
+			System.out.println ("       -i={0..1}          // constant I portion (defaults to 0 for CIM-defined LoadResponseCharacteristic)");
+			System.out.println ("       -p={0..1}          // constant P portion (defaults to 0 for CIM-defined LoadResponseCharacteristic)");
+			System.out.println ("Example: java CIMImporter -l=1 -i=1 ieee8500");
+			System.out.println ("   assuming Jena and Commons-Math are in Java's classpath, this will produce two output files");
+			System.out.println ("   1) ieee8500_base.glm with GridLAB-D components for a constant-current model at peak load");
+			System.out.println ("      This file includes an adjustable source voltage, and manual capacitor/tap changer states.");
+			System.out.println ("      It should be invoked from a separate GridLAB-D file that sets up the clock, solver, recorders, etc.");
+			System.out.println ("      For example, these two GridLAB-D input lines set up 1.05 per-unit source voltage on a 115-kV system:");
+			System.out.println ("          #define VSOURCE=69715.065 // 66395.3 * 1.05");
+			System.out.println ("          #include \"ieee8500_base.glm\"");
+			System.out.println ("      If there were capacitor/tap changer controls in the CIM input file, that data was written to");
+			System.out.println ("          ieee8500_base.glm as comments, which can be recovered through manual edits.");
+			System.out.println ("   2) ieee8500_symbols.json with component labels and geographic coordinates, used in GridAPPS-D but not GridLAB-D");
+			System.out.println ("TODO: implement arguments for SPARQL endpoint and CIM EquipmentContainer selection");
+			System.exit (0);
+		}
+
+		int i = 0;
+		while (i < args.length) {
+			if (args[i].charAt(0) == '-') {
+				char opt = args[i].charAt(1);
+				String optVal = args[i].substring(3);
+				if (opt == 'l') {
+					load_scale = Double.parseDouble(optVal);
+				} else if (opt == 'f') {
+					freq = Double.parseDouble(optVal);
+				} else if (opt == 'n') {
+					fSched = optVal;
+					bWantSched = true;
+				} else if (opt == 'z') {
+					Zcoeff = Double.parseDouble(optVal);
+					bWantZIP = true;
+				} else if (opt == 'i') {
+					Icoeff = Double.parseDouble(optVal);
+					bWantZIP = true;
+				} else if (opt == 'p') {
+					Pcoeff = Double.parseDouble(optVal);
+					bWantZIP = true;
+				}
+			} else {
+				fOut = args[i] + "_base.glm";
+				fXY = args[i] + "_symbols.json";
+			}
+			++i;
+		}
+
 		LoadAllMaps();
-		PrintAllMaps();
+
+		WriteJSONSymbolFile (fXY);
+		PrintWriter out = new PrintWriter (fOut);
+		out.close();
+//		PrintAllMaps();
 	}
 }
 

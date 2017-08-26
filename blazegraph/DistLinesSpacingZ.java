@@ -9,7 +9,7 @@ import java.io.*;
 import org.apache.jena.query.*;
 import java.text.DecimalFormat;
 
-public class DistLinesSpacingZ extends DistComponent {
+public class DistLinesSpacingZ extends DistLineSegment {
 	static final String szQUERY =
 		"SELECT ?name (group_concat(distinct ?bus;separator=\"\\n\") as ?buses)"+
 		"       (group_concat(distinct ?phs;separator=\"\\n\") as ?phases)"+
@@ -51,10 +51,6 @@ public class DistLinesSpacingZ extends DistComponent {
 		" GROUP BY ?name ?len ?spacing ?wname ?wclass"+
 		" ORDER BY ?name";
 
-	public String name;
-	public String bus1;
-	public String bus2;
-	public double len;
 	public String spacing;
 	public String wname;
 	public String wclass;
@@ -75,7 +71,7 @@ public class DistLinesSpacingZ extends DistComponent {
 			wname = soln.get("?wname").toString();
 			wclass = soln.get("?wclass").toString();
 			nwires = 0;
-			String phases = OptionalString (soln, "?phases", "");
+			phases = OptionalString (soln, "?phases", "");
 			if (phases.length() > 0) {
 				String phwires = OptionalString (soln, "?phwires", "");
 				String phclasses = OptionalString (soln, "?phclasses", "");
@@ -114,6 +110,10 @@ public class DistLinesSpacingZ extends DistComponent {
 
 	public String GetKey() {
 		return name;
+	}
+
+	public String LabelString() {
+		return spacing + ":" + wname;
 	}
 }
 

@@ -9,7 +9,7 @@ import java.io.*;
 import org.apache.jena.query.*;
 import java.text.DecimalFormat;
 
-public class DistLinesCodeZ extends DistComponent {
+public class DistLinesCodeZ extends DistLineSegment {
 	static final String szQUERY =
 		"SELECT ?name (group_concat(distinct ?bus;separator=\"\\n\") as ?buses) (group_concat(distinct ?phs;separator=\"\\n\") as ?phases) ?len ?lname WHERE {"+
 		" ?s r:type c:ACLineSegment."+
@@ -27,10 +27,6 @@ public class DistLinesCodeZ extends DistComponent {
 		" GROUP BY ?name ?len ?lname"+
 		" ORDER BY ?name";
 
-	public String name;
-	public String bus1;
-	public String bus2;
-	public String phases;
 	public double len;
 	public String lname;
 
@@ -43,7 +39,7 @@ public class DistLinesCodeZ extends DistComponent {
 			bus2 = GLD_Name(buses[1], true); 
 			phases = OptionalString (soln, "?phases", "ABC");
 			phases = phases.replace ('\n', ':');
-			double len = Double.parseDouble (soln.get("?len").toString());
+			len = Double.parseDouble (soln.get("?len").toString());
 			lname = soln.get("?lname").toString();
 		}		
 	}
@@ -57,6 +53,10 @@ public class DistLinesCodeZ extends DistComponent {
 
 	public String GetKey() {
 		return name;
+	}
+
+	public String LabelString() {
+		return lname;
 	}
 }
 

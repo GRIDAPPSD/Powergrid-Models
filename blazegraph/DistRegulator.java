@@ -8,6 +8,7 @@
 import java.io.*;
 import org.apache.jena.query.*;
 import java.text.DecimalFormat;
+import java.util.HashMap;
 
 public class DistRegulator extends DistComponent {
 	static final String szQUERY =
@@ -158,6 +159,29 @@ public class DistRegulator extends DistComponent {
 		buf.append (" ctRating=" + df.format(ctRating));
 		buf.append (" ctRatio=" + df.format(ctRatio));
 		buf.append (" ptRatio=" + df.format(ptRatio));
+		return buf.toString();
+	}
+
+	public String GetJSONSymbols(HashMap<String,DistCoordinates> map, HashMap<String,DistXfmrTank> mapTank) {
+		DistCoordinates pt1 = map.get("PowerTransformer:" + pname + ":1");
+		DistCoordinates pt2 = map.get("PowerTransformer:" + pname + ":2");
+		DistXfmrTank xfmr = mapTank.get(pname + ":" + rname);
+		String bus1 = xfmr.bus[0];
+		String bus2 = xfmr.bus[1];
+
+		DecimalFormat df = new DecimalFormat("#0.00");
+		StringBuilder buf = new StringBuilder ();
+
+		buf.append ("{\"name\":\"" + pname + "\"");
+		buf.append (",\"from\":\"" + bus1 + "\"");
+		buf.append (",\"to\":\"" + bus2 + "\"");
+		buf.append (",\"phases\":\"" + phs +"\"");
+		buf.append (",\"configuration\":\"" + rname + "\"");
+		buf.append (",\"x1\":" + Double.toString(pt1.x));
+		buf.append (",\"y1\":" + Double.toString(pt1.y));
+		buf.append (",\"x2\":" + Double.toString(pt2.x));
+		buf.append (",\"y2\":" + Double.toString(pt2.y));
+		buf.append ("}");
 		return buf.toString();
 	}
 

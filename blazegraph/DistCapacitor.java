@@ -8,6 +8,7 @@
 import java.io.*;
 import org.apache.jena.query.*;
 import java.text.DecimalFormat;
+import java.util.HashMap;
 
 public class DistCapacitor extends DistComponent {
     static final String szQUERY = "SELECT ?name ?nomu ?bsection ?bus ?conn ?grnd ?phs"+
@@ -93,6 +94,30 @@ public class DistCapacitor extends DistComponent {
 			buf.append("\n	control mode=" + mode + " set=" + df.format(setpoint) + " bandwidth=" + df.format(deadband));
 			buf.append(" monitoring: " + moneq + ":" + monclass + ":" + monbus + ":" + monphs);
 		}
+		return buf.toString();
+	}
+
+	public String GetJSONSymbols(HashMap<String,DistCoordinates> map) {
+		double bA = 0.0, bB = 0.0, bC = 0.0;
+		if (phs.contains ("A")) bA = 1.0;
+		if (phs.contains ("B")) bB = 1.0;
+		if (phs.contains ("C")) bC = 1.0;
+		double kvar_ph = kvar / (bA + bB + bC);
+
+		DistCoordinates pt = map.get("LinearShuntCompensator:" + name + ":1");
+
+		DecimalFormat df = new DecimalFormat("#0.0");
+		StringBuilder buf = new StringBuilder ();
+
+		buf.append ("{\"name\":\"" + name +"\"");
+		buf.append (",\"parent\":\"" + bus +"\"");
+		buf.append (",\"phases\":\"" + phs +"\"");
+		buf.append (",\"kvar_A\":" + df.format(kvar_ph * bA));
+		buf.append (",\"kvar_B\":" + df.format(kvar_ph * bB));
+		buf.append (",\"kvar_C\":" + df.format(kvar_ph * bC));
+		buf.append (",\"x1\":" + Double.toString(pt.x));
+		buf.append (",\"y1\":" + Double.toString(pt.y));
+		buf.append ("}");
 		return buf.toString();
 	}
 

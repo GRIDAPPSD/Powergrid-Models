@@ -8,6 +8,7 @@
 import java.io.*;
 import org.apache.jena.query.*;
 import java.text.DecimalFormat;
+import java.util.HashMap;
 
 public class DistXfmrTank extends DistComponent {
 	static final String szQUERY =
@@ -106,8 +107,34 @@ public class DistXfmrTank extends DistComponent {
 		return buf.toString();
 	}
 
+	public String GetJSONSymbols(HashMap<String,DistCoordinates> map) {
+		DistCoordinates pt1 = map.get("PowerTransformer:" + pname + ":1");
+		DistCoordinates pt2 = map.get("PowerTransformer:" + pname + ":2");
+		String bus1 = bus[0];
+		String bus2 = bus[1];
+		StringBuilder lbl_phs = new StringBuilder ();
+		for (int i = 0; i < phs.length; i++) {
+			lbl_phs.append(phs[i]);
+		}
+
+		DecimalFormat df = new DecimalFormat("#0.00");
+		StringBuilder buf = new StringBuilder ();
+
+		buf.append ("{\"name\":\"" + pname + "\"");
+		buf.append (",\"from\":\"" + bus1 + "\"");
+		buf.append (",\"to\":\"" + bus2 + "\"");
+		buf.append (",\"phases\":\"" + phs[0] +"\"");
+		buf.append (",\"configuration\":\"" + tankinfo + ":" + vgrp + "\"");
+		buf.append (",\"x1\":" + Double.toString(pt1.x));
+		buf.append (",\"y1\":" + Double.toString(pt1.y));
+		buf.append (",\"x2\":" + Double.toString(pt2.x));
+		buf.append (",\"y2\":" + Double.toString(pt2.y));
+		buf.append ("}");
+		return buf.toString();
+	}
+
 	public String GetKey() {
-		return pname + ":" + tname + ":" + bus;
+		return pname + ":" + tname;
 	}
 }
 
