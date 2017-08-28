@@ -47,18 +47,15 @@ public class DistLinesCodeZ extends DistLineSegment {
 	}
 
 	public String DisplayString() {
-		DecimalFormat df = new DecimalFormat("#.0000");
+		DecimalFormat df = new DecimalFormat("#0.0000");
 		StringBuilder buf = new StringBuilder ("");
 		buf.append (name + " from " + bus1 + " to " + bus2 + " phases=" + phases + " basev=" + df.format(basev) + " len=" + df.format(len)  + " linecode=" + lname);
 		return buf.toString();
 	}
 
 	public String GetGLM() {
-		StringBuilder buf = new StringBuilder ("object overhead_line {\n");
-		AppendSharedGLMAttributes (buf);
-		buf.append("  configuration \"lcon_" + lname + "_" + glm_phases + "\";\n");
-		buf.append("}\n");
-
+		StringBuilder buf = new StringBuilder ();
+		AppendSharedGLMAttributes (buf, lname);
 		return buf.toString();
 	}
 

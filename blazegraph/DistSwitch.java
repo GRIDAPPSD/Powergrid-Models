@@ -48,7 +48,7 @@ public class DistSwitch extends DistComponent {
 	}
 
 	public String DisplayString() {
-		DecimalFormat df = new DecimalFormat("#.0000");
+		DecimalFormat df = new DecimalFormat("#0.00");
 		StringBuilder buf = new StringBuilder ("");
 		buf.append (name + " from " + bus1 + " to " + bus2 + " basev=" + df.format(basev) + " phases=" + phases + " open=" + Boolean.toString (open));
 		return buf.toString();

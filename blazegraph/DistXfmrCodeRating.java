@@ -8,6 +8,7 @@
 import java.io.*;
 import org.apache.jena.query.*;
 import java.text.DecimalFormat;
+import org.apache.commons.math3.complex.Complex;
 
 public class DistXfmrCodeRating extends DistComponent {
 	static final String szQUERY = 
@@ -83,7 +84,7 @@ public class DistXfmrCodeRating extends DistComponent {
 	}
 
 	public String DisplayString() {
-		DecimalFormat df = new DecimalFormat("#.0000");
+		DecimalFormat df = new DecimalFormat("#0.0000");
 		StringBuilder buf = new StringBuilder ("");
 		buf.append (pname + ":" + tname);
 		for (int i = 0; i < size; i++) {
@@ -95,8 +96,8 @@ public class DistXfmrCodeRating extends DistComponent {
 
 	public String GetGLM (DistXfmrCodeSCTest sct, DistXfmrCodeOCTest oct) {
 		StringBuilder buf = new StringBuilder("object transformer_configuration {\n");
-		DecimalFormat dfv = new DecimalFormat("#.000");
-		DecimalFormat dfz = new DecimalFormat("#.000000");
+		DecimalFormat dfv = new DecimalFormat("#0.000");
+		DecimalFormat dfz = new DecimalFormat("#0.000000");
 
 		double rpu = 0.0;
 		double zpu = 0.0;
@@ -117,8 +118,9 @@ public class DistXfmrCodeRating extends DistComponent {
 //			xpu = Math.sqrt (zpu * zpu - rpu * rpu);  // TODO: this adjustment is correct, but was not done in RC1
 		}
 
+		String sConnect = GetGldTransformerConnection (conn, size);
 		buf.append ("  name \"xcon_" + tname + "\";\n");
-		buf.append ("  connect_type " + GetGldTransformerConnection (conn, size) + ";\n");
+		buf.append ("  connect_type " + sConnect + ";\n");
 		if (conn[0].equals("I")) {
 			buf.append ("  primary_voltage " + dfv.format(ratedU[0]) + ";\n");
 			buf.append ("  secondary_voltage " + dfv.format (ratedU[1]) + ";\n");
@@ -127,8 +129,17 @@ public class DistXfmrCodeRating extends DistComponent {
 			buf.append ("  secondary_voltage " + dfv.format (ratedU[1] / Math.sqrt(3.0)) + ";\n");
 		}
 		buf.append ("  power_rating " + dfv.format (ratedS[0] * 0.001) + ";\n");
-		buf.append ("  resistance " + dfz.format (rpu) + ";\n");
-		buf.append ("  reactance " + dfz.format (xpu) + ";\n");
+		if (sConnect.equals ("SINGLE_PHASE_CENTER_TAPPED")) {
+			String impedance = CFormat (new Complex (0.5 * rpu, 0.8 * xpu));
+			String impedance1 = CFormat (new Complex (rpu, 0.4 * xpu));
+			String impedance2 = CFormat (new Complex (rpu, 0.4 * xpu));
+			buf.append ("  impedance " + impedance + ";\n");
+			buf.append ("  impedance1 " + impedance1 + ";\n");
+			buf.append ("  impedance2 " + impedance2 + ";\n");
+		} else {
+			buf.append ("  resistance " + dfz.format(rpu) + ";\n");
+			buf.append ("  reactance " + dfz.format (xpu) + ";\n");
+		}
 		if (oct.iexc > 0.0) {
 			buf.append ("  shunt_reactance " + dfz.format (100.0 / oct.iexc) + ";\n");
 		}

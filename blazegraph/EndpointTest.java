@@ -34,7 +34,7 @@ public class EndpointTest extends Object {
     QueryExecution qexec;
     ResultSet results;
     QuerySolution soln;
-    DecimalFormat df = new DecimalFormat("#.00");
+    DecimalFormat df = new DecimalFormat("#0.00");
 
     query = QueryFactory.create (qPrefix + 
               "SELECT ?s ?name ?nomu ?bsection ?bus WHERE {" + 

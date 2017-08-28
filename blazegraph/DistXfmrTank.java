@@ -105,7 +105,7 @@ public class DistXfmrTank extends DistComponent {
 	}
 
 	public String DisplayString() {
-		DecimalFormat df = new DecimalFormat("#.0000");
+		DecimalFormat df = new DecimalFormat("#0.0000");
 		StringBuilder buf = new StringBuilder ("");
 		buf.append (pname + ":" + tname + " tankinfo=" + tankinfo + " vgrp=" + vgrp);
 		for (int i = 0; i < size; i++) {
@@ -147,7 +147,11 @@ public class DistXfmrTank extends DistComponent {
 		buf.append ("  name \"xf_" + tname + "\";\n");
 		buf.append ("  from \"" + bus[0] + "\";\n");
 		buf.append ("  to \"" + bus[1] + "\";\n");
-		buf.append ("  phases " + phs[0] + ";\n");
+		if (phs[1].contains("s")) {
+			buf.append("  phases " + phs[0] + "S;\n");
+		} else {
+			buf.append("  phases " + phs[0] + ";\n");
+		}
 		buf.append ("  configuration \"xcon_" + tankinfo + "\";\n");
 		buf.append ("  // vector group " + vgrp + ";\n");
 		buf.append("}\n");

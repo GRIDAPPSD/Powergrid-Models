@@ -27,7 +27,7 @@ public class DistBaseVoltage extends DistComponent {
 	}
 
 	public String DisplayString() {
-		DecimalFormat df = new DecimalFormat("#.0000");
+		DecimalFormat df = new DecimalFormat("#0.0000");
 		StringBuilder buf = new StringBuilder ("");
 		buf.append ("vnom=" + df.format(vnom));
 		return buf.toString();

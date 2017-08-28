@@ -37,6 +37,7 @@ public class DistPhaseMatrix extends DistComponent {
 	private boolean glmA;
 	private boolean glmB;
 	private boolean glmC;
+	private boolean glmTriplex;
 
 	public void MarkGLMPermutationsUsed (String s) {
 		if (cnt == 3) {
@@ -45,6 +46,7 @@ public class DistPhaseMatrix extends DistComponent {
 			if (s.contains ("A") && s.contains ("B")) glmAB = true;
 			if (s.contains ("A") && s.contains ("C")) glmAC = true;
 			if (s.contains ("B") && s.contains ("C")) glmBC = true;
+			if (s.contains ("s")) glmTriplex = true;
 		} else if (cnt == 1) {
 			if (s.contains ("A")) glmA = true;
 			if (s.contains ("B")) glmB = true;
@@ -141,7 +143,7 @@ public class DistPhaseMatrix extends DistComponent {
 	}
 
 	public String DisplayString() {
-		DecimalFormat df = new DecimalFormat("#.0000");
+		DecimalFormat df = new DecimalFormat("#0.0000");
 		StringBuilder buf = new StringBuilder ("");
 		buf.append (name + " " + Integer.toString(cnt));
 		for (int i = 0; i < size; i++) {
@@ -156,8 +158,13 @@ public class DistPhaseMatrix extends DistComponent {
 	private void AppendPermutation (StringBuilder buf, String perm, int[] permidx) {
 		DecimalFormat df = new DecimalFormat("#0.0000");
 
-		buf.append("object line_configuration {\n");
-		buf.append("  name \"lcon_" + name + "_" + perm + "\";\n");
+		if ((cnt == 2) && name.contains ("triplex")) {
+			buf.append("object triplex_line_configuration {\n");
+			buf.append("  name \"tcon_" + name + "_" + perm + "\";\n");
+		} else {
+			buf.append("object line_configuration {\n");
+			buf.append("  name \"lcon_" + name + "_" + perm + "\";\n");
+		}
 		for (int i = 0; i < cnt; i++) {
 			for (int j = 0; j < cnt; j++) {
 				int seq = GetMatSeq (cnt, i, j);
@@ -178,6 +185,7 @@ public class DistPhaseMatrix extends DistComponent {
 			if (glmAB) AppendPermutation (buf, "AB", new int[] {1, 2});
 			if (glmAC) AppendPermutation (buf, "AC", new int[] {1, 3});
 			if (glmBC) AppendPermutation (buf, "BC", new int[] {2, 3});
+			if (glmTriplex) AppendPermutation (buf, "12", new int[] {1, 2});
 		} else if (cnt == 1) {
 			if (glmA) AppendPermutation (buf, "A", new int[] {1});
 			if (glmB) AppendPermutation (buf, "B", new int[] {2});

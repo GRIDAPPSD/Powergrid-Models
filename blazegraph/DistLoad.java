@@ -75,7 +75,7 @@ public class DistLoad extends DistComponent {
 	}
 
 	public String DisplayString() {
-		DecimalFormat df = new DecimalFormat("#.0000");
+		DecimalFormat df = new DecimalFormat("#0.0000");
 		StringBuilder buf = new StringBuilder ("");
 		buf.append (name + " @ " + bus + " basev=" + df.format (basev) + " phs=" + phs + " conn=" + conn);
 		buf.append (" kw=" + df.format(p) + " kvar=" + df.format(q));

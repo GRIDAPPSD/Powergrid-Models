@@ -430,6 +430,32 @@ public class CIMImporter extends Object {
 			nd.nomvln = obj.basev / Math.sqrt(3.0);
 			nd.phases = "ABC";
 		}
+		// do the Tanks first, because they assign primary and secondary phasings
+		for (HashMap.Entry<String,DistXfmrTank> pair : mapTanks.entrySet()) {
+			DistXfmrTank obj = pair.getValue();
+			DistXfmrCodeRating code = mapCodeRatings.get (obj.tankinfo);
+			code.glmUsed = true;
+			boolean bServiceTransformer = false;
+			String primaryPhase = "";
+			for (int i = 0; i < obj.size; i++) {
+				GldNode nd = mapNodes.get(obj.bus[i]);
+				nd.nomvln = obj.basev[i] / Math.sqrt(3.0);
+				nd.AddPhases (obj.phs[i]);
+				if (nd.bSecondary) {
+					bServiceTransformer = true;
+				} else {
+					primaryPhase = obj.phs[i];
+				}
+			}
+			if (bServiceTransformer) {
+				for (int i = 0; i < obj.size; i++) {
+					GldNode nd = mapNodes.get(obj.bus[i]);
+					if (nd.bSecondary) {
+						nd.AddPhases (primaryPhase);
+					}
+				}
+			}
+		}
 		for (HashMap.Entry<String,DistLoad> pair : mapLoads.entrySet()) {
 			DistLoad obj = pair.getValue();
 			GldNode nd = mapNodes.get (obj.bus);
@@ -462,12 +488,20 @@ public class CIMImporter extends Object {
 //					System.out.println ("Sequence Z " + zseq.name + " using " + obj.phases + " for " + obj.name);
 				}
 			}
-			GldNode nd1 = mapNodes.get (obj.bus1);
+			GldNode nd1 = mapNodes.get(obj.bus1);
 			nd1.nomvln = obj.basev / Math.sqrt(3.0);
-			nd1.AddPhases (obj.phases);
 			GldNode nd2 = mapNodes.get (obj.bus2);
 			nd2.nomvln = nd1.nomvln;
-			nd2.AddPhases (obj.phases);
+			if (obj.phases.contains("s")) {
+				if (nd1.bSecondary) {
+					nd1.AddPhases (nd2.phases);
+				} else if (nd2.bSecondary) {
+					nd2.AddPhases (nd1.phases);
+				}
+			} else {
+				nd1.AddPhases (obj.phases);
+				nd2.AddPhases (obj.phases);
+			}
 		}
 		for (HashMap.Entry<String,DistLinesSpacingZ> pair : mapLinesSpacingZ.entrySet()) {
 			DistLinesSpacingZ obj = pair.getValue();
@@ -493,16 +527,6 @@ public class CIMImporter extends Object {
 				GldNode nd = mapNodes.get(obj.bus[i]);
 				nd.nomvln = obj.basev[i] / Math.sqrt(3.0);
 				nd.AddPhases ("ABC");
-			}
-		}
-		for (HashMap.Entry<String,DistXfmrTank> pair : mapTanks.entrySet()) {
-			DistXfmrTank obj = pair.getValue();
-			DistXfmrCodeRating code = mapCodeRatings.get (obj.tankinfo);
-			code.glmUsed = true;
-			for (int i = 0; i < obj.size; i++) {
-				GldNode nd = mapNodes.get(obj.bus[i]);
-				nd.nomvln = obj.basev[i] / Math.sqrt(3.0);
-				nd.AddPhases (obj.phs[i]);
 			}
 		}
 		for (HashMap.Entry<String,DistRegulator> pair : mapRegulators.entrySet()) {
@@ -632,9 +656,9 @@ public class CIMImporter extends Object {
 
 		LoadAllMaps();
 
-		PrintAllMaps();
+//		PrintAllMaps();
 		WriteGLMFile (fOut);
-		WriteJSONSymbolFile (fXY);
+//		WriteJSONSymbolFile (fXY);
 	}
 }
 

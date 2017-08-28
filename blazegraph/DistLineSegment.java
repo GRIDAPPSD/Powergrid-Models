@@ -17,25 +17,41 @@ public abstract class DistLineSegment extends DistComponent {
 	public double len;
 	public double basev;
 
+	protected boolean bTriplex;
 	protected String glm_phases;
 
 	public abstract String LabelString();
 
-	protected void AppendSharedGLMAttributes(StringBuilder buf) {
+	protected void AppendSharedGLMAttributes (StringBuilder buf, String config_root) {
 		DecimalFormat df = new DecimalFormat("#0.0000");
 
-		buf.append ("  name \"line_" + name + "\";\n");
+		if (phases.contains ("s")) {
+			bTriplex = true;
+			buf.append ("object triplex_line {\n");
+			buf.append ("  name \"tpx_" + name + "\";\n");
+		} else {
+			bTriplex = false;
+			buf.append ("object overhead_line {\n");
+			buf.append ("  name \"line_" + name + "\";\n");
+		}
+
 		buf.append ("  from \"" + bus1 + "\";\n");
 		buf.append ("  to \"" + bus2 + "\";\n");
 		StringBuilder phs = new StringBuilder();
 		if (phases.contains ("A")) phs.append ("A");
 		if (phases.contains ("B")) phs.append ("B");
 		if (phases.contains ("C")) phs.append ("C");
-		if (phases.contains ("s")) phs.append ("S");
+		if (bTriplex) phs.append ("S");
 		if (phases.contains ("N")) phs.append ("N");
 		glm_phases = phs.toString();
-		buf.append("  phases " + glm_phases + ";\n");
+		buf.append ("  phases " + glm_phases + ";\n");
 		buf.append ("  length " + df.format(len * gFTperM) + ";\n");
+		if (bTriplex) {
+			buf.append("  configuration \"tcon_" + config_root + "_12\";\n");
+		} else {
+			buf.append("  configuration \"lcon_" + config_root + "_" + glm_phases + "\";\n");
+		}
+		buf.append ("}\n");
 	}
 
 	public String GetJSONSymbols(HashMap<String,DistCoordinates> map) {

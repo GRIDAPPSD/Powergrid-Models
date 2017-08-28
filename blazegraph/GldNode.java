@@ -116,6 +116,7 @@ public class GldNode {
 		if (phases.contains("A") || phs.contains("A")) buf.append("A");
 		if (phases.contains("B") || phs.contains("B")) buf.append("B");
 		if (phases.contains("C") || phs.contains("C")) buf.append("C");
+		if (phs.contains("s")) bSecondary = true;
 		phases = buf.toString();
 		return true;
 	}

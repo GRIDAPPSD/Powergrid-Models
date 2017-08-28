@@ -193,7 +193,7 @@ public class DistRegulator extends DistComponent {
 	}
 
 	public String DisplayString() {
-		DecimalFormat df = new DecimalFormat("#.0000");
+		DecimalFormat df = new DecimalFormat("#0.0000");
 		StringBuilder buf = new StringBuilder ("");
 		buf.append (pname + " bankphases=" + bankphases);
 		for (int i = 0; i < size; i++) {

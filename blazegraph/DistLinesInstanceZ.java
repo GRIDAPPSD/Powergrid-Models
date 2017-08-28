@@ -57,7 +57,7 @@ public class DistLinesInstanceZ extends DistLineSegment {
 	}
 
 	public String DisplayString() {
-		DecimalFormat df = new DecimalFormat("#.0000");
+		DecimalFormat df = new DecimalFormat("#0.0000");
 		StringBuilder buf = new StringBuilder ("");
 		buf.append (name + " from " + bus1 + " to " + bus2 + " phases=" + phases + " basev=" + df.format(basev) + " len=" + df.format(len));
 		buf.append (" r1=" + df.format(r1) + " x1=" + df.format(x1) + " b1=" + df.format(b1));
@@ -66,15 +66,13 @@ public class DistLinesInstanceZ extends DistLineSegment {
 	}
 
 	public String GetGLM() {
-		DecimalFormat df = new DecimalFormat("#.0000");
+		DecimalFormat df = new DecimalFormat("#0.0000");
 
-		StringBuilder buf = new StringBuilder ("object overhead_line {\n");
-		AppendSharedGLMAttributes (buf);
-		buf.append("  configuration \"lcon_" + name + "_balanced\";\n");
-		buf.append("}\n");
+		StringBuilder buf = new StringBuilder ();
+		AppendSharedGLMAttributes (buf, name);
 
 		buf.append("object line_configuration {\n");
-		buf.append("  name \"lcon_" + name + "_balanced\";\n");
+		buf.append("  name \"lcon_" + name + "_ABC\";\n");
 		// TODO - generate the 3x3 balanced phase matrix from sequence parameters
 		buf.append("}\n");
 		return buf.toString();

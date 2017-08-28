@@ -101,7 +101,7 @@ public class DistLinesSpacingZ extends DistLineSegment {
 	}
 
 	public String DisplayString() {
-		DecimalFormat df = new DecimalFormat("#.0000");
+		DecimalFormat df = new DecimalFormat("#0.0000");
 		StringBuilder buf = new StringBuilder ("");
 		buf.append (name + " from " + bus1 + " to " + bus2 + 
 								" basev=" + df.format(basev) + " len=" + df.format(len) + " spacing=" + spacing);
@@ -113,10 +113,8 @@ public class DistLinesSpacingZ extends DistLineSegment {
 	}
 
 	public String GetGLM() {
-		StringBuilder buf = new StringBuilder ("object overhead_line {\n");
-		AppendSharedGLMAttributes (buf);
-		buf.append("}\n");
-
+		StringBuilder buf = new StringBuilder ();
+		AppendSharedGLMAttributes (buf, name);
 		return buf.toString();
 	}
 

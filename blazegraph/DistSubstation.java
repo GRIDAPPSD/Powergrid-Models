@@ -57,7 +57,7 @@ public class DistSubstation extends DistComponent {
 	}
 
 	public String DisplayString() {
-		DecimalFormat df = new DecimalFormat("#.0000");
+		DecimalFormat df = new DecimalFormat("#0.0000");
 		StringBuilder buf = new StringBuilder ("");
 		buf.append (name + " @ " + bus + " basev=" + df.format(basev) + " nomv=" + df.format(nomv));
 		buf.append (" vmag=" + df.format(vmag));

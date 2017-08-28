@@ -38,7 +38,7 @@ public class DistXfmrCodeOCTest extends DistComponent {
 	}
 
 	public String DisplayString() {
-		DecimalFormat df = new DecimalFormat("#.0000");
+		DecimalFormat df = new DecimalFormat("#0.0000");
 		StringBuilder buf = new StringBuilder ("");
 		buf.append (pname + ":" + tname + " NLL=" + df.format(nll) + " iexc=" + df.format(iexc));
 		return buf.toString();

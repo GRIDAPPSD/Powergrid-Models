@@ -55,7 +55,7 @@ public class DistLineSpacing extends DistComponent {
 	}
 
 	public String DisplayString() {
-		DecimalFormat df = new DecimalFormat("#.0000");
+		DecimalFormat df = new DecimalFormat("#0.0000");
 		StringBuilder buf = new StringBuilder ("");
 		buf.append (name + " nwires=" + Integer.toString(nwires) + " cable=" + Boolean.toString(cable) + " usage=" + usage); 
 		buf.append (" b_cnt=" + Integer.toString(b_cnt) + " b_sep=" + df.format(b_sep));

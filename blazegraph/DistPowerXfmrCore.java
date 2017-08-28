@@ -37,7 +37,7 @@ public class DistPowerXfmrCore extends DistComponent {
 	}
 
 	public String DisplayString() {
-		DecimalFormat df = new DecimalFormat("#.0000");
+		DecimalFormat df = new DecimalFormat("#0.0000");
 		StringBuilder buf = new StringBuilder ("");
 		buf.append (name + " wdg=" + Integer.toString(wdg) + " g=" + df.format(g) + " b=" + df.format(b));
 		return buf.toString();

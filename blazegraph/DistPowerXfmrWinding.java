@@ -102,7 +102,7 @@ public class DistPowerXfmrWinding extends DistComponent {
 	}
 
 	public String DisplayString() {
-		DecimalFormat df = new DecimalFormat("#.0000");
+		DecimalFormat df = new DecimalFormat("#0.0000");
 		StringBuilder buf = new StringBuilder ("");
 		buf.append (name + " " + vgrp);
 		for (int i = 0; i < size; i++) {
@@ -136,8 +136,8 @@ public class DistPowerXfmrWinding extends DistComponent {
 	}
 
 	public String GetGLM (DistPowerXfmrMesh mesh, DistPowerXfmrCore core) {
-		DecimalFormat dfv = new DecimalFormat ("#.000");
-		DecimalFormat dfz = new DecimalFormat ("#.000000");
+		DecimalFormat dfv = new DecimalFormat ("#0.000");
+		DecimalFormat dfz = new DecimalFormat ("#0.000000");
 
 		StringBuilder buf = new StringBuilder ("object transformer_configuration {\n"); 
 		buf.append ("  name \"xcon_" + name + "\";\n");

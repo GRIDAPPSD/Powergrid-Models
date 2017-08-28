@@ -68,7 +68,7 @@ public class DistPowerXfmrMesh extends DistComponent {
 	}
 
 	public String DisplayString() {
-		DecimalFormat df = new DecimalFormat("#.000000");
+		DecimalFormat df = new DecimalFormat("#0.000000");
 		StringBuilder buf = new StringBuilder ("");
 		buf.append (name + " " + Integer.toString(size));
 		for (int i = 0; i < size; i++) {
