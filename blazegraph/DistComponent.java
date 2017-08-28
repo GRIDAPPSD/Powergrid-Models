@@ -21,7 +21,7 @@ public abstract class DistComponent {
 	static final double gMperMILE = 1609.344;
 	static final double gFTperM = 3.2809;
 
-	static ResultSet RunQuery(String szQuery) {
+	static ResultSet RunQuery (String szQuery) {
 		String qPrefix = "PREFIX r: <" + nsRDF + "> PREFIX c: <" + nsCIM + "> PREFIX xsd:<" + nsXSD + "> ";
 		Query query = QueryFactory.create (qPrefix + szQuery);
 		QueryExecution qexec = QueryExecutionFactory.sparqlService (szEND, query);

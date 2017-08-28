@@ -27,6 +27,7 @@ javac DistTapeShieldCable.java
 javac DistXfmrCodeOCTest.java
 javac DistXfmrCodeRating.java
 javac DistXfmrCodeSCTest.java
+javac DistXfmrBank.java
 javac DistXfmrTank.java
 
 javac CIMImporter.java

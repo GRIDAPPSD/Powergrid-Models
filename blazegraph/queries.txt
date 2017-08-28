@@ -198,16 +198,19 @@ SELECT ?pname ?tname ?enum ?ratedS ?ratedU ?conn ?ang ?res WHERE {
 }
 ORDER BY ?pname ?tname ?enum
 
-# transformer codes; count windings
+# transformer codes; count winding ratings
 PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX c:  <http://iec.ch/TC57/2012/CIM-schema-cim16#>
-SELECT (count (?p) as ?count) WHERE {
+SELECT ?key (count(?enum) as ?count) WHERE {
  ?p r:type c:PowerTransformerInfo.
- ?p c:IdentifiedObject.name "cimxfmrcode_reg1_PowerXfInfo".
+ ?p c:IdentifiedObject.name ?pname.
  ?t c:TransformerTankInfo.PowerTransformerInfo ?p.
- ?t c:IdentifiedObject.name "cimxfmrcode_reg1".
+ ?t c:IdentifiedObject.name ?key.
  ?e c:TransformerEndInfo.TransformerTankInfo ?t.
+ ?e c:TransformerEndInfo.endNumber ?enum.
 }
+GROUP BY ?key
+ORDER BY ?key
 
 # transformer codes; no-load tests
 PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
@@ -245,14 +248,16 @@ ORDER BY ?pname ?tname ?enum ?gnum
 # transformer codes; count short-circuit tests
 PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX c:  <http://iec.ch/TC57/2012/CIM-schema-cim16#>
-SELECT (count(?p) as ?count) WHERE {
+SELECT ?key (count(?sct) as ?count) WHERE {
  ?p r:type c:PowerTransformerInfo.
- ?p c:IdentifiedObject.name "cimxfmrcode_reg1_PowerXfInfo".
+ ?p c:IdentifiedObject.name ?pname.
  ?t c:TransformerTankInfo.PowerTransformerInfo ?p.
- ?t c:IdentifiedObject.name "cimxfmrcode_reg1".
+ ?t c:IdentifiedObject.name ?key.
  ?e c:TransformerEndInfo.TransformerTankInfo ?t.
  ?sct c:ShortCircuitTest.EnergisedEnd ?e.
 }
+GROUP BY ?key
+ORDER BY ?key
 
 # transformer tanks referencing the catalog
 PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
@@ -281,19 +286,18 @@ SELECT ?pname ?tname ?xfmrcode ?vgrp ?enum ?bus ?basev ?phs ?grounded ?rground ?
 }
 ORDER BY ?pname ?tname ?enum
 
-# count transformer tanks referencing the catalog
+# count the ends of transformer tanks referencing the catalog
 PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX c:  <http://iec.ch/TC57/2012/CIM-schema-cim16#>
-SELECT (count (?p) as ?count) WHERE {
+SELECT ?key (count (?p) as ?count) WHERE {
  ?p r:type c:PowerTransformer.
- ?p c:IdentifiedObject.name "Reg".
+ ?p c:IdentifiedObject.name ?pname.
  ?t c:TransformerTank.PowerTransformer ?p.
- ?t c:IdentifiedObject.name "reg2".
- ?asset c:Asset.PowerSystemResources ?t.
- ?asset c:Asset.AssetInfo ?inf.
- ?inf c:IdentifiedObject.name ?xfmrcode.
+ ?t c:IdentifiedObject.name ?key.
  ?end c:TransformerTankEnd.TransformerTank ?t
 }
+GROUP BY ?key
+ORDER BY ?key
 
 # power transformers on their own; windings
 PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
@@ -324,11 +328,13 @@ ORDER BY ?pname ?enum
 # count power transformer windings
 PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX c:  <http://iec.ch/TC57/2012/CIM-schema-cim16#>
-SELECT (count(?p) as ?count) WHERE {
+SELECT ?key (count(?p) as ?count) WHERE {
  ?p r:type c:PowerTransformer.
- ?p c:IdentifiedObject.name "xfm1".
+ ?p c:IdentifiedObject.name ?key.
  ?end c:PowerTransformerEnd.PowerTransformer ?p.
 }
+GROUP BY ?key
+ORDER BY ?key
 
 # power transformers on their own; core branch
 PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
@@ -363,32 +369,14 @@ ORDER BY ?pname ?fnum ?tnum
 # count the number of transformer mesh impedances
 PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX c:  <http://iec.ch/TC57/2012/CIM-schema-cim16#>
-SELECT ?pname (count (?pname) as ?count) WHERE {
+SELECT ?key (count (?imp) as ?count) WHERE {
  ?p r:type c:PowerTransformer.
- ?p c:IdentifiedObject.name ?pname.
+ ?p c:IdentifiedObject.name ?key.
  ?from c:PowerTransformerEnd.PowerTransformer ?p.
  ?imp c:TransformerMeshImpedance.FromTransformerEnd ?from.
 }
-GROUP BY ?pname
-
-# count the number of transformer mesh impedances for "sub3"
-PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-PREFIX c:  <http://iec.ch/TC57/2012/CIM-schema-cim16#>
-PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
-SELECT (count (?p) as ?count) WHERE {
- ?p r:type c:PowerTransformer.
- ?p c:IdentifiedObject.name "sub3".
- ?from c:PowerTransformerEnd.PowerTransformer ?p.
- ?imp c:TransformerMeshImpedance.FromTransformerEnd ?from.
-}
-
-# count voltage regulator tanks in the same bank
-PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-PREFIX c:  <http://iec.ch/TC57/2012/CIM-schema-cim16#>
-SELECT (count(?tank) as ?count) WHERE {
- ?tank c:TransformerTank.PowerTransformer ?pxf.
- ?pxf c:IdentifiedObject.name "Reg"
-}
+GROUP BY ?key
+ORDER BY ?key
 
 # voltage regulators (attached to transformer tank ends; still need power transformer ends)
 PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
@@ -676,4 +664,26 @@ WHERE {
 }
 GROUP BY ?name ?basev ?len ?spacing ?wname ?wclass
 ORDER BY ?name
+
+# transformer banks containing tanks
+PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX c:  <http://iec.ch/TC57/2012/CIM-schema-cim16#>
+SELECT ?pname ?vgrp ?tname WHERE {
+ ?p r:type c:PowerTransformer.
+ ?p c:IdentifiedObject.name ?pname.
+ ?p c:PowerTransformer.vectorGroup ?vgrp.
+ ?t c:TransformerTank.PowerTransformer ?p.
+ ?t c:IdentifiedObject.name ?tname
+}
+ORDER BY ?pname ?tname
+
+# count tanks in the same bank
+PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX c:  <http://iec.ch/TC57/2012/CIM-schema-cim16#>
+SELECT ?key (count(?tank) as ?count) WHERE {
+ ?tank c:TransformerTank.PowerTransformer ?pxf.
+ ?pxf c:IdentifiedObject.name ?key
+}
+GROUP BY ?key
+ORDER BY ?key
 

@@ -8,6 +8,7 @@
 import java.io.*;
 import org.apache.jena.query.*;
 import java.text.DecimalFormat;
+import java.util.HashMap;
 
 public class DistPowerXfmrMesh extends DistComponent {
 	static final String szQUERY = 
@@ -23,6 +24,14 @@ public class DistPowerXfmrMesh extends DistComponent {
 		" ?to c:TransformerEnd.endNumber ?tnum."+
 		"} ORDER BY ?pname ?fnum ?tnum";
 
+	static final String szCountQUERY =
+		"SELECT ?key (count(?imp) as ?count) WHERE {"+
+		" ?p r:type c:PowerTransformer."+
+		" ?p c:IdentifiedObject.name ?key."+
+		" ?from c:PowerTransformerEnd.PowerTransformer ?p."+
+		" ?imp c:TransformerMeshImpedance.FromTransformerEnd ?from."+
+		"} GROUP BY ?key ORDER BY ?key";
+
 	public String name;
 	public int[] fwdg;
 	public int[] twdg;
@@ -30,31 +39,20 @@ public class DistPowerXfmrMesh extends DistComponent {
 	public double[] x;
 	public int size;
 
-	private void SetSize (String pname) {
-		size = 1;
-		String szCount = "SELECT (count (?p) as ?count) WHERE {"+
-			" ?p r:type c:PowerTransformer."+
-			" ?p c:IdentifiedObject.name \"" + pname + "\"."+
-			" ?from c:PowerTransformerEnd.PowerTransformer ?p."+
-			" ?imp c:TransformerMeshImpedance.FromTransformerEnd ?from."+
-			"}";
-		ResultSet results = RunQuery (szCount);
-		if (results.hasNext()) {
-			QuerySolution soln = results.next();
-			size = soln.getLiteral("?count").getInt();
-		}
+	private void SetSize (int val) {
+		size = val;
 		fwdg = new int[size];
 		twdg = new int[size];
 		r = new double[size];
 		x = new double[size];
 	}
 
-	public DistPowerXfmrMesh (ResultSet results) {
+	public DistPowerXfmrMesh (ResultSet results, HashMap<String,Integer> map) {
 		if (results.hasNext()) {
 			QuerySolution soln = results.next();
 			String pname = soln.get("?pname").toString();
 			name = GLD_Name (pname, false);
-			SetSize (pname);
+			SetSize (map.get(pname));
 			for (int i = 0; i < size; i++) {
 				fwdg[i] = Integer.parseInt (soln.get("?fnum").toString());
 				twdg[i] = Integer.parseInt (soln.get("?tnum").toString());

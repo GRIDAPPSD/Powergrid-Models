@@ -8,16 +8,17 @@
 import java.io.*;
 import org.apache.jena.query.*;
 import java.text.DecimalFormat;
+import java.util.HashMap;
 import org.apache.commons.math3.complex.Complex;
 
 public class DistXfmrCodeRating extends DistComponent {
 	static final String szQUERY = 
 		"SELECT ?pname ?tname ?enum ?ratedS ?ratedU ?conn ?ang ?res WHERE {"+
 		" ?p r:type c:PowerTransformerInfo."+
-		" ?p c:IdentifiedObject.name ?pname."+
 		" ?t c:TransformerTankInfo.PowerTransformerInfo ?p."+
-		" ?t c:IdentifiedObject.name ?tname."+
 		" ?e c:TransformerEndInfo.TransformerTankInfo ?t."+
+		" ?p c:IdentifiedObject.name ?pname."+
+		" ?t c:IdentifiedObject.name ?tname."+
 		" ?e c:TransformerEndInfo.endNumber ?enum."+
 		" ?e c:TransformerEndInfo.ratedS ?ratedS."+
 		" ?e c:TransformerEndInfo.ratedU ?ratedU."+
@@ -26,6 +27,16 @@ public class DistXfmrCodeRating extends DistComponent {
 		" ?e c:TransformerEndInfo.connectionKind ?connraw."+
 		"       		bind(strafter(str(?connraw),\"WindingConnection.\") as ?conn)"+
 		"} ORDER BY ?pname ?tname ?enum";
+
+	static final String szCountQUERY =
+		"SELECT ?key (count(?enum) as ?count) WHERE {"+
+		" ?p r:type c:PowerTransformerInfo."+
+		" ?p c:IdentifiedObject.name ?pname."+
+		" ?t c:TransformerTankInfo.PowerTransformerInfo ?p."+
+		" ?t c:IdentifiedObject.name ?key."+
+		" ?e c:TransformerEndInfo.TransformerTankInfo ?t."+
+		" ?e c:TransformerEndInfo.endNumber ?enum."+
+		"} GROUP BY ?key ORDER BY ?key";
 
 	public String pname;
 	public String tname;
@@ -39,20 +50,8 @@ public class DistXfmrCodeRating extends DistComponent {
 
 	public boolean glmUsed;
 
-	private void SetSize (String p, String t) {
-		size = 1;
-		String szCount = "SELECT (count (?p) as ?count) WHERE {"+
-			" ?p r:type c:PowerTransformerInfo."+
-			" ?p c:IdentifiedObject.name \"" + p + "\"."+
-			" ?t c:TransformerTankInfo.PowerTransformerInfo ?p."+
-			" ?t c:IdentifiedObject.name \"" + t + "\"."+
-			" ?e c:TransformerEndInfo.TransformerTankInfo ?t"+
-			"}";
-		ResultSet results = RunQuery (szCount);
-		if (results.hasNext()) {
-			QuerySolution soln = results.next();
-			size = soln.getLiteral("?count").getInt();
-		}
+	private void SetSize (int val) {
+		size = val;
 		wdg = new int[size];
 		conn = new String[size];
 		ang = new int[size];
@@ -61,14 +60,14 @@ public class DistXfmrCodeRating extends DistComponent {
 		r = new double[size];
 	}
 
-	public DistXfmrCodeRating (ResultSet results) {
+	public DistXfmrCodeRating (ResultSet results, HashMap<String,Integer> map) {
 		if (results.hasNext()) {
 			QuerySolution soln = results.next();
 			String p = soln.get("?pname").toString();
 			String t = soln.get("?tname").toString();
 			pname = GLD_Name (p, false);
 			tname = GLD_Name (t, false);
-			SetSize (p, t);
+			SetSize (map.get(tname));
 			for (int i = 0; i < size; i++) {
 				wdg[i] = Integer.parseInt (soln.get("?enum").toString());
 				conn[i] = soln.get("?conn").toString();

@@ -8,6 +8,7 @@
 import java.io.*;
 import org.apache.jena.query.*;
 import java.text.DecimalFormat;
+import java.util.HashMap;
 
 public class DistXfmrCodeSCTest extends DistComponent {
 	static final String szQUERY = 
@@ -25,6 +26,16 @@ public class DistXfmrCodeSCTest extends DistComponent {
 		" ?grnd c:TransformerEndInfo.endNumber ?gnum."+
 		"} ORDER BY ?pname ?tname ?enum ?gnum";
 
+	static final String szCountQUERY =
+		"SELECT ?key (count(?sct) as ?count) WHERE {"+
+		" ?p r:type c:PowerTransformerInfo."+
+		" ?p c:IdentifiedObject.name ?pname."+
+		" ?t c:TransformerTankInfo.PowerTransformerInfo ?p."+
+		" ?t c:IdentifiedObject.name ?key."+
+		" ?e c:TransformerEndInfo.TransformerTankInfo ?t."+
+		" ?sct c:ShortCircuitTest.EnergisedEnd ?e."+
+		"} GROUP BY ?key ORDER BY ?key";
+
 	public String pname;
 	public String tname;
 	public int[] fwdg;
@@ -34,35 +45,22 @@ public class DistXfmrCodeSCTest extends DistComponent {
 
 	public int size;
 
-	private void SetSize (String p, String t) {
-		size = 1;
-		String szCount = "SELECT (count (?p) as ?count) WHERE {"+
-			" ?p r:type c:PowerTransformerInfo."+
-			" ?p c:IdentifiedObject.name \"" + p + "\"."+
-			" ?t c:TransformerTankInfo.PowerTransformerInfo ?p."+
-			" ?t c:IdentifiedObject.name \"" + t + "\"."+
-			" ?e c:TransformerEndInfo.TransformerTankInfo ?t."+
-			" ?sct c:ShortCircuitTest.EnergisedEnd ?e"+
-			"}";
-		ResultSet results = RunQuery (szCount);
-		if (results.hasNext()) {
-			QuerySolution soln = results.next();
-			size = soln.getLiteral("?count").getInt();
-		}
+	private void SetSize (int val) {
+		size = val;
 		fwdg = new int[size];
 		twdg = new int[size];
 		z = new double[size];
 		ll = new double[size];
 	}
 
-	public DistXfmrCodeSCTest (ResultSet results) {
+	public DistXfmrCodeSCTest (ResultSet results, HashMap<String,Integer> map) {
 		if (results.hasNext()) {
 			QuerySolution soln = results.next();
 			String p = soln.get("?pname").toString();
 			String t = soln.get("?tname").toString();
 			pname = GLD_Name (p, false);
 			tname = GLD_Name (t, false);
-			SetSize (p, t);
+			SetSize (map.get(tname));
 			for (int i = 0; i < size; i++) {
 				fwdg[i] = Integer.parseInt (soln.get("?enum").toString());
 				twdg[i] = Integer.parseInt (soln.get("?gnum").toString());

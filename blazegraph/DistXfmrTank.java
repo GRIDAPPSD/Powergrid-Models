@@ -34,12 +34,21 @@ public class DistXfmrTank extends DistComponent {
 		" ?end c:TransformerEnd.BaseVoltage ?bv."+
 		" ?bv c:BaseVoltage.nominalVoltage ?basev"+
 		"}"+
-		" ORDER BY ?pname ?tname ?enum"		;
+		" ORDER BY ?pname ?tname ?enum";
+
+	static final String szCountQUERY =
+		"SELECT ?key (count(?end) as ?count) WHERE {"+
+		" ?p r:type c:PowerTransformer."+
+		" ?p c:IdentifiedObject.name ?pname."+
+		" ?t c:TransformerTank.PowerTransformer ?p."+
+		" ?t c:IdentifiedObject.name ?key."+
+		" ?end c:TransformerTankEnd.TransformerTank ?t"+
+		"} GROUP BY ?key ORDER BY ?key";
 
 	public String pname;
+	public String vgrp;
 	public String tname;
 	public String tankinfo;
-	public String vgrp;
 	public String[] bus;
 	public String[] phs;
 	public double[] basev;
@@ -52,23 +61,8 @@ public class DistXfmrTank extends DistComponent {
 
 	public int size;
 
-	private void SetSize (String p, String t) {
-		size = 1;
-		String szCount = "SELECT (count (?p) as ?count) WHERE {"+
-			" ?p r:type c:PowerTransformer."+
-			" ?p c:IdentifiedObject.name \"" + p + "\"."+
-			" ?t c:TransformerTank.PowerTransformer ?p."+
-			" ?t c:IdentifiedObject.name \"" + t + "\"."+
-			" ?asset c:Asset.PowerSystemResources ?t."+
-			" ?asset c:Asset.AssetInfo ?inf."+
-			" ?inf c:IdentifiedObject.name ?xfmrcode."+
-			" ?end c:TransformerTankEnd.TransformerTank ?t"+
-			"}";
-		ResultSet results = RunQuery (szCount);
-		if (results.hasNext()) {
-			QuerySolution soln = results.next();
-			size = soln.getLiteral("?count").getInt();
-		}
+	private void SetSize (int val) {
+		size = val;
 		bus = new String[size];
 		phs = new String[size];
 		wdg = new int[size];
@@ -78,16 +72,14 @@ public class DistXfmrTank extends DistComponent {
 		xg = new double[size];
 	}
 
-	public DistXfmrTank (ResultSet results) {
+	public DistXfmrTank (ResultSet results, HashMap<String,Integer> map) {
 		if (results.hasNext()) {
 			QuerySolution soln = results.next();
-			String p = soln.get("?pname").toString();
-			String t = soln.get("?tname").toString();
-			pname = GLD_Name (p, false);
-			tname = GLD_Name (t, false);
-			tankinfo = GLD_Name (soln.get("?xfmrcode").toString(), false);
+			pname = GLD_Name (soln.get("?pname").toString(), false);
 			vgrp = soln.get("?vgrp").toString();
-			SetSize (p, t);
+			tname = GLD_Name (soln.get("?tname").toString(), false);
+			tankinfo = GLD_Name (soln.get("?xfmrcode").toString(), false);
+			SetSize (map.get(tname));
 			glmUsed = true;
 			for (int i = 0; i < size; i++) {
 				bus[i] = GLD_Name (soln.get("?bus").toString(), true);
@@ -107,7 +99,7 @@ public class DistXfmrTank extends DistComponent {
 	public String DisplayString() {
 		DecimalFormat df = new DecimalFormat("#0.0000");
 		StringBuilder buf = new StringBuilder ("");
-		buf.append (pname + ":" + tname + " tankinfo=" + tankinfo + " vgrp=" + vgrp);
+		buf.append ("pname=" + pname + " vgrp=" + vgrp + " tname=" + tname + " tankinfo=" + tankinfo);
 		for (int i = 0; i < size; i++) {
 			buf.append ("\n  " + Integer.toString(wdg[i]) + " bus=" + bus[i] + " basev=" + df.format(basev[i]) + " phs=" + phs[i]);
 			buf.append (" grounded=" + Boolean.toString(grounded[i]) + " rg=" + df.format(rg[i]) + " xg=" + df.format(xg[i]));
@@ -144,7 +136,7 @@ public class DistXfmrTank extends DistComponent {
 	public String GetGLM () {
 		StringBuilder buf = new StringBuilder ("object transformer {\n");
 
-		buf.append ("  name \"xf_" + tname + "\";\n");
+		buf.append ("  name \"xf_" + pname + "\";\n");
 		buf.append ("  from \"" + bus[0] + "\";\n");
 		buf.append ("  to \"" + bus[1] + "\";\n");
 		if (phs[1].contains("s")) {

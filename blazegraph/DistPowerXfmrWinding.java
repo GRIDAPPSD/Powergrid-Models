@@ -35,6 +35,13 @@ public class DistPowerXfmrWinding extends DistComponent {
 		"}"+
 		" ORDER BY ?pname ?enum"		;
 
+	static final String szCountQUERY =
+		"SELECT ?key (count(?p) as ?count) WHERE {"+
+		" ?p r:type c:PowerTransformer."+
+		" ?p c:IdentifiedObject.name ?key."+
+		" ?end c:PowerTransformerEnd.PowerTransformer ?p."+
+		"} GROUP BY ?key ORDER BY ?key";
+
 	public String name;
 	public String vgrp;
 	public String[] bus;
@@ -50,18 +57,8 @@ public class DistPowerXfmrWinding extends DistComponent {
 	public double[] xg;
 	public int size;
 
-	private void SetSize (String pname) {
-		size = 1;
-		String szCount = "SELECT (count (?p) as ?count) WHERE {"+
-			" ?p r:type c:PowerTransformer."+
-			" ?p c:IdentifiedObject.name \"" + pname + "\"."+
-			" ?end c:PowerTransformerEnd.PowerTransformer ?p."+
-			"}";
-		ResultSet results = RunQuery (szCount);
-		if (results.hasNext()) {
-			QuerySolution soln = results.next();
-			size = soln.getLiteral("?count").getInt();
-		}
+	private void SetSize (int val) {
+		size = val;
 		bus = new String[size];
 		conn = new String[size];
 		basev = new double[size];
@@ -75,13 +72,13 @@ public class DistPowerXfmrWinding extends DistComponent {
 		xg = new double[size];
 	}
 
-	public DistPowerXfmrWinding (ResultSet results) {
+	public DistPowerXfmrWinding (ResultSet results, HashMap<String,Integer> map) {
 		if (results.hasNext()) {
 			QuerySolution soln = results.next();
 			String pname = soln.get("?pname").toString();
 			name = GLD_Name (pname, false);
 			vgrp = soln.get("?vgrp").toString();
-			SetSize (pname);
+			SetSize (map.get(pname));
 			for (int i = 0; i < size; i++) {
 				bus[i] = GLD_Name (soln.get("?bus").toString(), true);
 				basev[i] = Double.parseDouble (soln.get("?basev").toString());
