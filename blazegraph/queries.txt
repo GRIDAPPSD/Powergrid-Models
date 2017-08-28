@@ -124,18 +124,18 @@ SELECT ?name ?cnt ?seq ?r ?x ?b WHERE {
 }
 ORDER BY ?name ?seq
 
-# per-length sequence impedance matrices (need to test)
+# per-length sequence impedance matrices
 PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX c:  <http://iec.ch/TC57/2012/CIM-schema-cim16#>
 SELECT ?name ?r1 ?x1 ?b1 ?r0 ?x0 ?b0 WHERE {
  ?s r:type c:PerLengthSequenceImpedance.
  ?s c:IdentifiedObject.name ?name.
- ?s c:PerLengthSequenceImpedance.r ?r.
- ?s c:PerLengthSequenceImpedance.x ?x.
- ?s c:PerLengthSequenceImpedance.b ?b.
+ ?s c:PerLengthSequenceImpedance.r ?r1.
+ ?s c:PerLengthSequenceImpedance.x ?x1.
+ ?s c:PerLengthSequenceImpedance.bch ?b1.
  ?s c:PerLengthSequenceImpedance.r0 ?r0.
  ?s c:PerLengthSequenceImpedance.x0 ?x0.
- ?s c:PerLengthSequenceImpedance.b0 ?b0
+ ?s c:PerLengthSequenceImpedance.b0ch ?b0
 }
 ORDER by ?name
 
@@ -382,6 +382,14 @@ SELECT (count (?p) as ?count) WHERE {
  ?imp c:TransformerMeshImpedance.FromTransformerEnd ?from.
 }
 
+# count voltage regulator tanks in the same bank
+PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX c:  <http://iec.ch/TC57/2012/CIM-schema-cim16#>
+SELECT (count(?tank) as ?count) WHERE {
+ ?tank c:TransformerTank.PowerTransformer ?pxf.
+ ?pxf c:IdentifiedObject.name "Reg"
+}
+
 # voltage regulators (attached to transformer tank ends; still need power transformer ends)
 PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX c:  <http://iec.ch/TC57/2012/CIM-schema-cim16#>
@@ -432,7 +440,7 @@ WHERE {
  ?inf c:TapChangerInfo.ctRatio ?ctRatio.
  ?inf c:TapChangerInfo.ptRatio ?ptRatio.
 }
-ORDER BY ?rname ?wnum
+ORDER BY ?pname ?rname ?wnum
 
 # list the base voltage levels
 PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>

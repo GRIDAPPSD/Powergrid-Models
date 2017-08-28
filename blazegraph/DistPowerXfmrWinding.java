@@ -8,6 +8,7 @@
 import java.io.*;
 import org.apache.jena.query.*;
 import java.text.DecimalFormat;
+import java.util.HashMap;
 
 public class DistPowerXfmrWinding extends DistComponent {
 	static final String szQUERY = 
@@ -112,8 +113,104 @@ public class DistPowerXfmrWinding extends DistComponent {
 		return buf.toString();
 	}
 
+	public String GetJSONSymbols(HashMap<String,DistCoordinates> map) {
+		DistCoordinates pt1 = map.get("PowerTransformer:" + name + ":1");
+		DistCoordinates pt2 = map.get("PowerTransformer:" + name + ":2");
+		String bus1 = bus[0];
+		String bus2 = bus[1];
+
+		DecimalFormat df = new DecimalFormat("#0.00");
+		StringBuilder buf = new StringBuilder ();
+
+		buf.append ("{\"name\":\"" + name + "\"");
+		buf.append (",\"from\":\"" + bus1 + "\"");
+		buf.append (",\"to\":\"" + bus2 + "\"");
+		buf.append (",\"phases\":\"ABC\"");
+		buf.append (",\"configuration\":\"" + vgrp + "\"");
+		buf.append (",\"x1\":" + Double.toString(pt1.x));
+		buf.append (",\"y1\":" + Double.toString(pt1.y));
+		buf.append (",\"x2\":" + Double.toString(pt2.x));
+		buf.append (",\"y2\":" + Double.toString(pt2.y));
+		buf.append ("}");
+		return buf.toString();
+	}
+
+	public String GetGLM (DistPowerXfmrMesh mesh, DistPowerXfmrCore core) {
+		DecimalFormat dfv = new DecimalFormat ("#.000");
+		DecimalFormat dfz = new DecimalFormat ("#.000000");
+
+		StringBuilder buf = new StringBuilder ("object transformer_configuration {\n"); 
+		buf.append ("  name \"xcon_" + name + "\";\n");
+		buf.append ("  connect_type " + GetGldTransformerConnection (conn, size) + ";\n");
+		buf.append ("  primary_voltage " + dfv.format (ratedU[0] / Math.sqrt(3.0)) + ";\n");
+		buf.append ("  secondary_voltage " + dfv.format (ratedU[1] / Math.sqrt(3.0)) + ";\n");
+		buf.append ("  power_rating " + dfv.format (ratedS[0] * 0.001) + ";\n");
+		int idx;
+		double Zbase;
+		double rpu = 0.0, xpu = 0.0;
+		for (int i = 0; i < mesh.size; i++) {
+			if ((mesh.fwdg[i] == 1) && (mesh.twdg[i] == 2)) {
+				Zbase = ratedU[0] * ratedU[0] / ratedS[0];
+				rpu = mesh.r[i] / Zbase;
+				xpu = mesh.x[i] / Zbase;
+				break;
+			}
+			if ((mesh.fwdg[i] == 2) && (mesh.twdg[i] == 1)) {
+				Zbase = ratedU[1] * ratedU[1] / ratedS[1];
+				rpu = mesh.r[i] / Zbase;
+				xpu = mesh.x[i] / Zbase;
+				break;
+			}
+		}
+		buf.append ("  resistance " + dfz.format (rpu) + ";\n");
+		buf.append ("  reactance " + dfz.format (xpu) + ";\n");
+		idx = core.wdg - 1;
+		Zbase = ratedU[idx] * ratedU[idx] / ratedS[idx];
+		if (core.b > 0.0) {
+			buf.append ("  shunt_reactance " + dfz.format (Zbase / core.b) + ";\n");
+		}
+		if (core.g > 0.0) {
+			buf.append ("  shunt_resistance " + dfz.format (Zbase / core.b) + ";\n");
+		}
+		buf.append ("}\n");
+
+		buf.append ("object transformer {\n");
+		buf.append ("  name \"xf_" + name + "\";\n");
+		buf.append ("  from \"" + bus[0] + "\";\n");
+		buf.append ("  to \"" + bus[1] + "\";\n");
+		buf.append ("  phases ABC;\n");
+		buf.append ("  configuration \"xcon_" + name + "\";\n");
+		buf.append ("  // vector group " + vgrp + ";\n");
+		buf.append("}\n");
+
+		return buf.toString();
+	}
+
+	/*
+
+		double rpu = 0.0;
+		double zpu = 0.0;
+		double zbase1 = ratedU[0] * ratedU[0] / ratedS[0];
+		double zbase2 = ratedU[1] * ratedU[1] / ratedS[1];
+		if (sct.ll[0] > 0.0) {
+			rpu = sct.ll[0] / ratedS[0];
+		} else {
+			rpu = (r[0] / zbase1) + (r[1] / zbase2);
+		}
+		if (sct.fwdg[0] == 1) {
+			zpu = sct.z[0] / zbase1;
+		} else if (sct.fwdg[0] == 2) {
+			zpu = sct.z[0] / zbase2;
+		}
+		double xpu = zpu;
+		if (zpu >= rpu) {
+//			xpu = Math.sqrt (zpu * zpu - rpu * rpu);  // TODO: this adjustment is correct, but was not done in RC1
+		}
+
+*/
+
 	public String GetKey() {
-		return name + ":" + bus;
+		return name;
 	}
 }
 

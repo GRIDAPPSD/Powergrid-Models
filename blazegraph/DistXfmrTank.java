@@ -88,6 +88,7 @@ public class DistXfmrTank extends DistComponent {
 			tankinfo = GLD_Name (soln.get("?xfmrcode").toString(), false);
 			vgrp = soln.get("?vgrp").toString();
 			SetSize (p, t);
+			glmUsed = true;
 			for (int i = 0; i < size; i++) {
 				bus[i] = GLD_Name (soln.get("?bus").toString(), true);
 				basev[i] = Double.parseDouble (soln.get("?basev").toString());

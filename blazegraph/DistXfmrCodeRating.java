@@ -119,8 +119,13 @@ public class DistXfmrCodeRating extends DistComponent {
 
 		buf.append ("  name \"xcon_" + tname + "\";\n");
 		buf.append ("  connect_type " + GetGldTransformerConnection (conn, size) + ";\n");
-		buf.append ("  primary_voltage " + dfv.format (ratedU[0] / Math.sqrt(3.0)) + ";\n");
-		buf.append ("  secondary_voltage " + dfv.format (ratedU[1] / Math.sqrt(3.0)) + ";\n");
+		if (conn[0].equals("I")) {
+			buf.append ("  primary_voltage " + dfv.format(ratedU[0]) + ";\n");
+			buf.append ("  secondary_voltage " + dfv.format (ratedU[1]) + ";\n");
+		} else {
+			buf.append ("  primary_voltage " + dfv.format(ratedU[0] / Math.sqrt(3.0)) + ";\n");
+			buf.append ("  secondary_voltage " + dfv.format (ratedU[1] / Math.sqrt(3.0)) + ";\n");
+		}
 		buf.append ("  power_rating " + dfv.format (ratedS[0] * 0.001) + ";\n");
 		buf.append ("  resistance " + dfz.format (rpu) + ";\n");
 		buf.append ("  reactance " + dfz.format (xpu) + ";\n");

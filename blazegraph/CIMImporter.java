@@ -366,13 +366,29 @@ public class CIMImporter extends Object {
 
 		out.println("{\"transformers\":[");
 		count = 1;
-		last = mapTanks.size();
+		last =  mapXfmrWindings.size();
 		for (HashMap.Entry<String,DistXfmrTank> pair : mapTanks.entrySet()) {
+			if (pair.getValue().glmUsed) {
+				last += 1;
+			}
+		}
+		for (HashMap.Entry<String,DistPowerXfmrWinding> pair : mapXfmrWindings.entrySet()) {
 			out.print (pair.getValue().GetJSONSymbols(mapCoordinates));
 			if (count++ < last) {
 				out.println (",");
 			} else {
 				out.println ("");
+			}
+		}
+		for (HashMap.Entry<String,DistXfmrTank> pair : mapTanks.entrySet()) {
+			DistXfmrTank obj = pair.getValue();
+			if (obj.glmUsed) {
+				out.print(obj.GetJSONSymbols(mapCoordinates));
+				if (count++ < last) {
+					out.println (",");
+				} else {
+					out.println ("");
+				}
 			}
 		}
 		out.println("]},");
@@ -438,7 +454,14 @@ public class CIMImporter extends Object {
 		for (HashMap.Entry<String,DistLinesCodeZ> pair : mapLinesCodeZ.entrySet()) {
 			DistLinesCodeZ obj = pair.getValue();
 			DistPhaseMatrix zmat = mapPhaseMatrices.get (obj.lname);
-			zmat.MarkGLMPermutationsUsed (obj.phases);
+			if (zmat != null) {
+				zmat.MarkGLMPermutationsUsed(obj.phases);
+			} else {
+				DistSequenceMatrix zseq = mapSequenceMatrices.get (obj.lname);
+				if (zseq != null) {
+//					System.out.println ("Sequence Z " + zseq.name + " using " + obj.phases + " for " + obj.name);
+				}
+			}
 			GldNode nd1 = mapNodes.get (obj.bus1);
 			nd1.nomvln = obj.basev / Math.sqrt(3.0);
 			nd1.AddPhases (obj.phases);
@@ -464,6 +487,14 @@ public class CIMImporter extends Object {
 			nd2.nomvln = nd1.nomvln;
 			nd2.AddPhases (obj.phases);
 		}
+		for (HashMap.Entry<String,DistPowerXfmrWinding> pair : mapXfmrWindings.entrySet()) {
+			DistPowerXfmrWinding obj = pair.getValue();
+			for (int i = 0; i < obj.size; i++) {
+				GldNode nd = mapNodes.get(obj.bus[i]);
+				nd.nomvln = obj.basev[i] / Math.sqrt(3.0);
+				nd.AddPhases ("ABC");
+			}
+		}
 		for (HashMap.Entry<String,DistXfmrTank> pair : mapTanks.entrySet()) {
 			DistXfmrTank obj = pair.getValue();
 			DistXfmrCodeRating code = mapCodeRatings.get (obj.tankinfo);
@@ -476,21 +507,28 @@ public class CIMImporter extends Object {
 		}
 		for (HashMap.Entry<String,DistRegulator> pair : mapRegulators.entrySet()) {
 			DistRegulator reg = pair.getValue();
-			DistXfmrTank tank = mapTanks.get (reg.rname);
+			DistXfmrTank tank = mapTanks.get (reg.rname[0]); // TODO: revisit if GridLAB-D can model un-banked regulator tanks
 			DistXfmrCodeRating code = mapCodeRatings.get (tank.tankinfo);
-			out.print (reg.GetGLM (code, tank));
+			out.print (reg.GetGLM (tank));
 			code.glmUsed = false;
 			tank.glmUsed = false;
+			for (int i = 1; i < reg.size; i++) {
+				tank = mapTanks.get (reg.rname[i]);
+				tank.glmUsed = false;
+			}
 		}
 
 		// GLM configurations
 		for (HashMap.Entry<String,DistPhaseMatrix> pair : mapPhaseMatrices.entrySet()) {
 			out.print (pair.getValue().GetGLM());
 		}
+		for (HashMap.Entry<String,DistSequenceMatrix> pair : mapSequenceMatrices.entrySet()) {
+			out.print (pair.getValue().GetGLM());
+		}
 		for (HashMap.Entry<String,DistXfmrCodeRating> pair : mapCodeRatings.entrySet()) {
 			DistXfmrCodeRating code = pair.getValue();
 			if (code.glmUsed) {
-				DistXfmrCodeSCTest sct = mapCodeSCTests.get(code.tname);
+				DistXfmrCodeSCTest sct = mapCodeSCTests.get (code.tname);
 				DistXfmrCodeOCTest oct = mapCodeOCTests.get (code.tname);
 				out.print (code.GetGLM(sct, oct));
 			}
@@ -512,10 +550,16 @@ public class CIMImporter extends Object {
 		for (HashMap.Entry<String,DistSwitch> pair : mapSwitches.entrySet()) {
 			out.print (pair.getValue().GetGLM());
 		}
+		for (HashMap.Entry<String,DistPowerXfmrWinding> pair : mapXfmrWindings.entrySet()) {
+			DistPowerXfmrWinding obj = pair.getValue();
+			DistPowerXfmrMesh mesh = mapXfmrMeshes.get (obj.name);
+			DistPowerXfmrCore core = mapXfmrCores.get (obj.name);
+			out.print (pair.getValue().GetGLM(mesh, core));
+		}
 		for (HashMap.Entry<String,DistXfmrTank> pair : mapTanks.entrySet()) {
 			DistXfmrTank obj = pair.getValue();
 			if (obj.glmUsed) {
-				out.print(obj.GetGLM());
+				out.print (obj.GetGLM());
 			}
 		}
 
@@ -588,9 +632,9 @@ public class CIMImporter extends Object {
 
 		LoadAllMaps();
 
+		PrintAllMaps();
 		WriteGLMFile (fOut);
 		WriteJSONSymbolFile (fXY);
-//		PrintAllMaps();
 	}
 }
 
