@@ -80,12 +80,6 @@ public class CIMImporter extends Object {
 		LoadOneCountMap (DistPowerXfmrWinding.szCountQUERY, mapCountWinding);
 		LoadOneCountMap (DistXfmrCodeRating.szCountQUERY, mapCountCodeRating);
 		LoadOneCountMap (DistXfmrCodeSCTest.szCountQUERY, mapCountCodeSCTest);
-		System.out.println("loaded counts" + " " + Integer.toString (mapCountTank.size())
-											  + " " + Integer.toString (mapCountMesh.size())
-											  + " " + Integer.toString (mapCountWinding.size())
-											  + " " + Integer.toString (mapCountCodeRating.size())
-											  + " " + Integer.toString (mapCountCodeSCTest.size())
-												+ " " + Integer.toString (mapCountBank.size()));
 	}
 
 	static void LoadBaseVoltages() {
@@ -94,7 +88,6 @@ public class CIMImporter extends Object {
 			DistBaseVoltage obj = new DistBaseVoltage (results);
 			mapBaseVoltages.put (obj.GetKey(), obj);
 		}
-		System.out.println("loaded BV");
 	}
 
 	static void LoadSubstations() {
@@ -103,7 +96,6 @@ public class CIMImporter extends Object {
 			DistSubstation obj = new DistSubstation (results);
 			mapSubstations.put (obj.GetKey(), obj);
 		}
-		System.out.println("loaded sub");
 	}
 
 	static void LoadCapacitors() {
@@ -112,7 +104,6 @@ public class CIMImporter extends Object {
 			DistCapacitor obj = new DistCapacitor (results);
 			mapCapacitors.put (obj.GetKey(), obj);
 		}
-		System.out.println("loaded caps");
 	}
 
 	static void LoadLoads() {
@@ -121,7 +112,6 @@ public class CIMImporter extends Object {
 			DistLoad obj = new DistLoad (results);
 			mapLoads.put (obj.GetKey(), obj);
 		}
-		System.out.println("loaded LD");
 	}
 
 	static void LoadPhaseMatrices() {
@@ -130,7 +120,6 @@ public class CIMImporter extends Object {
 			DistPhaseMatrix obj = new DistPhaseMatrix (results);
 			mapPhaseMatrices.put (obj.GetKey(), obj);
 		}
-		System.out.println("loaded phsZ");
 	}
 
 	static void LoadSequenceMatrices() {
@@ -139,7 +128,6 @@ public class CIMImporter extends Object {
 			DistSequenceMatrix obj = new DistSequenceMatrix (results);
 			mapSequenceMatrices.put (obj.GetKey(), obj);
 		}
-		System.out.println("loaded seqZ");
 	}
 
 	static void LoadXfmrCodeRatings() {
@@ -148,7 +136,6 @@ public class CIMImporter extends Object {
 			DistXfmrCodeRating obj = new DistXfmrCodeRating (results, mapCountCodeRating);
 			mapCodeRatings.put (obj.GetKey(), obj);
 		}
-		System.out.println("loaded ratings");
 	}
 
 	static void LoadXfmrCodeOCTests() {
@@ -157,7 +144,6 @@ public class CIMImporter extends Object {
 			DistXfmrCodeOCTest obj = new DistXfmrCodeOCTest (results);
 			mapCodeOCTests.put (obj.GetKey(), obj);
 		}
-		System.out.println("loaded OC");
 	}
 
 	static void LoadXfmrCodeSCTests() {
@@ -166,7 +152,6 @@ public class CIMImporter extends Object {
 			DistXfmrCodeSCTest obj = new DistXfmrCodeSCTest (results, mapCountCodeSCTest);
 			mapCodeSCTests.put (obj.GetKey(), obj);
 		}
-		System.out.println("loaded SC");
 	}
 
 	static void LoadPowerXfmrCore() {
@@ -175,7 +160,6 @@ public class CIMImporter extends Object {
 			DistPowerXfmrCore obj = new DistPowerXfmrCore (results);
 			mapXfmrCores.put (obj.GetKey(), obj);
 		}
-		System.out.println("loaded core");
 	}
 
 	static void LoadPowerXfmrMesh() {
@@ -184,7 +168,6 @@ public class CIMImporter extends Object {
 			DistPowerXfmrMesh obj = new DistPowerXfmrMesh (results, mapCountMesh);
 			mapXfmrMeshes.put (obj.GetKey(), obj);
 		}
-		System.out.println("loaded mesh");
 	}
 
 	static void LoadOverheadWires() {
@@ -193,7 +176,6 @@ public class CIMImporter extends Object {
 			DistOverheadWire obj = new DistOverheadWire (results);
 			mapWires.put (obj.GetKey(), obj);
 		}
-		System.out.println("loaded OH");
 	}
 
 	static void LoadTapeShieldCables() {
@@ -202,7 +184,6 @@ public class CIMImporter extends Object {
 			DistTapeShieldCable obj = new DistTapeShieldCable (results);
 			mapTSCables.put (obj.GetKey(), obj);
 		}
-		System.out.println("loaded TS");
 	}
 
 	static void LoadConcentricNeutralCables() {
@@ -211,7 +192,6 @@ public class CIMImporter extends Object {
 			DistConcentricNeutralCable obj = new DistConcentricNeutralCable (results);
 			mapCNCables.put (obj.GetKey(), obj);
 		}
-		System.out.println("loaded CN");
 	}
 
 	static void LoadLineSpacings() {
@@ -220,7 +200,6 @@ public class CIMImporter extends Object {
 			DistLineSpacing obj = new DistLineSpacing (results);
 			mapSpacings.put (obj.GetKey(), obj);
 		}
-		System.out.println("loaded spacings");
 	}
 
 	static void LoadSwitches() {
@@ -229,7 +208,6 @@ public class CIMImporter extends Object {
 			DistSwitch obj = new DistSwitch (results);
 			mapSwitches.put (obj.GetKey(), obj);
 		}
-		System.out.println("loaded switches");
 	}
 
 	static void LoadLinesInstanceZ() {
@@ -238,7 +216,6 @@ public class CIMImporter extends Object {
 			DistLinesInstanceZ obj = new DistLinesInstanceZ (results);
 			mapLinesInstanceZ.put (obj.GetKey(), obj);
 		}
-		System.out.println("loaded lines:instance");
 	}
 
 	static void LoadLinesCodeZ() {
@@ -247,7 +224,6 @@ public class CIMImporter extends Object {
 			DistLinesCodeZ obj = new DistLinesCodeZ (results);
 			mapLinesCodeZ.put (obj.GetKey(), obj);
 		}
-		System.out.println("loaded lines:code ref");
 	}
 
 	static void LoadLinesSpacingZ() {
@@ -256,7 +232,6 @@ public class CIMImporter extends Object {
 			DistLinesSpacingZ obj = new DistLinesSpacingZ (results);
 			mapLinesSpacingZ.put (obj.GetKey(), obj);
 		}
-		System.out.println("loaded lines:spacing ref");
 	}
 
 	static void LoadRegulators() {
@@ -265,7 +240,6 @@ public class CIMImporter extends Object {
 			DistRegulator obj = new DistRegulator (results);
 			mapRegulators.put (obj.GetKey(), obj);
 		}
-		System.out.println("loaded regulators");
 	}
 
 	static void LoadXfmrTanks() {
@@ -274,7 +248,6 @@ public class CIMImporter extends Object {
 			DistXfmrTank obj = new DistXfmrTank (results, mapCountTank);
 			mapTanks.put (obj.GetKey(), obj);
 		}
-		System.out.println("loaded tanks");
 	}
 
 	static void LoadXfmrBanks() {
@@ -283,7 +256,6 @@ public class CIMImporter extends Object {
 			DistXfmrBank obj = new DistXfmrBank (results, mapCountBank);
 			mapBanks.put (obj.GetKey(), obj);
 		}
-		System.out.println("loaded banks");
 	}
 
 	static void LoadPowerXfmrWindings() {
@@ -292,7 +264,6 @@ public class CIMImporter extends Object {
 			DistPowerXfmrWinding obj = new DistPowerXfmrWinding (results, mapCountWinding);
 			mapXfmrWindings.put (obj.GetKey(), obj); 
 		}
-		System.out.println("loaded windings");
 	}
 
 	static void LoadCoordinates() {
@@ -301,7 +272,6 @@ public class CIMImporter extends Object {
 			DistCoordinates obj = new DistCoordinates (results);
 			mapCoordinates.put (obj.GetKey(), obj);
 		}
-		System.out.println("loaded coordinates");
 	}
 
 	public static void PrintOneMap(HashMap<String,? extends DistComponent> map, String label) {
@@ -474,7 +444,8 @@ public class CIMImporter extends Object {
 		out.close();
 	}
 
-	public static void WriteGLMFile (String fOut) throws FileNotFoundException {
+	public static void WriteGLMFile (String fOut, double load_scale, boolean bWantSched, String fSched, 
+																	 boolean bWantZIP, double Zcoeff, double Icoeff, double Pcoeff) throws FileNotFoundException {
 		PrintWriter out = new PrintWriter (fOut);
 
 		// preparatory steps to build the list of nodes
@@ -556,13 +527,15 @@ public class CIMImporter extends Object {
 			nd1.nomvln = obj.basev / Math.sqrt(3.0);
 			GldNode nd2 = mapNodes.get (obj.bus2);
 			nd2.nomvln = nd1.nomvln;
-			if (obj.phases.contains("s")) {
+			if (obj.phases.contains("s")) {  // add primary phase to this triplex
 				nd1.bSecondary = true;
 				nd2.bSecondary = true;
 				if (nd2.phases.length() > 0) {
 					nd1.AddPhases (nd2.phases);
+					obj.phases = obj.phases + ":" + nd2.phases;
 				} else if (nd1.phases.length() > 0) {
 					nd2.AddPhases (nd1.phases);
+					obj.phases = obj.phases + ":" + nd1.phases;
 				}
 			} else {
 				nd1.AddPhases (obj.phases);
@@ -655,7 +628,7 @@ public class CIMImporter extends Object {
 
 		// GLM nodes and loads
 		for (HashMap.Entry<String,GldNode> pair : mapNodes.entrySet()) {
-			out.print (pair.getValue().GetGLM());
+			out.print (pair.getValue().GetGLM (load_scale, bWantSched, fSched, bWantZIP, Zcoeff, Icoeff, Pcoeff));
 		}
 
 		out.close();
@@ -699,7 +672,7 @@ public class CIMImporter extends Object {
 				if (opt == 'l') {
 					load_scale = Double.parseDouble(optVal);
 				} else if (opt == 'f') {
-					freq = Double.parseDouble(optVal);
+					freq = Double.parseDouble(optVal);  // TODO: set this into DistComponent
 				} else if (opt == 'n') {
 					fSched = optVal;
 					bWantSched = true;
@@ -722,8 +695,8 @@ public class CIMImporter extends Object {
 
 		LoadAllMaps();
 
-		PrintAllMaps();
-		WriteGLMFile (fOut);
+//		PrintAllMaps();
+		WriteGLMFile (fOut, load_scale, bWantSched, fSched, bWantZIP, Zcoeff, Icoeff, Pcoeff);
 		WriteJSONSymbolFile (fXY);
 	}
 }

@@ -144,11 +144,11 @@ public class GldNode {
 	public void AccumulateLoads (String phs, double pL, double qL, double Pv, double Qv,
 															 double Pz, double Pi, double Pp, double Qz, double Qi, double Qp) {
 		double fa = 0.0, fb = 0.0, fc = 0.0, denom = 0.0;
-		if (phs.contains("A") || phs.contains("S")) {
+		if (phs.contains("A") || phs.contains("s")) {
 			fa = 1.0;
 			denom += 1.0;
 		}
-		if (phs.contains("B") || phs.contains("S")) {  // TODO - allow for s1 and s2
+		if (phs.contains("B") || phs.contains("s")) {  // TODO - allow for s1 and s2
 			fb = 1.0;
 			denom += 1.0;
 		}
@@ -299,9 +299,10 @@ public class GldNode {
 		return false;
 	}
 
-	public String GetGLM () {
+	public String GetGLM (double load_scale, boolean bWantSched, String fSched, boolean bWantZIP, double Zcoeff, double Icoeff, double Pcoeff) {
 		StringBuilder buf = new StringBuilder();
 		DecimalFormat df = new DecimalFormat("#0.00");
+
 		if (bSwing) {
 			buf.append ("object substation {\n");
 			buf.append ("  name \"" + name + "\";\n");
@@ -313,6 +314,11 @@ public class GldNode {
 			buf.append ("  positive_sequence_voltage ${VSOURCE};\n");
 			buf.append ("}\n");
 		} else if (HasLoad()) {
+			RescaleLoad(load_scale);
+			if (bWantZIP) {
+				ApplyZIP (Zcoeff, Icoeff, Pcoeff);
+			}
+
 			Complex va = new Complex (nomvln);
 			Complex vb = va.multiply (neg120);
 			Complex vc = va.multiply (pos120);
@@ -320,52 +326,95 @@ public class GldNode {
 			Complex vmagsq = new Complex (nomvln * nomvln);
 			if (bSecondary) {
 				buf.append ("object triplex_load {\n");
+				buf.append ("  name \"" + name + "\";\n");
+				buf.append ("  phases " + GetPhases() + ";\n");
+				buf.append ("  nominal_voltage " + df.format(nomvln) + ";\n");
+				Complex base1 = new Complex (pa_z + pa_i + pa_p, qa_z + qa_i + qa_p);
+				Complex base2 = new Complex (pb_z + pb_i + pb_p, qb_z + qb_i + qb_p);
+				if (bWantSched) {
+					buf.append ("  base_power_1 " + fSched + ".value*" + df.format(base1.abs()) + ";\n");
+					buf.append ("  base_power_2 " + fSched + ".value*" + df.format(base2.abs()) + ";\n");
+				} else {
+					buf.append ("  base_power_1 " + df.format(base1.abs()) + ";\n");
+					buf.append ("  base_power_2 " + df.format(base2.abs()) + ";\n");
+				}
+				if (pa_p > 0.0) {
+					Complex base = new Complex(pa_p, qa_p);
+					buf.append ("  power_pf_1 " + df.format(pa_p / base.abs()) + ";\n");
+					buf.append ("  power_fraction_1 " + df.format(pa_p / base1.getReal()) + ";\n");
+				}
+				if (pb_p > 0.0) {
+					Complex base = new Complex(pb_p, qb_p);
+					buf.append ("  power_pf_2 " + df.format(pb_p / base.abs()) + ";\n");
+					buf.append ("  power_fraction_2 " + df.format(pb_p / base2.getReal()) + ";\n");
+				}
+				if (pa_i > 0.0) {
+					Complex base = new Complex(pa_i, qa_i);
+					buf.append ("  current_pf_1 " + df.format(pa_i / base.abs()) + ";\n");
+					buf.append ("  current_fraction_1 " + df.format(pa_i / base1.getReal()) + ";\n");
+				}
+				if (pb_i > 0.0) {
+					Complex base = new Complex(pb_i, qb_i);
+					buf.append ("  current_pf_2 " + df.format(pb_i / base.abs()) + ";\n");
+					buf.append ("  current_fraction_2 " + df.format(pb_i / base2.getReal()) + ";\n");
+				}
+				if (pa_z > 0.0) {
+					Complex base = new Complex(pa_z, qa_z);
+					buf.append ("  impedance_pf_1 " + df.format(pa_z / base.abs()) + ";\n");
+					buf.append ("  impedance_fraction_1 " + df.format(pa_z / base1.getReal()) + ";\n");
+				}
+				if (pb_z > 0.0) {
+					Complex base = new Complex(pb_z, qb_z);
+					buf.append ("  impedance_pf_2 " + df.format(pb_z / base.abs()) + ";\n");
+					buf.append ("  impedance_fraction_2 " + df.format(pb_z / base2.getReal()) + ";\n");
+				}
+				buf.append ("}\n");
 			} else {
 				buf.append ("object load {\n");
+				buf.append ("  name \"" + name + "\";\n");
+				buf.append ("  phases " + GetPhases() + ";\n");
+				buf.append ("  nominal_voltage " + df.format(nomvln) + ";\n");
+				if (pa_p > 0.0 || qa_p != 0.0)	{
+					buf.append ("  constant_power_A " + CFormat(new Complex(pa_p, qa_p)) + ";\n");
+				}
+				if (pb_p > 0.0 || qb_p != 0.0)	{
+					buf.append ("  constant_power_B " + CFormat(new Complex(pb_p, qb_p)) + ";\n");
+				}
+				if (pc_p > 0.0 || qc_p != 0.0)	{
+					buf.append ("  constant_power_C " + CFormat(new Complex(pc_p, qc_p)) + ";\n");
+				}
+				if (pa_z > 0.0 || qa_z != 0.0) {
+					Complex s = new Complex(pa_z, qa_z);
+					Complex z = vmagsq.divide(s.conjugate());
+					buf.append ("  constant_impedance_A " + CFormat(z) + ";\n");
+				}
+				if (pb_z > 0.0 || qb_z != 0.0) {
+					Complex s = new Complex(pb_z, qb_z);
+					Complex z = vmagsq.divide(s.conjugate());
+					buf.append ("  constant_impedance_B " + CFormat(z) + ";\n");
+				}
+				if (pc_z > 0.0 || qc_z != 0.0) {
+					Complex s = new Complex(pc_z, qc_z);
+					Complex z = vmagsq.divide(s.conjugate());
+					buf.append ("  constant_impedance_C " + CFormat(z) + ";\n");
+				}
+				if (pa_i > 0.0 || qa_i != 0.0) {
+					Complex s = new Complex(pa_i, qa_i);
+					amps = s.divide(va).conjugate();
+					buf.append ("  constant_current_A " + CFormat(amps) + ";\n");
+				}
+				if (pb_i > 0.0 || qb_i != 0.0) {
+					Complex s = new Complex(pb_i, qb_i);
+					amps = s.divide(va.multiply(neg120)).conjugate();
+					buf.append ("  constant_current_B " + CFormat(amps) + ";\n");
+				}
+				if (pc_i > 0.0 || qc_i != 0.0) {
+					Complex s = new Complex(pc_i, qc_i);
+					amps = s.divide(va.multiply(pos120)).conjugate();
+					buf.append ("  constant_current_C " + CFormat(amps) + ";\n");
+				}
+				buf.append ("}\n");
 			}
-			buf.append ("  name \"" + name + "\";\n");
-			buf.append ("  phases " + GetPhases() + ";\n");
-			buf.append ("  nominal_voltage " + df.format(nomvln) + ";\n");
-			if (pa_p > 0.0 || qa_p != 0.0)	{
-				buf.append ("  constant_power_A " + CFormat(new Complex(pa_p, qa_p)) + ";\n");
-			}
-			if (pb_p > 0.0 || qb_p != 0.0)	{
-				buf.append ("  constant_power_B " + CFormat(new Complex(pb_p, qb_p)) + ";\n");
-			}
-			if (pc_p > 0.0 || qc_p != 0.0)	{
-				buf.append ("  constant_power_C " + CFormat(new Complex(pc_p, qc_p)) + ";\n");
-			}
-			if (pa_z > 0.0 || qa_z != 0.0) {
-				Complex s = new Complex(pa_z, qa_z);
-				Complex z = vmagsq.divide(s.conjugate());
-				buf.append ("  constant_impedance_A " + CFormat(z) + ";\n");
-			}
-			if (pb_z > 0.0 || qb_z != 0.0) {
-				Complex s = new Complex(pb_z, qb_z);
-				Complex z = vmagsq.divide(s.conjugate());
-				buf.append ("  constant_impedance_B " + CFormat(z) + ";\n");
-			}
-			if (pc_z > 0.0 || qc_z != 0.0) {
-				Complex s = new Complex(pc_z, qc_z);
-				Complex z = vmagsq.divide(s.conjugate());
-				buf.append ("  constant_impedance_C " + CFormat(z) + ";\n");
-			}
-			if (pa_i > 0.0 || qa_i != 0.0) {
-				Complex s = new Complex(pa_i, qa_i);
-				amps = s.divide(va).conjugate();
-				buf.append ("  constant_current_A " + CFormat(amps) + ";\n");
-			}
-			if (pb_i > 0.0 || qb_i != 0.0) {
-				Complex s = new Complex(pb_i, qb_i);
-				amps = s.divide(va.multiply(neg120)).conjugate();
-				buf.append ("  constant_current_B " + CFormat(amps) + ";\n");
-			}
-			if (pc_i > 0.0 || qc_i != 0.0) {
-				Complex s = new Complex(pc_i, qc_i);
-				amps = s.divide(va.multiply(pos120)).conjugate();
-				buf.append ("  constant_current_C " + CFormat(amps) + ";\n");
-			}
-			buf.append ("}\n");
 		} else {
 			if (bSecondary) {
 				buf.append ("object triplex_node {\n");
