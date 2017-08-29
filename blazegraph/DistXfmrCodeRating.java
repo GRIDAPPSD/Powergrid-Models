@@ -102,10 +102,12 @@ public class DistXfmrCodeRating extends DistComponent {
 		double zpu = 0.0;
 		double zbase1 = ratedU[0] * ratedU[0] / ratedS[0];
 		double zbase2 = ratedU[1] * ratedU[1] / ratedS[1];
-		if (sct.ll[0] > 0.0) {
-			rpu = sct.ll[0] / ratedS[0];
+		if ((sct.ll[0] > 0.0) && (size < 3)) {
+			rpu = 1000.0 * sct.ll[0] / ratedS[0];
 		} else {
-			rpu = (r[0] / zbase1) + (r[1] / zbase2);
+			// hard-wired for SINGLE_PHASE_CENTER_TAPPED,
+			// which is the only three-winding case that GridLAB-D supports
+			rpu = (r[0] / zbase1) + 0.5 * (r[1] / zbase2);
 		}
 		if (sct.fwdg[0] == 1) {
 			zpu = sct.z[0] / zbase1;
@@ -143,7 +145,7 @@ public class DistXfmrCodeRating extends DistComponent {
 			buf.append ("  shunt_reactance " + dfz.format (100.0 / oct.iexc) + ";\n");
 		}
 		if (oct.nll > 0.0) {
-			buf.append ("  shunt_resistance " + dfz.format (ratedS[0] / oct.nll) + ";\n");
+			buf.append ("  shunt_resistance " + dfz.format (ratedS[0] / oct.nll / 1000.0) + ";\n");
 		}
 		buf.append("}\n");
 		return buf.toString();

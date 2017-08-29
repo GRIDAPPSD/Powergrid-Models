@@ -158,7 +158,7 @@ public class DistPhaseMatrix extends DistComponent {
 	private void AppendPermutation (StringBuilder buf, String perm, int[] permidx) {
 		DecimalFormat df = new DecimalFormat("#0.0000");
 
-		if ((cnt == 2) && name.contains ("triplex")) {
+		if (glmTriplex) {
 			buf.append("object triplex_line_configuration {\n");
 			buf.append("  name \"tcon_" + name + "_" + perm + "\";\n");
 		} else {
@@ -171,7 +171,9 @@ public class DistPhaseMatrix extends DistComponent {
 				// want ohms/mile and nF/mile
 				String indices = Integer.toString(permidx[i]) + Integer.toString(permidx[j]) + " ";
 				buf.append ("  z" + indices + CFormat (new Complex(gMperMILE * r[seq], gMperMILE * x[seq])) + ";\n");
-				buf.append ("  c" + indices + df.format(1.0e9 * gMperMILE * b[seq] / gOMEGA) + ";\n");
+				if (!glmTriplex) {
+					buf.append("  c" + indices + df.format(1.0e9 * gMperMILE * b[seq] / gOMEGA) + ";\n");
+				}
 			}
 		}
 		buf.append("}\n");

@@ -14,10 +14,10 @@ import java.util.TreeSet;
 import org.apache.jena.query.*;
 import org.apache.jena.rdf.model.RDFNode;
 
-// import gov.pnnl.gridlabd.cim.GldNode;
-
 /**
- * <p>This class runs an example SQARQL query against Blazegraph triple-store</p> 
+ * <p>This class builds a GridLAB-D model by running 
+ * SQARQL queries against Blazegraph 
+ * triple-store</p> 
  *      
  * <p>Invoke as a console-mode program</p> 
  *      
@@ -577,6 +577,8 @@ public class CIMImporter extends Object {
 			tank.glmUsed = false;
 			for (int i = 1; i < reg.size; i++) {
 				tank = mapTanks.get (reg.rname[i]);
+				code = mapCodeRatings.get (tank.tankinfo);
+				code.glmUsed = false;
 				tank.glmUsed = false;
 			}
 		}
@@ -641,7 +643,7 @@ public class CIMImporter extends Object {
 		String fSched = "";
 		double Zcoeff = 0.0, Icoeff = 0.0, Pcoeff = 0.0;
 
-		if (args.length < 2) {
+		if (args.length < 1) {
 			System.out.println ("Usage: java CIMImporter [options] output_root");
 			System.out.println ("       -l={0..1}          // load scaling factor; defaults to 1");
 			System.out.println ("       -f={50|60}         // system frequency; defaults to 60");

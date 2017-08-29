@@ -8,6 +8,7 @@
 import java.io.*;
 import org.apache.jena.query.*;
 import java.text.DecimalFormat;
+import org.apache.commons.math3.complex.Complex;
 
 public class DistLinesInstanceZ extends DistLineSegment {
 	static final String szQUERY = 
@@ -71,10 +72,26 @@ public class DistLinesInstanceZ extends DistLineSegment {
 		StringBuilder buf = new StringBuilder ();
 		AppendSharedGLMAttributes (buf, name);
 
-		buf.append("object line_configuration {\n");
-		buf.append("  name \"lcon_" + name + "_ABC\";\n");
-		// TODO - generate the 3x3 balanced phase matrix from sequence parameters
-		buf.append("}\n");
+		String seqZs = CFormat (new Complex ((r0 + 2.0 * r1) / 3.0, (x0 + 2.0 * x1) / 3.0));
+		String seqZm = CFormat (new Complex ((r0 - r1) / 3.0, (x0 - x1) / 3.0));
+		String seqCs = df.format(1.0e9 * (b0 + 2.0 * b1) / 3.0 / gOMEGA);
+		String seqCm = df.format(1.0e9 * (b0 - b1) / 3.0 / gOMEGA);
+
+		buf.append ("object line_configuration {\n");
+		buf.append ("  name \"lcon_" + name + "_ABC\";\n");
+		for (int i = 1; i <= 3; i++) {
+			for (int j = 1; j <= 3; j++) {
+				String indices = Integer.toString(i) + Integer.toString(j) + " ";
+				if (i == j) {
+					buf.append ("  z" + indices + seqZs + ";\n");
+					buf.append ("  c" + indices + seqCs + ";\n");
+				} else {
+					buf.append ("  z" + indices + seqZm + ";\n");
+					buf.append ("  c" + indices + seqCm + ";\n");
+				}
+			}
+		}
+		buf.append ("}\n");
 		return buf.toString();
 	}
 
