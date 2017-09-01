@@ -1,0 +1,7 @@
+*.class
+*.jar
+*.log
+*.jnl
+*.csv
+gridlabd.xml
+maps.txt

@@ -1,0 +1,22 @@
+https://wiki.blazegraph.com/wiki/index.php/NanoSparqlServer
+
+Using the default server configuration with altered port to run:
+java -server -Xmx4g -Djetty.port=19992 -jar blazegraph.jar
+
+Go to http://localhost:19992/blazegraph/ to get started
+
+1) Create the GridAPPS-D namespace with default parameters
+2) Upload ieee8500.xml as RDF data
+3) Try sample queries below
+
+Sample Queries
+==============
+
+select * where {?q1 ?q2 ?q3}
+
+select ?q1 where {?q1 rdf:type <http://iec.ch/TC57/2012/CIM-schema-cim16#ACLineSegment>}
+
+prefix cim: <http://iec.ch/TC57/2012/CIM-schema-cim16#>
+select ?s where {?s rdf:type cim:LinearShuntCompensator}
+
+prefix cim: <http://iec.ch/TC57/2012/CIM-schema-cim16#>SELECT ?line ?acLineSegmentName WHERE { ?line rdf:type cim:Line. ?acLineSegment cim:Equipment.EquipmentContainer ?line. ?acLineSegment rdf:type cim:ACLineSegment.?line cim:IdentifiedObject.name "ieee8500". ?acLineSegment cim:IdentifiedObject.name ?acLineSegmentName }prefix cim: <http://iec.ch/TC57/2012/CIM-schema-cim16>SELECT ?lineName ?energySource ?pred ?val  WHERE { ?line rdf:type cim:Line. ?line cim:IdentifiedObject.name ?lineName. ?connNode cim:ConnectivityNode.ConnectivityNodeContainer ?line. ?terminal cim:Terminal.ConnectivityNode ?connNode. ?terminal cim:Terminal.ConductingEquipment ?energySource.?terminal ?pred ?val.?energySource rdf:type cim:EnergySource.?energySource cim:EnergySource.voltageMagnitude "120750"}prefix cim: <http://iec.ch/TC57/2012/CIM-schema-cim16>SELECT ?line ?condEquipType ?condEquipName WHERE { ?line rdf:type cim:Line. ?line cim:IdentifiedObject.name "ieee8500". ?connNode cim:ConnectivityNode.ConnectivityNodeContainer ?line.?terminal cim:Terminal.ConnectivityNode ?connNode. ?terminal cim:Terminal.ConductingEquipment ?condEquip.?condEquip rdf:type ?condEquipType.?condEquip cim:IdentifiedObject.name ?condEquipName}
