@@ -263,13 +263,6 @@ public class DistRegulator extends DistComponent {
 		} else {
 			buf.append ("  connect_type WYE_WYE;\n");
 		}
-		buf.append ("  band_center " + df.format(vset[0]) + ";\n");
-		buf.append ("  band_width " + df.format(vbw[0]) + ";\n");
-		buf.append ("  dwell_time " + df.format(initDelay[0]) + ";\n");
-		buf.append ("  raise_taps " + Integer.toString(Math.abs (highStep[0] - neutralStep[0])) + ";\n");
-		buf.append ("  lower_taps " + Integer.toString(Math.abs (neutralStep[0] - lowStep[0])) + ";\n");
-		buf.append ("  regulation " + df.format(dReg) + ";\n");
-		buf.append ("  Type B;\n");
 		if (vset[0] > 0.0 && vbw[0] > 0.0 && ltc[0]) {  // for GridAPPS-D, we don't actually use the control modes from CIM
 			if (ldc[0]) {
 				buf.append("	Control MANUAL; // LINE_DROP_COMP;\n");
@@ -279,12 +272,25 @@ public class DistRegulator extends DistComponent {
 		} else {
 			buf.append("	Control MANUAL;\n");
 		}
+		buf.append ("  // use these for OUTPUT_VOLTAGE mode\n");
+		buf.append ("  // band_center " + df.format(vset[0] * ptRatio[0]) + ";\n");
+		buf.append ("  // band_width " + df.format(vbw[0] * ptRatio[0]) + ";\n");
+		buf.append ("  // use these for LINE_DROP_COMP mode\n");
+		buf.append ("  // band_center " + df.format(vset[0]) + ";\n");
+		buf.append ("  // band_width " + df.format(vbw[0]) + ";\n");
+		buf.append ("  // transducer ratios only apply to LINE_DROP_COMP mode\n");
 		buf.append ("  current_transducer_ratio " + df.format(ctRatio[0]) + ";\n");
 		buf.append ("  power_transducer_ratio " + df.format(ptRatio[0]) + ";\n");
+		buf.append ("  dwell_time " + df.format(initDelay[0]) + ";\n");
+		buf.append ("  raise_taps " + Integer.toString(Math.abs (highStep[0] - neutralStep[0])) + ";\n");
+		buf.append ("  lower_taps " + Integer.toString(Math.abs (neutralStep[0] - lowStep[0])) + ";\n");
+		buf.append ("  regulation " + df.format(dReg) + ";\n");
+		buf.append ("  Type B;\n");
 		for (int i = 0; i < size; i++) {
 			int iTap = (int) Math.round((step[i] - 1.0) / incr[i] * 100.0);	// TODO - verify this should be an offset from neutralStep
 			buf.append ("  compensator_r_setting_" + phs[i] + " " + df.format(fwdR[i]) + ";\n");
 			buf.append ("  compensator_x_setting_" + phs[i] + " " + df.format(fwdX[i]) + ";\n");
+			buf.append ("  // comment out the manual tap setting if using automatic control\n");
 			buf.append ("  tap_pos_" + phs[i] + " " + Integer.toString(iTap) + ";\n");
 		}
 		buf.append ("}\n");
