@@ -1,3 +1,3 @@
-drop schema adms;
-create schema adms;
-use adms;
+drop schema gridappsd;
+create schema gridappsd;
+use gridappsd;
