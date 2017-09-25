@@ -1,0 +1,6 @@
+Bundle-Version: 0.2.1
+Private-Package: \
+	gov.pnnl.goss.cim2glm.components,\
+	gov.pnnl.goss.cim2glm,\
+	gov.pnnl.goss.cim2glm.queryhandler.impl
+Export-Package: gov.pnnl.goss.cim2glm.queryhandler
