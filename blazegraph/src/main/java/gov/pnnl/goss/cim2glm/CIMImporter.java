@@ -691,13 +691,29 @@ public class CIMImporter extends Object {
 		out.close();
 	}
 	
-	
-	
-	
-	
-	
-	
-	
+	public void WriteDSSCoordinates (String fXY) throws FileNotFoundException {
+		PrintWriter out = new PrintWriter (fXY);
+
+		out.close();
+	}
+
+	public void WriteDSSGUIDS (String fID) throws FileNotFoundException {
+		PrintWriter out = new PrintWriter (fID);
+
+		out.close();
+	}
+
+	public void WriteDSSFile (String fOut, double load_scale, boolean bWantZIP, double Zcoeff, double Icoeff, double Pcoeff) throws FileNotFoundException {
+		PrintWriter out = new PrintWriter (fOut);
+
+		out.print ("set voltagebases=[");
+		for (HashMap.Entry<String,DistBaseVoltage> pair : mapBaseVoltages.entrySet()) {
+			out.print (pair.getValue().GetDSS());
+		}
+		out.println ("]");
+
+		out.close();
+	}
 	
 	
 	/**
@@ -713,14 +729,22 @@ public class CIMImporter extends Object {
 	 * @param fXY
 	 * @throws FileNotFoundException
 	 */
-	public void start(QueryHandler queryHandler, String fOut, String fSched, double load_scale, boolean bWantSched, boolean bWantZIP, double Zcoeff, double Icoeff, double Pcoeff, String fXY) throws FileNotFoundException{
+	public void start(QueryHandler queryHandler, String fTarget, String fOut, String fSched, 
+										double load_scale, boolean bWantSched, boolean bWantZIP, double Zcoeff, 
+										double Icoeff, double Pcoeff, String fXY, String fID) throws FileNotFoundException{
 		this.queryHandler = queryHandler;
 		
 		LoadAllMaps();
 
 //		PrintAllMaps();
-		WriteGLMFile (fOut, load_scale, bWantSched, fSched, bWantZIP, Zcoeff, Icoeff, Pcoeff);
-		WriteJSONSymbolFile (fXY);
+		if (fTarget == "glm") {
+			WriteGLMFile(fOut, load_scale, bWantSched, fSched, bWantZIP, Zcoeff, Icoeff, Pcoeff);
+			WriteJSONSymbolFile (fXY);
+		} else if (fTarget == "dss") {
+			WriteDSSFile (fOut, load_scale, bWantZIP, Zcoeff, Icoeff, Pcoeff);
+			WriteDSSCoordinates (fXY);
+			WriteDSSGUIDS (fID);
+		}
 	}
 	
 	
@@ -728,25 +752,28 @@ public class CIMImporter extends Object {
 	
 
 	public static void main (String args[]) throws FileNotFoundException {
-		String fOut = "", fXY = "";
+		String fOut = "", fXY = "", fID = "";
 		double freq = 60.0, load_scale = 1.0;
 		boolean bWantSched = false, bWantZIP = false;
 		String fSched = "";
+		String fTarget = "glm";
 		double Zcoeff = 0.0, Icoeff = 0.0, Pcoeff = 0.0;
 		String blazegraphURI = "http://localhost:9999";
 		if (args.length < 1) {
 			System.out.println ("Usage: java CIMImporter [options] output_root");
+			System.out.println ("       -o={glm|dss}       // output format; defaults to glm");
 			System.out.println ("       -l={0..1}          // load scaling factor; defaults to 1");
 			System.out.println ("       -f={50|60}         // system frequency; defaults to 60");
-			System.out.println ("       -n={schedule_name} // root filename for scheduled ZIP loads (defaults to none)");
+			System.out.println ("       -n={schedule_name} // root filename for scheduled ZIP loads (defaults to none), valid only for -o=glm");
 			System.out.println ("       -z={0..1}          // constant Z portion (defaults to 0 for CIM-defined LoadResponseCharacteristic)");
 			System.out.println ("       -i={0..1}          // constant I portion (defaults to 0 for CIM-defined LoadResponseCharacteristic)");
 			System.out.println ("       -p={0..1}          // constant P portion (defaults to 0 for CIM-defined LoadResponseCharacteristic)");
-			System.out.println ("       -u={http://localhost:9999}          // blazegraph uri (if connecting over HTTP); defaults to http://localhost:9999");
+			System.out.println ("       -u={http://localhost:9999} // blazegraph uri (if connecting over HTTP); defaults to http://localhost:9999");
 
-			System.out.println ("Example: java CIMImporter -l=1 -i=1 ieee8500");
+			System.out.println ("Example 1: java CIMImporter -l=1 -i=1 -n=zipload_schedule ieee8500");
 			System.out.println ("   assuming Jena and Commons-Math are in Java's classpath, this will produce two output files");
-			System.out.println ("   1) ieee8500_base.glm with GridLAB-D components for a constant-current model at peak load");
+			System.out.println ("   1) ieee8500_base.glm with GridLAB-D components for a constant-current model at peak load,");
+			System.out.println ("      where each load's base_power attributes reference zipload_schedule.player");
 			System.out.println ("      This file includes an adjustable source voltage, and manual capacitor/tap changer states.");
 			System.out.println ("      It should be invoked from a separate GridLAB-D file that sets up the clock, solver, recorders, etc.");
 			System.out.println ("      For example, these two GridLAB-D input lines set up 1.05 per-unit source voltage on a 115-kV system:");
@@ -755,7 +782,13 @@ public class CIMImporter extends Object {
 			System.out.println ("      If there were capacitor/tap changer controls in the CIM input file, that data was written to");
 			System.out.println ("          ieee8500_base.glm as comments, which can be recovered through manual edits.");
 			System.out.println ("   2) ieee8500_symbols.json with component labels and geographic coordinates, used in GridAPPS-D but not GridLAB-D");
-			System.out.println ("TODO: implement arguments for SPARQL endpoint and CIM EquipmentContainer selection");
+			System.out.println ("Example 2: java CIMImporter -o=dss ieee8500");
+			System.out.println ("   assuming Jena and Commons-Math are in Java's classpath, this will produce three output files");
+			System.out.println ("   1) ieee8500_base.dss with OpenDSS components for the CIM LoadResponseCharacteristic at peak load");
+			System.out.println ("      It should be invoked from a separate OpenDSS file that sets up the solution and options.");
+			System.out.println ("   2) ieee8500_busxy.dss with node xy coordinates");
+			System.out.println ("   3) ieee8500_guid.dss with CIM mRID values for the components");
+			System.out.println ("TODO: implement argument for CIM EquipmentContainer selection");
 			System.exit (0);
 		}
 
@@ -766,6 +799,8 @@ public class CIMImporter extends Object {
 				String optVal = args[i].substring(3);
 				if (opt == 'l') {
 					load_scale = Double.parseDouble(optVal);
+				} else if (opt == 'o') {
+					fTarget = optVal;
 				} else if (opt == 'f') {
 					freq = Double.parseDouble(optVal);  // TODO: set this into DistComponent
 				} else if (opt == 'n') {
@@ -784,13 +819,23 @@ public class CIMImporter extends Object {
 					blazegraphURI = optVal;
 				}
 			} else {
-				fOut = args[i] + "_base.glm";
-				fXY = args[i] + "_symbols.json";
+				if (fTarget == "glm") {
+					fOut = args[i] + "_base.glm";
+					fXY = args[i] + "_symbols.json";
+				} else if (fTarget == "dss") {
+					fOut = args[i] + "_base.dss";
+					fXY = args[i] + "_busxy.dss";
+					fID = args[i] + "_guid.dss";
+				} else {
+					System.out.println ("Unknown target type " + fTarget);
+					System.exit(0);
+				}
 			}
 			++i;
 		}
 		
-		new CIMImporter().start(new HTTPBlazegraphQueryHandler(blazegraphURI), fOut, fSched, load_scale, bWantSched, bWantZIP, Zcoeff, Icoeff, Pcoeff, fXY);
+		new CIMImporter().start(new HTTPBlazegraphQueryHandler(blazegraphURI), fTarget, fOut, fSched, load_scale, 
+														bWantSched, bWantZIP, Zcoeff, Icoeff, Pcoeff, fXY, fID);
 		
 	}
 }
