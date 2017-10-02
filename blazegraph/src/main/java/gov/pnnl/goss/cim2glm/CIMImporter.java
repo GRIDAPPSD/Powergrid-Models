@@ -737,10 +737,10 @@ public class CIMImporter extends Object {
 		LoadAllMaps();
 
 //		PrintAllMaps();
-		if (fTarget == "glm") {
+		if (fTarget.equals("glm")) {
 			WriteGLMFile(fOut, load_scale, bWantSched, fSched, bWantZIP, Zcoeff, Icoeff, Pcoeff);
 			WriteJSONSymbolFile (fXY);
-		} else if (fTarget == "dss") {
+		} else if (fTarget.equals("dss")) {
 			WriteDSSFile (fOut, load_scale, bWantZIP, Zcoeff, Icoeff, Pcoeff);
 			WriteDSSCoordinates (fXY);
 			WriteDSSGUIDS (fID);
@@ -819,10 +819,10 @@ public class CIMImporter extends Object {
 					blazegraphURI = optVal;
 				}
 			} else {
-				if (fTarget == "glm") {
+				if (fTarget.equals("glm")) {
 					fOut = args[i] + "_base.glm";
 					fXY = args[i] + "_symbols.json";
-				} else if (fTarget == "dss") {
+				} else if (fTarget.equals("dss")) {
 					fOut = args[i] + "_base.dss";
 					fXY = args[i] + "_busxy.dss";
 					fID = args[i] + "_guid.dss";
