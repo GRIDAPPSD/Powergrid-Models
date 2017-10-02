@@ -5,3 +5,6 @@
 *.csv
 gridlabd.xml
 maps.txt
+/bin/
+/generated/
+/target/

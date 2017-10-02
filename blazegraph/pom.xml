@@ -1,0 +1,33 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>gov.pnnl.goss</groupId>
+  <artifactId>cim2glm</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <properties>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
+  </properties>
+  <dependencies>
+	<dependency>
+	    <groupId>org.apache.commons</groupId>
+	    <artifactId>commons-math3</artifactId>
+	    <version>3.6.1</version>
+	</dependency>
+	<dependency>
+		<groupId>org.apache.jena</groupId>
+		<artifactId>jena-core</artifactId>
+		<version>3.1.1</version>
+	</dependency>
+	<dependency>
+		<groupId>org.apache.jena</groupId>
+		<artifactId>jena-arq</artifactId>
+		<version>3.1.1</version>
+	</dependency>
+	<dependency>
+		<groupId>com.blazegraph</groupId>
+		<artifactId>bigdata-core</artifactId>
+		<version>2.1.4</version>
+	</dependency>
+  </dependencies>
+  
+</project>

@@ -1,0 +1,29 @@
+-runfw: org.apache.felix.framework;version=4
+-runee: JavaSE-1.8
+-runprovidedcapabilities: ${native_capability}
+
+-resolve.effective: active;skip:="osgi.service"
+
+-runbundles: \
+	org.apache.felix.gogo.runtime,\
+	org.apache.felix.gogo.shell,\
+	org.apache.felix.gogo.command,\
+	blazegraph.cim2glm;version=latest,\
+	blazegraph.cim2glm.api;version=latest,\
+	org.apache.jena.osgi,\
+	org.apache.commons.math3,\
+	org.apache.servicemix.bundles.xerces,\
+	org.apache.servicemix.bundles.xmlresolver,\
+	com.fasterxml.jackson.core.jackson-core,\
+	com.fasterxml.jackson.core.jackson-databind,\
+	com.fasterxml.jackson.core.jackson-annotations,\
+	com.github.andrewoma.dexx.collection,\
+	com.github.jsonld-java,\
+	slf4j.api,\
+	slf4j.simple,\
+	org.apache.felix.http.bundle,\
+	org.apache.felix.http.servlet-api
+
+-runrequires:\
+	osgi.identity;filter:='(osgi.identity=org.apache.felix.gogo.shell)',\
+	osgi.identity;filter:='(osgi.identity=org.apache.felix.gogo.command)'
