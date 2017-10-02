@@ -707,7 +707,7 @@ public class CIMImporter extends Object {
 		boolean bWantSched = false, bWantZIP = false;
 		String fSched = "";
 		double Zcoeff = 0.0, Icoeff = 0.0, Pcoeff = 0.0;
-		String blazegraphURI = "http://localhost:9999";
+		String blazegraphURI = "http://localhost:9999/blazegraph/namespace/kb/sparql";
 		if (args.length < 1) {
 			System.out.println ("Usage: java CIMImporter [options] output_root");
 			System.out.println ("       -l={0..1}          // load scaling factor; defaults to 1");
