@@ -758,7 +758,7 @@ public class CIMImporter extends Object {
 		String fSched = "";
 		String fTarget = "glm";
 		double Zcoeff = 0.0, Icoeff = 0.0, Pcoeff = 0.0;
-		String blazegraphURI = "http://localhost:9999";
+		String blazegraphURI = "http://localhost:9999/blazegraph/namespace/kb/sparql";
 		if (args.length < 1) {
 			System.out.println ("Usage: java CIMImporter [options] output_root");
 			System.out.println ("       -o={glm|dss}       // output format; defaults to glm");
