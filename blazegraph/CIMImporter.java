@@ -487,6 +487,19 @@ public class CIMImporter extends Object {
 					GldNode nd = mapNodes.get(obj.bus[i]);
 					if (nd.bSecondary) {
 						nd.AddPhases (primaryPhase);
+						DistCoordinates pt1 = mapCoordinates.get("PowerTransformer:" + obj.pname + ":1");
+						DistCoordinates pt2 = mapCoordinates.get("PowerTransformer:" + obj.pname + ":2");
+						if (pt1.x == 0.0 && pt1.y == 0.0) {
+							if (pt2.x != 0.0 || pt2.y != 0.0) {
+								pt1.x = pt2.x + 3.0;
+								pt1.y = pt2.y + 0.0;
+							}
+						} else if (pt2.x == 0.0 && pt2.y == 0.0) {
+							if (pt1.x != 0.0 || pt1.y != 0.0) {
+								pt2.x = pt1.x + 3.0;
+								pt2.y = pt1.y + 0.0;
+							}
+						}
 					}
 				}
 			}
@@ -536,6 +549,19 @@ public class CIMImporter extends Object {
 				} else if (nd1.phases.length() > 0) {
 					nd2.AddPhases (nd1.phases);
 					obj.phases = obj.phases + ":" + nd1.phases;
+				}
+				DistCoordinates pt1 = mapCoordinates.get("ACLineSegment:" + obj.name + ":1");
+				DistCoordinates pt2 = mapCoordinates.get("ACLineSegment:" + obj.name + ":2");
+				if (pt1.x == 0.0 && pt1.y == 0.0) {
+					if (pt2.x != 0.0 || pt2.y != 0.0) {
+						pt1.x = pt2.x + 3.0;
+						pt1.y = pt2.y + 0.0;
+					}
+				} else if (pt2.x == 0.0 && pt2.y == 0.0) {
+					if (pt1.x != 0.0 || pt1.y != 0.0) {
+						pt2.x = pt1.x + 3.0;
+						pt2.y = pt1.y + 0.0;
+					}
 				}
 			} else {
 				nd1.AddPhases (obj.phases);
