@@ -122,7 +122,7 @@ public class DistPhaseMatrix extends DistComponent {
 			QuerySolution soln = results.next();
 			int seq = Integer.parseInt (soln.get("?seq").toString());
 			if (size == 0) {
-				name = GLD_Name (soln.get("?name").toString(), false);
+				name = SafeName (soln.get("?name").toString());
 				cnt = Integer.parseInt (soln.get("?cnt").toString());
 				SetMatSize();
 				r = new double[size];

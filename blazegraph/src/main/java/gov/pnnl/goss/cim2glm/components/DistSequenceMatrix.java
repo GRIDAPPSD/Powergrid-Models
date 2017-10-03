@@ -39,7 +39,7 @@ public class DistSequenceMatrix extends DistComponent {
 	public DistSequenceMatrix (ResultSet results) {
 		if (results.hasNext()) {
 			QuerySolution soln = results.next();
-			name = GLD_Name (soln.get("?name").toString(), false);
+			name = SafeName (soln.get("?name").toString());
 			r1 = Double.parseDouble (soln.get("?r1").toString());
 			x1 = Double.parseDouble (soln.get("?x1").toString());
 			b1 = Double.parseDouble (soln.get("?b1").toString());

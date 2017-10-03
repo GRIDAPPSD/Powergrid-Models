@@ -34,10 +34,10 @@ public class DistLinesCodeZ extends DistLineSegment {
 	public DistLinesCodeZ (ResultSet results) {
 		if (results.hasNext()) {
 			QuerySolution soln = results.next();
-			name = GLD_Name (soln.get("?name").toString(), false);
+			name = SafeName (soln.get("?name").toString());
 			String[] buses = soln.get("?buses").toString().split("\\n");
-			bus1 = GLD_Name(buses[0], true); 
-			bus2 = GLD_Name(buses[1], true); 
+			bus1 = SafeName(buses[0]); 
+			bus2 = SafeName(buses[1]); 
 			phases = OptionalString (soln, "?phases", "ABC");
 			phases = phases.replace ('\n', ':');
 			basev = Double.parseDouble (soln.get("?basev").toString());

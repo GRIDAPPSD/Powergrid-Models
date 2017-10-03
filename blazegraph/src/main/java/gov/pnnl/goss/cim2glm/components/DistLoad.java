@@ -56,8 +56,8 @@ public class DistLoad extends DistComponent {
 	public DistLoad (ResultSet results) {
 		if (results.hasNext()) {
 			QuerySolution soln = results.next();
-			name = GLD_Name (soln.get("?name").toString(), false);
-			bus = GLD_Name (soln.get("?bus").toString(), true);
+			name = SafeName (soln.get("?name").toString());
+			bus = SafeName (soln.get("?bus").toString());
 			basev = Double.parseDouble (soln.get("?basev").toString());
 			phs = OptionalString (soln, "?phs", "ABC");
 			conn = soln.get("?conn").toString();

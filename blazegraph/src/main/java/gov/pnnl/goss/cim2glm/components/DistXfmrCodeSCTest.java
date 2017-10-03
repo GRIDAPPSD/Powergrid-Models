@@ -58,8 +58,8 @@ public class DistXfmrCodeSCTest extends DistComponent {
 			QuerySolution soln = results.next();
 			String p = soln.get("?pname").toString();
 			String t = soln.get("?tname").toString();
-			pname = GLD_Name (p, false);
-			tname = GLD_Name (t, false);
+			pname = SafeName (p);
+			tname = SafeName (t);
 			SetSize (map.get(tname));
 			for (int i = 0; i < size; i++) {
 				fwdg[i] = Integer.parseInt (soln.get("?enum").toString());

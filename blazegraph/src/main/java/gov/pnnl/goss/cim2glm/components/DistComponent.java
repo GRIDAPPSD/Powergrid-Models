@@ -72,20 +72,19 @@ public abstract class DistComponent {
 	}
 
  	/** prefix all bus names with `nd_` for GridLAB-D, so they "should" be unique
- 	 *	@param arg the root bus name, aka CIM name
+ 	 *	@param arg the root bus name
  	 *	@return nd_arg
  	 */
- 	static String GldPrefixedNodeName (String arg) {
+ 	static String GldBusName (String arg) {
  		return "nd_" + arg;
  	}
 
  	/** 
- 	 *	convert a CIM name to GridLAB-D name, replacing unallowed characters and prefixing for a bus/node
+ 	 *	convert a CIM name to simulator name, replacing unallowed characters
  	 *	@param arg the root bus or component name, aka CIM name
- 	 *	@param bus to flag whether `nd_` should be prepended
- 	 *	@return the compatible name for GridLAB-D
+ 	 *	@return the compatible name for GridLAB-D or OpenDSS
  	 */  
- 	public static String GLD_Name (String arg, boolean bus) {			// GLD conversion
+ 	public static String SafeName (String arg) {			// GLD conversion
  		String s = arg.replace (' ', '_');
  		s = s.replace ('.', '_');
  		s = s.replace ('=', '_');
@@ -100,7 +99,6 @@ public abstract class DistComponent {
  		s = s.replace ('}', '_');
  		s = s.replace ('(', '_');
  		s = s.replace (')', '_');
- 		if (bus) return GldPrefixedNodeName (s);
  		return s;
  	}
 
@@ -111,6 +109,46 @@ public abstract class DistComponent {
  		if (t.equals("PowerTransformer")) return "xf";
  		return "##UNKNOWN##";
  	}
+
+	static String DSSClassPrefix (String t) {  // DSS conversion
+		if (t.equals("LinearShuntCompensator")) return "capacitor";
+		if (t.equals("ACLineSegment")) return "line";
+		if (t.equals("EnergyConsumer")) return "load";
+		if (t.equals("PowerTransformer")) return "transformer";
+		return "##UNKNOWN##";
+	}
+
+	static String FirstDSSPhase (String phs) {
+		if (phs.contains ("A")) return "1";
+		if (phs.contains ("B")) return "2";
+		return "3";
+	}
+
+	static String DSSBusPhases (String bus, String phs) {
+    if (phs.contains ("ABC")) {
+      return bus + ".1.2.3";
+    } else if (phs.contains ("AB")) {
+      return bus + ".1.2";
+		} else if (phs.contains ("12")) {
+			return bus + ".1.2";
+    } else if (phs.contains ("AC")) {
+      return bus + ".1.3";
+    } else if (phs.contains ("BC")) {
+      return bus + ".2.3";
+    } else if (phs.contains ("A")) {
+      return bus + ".1";
+    } else if (phs.contains ("B")) {
+      return bus + ".2";
+    } else if (phs.contains ("C")) {
+      return bus + ".3";
+		} else if (phs.contains ("1")) {
+			return bus + ".1";
+		} else if (phs.contains ("2")) {
+			return bus + ".2";
+    } else {
+      return bus;  // defaults to 3 phases
+    }
+  }
 
 	/** 
 	 *  Rotates a phasor +120 degrees by multiplication

@@ -96,7 +96,7 @@ public class CIMImporter extends Object {
 		ResultSet results = queryHandler.query (szQuery);
 		while (results.hasNext()) {
 			QuerySolution soln = results.next();
-			String key = DistComponent.GLD_Name (soln.get("?key").toString(), false);
+			String key = DistComponent.SafeName (soln.get("?key").toString());
 			int count = soln.getLiteral("?count").getInt();
 			map.put (key, count);
 		}
@@ -484,7 +484,7 @@ public class CIMImporter extends Object {
 				" ?s c:IdentifiedObject.name ?name} ORDER by ?name");
 		while (results.hasNext()) {
 			QuerySolution soln = results.next();
-			String bus = DistComponent.GLD_Name (soln.get ("?name").toString(), true);
+			String bus = DistComponent.SafeName (soln.get ("?name").toString());
 			mapNodes.put (bus, new GldNode(bus));
 		}
 		for (HashMap.Entry<String,DistSubstation> pair : mapSubstations.entrySet()) {
@@ -693,18 +693,53 @@ public class CIMImporter extends Object {
 	
 	public void WriteDSSCoordinates (String fXY) throws FileNotFoundException {
 		PrintWriter out = new PrintWriter (fXY);
+		String bus;
+		HashMap<String,Double[]> mapBusXY = new HashMap<String,Double[]>();
+
+		for (HashMap.Entry<String,DistCoordinates> pair : mapCoordinates.entrySet()) {
+			DistCoordinates obj = pair.getValue();
+			if ((obj.x != 0) || (obj.y != 0)) {
+				if (obj.cname.equals("EnergyConsumer")) {
+					bus = mapLoads.get(obj.name).bus;
+					mapBusXY.put(bus, new Double[] {obj.x, obj.y});
+				} else if (obj.cname.equals("LinearShuntCompensator")) {
+					bus = mapCapacitors.get(obj.name).bus;
+					mapBusXY.put(bus, new Double[] {obj.x, obj.y});
+				} else if (obj.cname.equals("PowerTransformer")) {
+					DistXfmrTank tnk = mapTanks.get(obj.name);
+					if (tnk != null) {
+						for (int i = 0; i < tnk.size; i++) {
+							mapBusXY.put(tnk.bus[i], new Double[] { obj.x, obj.y });
+						}
+					} else {
+						DistPowerXfmrWinding wdg = mapXfmrWindings.get(obj.name);
+						if (wdg != null) {
+							for (int i = 0; i < wdg.size; i++) {
+								mapBusXY.put(wdg.bus[i], new Double[] { obj.x, obj.y });
+							}
+						}
+					}
+				}
+			}
+		}
+
+		for (HashMap.Entry<String,Double[]> pair : mapBusXY.entrySet()) {
+			Double[] xy = pair.getValue();
+			bus = pair.getKey();
+			out.println(bus + "," + Double.toString(xy[0]) + "," + Double.toString(xy[1]));
+		}
 
 		out.close();
 	}
 
-	public void WriteDSSGUIDS (String fID) throws FileNotFoundException {
-		PrintWriter out = new PrintWriter (fID);
-
-		out.close();
-	}
-
-	public void WriteDSSFile (String fOut, double load_scale, boolean bWantZIP, double Zcoeff, double Icoeff, double Pcoeff) throws FileNotFoundException {
+	public void WriteDSSFile (String fOut, String fID, double load_scale, boolean bWantZIP, double Zcoeff, double Icoeff, double Pcoeff) throws FileNotFoundException {
 		PrintWriter out = new PrintWriter (fOut);
+		PrintWriter outID = new PrintWriter (fID);
+
+		for (HashMap.Entry<String,DistCapacitor> pair : mapCapacitors.entrySet()) {
+			out.print (pair.getValue().GetDSS());
+			outID.println ("Capacitor." + pair.getValue().name + "\t" + pair.getValue().id);
+		}
 
 		out.print ("set voltagebases=[");
 		for (HashMap.Entry<String,DistBaseVoltage> pair : mapBaseVoltages.entrySet()) {
@@ -713,6 +748,7 @@ public class CIMImporter extends Object {
 		out.println ("]");
 
 		out.close();
+		outID.close();
 	}
 	
 	
@@ -741,9 +777,8 @@ public class CIMImporter extends Object {
 			WriteGLMFile(fOut, load_scale, bWantSched, fSched, bWantZIP, Zcoeff, Icoeff, Pcoeff);
 			WriteJSONSymbolFile (fXY);
 		} else if (fTarget.equals("dss")) {
-			WriteDSSFile (fOut, load_scale, bWantZIP, Zcoeff, Icoeff, Pcoeff);
+			WriteDSSFile (fOut, fID, load_scale, bWantZIP, Zcoeff, Icoeff, Pcoeff);
 			WriteDSSCoordinates (fXY);
-			WriteDSSGUIDS (fID);
 		}
 	}
 	

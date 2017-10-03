@@ -51,7 +51,7 @@ public class DistPowerXfmrMesh extends DistComponent {
 		if (results.hasNext()) {
 			QuerySolution soln = results.next();
 			String pname = soln.get("?pname").toString();
-			name = GLD_Name (pname, false);
+			name = SafeName (pname);
 			SetSize (map.get(pname));
 			for (int i = 0; i < size; i++) {
 				fwdg[i] = Integer.parseInt (soln.get("?fnum").toString());

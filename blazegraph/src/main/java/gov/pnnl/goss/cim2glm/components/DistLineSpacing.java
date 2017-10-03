@@ -42,7 +42,7 @@ public class DistLineSpacing extends DistComponent {
 	public DistLineSpacing (ResultSet results) {
 		if (results.hasNext()) {
 			QuerySolution soln = results.next();
-			name = GLD_Name (soln.get("?name").toString(), false);
+			name = SafeName (soln.get("?name").toString());
 			phases = soln.get("?phases").toString().split("\\n");
 			xarray = soln.get("?xarray").toString().split("\\n");
 			yarray = soln.get("?yarray").toString().split("\\n");

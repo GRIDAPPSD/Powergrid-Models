@@ -43,8 +43,8 @@ public class DistSubstation extends DistComponent {
 	public DistSubstation (ResultSet results) {
 		if (results.hasNext()) {
 			QuerySolution soln = results.next();
-			name = GLD_Name (soln.get("?name").toString(), false);
-			bus = GLD_Name (soln.get("?bus").toString(), true);
+			name = SafeName (soln.get("?name").toString());
+			bus = SafeName (soln.get("?bus").toString());
 			basev = Double.parseDouble (soln.get("?basev").toString());
 			nomv = Double.parseDouble (soln.get("?nomv").toString());
 			vmag = Double.parseDouble (soln.get("?vmag").toString());

@@ -30,8 +30,8 @@ public class DistXfmrCodeOCTest extends DistComponent {
 	public DistXfmrCodeOCTest (ResultSet results) {
 		if (results.hasNext()) {
 			QuerySolution soln = results.next();
-			pname = GLD_Name (soln.get("?pname").toString(), false);
-			tname = GLD_Name (soln.get("?tname").toString(), false);
+			pname = SafeName (soln.get("?pname").toString());
+			tname = SafeName (soln.get("?tname").toString());
 			nll = Double.parseDouble (soln.get("?nll").toString());
 			iexc = Double.parseDouble (soln.get("?iexc").toString());
 		}		

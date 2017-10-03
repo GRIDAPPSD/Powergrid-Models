@@ -12,7 +12,7 @@ import java.util.HashMap;
 
 public class DistCapacitor extends DistComponent {
     public static final String szQUERY = "SELECT ?name ?basev ?nomu ?bsection ?bus ?conn ?grnd ?phs"+
-			 " ?ctrlenabled ?discrete ?mode ?deadband ?setpoint ?delay ?monclass ?moneq ?monbus ?monphs WHERE {"+
+			 " ?ctrlenabled ?discrete ?mode ?deadband ?setpoint ?delay ?monclass ?moneq ?monbus ?monphs ?id WHERE {"+
        " ?s r:type c:LinearShuntCompensator."+
        " ?s c:IdentifiedObject.name ?name."+
 			 " ?s c:ConductingEquipment.BaseVoltage ?bv."+
@@ -43,11 +43,13 @@ public class DistCapacitor extends DistComponent {
        " 	?trm c:Terminal.ConnectivityNode ?moncn."+
        " 	?moncn c:IdentifiedObject.name ?monbus."+
        "  }" +
+			 " bind(strafter(str(?s),\"#_\") as ?id)."+
        " ?t c:Terminal.ConductingEquipment ?s."+
        " ?t c:Terminal.ConnectivityNode ?cn."+ 
        " ?cn c:IdentifiedObject.name ?bus" + 
        "}";
 
+	public String id;
 	public String name;
 	public String bus;
 	public String phs;
@@ -71,6 +73,16 @@ public class DistCapacitor extends DistComponent {
 	private double kvar_C;
 	private boolean bDelta;
 	private int nphases;
+
+	private String DSSCapMode (String s) {
+		if (s.equals("currentFlow")) return "current";
+		if (s.equals("voltage")) return "voltage";
+		if (s.equals("reactivePower")) return "kvar";
+		if (s.equals("timeScheduled")) return "time";
+		if (s.equals("powerFactor")) return "pf";
+		if (s.equals("userDefined")) return "time"; // i.e. unsupported in CIM
+		return "time";
+	}
 
 	private void SetDerivedParameters() {
 		int bA = 0, bB = 0, bC = 0;
@@ -105,8 +117,9 @@ public class DistCapacitor extends DistComponent {
 	public DistCapacitor (ResultSet results) {
 		if (results.hasNext()) {
 			QuerySolution soln = results.next();
-			name = GLD_Name (soln.get("?name").toString(), false);
-			bus = GLD_Name (soln.get("?bus").toString(), true);
+			name = SafeName (soln.get("?name").toString());
+			id = soln.get("?id").toString();
+			bus = SafeName (soln.get("?bus").toString());
 			basev = Double.parseDouble (soln.get("?basev").toString());
 			phs = OptionalString (soln, "?phs", "ABC");
 			conn = soln.get("?conn").toString();
@@ -221,6 +234,28 @@ public class DistCapacitor extends DistComponent {
 		}
 		buf.append("}\n");
 
+		return buf.toString();
+	}
+
+	public String GetDSS() {
+		StringBuilder buf = new StringBuilder ("new Capacitor." + name);
+		DecimalFormat df = new DecimalFormat("#0.00");
+
+		buf.append (" phases=" + Integer.toString(nphases) + " bus1=" + DSSBusPhases (bus, phs) + 
+								 " conn=" + conn + " kv=" + df.format(nomu) + " kvar=" + df.format(kvar));
+		buf.append("\n");
+
+		if (ctrl.equals("true")) {
+			String dssClass = DSSClassPrefix(monclass);
+			double dOn = setpoint - 0.5 * deadband;
+			double dOff = setpoint + 0.5 * deadband;
+			int nterm = 1;  // TODO: need to search for this
+			buf.append ("new CapControl." + name + " capacitor=" + name + " type=" + DSSCapMode(mode) + 
+									" on=" + df.format(dOn) + " off=" + df.format(dOff) + " delay=" + df.format(delay) + 
+									" delayoff=" + df.format(delay) + " element=" + dssClass + "." + moneq +
+									" terminal=" + Integer.toString(nterm) + " ptratio=1 ptphase=" + FirstDSSPhase(monphs));
+			buf.append("\n");
+		}
 		return buf.toString();
 	}
 

@@ -66,7 +66,7 @@ public class DistConcentricNeutralCable extends DistComponent {
 	public DistConcentricNeutralCable (ResultSet results) {
 		if (results.hasNext()) {
 			QuerySolution soln = results.next();
-			name = GLD_Name (soln.get("?name").toString(), false);
+			name = SafeName (soln.get("?name").toString());
 			rad = Double.parseDouble (soln.get("?rad").toString());
 			gmr = Double.parseDouble (soln.get("?gmr").toString());
 			rdc = OptionalDouble (soln, "?rdc", 0.0);

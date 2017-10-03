@@ -75,14 +75,14 @@ public class DistXfmrTank extends DistComponent {
 	public DistXfmrTank (ResultSet results, HashMap<String,Integer> map) {
 		if (results.hasNext()) {
 			QuerySolution soln = results.next();
-			pname = GLD_Name (soln.get("?pname").toString(), false);
+			pname = SafeName (soln.get("?pname").toString());
 			vgrp = soln.get("?vgrp").toString();
-			tname = GLD_Name (soln.get("?tname").toString(), false);
-			tankinfo = GLD_Name (soln.get("?xfmrcode").toString(), false);
+			tname = SafeName (soln.get("?tname").toString());
+			tankinfo = SafeName (soln.get("?xfmrcode").toString());
 			SetSize (map.get(tname));
 			glmUsed = true;
 			for (int i = 0; i < size; i++) {
-				bus[i] = GLD_Name (soln.get("?bus").toString(), true);
+				bus[i] = SafeName (soln.get("?bus").toString());
 				basev[i] = Double.parseDouble (soln.get("?basev").toString());
 				phs[i] = soln.get("?phs").toString();
 				rg[i] = OptionalDouble (soln, "?rground", 0.0);

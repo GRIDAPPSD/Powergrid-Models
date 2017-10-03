@@ -36,7 +36,7 @@ public class DistCoordinates extends DistComponent {
 	public DistCoordinates (ResultSet results) {
 		if (results.hasNext()) {
 			QuerySolution soln = results.next();
-			name = GLD_Name (soln.get("?name").toString(), false);
+			name = SafeName (soln.get("?name").toString());
 			x = Double.parseDouble (soln.get("?x").toString());
 			y = Double.parseDouble (soln.get("?y").toString());
 			seq = Integer.parseInt (soln.get("?seq").toString());

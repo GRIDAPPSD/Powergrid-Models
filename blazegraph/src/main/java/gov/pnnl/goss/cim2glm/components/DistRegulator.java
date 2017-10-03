@@ -150,10 +150,10 @@ public class DistRegulator extends DistComponent {
 	public DistRegulator (ResultSet results, QueryHandler queryHandler) {
 		if (results.hasNext()) {
 			QuerySolution soln = results.next();
-			pname = GLD_Name (soln.get("?pname").toString(), false);
+			pname = SafeName (soln.get("?pname").toString());
 			SetSize (pname, queryHandler);
 			for (int i = 0; i < size; i++) {
-				rname[i] = GLD_Name (soln.get("?rname").toString(), false);
+				rname[i] = SafeName (soln.get("?rname").toString());
 				phs[i] = soln.get("?phs").toString();
 				monphs[i] = soln.get("?monphs").toString();
 				mode[i] = soln.get("?mode").toString();
