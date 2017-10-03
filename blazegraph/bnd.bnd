@@ -1,0 +1,14 @@
+Bundle-Version: 0.1
+Private-Package: \
+	gov.pnnl.goss.cim2glm.queryhandler.impl,\
+	gov.pnnl.goss.cim2glm.components
+Export-Package: \
+	gov.pnnl.goss.cim2glm.queryhandler,\
+	gov.pnnl.goss.cim2glm
+Service-Component: *
+-sub: *.bnd
+src: src/main/java
+bin: target/classes
+target-dir: target
+testsrc: src/test/java
+testbin: target/test-classes

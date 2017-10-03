@@ -5,3 +5,11 @@
 *.csv
 gridlabd.xml
 maps.txt
+*base.glm
+*symbols.json
+*base.dss
+*busxy.dss
+*guid.dss
+/bin/
+/generated/
+/target/

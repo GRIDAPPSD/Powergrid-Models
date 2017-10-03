@@ -34,6 +34,6 @@ javac CIMImporter.java
 
 rem java CIMImporter ieee13
 rem java CIMImporter ieee13_assets
-java CIMImporter -l=1.0 -i=1 ieee8500
+java CIMImporter -l=1.0 -i=1 -n=zipload_schedule ieee8500
 
 

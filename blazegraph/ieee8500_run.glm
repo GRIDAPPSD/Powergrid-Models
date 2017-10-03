@@ -13,14 +13,14 @@ module powerflow {
 	line_capacitance TRUE;
 };
 module tape;
-//class player {
-//	double value;
-//}
-//object player {
-//	name zipload_schedule;
-//	file zipload_schedule.player;
-//	loop 0;
-//}
+class player {
+	double value;
+}
+object player {
+	name zipload_schedule;
+	file zipload_schedule.player;
+	loop 0;
+}
 
 #define VSOURCE=69715.065 // 66395.3 * 1.05
 
