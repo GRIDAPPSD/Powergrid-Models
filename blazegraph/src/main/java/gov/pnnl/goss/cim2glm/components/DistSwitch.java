@@ -8,6 +8,7 @@ package gov.pnnl.goss.cim2glm.components;
 
 import org.apache.jena.query.*;
 import java.text.DecimalFormat;
+import java.util.HashMap;
 
 public class DistSwitch extends DistComponent {
 	public static final String szQUERY = 
@@ -72,6 +73,31 @@ public class DistSwitch extends DistComponent {
 
 	public String GetKey() {
 		return name;
+	}
+	public String GetJSONSymbols(HashMap<String,DistCoordinates> map) {
+		DistCoordinates pt1 = map.get("LoadBreakSwitch:" + name + ":1");
+		DistCoordinates pt2 = map.get("LoadBreakSwitch:" + name + ":2");
+		StringBuilder lbl_phs = new StringBuilder ();
+		if (phases.contains("A")) lbl_phs.append("A");
+		if (phases.contains("B")) lbl_phs.append("B");
+		if (phases.contains("C")) lbl_phs.append("C");
+		if (phases.contains("s")) lbl_phs.append("S");
+		if (lbl_phs.length() < 1) lbl_phs.append("ABC");
+
+		DecimalFormat df = new DecimalFormat("#0.00");
+		StringBuilder buf = new StringBuilder ();
+
+		buf.append ("{\"name\":\"" + name + "\"");
+		buf.append (",\"from\":\"" + bus1 + "\"");
+		buf.append (",\"to\":\"" + bus2 + "\"");
+		buf.append (",\"phases\":\"" + lbl_phs.toString() +"\"");
+		buf.append (",\"open\":\"" + Boolean.toString(open) +"\"");
+		buf.append (",\"x1\":" + Double.toString(pt1.x));
+		buf.append (",\"y1\":" + Double.toString(pt1.y));
+		buf.append (",\"x2\":" + Double.toString(pt2.x));
+		buf.append (",\"y2\":" + Double.toString(pt2.y));
+		buf.append ("}");
+		return buf.toString();
 	}
 }
 
