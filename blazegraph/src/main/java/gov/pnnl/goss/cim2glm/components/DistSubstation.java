@@ -12,23 +12,25 @@ import java.util.HashMap;
 
 public class DistSubstation extends DistComponent {
 	public static final String szQUERY = 
-		"SELECT ?name ?bus ?basev ?nomv ?vmag ?vang ?r1 ?x1 ?r0 ?x0 WHERE {" +
-		 " ?s r:type c:EnergySource." +
-		 " ?s c:IdentifiedObject.name ?name." +
-  	 " ?s c:ConductingEquipment.BaseVoltage ?bv."+
-		 " ?bv c:BaseVoltage.nominalVoltage ?basev."+
-		 " ?s c:EnergySource.nominalVoltage ?nomv." + 
-		 " ?s c:EnergySource.voltageMagnitude ?vmag." + 
-		 " ?s c:EnergySource.voltageAngle ?vang." + 
-		 " ?s c:EnergySource.r ?r1." + 
-		 " ?s c:EnergySource.x ?x1." + 
-		 " ?s c:EnergySource.r0 ?r0." + 
-		 " ?s c:EnergySource.x0 ?x0." + 
-		 " ?t c:Terminal.ConductingEquipment ?s." +
-		 " ?t c:Terminal.ConnectivityNode ?cn." + 
-		 " ?cn c:IdentifiedObject.name ?bus" +
-		 "}";
+		"SELECT ?name ?bus ?basev ?nomv ?vmag ?vang ?r1 ?x1 ?r0 ?x0 ?id WHERE {" +
+		" ?s r:type c:EnergySource." +
+		" ?s c:IdentifiedObject.name ?name." +
+  	" ?s c:ConductingEquipment.BaseVoltage ?bv."+
+		" ?bv c:BaseVoltage.nominalVoltage ?basev."+
+		" ?s c:EnergySource.nominalVoltage ?nomv." + 
+		" ?s c:EnergySource.voltageMagnitude ?vmag." + 
+		" ?s c:EnergySource.voltageAngle ?vang." + 
+		" ?s c:EnergySource.r ?r1." + 
+		" ?s c:EnergySource.x ?x1." + 
+		" ?s c:EnergySource.r0 ?r0." + 
+		" ?s c:EnergySource.x0 ?x0." + 
+		" ?t c:Terminal.ConductingEquipment ?s." +
+		" bind(strafter(str(?s),\"#_\") as ?id)."+
+		" ?t c:Terminal.ConnectivityNode ?cn." + 
+		" ?cn c:IdentifiedObject.name ?bus" +
+		"}";
 
+	public String id;
 	public String name;
 	public String bus;
 	public double basev;
@@ -44,6 +46,7 @@ public class DistSubstation extends DistComponent {
 		if (results.hasNext()) {
 			QuerySolution soln = results.next();
 			name = SafeName (soln.get("?name").toString());
+			id = soln.get("?id").toString();
 			bus = SafeName (soln.get("?bus").toString());
 			basev = Double.parseDouble (soln.get("?basev").toString());
 			nomv = Double.parseDouble (soln.get("?nomv").toString());
@@ -82,6 +85,18 @@ public class DistSubstation extends DistComponent {
 		buf.append (",\"x1\":" + Double.toString(pt.x));
 		buf.append (",\"y1\":" + Double.toString(pt.y));
 		buf.append ("}");
+		return buf.toString();
+	}
+
+	public String GetDSS() {
+		DecimalFormat df = new DecimalFormat("#0.00000");
+		StringBuilder buf = new StringBuilder ("new Circuit." + name);
+
+		buf.append (" phases=3 bus1=" + bus + " basev=" + df.format(nomv) + " pu=" + df.format(vmag/nomv) +
+								" angle=" + df.format(vang * 180.0 / Math.PI) + " r0=" + df.format(r0) + 
+								" x0=" + df.format(x0) + " r1=" + df.format(r1) + " x1=" + df.format(x1));
+		buf.append("\n");
+
 		return buf.toString();
 	}
 

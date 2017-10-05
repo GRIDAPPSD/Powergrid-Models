@@ -124,6 +124,21 @@ public abstract class DistComponent {
 		return "3";
 	}
 
+	static int DSSPhaseCount (String phs) {
+		int nphases = 0;
+		if (phs.contains ("A")) nphases += 1;
+		if (phs.contains ("B")) nphases += 1;
+		if (phs.contains ("C")) nphases += 1;
+		return nphases;
+	}
+
+	static String DSSConn (String conn) {
+		if (conn.equals("D")) {
+			return "d";
+		}
+		return "w";
+	}
+
 	static String DSSBusPhases (String bus, String phs) {
     if (phs.contains ("ABC")) {
       return bus + ".1.2.3";

@@ -865,11 +865,22 @@ public class CIMImporter extends Object {
 		PrintWriter out = new PrintWriter (fOut);
 		PrintWriter outID = new PrintWriter (fID);
 
+		for (HashMap.Entry<String,DistSubstation> pair : mapSubstations.entrySet()) {
+			out.print (pair.getValue().GetDSS());
+			outID.println ("Circuit." + pair.getValue().name + "\t" + pair.getValue().id);
+		}
+		out.println();
+		for (HashMap.Entry<String,DistLoad> pair : mapLoads.entrySet()) {
+			out.print (pair.getValue().GetDSS());
+			outID.println ("Load." + pair.getValue().name + "\t" + pair.getValue().id);
+		}
+		out.println();
 		for (HashMap.Entry<String,DistCapacitor> pair : mapCapacitors.entrySet()) {
 			out.print (pair.getValue().GetDSS());
 			outID.println ("Capacitor." + pair.getValue().name + "\t" + pair.getValue().id);
 		}
 
+		out.println();
 		out.print ("set voltagebases=[");
 		for (HashMap.Entry<String,DistBaseVoltage> pair : mapBaseVoltages.entrySet()) {
 			out.print (pair.getValue().GetDSS());
