@@ -18,7 +18,7 @@ public class DistRegulator extends DistComponent {
 		"SELECT ?rname ?pname ?wnum ?phs ?incr ?mode ?enabled ?highStep ?lowStep ?neutralStep"+
 		" ?normalStep ?neutralU ?step ?initDelay ?subDelay ?ltc ?vlim"+
 		" ?vset ?vbw ?ldc ?fwdR ?fwdX ?revR ?revX ?discrete ?ctl_enabled ?ctlmode"+
-		" ?monphs ?ctRating ?ctRatio ?ptRatio"+
+		" ?monphs ?ctRating ?ctRatio ?ptRatio ?id"+
 		" WHERE {"+
 		" ?rtc r:type c:RatioTapChanger."+
 		" ?rtc c:IdentifiedObject.name ?rname."+
@@ -62,6 +62,7 @@ public class DistRegulator extends DistComponent {
 		" ?inf c:TapChangerInfo.ctRating ?ctRating."+
 		" ?inf c:TapChangerInfo.ctRatio ?ctRatio."+
 		" ?inf c:TapChangerInfo.ptRatio ?ptRatio."+
+		" bind(strafter(str(?rtc),\"#_\") as ?id)"+
 		"}"+
 		" ORDER BY ?pname ?rname ?wnum";
 
@@ -76,6 +77,7 @@ public class DistRegulator extends DistComponent {
 	public String[] phs;
 	// TODO: if any of these vary within the bank, should write separate single-phase instances for GridLAB-D
 	public String[] rname;
+	public String[] id;
 	public String[] monphs;
 	public String[] mode;
 	public String[] ctlmode;
@@ -117,6 +119,7 @@ public class DistRegulator extends DistComponent {
 		}
 		phs = new String[size];
 		rname = new String[size];
+		id = new String[size];
 		monphs = new String[size];
 		mode = new String[size];
 		ctlmode = new String[size];
@@ -153,6 +156,7 @@ public class DistRegulator extends DistComponent {
 			pname = SafeName (soln.get("?pname").toString());
 			SetSize (pname, queryHandler);
 			for (int i = 0; i < size; i++) {
+				id[i] = soln.get("?id").toString();
 				rname[i] = SafeName (soln.get("?rname").toString());
 				phs[i] = soln.get("?phs").toString();
 				monphs[i] = soln.get("?monphs").toString();
@@ -305,6 +309,28 @@ public class DistRegulator extends DistComponent {
 		buf.append ("  phases " + bankphases + ";\n");
 		buf.append ("  configuration \"rcon_" + pname + "\";\n");
 		buf.append ("}\n");
+		return buf.toString();
+	}
+
+	public String GetDSS() {
+		DecimalFormat df = new DecimalFormat("#0.00");
+		StringBuilder buf = new StringBuilder("");
+
+		for (int i = 0; i < size; i++) {
+			if (size > 1) {
+				buf.append("new RegControl." + rname[i] + " transformer=" + rname[i] + " winding=" + Integer.toString(wnum[i]));
+			} else {
+				buf.append("new RegControl." + rname[i] + " transformer=" + pname + " winding=" + Integer.toString(wnum[i]));
+			}
+			buf.append(" vreg=" + df.format(vset[i]) + " band=" + df.format(vbw[i]) + " ptratio=" + df.format(ptRatio[i]) +
+								 " ctratio=" + df.format(ctRatio[i]) + " ctprim=" + df.format(ctRating[i]) + " r=" + df.format(fwdR[i]) +
+								 " x=" + df.format(fwdX[i]) + " revr=" + df.format(revR[i]) + " revx=" + df.format(revX[i]) +
+								 " delay=" + df.format(initDelay[i]) + " tapdelay=" + df.format(subDelay[i]) + " vlimit=" + df.format(vlim[i]));
+			// ptphase, enabled
+//			buf.append ("\nedit transformer." + xfName + " wdg=" + Integer.toString(nWdg) + " tap=" + String.format("%6g", dTap));
+			buf.append("\n");
+		}
+
 		return buf.toString();
 	}
 

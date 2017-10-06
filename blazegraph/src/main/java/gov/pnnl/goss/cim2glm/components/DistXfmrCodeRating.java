@@ -13,12 +13,13 @@ import org.apache.commons.math3.complex.Complex;
 
 public class DistXfmrCodeRating extends DistComponent {
 	public static final String szQUERY = 
-		"SELECT ?pname ?tname ?enum ?ratedS ?ratedU ?conn ?ang ?res WHERE {"+
+		"SELECT ?pname ?tname ?enum ?ratedS ?ratedU ?conn ?ang ?res ?id WHERE {"+
 		" ?p r:type c:PowerTransformerInfo."+
 		" ?t c:TransformerTankInfo.PowerTransformerInfo ?p."+
 		" ?e c:TransformerEndInfo.TransformerTankInfo ?t."+
 		" ?p c:IdentifiedObject.name ?pname."+
 		" ?t c:IdentifiedObject.name ?tname."+
+		" bind(strafter(str(?t),\"#_\") as ?id)."+
 		" ?e c:TransformerEndInfo.endNumber ?enum."+
 		" ?e c:TransformerEndInfo.ratedS ?ratedS."+
 		" ?e c:TransformerEndInfo.ratedU ?ratedU."+
@@ -40,6 +41,7 @@ public class DistXfmrCodeRating extends DistComponent {
 
 	public String pname;
 	public String tname;
+	public String id;
 	public int[] wdg;
 	public String[] conn;
 	public int[] ang;
@@ -67,6 +69,7 @@ public class DistXfmrCodeRating extends DistComponent {
 			String t = soln.get("?tname").toString();
 			pname = SafeName (p);
 			tname = SafeName (t);
+			id = soln.get("?id").toString();
 			SetSize (map.get(tname));
 			for (int i = 0; i < size; i++) {
 				wdg[i] = Integer.parseInt (soln.get("?enum").toString());
@@ -148,6 +151,56 @@ public class DistXfmrCodeRating extends DistComponent {
 			buf.append ("  shunt_resistance " + dfz.format (ratedS[0] / oct.nll / 1000.0) + ";\n");
 		}
 		buf.append("}\n");
+		return buf.toString();
+	}
+
+	public String GetDSS(DistXfmrCodeSCTest sct, DistXfmrCodeOCTest oct) {
+		boolean bDelta;
+		int phases = 3;
+		double zbase, xpct;
+		int fwdg, twdg, i;
+
+		DecimalFormat df = new DecimalFormat("#0.0");
+		DecimalFormat dfv = new DecimalFormat ("#0.000");
+		DecimalFormat dfz = new DecimalFormat ("#0.000000");
+
+		for (i = 0; i < size; i++) {
+			if (conn[i].contains("I")) {
+				phases = 1;
+			}
+		}
+		StringBuilder buf = new StringBuilder("new Xfmrcode." + tname + " windings=" + Integer.toString(size) +
+																					" phases=" + Integer.toString(phases));
+
+		// short circuit tests - valid only up to 3 windings
+		for (i = 0; i < sct.size; i++) {
+			fwdg = sct.fwdg[i];
+			twdg = sct.twdg[i];
+			zbase = ratedU[fwdg-1] * ratedU[fwdg-1] / ratedS[fwdg-1];
+			xpct = 100.0 * sct.z[i] / zbase; // not accounting for ll
+			if ((fwdg == 1 && twdg == 2) || (fwdg == 2 && twdg == 1)) {
+				buf.append(" xhl=" + dfz.format(xpct));
+			} else if ((fwdg == 1 && twdg == 3) || (fwdg == 3 && twdg == 1)) {
+				buf.append(" xht=" + dfz.format(xpct));
+			} else if ((fwdg == 2 && twdg == 3) || (fwdg == 3 && twdg == 2)) {
+				buf.append(" xlt=" + dfz.format(xpct));
+			}
+		}
+		// open circuit test
+		buf.append (" %imag=" + dfv.format(oct.iexc) + " %noloadloss=" + dfv.format(0.001 * oct.nll / ratedS[0]) + "\n");
+
+		// winding ratings
+		for (i = 0; i < size; i++) {
+			if (conn[i].contains("D")) {
+				bDelta = true;
+			} else {
+				bDelta = false;
+			}
+			zbase = ratedU[i] * ratedU[i] / ratedS[i];
+			buf.append("~ wdg=" + Integer.toString(i + 1) + " conn=" + DSSConn(bDelta) +
+								 " kv=" + dfv.format(0.001 * ratedU[i]) + " kva=" + df.format(0.001 * ratedS[i]) +
+								 " %r=" + dfz.format(100.0 * r[i] / zbase) + "\n");
+		}
 		return buf.toString();
 	}
 

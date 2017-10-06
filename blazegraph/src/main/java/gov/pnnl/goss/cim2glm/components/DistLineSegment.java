@@ -11,6 +11,7 @@ import java.text.DecimalFormat;
 import java.util.HashMap;
 
 public abstract class DistLineSegment extends DistComponent {
+	public String id;
 	public String name;
 	public String bus1;
 	public String bus2;

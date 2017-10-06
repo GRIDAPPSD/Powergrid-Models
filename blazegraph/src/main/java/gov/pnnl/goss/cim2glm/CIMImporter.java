@@ -869,6 +869,21 @@ public class CIMImporter extends Object {
 			out.print (pair.getValue().GetDSS());
 			outID.println ("Circuit." + pair.getValue().name + "\t" + pair.getValue().id);
 		}
+
+		out.println();
+		for (HashMap.Entry<String,DistPhaseMatrix> pair : mapPhaseMatrices.entrySet()) {
+			out.print (pair.getValue().GetDSS());
+			outID.println ("Linecode." + pair.getValue().name + "\t" + pair.getValue().id);
+		}
+		out.println();
+		for (HashMap.Entry<String,DistXfmrCodeRating> pair : mapCodeRatings.entrySet()) {
+			DistXfmrCodeRating obj = pair.getValue();
+			DistXfmrCodeSCTest sct = mapCodeSCTests.get (obj.tname);
+			DistXfmrCodeOCTest oct = mapCodeOCTests.get (obj.tname);
+			out.print (obj.GetDSS(sct, oct));
+			outID.println ("Xfmrcode." + obj.tname + "\t" + obj.id);
+		}
+
 		out.println();
 		for (HashMap.Entry<String,DistLoad> pair : mapLoads.entrySet()) {
 			out.print (pair.getValue().GetDSS());
@@ -878,6 +893,37 @@ public class CIMImporter extends Object {
 		for (HashMap.Entry<String,DistCapacitor> pair : mapCapacitors.entrySet()) {
 			out.print (pair.getValue().GetDSS());
 			outID.println ("Capacitor." + pair.getValue().name + "\t" + pair.getValue().id);
+		}
+		out.println();
+		for (HashMap.Entry<String,DistSwitch> pair : mapSwitches.entrySet()) {
+			out.print (pair.getValue().GetDSS());
+			outID.println ("Line." + pair.getValue().name + "\t" + pair.getValue().id);
+		}
+		out.println();
+		for (HashMap.Entry<String,DistLinesCodeZ> pair : mapLinesCodeZ.entrySet()) {
+			out.print (pair.getValue().GetDSS());
+			outID.println ("Line." + pair.getValue().name + "\t" + pair.getValue().id);
+		}
+		out.println();
+		for (HashMap.Entry<String,DistPowerXfmrWinding> pair : mapXfmrWindings.entrySet()) {
+			DistPowerXfmrWinding obj = pair.getValue();
+			DistPowerXfmrMesh mesh = mapXfmrMeshes.get (obj.name);
+			DistPowerXfmrCore core = mapXfmrCores.get (obj.name);
+			out.print (obj.GetDSS(mesh, core));
+			outID.println ("Transformer." + pair.getValue().name + "\t" + pair.getValue().id);
+		}
+		out.println();
+		for (HashMap.Entry<String,DistXfmrTank> pair : mapTanks.entrySet()) {
+			out.print (pair.getValue().GetDSS());
+			outID.println ("Transformer." + pair.getValue().tname + "\t" + pair.getValue().id);
+		}
+		out.println();
+		for (HashMap.Entry<String,DistRegulator> pair : mapRegulators.entrySet()) {
+			DistRegulator obj = pair.getValue();
+			out.print(obj.GetDSS());
+			for (int i = 0; i < obj.size; i++) {
+				outID.println("RegControl." + obj.rname[i] + "\t" + obj.id[i]);
+			}
 		}
 
 		out.println();
@@ -921,10 +967,6 @@ public class CIMImporter extends Object {
 			WriteDSSCoordinates (fXY);
 		}
 	}
-	
-	
-	
-	
 
 	public static void main (String args[]) throws FileNotFoundException {
 		String fOut = "", fXY = "", fID = "";

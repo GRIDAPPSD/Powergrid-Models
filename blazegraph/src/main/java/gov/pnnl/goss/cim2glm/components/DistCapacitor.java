@@ -241,8 +241,8 @@ public class DistCapacitor extends DistComponent {
 		StringBuilder buf = new StringBuilder ("new Capacitor." + name);
 		DecimalFormat df = new DecimalFormat("#0.00");
 
-		buf.append (" phases=" + Integer.toString(nphases) + " bus1=" + DSSBusPhases (bus, phs) + 
-								 " conn=" + DSSConn(conn) + " kv=" + df.format(nomu) + " kvar=" + df.format(kvar));
+		buf.append (" phases=" + Integer.toString(DSSPhaseCount(phs, bDelta)) + " bus1=" + DSSShuntPhases (bus, phs, bDelta) + 
+								 " conn=" + DSSConn(bDelta) + " kv=" + df.format(nomu) + " kvar=" + df.format(kvar));
 		buf.append("\n");
 
 		if (ctrl.equals("true")) {

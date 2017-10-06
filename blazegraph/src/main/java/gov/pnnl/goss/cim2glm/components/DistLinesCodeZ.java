@@ -11,7 +11,7 @@ import java.text.DecimalFormat;
 
 public class DistLinesCodeZ extends DistLineSegment {
 	public static final String szQUERY =
-		"SELECT ?name ?basev (group_concat(distinct ?bus;separator=\"\\n\") as ?buses) (group_concat(distinct ?phs;separator=\"\\n\") as ?phases) ?len ?lname WHERE {"+
+		"SELECT ?name ?id ?basev (group_concat(distinct ?bus;separator=\"\\n\") as ?buses) (group_concat(distinct ?phs;separator=\"\\n\") as ?phases) ?len ?lname WHERE {"+
 		" ?s r:type c:ACLineSegment."+
 		" ?s c:IdentifiedObject.name ?name."+
 		" ?s c:ConductingEquipment.BaseVoltage ?bv."+
@@ -22,11 +22,12 @@ public class DistLinesCodeZ extends DistLineSegment {
 		" ?t c:Terminal.ConductingEquipment ?s."+
 		" ?t c:Terminal.ConnectivityNode ?cn."+
 		" ?cn c:IdentifiedObject.name ?bus"+
+		" bind(strafter(str(?s),\"#_\") as ?id)."+
 		" OPTIONAL {?acp c:ACLineSegmentPhase.ACLineSegment ?s."+
 		" ?acp c:ACLineSegmentPhase.phase ?phsraw."+
-		"       		bind(strafter(str(?phsraw),\"SinglePhaseKind.\") as ?phs) }"+
+		"   bind(strafter(str(?phsraw),\"SinglePhaseKind.\") as ?phs) }"+
 		"}"+
-		" GROUP BY ?name ?len ?lname ?basev"+
+		" GROUP BY ?name ?id ?len ?lname ?basev"+
 		" ORDER BY ?name";
 
 	public String lname;
@@ -35,6 +36,7 @@ public class DistLinesCodeZ extends DistLineSegment {
 		if (results.hasNext()) {
 			QuerySolution soln = results.next();
 			name = SafeName (soln.get("?name").toString());
+			id = soln.get("?id").toString();
 			String[] buses = soln.get("?buses").toString().split("\\n");
 			bus1 = SafeName(buses[0]); 
 			bus2 = SafeName(buses[1]); 
@@ -65,6 +67,17 @@ public class DistLinesCodeZ extends DistLineSegment {
 
 	public String LabelString() {
 		return lname;
+	}
+
+	public String GetDSS() {
+		StringBuilder buf = new StringBuilder ("new Line." + name);
+		DecimalFormat df = new DecimalFormat("#0.0");
+
+		buf.append (" phases=" + Integer.toString(DSSPhaseCount(phases, false)) + 
+								" bus1=" + DSSBusPhases(bus1, phases) + " bus2=" + DSSBusPhases (bus2, phases) + 
+								" length=" + df.format(len * gFTperM) + " linecode=" + lname + " units=ft\n");
+
+		return buf.toString();
 	}
 }
 

@@ -124,19 +124,48 @@ public abstract class DistComponent {
 		return "3";
 	}
 
-	static int DSSPhaseCount (String phs) {
+	static int DSSPhaseCount (String phs, boolean bDelta) {
 		int nphases = 0;
 		if (phs.contains ("A")) nphases += 1;
 		if (phs.contains ("B")) nphases += 1;
 		if (phs.contains ("C")) nphases += 1;
+		if ((nphases < 3) && bDelta) {
+			nphases = 1;
+		}
 		return nphases;
 	}
 
-	static String DSSConn (String conn) {
-		if (conn.equals("D")) {
+	static String DSSConn (boolean bDelta) {
+		if (bDelta) {
 			return "d";
 		}
 		return "w";
+	}
+
+	static String DSSShuntPhases (String bus, String phs, boolean bDelta) {
+		if (phs.contains ("ABC")) {
+			return bus + ".1.2.3";
+		}
+		if (!bDelta) {
+			return DSSBusPhases(bus, phs);
+		}
+//		if (phs_cnt == 1) {
+			if (phs.contains ("A")) {
+				return bus + ".1.2";
+			} else if (phs.contains ("B")) {
+				return bus + ".2.3";
+			} else if (phs.contains ("C")) {
+				return bus + ".3.1";
+			}
+//		}
+		// TODO - can we have two-phase delta in the CIM?
+//		if (phs.contains ("AB")) {
+//			return ".1.2.3";
+//		} else if (phs.contains ("AC")) {
+//			return ".3.1.2";
+//		}
+		// phs.contains ("BC")) for 2-phase delta
+		return bus;// ".2.3.1";
 	}
 
 	static String DSSBusPhases (String bus, String phs) {

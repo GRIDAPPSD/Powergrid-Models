@@ -12,10 +12,11 @@ import java.util.HashMap;
 
 public class DistPowerXfmrWinding extends DistComponent {
 	public static final String szQUERY = 
-		"SELECT ?pname ?vgrp ?enum ?bus ?basev ?conn ?ratedS ?ratedU ?r ?ang ?grounded ?rground ?xground WHERE {"+
+		"SELECT ?pname ?vgrp ?enum ?bus ?basev ?conn ?ratedS ?ratedU ?r ?ang ?grounded ?rground ?xground ?id WHERE {"+
 		" ?p r:type c:PowerTransformer."+
 		" ?p c:IdentifiedObject.name ?pname."+
 		" ?p c:PowerTransformer.vectorGroup ?vgrp."+
+		" bind(strafter(str(?p),\"#_\") as ?id)."+
 		" ?end c:PowerTransformerEnd.PowerTransformer ?p."+
 		" ?end c:TransformerEnd.endNumber ?enum."+
 		" ?end c:PowerTransformerEnd.ratedS ?ratedS."+
@@ -43,6 +44,7 @@ public class DistPowerXfmrWinding extends DistComponent {
 		"} GROUP BY ?key ORDER BY ?key";
 
 	public String name;
+	public String id;
 	public String vgrp;
 	public String[] bus;
 	public String[] conn;
@@ -77,6 +79,7 @@ public class DistPowerXfmrWinding extends DistComponent {
 			QuerySolution soln = results.next();
 			String pname = soln.get("?pname").toString();
 			name = SafeName (pname);
+			id = soln.get("?id").toString();
 			vgrp = soln.get("?vgrp").toString();
 			SetSize (map.get(pname));
 			for (int i = 0; i < size; i++) {
@@ -205,6 +208,51 @@ public class DistPowerXfmrWinding extends DistComponent {
 		}
 
 */
+
+	public String GetDSS(DistPowerXfmrMesh mesh, DistPowerXfmrCore core) {
+		DecimalFormat df = new DecimalFormat("#0.0");
+		DecimalFormat dfv = new DecimalFormat ("#0.000");
+		DecimalFormat dfz = new DecimalFormat ("#0.000000");
+		boolean bDelta;
+		int i, fwdg, twdg;
+		double zbase, xpct;
+
+		StringBuilder buf = new StringBuilder ("new Transformer." + name + " phases=3 windings=" + Integer.toString(size));
+
+		// mesh impedance - valid only up to 3 windings, and use winding instead of mesh resistances
+		for (i = 0; i < mesh.size; i++) {
+			fwdg = mesh.fwdg[i];
+			twdg = mesh.twdg[i];
+			zbase = ratedU[fwdg-1] * ratedU[fwdg-1] / ratedS[fwdg-1];
+			xpct = 100.0 * mesh.x[i] / zbase;
+			if ((fwdg == 1 && twdg == 2) || (fwdg == 2 && twdg == 1)) {
+				buf.append(" xhl=" + dfz.format(xpct));
+			} else if ((fwdg == 1 && twdg == 3) || (fwdg == 3 && twdg == 1)) {
+				buf.append(" xht=" + dfz.format(xpct));
+			} else if ((fwdg == 2 && twdg == 3) || (fwdg == 3 && twdg == 2)) {
+				buf.append(" xlt=" + dfz.format(xpct));
+			}
+		}
+
+		// core admittance
+		i = core.wdg;
+		zbase = ratedU[i] * ratedU[i] / ratedS[i];
+		buf.append(" %imag=" + dfv.format(core.b * zbase * 100.0) + " %noloadloss=" + dfv.format(core.b * zbase * 100.0) + "\n");
+
+		// winding ratings
+		for (i = 0; i < size; i++) {
+			if (conn[i].contains("D")) {
+				bDelta = true;
+			} else {
+				bDelta = false;
+			}
+			zbase = ratedU[i] * ratedU[i] / ratedS[i];
+			buf.append("~ wdg=" + Integer.toString(i + 1) + " bus=" + bus[i] + " conn=" + DSSConn(bDelta) +
+								 " kv=" + dfv.format(0.001 * ratedU[i]) + " kva=" + df.format(0.001 * ratedS[i]) +
+								 " %r=" + dfz.format(100.0 * r[i] / zbase) + "\n");
+		}
+		return buf.toString();
+	}
 
 	public String GetKey() {
 		return name;

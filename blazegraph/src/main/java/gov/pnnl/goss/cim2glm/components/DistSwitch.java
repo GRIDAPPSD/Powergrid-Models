@@ -12,7 +12,7 @@ import java.util.HashMap;
 
 public class DistSwitch extends DistComponent {
 	public static final String szQUERY = 
-		"SELECT ?name ?basev (group_concat(distinct ?bus;separator=\"\\n\") as ?buses) (group_concat(distinct ?phs;separator=\"\\n\") as ?phases) ?open WHERE {"+
+		"SELECT ?name ?id ?basev (group_concat(distinct ?bus;separator=\"\\n\") as ?buses) (group_concat(distinct ?phs;separator=\"\\n\") as ?phases) ?open WHERE {"+
 		" ?s r:type c:LoadBreakSwitch."+
 		" ?s c:IdentifiedObject.name ?name."+
 		" ?s c:ConductingEquipment.BaseVoltage ?bv."+
@@ -21,13 +21,15 @@ public class DistSwitch extends DistComponent {
 		" ?t c:Terminal.ConductingEquipment ?s."+
 		" ?t c:Terminal.ConnectivityNode ?cn."+
 		" ?cn c:IdentifiedObject.name ?bus"+
+		" bind(strafter(str(?s),\"#_\") as ?id)."+
 		" OPTIONAL {?swp c:SwitchPhase.Switch ?s."+
 		" ?swp c:SwitchPhase.phaseSide1 ?phsraw."+
-		"       		bind(strafter(str(?phsraw),\"SinglePhaseKind.\") as ?phs) }"+
+		"   bind(strafter(str(?phsraw),\"SinglePhaseKind.\") as ?phs) }"+
 		"}"+
-		" GROUP BY ?name ?basev ?open"+
+		" GROUP BY ?name ?basev ?open ?id"+
 		" ORDER BY ?name";
 
+	public String id;
 	public String name;
 	public String bus1;
 	public String bus2;
@@ -39,6 +41,7 @@ public class DistSwitch extends DistComponent {
 		if (results.hasNext()) {
 			QuerySolution soln = results.next();
 			name = SafeName (soln.get("?name").toString());
+			id = soln.get("?id").toString();
 			basev = Double.parseDouble (soln.get("?basev").toString());
 			String[] buses = soln.get("?buses").toString().split("\\n");
 			bus1 = SafeName(buses[0]); 
@@ -97,6 +100,21 @@ public class DistSwitch extends DistComponent {
 		buf.append (",\"x2\":" + Double.toString(pt2.x));
 		buf.append (",\"y2\":" + Double.toString(pt2.y));
 		buf.append ("}");
+		return buf.toString();
+	}
+
+	public String GetDSS() {
+		StringBuilder buf = new StringBuilder ("new Line." + name);
+
+		buf.append (" phases=" + Integer.toString(DSSPhaseCount(phases, false)) + 
+								" bus1=" + DSSBusPhases(bus1, phases) + " bus2=" + DSSBusPhases (bus2, phases) + 
+								" switch=y // CIM LoadBreakSwitch\n");
+		if (open) {
+			buf.append ("  open Line." + name + " 1\n");
+		} else {
+			buf.append ("  close Line." + name + " 1\n");
+		}
+
 		return buf.toString();
 	}
 }

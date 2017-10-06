@@ -56,6 +56,7 @@ public class DistLoad extends DistComponent {
 	public double qe;
 
 	private int dss_load_model;
+	private boolean bDelta;
 
 	public DistLoad (ResultSet results) {
 		if (results.hasNext()) {
@@ -113,6 +114,11 @@ public class DistLoad extends DistComponent {
 		} else {
 			dss_load_model = 8;
 		}
+		if (conn.equals("D")) {
+			bDelta = true;
+		} else {
+			bDelta = false;
+		}
 	}
 
 	private String GetZIPV() {
@@ -123,13 +129,18 @@ public class DistLoad extends DistComponent {
 
 	public String GetDSS() {
 		StringBuilder buf = new StringBuilder ("new Load." + name);
-		DecimalFormat df = new DecimalFormat("#0.00");
+		DecimalFormat df = new DecimalFormat("#0.000");
 
 		SetDSSLoadModel();
+		int nphases = DSSPhaseCount(phs, bDelta);
+		double kv = 0.001 * basev;
+		if (nphases < 3 && !bDelta) {
+			kv /= Math.sqrt(3.0);
+		}
 
-		buf.append (" phases=" + Integer.toString(DSSPhaseCount(phs)) + " bus1=" + DSSBusPhases (bus, phs) + 
-								" conn=" + DSSConn(conn) + " kw=" + df.format(p) + " kvar=" + df.format(q) +
-								" numcust=1 kv=" + df.format(0.001*basev) + " model=" + Integer.toString(dss_load_model));
+		buf.append (" phases=" + Integer.toString(nphases) + " bus1=" + DSSShuntPhases (bus, phs, bDelta) + 
+								" conn=" + DSSConn(bDelta) + " kw=" + df.format(p) + " kvar=" + df.format(q) +
+								" numcust=1 kv=" + df.format(kv) + " model=" + Integer.toString(dss_load_model));
 		if (dss_load_model == 8) {
 			buf.append (" zipv=" + GetZIPV());
 		}

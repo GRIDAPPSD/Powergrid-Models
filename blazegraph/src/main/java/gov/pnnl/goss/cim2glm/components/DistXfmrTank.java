@@ -12,7 +12,7 @@ import java.util.HashMap;
 
 public class DistXfmrTank extends DistComponent {
 	public static final String szQUERY =
-		"SELECT ?pname ?tname ?xfmrcode ?vgrp ?enum ?bus ?basev ?phs ?grounded ?rground ?xground WHERE {"+
+		"SELECT ?pname ?tname ?xfmrcode ?vgrp ?enum ?bus ?basev ?phs ?grounded ?rground ?xground ?id WHERE {"+
 		" ?p r:type c:PowerTransformer."+
 		" ?p c:IdentifiedObject.name ?pname."+
 		" ?p c:PowerTransformer.vectorGroup ?vgrp."+
@@ -31,6 +31,7 @@ public class DistXfmrTank extends DistComponent {
 		" ?end c:TransformerEnd.Terminal ?trm."+
 		" ?trm c:Terminal.ConnectivityNode ?cn."+ 
 		" ?cn c:IdentifiedObject.name ?bus."+
+		" bind(strafter(str(?t),\"#_\") as ?id)."+
 		" ?end c:TransformerEnd.BaseVoltage ?bv."+
 		" ?bv c:BaseVoltage.nominalVoltage ?basev"+
 		"}"+
@@ -45,6 +46,7 @@ public class DistXfmrTank extends DistComponent {
 		" ?end c:TransformerTankEnd.TransformerTank ?t"+
 		"} GROUP BY ?key ORDER BY ?key";
 
+	public String id;
 	public String pname;
 	public String vgrp;
 	public String tname;
@@ -76,6 +78,7 @@ public class DistXfmrTank extends DistComponent {
 		if (results.hasNext()) {
 			QuerySolution soln = results.next();
 			pname = SafeName (soln.get("?pname").toString());
+			id = soln.get("?id").toString();
 			vgrp = soln.get("?vgrp").toString();
 			tname = SafeName (soln.get("?tname").toString());
 			tankinfo = SafeName (soln.get("?xfmrcode").toString());
@@ -147,6 +150,16 @@ public class DistXfmrTank extends DistComponent {
 		buf.append ("  configuration \"xcon_" + tankinfo + "\";\n");
 		buf.append ("  // vector group " + vgrp + ";\n");
 		buf.append("}\n");
+		return buf.toString();
+	}
+
+	public String GetDSS() {
+		StringBuilder buf = new StringBuilder ("new Transformer." + tname + " bank=" + pname + " xfmrcode=" + tankinfo + "\n");
+
+		// winding ratings
+		for (int i = 0; i < size; i++) {
+			buf.append("~ wdg=" + Integer.toString(i + 1) + " bus=" + DSSBusPhases (bus[i], phs[i]) + "\n");
+		}
 		return buf.toString();
 	}
 
