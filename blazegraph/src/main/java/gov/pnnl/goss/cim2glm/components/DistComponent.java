@@ -132,6 +132,7 @@ public abstract class DistComponent {
 		if ((nphases < 3) && bDelta) {
 			nphases = 1;
 		}
+//		System.out.println (phs + "," + Boolean.toString(bDelta) + "," + Integer.toString(nphases));
 		return nphases;
 	}
 
@@ -171,14 +172,20 @@ public abstract class DistComponent {
 	static String DSSBusPhases (String bus, String phs) {
     if (phs.contains ("ABC")) {
       return bus + ".1.2.3";
-    } else if (phs.contains ("AB")) {
+    } else if (phs.contains ("AB") || phs.contains ("A:B")) {
       return bus + ".1.2";
 		} else if (phs.contains ("12")) {
 			return bus + ".1.2";
-    } else if (phs.contains ("AC")) {
+    } else if (phs.contains ("AC") || phs.contains ("A:C")) {
       return bus + ".1.3";
-    } else if (phs.contains ("BC")) {
+    } else if (phs.contains ("BC") || phs.contains ("B:C")) {
       return bus + ".2.3";
+		} else if (phs.contains ("B:A")) {
+			return bus + ".2.1";
+		} else if (phs.contains ("C:A")) {
+			return bus + ".3.1";
+		} else if (phs.contains ("C:B")) {
+			return bus + ".3.2";
     } else if (phs.contains ("A")) {
       return bus + ".1";
     } else if (phs.contains ("B")) {

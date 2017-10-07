@@ -40,7 +40,7 @@ public class DistBaseVoltage extends DistComponent {
 	public String GetDSS() {
 		DecimalFormat df = new DecimalFormat("#0.000");
 		StringBuilder buf = new StringBuilder ("");
-		buf.append (df.format(vnom) + " ");
+		buf.append (df.format(0.001 * vnom) + " ");
 		return buf.toString();
 	}
 }

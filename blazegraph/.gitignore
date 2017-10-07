@@ -3,6 +3,7 @@
 *.log
 *.jnl
 *.csv
+*VLN.Txt
 gridlabd.xml
 maps.txt
 *base.glm

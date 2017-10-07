@@ -90,9 +90,10 @@ public class DistSubstation extends DistComponent {
 
 	public String GetDSS() {
 		DecimalFormat df = new DecimalFormat("#0.00000");
+		DecimalFormat dfv = new DecimalFormat("#0.000");
 		StringBuilder buf = new StringBuilder ("new Circuit." + name);
 
-		buf.append (" phases=3 bus1=" + bus + " basev=" + df.format(nomv) + " pu=" + df.format(vmag/nomv) +
+		buf.append (" phases=3 bus1=" + bus + " basekv=" + dfv.format(0.001 * nomv) + " pu=" + df.format(vmag/nomv) +
 								" angle=" + df.format(vang * 180.0 / Math.PI) + " r0=" + df.format(r0) + 
 								" x0=" + df.format(x0) + " r1=" + df.format(r1) + " x1=" + df.format(x1));
 		buf.append("\n");

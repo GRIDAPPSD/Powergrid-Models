@@ -861,7 +861,8 @@ public class CIMImporter extends Object {
 		out.close();
 	}
 
-	public void WriteDSSFile (String fOut, String fID, double load_scale, boolean bWantZIP, double Zcoeff, double Icoeff, double Pcoeff) throws FileNotFoundException {
+	public void WriteDSSFile (String fOut, String fXY, String fID, double load_scale, boolean bWantZIP, 
+														double Zcoeff, double Icoeff, double Pcoeff) throws FileNotFoundException {
 		PrintWriter out = new PrintWriter (fOut);
 		PrintWriter outID = new PrintWriter (fID);
 
@@ -933,6 +934,16 @@ public class CIMImporter extends Object {
 		}
 		out.println ("]");
 
+		out.println();
+		out.println ("calcv");
+		out.println ("buscoords " + fXY);
+		out.println ("guids " + fID);
+		out.println ("solve");
+
+		out.println();
+		out.println ("export summary");
+		out.println ("show voltages ln");
+
 		out.close();
 		outID.close();
 	}
@@ -951,25 +962,31 @@ public class CIMImporter extends Object {
 	 * @param fXY
 	 * @throws FileNotFoundException
 	 */
-	public void start(QueryHandler queryHandler, String fTarget, String fOut, String fSched, 
+	public void start(QueryHandler queryHandler, String fTarget, String fRoot, String fSched, 
 										double load_scale, boolean bWantSched, boolean bWantZIP, double Zcoeff, 
-										double Icoeff, double Pcoeff, String fXY, String fID) throws FileNotFoundException{
+										double Icoeff, double Pcoeff) throws FileNotFoundException{
 		this.queryHandler = queryHandler;
-		
+		String fOut, fXY, fID;
+
 		LoadAllMaps();
 
 //		PrintAllMaps();
 		if (fTarget.equals("glm")) {
+			fOut = fRoot + "_base.glm";
+			fXY = fRoot + "_symbols.json";
 			WriteGLMFile(fOut, load_scale, bWantSched, fSched, bWantZIP, Zcoeff, Icoeff, Pcoeff);
 			WriteJSONSymbolFile (fXY);
 		} else if (fTarget.equals("dss")) {
-			WriteDSSFile (fOut, fID, load_scale, bWantZIP, Zcoeff, Icoeff, Pcoeff);
+			fOut = fRoot + "_base.dss";
+			fXY = fRoot + "_busxy.dss";
+			fID = fRoot + "_guid.dss";
+			WriteDSSFile (fOut, fXY, fID, load_scale, bWantZIP, Zcoeff, Icoeff, Pcoeff);
 			WriteDSSCoordinates (fXY);
 		}
 	}
 
 	public static void main (String args[]) throws FileNotFoundException {
-		String fOut = "", fXY = "", fID = "";
+		String fRoot = "";
 		double freq = 60.0, load_scale = 1.0;
 		boolean bWantSched = false, bWantZIP = false;
 		String fSched = "";
@@ -1037,12 +1054,9 @@ public class CIMImporter extends Object {
 				}
 			} else {
 				if (fTarget.equals("glm")) {
-					fOut = args[i] + "_base.glm";
-					fXY = args[i] + "_symbols.json";
+					fRoot = args[i];
 				} else if (fTarget.equals("dss")) {
-					fOut = args[i] + "_base.dss";
-					fXY = args[i] + "_busxy.dss";
-					fID = args[i] + "_guid.dss";
+					fRoot = args[i];
 				} else {
 					System.out.println ("Unknown target type " + fTarget);
 					System.exit(0);
@@ -1051,8 +1065,8 @@ public class CIMImporter extends Object {
 			++i;
 		}
 		
-		new CIMImporter().start(new HTTPBlazegraphQueryHandler(blazegraphURI), fTarget, fOut, fSched, load_scale, 
-														bWantSched, bWantZIP, Zcoeff, Icoeff, Pcoeff, fXY, fID);
+		new CIMImporter().start(new HTTPBlazegraphQueryHandler(blazegraphURI), fTarget, fRoot, fSched, load_scale, 
+														bWantSched, bWantZIP, Zcoeff, Icoeff, Pcoeff);
 		
 	}
 }
