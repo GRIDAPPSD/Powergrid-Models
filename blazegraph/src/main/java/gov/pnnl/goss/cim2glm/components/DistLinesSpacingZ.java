@@ -11,13 +11,14 @@ import java.text.DecimalFormat;
 
 public class DistLinesSpacingZ extends DistLineSegment {
 	public static final String szQUERY =
-		"SELECT ?name ?basev (group_concat(distinct ?bus;separator=\"\\n\") as ?buses)"+
+		"SELECT ?name ?id ?basev (group_concat(distinct ?bus;separator=\"\\n\") as ?buses)"+
 		"       (group_concat(distinct ?phs;separator=\"\\n\") as ?phases)"+
 		"       ?len ?spacing ?wname ?wclass"+
 		"       (group_concat(distinct ?phname;separator=\"\\n\") as ?phwires)"+
 		"       (group_concat(distinct ?phclass;separator=\"\\n\") as ?phclasses) WHERE {"+
 		" ?s r:type c:ACLineSegment."+
 		" ?s c:IdentifiedObject.name ?name."+
+		" bind(strafter(str(?s),\"#_\") as ?id)."+
 		" ?s c:ConductingEquipment.BaseVoltage ?bv."+
 		" ?bv c:BaseVoltage.nominalVoltage ?basev."+
 		" ?s c:Conductor.length ?len."+
@@ -50,7 +51,7 @@ public class DistLinesSpacingZ extends DistLineSegment {
 		"       	}"+
 		"       }"+
 		" }"+
-		" GROUP BY ?name ?basev ?len ?spacing ?wname ?wclass"+
+		" GROUP BY ?name ?id ?basev ?len ?spacing ?wname ?wclass"+
 		" ORDER BY ?name";
 
 	public String spacing;
@@ -65,6 +66,7 @@ public class DistLinesSpacingZ extends DistLineSegment {
 		if (results.hasNext()) {
 			QuerySolution soln = results.next();
 			name = SafeName (soln.get("?name").toString());
+			id = soln.get("?id").toString();
 			String[] buses = soln.get("?buses").toString().split("\\n");
 			bus1 = SafeName(buses[0]); 
 			bus2 = SafeName(buses[1]); 
@@ -124,6 +126,17 @@ public class DistLinesSpacingZ extends DistLineSegment {
 
 	public String LabelString() {
 		return spacing + ":" + wname;
+	}
+
+	public String GetDSS() {
+		StringBuilder buf = new StringBuilder ("new Line." + name);
+		DecimalFormat df = new DecimalFormat("#0.0");
+
+		buf.append (" phases=" + Integer.toString(DSSPhaseCount(phases, false)) + 
+								" bus1=" + DSSBusPhases(bus1, phases) + " bus2=" + DSSBusPhases (bus2, phases) + 
+								" length=" + df.format(len * gFTperM) + " spacing=" + spacing + " units=ft\n");
+
+		return buf.toString();
 	}
 }
 

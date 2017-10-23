@@ -12,9 +12,10 @@ import org.apache.commons.math3.complex.Complex;
 
 public class DistLinesInstanceZ extends DistLineSegment {
 	public static final String szQUERY = 
-		"SELECT ?name ?basev (group_concat(distinct ?bus;separator=\"\\n\") as ?buses) ?len ?r ?x ?b ?r0 ?x0 ?b0 WHERE {"+
+		"SELECT ?name ?id ?basev (group_concat(distinct ?bus;separator=\"\\n\") as ?buses) ?len ?r ?x ?b ?r0 ?x0 ?b0 WHERE {"+
 		" ?s r:type c:ACLineSegment."+
 		" ?s c:IdentifiedObject.name ?name."+
+		" bind(strafter(str(?s),\"#_\") as ?id)."+
 		" ?s c:ConductingEquipment.BaseVoltage ?bv."+
 		" ?bv c:BaseVoltage.nominalVoltage ?basev."+
 		" ?s c:Conductor.length ?len."+
@@ -28,7 +29,7 @@ public class DistLinesInstanceZ extends DistLineSegment {
 		" ?t c:Terminal.ConnectivityNode ?cn. "+
 		" ?cn c:IdentifiedObject.name ?bus"+
 		"}"+
-		" GROUP BY ?name ?basev ?len ?r ?x ?b ?r0 ?x0 ?b0"+
+		" GROUP BY ?name ?id ?basev ?len ?r ?x ?b ?r0 ?x0 ?b0"+
 		" ORDER BY ?name";
 
 	public double r1; 
@@ -42,6 +43,7 @@ public class DistLinesInstanceZ extends DistLineSegment {
 		if (results.hasNext()) {
 			QuerySolution soln = results.next();
 			name = SafeName (soln.get("?name").toString());
+			id = soln.get("?id").toString();
 			String[] buses = soln.get("?buses").toString().split("\\n");
 			bus1 = SafeName(buses[0]); 
 			bus2 = SafeName(buses[1]); 
@@ -101,6 +103,17 @@ public class DistLinesInstanceZ extends DistLineSegment {
 
 	public String LabelString() {
 		return "seqZ";
+	}
+
+	public String GetDSS() {
+		StringBuilder buf = new StringBuilder ("new Line." + name);
+		DecimalFormat df = new DecimalFormat("#0.0");
+
+		buf.append (" phases=" + Integer.toString(DSSPhaseCount(phases, false)) + 
+								" bus1=" + DSSBusPhases(bus1, phases) + " bus2=" + DSSBusPhases (bus2, phases) + 
+								" length=" + df.format(len * gFTperM) + " units=ft\n");
+
+		return buf.toString();
 	}
 }
 

@@ -9,13 +9,14 @@ package gov.pnnl.goss.cim2glm.components;
 import org.apache.jena.query.*;
 import java.text.DecimalFormat;
 
-public class DistTapeShieldCable extends DistComponent {
+public class DistTapeShieldCable extends DistCable {
 	public static final String szQUERY = 
 		"SELECT ?name ?rad ?corerad ?gmr ?rdc ?r25 ?r50 ?r75 ?amps ?ins ?insmat"+
 		" ?insthick ?diacore ?diains ?diascreen ?diajacket ?sheathneutral"+
-		" ?tapelap ?tapethickness WHERE {"+
+		" ?tapelap ?tapethickness ?id WHERE {"+
 		" ?w r:type c:TapeShieldCableInfo."+
 		" ?w c:IdentifiedObject.name ?name."+
+		" bind(strafter(str(?w),\"#_\") as ?id)."+
 		" ?w c:WireInfo.radius ?rad."+
 		" ?w c:WireInfo.gmr ?gmr."+
 		" OPTIONAL {?w c:WireInfo.rDC20 ?rdc.}"+
@@ -37,23 +38,6 @@ public class DistTapeShieldCable extends DistComponent {
 		" OPTIONAL {?w c:TapeShieldCableInfo.tapeThickness ?tapethickness.}"+
 		"} ORDER BY ?name";
 
-	public String name;
-	public double rad;
-	public double gmr;
-	public double rdc;
-	public double r25;
-	public double r50;
-	public double r75;
-	public double corerad; 
-	public double amps;
-	public double insthick;
-	public boolean ins;
-	public String insmat;
-	public double dcore;
-	public double djacket;
-	public double dins;
-	public double dscreen;
-	public boolean sheathNeutral;
 	public double tlap;
 	public double tthick;
 
@@ -61,6 +45,7 @@ public class DistTapeShieldCable extends DistComponent {
 		if (results.hasNext()) {
 			QuerySolution soln = results.next();
 			name = SafeName (soln.get("?name").toString());
+			id = soln.get("?id").toString();
 			rad = Double.parseDouble (soln.get("?rad").toString());
 			gmr = Double.parseDouble (soln.get("?gmr").toString());
 			rdc = OptionalDouble (soln, "?rdc", 0.0);
@@ -83,15 +68,22 @@ public class DistTapeShieldCable extends DistComponent {
 	}
 
 	public String DisplayString() {
-		DecimalFormat df = new DecimalFormat("#0.0000");
+		DecimalFormat df6 = new DecimalFormat("#0.000000");
+		DecimalFormat df2 = new DecimalFormat("#0.00");
 		StringBuilder buf = new StringBuilder ("");
-		buf.append (name + " rad=" + df.format(rad) + " gmr=" + df.format(gmr) + " rdc=" + df.format(rdc)); 
-		buf.append (" r25=" + df.format(r25) + " r50=" + df.format(r50) + " r75=" + df.format(r75)); 
-		buf.append (" corerad=" + df.format(corerad) + " amps=" + df.format(amps)); 
-		buf.append (" ins=" + Boolean.toString(ins) + " insmat=" + insmat + " insthick=" + df.format(insthick));
-		buf.append (" dcore=" + df.format(dcore) + " djacket=" + df.format(djacket) + " dins=" + df.format(dins)); 
-		buf.append (" dscreen=" + df.format(dscreen) + " sheathNeutral=" + Boolean.toString(sheathNeutral)); 
-		buf.append (" tlap=" + df.format(tlap) + " tthick=" + df.format(tthick));
+		AppendCableDisplay (buf);
+		buf.append (" tlap=" + df2.format(tlap) + " tthick=" + df6.format(tthick));
+		return buf.toString();
+	}
+
+	public String GetDSS() {
+		StringBuilder buf = new StringBuilder ("new TSData.");
+		AppendDSSCableAttributes (buf);
+		DecimalFormat df = new DecimalFormat("#0.000000");
+		DecimalFormat dfpct = new DecimalFormat("#0.000");
+		buf.append ("\n~ DiaShield=" + df.format(dscreen + 2.0 * tthick) + " tapeLayer=" + df.format(tthick) +
+								" tapeLap=" + dfpct.format(tlap));
+		buf.append ("\n");
 		return buf.toString();
 	}
 

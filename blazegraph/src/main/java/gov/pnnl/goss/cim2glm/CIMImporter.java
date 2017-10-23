@@ -45,7 +45,7 @@ import gov.pnnl.goss.cim2glm.queryhandler.QueryHandler;
 import gov.pnnl.goss.cim2glm.queryhandler.impl.HTTPBlazegraphQueryHandler;
 
 /**
- * <p>This class builds a GridLAB-D model by running 
+ * <p>This class builds a GridLAB-D or OpenDSS model by running 
  * SQARQL queries against Blazegraph 
  * triple-store</p> 
  *      
@@ -872,6 +872,26 @@ public class CIMImporter extends Object {
 		}
 
 		out.println();
+		for (HashMap.Entry<String,DistOverheadWire> pair : mapWires.entrySet()) {
+			out.print (pair.getValue().GetDSS());
+			outID.println ("Wiredata." + pair.getValue().name + "\t" + pair.getValue().id);
+		}
+		out.println();
+		for (HashMap.Entry<String,DistConcentricNeutralCable> pair : mapCNCables.entrySet()) {
+			out.print (pair.getValue().GetDSS());
+			outID.println ("CNData." + pair.getValue().name + "\t" + pair.getValue().id);
+		}
+		out.println();
+		for (HashMap.Entry<String,DistTapeShieldCable> pair : mapTSCables.entrySet()) {
+			out.print (pair.getValue().GetDSS());
+			outID.println ("TSData." + pair.getValue().name + "\t" + pair.getValue().id);
+		}
+		out.println();
+		for (HashMap.Entry<String,DistLineSpacing> pair : mapSpacings.entrySet()) {
+			out.print (pair.getValue().GetDSS());
+			outID.println ("LineSpacing." + pair.getValue().name + "\t" + pair.getValue().id);
+		}
+		out.println();
 		for (HashMap.Entry<String,DistPhaseMatrix> pair : mapPhaseMatrices.entrySet()) {
 			out.print (pair.getValue().GetDSS());
 			outID.println ("Linecode." + pair.getValue().name + "\t" + pair.getValue().id);
@@ -902,6 +922,16 @@ public class CIMImporter extends Object {
 		}
 		out.println();
 		for (HashMap.Entry<String,DistLinesCodeZ> pair : mapLinesCodeZ.entrySet()) {
+			out.print (pair.getValue().GetDSS());
+			outID.println ("Line." + pair.getValue().name + "\t" + pair.getValue().id);
+		}
+		out.println();
+		for (HashMap.Entry<String,DistLinesSpacingZ> pair : mapLinesSpacingZ.entrySet()) {
+			out.print (pair.getValue().GetDSS());
+			outID.println ("Line." + pair.getValue().name + "\t" + pair.getValue().id);
+		}
+		out.println();
+		for (HashMap.Entry<String,DistLinesInstanceZ> pair : mapLinesInstanceZ.entrySet()) {
 			out.print (pair.getValue().GetDSS());
 			outID.println ("Line." + pair.getValue().name + "\t" + pair.getValue().id);
 		}
@@ -970,7 +1000,7 @@ public class CIMImporter extends Object {
 
 		LoadAllMaps();
 
-//		PrintAllMaps();
+		PrintAllMaps();
 		if (fTarget.equals("glm")) {
 			fOut = fRoot + "_base.glm";
 			fXY = fRoot + "_symbols.json";

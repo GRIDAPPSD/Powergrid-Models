@@ -11,12 +11,13 @@ import java.text.DecimalFormat;
 
 public class DistLineSpacing extends DistComponent {
 	public static final String szQUERY = 
-		"SELECT ?name ?cable ?usage ?bundle_count ?bundle_sep"+
+		"SELECT ?name ?cable ?usage ?bundle_count ?bundle_sep ?id"+
 		" (group_concat(?phs;separator=\"\\n\") as ?phases)"+
 		" (group_concat(?x;separator=\"\\n\") as ?xarray)"+
 		" (group_concat(?y;separator=\"\\n\") as ?yarray) WHERE {"+
 		" ?w r:type c:WireSpacingInfo."+
 		" ?w c:IdentifiedObject.name ?name."+
+		" bind(strafter(str(?w),\"#_\") as ?id)."+
 		" ?pos c:WirePosition.WireSpacingInfo ?w."+
 		" ?pos c:WirePosition.xCoord ?x."+
 		" ?pos c:WirePosition.yCoord ?y."+
@@ -27,9 +28,10 @@ public class DistLineSpacing extends DistComponent {
 		" OPTIONAL {?w c:WireSpacingInfo.phaseWireSpacing ?bundle_sep.}"+
 		" OPTIONAL {?w c:WireSpacingInfo.usage ?useraw."+
 		"       bind(strafter(str(?useraw),\"WireUsageKind.\") as ?usage)}"+
-		"} GROUP BY ?name ?cable ?usage ?bundle_count ?bundle_sep ORDER BY ?name";
+		"} GROUP BY ?name ?cable ?usage ?bundle_count ?bundle_sep ?id ORDER BY ?name";
 
 	public String name;
+	public String id;
 	public String[] phases;
 	public String[] xarray;
 	public String[] yarray;
@@ -43,6 +45,7 @@ public class DistLineSpacing extends DistComponent {
 		if (results.hasNext()) {
 			QuerySolution soln = results.next();
 			name = SafeName (soln.get("?name").toString());
+			id = soln.get("?id").toString();
 			phases = soln.get("?phases").toString().split("\\n");
 			xarray = soln.get("?xarray").toString().split("\\n");
 			yarray = soln.get("?yarray").toString().split("\\n");
@@ -62,6 +65,36 @@ public class DistLineSpacing extends DistComponent {
 		for (int i = 0; i < nwires; i++) {
 				buf.append ("\n  phs=" + phases[i] + " x=" + xarray[i] + " y=" + yarray[i]);
 		}
+		return buf.toString();
+	}
+
+	public String GetDSS() {
+		int nphases = nwires;
+		int i;
+		if (phases[nwires-1].equals("N")) {
+			--nphases;
+		}
+//		StringBuilder xbuf = new StringBuilder("x=[");
+//		StringBuilder hbuf = new StringBuilder("h=[");
+
+		StringBuilder buf = new StringBuilder("new LineSpacing." + name + " nconds=" + Integer.toString(nwires) +
+																					 " nphases=" + Integer.toString(nphases) + " units=m\n");
+		DecimalFormat df = new DecimalFormat("#0.000");
+		buf.append ("~ x=[");
+		for (i = 0; i < nwires; i++) {
+			buf.append (xarray[i]);
+			if (i+1 < nwires) {
+				buf.append (",");
+			}
+		}
+		buf.append ("]\n~ h=[");
+		for (i = 0; i < nwires; i++) {
+			buf.append (yarray[i]);
+			if (i+1 < nwires) {
+				buf.append (",");
+			}
+		}
+		buf.append ("]\n");
 		return buf.toString();
 	}
 

@@ -9,13 +9,14 @@ package gov.pnnl.goss.cim2glm.components;
 import org.apache.jena.query.*;
 import java.text.DecimalFormat;
 
-public class DistConcentricNeutralCable extends DistComponent {
+public class DistConcentricNeutralCable extends DistCable {
 	public static final String szQUERY = 
-		"SELECT ?name ?rad ?corerad ?gmr ?rdc ?r25 ?r50 ?r75 ?amps ?ins ?insmat"+
+		"SELECT ?name ?rad ?corerad ?gmr ?rdc ?r25 ?r50 ?r75 ?amps ?ins ?insmat ?id"+
 		" ?insthick ?diacore ?diains ?diascreen ?diajacket ?sheathneutral"+
 		" ?strand_cnt ?strand_rad ?strand_gmr ?strand_rdc WHERE {"+
 		" ?w r:type c:ConcentricNeutralCableInfo."+
 		" ?w c:IdentifiedObject.name ?name."+
+		" bind(strafter(str(?w),\"#_\") as ?id)."+
 		" ?w c:WireInfo.radius ?rad."+
 		" ?w c:WireInfo.gmr ?gmr."+
 		" OPTIONAL {?w c:WireInfo.rDC20 ?rdc.}"+
@@ -40,23 +41,6 @@ public class DistConcentricNeutralCable extends DistComponent {
 		" OPTIONAL {?w c:ConcentricNeutralCableInfo.neutralStrandRDC20 ?strand_rdc.}"+
 		"} ORDER BY ?name";
 
-	public String name;
-	public double rad;
-	public double gmr;
-	public double rdc;
-	public double r25;
-	public double r50;
-	public double r75;
-	public double corerad; 
-	public double amps;
-	public double insthick;
-	public boolean ins;
-	public String insmat;
-	public double dcore;
-	public double djacket;
-	public double dins;
-	public double dscreen;
-	public boolean sheathNeutral;
 	public double dneut;
 	public int strand_cnt; 
 	public double strand_gmr;
@@ -67,6 +51,7 @@ public class DistConcentricNeutralCable extends DistComponent {
 		if (results.hasNext()) {
 			QuerySolution soln = results.next();
 			name = SafeName (soln.get("?name").toString());
+			id = soln.get("?id").toString();
 			rad = Double.parseDouble (soln.get("?rad").toString());
 			gmr = Double.parseDouble (soln.get("?gmr").toString());
 			rdc = OptionalDouble (soln, "?rdc", 0.0);
@@ -92,16 +77,21 @@ public class DistConcentricNeutralCable extends DistComponent {
 	}
 
 	public String DisplayString() {
-		DecimalFormat df = new DecimalFormat("#0.0000");
+		DecimalFormat df = new DecimalFormat("#0.000000");
 		StringBuilder buf = new StringBuilder ("");
-		buf.append (name + " rad=" + df.format(rad) + " gmr=" + df.format(gmr) + " rdc=" + df.format(rdc)); 
-		buf.append (" r25=" + df.format(r25) + " r50=" + df.format(r50) + " r75=" + df.format(r75)); 
-		buf.append (" corerad=" + df.format(corerad) + " amps=" + df.format(amps)); 
-		buf.append (" ins=" + Boolean.toString(ins) + " insmat=" + insmat + " insthick=" + df.format(insthick));
-		buf.append (" dcore=" + df.format(dcore) + " djacket=" + df.format(djacket) + " dins=" + df.format(dins)); 
-		buf.append (" dscreen=" + df.format(dscreen) + " sheathNeutral=" + Boolean.toString(sheathNeutral)); 
+		AppendCableDisplay (buf);
 		buf.append (" dneut=" + df.format(dneut) + " strand_cnt=" + Integer.toString(strand_cnt));
 		buf.append (" strand_gmr=" + df.format(strand_gmr) + " strand_rad=" + df.format(strand_rad) + " strand_rdc=" + df.format(strand_rdc));
+		return buf.toString();
+	}
+
+	public String GetDSS() {
+		StringBuilder buf = new StringBuilder ("new CNData.");
+		AppendDSSCableAttributes (buf);
+		DecimalFormat df = new DecimalFormat("#0.000000");
+		buf.append ("\n~ k=" + Integer.toString(strand_cnt) + " GmrStrand=" + df.format(strand_gmr) +
+								" DiaStrand=" + df.format(2.0 * strand_rad) + " Rstrand=" + df.format(strand_rdc));
+		buf.append ("\n");
 		return buf.toString();
 	}
 

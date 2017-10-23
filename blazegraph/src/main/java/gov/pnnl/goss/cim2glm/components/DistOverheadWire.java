@@ -9,11 +9,12 @@ package gov.pnnl.goss.cim2glm.components;
 import org.apache.jena.query.*;
 import java.text.DecimalFormat;
 
-public class DistOverheadWire extends DistComponent {
+public class DistOverheadWire extends DistWire {
 	public static final String szQUERY =  
-		"SELECT ?name ?rad ?corerad ?gmr ?rdc ?r25 ?r50 ?r75 ?amps ?ins ?insmat ?insthick WHERE {"+
+		"SELECT ?name ?rad ?corerad ?gmr ?rdc ?r25 ?r50 ?r75 ?amps ?ins ?insmat ?insthick ?id WHERE {"+
 		" ?w r:type c:OverheadWireInfo."+
 		" ?w c:IdentifiedObject.name ?name."+
+		" bind(strafter(str(?w),\"#_\") as ?id)."+
 		" ?w c:WireInfo.radius ?rad."+
 		" ?w c:WireInfo.gmr ?gmr."+
 		" OPTIONAL {?w c:WireInfo.rDC20 ?rdc.}"+
@@ -28,23 +29,11 @@ public class DistOverheadWire extends DistComponent {
 		" OPTIONAL {?w c:WireInfo.insulationThickness ?insthick.}"+
 		"} ORDER BY ?name";
 
-	public String name;
-	public double rad;
-	public double gmr;
-	public double rdc;
-	public double r25;
-	public double r50;
-	public double r75;
-	public double corerad; 
-	public double amps;
-	public double insthick;
-	public boolean ins;
-	public String insmat;
-
 	public DistOverheadWire (ResultSet results) {
 		if (results.hasNext()) {
 			QuerySolution soln = results.next();
 			name = SafeName (soln.get("?name").toString());
+			id = soln.get("?id").toString();
 			rad = Double.parseDouble (soln.get("?rad").toString());
 			gmr = Double.parseDouble (soln.get("?gmr").toString());
 			rdc = OptionalDouble (soln, "?rdc", 0.0);
@@ -60,12 +49,15 @@ public class DistOverheadWire extends DistComponent {
 	}
 
 	public String DisplayString() {
-		DecimalFormat df = new DecimalFormat("#0.0000");
 		StringBuilder buf = new StringBuilder ("");
-		buf.append (name + " rad=" + df.format(rad) + " gmr=" + df.format(gmr) + " rdc=" + df.format(rdc)); 
-		buf.append (" r25=" + df.format(r25) + " r50=" + df.format(r50) + " r75=" + df.format(r75)); 
-		buf.append (" corerad=" + df.format(corerad) + " amps=" + df.format(amps)); 
-		buf.append (" ins=" + Boolean.toString(ins) + " insmat=" + insmat + " insthick=" + df.format(insthick)); 
+		AppendWireDisplay (buf);
+		return buf.toString();
+	}
+
+	public String GetDSS() {
+		StringBuilder buf = new StringBuilder ("new WireData.");
+		AppendDSSWireAttributes (buf);
+		buf.append ("\n");
 		return buf.toString();
 	}
 
