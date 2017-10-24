@@ -16,6 +16,8 @@ public class DistLinesSpacingZ extends DistLineSegment {
 		"       ?len ?spacing ?wname ?wclass"+
 		"       (group_concat(distinct ?phname;separator=\"\\n\") as ?phwires)"+
 		"       (group_concat(distinct ?phclass;separator=\"\\n\") as ?phclasses) WHERE {"+
+		" SELECT ?name ?id ?basev ?bus ?phs ?len ?spacing ?wname ?wclass ?phname ?phclass"+
+		" WHERE {"+
 		" ?s r:type c:ACLineSegment."+
 		" ?s c:IdentifiedObject.name ?name."+
 		" bind(strafter(str(?s),\"#_\") as ?id)."+
@@ -50,6 +52,7 @@ public class DistLinesSpacingZ extends DistLineSegment {
 		"       		bind(strafter(str(?phclassraw),\"cim16#\") as ?phclass)"+
 		"       	}"+
 		"       }"+
+		" } ORDER BY ?name ?phs"+
 		" }"+
 		" GROUP BY ?name ?id ?basev ?len ?spacing ?wname ?wclass"+
 		" ORDER BY ?name";
@@ -86,17 +89,13 @@ public class DistLinesSpacingZ extends DistLineSegment {
 				wire_classes = new String[nwires];
 				String[] phwire = phwires.split("\\n");
 				String[] phclass = phclasses.split("\\n");
-				String lastWire = phwire[0];
-				String lastClass = phclass[0];
-				for (int i = 0; i < nwires; i++) {
-					if (i < phwire.length) {
-						lastWire = phwire[i];
-					}
-					if (i < phclass.length) {
-						lastClass = phclass[i];
-					}
-					wire_names[i] = lastWire;
-					wire_classes[i] = lastClass;
+				int idxWire = phwire.length - 1;
+				int idxClass = phclass.length - 1;
+				for (int i = nwires - 1; i >= 0; i--) {
+					wire_names[i] = phwire[idxWire];
+					wire_classes[i] = phclass[idxClass];
+					if (idxClass > 0) --idxClass;
+					if (idxWire > 0) --idxWire;
 				}
 			}
 		}		
@@ -131,11 +130,29 @@ public class DistLinesSpacingZ extends DistLineSegment {
 	public String GetDSS() {
 		StringBuilder buf = new StringBuilder ("new Line." + name);
 		DecimalFormat df = new DecimalFormat("#0.0");
+		boolean bCable = false;
 
 		buf.append (" phases=" + Integer.toString(DSSPhaseCount(phases, false)) + 
 								" bus1=" + DSSBusPhases(bus1, phases) + " bus2=" + DSSBusPhases (bus2, phases) + 
 								" length=" + df.format(len * gFTperM) + " spacing=" + spacing + " units=ft\n");
-
+		if (wclass.equals("OverheadWireInfo")) {
+			buf.append ("~ wires=[");
+		} else if (wclass.equals("ConcentricNeutralCableInfo")) {
+			buf.append ("~ CNCables=[");
+			bCable = true;
+		} else if (wclass.equals("TapeShieldCableInfo")) {
+			buf.append ("~ TSCables=[");
+			bCable = true;
+		}
+		for (int i = 0; i < nwires; i++) {
+			if (bCable == true && wire_classes[i].equals("OverheadWireInfo")) {
+				buf.append ("] wires=[");
+			} else if (i > 0) {
+				buf.append (",");
+			}
+			buf.append(wire_names[i]);
+		}
+		buf.append("]\n");
 		return buf.toString();
 	}
 }

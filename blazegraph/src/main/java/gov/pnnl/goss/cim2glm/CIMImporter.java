@@ -911,11 +911,6 @@ public class CIMImporter extends Object {
 			outID.println ("Load." + pair.getValue().name + "\t" + pair.getValue().id);
 		}
 		out.println();
-		for (HashMap.Entry<String,DistCapacitor> pair : mapCapacitors.entrySet()) {
-			out.print (pair.getValue().GetDSS());
-			outID.println ("Capacitor." + pair.getValue().name + "\t" + pair.getValue().id);
-		}
-		out.println();
 		for (HashMap.Entry<String,DistSwitch> pair : mapSwitches.entrySet()) {
 			out.print (pair.getValue().GetDSS());
 			outID.println ("Line." + pair.getValue().name + "\t" + pair.getValue().id);
@@ -955,6 +950,11 @@ public class CIMImporter extends Object {
 			for (int i = 0; i < obj.size; i++) {
 				outID.println("RegControl." + obj.rname[i] + "\t" + obj.id[i]);
 			}
+		}
+		out.println(); // capacitors last in case the capcontrols reference a preceeding element
+		for (HashMap.Entry<String,DistCapacitor> pair : mapCapacitors.entrySet()) {
+			out.print (pair.getValue().GetDSS());
+			outID.println ("Capacitor." + pair.getValue().name + "\t" + pair.getValue().id);
 		}
 
 		out.println();

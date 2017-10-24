@@ -641,7 +641,7 @@ SELECT ?name ?basev (group_concat(distinct ?bus;separator="\n") as ?buses) (grou
 GROUP BY ?name ?basev ?len ?spacing ?wname ?wclass
 ORDER BY ?name
 
-# line segments with individual phase wire assignments
+# line segments with individual phase wire assignments, ordered by phase
 PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX c:  <http://iec.ch/TC57/2012/CIM-schema-cim16#>
 SELECT ?name ?basev (group_concat(distinct ?bus;separator="\n") as ?buses) 
@@ -650,6 +650,8 @@ SELECT ?name ?basev (group_concat(distinct ?bus;separator="\n") as ?buses)
   (group_concat(distinct ?phname;separator="\n") as ?phwires) 
 	 (group_concat(distinct ?phclass;separator="\n") as ?phclasses)
 WHERE {
+  SELECT ?name ?basev ?bus ?phs ?len ?spacing ?wname ?wclass ?phname ?phclass
+               WHERE {
  ?s r:type c:ACLineSegment.
  ?s c:IdentifiedObject.name ?name.
  ?s c:ConductingEquipment.BaseVoltage ?bv.
@@ -683,6 +685,7 @@ WHERE {
        bind(strafter(str(?phclassraw),"cim16#") as ?phclass)
      }
    }
+                             } ORDER BY ?name ?phs
 }
 GROUP BY ?name ?basev ?len ?spacing ?wname ?wclass
 ORDER BY ?name
