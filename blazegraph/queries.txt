@@ -589,6 +589,27 @@ WHERE {
 GROUP BY ?name ?cable ?usage ?bundle_count ?bundle_sep
 ORDER BY ?name
 
+# wire spacings with phs ordering before group_concat
+PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX c:  <http://iec.ch/TC57/2012/CIM-schema-cim16#>
+SELECT ?name 
+    (group_concat(?phs;separator="\n") as ?phases) (group_concat(?x;separator="\n") as ?xarray) (group_concat(?y;separator="\n") as ?yarray)
+WHERE {
+  SELECT ?name ?phs ?x ?y
+    WHERE {
+	 ?w r:type c:WireSpacingInfo.
+ 	 ?w c:IdentifiedObject.name ?name.
+ 	 ?pos c:WirePosition.WireSpacingInfo ?w.
+ 	 ?pos c:WirePosition.xCoord ?x.
+ 	 ?pos c:WirePosition.yCoord ?y.
+ 	 ?pos c:WirePosition.phase ?phsraw.
+   	 bind(strafter(str(?phsraw),"SinglePhaseKind.") as ?phs)
+    }
+    ORDER BY ?name ?phs
+}
+GROUP BY ?name
+ORDER BY ?name
+
 # line segments referencing wirespacing
 PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX c:  <http://iec.ch/TC57/2012/CIM-schema-cim16#>

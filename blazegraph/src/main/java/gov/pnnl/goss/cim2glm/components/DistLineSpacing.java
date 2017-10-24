@@ -15,6 +15,8 @@ public class DistLineSpacing extends DistComponent {
 		" (group_concat(?phs;separator=\"\\n\") as ?phases)"+
 		" (group_concat(?x;separator=\"\\n\") as ?xarray)"+
 		" (group_concat(?y;separator=\"\\n\") as ?yarray) WHERE {"+
+		" SELECT ?name ?cable ?usage ?bundle_count ?bundle_sep ?id ?phs ?x ?y"+
+		" WHERE {"+
 		" ?w r:type c:WireSpacingInfo."+
 		" ?w c:IdentifiedObject.name ?name."+
 		" bind(strafter(str(?w),\"#_\") as ?id)."+
@@ -28,6 +30,7 @@ public class DistLineSpacing extends DistComponent {
 		" OPTIONAL {?w c:WireSpacingInfo.phaseWireSpacing ?bundle_sep.}"+
 		" OPTIONAL {?w c:WireSpacingInfo.usage ?useraw."+
 		"       bind(strafter(str(?useraw),\"WireUsageKind.\") as ?usage)}"+
+		"} ORDER BY ?name ?phs"+
 		"} GROUP BY ?name ?cable ?usage ?bundle_count ?bundle_sep ?id ORDER BY ?name";
 
 	public String name;
@@ -74,8 +77,6 @@ public class DistLineSpacing extends DistComponent {
 		if (phases[nwires-1].equals("N")) {
 			--nphases;
 		}
-//		StringBuilder xbuf = new StringBuilder("x=[");
-//		StringBuilder hbuf = new StringBuilder("h=[");
 
 		StringBuilder buf = new StringBuilder("new LineSpacing." + name + " nconds=" + Integer.toString(nwires) +
 																					 " nphases=" + Integer.toString(nphases) + " units=m\n");
