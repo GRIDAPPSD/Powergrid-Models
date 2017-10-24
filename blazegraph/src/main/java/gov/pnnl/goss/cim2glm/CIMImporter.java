@@ -553,7 +553,7 @@ public class CIMImporter extends Object {
 			DistLoad obj = pair.getValue();
 			GldNode nd = mapNodes.get (obj.bus);
 			nd.nomvln = obj.basev / Math.sqrt(3.0);
-			nd.AccumulateLoads (obj.phs, obj.p, obj.q, obj.pe, obj.qe, obj.pz, obj.pi, obj.pp, obj.qz, obj.qi, obj.qp);
+			nd.AccumulateLoads (obj.phases, obj.p, obj.q, obj.pe, obj.qe, obj.pz, obj.pi, obj.pp, obj.qz, obj.qi, obj.qp);
 		}
 		for (HashMap.Entry<String,DistCapacitor> pair : mapCapacitors.entrySet()) {
 			DistCapacitor obj = pair.getValue();
@@ -897,6 +897,11 @@ public class CIMImporter extends Object {
 			outID.println ("Linecode." + pair.getValue().name + "\t" + pair.getValue().id);
 		}
 		out.println();
+		for (HashMap.Entry<String,DistSequenceMatrix> pair : mapSequenceMatrices.entrySet()) {
+			out.print (pair.getValue().GetDSS());
+			outID.println ("Linecode." + pair.getValue().name + "\t" + pair.getValue().id);
+		}
+		out.println();
 		for (HashMap.Entry<String,DistXfmrCodeRating> pair : mapCodeRatings.entrySet()) {
 			DistXfmrCodeRating obj = pair.getValue();
 			DistXfmrCodeSCTest sct = mapCodeSCTests.get (obj.tname);
@@ -1000,7 +1005,8 @@ public class CIMImporter extends Object {
 
 		LoadAllMaps();
 
-		PrintAllMaps();
+//		PrintAllMaps();
+//		PrintOneMap (mapLoads, "** LOADS");
 		if (fTarget.equals("glm")) {
 			fOut = fRoot + "_base.glm";
 			fXY = fRoot + "_symbols.json";

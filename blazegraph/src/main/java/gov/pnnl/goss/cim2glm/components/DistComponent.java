@@ -129,6 +129,8 @@ public abstract class DistComponent {
 		if (phs.contains ("A")) nphases += 1;
 		if (phs.contains ("B")) nphases += 1;
 		if (phs.contains ("C")) nphases += 1;
+		if (phs.contains ("s1")) nphases += 1;
+		if (phs.contains ("s2")) nphases += 1;
 		if ((nphases < 3) && bDelta) {
 			nphases = 1;
 		}
@@ -186,6 +188,14 @@ public abstract class DistComponent {
 			return bus + ".3.1";
 		} else if (phs.contains ("C:B")) {
 			return bus + ".3.2";
+		} else if (phs.contains ("s1:s2")) {
+			return bus + ".1.2";
+		} else if (phs.contains ("s2:s1")) {
+			return bus + ".2.1";
+		} else if (phs.contains ("s1")) {
+			return bus + ".1";
+		} else if (phs.contains ("s2")) {
+			return bus + ".2";
     } else if (phs.contains ("A")) {
       return bus + ".1";
     } else if (phs.contains ("B")) {
@@ -200,6 +210,12 @@ public abstract class DistComponent {
       return bus;  // defaults to 3 phases
     }
   }
+
+	static String DSSXfmrBusPhases (String bus, String phs) {
+		if (phs.contains("s2")) return (bus + ".0.2");
+		if (phs.contains("s1")) return (bus + ".1.0");
+		return DSSBusPhases (bus, phs);
+	}
 
 	/** 
 	 *  Rotates a phasor +120 degrees by multiplication

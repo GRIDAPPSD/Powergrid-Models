@@ -11,7 +11,9 @@ import java.text.DecimalFormat;
 
 public class DistLoad extends DistComponent {
 	public static final String szQUERY = 
-	 	"SELECT ?name ?bus ?basev ?p ?q ?conn ?pz ?qz ?pi ?qi ?pp ?qp ?pe ?qe ?phs ?id WHERE {"+
+	 	"SELECT ?name ?bus ?basev ?p ?q ?conn ?pz ?qz ?pi ?qi ?pp ?qp ?pe ?qe ?id "+
+		"(group_concat(distinct ?phs;separator=\"\\n\") as ?phases) "+
+		"WHERE {"+
 	 	" ?s r:type c:EnergyConsumer."+
 	 	" ?s c:IdentifiedObject.name ?name."+
 	   " ?s c:ConductingEquipment.BaseVoltage ?bv."+
@@ -36,12 +38,14 @@ public class DistLoad extends DistComponent {
 	 	" ?t c:Terminal.ConductingEquipment ?s."+
 	 	" ?t c:Terminal.ConnectivityNode ?cn."+
 	 	" ?cn c:IdentifiedObject.name ?bus"+
-	 	"} ORDER BY ?name ?phs";
+	 	"} "+
+		"GROUP BY ?name ?bus ?basev ?p ?q ?conn ?pz ?qz ?pi ?qi ?pp ?qp ?pe ?qe ?id "+
+		"ORDER BY ?name";
 
 	public String id;
 	public String name;
 	public String bus;
-	public String phs;
+	public String phases;
 	public String conn;
 	public double basev;
 	public double p;
@@ -65,7 +69,8 @@ public class DistLoad extends DistComponent {
 			id = soln.get("?id").toString();
 			bus = SafeName (soln.get("?bus").toString());
 			basev = Double.parseDouble (soln.get("?basev").toString());
-			phs = OptionalString (soln, "?phs", "ABC");
+			phases = OptionalString (soln, "?phases", "ABC");
+			phases = phases.replace ('\n', ':');
 			conn = soln.get("?conn").toString();
 			p = 0.001 * Double.parseDouble (soln.get("?p").toString());
 			q = 0.001 * Double.parseDouble (soln.get("?q").toString());
@@ -79,12 +84,13 @@ public class DistLoad extends DistComponent {
 			qe = Double.parseDouble (soln.get("?qe").toString());
 		}		
 		dss_load_model = 8;
+		System.out.println (DisplayString());
 	}
 
 	public String DisplayString() {
 		DecimalFormat df = new DecimalFormat("#0.0000");
 		StringBuilder buf = new StringBuilder ("");
-		buf.append (name + " @ " + bus + " basev=" + df.format (basev) + " phs=" + phs + " conn=" + conn);
+		buf.append (name + " @ " + bus + " basev=" + df.format (basev) + " phases=" + phases + " conn=" + conn);
 		buf.append (" kw=" + df.format(p) + " kvar=" + df.format(q));
 		buf.append (" Real ZIP=" + df.format(pz) + ":" + df.format(pi) + ":" + df.format(pp));
 		buf.append (" Reactive ZIP=" + df.format(qz) + ":" + df.format(qi) + ":" + df.format(qp));
@@ -132,13 +138,13 @@ public class DistLoad extends DistComponent {
 		DecimalFormat df = new DecimalFormat("#0.000");
 
 		SetDSSLoadModel();
-		int nphases = DSSPhaseCount(phs, bDelta);
+		int nphases = DSSPhaseCount(phases, bDelta);
 		double kv = 0.001 * basev;
-		if (nphases < 3 && !bDelta) {
+		if (nphases < 2 && !bDelta) { // 2-phase wye load should be line-line for secondary?
 			kv /= Math.sqrt(3.0);
 		}
 
-		buf.append (" phases=" + Integer.toString(nphases) + " bus1=" + DSSShuntPhases (bus, phs, bDelta) + 
+		buf.append (" phases=" + Integer.toString(nphases) + " bus1=" + DSSShuntPhases (bus, phases, bDelta) + 
 								" conn=" + DSSConn(bDelta) + " kw=" + df.format(p) + " kvar=" + df.format(q) +
 								" numcust=1 kv=" + df.format(kv) + " model=" + Integer.toString(dss_load_model));
 		if (dss_load_model == 8) {

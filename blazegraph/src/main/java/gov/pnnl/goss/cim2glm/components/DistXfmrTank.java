@@ -158,7 +158,7 @@ public class DistXfmrTank extends DistComponent {
 
 		// winding ratings
 		for (int i = 0; i < size; i++) {
-			buf.append("~ wdg=" + Integer.toString(i + 1) + " bus=" + DSSBusPhases (bus[i], phs[i]) + "\n");
+			buf.append("~ wdg=" + Integer.toString(i + 1) + " bus=" + DSSXfmrBusPhases (bus[i], phs[i]) + "\n");
 		}
 		return buf.toString();
 	}

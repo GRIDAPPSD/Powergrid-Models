@@ -12,9 +12,10 @@ import org.apache.commons.math3.complex.Complex;
 
 public class DistSequenceMatrix extends DistComponent {
 	public static final String szQUERY = 
-		"SELECT ?name ?r1 ?x1 ?b1 ?r0 ?x0 ?b0 WHERE {"+
+		"SELECT ?name ?r1 ?x1 ?b1 ?r0 ?x0 ?b0 ?id WHERE {"+
 		" ?s r:type c:PerLengthSequenceImpedance."+
 		" ?s c:IdentifiedObject.name ?name."+
+		" bind(strafter(str(?s),\"#_\") as ?id)."+
 		" ?s c:PerLengthSequenceImpedance.r ?r1."+
 		" ?s c:PerLengthSequenceImpedance.x ?x1."+
 		" ?s c:PerLengthSequenceImpedance.bch ?b1."+
@@ -24,6 +25,7 @@ public class DistSequenceMatrix extends DistComponent {
 		"} ORDER BY ?name";
 
 	public String name;
+	public String id;
 	public double r1;
 	public double x1;
 	public double b1;
@@ -40,6 +42,7 @@ public class DistSequenceMatrix extends DistComponent {
 		if (results.hasNext()) {
 			QuerySolution soln = results.next();
 			name = SafeName (soln.get("?name").toString());
+			id = soln.get("?id").toString();
 			r1 = Double.parseDouble (soln.get("?r1").toString());
 			x1 = Double.parseDouble (soln.get("?x1").toString());
 			b1 = Double.parseDouble (soln.get("?b1").toString());
@@ -88,6 +91,20 @@ public class DistSequenceMatrix extends DistComponent {
 	public String GetGLM() {
 		StringBuilder buf = new StringBuilder ("");
 		AppendPermutation (buf, "ABC", new int[] {1, 2, 3});
+		return buf.toString();
+	}
+
+	public String GetDSS() {
+		StringBuilder buf = new StringBuilder ("new Linecode." + name + " nphases=3 units=mi");
+		DecimalFormat df6 = new DecimalFormat("#0.000000");
+		buf.append (" r1=" + df6.format(gMperMILE * r1));
+		buf.append (" x1=" + df6.format(gMperMILE * x1));
+		buf.append (" c1=" + df6.format(1.0e9 * gMperMILE * b1/ gOMEGA));
+		buf.append (" r0=" + df6.format(gMperMILE * r0));
+		buf.append (" x0=" + df6.format(gMperMILE * x0));
+		buf.append (" c0=" + df6.format(1.0e9 * gMperMILE * b0/ gOMEGA));
+		buf.append ("\n");
+		
 		return buf.toString();
 	}
 

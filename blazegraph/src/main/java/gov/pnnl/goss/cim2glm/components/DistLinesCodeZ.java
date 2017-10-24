@@ -71,11 +71,11 @@ public class DistLinesCodeZ extends DistLineSegment {
 
 	public String GetDSS() {
 		StringBuilder buf = new StringBuilder ("new Line." + name);
-		DecimalFormat df = new DecimalFormat("#0.0");
+		DecimalFormat df3 = new DecimalFormat("#0.000");
 
 		buf.append (" phases=" + Integer.toString(DSSPhaseCount(phases, false)) + 
 								" bus1=" + DSSBusPhases(bus1, phases) + " bus2=" + DSSBusPhases (bus2, phases) + 
-								" length=" + df.format(len * gFTperM) + " linecode=" + lname + " units=ft\n");
+								" length=" + df3.format(len * gFTperM) + " linecode=" + lname + " units=ft\n");
 
 		return buf.toString();
 	}
