@@ -84,7 +84,7 @@ public class DistLoad extends DistComponent {
 			qe = Double.parseDouble (soln.get("?qe").toString());
 		}		
 		dss_load_model = 8;
-		System.out.println (DisplayString());
+//		System.out.println (DisplayString());
 	}
 
 	public String DisplayString() {

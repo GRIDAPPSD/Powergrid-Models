@@ -369,6 +369,24 @@ public class CIMImporter extends Object {
 		LoadXfmrBanks();
 	}
 
+	public boolean CheckMaps() {
+		int nLinks, nNodes;
+
+		if (mapSubstations.size() < 1) {
+			throw new RuntimeException ("no substation source");
+		}
+		nLinks = mapSwitches.size() + mapLinesCodeZ.size() + mapLinesSpacingZ.size() + mapLinesInstanceZ.size() +
+			mapXfmrWindings.size() + mapTanks.size(); // standalone regulators not allowed in CIM
+		if (nLinks < 1) {
+			throw new RuntimeException ("no lines, transformers or switches");
+		}
+		nNodes = mapLoads.size() + mapCapacitors.size(); // TODO - DER
+		if (nLinks < 1) {
+			throw new RuntimeException ("no loads or capacitors");
+		}
+		return true;
+	}
+
 	public void WriteJSONSymbolFile (String fXY) throws FileNotFoundException {
 		PrintWriter out = new PrintWriter (fXY);
 		int count, last;
@@ -1004,6 +1022,7 @@ public class CIMImporter extends Object {
 		String fOut, fXY, fID;
 
 		LoadAllMaps();
+		CheckMaps();
 
 //		PrintAllMaps();
 //		PrintOneMap (mapLoads, "** LOADS");
@@ -1101,8 +1120,12 @@ public class CIMImporter extends Object {
 			++i;
 		}
 		
-		new CIMImporter().start(new HTTPBlazegraphQueryHandler(blazegraphURI), fTarget, fRoot, fSched, load_scale, 
-														bWantSched, bWantZIP, Zcoeff, Icoeff, Pcoeff);
+		try {
+			new CIMImporter().start(new HTTPBlazegraphQueryHandler(blazegraphURI), fTarget, fRoot, fSched, load_scale,
+															bWantSched, bWantZIP, Zcoeff, Icoeff, Pcoeff);
+		} catch (RuntimeException e) {
+			System.out.println ("Can not produce a model: " + e.getMessage());
+		}
 		
 	}
 }
