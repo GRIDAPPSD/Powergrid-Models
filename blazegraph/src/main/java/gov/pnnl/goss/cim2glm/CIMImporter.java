@@ -991,11 +991,11 @@ public class CIMImporter extends Object {
 		out.println ("calcv");
 		out.println ("buscoords " + fXY);
 		out.println ("guids " + fID);
-		out.println ("solve");
+		out.println ("// solve");
 
 		out.println();
-		out.println ("export summary");
-		out.println ("show voltages ln");
+		out.println ("// export summary");
+		out.println ("// show voltages ln");
 
 		out.close();
 		outID.close();
@@ -1125,6 +1125,7 @@ public class CIMImporter extends Object {
 															bWantSched, bWantZIP, Zcoeff, Icoeff, Pcoeff);
 		} catch (RuntimeException e) {
 			System.out.println ("Can not produce a model: " + e.getMessage());
+			e.printStackTrace();
 		}
 		
 	}

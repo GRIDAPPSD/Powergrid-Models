@@ -323,11 +323,10 @@ public class DistRegulator extends DistComponent {
 				buf.append("new RegControl." + rname[i] + " transformer=" + pname + " winding=" + Integer.toString(wnum[i]));
 			}
 			buf.append(" vreg=" + df.format(vset[i]) + " band=" + df.format(vbw[i]) + " ptratio=" + df.format(ptRatio[i]) +
-								 " ctprim=" + df.format(ctRatio[i]) + " r=" + df.format(fwdR[i]) +
+								 " ctprim=" + df.format(ctRating[i]) + " r=" + df.format(fwdR[i]) +
 								 " x=" + df.format(fwdX[i]) + " revr=" + df.format(revR[i]) + " revx=" + df.format(revX[i]) +
 								 " delay=" + df.format(initDelay[i]) + " tapdelay=" + df.format(subDelay[i]) + " vlimit=" + df.format(vlim[i]));
 			// ptphase, enabled
-			// TODO reconcile ctratio and ctrating attributes in CIM
 //			buf.append ("\nedit transformer." + xfName + " wdg=" + Integer.toString(nWdg) + " tap=" + String.format("%6g", dTap));
 			buf.append("\n");
 		}

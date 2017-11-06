@@ -195,10 +195,10 @@ for ifn in glob.glob("base_taxonomy/*.glm"):
 			bus2 = str(row['to'])
 			phsfx = get_phsfx(row['phases'])
 			phqty = str(count_ph(row['phases']))
-			breakerf.write('new line.' + name 		+\
+			breakerf.write('new line.' + name   	+\
 					' bus1=' + bus1 + phsfx 		+\
 					' bus2=' + bus2 + phsfx 		+\
-					' phases=' + phqty 				+\
+					' phases=' + phqty  			+\
 					' switch=y')
 			if row['status'] == 'OPEN':
 				breakerf.write(' enabled=false')
@@ -233,9 +233,9 @@ for ifn in glob.glob("base_taxonomy/*.glm"):
 				kvar += float(row['capacitor_C'])*1000.0
 			kvar = str(kvar)
 			conn = 'wye' # capacitors are always wye in gld
-			capacitorf.write('new capacitor.' + name 	+\
+			capacitorf.write('new capacitor.' + name	+\
 				' bus1=' + bus1 + phsfx 				+\
-				' phases=' + phqty 						+\
+				' phases=' + phqty  					+\
 				' kv=' + kv 							+\
 				' kvar=' + kvar 						+\
 				' conn=wye' 							+\
@@ -277,10 +277,10 @@ for ifn in glob.glob("base_taxonomy/*.glm"):
 			bus2 = str(row['to'])
 			phsfx = get_phsfx(row['phases'])
 			phqty = str(count_ph(row['phases']))
-			switchf.write('new line.' + name 		+\
+			switchf.write('new line.' + name		+\
 					' bus1=' + bus1 + phsfx 		+\
 					' bus2=' + bus2 + phsfx 		+\
-					' phases=' + phqty 				+\
+					' phases=' + phqty  			+\
 					' switch=y')
 			if row['status'] == 'OPEN':
 				switchf.write(' enabled=false')
@@ -512,7 +512,7 @@ for ifn in glob.glob("base_taxonomy/*.glm"):
 	# TRIPLEX LINES
 	# triplex_line_conductor: wire - resistance and gmr defined
 	# triplex_line: linecode - distances defined as follows:
-	# 	distances = 2*diameter/2 + 2*insulation_thickness
+	#   distances = 2*diameter/2 + 2*insulation_thickness
 	#	number and type of conductors is fixed
 	if 'triplex_line_configuration' in model:
 		redirects.append('TpxLineCodes.dss')
@@ -853,10 +853,10 @@ for ifn in glob.glob("base_taxonomy/*.glm"):
 			bus2 = str(row['to'])
 			phsfx = get_phsfx(row['phases'])
 			phqty = str(count_ph(row['phases']))
-			recloserf.write('new line.' + name 		+\
+			recloserf.write('new line.' + name  	+\
 					' bus1=' + bus1 + phsfx 		+\
 					' bus2=' + bus2 + phsfx 		+\
-					' phases=' + phqty 				+\
+					' phases=' + phqty  			+\
 					' switch=y')
 			if row['status'] == 'OPEN':
 				recloserf.write(' enabled=false')
@@ -877,10 +877,10 @@ for ifn in glob.glob("base_taxonomy/*.glm"):
 			bus2 = str(row['to'])
 			phsfx = get_phsfx(row['phases'])
 			phqty = str(count_ph(row['phases']))
-			fusef.write('new line.' + name 		+\
+			fusef.write('new line.' + name  	+\
 					' bus1=' + bus1 + phsfx 		+\
 					' bus2=' + bus2 + phsfx 		+\
-					' phases=' + phqty 				+\
+					' phases=' + phqty  			+\
 					' switch=y')
 			if row['status'] == 'OPEN':
 				fusef.write(' enabled=false')
@@ -890,6 +890,7 @@ for ifn in glob.glob("base_taxonomy/*.glm"):
 
 	
 	# REGULATORS
+	regnum = 0 # we need to assign a bank to each regulator so they can be collected after DSS==>CIM==>GLD
 	if 'regulator' in model:
 		redirects.append('Regulators.dss')
 		regf = open(modeldir+'/Regulators.dss', 'w');
@@ -911,9 +912,12 @@ for ifn in glob.glob("base_taxonomy/*.glm"):
 			mintap = str(1-float(row['regulation']))
 			delay = str(row['time_delay'])
 			ptratio = '1'
+			regnum = regnum + 1
+			regbank = str(regnum)
 			if 'A' in row['phases']:
 				regf.write('new transformer.' + name + '_A'	+\
-						' phases=1'		 					+\
+						' bank=vreg' + regbank  			+\
+						' phases=1' 						+\
 						' kva=100000'						+\
 						' numtaps=' + numtaps				+\
 						' wdg=1'							+\
@@ -933,7 +937,8 @@ for ifn in glob.glob("base_taxonomy/*.glm"):
 						'\n')
 			if 'B' in row['phases']:
 				regf.write('new transformer.' + name + '_B'	+\
-						' phases=1'		 					+\
+						' bank=vreg' + regbank  			+\
+						' phases=1' 						+\
 						' kva=100000'						+\
 						' numtaps=' + numtaps				+\
 						' wdg=1'							+\
@@ -953,7 +958,8 @@ for ifn in glob.glob("base_taxonomy/*.glm"):
 						'\n')
 			if 'C' in row['phases']:
 				regf.write('new transformer.' + name + '_C'	+\
-						' phases=1'		 					+\
+						' bank=vreg' + regbank  			+\
+						' phases=1' 						+\
 						' kva=100000'						+\
 						' numtaps=' + numtaps				+\
 						' wdg=1'							+\
