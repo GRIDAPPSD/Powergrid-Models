@@ -659,13 +659,13 @@ public class CIMImporter extends Object {
 		}
 		for (HashMap.Entry<String,DistRegulator> pair : mapRegulators.entrySet()) {
 			DistRegulator reg = pair.getValue();
-			DistXfmrTank tank = mapTanks.get (reg.rname[0]); // TODO: revisit if GridLAB-D can model un-banked regulator tanks
+			DistXfmrTank tank = mapTanks.get (reg.tname[0]); // TODO: revisit if GridLAB-D can model un-banked regulator tanks
 			DistXfmrCodeRating code = mapCodeRatings.get (tank.tankinfo);
 			out.print (reg.GetGLM (tank));
 			code.glmUsed = false;
 			tank.glmUsed = false;
 			for (int i = 1; i < reg.size; i++) {
-				tank = mapTanks.get (reg.rname[i]);
+				tank = mapTanks.get (reg.tname[i]);
 				code = mapCodeRatings.get (tank.tankinfo);
 				code.glmUsed = false;
 				tank.glmUsed = false;
@@ -1025,7 +1025,7 @@ public class CIMImporter extends Object {
 		CheckMaps();
 
 //		PrintAllMaps();
-//		PrintOneMap (mapLoads, "** LOADS");
+//		PrintOneMap (mapBanks, "** BANKS");
 		if (fTarget.equals("glm")) {
 			fOut = fRoot + "_base.glm";
 			fXY = fRoot + "_symbols.json";

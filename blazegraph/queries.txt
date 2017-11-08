@@ -383,7 +383,7 @@ ORDER BY ?key
 # voltage regulators (attached to transformer tank ends; still need power transformer ends)
 PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX c:  <http://iec.ch/TC57/2012/CIM-schema-cim16#>
-SELECT ?rname ?pname ?wnum ?phs ?incr ?mode ?enabled ?highStep ?lowStep ?neutralStep ?normalStep ?neutralU 
+SELECT ?rname ?pname ?tname ?wnum ?phs ?incr ?mode ?enabled ?highStep ?lowStep ?neutralStep ?normalStep ?neutralU 
  ?step ?initDelay ?subDelay ?ltc ?vlim 
 	?vset ?vbw ?ldc ?fwdR ?fwdX ?revR ?revX ?discrete ?ctl_enabled ?ctlmode ?monphs ?ctRating ?ctRatio ?ptRatio
 WHERE {
@@ -396,6 +396,7 @@ WHERE {
  ?end c:TransformerTankEnd.TransformerTank ?tank.
  ?tank c:TransformerTank.PowerTransformer ?pxf.
  ?pxf c:IdentifiedObject.name ?pname.
+ ?tank c:IdentifiedObject.name ?tname.
  ?rtc c:RatioTapChanger.stepVoltageIncrement ?incr.
  ?rtc c:RatioTapChanger.tculControlMode ?moderaw.
   bind(strafter(str(?moderaw),"TransformerControlMode.") as ?mode)
@@ -430,7 +431,7 @@ WHERE {
  ?inf c:TapChangerInfo.ctRatio ?ctRatio.
  ?inf c:TapChangerInfo.ptRatio ?ptRatio.
 }
-ORDER BY ?pname ?rname ?wnum
+ORDER BY ?pname ?tname ?rname ?wnum
 
 # list the base voltage levels
 PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>

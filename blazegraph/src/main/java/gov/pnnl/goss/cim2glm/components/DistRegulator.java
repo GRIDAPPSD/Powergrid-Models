@@ -15,7 +15,7 @@ import java.util.HashMap;
 
 public class DistRegulator extends DistComponent {
 	public static final String szQUERY =
-		"SELECT ?rname ?pname ?wnum ?phs ?incr ?mode ?enabled ?highStep ?lowStep ?neutralStep"+
+		"SELECT ?rname ?pname ?tname ?wnum ?phs ?incr ?mode ?enabled ?highStep ?lowStep ?neutralStep"+
 		" ?normalStep ?neutralU ?step ?initDelay ?subDelay ?ltc ?vlim"+
 		" ?vset ?vbw ?ldc ?fwdR ?fwdX ?revR ?revX ?discrete ?ctl_enabled ?ctlmode"+
 		" ?monphs ?ctRating ?ctRatio ?ptRatio ?id"+
@@ -29,6 +29,7 @@ public class DistRegulator extends DistComponent {
 		" ?end c:TransformerTankEnd.TransformerTank ?tank."+
 		" ?tank c:TransformerTank.PowerTransformer ?pxf."+
 		" ?pxf c:IdentifiedObject.name ?pname."+
+		" ?tank c:IdentifiedObject.name ?tname."+
 		" ?rtc c:RatioTapChanger.stepVoltageIncrement ?incr."+
 		" ?rtc c:RatioTapChanger.tculControlMode ?moderaw."+
 		"  bind(strafter(str(?moderaw),\"TransformerControlMode.\") as ?mode)"+
@@ -64,7 +65,7 @@ public class DistRegulator extends DistComponent {
 		" ?inf c:TapChangerInfo.ptRatio ?ptRatio."+
 		" bind(strafter(str(?rtc),\"#_\") as ?id)"+
 		"}"+
-		" ORDER BY ?pname ?rname ?wnum";
+		" ORDER BY ?pname ?rname ?tname ?wnum";
 
 	public String pname;
 	public String bankphases;
@@ -76,6 +77,7 @@ public class DistRegulator extends DistComponent {
 	// GridLAB-D codes phs variations into certain attribute labels
 	public String[] phs;
 	// TODO: if any of these vary within the bank, should write separate single-phase instances for GridLAB-D
+	public String[] tname;
 	public String[] rname;
 	public String[] id;
 	public String[] monphs;
@@ -119,6 +121,7 @@ public class DistRegulator extends DistComponent {
 		}
 		phs = new String[size];
 		rname = new String[size];
+		tname = new String[size];
 		id = new String[size];
 		monphs = new String[size];
 		mode = new String[size];
@@ -158,6 +161,7 @@ public class DistRegulator extends DistComponent {
 			for (int i = 0; i < size; i++) {
 				id[i] = soln.get("?id").toString();
 				rname[i] = SafeName (soln.get("?rname").toString());
+				tname[i] = SafeName (soln.get("?tname").toString());
 				phs[i] = soln.get("?phs").toString();
 				monphs[i] = soln.get("?monphs").toString();
 				mode[i] = soln.get("?mode").toString();
@@ -206,6 +210,7 @@ public class DistRegulator extends DistComponent {
 		for (int i = 0; i < size; i++) {
 			buf.append ("\n  " + Integer.toString(i));
 			buf.append (" " + Integer.toString(wnum[i]) + ":" +rname[i] + ":" + phs[i]);
+			buf.append (" tank=" + tname[i]);
 			buf.append (" mode=" + mode[i]);
 			buf.append (" ctlmode=" + ctlmode[i]);
 			buf.append (" monphs=" + monphs[i]);
@@ -240,7 +245,7 @@ public class DistRegulator extends DistComponent {
 	public String GetJSONSymbols(HashMap<String,DistCoordinates> map, HashMap<String,DistXfmrTank> mapTank) {
 		DistCoordinates pt1 = map.get("PowerTransformer:" + pname + ":1");
 		DistCoordinates pt2 = map.get("PowerTransformer:" + pname + ":2");
-		DistXfmrTank xfmr = mapTank.get(rname[0]);
+		DistXfmrTank xfmr = mapTank.get(tname[0]);
 		String bus1 = xfmr.bus[0];
 		String bus2 = xfmr.bus[1];
 
@@ -318,7 +323,7 @@ public class DistRegulator extends DistComponent {
 
 		for (int i = 0; i < size; i++) {
 			if (size > 1) {
-				buf.append("new RegControl." + rname[i] + " transformer=" + rname[i] + " winding=" + Integer.toString(wnum[i]));
+				buf.append("new RegControl." + rname[i] + " transformer=" + tname[i] + " winding=" + Integer.toString(wnum[i]));
 			} else {
 				buf.append("new RegControl." + rname[i] + " transformer=" + pname + " winding=" + Integer.toString(wnum[i]));
 			}
