@@ -48,7 +48,7 @@ casefiles = [['IEEE13',66395.3],
 bp = open (glmpath + 'check_glm.bat', 'w')
 
 for c in casefiles:
-    print('gridlabd', c[0] + '_run.glm', file=bp)
+    print('gridlabd', c[0] + '_run.glm >' + c[0] + '.log 2>&1', file=bp)
 
     fp = open (glmpath + c[0] + '_run.glm', 'w')
 
