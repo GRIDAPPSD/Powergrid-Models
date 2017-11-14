@@ -4,10 +4,7 @@ package gov.pnnl.goss.cim2glm.components;
 //	All rights reserved.
 //	----------------------------------------------------------
 
-// package gov.pnnl.gridlabd.cim;
-
 import java.io.*;
-import java.text.DecimalFormat;
 import java.util.HashMap;
 
 public abstract class DistLineSegment extends DistComponent {
@@ -25,7 +22,6 @@ public abstract class DistLineSegment extends DistComponent {
 	public abstract String LabelString();
 
 	protected void AppendSharedGLMAttributes (StringBuilder buf, String config_root) {
-		DecimalFormat df = new DecimalFormat("#0.0000");
 
 		if (phases.contains ("s")) {
 			bTriplex = true;
@@ -47,7 +43,7 @@ public abstract class DistLineSegment extends DistComponent {
 		if (phases.contains ("N")) phs.append ("N");
 		glm_phases = phs.toString();
 		buf.append ("  phases " + glm_phases + ";\n");
-		buf.append ("  length " + df.format(len * gFTperM) + ";\n");
+		buf.append ("  length " + df4.format(len * gFTperM) + ";\n");
 		if (bTriplex) {
 			buf.append("  configuration \"tcon_" + config_root + "_12\";\n");
 		} else {
@@ -66,14 +62,13 @@ public abstract class DistLineSegment extends DistComponent {
 		if (phases.contains("s")) lbl_phs.append("S");
 		if (lbl_phs.length() < 1) lbl_phs.append("ABC");
 
-		DecimalFormat df = new DecimalFormat("#0.00");
 		StringBuilder buf = new StringBuilder ();
 
 		buf.append ("{\"name\":\"" + name + "\"");
 		buf.append (",\"from\":\"" + bus1 + "\"");
 		buf.append (",\"to\":\"" + bus2 + "\"");
 		buf.append (",\"phases\":\"" + lbl_phs.toString() +"\"");
-		buf.append (",\"length\":" + df.format(len * gFTperM));
+		buf.append (",\"length\":" + df2.format(len * gFTperM));
 		buf.append (",\"configuration\":\"" + LabelString() + "\"");
 		buf.append (",\"x1\":" + Double.toString(pt1.x));
 		buf.append (",\"y1\":" + Double.toString(pt1.y));

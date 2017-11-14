@@ -4,10 +4,7 @@ package gov.pnnl.goss.cim2glm.components;
 //	All rights reserved.
 //	----------------------------------------------------------
 
-// package gov.pnnl.gridlabd.cim;
-
 import org.apache.jena.query.*;
-import java.text.DecimalFormat;
 import java.util.HashMap;
 import org.apache.commons.math3.complex.Complex;
 
@@ -86,20 +83,17 @@ public class DistXfmrCodeRating extends DistComponent {
 	}
 
 	public String DisplayString() {
-		DecimalFormat df = new DecimalFormat("#0.0000");
 		StringBuilder buf = new StringBuilder ("");
 		buf.append (pname + ":" + tname);
 		for (int i = 0; i < size; i++) {
 			buf.append ("\n  wdg=" + Integer.toString(wdg[i]) + " conn=" + conn[i] + " ang=" + Integer.toString(ang[i]));
-			buf.append (" U=" + df.format(ratedU[i]) + " S=" + df.format(ratedS[i]) + " r=" + df.format(r[i]));
+			buf.append (" U=" + df4.format(ratedU[i]) + " S=" + df4.format(ratedS[i]) + " r=" + df4.format(r[i]));
 		}
 		return buf.toString();
 	}
 
 	public String GetGLM (DistXfmrCodeSCTest sct, DistXfmrCodeOCTest oct) {
 		StringBuilder buf = new StringBuilder("object transformer_configuration {\n");
-		DecimalFormat dfv = new DecimalFormat("#0.000");
-		DecimalFormat dfz = new DecimalFormat("#0.000000");
 
 		double rpu = 0.0;
 		double zpu = 0.0;
@@ -126,13 +120,13 @@ public class DistXfmrCodeRating extends DistComponent {
 		buf.append ("  name \"xcon_" + tname + "\";\n");
 		buf.append ("  connect_type " + sConnect + ";\n");
 		if (conn[0].equals("I")) {
-			buf.append ("  primary_voltage " + dfv.format(ratedU[0]) + ";\n");
-			buf.append ("  secondary_voltage " + dfv.format (ratedU[1]) + ";\n");
+			buf.append ("  primary_voltage " + df3.format(ratedU[0]) + ";\n");
+			buf.append ("  secondary_voltage " + df3.format (ratedU[1]) + ";\n");
 		} else {
-			buf.append ("  primary_voltage " + dfv.format(ratedU[0] / Math.sqrt(3.0)) + ";\n");
-			buf.append ("  secondary_voltage " + dfv.format (ratedU[1] / Math.sqrt(3.0)) + ";\n");
+			buf.append ("  primary_voltage " + df3.format(ratedU[0] / Math.sqrt(3.0)) + ";\n");
+			buf.append ("  secondary_voltage " + df3.format (ratedU[1] / Math.sqrt(3.0)) + ";\n");
 		}
-		buf.append ("  power_rating " + dfv.format (ratedS[0] * 0.001) + ";\n");
+		buf.append ("  power_rating " + df3.format (ratedS[0] * 0.001) + ";\n");
 		if (sConnect.equals ("SINGLE_PHASE_CENTER_TAPPED")) {
 			String impedance = CFormat (new Complex (0.5 * rpu, 0.8 * xpu));
 			String impedance1 = CFormat (new Complex (rpu, 0.4 * xpu));
@@ -141,14 +135,14 @@ public class DistXfmrCodeRating extends DistComponent {
 			buf.append ("  impedance1 " + impedance1 + ";\n");
 			buf.append ("  impedance2 " + impedance2 + ";\n");
 		} else {
-			buf.append ("  resistance " + dfz.format(rpu) + ";\n");
-			buf.append ("  reactance " + dfz.format (xpu) + ";\n");
+			buf.append ("  resistance " + df6.format(rpu) + ";\n");
+			buf.append ("  reactance " + df6.format (xpu) + ";\n");
 		}
 		if (oct.iexc > 0.0) {
-			buf.append ("  shunt_reactance " + dfz.format (100.0 / oct.iexc) + ";\n");
+			buf.append ("  shunt_reactance " + df6.format (100.0 / oct.iexc) + ";\n");
 		}
 		if (oct.nll > 0.0) {
-			buf.append ("  shunt_resistance " + dfz.format (ratedS[0] / oct.nll / 1000.0) + ";\n");
+			buf.append ("  shunt_resistance " + df6.format (ratedS[0] / oct.nll / 1000.0) + ";\n");
 		}
 		buf.append("}\n");
 		return buf.toString();
@@ -159,10 +153,6 @@ public class DistXfmrCodeRating extends DistComponent {
 		int phases = 3;
 		double zbase, xpct;
 		int fwdg, twdg, i;
-
-		DecimalFormat df = new DecimalFormat("#0.0");
-		DecimalFormat dfv = new DecimalFormat ("#0.000");
-		DecimalFormat dfz = new DecimalFormat ("#0.000000");
 
 		for (i = 0; i < size; i++) {
 			if (conn[i].contains("I")) {
@@ -179,15 +169,15 @@ public class DistXfmrCodeRating extends DistComponent {
 			zbase = ratedU[fwdg-1] * ratedU[fwdg-1] / ratedS[fwdg-1];
 			xpct = 100.0 * sct.z[i] / zbase; // not accounting for ll
 			if ((fwdg == 1 && twdg == 2) || (fwdg == 2 && twdg == 1)) {
-				buf.append(" xhl=" + dfz.format(xpct));
+				buf.append(" xhl=" + df6.format(xpct));
 			} else if ((fwdg == 1 && twdg == 3) || (fwdg == 3 && twdg == 1)) {
-				buf.append(" xht=" + dfz.format(xpct));
+				buf.append(" xht=" + df6.format(xpct));
 			} else if ((fwdg == 2 && twdg == 3) || (fwdg == 3 && twdg == 2)) {
-				buf.append(" xlt=" + dfz.format(xpct));
+				buf.append(" xlt=" + df6.format(xpct));
 			}
 		}
 		// open circuit test
-		buf.append (" %imag=" + dfv.format(oct.iexc) + " %noloadloss=" + dfv.format(0.001 * oct.nll / ratedS[0]) + "\n");
+		buf.append (" %imag=" + df3.format(oct.iexc) + " %noloadloss=" + df3.format(0.001 * oct.nll / ratedS[0]) + "\n");
 
 		// winding ratings
 		for (i = 0; i < size; i++) {
@@ -198,8 +188,8 @@ public class DistXfmrCodeRating extends DistComponent {
 			}
 			zbase = ratedU[i] * ratedU[i] / ratedS[i];
 			buf.append("~ wdg=" + Integer.toString(i + 1) + " conn=" + DSSConn(bDelta) +
-								 " kv=" + dfv.format(0.001 * ratedU[i]) + " kva=" + df.format(0.001 * ratedS[i]) +
-								 " %r=" + dfz.format(100.0 * r[i] / zbase) + "\n");
+								 " kv=" + df3.format(0.001 * ratedU[i]) + " kva=" + df1.format(0.001 * ratedS[i]) +
+								 " %r=" + df6.format(100.0 * r[i] / zbase) + "\n");
 		}
 		return buf.toString();
 	}

@@ -4,10 +4,7 @@ package gov.pnnl.goss.cim2glm.components;
 //	All rights reserved.
 //	----------------------------------------------------------
 
-// package gov.pnnl.gridlabd.cim;
-
 import org.apache.jena.query.*;
-import java.text.DecimalFormat;
 
 public class DistBaseVoltage extends DistComponent {
 	public static final String szQUERY = "SELECT ?vnom WHERE {"+
@@ -27,9 +24,8 @@ public class DistBaseVoltage extends DistComponent {
 	}
 
 	public String DisplayString() {
-		DecimalFormat df = new DecimalFormat("#0.0000");
 		StringBuilder buf = new StringBuilder ("");
-		buf.append ("vnom=" + df.format(vnom));
+		buf.append ("vnom=" + df4.format(vnom));
 		return buf.toString();
 	}
 
@@ -38,9 +34,8 @@ public class DistBaseVoltage extends DistComponent {
 	}
 
 	public String GetDSS() {
-		DecimalFormat df = new DecimalFormat("#0.000");
 		StringBuilder buf = new StringBuilder ("");
-		buf.append (df.format(0.001 * vnom) + " ");
+		buf.append (df3.format(0.001 * vnom) + " ");
 		return buf.toString();
 	}
 }

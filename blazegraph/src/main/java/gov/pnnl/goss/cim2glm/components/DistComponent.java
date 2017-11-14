@@ -4,11 +4,10 @@ package gov.pnnl.goss.cim2glm.components;
 //	All rights reserved.
 //	----------------------------------------------------------
 
-// package gov.pnnl.gridlabd.cim;
-
 import org.apache.jena.query.*; 
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.commons.math3.complex.Complex;
+import java.text.DecimalFormat;
 
 public abstract class DistComponent {
 	public static final String nsCIM = "http://iec.ch/TC57/2012/CIM-schema-cim16#";
@@ -19,6 +18,14 @@ public abstract class DistComponent {
 	static final double gOMEGA = 377.0;
 	static final double gMperMILE = 1609.344;
 	static final double gFTperM = 3.2809;
+
+	static final DecimalFormat df1 = new DecimalFormat("#0.0");
+	static final DecimalFormat df2 = new DecimalFormat("#0.00");
+	static final DecimalFormat df3 = new DecimalFormat("#0.000");
+	static final DecimalFormat df4 = new DecimalFormat("#0.0000");
+	static final DecimalFormat df5 = new DecimalFormat("#0.00000");
+	static final DecimalFormat df6 = new DecimalFormat("#0.000000");
+	static final DecimalFormat df12 = new DecimalFormat("#0.000000000000");
 
 //	public static ResultSet RunQuery (String szQuery) {
 //		String qPrefix = "PREFIX r: <" + nsRDF + "> PREFIX c: <" + nsCIM + "> PREFIX xsd:<" + nsXSD + "> ";

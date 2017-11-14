@@ -4,10 +4,7 @@ package gov.pnnl.goss.cim2glm.components;
 //	All rights reserved.
 //	----------------------------------------------------------
 
-// package gov.pnnl.gridlabd.cim;
-
 import org.apache.jena.query.*;
-import java.text.DecimalFormat;
 
 public class DistConcentricNeutralCable extends DistCable {
 	public static final String szQUERY = 
@@ -77,20 +74,18 @@ public class DistConcentricNeutralCable extends DistCable {
 	}
 
 	public String DisplayString() {
-		DecimalFormat df = new DecimalFormat("#0.000000");
 		StringBuilder buf = new StringBuilder ("");
 		AppendCableDisplay (buf);
-		buf.append (" dneut=" + df.format(dneut) + " strand_cnt=" + Integer.toString(strand_cnt));
-		buf.append (" strand_gmr=" + df.format(strand_gmr) + " strand_rad=" + df.format(strand_rad) + " strand_rdc=" + df.format(strand_rdc));
+		buf.append (" dneut=" + df6.format(dneut) + " strand_cnt=" + Integer.toString(strand_cnt));
+		buf.append (" strand_gmr=" + df6.format(strand_gmr) + " strand_rad=" + df6.format(strand_rad) + " strand_rdc=" + df6.format(strand_rdc));
 		return buf.toString();
 	}
 
 	public String GetDSS() {
 		StringBuilder buf = new StringBuilder ("new CNData.");
 		AppendDSSCableAttributes (buf);
-		DecimalFormat df = new DecimalFormat("#0.000000");
-		buf.append ("\n~ k=" + Integer.toString(strand_cnt) + " GmrStrand=" + df.format(strand_gmr) +
-								" DiaStrand=" + df.format(2.0 * strand_rad) + " Rstrand=" + df.format(strand_rdc));
+		buf.append ("\n~ k=" + Integer.toString(strand_cnt) + " GmrStrand=" + df6.format(strand_gmr) +
+								" DiaStrand=" + df6.format(2.0 * strand_rad) + " Rstrand=" + df6.format(strand_rdc));
 		buf.append ("\n");
 		return buf.toString();
 	}

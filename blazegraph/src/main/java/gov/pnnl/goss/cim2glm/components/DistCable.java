@@ -4,10 +4,7 @@ package gov.pnnl.goss.cim2glm.components;
 //	All rights reserved.
 //	----------------------------------------------------------
 
-// package gov.pnnl.gridlabd.cim;
-
 import java.io.*;
-import java.text.DecimalFormat;
 import java.util.HashMap;
 
 public abstract class DistCable extends DistWire {
@@ -19,18 +16,15 @@ public abstract class DistCable extends DistWire {
 
 	protected void AppendCableDisplay (StringBuilder buf) {
 		AppendWireDisplay (buf);
-		DecimalFormat df = new DecimalFormat("#0.000000");
-		buf.append (" dcore=" + df.format(dcore) + " djacket=" + df.format(djacket) + " dins=" + df.format(dins)); 
-		buf.append (" dscreen=" + df.format(dscreen) + " sheathNeutral=" + Boolean.toString(sheathNeutral)); 
+		buf.append (" dcore=" + df6.format(dcore) + " djacket=" + df6.format(djacket) + " dins=" + df6.format(dins)); 
+		buf.append (" dscreen=" + df6.format(dscreen) + " sheathNeutral=" + Boolean.toString(sheathNeutral)); 
 	}
 
 	protected void AppendDSSCableAttributes (StringBuilder buf) {
 		AppendDSSWireAttributes (buf);
 		double dEps = 2.3; // TODO - should be a setting
-		DecimalFormat df = new DecimalFormat("#0.000000");
-		DecimalFormat dfEps = new DecimalFormat("#0.00");
-		buf.append ("\n~ EpsR=" + df.format(dEps) + " Ins=" + df.format(insthick) +
-								" DiaIns=" + df.format(dins) + " DiaCable=" + df.format(djacket));
+		buf.append ("\n~ EpsR=" + df2.format(dEps) + " Ins=" + df6.format(insthick) +
+								" DiaIns=" + df6.format(dins) + " DiaCable=" + df6.format(djacket));
 	}
 }
 

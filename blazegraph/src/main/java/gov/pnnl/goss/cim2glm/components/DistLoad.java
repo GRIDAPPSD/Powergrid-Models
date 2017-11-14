@@ -4,10 +4,7 @@ package gov.pnnl.goss.cim2glm.components;
 //	All rights reserved.
 //	----------------------------------------------------------
 
-// package gov.pnnl.gridlabd.cim;
-
 import org.apache.jena.query.*;
-import java.text.DecimalFormat;
 
 public class DistLoad extends DistComponent {
 	public static final String szQUERY = 
@@ -88,13 +85,12 @@ public class DistLoad extends DistComponent {
 	}
 
 	public String DisplayString() {
-		DecimalFormat df = new DecimalFormat("#0.0000");
 		StringBuilder buf = new StringBuilder ("");
-		buf.append (name + " @ " + bus + " basev=" + df.format (basev) + " phases=" + phases + " conn=" + conn);
-		buf.append (" kw=" + df.format(p) + " kvar=" + df.format(q));
-		buf.append (" Real ZIP=" + df.format(pz) + ":" + df.format(pi) + ":" + df.format(pp));
-		buf.append (" Reactive ZIP=" + df.format(qz) + ":" + df.format(qi) + ":" + df.format(qp));
-		buf.append (" Exponents=" + df.format(pe) + ":" + df.format(qe));
+		buf.append (name + " @ " + bus + " basev=" + df4.format (basev) + " phases=" + phases + " conn=" + conn);
+		buf.append (" kw=" + df4.format(p) + " kvar=" + df4.format(q));
+		buf.append (" Real ZIP=" + df4.format(pz) + ":" + df4.format(pi) + ":" + df4.format(pp));
+		buf.append (" Reactive ZIP=" + df4.format(qz) + ":" + df4.format(qi) + ":" + df4.format(qp));
+		buf.append (" Exponents=" + df4.format(pe) + ":" + df4.format(qe));
 		return buf.toString();
 	}
 
@@ -128,14 +124,12 @@ public class DistLoad extends DistComponent {
 	}
 
 	private String GetZIPV() {
-		DecimalFormat df = new DecimalFormat("#0.0000");
-		return "[" + df.format(pz) + "," + df.format(pi) + "," + df.format(pp) + "," + df.format(qz)
-		 + "," + df.format(qi) + "," + df.format(pp) + ",0.8]";
+		return "[" + df4.format(pz) + "," + df4.format(pi) + "," + df4.format(pp) + "," + df4.format(qz)
+		 + "," + df4.format(qi) + "," + df4.format(pp) + ",0.8]";
 	}
 
 	public String GetDSS() {
 		StringBuilder buf = new StringBuilder ("new Load." + name);
-		DecimalFormat df = new DecimalFormat("#0.000");
 
 		SetDSSLoadModel();
 		int nphases = DSSPhaseCount(phases, bDelta);
@@ -145,8 +139,8 @@ public class DistLoad extends DistComponent {
 		}
 
 		buf.append (" phases=" + Integer.toString(nphases) + " bus1=" + DSSShuntPhases (bus, phases, bDelta) + 
-								" conn=" + DSSConn(bDelta) + " kw=" + df.format(p) + " kvar=" + df.format(q) +
-								" numcust=1 kv=" + df.format(kv) + " model=" + Integer.toString(dss_load_model));
+								" conn=" + DSSConn(bDelta) + " kw=" + df3.format(p) + " kvar=" + df3.format(q) +
+								" numcust=1 kv=" + df3.format(kv) + " model=" + Integer.toString(dss_load_model));
 		if (dss_load_model == 8) {
 			buf.append (" zipv=" + GetZIPV());
 		}

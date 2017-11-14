@@ -4,10 +4,7 @@ package gov.pnnl.goss.cim2glm.components;
 //	All rights reserved.
 //	----------------------------------------------------------
 
-// package gov.pnnl.gridlabd.cim;
-
 import org.apache.jena.query.*;
-import java.text.DecimalFormat;
 
 public class DistLineSpacing extends DistComponent {
 	public static final String szQUERY = 
@@ -61,10 +58,9 @@ public class DistLineSpacing extends DistComponent {
 	}
 
 	public String DisplayString() {
-		DecimalFormat df = new DecimalFormat("#0.0000");
 		StringBuilder buf = new StringBuilder ("");
 		buf.append (name + " nwires=" + Integer.toString(nwires) + " cable=" + Boolean.toString(cable) + " usage=" + usage); 
-		buf.append (" b_cnt=" + Integer.toString(b_cnt) + " b_sep=" + df.format(b_sep));
+		buf.append (" b_cnt=" + Integer.toString(b_cnt) + " b_sep=" + df4.format(b_sep));
 		for (int i = 0; i < nwires; i++) {
 				buf.append ("\n  phs=" + phases[i] + " x=" + xarray[i] + " y=" + yarray[i]);
 		}
@@ -80,7 +76,6 @@ public class DistLineSpacing extends DistComponent {
 
 		StringBuilder buf = new StringBuilder("new LineSpacing." + name + " nconds=" + Integer.toString(nwires) +
 																					 " nphases=" + Integer.toString(nphases) + " units=m\n");
-		DecimalFormat df = new DecimalFormat("#0.000");
 		buf.append ("~ x=[");
 		for (i = 0; i < nwires; i++) {
 			buf.append (xarray[i]);

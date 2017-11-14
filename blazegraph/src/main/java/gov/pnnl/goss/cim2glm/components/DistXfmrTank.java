@@ -4,10 +4,7 @@ package gov.pnnl.goss.cim2glm.components;
 //	All rights reserved.
 //	----------------------------------------------------------
 
-// package gov.pnnl.gridlabd.cim;
-
 import org.apache.jena.query.*;
-import java.text.DecimalFormat;
 import java.util.HashMap;
 
 public class DistXfmrTank extends DistComponent {
@@ -100,12 +97,11 @@ public class DistXfmrTank extends DistComponent {
 	}
 
 	public String DisplayString() {
-		DecimalFormat df = new DecimalFormat("#0.0000");
 		StringBuilder buf = new StringBuilder ("");
 		buf.append ("pname=" + pname + " vgrp=" + vgrp + " tname=" + tname + " tankinfo=" + tankinfo);
 		for (int i = 0; i < size; i++) {
-			buf.append ("\n  " + Integer.toString(wdg[i]) + " bus=" + bus[i] + " basev=" + df.format(basev[i]) + " phs=" + phs[i]);
-			buf.append (" grounded=" + Boolean.toString(grounded[i]) + " rg=" + df.format(rg[i]) + " xg=" + df.format(xg[i]));
+			buf.append ("\n  " + Integer.toString(wdg[i]) + " bus=" + bus[i] + " basev=" + df4.format(basev[i]) + " phs=" + phs[i]);
+			buf.append (" grounded=" + Boolean.toString(grounded[i]) + " rg=" + df4.format(rg[i]) + " xg=" + df4.format(xg[i]));
 		}
 		return buf.toString();
 	}
@@ -120,7 +116,6 @@ public class DistXfmrTank extends DistComponent {
 			lbl_phs.append(phs[i]);
 		}
 
-//		DecimalFormat df = new DecimalFormat("#0.00");
 		StringBuilder buf = new StringBuilder ();
 
 		buf.append ("{\"name\":\"" + pname + "\"");

@@ -4,7 +4,6 @@ package gov.pnnl.goss.cim2glm;
 //	All rights reserved.
 //	----------------------------------------------------------
 
-// package gov.pnnl.gridlabd.cim;
 import java.text.DecimalFormat;
 import org.apache.commons.math3.complex.Complex;
 
@@ -302,14 +301,14 @@ public class GldNode {
 
 	public String GetGLM (double load_scale, boolean bWantSched, String fSched, boolean bWantZIP, double Zcoeff, double Icoeff, double Pcoeff) {
 		StringBuilder buf = new StringBuilder();
-		DecimalFormat df = new DecimalFormat("#0.00");
+		DecimalFormat df2 = new DecimalFormat("#0.00");
 
 		if (bSwing) {
 			buf.append ("object substation {\n");
 			buf.append ("  name \"" + name + "\";\n");
 			buf.append ("  bustype SWING;\n");
 			buf.append ("  phases " + GetPhases() + ";\n");
-			buf.append ("  nominal_voltage " + df.format(nomvln) + ";\n");
+			buf.append ("  nominal_voltage " + df2.format(nomvln) + ";\n");
 			buf.append ("  base_power 12MVA;\n");
 			buf.append ("  power_convergence_value 100VA;\n");
 			buf.append ("  positive_sequence_voltage ${VSOURCE};\n");
@@ -329,52 +328,52 @@ public class GldNode {
 				buf.append ("object triplex_load {\n");
 				buf.append ("  name \"" + name + "\";\n");
 				buf.append ("  phases " + GetPhases() + ";\n");
-				buf.append ("  nominal_voltage " + df.format(nomvln) + ";\n");
+				buf.append ("  nominal_voltage " + df2.format(nomvln) + ";\n");
 				Complex base1 = new Complex (pa_z + pa_i + pa_p, qa_z + qa_i + qa_p);
 				Complex base2 = new Complex (pb_z + pb_i + pb_p, qb_z + qb_i + qb_p);
 				if (bWantSched) {
-					buf.append ("  base_power_1 " + fSched + ".value*" + df.format(base1.abs()) + ";\n");
-					buf.append ("  base_power_2 " + fSched + ".value*" + df.format(base2.abs()) + ";\n");
+					buf.append ("  base_power_1 " + fSched + ".value*" + df2.format(base1.abs()) + ";\n");
+					buf.append ("  base_power_2 " + fSched + ".value*" + df2.format(base2.abs()) + ";\n");
 				} else {
-					buf.append ("  base_power_1 " + df.format(base1.abs()) + ";\n");
-					buf.append ("  base_power_2 " + df.format(base2.abs()) + ";\n");
+					buf.append ("  base_power_1 " + df2.format(base1.abs()) + ";\n");
+					buf.append ("  base_power_2 " + df2.format(base2.abs()) + ";\n");
 				}
 				if (pa_p > 0.0) {
 					Complex base = new Complex(pa_p, qa_p);
-					buf.append ("  power_pf_1 " + df.format(pa_p / base.abs()) + ";\n");
-					buf.append ("  power_fraction_1 " + df.format(pa_p / base1.getReal()) + ";\n");
+					buf.append ("  power_pf_1 " + df2.format(pa_p / base.abs()) + ";\n");
+					buf.append ("  power_fraction_1 " + df2.format(pa_p / base1.getReal()) + ";\n");
 				}
 				if (pb_p > 0.0) {
 					Complex base = new Complex(pb_p, qb_p);
-					buf.append ("  power_pf_2 " + df.format(pb_p / base.abs()) + ";\n");
-					buf.append ("  power_fraction_2 " + df.format(pb_p / base2.getReal()) + ";\n");
+					buf.append ("  power_pf_2 " + df2.format(pb_p / base.abs()) + ";\n");
+					buf.append ("  power_fraction_2 " + df2.format(pb_p / base2.getReal()) + ";\n");
 				}
 				if (pa_i > 0.0) {
 					Complex base = new Complex(pa_i, qa_i);
-					buf.append ("  current_pf_1 " + df.format(pa_i / base.abs()) + ";\n");
-					buf.append ("  current_fraction_1 " + df.format(pa_i / base1.getReal()) + ";\n");
+					buf.append ("  current_pf_1 " + df2.format(pa_i / base.abs()) + ";\n");
+					buf.append ("  current_fraction_1 " + df2.format(pa_i / base1.getReal()) + ";\n");
 				}
 				if (pb_i > 0.0) {
 					Complex base = new Complex(pb_i, qb_i);
-					buf.append ("  current_pf_2 " + df.format(pb_i / base.abs()) + ";\n");
-					buf.append ("  current_fraction_2 " + df.format(pb_i / base2.getReal()) + ";\n");
+					buf.append ("  current_pf_2 " + df2.format(pb_i / base.abs()) + ";\n");
+					buf.append ("  current_fraction_2 " + df2.format(pb_i / base2.getReal()) + ";\n");
 				}
 				if (pa_z > 0.0) {
 					Complex base = new Complex(pa_z, qa_z);
-					buf.append ("  impedance_pf_1 " + df.format(pa_z / base.abs()) + ";\n");
-					buf.append ("  impedance_fraction_1 " + df.format(pa_z / base1.getReal()) + ";\n");
+					buf.append ("  impedance_pf_1 " + df2.format(pa_z / base.abs()) + ";\n");
+					buf.append ("  impedance_fraction_1 " + df2.format(pa_z / base1.getReal()) + ";\n");
 				}
 				if (pb_z > 0.0) {
 					Complex base = new Complex(pb_z, qb_z);
-					buf.append ("  impedance_pf_2 " + df.format(pb_z / base.abs()) + ";\n");
-					buf.append ("  impedance_fraction_2 " + df.format(pb_z / base2.getReal()) + ";\n");
+					buf.append ("  impedance_pf_2 " + df2.format(pb_z / base.abs()) + ";\n");
+					buf.append ("  impedance_fraction_2 " + df2.format(pb_z / base2.getReal()) + ";\n");
 				}
 				buf.append ("}\n");
 			} else {
 				buf.append ("object load {\n");
 				buf.append ("  name \"" + name + "\";\n");
 				buf.append ("  phases " + GetPhases() + ";\n");
-				buf.append ("  nominal_voltage " + df.format(nomvln) + ";\n");
+				buf.append ("  nominal_voltage " + df2.format(nomvln) + ";\n");
 				if (pa_p > 0.0 || qa_p != 0.0)	{
 					buf.append ("  constant_power_A " + CFormat(new Complex(pa_p, qa_p)) + ";\n");
 				}
@@ -424,7 +423,7 @@ public class GldNode {
 			}
 			buf.append ("  name \"" + name + "\";\n");
 			buf.append ("  phases " + GetPhases() + ";\n");
-			buf.append ("  nominal_voltage " + df.format(nomvln) + ";\n");
+			buf.append ("  nominal_voltage " + df2.format(nomvln) + ";\n");
 			buf.append ("}\n");
 		}
 		return buf.toString();

@@ -4,10 +4,7 @@ package gov.pnnl.goss.cim2glm.components;
 //	All rights reserved.
 //	----------------------------------------------------------
 
-// package gov.pnnl.gridlabd.cim;
-
 import org.apache.jena.query.*;
-import java.text.DecimalFormat;
 import java.util.HashMap;
 
 public class DistSwitch extends DistComponent {
@@ -52,9 +49,8 @@ public class DistSwitch extends DistComponent {
 	}
 
 	public String DisplayString() {
-		DecimalFormat df = new DecimalFormat("#0.00");
 		StringBuilder buf = new StringBuilder ("");
-		buf.append (name + " from " + bus1 + " to " + bus2 + " basev=" + df.format(basev) + " phases=" + phases + " open=" + Boolean.toString (open));
+		buf.append (name + " from " + bus1 + " to " + bus2 + " basev=" + df2.format(basev) + " phases=" + phases + " open=" + Boolean.toString (open));
 		return buf.toString();
 	}
 
@@ -87,7 +83,6 @@ public class DistSwitch extends DistComponent {
 		if (phases.contains("s")) lbl_phs.append("S");
 		if (lbl_phs.length() < 1) lbl_phs.append("ABC");
 
-		DecimalFormat df = new DecimalFormat("#0.00");
 		StringBuilder buf = new StringBuilder ();
 
 		buf.append ("{\"name\":\"" + name + "\"");

@@ -4,10 +4,7 @@ package gov.pnnl.goss.cim2glm.components;
 //	All rights reserved.
 //	----------------------------------------------------------
 
-// package gov.pnnl.gridlabd.cim;
-
 import org.apache.jena.query.*;
-import java.text.DecimalFormat;
 
 public class DistXfmrCodeOCTest extends DistComponent {
 	public static final String szQUERY = 
@@ -38,9 +35,8 @@ public class DistXfmrCodeOCTest extends DistComponent {
 	}
 
 	public String DisplayString() {
-		DecimalFormat df = new DecimalFormat("#0.0000");
 		StringBuilder buf = new StringBuilder ("");
-		buf.append (pname + ":" + tname + " NLL=" + df.format(nll) + " iexc=" + df.format(iexc));
+		buf.append (pname + ":" + tname + " NLL=" + df4.format(nll) + " iexc=" + df4.format(iexc));
 		return buf.toString();
 	}
 

@@ -4,10 +4,7 @@ package gov.pnnl.goss.cim2glm.components;
 //	All rights reserved.
 //	----------------------------------------------------------
 
-// package gov.pnnl.gridlabd.cim;
-
 import org.apache.jena.query.*;
-import java.text.DecimalFormat;
 import java.util.HashMap;
 
 public class DistSubstation extends DistComponent {
@@ -60,28 +57,26 @@ public class DistSubstation extends DistComponent {
 	}
 
 	public String DisplayString() {
-		DecimalFormat df = new DecimalFormat("#0.0000");
 		StringBuilder buf = new StringBuilder ("");
-		buf.append (name + " @ " + bus + " basev=" + df.format(basev) + " nomv=" + df.format(nomv));
-		buf.append (" vmag=" + df.format(vmag));
-		buf.append (" vang=" + df.format(vang));
-		buf.append (" r1=" + df.format(r1));
-		buf.append (" x1=" + df.format(x1));
-		buf.append (" r0=" + df.format(r0));
-		buf.append (" x0=" + df.format(x0));
+		buf.append (name + " @ " + bus + " basev=" + df4.format(basev) + " nomv=" + df4.format(nomv));
+		buf.append (" vmag=" + df4.format(vmag));
+		buf.append (" vang=" + df4.format(vang));
+		buf.append (" r1=" + df4.format(r1));
+		buf.append (" x1=" + df4.format(x1));
+		buf.append (" r0=" + df4.format(r0));
+		buf.append (" x0=" + df4.format(x0));
 		return buf.toString();
 	}
 
 	public String GetJSONSymbols(HashMap<String,DistCoordinates> map) {
 		DistCoordinates pt = map.get("EnergySource:" + name + ":1");
 
-		DecimalFormat df = new DecimalFormat("#0.0");
 		StringBuilder buf = new StringBuilder ();
 
 		buf.append ("{\"name\":\"" + name +"\"");
 		buf.append (",\"bus\":\"" + bus +"\"");
 		buf.append (",\"phases\":\"ABC\"");
-		buf.append (",\"nominal_voltage\":" + df.format(nomv / Math.sqrt(3.0)));
+		buf.append (",\"nominal_voltage\":" + df1.format(nomv / Math.sqrt(3.0)));
 		buf.append (",\"x1\":" + Double.toString(pt.x));
 		buf.append (",\"y1\":" + Double.toString(pt.y));
 		buf.append ("}");
@@ -89,13 +84,11 @@ public class DistSubstation extends DistComponent {
 	}
 
 	public String GetDSS() {
-		DecimalFormat df = new DecimalFormat("#0.00000");
-		DecimalFormat dfv = new DecimalFormat("#0.000");
 		StringBuilder buf = new StringBuilder ("new Circuit." + name);
 
-		buf.append (" phases=3 bus1=" + bus + " basekv=" + dfv.format(0.001 * nomv) + " pu=" + df.format(vmag/nomv) +
-								" angle=" + df.format(vang * 180.0 / Math.PI) + " r0=" + df.format(r0) + 
-								" x0=" + df.format(x0) + " r1=" + df.format(r1) + " x1=" + df.format(x1));
+		buf.append (" phases=3 bus1=" + bus + " basekv=" + df3.format(0.001 * nomv) + " pu=" + df5.format(vmag/nomv) +
+								" angle=" + df5.format(vang * 180.0 / Math.PI) + " r0=" + df5.format(r0) + 
+								" x0=" + df5.format(x0) + " r1=" + df5.format(r1) + " x1=" + df5.format(x1));
 		buf.append("\n");
 
 		return buf.toString();

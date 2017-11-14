@@ -4,10 +4,7 @@ package gov.pnnl.goss.cim2glm.components;
 //	All rights reserved.
 //	----------------------------------------------------------
 
-// package gov.pnnl.gridlabd.cim;
-
 import org.apache.jena.query.*;
-import java.text.DecimalFormat;
 
 public class DistLinesCodeZ extends DistLineSegment {
 	public static final String szQUERY =
@@ -49,9 +46,8 @@ public class DistLinesCodeZ extends DistLineSegment {
 	}
 
 	public String DisplayString() {
-		DecimalFormat df = new DecimalFormat("#0.0000");
 		StringBuilder buf = new StringBuilder ("");
-		buf.append (name + " from " + bus1 + " to " + bus2 + " phases=" + phases + " basev=" + df.format(basev) + " len=" + df.format(len)  + " linecode=" + lname);
+		buf.append (name + " from " + bus1 + " to " + bus2 + " phases=" + phases + " basev=" + df4.format(basev) + " len=" + df4.format(len)  + " linecode=" + lname);
 		return buf.toString();
 	}
 
@@ -71,7 +67,6 @@ public class DistLinesCodeZ extends DistLineSegment {
 
 	public String GetDSS() {
 		StringBuilder buf = new StringBuilder ("new Line." + name);
-		DecimalFormat df3 = new DecimalFormat("#0.000");
 
 		buf.append (" phases=" + Integer.toString(DSSPhaseCount(phases, false)) + 
 								" bus1=" + DSSBusPhases(bus1, phases) + " bus2=" + DSSBusPhases (bus2, phases) + 

@@ -4,10 +4,7 @@ package gov.pnnl.goss.cim2glm.components;
 //	All rights reserved.
 //	----------------------------------------------------------
 
-// package gov.pnnl.gridlabd.cim;
-
 import org.apache.jena.query.*;
-import java.text.DecimalFormat;
 
 public class DistTapeShieldCable extends DistCable {
 	public static final String szQUERY = 
@@ -68,8 +65,6 @@ public class DistTapeShieldCable extends DistCable {
 	}
 
 	public String DisplayString() {
-		DecimalFormat df6 = new DecimalFormat("#0.000000");
-		DecimalFormat df2 = new DecimalFormat("#0.00");
 		StringBuilder buf = new StringBuilder ("");
 		AppendCableDisplay (buf);
 		buf.append (" tlap=" + df2.format(tlap) + " tthick=" + df6.format(tthick));
@@ -79,10 +74,8 @@ public class DistTapeShieldCable extends DistCable {
 	public String GetDSS() {
 		StringBuilder buf = new StringBuilder ("new TSData.");
 		AppendDSSCableAttributes (buf);
-		DecimalFormat df = new DecimalFormat("#0.000000");
-		DecimalFormat dfpct = new DecimalFormat("#0.000");
-		buf.append ("\n~ DiaShield=" + df.format(dscreen + 2.0 * tthick) + " tapeLayer=" + df.format(tthick) +
-								" tapeLap=" + dfpct.format(tlap));
+		buf.append ("\n~ DiaShield=" + df6.format(dscreen + 2.0 * tthick) + " tapeLayer=" + df6.format(tthick) +
+								" tapeLap=" + df3.format(tlap));
 		buf.append ("\n");
 		return buf.toString();
 	}

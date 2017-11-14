@@ -4,10 +4,7 @@ package gov.pnnl.goss.cim2glm.components;
 //	All rights reserved.
 //	----------------------------------------------------------
 
-// package gov.pnnl.gridlabd.cim;
-
 import org.apache.jena.query.*;
-import java.text.DecimalFormat;
 
 public class DistLinesSpacingZ extends DistLineSegment {
 	public static final String szQUERY =
@@ -102,10 +99,9 @@ public class DistLinesSpacingZ extends DistLineSegment {
 	}
 
 	public String DisplayString() {
-		DecimalFormat df = new DecimalFormat("#0.0000");
 		StringBuilder buf = new StringBuilder ("");
 		buf.append (name + " from " + bus1 + " to " + bus2 + 
-								" basev=" + df.format(basev) + " len=" + df.format(len) + " spacing=" + spacing);
+								" basev=" + df4.format(basev) + " len=" + df4.format(len) + " spacing=" + spacing);
 		buf.append (" wname=" + wname + "wclass=" + wclass);
 		for (int i = 0; i < nwires; i++) {
 			buf.append ("\n  phs=" + wire_phases[i] + " wire=" + wire_names[i] + " class=" + wire_classes[i]);
@@ -129,12 +125,11 @@ public class DistLinesSpacingZ extends DistLineSegment {
 
 	public String GetDSS() {
 		StringBuilder buf = new StringBuilder ("new Line." + name);
-		DecimalFormat df = new DecimalFormat("#0.0");
 		boolean bCable = false;
 
 		buf.append (" phases=" + Integer.toString(DSSPhaseCount(phases, false)) + 
 								" bus1=" + DSSBusPhases(bus1, phases) + " bus2=" + DSSBusPhases (bus2, phases) + 
-								" length=" + df.format(len * gFTperM) + " spacing=" + spacing + " units=ft\n");
+								" length=" + df1.format(len * gFTperM) + " spacing=" + spacing + " units=ft\n");
 		if (wclass.equals("OverheadWireInfo")) {
 			buf.append ("~ wires=[");
 		} else if (wclass.equals("ConcentricNeutralCableInfo")) {

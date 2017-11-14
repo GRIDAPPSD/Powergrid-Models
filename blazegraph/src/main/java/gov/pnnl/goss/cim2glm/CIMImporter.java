@@ -4,8 +4,6 @@ package gov.pnnl.goss.cim2glm;
 //      		All rights reserved.
 //      		----------------------------------------------------------
 
-// package gov.pnnl.gridlabd.cim ;
-
 import java.io.*;
 import java.util.HashMap;
 import java.util.SortedSet;
