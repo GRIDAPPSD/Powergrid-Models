@@ -1,8 +1,6 @@
 """
 """
 import re
-import glob
-import os
 import math
 import sys
 import matplotlib.pyplot as plt
@@ -170,9 +168,9 @@ for t in model:
 for t in model:
 	if is_node_class(t):
 		for o in model[t]:
-			if o in G.nodes:
-				G.nodes[o]['nclass'] = t
-				G.nodes[o]['ndata'] = model[t][o]
+			if o in G.nodes():
+				G.nodes()[o]['nclass'] = t
+				G.nodes()[o]['ndata'] = model[t][o]
 			else:
 				print('orphaned node', t, o)
 
@@ -184,8 +182,8 @@ for n1, n2, data in G.edges(data=True):
 	if 'eclass' in data:
 		print(n1, n2, data['eclass'], data['edata'])
 
-#nx.draw(G, node_size=1)
-#plt.show()
+nx.draw(G, node_size=1)
+plt.show()
 
 sub_graphs = nx.connected_component_subgraphs(G)
 for sg in sub_graphs:
@@ -194,4 +192,4 @@ for sg in sub_graphs:
 		print(sg.nodes)
 		print(sg.edges)
 
-nx.drawing.nx_agraph.write_dot(G, 'sample.dot')
+#nx.drawing.nx_agraph.write_dot(G, 'sample.dot')
