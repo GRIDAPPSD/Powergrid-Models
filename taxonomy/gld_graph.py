@@ -193,3 +193,4 @@ for sg in sub_graphs:
 		print(sg.edges)
 
 #nx.drawing.nx_agraph.write_dot(G, 'sample.dot')
+print (nx.shortest_path(G, 'R3-12-47-2_load_62', 'R3-12-47-2_node_267'))
