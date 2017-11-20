@@ -2,7 +2,7 @@ import sys;
 import re;
 import os.path;
 
-glmpath = 'c:\\gridapps-d\\powergrid-models\\taxonomy\\base_taxonomy\\'
+glmpath = 'base_taxonomy\\'
 
 max208kva = 100.0
 
@@ -59,32 +59,39 @@ def obj(parent,model,line,itr,oidh,octr):
     if parent is not None:
         params['parent'] = parent
     while not oend:
-        m = re.match('\s*(\S+) ([^;\s]+)[;\s]',line)
+        m = re.match('\s*(\S+) ([^;{]+)[;{]',line)
         if m:
             # found a parameter
             param = m.group(1)
             val = m.group(2)
+            intobj = 0
             if param == 'name':
                 print('found oname from', param, val)
                 oname = val
             elif param == 'object':
                 # found a nested object
                 print('found nested object from', param, val)
+                intobj += 1
                 if oname is None:
                     print('ERROR: nested object defined before parent name')
                     quit()
                 line,octr = obj(oname,model,line,itr,oidh,octr)
-            elif val == 'object':
+            elif re.match('object',val):
                 # found an inline object
                 print('found inline object from', param, val)
+                intobj += 1
                 line,octr = obj(None,model,line,itr,oidh,octr)
                 params[param] = 'OBJECT_'+str(octr)
             else:
                 print('found param from', param, val)
                 params[param] = val
         if re.search('}',line):
-            print('found end')
-            oend = 1
+            if intobj:
+                intobj -= 1
+                line = next(itr)
+            else:
+                print('found end')
+                oend = 1
         else:
             line = next(itr)
             print('processing', line)
@@ -131,6 +138,13 @@ for c in casefiles:
             else:
                 print (line, file=op)
         op.close()
+
+
+
+
+
+
+
 
         for t in model:
             print(t+':')

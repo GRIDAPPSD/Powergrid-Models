@@ -60,28 +60,36 @@ def obj(parent,model,line,itr,oidh,octr):
 	params = {}
 	if parent is not None:
 		params['parent'] = parent
+		# print('nested '+type)
 	while not oend:
-		m = re.match('\s*(\S+) ([^;\s]+)[;\s]',line)
+		m = re.match('\s*(\S+) ([^;{]+)[;{]',line)
 		if m:
 			# found a parameter
 			param = m.group(1)
 			val = m.group(2)
+			intobj = 0
 			if param == 'name':
 				oname = val
 			elif param == 'object':
 				# found a nested object
+				intobj += 1
 				if oname is None:
 					print('ERROR: nested object defined before parent name')
 					quit()
 				line,octr = obj(oname,model,line,itr,oidh,octr)
-			elif val == 'object':
+			elif re.match('object',val):
 				# found an inline object
+				intobj += 1
 				line,octr = obj(None,model,line,itr,oidh,octr)
 				params[param] = 'OBJECT_'+str(octr)
 			else:
 				params[param] = val
 		if re.search('}',line):
-			oend = 1
+			if intobj:
+				intobj -= 1
+				line = next(itr)
+			else:
+				oend = 1
 		else:
 			line = next(itr)
 	# If undefined, use a default name
@@ -145,18 +153,70 @@ for ifn in glob.glob("base_taxonomy/*.glm"):
 	octr = 0;
 	model = {}
 	h = {}		# OID hash
+	clock = {}
+	modules = {}
+	classes = {}
+	directives = []
 	itr = iter(lines)
 	for line in itr:
-		# print(line)
-		# print(itr)
+		# Look for objects
 		if re.search('object',line):
-			# print(line)
-			# print(model)
-			# print(line)
-			# print(itr)
-			# print(h)
-			# print(octr)
 			line,octr = obj(None,model,line,itr,h,octr)
+		# Look for # directives
+		if re.match('#\s?\w',line):
+			directives.append(line)
+		# Look for the clock
+		m_clock = re.match('clock\s*([;{])',line,re.IGNORECASE)
+		if (m_clock):
+			# Clock found: look for parameters
+			if m_clock.group(1) == '{':
+				# multi-line clock definition
+				oend = 0
+				while not oend:
+					line = next(itr)
+					m_param = re.search('(\w+)\s+([^;\n]+)',line)
+					if m_param:
+						# Parameter found
+						clock[m_param.group(1)]=m_param.group(2)
+					if re.search('}',line):
+						# End of the clock definition
+						oend = 1
+		# Look for module defintions
+		m_mtype = re.search('module\s+(\w+)\s*([;{])',line,re.IGNORECASE)
+		if (m_mtype):
+			# Module found: look for parameters
+			modules[m_mtype.group(1)] = {}
+			if m_mtype.group(2) == '{':
+				# multi-line module definition
+				oend = 0
+				while not oend:
+					line = next(itr)
+					m_param = re.search('(\w+)\s+([^;\n]+)',line)
+					if m_param:
+						# Parameter found
+						modules[m_mtype.group(1)][m_param.group(1)] =\
+								m_param.group(2)
+					if re.search('}',line):
+						# End of the module
+						oend = 1
+		# Look for class definitions
+		m_ctype = re.search('class\W+(\w+)\s*([;{])',line,re.IGNORECASE)
+		if (m_ctype):
+			# Class found: look for parameters
+			classes[m_ctype.group(1)] = {}
+			if m_ctype.group(2) == '{':
+				# multi-line class definition
+				oend = 0
+				while not oend:
+					line = next(itr)
+					m_param = re.search('(\w+)\s+([^;\n]+)',line)
+					if m_param:
+						# Parameter found
+						classes[m_ctype.group(1)][m_param.group(1)] =\
+								m_param.group(2)
+					if re.search('}',line):
+						# End of the class
+						oend = 1
 	
 	# Print the oid hash
 	# print('oidh:')
