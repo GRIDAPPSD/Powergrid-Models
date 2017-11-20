@@ -1,0 +1,59 @@
+// $Id: R1-12.47-3.glm 
+// 12.47 kV feeder
+//*********************************************
+// validates voltages with FBS at selected load, node, meter, triplex_node, and
+// triplex_meter objects
+// also validates power_in,power_out, and power_losses at overhead_line
+// objects
+
+// created by: alek332
+clock{
+	timezone EST+8EDT;
+	timestamp '2000-01-01 0:00:00';
+	stoptime '2000-01-01 1:00:00';
+}
+
+#set profiler=1
+//*********************************************
+// modules
+
+module tape;
+module powerflow{
+	solver_method FBS;
+	default_maximum_voltage_error 1e-9;
+};
+module assert;
+//*********************************************
+
+object load:86 {
+	name R1-12-47-3_load_1;
+	parent R1-12-47-3_meter_1;
+	phases CN;
+	voltage_C -3600+6235j;
+	constant_power_C 54848.3315+1161.1672j;
+	nominal_voltage 7200;
+	load_class C;
+	// object recorder {
+		// property voltage_A,voltage_B,voltage_C;
+		// interval 60;
+		// limit 1440;
+		// file "86.csv";
+	// };
+	object complex_assert{
+		target voltage_A;
+		value +0+0j;
+		within 1;
+	};
+	object complex_assert{
+		target voltage_B;
+		value +0+0j;
+		within 1;
+	};
+	object complex_assert{
+		target voltage_C;
+		value +274.785+118.071d;
+		within 1;
+	};
+}
+
+
