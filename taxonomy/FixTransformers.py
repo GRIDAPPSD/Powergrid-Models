@@ -89,6 +89,7 @@ def obj(parent,model,line,itr,oidh,octr):
             if intobj:
                 intobj -= 1
                 line = next(itr)
+                print('processing', line)
             else:
                 print('found end')
                 oend = 1
