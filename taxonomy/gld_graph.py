@@ -182,7 +182,7 @@ for n1, n2, data in G.edges(data=True):
 	if 'eclass' in data:
 		print(n1, n2, data['eclass'], data['edata'])
 
-nx.draw(G, node_size=1)
+nx.draw(G, node_size=5)
 plt.show()
 
 sub_graphs = nx.connected_component_subgraphs(G)
