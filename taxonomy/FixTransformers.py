@@ -2,10 +2,11 @@ import sys;
 import re;
 import os.path;
 
-glmpath = 'base_taxonomy\\'
+glmpath = 'base_taxonomy/'
 
 max208kva = 100.0
 
+# kva, %r, %x, %nll, %imag
 three_phase = [[30,1.90,1.77,0.79,4.43],
 [45,1.75,2.12,0.70,3.94],
 [75,1.60,2.42,0.63,3.24],
@@ -22,6 +23,7 @@ three_phase = [[30,1.90,1.77,0.79,4.43],
 [3750,0.62,5.72,0.31,1.20],
 [5000,0.55,5.72,0.28,1.07]]
 
+# kva, %r, %x, %nll, %imag
 single_phase = [[5,2.10,1.53,0.90,3.38],
 [10,1.90,1.30,0.68,2.92],
 [15,1.70,1.47,0.60,2.53],
@@ -34,6 +36,18 @@ single_phase = [[5,2.10,1.53,0.90,3.38],
 [250,1.10,3.85,0.36,1.81],
 [333,1.00,4.90,0.34,1.97],
 [500,1.00,4.90,0.29,1.98]]
+
+def Find1PhaseXfmr (kva):
+    for row in single_phase:
+        if row[0] >= kva:
+            return row[0], 0.01 * row[1], 0.01 * row[2], 0.01 * row[3], 0.01 * row[4]
+    return 0,0,0,0,0
+
+def Find3PhaseXfmr (kva):
+    for row in three_phase:
+        if row[0] >= kva:
+            return row[0], 0.01 * row[1], 0.01 * row[2], 0.01 * row[3], 0.01 * row[4]
+    return 0,0,0,0,0
 
 casefiles = [['R1-12.47-3',12470.0, 7200.0]]
 #casefiles = [['R1-12.47-1',12470.0, 7200.0],
@@ -81,7 +95,6 @@ def obj(parent,model,line,itr,oidh,octr):
     if n:
         oid = n.group(1)
     line = next(itr)
-#    print('processing', line)
     # Collect parameters
     oend = 0
     oname = None
@@ -96,11 +109,9 @@ def obj(parent,model,line,itr,oidh,octr):
             val = m.group(2)
             intobj = 0
             if param == 'name':
-#                print('found oname from', param, val)
                 oname = val
             elif param == 'object':
                 # found a nested object
-#                print('found nested object from', param, val)
                 intobj += 1
                 if oname is None:
                     print('ERROR: nested object defined before parent name')
@@ -108,24 +119,19 @@ def obj(parent,model,line,itr,oidh,octr):
                 line,octr = obj(oname,model,line,itr,oidh,octr)
             elif re.match('object',val):
                 # found an inline object
-#                print('found inline object from', param, val)
                 intobj += 1
                 line,octr = obj(None,model,line,itr,oidh,octr)
                 params[param] = 'ID_'+str(octr)
             else:
-#                print('found param from', param, val)
                 params[param] = val
         if re.search('}',line):
             if intobj:
                 intobj -= 1
                 line = next(itr)
-#                print('processing', line)
             else:
-#                print('found end')
                 oend = 1
         else:
             line = next(itr)
-#            print('processing', line)
     # If undefined, use a default name
     if oname is None:
         oname = 'ID_'+str(octr)
@@ -140,8 +146,32 @@ def obj(parent,model,line,itr,oidh,octr):
     model[type][oname] = {}
     for param in params:
         model[type][oname][param] = params[param]
-    # Return the 
     return line,octr
+
+def write_model_class (model, h, t, op):
+    if t in model:
+        for o in model[t]:
+            print('object ' + t + ':' + o + ' {', file=op)
+            for p in model[t][o]:
+                if ':' in model[t][o][p]:
+                    print ('  ' + p + ' ' + h[model[t][o][p]] + ';', file=op)
+                else:
+                    print ('  ' + p + ' ' + model[t][o][p] + ';', file=op)
+            print('}', file=op)
+
+def write_voltage_class (model, h, t, op, vprim):
+    if t in model:
+        for o in model[t]:
+            print('object ' + t + ':' + o + ' {', file=op)
+            name = o # model[t][o]['name']
+            phs = model[t][o]['phases']
+            print('  name ' + name + ';', file=op)
+            print('  phases ' + phs + ';', file=op)
+            if str.find(name, 'load') >= 0 or str.find(name, 'meter') >= 0:
+                print('  nominal_voltage 120.0;', file=op)
+            else:
+                print('  nominal_voltage ' + str(vprim) + ';', file=op)
+            print('}', file=op)
 
 def log_model(model, h):
     for t in model:
@@ -179,6 +209,9 @@ for c in casefiles:
                 line,octr = obj(None,model,line,itr,h,octr)
             else:
                 print (line, file=op)
+
+        log_model (model, h)
+
         t = 'transformer_configuration'
         for o in model[t]:
             sa = 0
@@ -188,7 +221,6 @@ for c in casefiles:
             st = float(model[t][o]['power_rating'])
             v1 = float(model[t][o]['primary_voltage'].split(' ',1)[0])
             v2 = float(model[t][o]['secondary_voltage'].split(' ',1)[0])
-            print('object transformer_configuration:' + o + ' {', file=op)
             if 'powerA_rating' in model[t][o]:
                 sa = float(model[t][o]['powerA_rating'])
             if 'powerB_rating' in model[t][o]:
@@ -201,15 +233,84 @@ for c in casefiles:
                 np = np + 1
             if sc > 0:
                 np = np + 1
-            print('// ', st, v1, v2, np, file=op)
-            for p in model[t][o]:
-                if ':' in model[t][o][p]:
-                    print ('  ' + p + ' ' + h[model[t][o][p]] + ';', file=op)
+            if np == 1:
+                row = Find1PhaseXfmr (st)
+                st = row[0]
+                if sa > 0:
+                    sa = st
+                if sb > 0:
+                    sb = st
+                if sc > 0:
+                    sc = st
+            else:
+                row = Find3PhaseXfmr (st)
+                st = row[0]
+                if sa > 0:
+                    sa = st / np
+                if sb > 0:
+                    sb = st / np
+                if sc > 0:
+                    sc = st / np
+            print('object transformer_configuration:' + o + ' {', file=op)
+            print ('  power_rating ' + str(st) + ';', file=op)
+            print ('  powerA_rating ' + str(sa) + ';', file=op)
+            print ('  powerB_rating ' + str(sb) + ';', file=op)
+            print ('  powerC_rating ' + str(sc) + ';', file=op)
+            if 'install_type' in model[t][o]:
+                print ('  install_type ' + model[t][o]['install_type'] + ';', file=op)
+            if np == 1:
+                print ('  connect_type SINGLE_PHASE_CENTER_TAPPED;', file=op)
+                print ('  primary_voltage ' + str(c[2]) + ';', file=op)
+                print ('  secondary_voltage 120.0;', file=op)
+                print ('  resistance ' + format(row[1] * 0.5, '.5f') + ';', file=op)
+                print ('  resistance1 ' + format(row[1], '.5f') + ';', file=op)
+                print ('  resistance2 ' + format(row[1], '.5f') + ';', file=op)
+                print ('  reactance ' + format(row[2] * 0.8, '.5f') + ';', file=op)
+                print ('  reactance1 ' + format(row[2] * 0.4, '.5f') + ';', file=op)
+                print ('  reactance2 ' + format(row[2] * 0.4, '.5f') + ';', file=op)
+                print ('  shunt_resistance ' + format(1.0 / row[3], '.2f') + ';', file=op)
+                print ('  shunt_reactance ' + format(1.0 / row[4], '.2f') + ';', file=op)
+            else:
+                if 'connect_type' in model[t][o]:
+                    print ('  connect_type ' + model[t][o]['connect_type'] + ';', file=op)
+                print ('  primary_voltage ' + str(c[1]) + ';', file=op)
+                if st > max208kva:
+                    print ('  secondary_voltage 480.0;', file=op)
                 else:
-                    print ('  ' + p + ' ' + model[t][o][p] + ';', file=op)
+                    print ('  secondary_voltage 208.0;', file=op)
+                print ('  resistance ' + format(row[1], '.5f') + ';', file=op)
+                print ('  reactance ' + format(row[2], '.5f') + ';', file=op)
+                print ('  shunt_resistance ' + format(1.0 / row[3], '.2f') + ';', file=op)
+                print ('  shunt_reactance ' + format(1.0 / row[4], '.2f') + ';', file=op)
             print('}', file=op)
+
+        write_model_class (model, h, 'regulator_configuration', op)
+        write_model_class (model, h, 'overhead_line_conductor', op)
+        write_model_class (model, h, 'line_spacing', op)
+        write_model_class (model, h, 'line_configuration', op)
+        write_model_class (model, h, 'triplex_line_conductor', op)
+        write_model_class (model, h, 'triplex_line_configuration', op)
+        write_model_class (model, h, 'underground_line_conductor', op)
+
+        write_model_class (model, h, 'fuse', op)
+        write_model_class (model, h, 'switch', op)
+        write_model_class (model, h, 'recloser', op)
+        write_model_class (model, h, 'sectionalizer', op)
+
+        write_model_class (model, h, 'line', op)
+        write_model_class (model, h, 'underground_line', op)
+        write_model_class (model, h, 'triplex_line', op)
+        write_model_class (model, h, 'series_reactor', op)
+
+        write_model_class (model, h, 'regulator', op)
+        write_model_class (model, h, 'transformer', op)
+        write_model_class (model, h, 'capacitor', op)
+
+        write_voltage_class (model, h, 'node', op, c[2])
+        write_voltage_class (model, h, 'meter', op, c[2])
+        write_voltage_class (model, h, 'load', op, c[2])
+
         op.close()
 
-        log_model (model, h)
 
 
