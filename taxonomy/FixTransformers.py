@@ -167,10 +167,20 @@ def write_voltage_class (model, h, t, op, vprim):
             phs = model[t][o]['phases']
             print('  name ' + name + ';', file=op)
             print('  phases ' + phs + ';', file=op)
-            if str.find(name, 'load') >= 0 or str.find(name, 'meter') >= 0:
+            if str.find(name, 'load') >= 0 or str.find(name, 'meter') >= 0 or str.find(name, '_tn_') >= 0 or str.find(name, '_tm_') >= 0:
                 print('  nominal_voltage 120.0;', file=op)
             else:
                 print('  nominal_voltage ' + str(vprim) + ';', file=op)
+            if 'parent' in model[t][o]:
+                print('  parent ' + model[t][o]['parent'] + ';', file=op)
+            if 'load_class' in model[t][o]:
+                print('  load_class ' + model[t][o]['load_class'] + ';', file=op)
+            if 'constant_power_A' in model[t][o]:
+                print('  constant_power_A ' + model[t][o]['constant_power_A'] + ';', file=op)
+            if 'constant_power_B' in model[t][o]:
+                print('  constant_power_B ' + model[t][o]['constant_power_B'] + ';', file=op)
+            if 'constant_power_C' in model[t][o]:
+                print('  constant_power_C ' + model[t][o]['constant_power_C'] + ';', file=op)
             print('}', file=op)
 
 def log_model(model, h):
@@ -309,6 +319,9 @@ for c in casefiles:
         write_voltage_class (model, h, 'node', op, c[2])
         write_voltage_class (model, h, 'meter', op, c[2])
         write_voltage_class (model, h, 'load', op, c[2])
+        write_voltage_class (model, h, 'triplex_node', op, c[2])
+        write_voltage_class (model, h, 'triplex_meter', op, c[2])
+        write_voltage_class (model, h, 'triplex_load', op, c[2])
 
         op.close()
 
