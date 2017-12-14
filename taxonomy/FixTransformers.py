@@ -21,7 +21,9 @@ three_phase = [[30,1.90,1.77,0.79,4.43],
 [2000,0.72,5.70,0.36,1.39],
 [2500,0.70,5.71,0.35,1.36],
 [3750,0.62,5.72,0.31,1.20],
-[5000,0.55,5.72,0.28,1.07]]
+[5000,0.55,5.72,0.28,1.07],
+[7500,0.55,5.72,0.28,1.07],
+[10000,0.55,5.72,0.28,1.07]]
 
 # kva, %r, %x, %nll, %imag
 single_phase = [[5,2.10,1.53,0.90,3.38],
@@ -40,16 +42,18 @@ single_phase = [[5,2.10,1.53,0.90,3.38],
 def Find1PhaseXfmr (kva):
     for row in single_phase:
         if row[0] >= kva:
-            return row[0], 0.01 * row[1], 0.01 * row[2], 0.01 * row[3], 0.01 * row[4]
+#            return row[0], 0.01 * row[1], 0.01 * row[2], 0.01 * row[3], 0.01 * row[4]
+            return row[0], 0.0001, 0.0002, 0.001, 0.001
     return 0,0,0,0,0
 
 def Find3PhaseXfmr (kva):
     for row in three_phase:
         if row[0] >= kva:
-            return row[0], 0.01 * row[1], 0.01 * row[2], 0.01 * row[3], 0.01 * row[4]
+#            return row[0], 0.01 * row[1], 0.01 * row[2], 0.01 * row[3], 0.01 * row[4]
+            return row[0], 0.0001, 0.0002, 0.001, 0.001
     return 0,0,0,0,0
 
-casefiles = [['R1-12.47-3',12470.0, 7200.0]]
+#casefiles = [['R1-12.47-3',12470.0, 7200.0]]
 #casefiles = [['R1-12.47-1',12470.0, 7200.0],
 #             ['R1-12.47-2',12470.0, 7200.0],
 #             ['R1-12.47-3',12470.0, 7200.0],
@@ -74,6 +78,11 @@ casefiles = [['R1-12.47-3',12470.0, 7200.0]]
 #             ['R5-25.00-1',22900.0,13200.0],
 #             ['R5-35.00-1',34500.0,19920.0],
 #             ['GC-12.47-1',12470.0, 7200.0]]
+casefiles = [['R2-25.00-1',24900.0,14400.0],
+             ['R2-35.00-1',34500.0,19920.0],
+             ['R5-12.47-4',12470.0, 7200.0],
+             ['R5-12.47-5',12470.0, 7200.0],
+             ['R5-35.00-1',34500.0,19920.0]]
 
 def obj(parent,model,line,itr,oidh,octr):
     '''
@@ -151,7 +160,9 @@ def obj(parent,model,line,itr,oidh,octr):
 def write_model_class (model, h, t, op):
     if t in model:
         for o in model[t]:
-            print('object ' + t + ':' + o + ' {', file=op)
+#            print('object ' + t + ':' + o + ' {', file=op)
+            print('object ' + t + ' {', file=op)
+            print('  name ' + o + ';', file=op)
             for p in model[t][o]:
                 if ':' in model[t][o][p]:
                     print ('  ' + p + ' ' + h[model[t][o][p]] + ';', file=op)
@@ -159,28 +170,101 @@ def write_model_class (model, h, t, op):
                     print ('  ' + p + ' ' + model[t][o][p] + ';', file=op)
             print('}', file=op)
 
-def write_voltage_class (model, h, t, op, vprim):
+# if triplex load, node or meter, the nominal voltage is 120
+#   if the name or parent attribute is found in secmtrnode, we look up the nominal voltage there
+#   otherwise, the nominal voltage is vprim
+# secmtrnode[mtr_node] = [kva_total, phases, vnom]
+#   the transformer phasing was not changed, and the transformers were up-sized to the largest phase kva
+#   therefore, it should not be necessary to look up kva_total, but phases might have changed N==>S
+# if the phasing did change N==>S, we have to prepend triplex_ to the class, write power_1 and voltage_1
+def write_voltage_class (model, h, t, op, vprim, secmtrnode):
     if t in model:
         for o in model[t]:
-            print('object ' + t + ':' + o + ' {', file=op)
             name = o # model[t][o]['name']
             phs = model[t][o]['phases']
-            print('  name ' + name + ';', file=op)
-            print('  phases ' + phs + ';', file=op)
-            if str.find(name, 'load') >= 0 or str.find(name, 'meter') >= 0 or str.find(name, '_tn_') >= 0 or str.find(name, '_tm_') >= 0:
-                print('  nominal_voltage 120.0;', file=op)
+            vnom = vprim
+            parent = ''
+            prefix = ''
+            if str.find(phs, 'S') >= 0:
+                bHadS = True
             else:
-                print('  nominal_voltage ' + str(vprim) + ';', file=op)
+                bHadS = False
+            if str.find(name, '_tn_') >= 0 or str.find(name, '_tm_') >= 0:
+                vnom = 120.0
+            if name in secmtrnode:
+                vnom = secmtrnode[name][2]
+                phs = secmtrnode[name][1]
             if 'parent' in model[t][o]:
-                print('  parent ' + model[t][o]['parent'] + ';', file=op)
+                parent = model[t][o]['parent']
+                if parent in secmtrnode:
+                    vnom = secmtrnode[parent][2]
+                    phs = secmtrnode[parent][1]
+            if str.find(phs,'S') >= 0:
+                bHaveS = True
+            else:
+                bHaveS = False
+            if bHaveS == True and bHadS == False:
+                prefix = 'triplex_'
+            vstarta = str(vnom) + '+0.0j'
+            vstartb = format(-0.5*vnom,'.2f') + format(-0.866025*vnom,'.2f') + 'j'
+            vstartc = format(-0.5*vnom,'.2f') + '+' + format(0.866025*vnom,'.2f') + 'j'
+            print('object ' + prefix + t + ' {', file=op)
+            if len(parent) > 0:
+                print('  parent ' + parent + ';', file=op)
+            print('  name ' + name + ';', file=op)
+            if 'bustype' in model[t][o]:
+                print('  bustype ' + model[t][o]['bustype'] + ';', file=op)
+            print('  phases ' + phs + ';', file=op)
+            print('  nominal_voltage ' + str(vnom) + ';', file=op)
             if 'load_class' in model[t][o]:
                 print('  load_class ' + model[t][o]['load_class'] + ';', file=op)
             if 'constant_power_A' in model[t][o]:
-                print('  constant_power_A ' + model[t][o]['constant_power_A'] + ';', file=op)
+                if bHaveS == True:
+                    print('  power_1 ' + model[t][o]['constant_power_A'] + ';', file=op)
+                else:
+                    print('  constant_power_A ' + model[t][o]['constant_power_A'] + ';', file=op)
             if 'constant_power_B' in model[t][o]:
-                print('  constant_power_B ' + model[t][o]['constant_power_B'] + ';', file=op)
+                if bHaveS == True:
+                    print('  power_1 ' + model[t][o]['constant_power_B'] + ';', file=op)
+                else:
+                    print('  constant_power_B ' + model[t][o]['constant_power_B'] + ';', file=op)
             if 'constant_power_C' in model[t][o]:
-                print('  constant_power_C ' + model[t][o]['constant_power_C'] + ';', file=op)
+                if bHaveS == True:
+                    print('  power_1 ' + model[t][o]['constant_power_C'] + ';', file=op)
+                else:
+                    print('  constant_power_C ' + model[t][o]['constant_power_C'] + ';', file=op)
+            if 'voltage_A' in model[t][o]:
+                if bHaveS == True:
+                    print('  voltage_1 ' + vstarta + ';', file=op)
+                    print('  voltage_2 ' + vstarta + ';', file=op)
+                else:
+                    print('  voltage_A ' + vstarta + ';', file=op)
+            if 'voltage_B' in model[t][o]:
+                if bHaveS == True:
+                    print('  voltage_1 ' + vstartb + ';', file=op)
+                    print('  voltage_2 ' + vstartb + ';', file=op)
+                else:
+                    print('  voltage_B ' + vstartb + ';', file=op)
+            if 'voltage_C' in model[t][o]:
+                if bHaveS == True:
+                    print('  voltage_1 ' + vstartc + ';', file=op)
+                    print('  voltage_2 ' + vstartc + ';', file=op)
+                else:
+                    print('  voltage_C ' + vstartc + ';', file=op)
+            if 'power_1' in model[t][o]:
+                print('  power_1 ' + model[t][o]['power_1'] + ';', file=op)
+            if 'power_2' in model[t][o]:
+                print('  power_2 ' + model[t][o]['power_2'] + ';', file=op)
+            if 'voltage_1' in model[t][o]:
+                if str.find(phs, 'A') >= 0:
+                    print('  voltage_1 ' + vstarta + ';', file=op)
+                    print('  voltage_2 ' + vstarta + ';', file=op)
+                if str.find(phs, 'B') >= 0:
+                    print('  voltage_1 ' + vstartb + ';', file=op)
+                    print('  voltage_2 ' + vstartb + ';', file=op)
+                if str.find(phs, 'C') >= 0:
+                    print('  voltage_1 ' + vstartc + ';', file=op)
+                    print('  voltage_2 ' + vstartc + ';', file=op)
             print('}', file=op)
 
 def log_model(model, h):
@@ -220,29 +304,39 @@ for c in casefiles:
             else:
                 print (line, file=op)
 
-        log_model (model, h)
+#        log_model (model, h)
 
+        xfcode = {} # ID, phases, st, vnom (LN)
+        # UPDATE: we can't convert single-phase to center-tapped, because they are not all R class loads
         t = 'transformer_configuration'
         for o in model[t]:
             sa = 0
             sb = 0
             sc = 0
             np = 0
+            phs = ''
             st = float(model[t][o]['power_rating'])
             v1 = float(model[t][o]['primary_voltage'].split(' ',1)[0])
             v2 = float(model[t][o]['secondary_voltage'].split(' ',1)[0])
             if 'powerA_rating' in model[t][o]:
                 sa = float(model[t][o]['powerA_rating'])
+                phs += 'A'
+                np += 1
             if 'powerB_rating' in model[t][o]:
                 sb = float(model[t][o]['powerB_rating'])
+                phs += 'B'
+                np += 1
             if 'powerC_rating' in model[t][o]:
                 sc = float(model[t][o]['powerC_rating'])
-            if sa > 0:
-                np = np + 1
-            if sb > 0:
-                np = np + 1
-            if sc > 0:
-                np = np + 1
+                phs += 'C'
+                np += 1
+
+            # not actually making any changes N==>S
+            if str.find(model[t][o]['connect_type'], 'SINGLE_PHASE_CENTER_TAPPED') >= 0: 
+                phs += 'S'
+            else:
+                phs += 'N'
+
             if np == 1:
                 row = Find1PhaseXfmr (st)
                 st = row[0]
@@ -253,6 +347,19 @@ for c in casefiles:
                 if sc > 0:
                     sc = st
             else:
+                # make sure the transformer is large enough for the highest-rated phase, and that it's balanced
+                smax = sa
+                if sb > smax:
+                    smax = sb
+                if sc > smax:
+                    smax = sc
+                if str.find(phs, 'A') >= 0:
+                    sa = smax
+                if str.find(phs, 'B') >= 0:
+                    sb = smax
+                if str.find(phs, 'C') >= 0:
+                    sc = smax
+                st = sa + sb + sc
                 row = Find3PhaseXfmr (st)
                 st = row[0]
                 if sa > 0:
@@ -261,17 +368,28 @@ for c in casefiles:
                     sb = st / np
                 if sc > 0:
                     sc = st / np
-            print('object transformer_configuration:' + o + ' {', file=op)
-            print ('  power_rating ' + str(st) + ';', file=op)
-            print ('  powerA_rating ' + str(sa) + ';', file=op)
-            print ('  powerB_rating ' + str(sb) + ';', file=op)
-            print ('  powerC_rating ' + str(sc) + ';', file=op)
+            if str.find(phs, 'S') >= 0:
+                vsec = 120.0
+                vnom = 120.0
+            else:
+                if st > max208kva:
+                    vsec = 480.0
+                    vnom = 277.0
+                else:
+                    vsec = 208.0
+                    vnom = 120.0
+            print ('object transformer_configuration: {', file=op)
+            print ('  name ' + o + ';', file=op)
+            print ('  power_rating ' + format(st, '.2f') + ';', file=op)
+            print ('  powerA_rating ' + format(sa, '.2f') + ';', file=op)
+            print ('  powerB_rating ' + format(sb, '.2f') + ';', file=op)
+            print ('  powerC_rating ' + format(sc, '.2f') + ';', file=op)
             if 'install_type' in model[t][o]:
                 print ('  install_type ' + model[t][o]['install_type'] + ';', file=op)
-            if np == 1:
+            if str.find(phs, 'S') >= 0:
                 print ('  connect_type SINGLE_PHASE_CENTER_TAPPED;', file=op)
                 print ('  primary_voltage ' + str(c[2]) + ';', file=op)
-                print ('  secondary_voltage 120.0;', file=op)
+                print ('  secondary_voltage ' + format(vsec, '.1f') + ';', file=op)
                 print ('  resistance ' + format(row[1] * 0.5, '.5f') + ';', file=op)
                 print ('  resistance1 ' + format(row[1], '.5f') + ';', file=op)
                 print ('  resistance2 ' + format(row[1], '.5f') + ';', file=op)
@@ -284,15 +402,24 @@ for c in casefiles:
                 if 'connect_type' in model[t][o]:
                     print ('  connect_type ' + model[t][o]['connect_type'] + ';', file=op)
                 print ('  primary_voltage ' + str(c[1]) + ';', file=op)
-                if st > max208kva:
-                    print ('  secondary_voltage 480.0;', file=op)
-                else:
-                    print ('  secondary_voltage 208.0;', file=op)
+                print ('  secondary_voltage ' + format(vsec, '.1f') + ';', file=op)
                 print ('  resistance ' + format(row[1], '.5f') + ';', file=op)
                 print ('  reactance ' + format(row[2], '.5f') + ';', file=op)
                 print ('  shunt_resistance ' + format(1.0 / row[3], '.2f') + ';', file=op)
                 print ('  shunt_reactance ' + format(1.0 / row[4], '.2f') + ';', file=op)
+            xfcode[o] = [st, phs, vnom]
             print('}', file=op)
+
+#        print (xfcode)
+
+        secnode = {} # Node, st, phases, vnom
+        t = 'transformer'
+        for o in model[t]:
+            row = xfcode [h[model[t][o]['configuration']]]
+            model[t][o]['phases'] = row[1]
+            secnode[model[t][o]['to']] = row
+
+#        print (secnode)
 
         write_model_class (model, h, 'regulator_configuration', op)
         write_model_class (model, h, 'overhead_line_conductor', op)
@@ -307,7 +434,7 @@ for c in casefiles:
         write_model_class (model, h, 'recloser', op)
         write_model_class (model, h, 'sectionalizer', op)
 
-        write_model_class (model, h, 'line', op)
+        write_model_class (model, h, 'overhead_line', op)
         write_model_class (model, h, 'underground_line', op)
         write_model_class (model, h, 'triplex_line', op)
         write_model_class (model, h, 'series_reactor', op)
@@ -316,12 +443,12 @@ for c in casefiles:
         write_model_class (model, h, 'transformer', op)
         write_model_class (model, h, 'capacitor', op)
 
-        write_voltage_class (model, h, 'node', op, c[2])
-        write_voltage_class (model, h, 'meter', op, c[2])
-        write_voltage_class (model, h, 'load', op, c[2])
-        write_voltage_class (model, h, 'triplex_node', op, c[2])
-        write_voltage_class (model, h, 'triplex_meter', op, c[2])
-        write_voltage_class (model, h, 'triplex_load', op, c[2])
+        write_voltage_class (model, h, 'node', op, c[2], secnode)
+        write_voltage_class (model, h, 'meter', op, c[2], secnode)
+        write_voltage_class (model, h, 'load', op, c[2], secnode)
+        write_voltage_class (model, h, 'triplex_node', op, c[2], secnode)
+        write_voltage_class (model, h, 'triplex_meter', op, c[2], secnode)
+        write_voltage_class (model, h, 'triplex_load', op, c[2], secnode)
 
         op.close()
 
