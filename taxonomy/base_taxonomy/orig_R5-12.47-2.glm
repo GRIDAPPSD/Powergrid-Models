@@ -10,9 +10,9 @@
 // transformers)
 // 
 clock{
-	timezone EST+8EDT;
+	timezone EST+5EDT;
 	timestamp '2000-01-01 0:00:00';
-	stoptime '2000-01-01 1:00:00';
+	stoptime '2000-01-01 0:01:00';
 }
 
 #set profiler=1 
@@ -86,6 +86,7 @@ object fuse:1502 {
      from R5-12-47-2_node_50; 
      to R5-12-47-2_node_172; 
      current_limit 150; 
+		 mean_replacement_time 3600;
      status CLOSED; 
 } 
 
@@ -95,6 +96,7 @@ object fuse:1503 {
      from R5-12-47-2_node_49; 
      to R5-12-47-2_node_173; 
      current_limit 150; 
+		 mean_replacement_time 3600;
      status CLOSED; 
 } 
 
@@ -104,6 +106,7 @@ object fuse:1504 {
      from R5-12-47-2_node_18; 
      to R5-12-47-2_node_191; 
      current_limit 200; 
+		 mean_replacement_time 3600;
      status CLOSED; 
 } 
 
@@ -113,6 +116,7 @@ object fuse:1505 {
      from R5-12-47-2_node_17; 
      to R5-12-47-2_node_199; 
      current_limit 200; 
+		 mean_replacement_time 3600;
      status CLOSED; 
 } 
 
@@ -122,6 +126,7 @@ object fuse:1506 {
      from R5-12-47-2_node_20; 
      to R5-12-47-2_node_188; 
      current_limit 200; 
+		 mean_replacement_time 3600;
      status CLOSED; 
 } 
 
@@ -131,6 +136,7 @@ object fuse:1507 {
      from R5-12-47-2_node_19; 
      to R5-12-47-2_node_202; 
      current_limit 200; 
+		 mean_replacement_time 3600;
      status CLOSED; 
 } 
 
@@ -140,6 +146,7 @@ object fuse:1508 {
      from R5-12-47-2_node_57; 
      to R5-12-47-2_node_198; 
      current_limit 200; 
+		 mean_replacement_time 3600;
      status CLOSED; 
 } 
 
@@ -149,6 +156,7 @@ object fuse:1509 {
      from R5-12-47-2_node_38; 
      to R5-12-47-2_node_189; 
      current_limit 200; 
+		 mean_replacement_time 3600;
      status CLOSED; 
 } 
 
@@ -158,6 +166,7 @@ object fuse:1510 {
      from R5-12-47-2_node_37; 
      to R5-12-47-2_node_200; 
      current_limit 200; 
+		 mean_replacement_time 3600;
      status CLOSED; 
 } 
 
@@ -167,6 +176,7 @@ object fuse:1511 {
      from R5-12-47-2_node_56; 
      to R5-12-47-2_node_197; 
      current_limit 200; 
+		 mean_replacement_time 3600;
      status CLOSED; 
 } 
 
@@ -176,6 +186,7 @@ object fuse:1512 {
      from R5-12-47-2_node_44; 
      to R5-12-47-2_node_196; 
      current_limit 25; 
+		 mean_replacement_time 3600;
      status CLOSED; 
 } 
 
@@ -185,6 +196,7 @@ object fuse:1513 {
      from R5-12-47-2_node_42; 
      to R5-12-47-2_node_203; 
      current_limit 25; 
+		 mean_replacement_time 3600;
      status CLOSED; 
 } 
 
@@ -194,6 +206,7 @@ object fuse:1514 {
      from R5-12-47-2_node_51; 
      to R5-12-47-2_node_204; 
      current_limit 25; 
+		 mean_replacement_time 3600;
      status CLOSED; 
 } 
 
@@ -203,6 +216,7 @@ object fuse:1515 {
      from R5-12-47-2_node_46; 
      to R5-12-47-2_node_178; 
      current_limit 40; 
+		 mean_replacement_time 3600;
      status CLOSED; 
 } 
 
@@ -212,6 +226,7 @@ object fuse:1516 {
      from R5-12-47-2_node_16; 
      to R5-12-47-2_node_175; 
      current_limit 200; 
+		 mean_replacement_time 3600;
      status CLOSED; 
 } 
 
@@ -221,6 +236,7 @@ object fuse:1517 {
      from R5-12-47-2_node_15; 
      to R5-12-47-2_node_186; 
      current_limit 200; 
+		 mean_replacement_time 3600;
      status CLOSED; 
 } 
 
@@ -230,6 +246,7 @@ object fuse:1518 {
      from R5-12-47-2_node_21; 
      to R5-12-47-2_node_184; 
      current_limit 25; 
+		 mean_replacement_time 3600;
      status CLOSED; 
 } 
 
@@ -239,6 +256,7 @@ object fuse:1519 {
      from R5-12-47-2_node_9; 
      to R5-12-47-2_node_171; 
      current_limit 25; 
+		 mean_replacement_time 3600;
      status CLOSED; 
 } 
 
@@ -248,6 +266,7 @@ object fuse:1520 {
      from R5-12-47-2_node_9; 
      to R5-12-47-2_node_170; 
      current_limit 25; 
+		 mean_replacement_time 3600;
      status CLOSED; 
 } 
 
@@ -257,6 +276,7 @@ object fuse:1521 {
      from R5-12-47-2_node_8; 
      to R5-12-47-2_node_179; 
      current_limit 50; 
+		 mean_replacement_time 3600;
      status CLOSED; 
 } 
 
@@ -266,6 +286,7 @@ object fuse:1522 {
      from R5-12-47-2_node_6; 
      to R5-12-47-2_node_176; 
      current_limit 25; 
+		 mean_replacement_time 3600;
      status CLOSED; 
 } 
 
@@ -275,6 +296,7 @@ object fuse:1523 {
      from R5-12-47-2_node_53; 
      to R5-12-47-2_node_182; 
      current_limit 25; 
+		 mean_replacement_time 3600;
      status CLOSED; 
 } 
 
@@ -284,6 +306,7 @@ object fuse:1524 {
      from R5-12-47-2_node_5; 
      to R5-12-47-2_node_177; 
      current_limit 50; 
+		 mean_replacement_time 3600;
      status CLOSED; 
 } 
 
@@ -293,6 +316,7 @@ object fuse:1525 {
      from R5-12-47-2_node_42; 
      to R5-12-47-2_node_183; 
      current_limit 10; 
+		 mean_replacement_time 3600;
      status CLOSED; 
 } 
 
@@ -302,6 +326,7 @@ object fuse:1526 {
      from R5-12-47-2_node_3; 
      to R5-12-47-2_node_174; 
      current_limit 25; 
+		 mean_replacement_time 3600;
      status CLOSED; 
 } 
 
@@ -311,6 +336,7 @@ object fuse:1527 {
      from R5-12-47-2_node_5; 
      to R5-12-47-2_node_195; 
      current_limit 25; 
+		 mean_replacement_time 3600;
      status CLOSED; 
 } 
 
@@ -320,6 +346,7 @@ object fuse:1528 {
      from R5-12-47-2_node_30; 
      to R5-12-47-2_node_185; 
      current_limit 25; 
+		 mean_replacement_time 3600;
      status CLOSED; 
 } 
 
@@ -329,6 +356,7 @@ object fuse:1529 {
      from R5-12-47-2_node_4; 
      to R5-12-47-2_node_180; 
      current_limit 15; 
+		 mean_replacement_time 3600;
      status CLOSED; 
 } 
 
@@ -338,6 +366,7 @@ object fuse:1530 {
      from R5-12-47-2_node_29; 
      to R5-12-47-2_node_192; 
      current_limit 25; 
+		 mean_replacement_time 3600;
      status CLOSED; 
 } 
 
@@ -347,6 +376,7 @@ object fuse:1531 {
      from R5-12-47-2_node_30; 
      to R5-12-47-2_node_190; 
      current_limit 25; 
+		 mean_replacement_time 3600;
      status CLOSED; 
 } 
 
@@ -356,6 +386,7 @@ object fuse:1532 {
      from R5-12-47-2_node_3; 
      to R5-12-47-2_node_194; 
      current_limit 100; 
+		 mean_replacement_time 3600;
      status CLOSED; 
 } 
 
@@ -365,6 +396,7 @@ object fuse:1533 {
      from R5-12-47-2_node_2; 
      to R5-12-47-2_node_193; 
      current_limit 10; 
+		 mean_replacement_time 3600;
      status CLOSED; 
 } 
 
@@ -374,6 +406,7 @@ object fuse:1534 {
      from R5-12-47-2_node_32; 
      to R5-12-47-2_node_181; 
      current_limit 6; 
+		 mean_replacement_time 3600;
      status CLOSED; 
 } 
 
@@ -383,6 +416,7 @@ object fuse:1535 {
      from R5-12-47-2_node_210; 
      to R5-12-47-2_node_187; 
      current_limit 200; 
+		 mean_replacement_time 3600;
      status CLOSED; 
 } 
 
@@ -392,6 +426,7 @@ object fuse:1536 {
      from R5-12-47-2_node_293; 
      to R5-12-47-2_node_201; 
      current_limit 200; 
+		 mean_replacement_time 3600;
      status CLOSED; 
 } 
 
@@ -10037,6 +10072,10 @@ object triplex_line_configuration:1 {
      conductor_N TLC 1/0 AA triplex; 
      insulation_thickness 0.08; 
      diameter 0.368; 
+		 rating.summer.continuous 10000;
+		 rating.summer.emergency 10000;
+		 rating.winter.continuous 10000;
+		 rating.winter.emergency 10000;
 } 
 
 object triplex_meter:690 { 

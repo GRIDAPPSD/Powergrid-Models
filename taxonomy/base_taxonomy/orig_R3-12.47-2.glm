@@ -8,9 +8,9 @@
 // underground lines
 // written by alek332
 clock{
-	timezone EST+8EDT;
+	timezone EST+5EDT;
 	timestamp '2000-01-01 0:00:00';
-	stoptime '2000-01-01 1:00:00';
+	stoptime '2000-01-01 0:01:00';
 }
 
 #set profiler=1 
@@ -59,6 +59,7 @@ object fuse:724 {
      from R3-12-47-2_node_105; 
      to R3-12-47-2_node_88; 
      current_limit 100; 
+		 mean_replacement_time 3600;
      status CLOSED; 
 } 
 
@@ -68,6 +69,7 @@ object fuse:725 {
      from R3-12-47-2_node_88; 
      to R3-12-47-2_node_87; 
      current_limit 200; 
+		 mean_replacement_time 3600;
      status CLOSED; 
 } 
 
@@ -77,6 +79,7 @@ object fuse:726 {
      from R3-12-47-2_node_196; 
      to R3-12-47-2_node_90; 
      current_limit 40; 
+		 mean_replacement_time 3600;
      status CLOSED; 
 } 
 
@@ -86,6 +89,7 @@ object fuse:727 {
      from R3-12-47-2_node_201; 
      to R3-12-47-2_node_81; 
      current_limit 25; 
+		 mean_replacement_time 3600;
      status CLOSED; 
 } 
 
@@ -95,6 +99,7 @@ object fuse:728 {
      from R3-12-47-2_node_202; 
      to R3-12-47-2_node_82; 
      current_limit 25; 
+		 mean_replacement_time 3600;
      status CLOSED; 
 } 
 
@@ -104,6 +109,7 @@ object fuse:729 {
      from R3-12-47-2_node_227; 
      to R3-12-47-2_node_84; 
      current_limit 65; 
+		 mean_replacement_time 3600;
      status CLOSED; 
 } 
 
@@ -113,6 +119,7 @@ object fuse:730 {
      from R3-12-47-2_node_217; 
      to R3-12-47-2_node_95; 
      current_limit 25; 
+		 mean_replacement_time 3600;
      status CLOSED; 
 } 
 
@@ -122,6 +129,7 @@ object fuse:731 {
      from R3-12-47-2_node_198; 
      to R3-12-47-2_node_91; 
      current_limit 40; 
+		 mean_replacement_time 3600;
      status CLOSED; 
 } 
 
@@ -131,6 +139,7 @@ object fuse:732 {
      from R3-12-47-2_node_198; 
      to R3-12-47-2_node_83; 
      current_limit 80; 
+		 mean_replacement_time 3600;
      status CLOSED; 
 } 
 
@@ -140,6 +149,7 @@ object fuse:733 {
      from R3-12-47-2_node_209; 
      to R3-12-47-2_node_85; 
      current_limit 65; 
+		 mean_replacement_time 3600;
      status CLOSED; 
 } 
 
@@ -149,6 +159,7 @@ object fuse:734 {
      from R3-12-47-2_node_211; 
      to R3-12-47-2_node_93; 
      current_limit 100; 
+		 mean_replacement_time 3600;
      status CLOSED; 
 } 
 
@@ -158,6 +169,7 @@ object fuse:735 {
      from R3-12-47-2_node_184; 
      to R3-12-47-2_node_89; 
      current_limit 65; 
+		 mean_replacement_time 3600;
      status CLOSED; 
 } 
 
@@ -167,6 +179,7 @@ object fuse:736 {
      from R3-12-47-2_node_210; 
      to R3-12-47-2_node_92; 
      current_limit 65; 
+		 mean_replacement_time 3600;
      status CLOSED; 
 } 
 
@@ -176,6 +189,7 @@ object fuse:737 {
      from R3-12-47-2_node_213; 
      to R3-12-47-2_node_94; 
      current_limit 65; 
+		 mean_replacement_time 3600;
      status CLOSED; 
 } 
 
@@ -185,6 +199,7 @@ object fuse:738 {
      from R3-12-47-2_node_215; 
      to R3-12-47-2_node_86; 
      current_limit 65; 
+		 mean_replacement_time 3600;
      status CLOSED; 
 } 
 
@@ -194,6 +209,7 @@ object fuse:739 {
      from R3-12-47-2_node_115; 
      to R3-12-47-2_node_80; 
      current_limit 118; 
+		 mean_replacement_time 3600;
      status CLOSED; 
 } 
 
@@ -203,6 +219,7 @@ object fuse:740 {
      from R3-12-47-2_node_128; 
      to R3-12-47-2_node_73; 
      current_limit 300; 
+		 mean_replacement_time 3600;
      status CLOSED; 
 } 
 
@@ -212,6 +229,7 @@ object fuse:741 {
      from R3-12-47-2_node_3; 
      to R3-12-47-2_node_78; 
      current_limit 90; 
+		 mean_replacement_time 3600;
      status CLOSED; 
 } 
 
@@ -221,6 +239,7 @@ object fuse:742 {
      from R3-12-47-2_node_2; 
      to R3-12-47-2_node_79; 
      current_limit 18; 
+		 mean_replacement_time 3600;
      status CLOSED; 
 } 
 
@@ -230,6 +249,7 @@ object fuse:743 {
      from R3-12-47-2_node_6; 
      to R3-12-47-2_node_72; 
      current_limit 300; 
+		 mean_replacement_time 3600;
      status CLOSED; 
 } 
 
@@ -239,6 +259,7 @@ object fuse:744 {
      from R3-12-47-2_node_8; 
      to R3-12-47-2_node_76; 
      current_limit 300; 
+		 mean_replacement_time 3600;
      status CLOSED; 
 } 
 
@@ -6305,6 +6326,10 @@ object triplex_line_configuration:1 {
      conductor_N TLC 1/0 AA triplex; 
      insulation_thickness 0.08; 
      diameter 0.368; 
+  rating.summer.continuous 10000;
+  rating.summer.emergency 10000;
+  rating.winter.continuous 10000;
+  rating.winter.emergency 10000;
 } 
 
 object underground_line:597 { 

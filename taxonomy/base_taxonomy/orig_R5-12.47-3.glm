@@ -12,9 +12,9 @@
 
 // off by 10-12 on several triplex nodes for NR vs FBS; search for @off
 clock{
-	timezone EST+8EDT;
+	timezone EST+5EDT;
 	timestamp '2000-01-01 0:00:00';
-	stoptime '2000-01-01 1:00:00';
+	stoptime '2000-01-01 0:01:00';
 }
 
  //#set profiler=1;
@@ -186,6 +186,7 @@ clock{
       to R5-12-47-3_node_11;
       mean_replacement_time 2;
       current_limit 50;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -196,6 +197,7 @@ clock{
       to R5-12-47-3_node_37;
       mean_replacement_time 2;
       current_limit 30;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -206,6 +208,7 @@ clock{
       to R5-12-47-3_node_40;
       mean_replacement_time 2;
       current_limit 50;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -216,6 +219,7 @@ clock{
       to R5-12-47-3_node_64;
       mean_replacement_time 2;
       current_limit 50;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -226,6 +230,7 @@ clock{
       to R5-12-47-3_node_67;
       mean_replacement_time 2;
       current_limit 30;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -236,6 +241,7 @@ clock{
       to R5-12-47-3_node_69;
       mean_replacement_time 2;
       current_limit 30;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -246,6 +252,7 @@ clock{
       to R5-12-47-3_node_80;
       mean_replacement_time 2;
       current_limit 50;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -256,6 +263,7 @@ clock{
       to R5-12-47-3_node_84;
       mean_replacement_time 2;
       current_limit 20;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -266,6 +274,7 @@ clock{
       to R5-12-47-3_node_102;
       mean_replacement_time 2;
       current_limit 50;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -276,6 +285,7 @@ clock{
       to R5-12-47-3_node_103;
       mean_replacement_time 2;
       current_limit 50;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -286,6 +296,7 @@ clock{
       to R5-12-47-3_node_104;
       mean_replacement_time 2;
       current_limit 50;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -296,6 +307,7 @@ clock{
       to R5-12-47-3_node_105;
       mean_replacement_time 2;
       current_limit 50;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -306,6 +318,7 @@ clock{
       to R5-12-47-3_node_106;
       mean_replacement_time 2;
       current_limit 50;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -316,6 +329,7 @@ clock{
       to R5-12-47-3_node_107;
       mean_replacement_time 2;
       current_limit 50;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -326,6 +340,7 @@ clock{
       to R5-12-47-3_node_108;
       mean_replacement_time 2;
       current_limit 50;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -336,6 +351,7 @@ clock{
       to R5-12-47-3_node_109;
       mean_replacement_time 2;
       current_limit 50;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -346,6 +362,7 @@ clock{
       to R5-12-47-3_node_110;
       mean_replacement_time 2;
       current_limit 15;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -356,6 +373,7 @@ clock{
       to R5-12-47-3_node_111;
       mean_replacement_time 2;
       current_limit 50;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -366,6 +384,7 @@ clock{
       to R5-12-47-3_node_112;
       mean_replacement_time 2;
       current_limit 50;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -376,6 +395,7 @@ clock{
       to R5-12-47-3_node_113;
       mean_replacement_time 2;
       current_limit 50;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -386,6 +406,7 @@ clock{
       to R5-12-47-3_node_114;
       mean_replacement_time 2;
       current_limit 50;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -396,6 +417,7 @@ clock{
       to R5-12-47-3_node_116;
       mean_replacement_time 2;
       current_limit 50;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -406,6 +428,7 @@ clock{
       to R5-12-47-3_node_117;
       mean_replacement_time 2;
       current_limit 50;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -416,6 +439,7 @@ clock{
       to R5-12-47-3_node_118;
       mean_replacement_time 2;
       current_limit 20;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -426,6 +450,7 @@ clock{
       to R5-12-47-3_node_119;
       mean_replacement_time 2;
       current_limit 30;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -436,6 +461,7 @@ clock{
       to R5-12-47-3_node_120;
       mean_replacement_time 2;
       current_limit 50;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -446,6 +472,7 @@ clock{
       to R5-12-47-3_node_121;
       mean_replacement_time 2;
       current_limit 30;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -456,6 +483,7 @@ clock{
       to R5-12-47-3_node_122;
       mean_replacement_time 2;
       current_limit 50;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -466,6 +494,7 @@ clock{
       to R5-12-47-3_node_123;
       mean_replacement_time 2;
       current_limit 50;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -476,6 +505,7 @@ clock{
       to R5-12-47-3_node_134;
       mean_replacement_time 2;
       current_limit 50;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -486,6 +516,7 @@ clock{
       to R5-12-47-3_node_140;
       mean_replacement_time 2;
       current_limit 20;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -496,6 +527,7 @@ clock{
       to R5-12-47-3_node_143;
       mean_replacement_time 2;
       current_limit 30;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -506,6 +538,7 @@ clock{
       to R5-12-47-3_node_146;
       mean_replacement_time 2;
       current_limit 50;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -516,6 +549,7 @@ clock{
       to R5-12-47-3_node_150;
       mean_replacement_time 2;
       current_limit 50;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -526,6 +560,7 @@ clock{
       to R5-12-47-3_node_156;
       mean_replacement_time 2;
       current_limit 30;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -536,6 +571,7 @@ clock{
       to R5-12-47-3_node_160;
       mean_replacement_time 2;
       current_limit 50;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -546,6 +582,7 @@ clock{
       to R5-12-47-3_node_162;
       mean_replacement_time 2;
       current_limit 50;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -556,6 +593,7 @@ clock{
       to R5-12-47-3_node_163;
       mean_replacement_time 2;
       current_limit 50;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -566,6 +604,7 @@ clock{
       to R5-12-47-3_node_166;
       mean_replacement_time 2;
       current_limit 50;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -576,6 +615,7 @@ clock{
       to R5-12-47-3_node_173;
       mean_replacement_time 2;
       current_limit 50;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -586,6 +626,7 @@ clock{
       to R5-12-47-3_node_174;
       mean_replacement_time 2;
       current_limit 50;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -596,6 +637,7 @@ clock{
       to R5-12-47-3_node_178;
       mean_replacement_time 2;
       current_limit 30;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -606,6 +648,7 @@ clock{
       to R5-12-47-3_node_181;
       mean_replacement_time 2;
       current_limit 30;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -616,6 +659,7 @@ clock{
       to R5-12-47-3_node_187;
       mean_replacement_time 2;
       current_limit 50;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -626,6 +670,7 @@ clock{
       to R5-12-47-3_node_188;
       mean_replacement_time 2;
       current_limit 30;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -636,6 +681,7 @@ clock{
       to R5-12-47-3_node_192;
       mean_replacement_time 2;
       current_limit 30;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -646,6 +692,7 @@ clock{
       to R5-12-47-3_node_193;
       mean_replacement_time 2;
       current_limit 30;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -656,6 +703,7 @@ clock{
       to R5-12-47-3_node_198;
       mean_replacement_time 2;
       current_limit 30;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -666,6 +714,7 @@ clock{
       to R5-12-47-3_node_199;
       mean_replacement_time 2;
       current_limit 50;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -676,6 +725,7 @@ clock{
       to R5-12-47-3_node_201;
       mean_replacement_time 2;
       current_limit 30;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -686,6 +736,7 @@ clock{
       to R5-12-47-3_node_204;
       mean_replacement_time 2;
       current_limit 30;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -696,6 +747,7 @@ clock{
       to R5-12-47-3_node_210;
       mean_replacement_time 2;
       current_limit 50;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -706,6 +758,7 @@ clock{
       to R5-12-47-3_node_221;
       mean_replacement_time 2;
       current_limit 30;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -716,6 +769,7 @@ clock{
       to R5-12-47-3_node_229;
       mean_replacement_time 2;
       current_limit 50;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -726,6 +780,7 @@ clock{
       to R5-12-47-3_node_233;
       mean_replacement_time 2;
       current_limit 50;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -736,6 +791,7 @@ clock{
       to R5-12-47-3_node_239;
       mean_replacement_time 2;
       current_limit 30;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -746,6 +802,7 @@ clock{
       to R5-12-47-3_node_243;
       mean_replacement_time 2;
       current_limit 20;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -756,6 +813,7 @@ clock{
       to R5-12-47-3_node_244;
       mean_replacement_time 2;
       current_limit 30;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -766,6 +824,7 @@ clock{
       to R5-12-47-3_node_255;
       mean_replacement_time 2;
       current_limit 50;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -776,6 +835,7 @@ clock{
       to R5-12-47-3_node_258;
       mean_replacement_time 2;
       current_limit 50;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -786,6 +846,7 @@ clock{
       to R5-12-47-3_node_273;
       mean_replacement_time 2;
       current_limit 50;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -796,6 +857,7 @@ clock{
       to R5-12-47-3_node_275;
       mean_replacement_time 2;
       current_limit 50;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -806,6 +868,7 @@ clock{
       to R5-12-47-3_node_286;
       mean_replacement_time 2;
       current_limit 50;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -816,6 +879,7 @@ clock{
       to R5-12-47-3_node_293;
       mean_replacement_time 2;
       current_limit 50;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -826,6 +890,7 @@ clock{
       to R5-12-47-3_node_297;
       mean_replacement_time 2;
       current_limit 50;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -836,6 +901,7 @@ clock{
       to R5-12-47-3_node_306;
       mean_replacement_time 2;
       current_limit 50;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -846,6 +912,7 @@ clock{
       to R5-12-47-3_node_309;
       mean_replacement_time 2;
       current_limit 50;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -856,6 +923,7 @@ clock{
       to R5-12-47-3_node_312;
       mean_replacement_time 2;
       current_limit 50;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -866,6 +934,7 @@ clock{
       to R5-12-47-3_node_322;
       mean_replacement_time 2;
       current_limit 100;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -876,6 +945,7 @@ clock{
       to R5-12-47-3_node_329;
       mean_replacement_time 2;
       current_limit 50;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -886,6 +956,7 @@ clock{
       to R5-12-47-3_node_332;
       mean_replacement_time 2;
       current_limit 50;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -896,6 +967,7 @@ clock{
       to R5-12-47-3_node_341;
       mean_replacement_time 2;
       current_limit 30;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -906,6 +978,7 @@ clock{
       to R5-12-47-3_node_352;
       mean_replacement_time 2;
       current_limit 50;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -916,6 +989,7 @@ clock{
       to R5-12-47-3_node_365;
       mean_replacement_time 2;
       current_limit 30;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -926,6 +1000,7 @@ clock{
       to R5-12-47-3_node_371;
       mean_replacement_time 2;
       current_limit 50;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -936,6 +1011,7 @@ clock{
       to R5-12-47-3_node_373;
       mean_replacement_time 2;
       current_limit 30;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -946,6 +1022,7 @@ clock{
       to R5-12-47-3_node_388;
       mean_replacement_time 2;
       current_limit 50;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -956,6 +1033,7 @@ clock{
       to R5-12-47-3_node_407;
       mean_replacement_time 2;
       current_limit 50;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -966,6 +1044,7 @@ clock{
       to R5-12-47-3_node_409;
       mean_replacement_time 2;
       current_limit 50;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -976,6 +1055,7 @@ clock{
       to R5-12-47-3_node_419;
       mean_replacement_time 2;
       current_limit 50;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -986,6 +1066,7 @@ clock{
       to R5-12-47-3_node_437;
       mean_replacement_time 2;
       current_limit 50;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -996,6 +1077,7 @@ clock{
       to R5-12-47-3_node_504;
       mean_replacement_time 2;
       current_limit 50;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -1006,6 +1088,7 @@ clock{
       to R5-12-47-3_node_510;
       mean_replacement_time 2;
       current_limit 50;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -1016,6 +1099,7 @@ clock{
       to R5-12-47-3_node_533;
       mean_replacement_time 2;
       current_limit 50;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -1026,6 +1110,7 @@ clock{
       to R5-12-47-3_node_535;
       mean_replacement_time 2;
       current_limit 50;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -1036,6 +1121,7 @@ clock{
       to R5-12-47-3_node_540;
       mean_replacement_time 2;
       current_limit 30;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -1046,6 +1132,7 @@ clock{
       to R5-12-47-3_node_544;
       mean_replacement_time 2;
       current_limit 50;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -1056,6 +1143,7 @@ clock{
       to R5-12-47-3_node_574;
       mean_replacement_time 2;
       current_limit 30;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -1066,6 +1154,7 @@ clock{
       to R5-12-47-3_node_581;
       mean_replacement_time 2;
       current_limit 50;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -1076,6 +1165,7 @@ clock{
       to R5-12-47-3_node_598;
       mean_replacement_time 2;
       current_limit 50;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -1086,6 +1176,7 @@ clock{
       to R5-12-47-3_node_639;
       mean_replacement_time 2;
       current_limit 50;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -1096,6 +1187,7 @@ clock{
       to R5-12-47-3_node_650;
       mean_replacement_time 2;
       current_limit 50;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -1106,6 +1198,7 @@ clock{
       to R5-12-47-3_node_656;
       mean_replacement_time 2;
       current_limit 50;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -1116,6 +1209,7 @@ clock{
       to R5-12-47-3_node_661;
       mean_replacement_time 2;
       current_limit 20;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -1126,6 +1220,7 @@ clock{
       to R5-12-47-3_node_667;
       mean_replacement_time 2;
       current_limit 50;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -1136,6 +1231,7 @@ clock{
       to R5-12-47-3_node_705;
       mean_replacement_time 2;
       current_limit 20;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -1146,6 +1242,7 @@ clock{
       to R5-12-47-3_node_716;
       mean_replacement_time 2;
       current_limit 50;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -1156,6 +1253,7 @@ clock{
       to R5-12-47-3_node_724;
       mean_replacement_time 2;
       current_limit 30;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -1166,6 +1264,7 @@ clock{
       to R5-12-47-3_node_737;
       mean_replacement_time 2;
       current_limit 50;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -1176,6 +1275,7 @@ clock{
       to R5-12-47-3_node_743;
       mean_replacement_time 2;
       current_limit 50;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -1186,6 +1286,7 @@ clock{
       to R5-12-47-3_node_751;
       mean_replacement_time 2;
       current_limit 50;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -1196,6 +1297,7 @@ clock{
       to R5-12-47-3_node_765;
       mean_replacement_time 2;
       current_limit 50;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -1206,6 +1308,7 @@ clock{
       to R5-12-47-3_node_778;
       mean_replacement_time 2;
       current_limit 30;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -1216,6 +1319,7 @@ clock{
       to R5-12-47-3_node_783;
       mean_replacement_time 2;
       current_limit 50;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -1226,6 +1330,7 @@ clock{
       to R5-12-47-3_node_785;
       mean_replacement_time 2;
       current_limit 50;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -1236,6 +1341,7 @@ clock{
       to R5-12-47-3_node_787;
       mean_replacement_time 2;
       current_limit 50;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -1246,6 +1352,7 @@ clock{
       to R5-12-47-3_node_804;
       mean_replacement_time 2;
       current_limit 30;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -1256,6 +1363,7 @@ clock{
       to R5-12-47-3_node_809;
       mean_replacement_time 2;
       current_limit 50;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -1266,6 +1374,7 @@ clock{
       to R5-12-47-3_node_811;
       mean_replacement_time 2;
       current_limit 50;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -1276,6 +1385,7 @@ clock{
       to R5-12-47-3_node_849;
       mean_replacement_time 2;
       current_limit 50;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -1286,6 +1396,7 @@ clock{
       to R5-12-47-3_node_857;
       mean_replacement_time 2;
       current_limit 50;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -1296,6 +1407,7 @@ clock{
       to R5-12-47-3_node_859;
       mean_replacement_time 2;
       current_limit 50;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -1306,6 +1418,7 @@ clock{
       to R5-12-47-3_node_867;
       mean_replacement_time 2;
       current_limit 50;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -1316,6 +1429,7 @@ clock{
       to R5-12-47-3_node_884;
       mean_replacement_time 2;
       current_limit 50;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -1326,6 +1440,7 @@ clock{
       to R5-12-47-3_node_890;
       mean_replacement_time 2;
       current_limit 50;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -1336,6 +1451,7 @@ clock{
       to R5-12-47-3_node_911;
       mean_replacement_time 2;
       current_limit 50;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -1346,6 +1462,7 @@ clock{
       to R5-12-47-3_node_917;
       mean_replacement_time 2;
       current_limit 50;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -1356,6 +1473,7 @@ clock{
       to R5-12-47-3_node_925;
       mean_replacement_time 2;
       current_limit 50;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -1366,6 +1484,7 @@ clock{
       to R5-12-47-3_node_938;
       mean_replacement_time 2;
       current_limit 50;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -1376,6 +1495,7 @@ clock{
       to R5-12-47-3_node_942;
       mean_replacement_time 2;
       current_limit 30;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -1386,6 +1506,7 @@ clock{
       to R5-12-47-3_node_953;
       mean_replacement_time 2;
       current_limit 30;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -1396,6 +1517,7 @@ clock{
       to R5-12-47-3_node_957;
       mean_replacement_time 2;
       current_limit 50;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -1406,6 +1528,7 @@ clock{
       to R5-12-47-3_node_964;
       mean_replacement_time 2;
       current_limit 50;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -1416,6 +1539,7 @@ clock{
       to R5-12-47-3_node_975;
       mean_replacement_time 2;
       current_limit 50;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -1426,6 +1550,7 @@ clock{
       to R5-12-47-3_node_977;
       mean_replacement_time 2;
       current_limit 50;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -1436,6 +1561,7 @@ clock{
       to R5-12-47-3_node_1006;
       mean_replacement_time 2;
       current_limit 50;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -1446,6 +1572,7 @@ clock{
       to R5-12-47-3_node_1028;
       mean_replacement_time 2;
       current_limit 50;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -1456,6 +1583,7 @@ clock{
       to R5-12-47-3_node_1030;
       mean_replacement_time 2;
       current_limit 50;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -1466,6 +1594,7 @@ clock{
       to R5-12-47-3_node_1032;
       mean_replacement_time 2;
       current_limit 50;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -1476,6 +1605,7 @@ clock{
       to R5-12-47-3_node_1049;
       mean_replacement_time 2;
       current_limit 50;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -1486,6 +1616,7 @@ clock{
       to R5-12-47-3_node_1053;
       mean_replacement_time 2;
       current_limit 30;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -1496,6 +1627,7 @@ clock{
       to R5-12-47-3_node_1056;
       mean_replacement_time 2;
       current_limit 40;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -1506,6 +1638,7 @@ clock{
       to R5-12-47-3_node_1061;
       mean_replacement_time 2;
       current_limit 20;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -1516,6 +1649,7 @@ clock{
       to R5-12-47-3_node_1062;
       mean_replacement_time 2;
       current_limit 20;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -1526,6 +1660,7 @@ clock{
       to R5-12-47-3_node_1066;
       mean_replacement_time 2;
       current_limit 50;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -1536,6 +1671,7 @@ clock{
       to R5-12-47-3_node_1072;
       mean_replacement_time 2;
       current_limit 20;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -1546,6 +1682,7 @@ clock{
       to R5-12-47-3_node_1119;
       mean_replacement_time 2;
       current_limit 50;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -1556,6 +1693,7 @@ clock{
       to R5-12-47-3_node_1125;
       mean_replacement_time 2;
       current_limit 50;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -1566,6 +1704,7 @@ clock{
       to R5-12-47-3_node_1130;
       mean_replacement_time 2;
       current_limit 50;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -1576,6 +1715,7 @@ clock{
       to R5-12-47-3_node_1166;
       mean_replacement_time 2;
       current_limit 50;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -1586,6 +1726,7 @@ clock{
       to R5-12-47-3_node_1169;
       mean_replacement_time 2;
       current_limit 50;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -1596,6 +1737,7 @@ clock{
       to R5-12-47-3_node_1185;
       mean_replacement_time 2;
       current_limit 50;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -1606,6 +1748,7 @@ clock{
       to R5-12-47-3_node_1190;
       mean_replacement_time 2;
       current_limit 50;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -1616,6 +1759,7 @@ clock{
       to R5-12-47-3_node_1193;
       mean_replacement_time 2;
       current_limit 50;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -1626,6 +1770,7 @@ clock{
       to R5-12-47-3_node_1194;
       mean_replacement_time 2;
       current_limit 50;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -1636,6 +1781,7 @@ clock{
       to R5-12-47-3_node_1199;
       mean_replacement_time 2;
       current_limit 30;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -1646,6 +1792,7 @@ clock{
       to R5-12-47-3_node_1203;
       mean_replacement_time 2;
       current_limit 25;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -1656,6 +1803,7 @@ clock{
       to R5-12-47-3_node_1206;
       mean_replacement_time 2;
       current_limit 10;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -1666,6 +1814,7 @@ clock{
       to R5-12-47-3_node_1208;
       mean_replacement_time 2;
       current_limit 50;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -1676,6 +1825,7 @@ clock{
       to R5-12-47-3_node_1212;
       mean_replacement_time 2;
       current_limit 50;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -1686,6 +1836,7 @@ clock{
       to R5-12-47-3_node_1214;
       mean_replacement_time 2;
       current_limit 50;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -1696,6 +1847,7 @@ clock{
       to R5-12-47-3_node_1230;
       mean_replacement_time 2;
       current_limit 10;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -1706,6 +1858,7 @@ clock{
       to R5-12-47-3_node_1234;
       mean_replacement_time 2;
       current_limit 15;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -1716,6 +1869,7 @@ clock{
       to R5-12-47-3_node_1241;
       mean_replacement_time 2;
       current_limit 30;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -1726,6 +1880,7 @@ clock{
       to R5-12-47-3_node_1243;
       mean_replacement_time 2;
       current_limit 30;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -1736,6 +1891,7 @@ clock{
       to R5-12-47-3_node_1250;
       mean_replacement_time 2;
       current_limit 25;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -1746,6 +1902,7 @@ clock{
       to R5-12-47-3_node_1257;
       mean_replacement_time 2;
       current_limit 50;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -1756,6 +1913,7 @@ clock{
       to R5-12-47-3_node_1287;
       mean_replacement_time 2;
       current_limit 50;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -1766,6 +1924,7 @@ clock{
       to R5-12-47-3_node_1303;
       mean_replacement_time 2;
       current_limit 30;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -1776,6 +1935,7 @@ clock{
       to R5-12-47-3_node_1305;
       mean_replacement_time 2;
       current_limit 50;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -1786,6 +1946,7 @@ clock{
       to R5-12-47-3_node_1306;
       mean_replacement_time 2;
       current_limit 50;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -1796,6 +1957,7 @@ clock{
       to R5-12-47-3_node_1343;
       mean_replacement_time 2;
       current_limit 30;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -1806,6 +1968,7 @@ clock{
       to R5-12-47-3_node_1346;
       mean_replacement_time 2;
       current_limit 50;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -1816,6 +1979,7 @@ clock{
       to R5-12-47-3_node_1349;
       mean_replacement_time 2;
       current_limit 30;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -1826,6 +1990,7 @@ clock{
       to R5-12-47-3_node_1354;
       mean_replacement_time 2;
       current_limit 50;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -1836,6 +2001,7 @@ clock{
       to R5-12-47-3_node_1362;
       mean_replacement_time 2;
       current_limit 50;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -1846,6 +2012,7 @@ clock{
       to R5-12-47-3_node_1364;
       mean_replacement_time 2;
       current_limit 30;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -1856,6 +2023,7 @@ clock{
       to R5-12-47-3_node_1376;
       mean_replacement_time 2;
       current_limit 50;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -1866,6 +2034,7 @@ clock{
       to R5-12-47-3_node_1394;
       mean_replacement_time 2;
       current_limit 30;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -1876,6 +2045,7 @@ clock{
       to R5-12-47-3_node_1407;
       mean_replacement_time 2;
       current_limit 50;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -1886,6 +2056,7 @@ clock{
       to R5-12-47-3_node_1410;
       mean_replacement_time 2;
       current_limit 50;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -1896,6 +2067,7 @@ clock{
       to R5-12-47-3_node_1415;
       mean_replacement_time 2;
       current_limit 20;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -1906,6 +2078,7 @@ clock{
       to R5-12-47-3_node_1425;
       mean_replacement_time 2;
       current_limit 50;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -1916,6 +2089,7 @@ clock{
       to R5-12-47-3_node_1431;
       mean_replacement_time 2;
       current_limit 50;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -1926,6 +2100,7 @@ clock{
       to R5-12-47-3_node_1433;
       mean_replacement_time 2;
       current_limit 30;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -1936,6 +2111,7 @@ clock{
       to R5-12-47-3_node_1435;
       mean_replacement_time 2;
       current_limit 50;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -1946,6 +2122,7 @@ clock{
       to R5-12-47-3_node_1440;
       mean_replacement_time 2;
       current_limit 50;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -1956,6 +2133,7 @@ clock{
       to R5-12-47-3_node_1449;
       mean_replacement_time 2;
       current_limit 50;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -1966,6 +2144,7 @@ clock{
       to R5-12-47-3_node_1458;
       mean_replacement_time 2;
       current_limit 50;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -1976,6 +2155,7 @@ clock{
       to R5-12-47-3_node_1460;
       mean_replacement_time 2;
       current_limit 50;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -1986,6 +2166,7 @@ clock{
       to R5-12-47-3_node_1461;
       mean_replacement_time 2;
       current_limit 50;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -1996,6 +2177,7 @@ clock{
       to R5-12-47-3_node_1465;
       mean_replacement_time 2;
       current_limit 30;
+			mean_replacement_time 3600;
       status CLOSED;
  }
 
@@ -50865,6 +51047,10 @@ clock{
       conductor_N TLC 1/0 AA triplex;
       insulation_thickness 0.08;
       diameter 0.368;
+		 rating.summer.continuous 10000;
+		 rating.summer.emergency 10000;
+		 rating.winter.continuous 10000;
+		 rating.winter.emergency 10000;
  }
 
  object triplex_meter:4137 {

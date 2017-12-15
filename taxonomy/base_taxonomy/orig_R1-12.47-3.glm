@@ -8,9 +8,9 @@
 
 // created by: alek332
 clock{
-	timezone EST+8EDT;
+	timezone EST+5EDT;
 	timestamp '2000-01-01 0:00:00';
-	stoptime '2000-01-01 1:00:00';
+	stoptime '2000-01-01 0:01:00';
 }
 
 #set profiler=1
@@ -64,6 +64,7 @@ object fuse:208 {
 	to R1-12-47-3_node_20;
 	mean_replacement_time 1000;
 	current_limit 10000;
+	mean_replacement_time 3600;
 	status CLOSED;
 }
 
@@ -74,6 +75,7 @@ object fuse:209 {
 	to R1-12-47-3_node_23;
 	mean_replacement_time 1000;
 	current_limit 100000;
+	mean_replacement_time 3600;
 	status CLOSED;
 }
 
@@ -84,6 +86,7 @@ object fuse:210 {
 	to R1-12-47-3_node_28;
 	mean_replacement_time 1000;
 	current_limit 400000;
+	mean_replacement_time 3600;
 	status CLOSED;
 }
 
@@ -94,6 +97,7 @@ object fuse:211 {
 	to R1-12-47-3_node_33;
 	mean_replacement_time 1000;
 	current_limit 100000;
+	mean_replacement_time 3600;
 	status CLOSED;
 }
 
@@ -104,6 +108,7 @@ object fuse:212 {
 	to R1-12-47-3_node_35;
 	mean_replacement_time 1000;
 	current_limit 80000;
+	mean_replacement_time 3600;
 	status CLOSED;
 }
 
@@ -114,6 +119,7 @@ object fuse:213 {
 	to R1-12-47-3_node_37;
 	mean_replacement_time 1000;
 	current_limit 400000;
+	mean_replacement_time 3600;
 	status CLOSED;
 }
 
@@ -124,6 +130,7 @@ object fuse:214 {
 	to R1-12-47-3_node_40;
 	mean_replacement_time 1000;
 	current_limit 400000;
+	mean_replacement_time 3600;
 	status CLOSED;
 }
 
@@ -2268,6 +2275,10 @@ object triplex_line_configuration:1 {
 	conductor_N TLC 1/0 AA triplex;
 	insulation_thickness 0.08;
 	diameter 0.368;
+  rating.summer.continuous 10000;
+  rating.summer.emergency 10000;
+  rating.winter.continuous 10000;
+  rating.winter.emergency 10000;
 }
 
 

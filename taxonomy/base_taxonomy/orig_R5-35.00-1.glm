@@ -10,13 +10,12 @@
 //
 // written by alek332
 clock{
-	timezone EST+8EDT;
+	timezone EST+5EDT;
 	timestamp '2000-01-01 0:00:00';
-	stoptime '2000-01-01 0:00:01';
+	stoptime '2000-01-01 0:01:00';
 }
 
 #set profiler=1
-#set suppress_repeat_messages=1
  //*********************************************
  // modules
 module assert;
@@ -5000,7 +4999,7 @@ object transformer:1307 {
      phases AS; 
      from R5-35-00-1_node_62; 
      to R5-35-00-1_tn_49; 
-     configuration transformer_configuration:1234; 
+     configuration transformer_configuration:1239; 
 } 
 
 object transformer:1308 { 
@@ -5240,7 +5239,7 @@ object transformer:1337 {
      phases BS; 
      from R5-35-00-1_node_95; 
      to R5-35-00-1_tn_79; 
-     configuration transformer_configuration:1241; 
+     configuration transformer_configuration:1247; 
 } 
 
 object transformer:1338 { 
@@ -8953,6 +8952,10 @@ object triplex_line_configuration:1 {
      conductor_N TLC 1/0 AA triplex; 
      insulation_thickness 0.08; 
      diameter 0.368; 
+		 rating.summer.continuous 10000;
+		 rating.summer.emergency 10000;
+		 rating.winter.continuous 10000;
+		 rating.winter.emergency 10000;
 } 
 
 object triplex_meter:797 { 

@@ -6,9 +6,9 @@
 
 // created by: alek332
 clock{
-	timezone EST+8EDT;
+	timezone EST+5EDT;
 	timestamp '2000-01-01 0:00:00';
-	stoptime '2000-01-01 1:00:00';
+	stoptime '2000-01-01 0:01:00';
 }
 
 #set profiler=1
@@ -86,6 +86,7 @@ object fuse:1145 {
 	from R1-25-00-1_node_148;
 	to R1-25-00-1_node_292;
 	current_limit 1000;
+	mean_replacement_time 3600;
 	status CLOSED;
 }
 
@@ -95,6 +96,7 @@ object fuse:1146 {
 	from R1-25-00-1_node_297;
 	to R1-25-00-1_node_298;
 	current_limit 1000;
+	mean_replacement_time 3600;
 	status CLOSED;
 }
 
@@ -104,6 +106,7 @@ object fuse:1147 {
 	from R1-25-00-1_node_64;
 	to R1-25-00-1_node_65;
 	current_limit 1000;
+	mean_replacement_time 3600;
 	status CLOSED;
 }
 
@@ -113,6 +116,7 @@ object fuse:1148 {
 	from R1-25-00-1_node_145;
 	to R1-25-00-1_node_146;
 	current_limit 5000;
+	mean_replacement_time 3600;
 	status CLOSED;
 }
 
@@ -122,6 +126,7 @@ object fuse:1149 {
 	from R1-25-00-1_node_153;
 	to R1-25-00-1_node_155;
 	current_limit 5000;
+	mean_replacement_time 3600;
 	status CLOSED;
 }
 
@@ -131,6 +136,7 @@ object fuse:1150 {
 	from R1-25-00-1_node_164;
 	to R1-25-00-1_node_165;
 	current_limit 5000;
+	mean_replacement_time 3600;
 	status CLOSED;
 }
 
@@ -140,6 +146,7 @@ object fuse:1151 {
 	from R1-25-00-1_node_207;
 	to R1-25-00-1_node_208;
 	current_limit 2500;
+	mean_replacement_time 3600;
 	status CLOSED;
 }
 
@@ -149,6 +156,7 @@ object fuse:1152 {
 	from R1-25-00-1_node_207;
 	to R1-25-00-1_node_213;
 	current_limit 3000;
+	mean_replacement_time 3600;
 	status CLOSED;
 }
 
@@ -158,6 +166,7 @@ object fuse:1153 {
 	from R1-25-00-1_node_244;
 	to R1-25-00-1_node_250;
 	current_limit 3000;
+	mean_replacement_time 3600;
 	status CLOSED;
 }
 
@@ -167,6 +176,7 @@ object fuse:1154 {
 	from R1-25-00-1_node_259;
 	to R1-25-00-1_node_261;
 	current_limit 2000;
+	mean_replacement_time 3600;
 	status CLOSED;
 }
 
@@ -176,6 +186,7 @@ object fuse:1155 {
 	from R1-25-00-1_node_313;
 	to R1-25-00-1_node_319;
 	current_limit 1000;
+	mean_replacement_time 3600;
 	status CLOSED;
 }
 
@@ -8351,6 +8362,10 @@ object triplex_line_configuration:1 {
 	conductor_N triplex_1/0 AA;
 	insulation_thickness 0.08;
 	diameter 0.368;
+  rating.summer.continuous 10000;
+  rating.summer.emergency 10000;
+  rating.winter.continuous 10000;
+  rating.winter.emergency 10000;
 }
 
 

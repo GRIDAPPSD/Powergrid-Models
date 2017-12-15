@@ -8,9 +8,9 @@
 
 // created by: alek332
 clock{
-	timezone EST+8EDT;
+	timezone EST+5EDT;
 	timestamp '2000-01-01 0:00:00';
-	stoptime '2000-01-01 1:00:00';
+	stoptime '2000-01-01 0:01:00';
 }
 
 #set profiler=1
@@ -88,6 +88,7 @@ object fuse:809 {
 	from R1-12-47-4_node_10;
 	to R1-12-47-4_node_169;
 	current_limit 15;
+	mean_replacement_time 3600;
 	status CLOSED;
 }
 
@@ -97,6 +98,7 @@ object fuse:810 {
 	from R1-12-47-4_node_21;
 	to R1-12-47-4_node_287;
 	current_limit 15;
+	mean_replacement_time 3600;
 	status CLOSED;
 }
 
@@ -106,6 +108,7 @@ object fuse:811 {
 	from R1-12-47-4_node_24;
 	to R1-12-47-4_node_288;
 	current_limit 15;
+	mean_replacement_time 3600;
 	status CLOSED;
 }
 
@@ -115,6 +118,7 @@ object fuse:812 {
 	from R1-12-47-4_node_27;
 	to R1-12-47-4_node_289;
 	current_limit 25;
+	mean_replacement_time 3600;
 	status CLOSED;
 }
 
@@ -124,6 +128,7 @@ object fuse:813 {
 	from R1-12-47-4_node_38;
 	to R1-12-47-4_node_290;
 	current_limit 15;
+	mean_replacement_time 3600;
 	status CLOSED;
 }
 
@@ -133,6 +138,7 @@ object fuse:814 {
 	from R1-12-47-4_node_41;
 	to R1-12-47-4_node_291;
 	current_limit 15;
+	mean_replacement_time 3600;
 	status CLOSED;
 }
 
@@ -142,6 +148,7 @@ object fuse:815 {
 	from R1-12-47-4_node_43;
 	to R1-12-47-4_node_292;
 	current_limit 25;
+	mean_replacement_time 3600;
 	status CLOSED;
 }
 
@@ -151,6 +158,7 @@ object fuse:816 {
 	from R1-12-47-4_node_50;
 	to R1-12-47-4_node_293;
 	current_limit 15;
+	mean_replacement_time 3600;
 	status CLOSED;
 }
 
@@ -160,6 +168,7 @@ object fuse:817 {
 	from R1-12-47-4_node_54;
 	to R1-12-47-4_node_294;
 	current_limit 20;
+	mean_replacement_time 3600;
 	status CLOSED;
 }
 
@@ -169,6 +178,7 @@ object fuse:818 {
 	from R1-12-47-4_node_55;
 	to R1-12-47-4_node_295;
 	current_limit 20;
+	mean_replacement_time 3600;
 	status CLOSED;
 }
 
@@ -178,6 +188,7 @@ object fuse:819 {
 	from R1-12-47-4_node_57;
 	to R1-12-47-4_node_296;
 	current_limit 15;
+	mean_replacement_time 3600;
 	status CLOSED;
 }
 
@@ -187,6 +198,7 @@ object fuse:820 {
 	from R1-12-47-4_node_59;
 	to R1-12-47-4_node_297;
 	current_limit 25;
+	mean_replacement_time 3600;
 	status CLOSED;
 }
 
@@ -196,6 +208,7 @@ object fuse:821 {
 	from R1-12-47-4_node_61;
 	to R1-12-47-4_node_298;
 	current_limit 25;
+	mean_replacement_time 3600;
 	status CLOSED;
 }
 
@@ -205,6 +218,7 @@ object fuse:822 {
 	from R1-12-47-4_node_63;
 	to R1-12-47-4_node_299;
 	current_limit 25;
+	mean_replacement_time 3600;
 	status CLOSED;
 }
 
@@ -214,6 +228,7 @@ object fuse:823 {
 	from R1-12-47-4_node_64;
 	to R1-12-47-4_node_300;
 	current_limit 25;
+	mean_replacement_time 3600;
 	status CLOSED;
 }
 
@@ -223,6 +238,7 @@ object fuse:824 {
 	from R1-12-47-4_node_19;
 	to R1-12-47-4_node_301;
 	current_limit 25;
+	mean_replacement_time 3600;
 	status CLOSED;
 }
 
@@ -232,6 +248,7 @@ object fuse:825 {
 	from R1-12-47-4_node_30;
 	to R1-12-47-4_node_260;
 	current_limit 40;
+	mean_replacement_time 3600;
 	status CLOSED;
 }
 
@@ -241,6 +258,7 @@ object fuse:826 {
 	from R1-12-47-4_node_30;
 	to R1-12-47-4_node_268;
 	current_limit 40;
+	mean_replacement_time 3600;
 	status CLOSED;
 }
 
@@ -250,6 +268,7 @@ object fuse:827 {
 	from R1-12-47-4_node_30;
 	to R1-12-47-4_node_274;
 	current_limit 40;
+	mean_replacement_time 3600;
 	status CLOSED;
 }
 
@@ -259,6 +278,7 @@ object fuse:828 {
 	from R1-12-47-4_node_56;
 	to R1-12-47-4_node_276;
 	current_limit 65;
+	mean_replacement_time 3600;
 	status CLOSED;
 }
 
@@ -268,6 +288,7 @@ object fuse:829 {
 	from R1-12-47-4_node_58;
 	to R1-12-47-4_node_195;
 	current_limit 15;
+	mean_replacement_time 3600;
 	status CLOSED;
 }
 
@@ -277,6 +298,7 @@ object fuse:830 {
 	from R1-12-47-4_node_84;
 	to R1-12-47-4_node_196;
 	current_limit 65;
+	mean_replacement_time 3600;
 	status CLOSED;
 }
 
@@ -286,6 +308,7 @@ object fuse:831 {
 	from R1-12-47-4_node_87;
 	to R1-12-47-4_node_197;
 	current_limit 15;
+	mean_replacement_time 3600;
 	status CLOSED;
 }
 
@@ -295,6 +318,7 @@ object fuse:832 {
 	from R1-12-47-4_node_91;
 	to R1-12-47-4_node_198;
 	current_limit 25;
+	mean_replacement_time 3600;
 	status CLOSED;
 }
 
@@ -304,6 +328,7 @@ object fuse:833 {
 	from R1-12-47-4_node_93;
 	to R1-12-47-4_node_199;
 	current_limit 25;
+	mean_replacement_time 3600;
 	status CLOSED;
 }
 
@@ -313,6 +338,7 @@ object fuse:834 {
 	from R1-12-47-4_node_170;
 	to R1-12-47-4_node_73;
 	current_limit 65;
+	mean_replacement_time 3600;
 	status CLOSED;
 }
 
@@ -322,6 +348,7 @@ object fuse:835 {
 	from R1-12-47-4_node_175;
 	to R1-12-47-4_node_74;
 	current_limit 65;
+	mean_replacement_time 3600;
 	status CLOSED;
 }
 
@@ -331,6 +358,7 @@ object fuse:836 {
 	from R1-12-47-4_node_176;
 	to R1-12-47-4_node_77;
 	current_limit 90;
+	mean_replacement_time 3600;
 	status CLOSED;
 }
 
@@ -340,6 +368,7 @@ object fuse:837 {
 	from R1-12-47-4_node_181;
 	to R1-12-47-4_node_76;
 	current_limit 65;
+	mean_replacement_time 3600;
 	status CLOSED;
 }
 
@@ -349,6 +378,7 @@ object fuse:838 {
 	from R1-12-47-4_node_120;
 	to R1-12-47-4_node_224;
 	current_limit 25;
+	mean_replacement_time 3600;
 	status CLOSED;
 }
 
@@ -358,6 +388,7 @@ object fuse:839 {
 	from R1-12-47-4_node_140;
 	to R1-12-47-4_node_225;
 	current_limit 15;
+	mean_replacement_time 3600;
 	status CLOSED;
 }
 
@@ -367,6 +398,7 @@ object fuse:840 {
 	from R1-12-47-4_node_144;
 	to R1-12-47-4_node_226;
 	current_limit 8;
+	mean_replacement_time 3600;
 	status CLOSED;
 }
 
@@ -376,6 +408,7 @@ object fuse:841 {
 	from R1-12-47-4_node_111;
 	to R1-12-47-4_node_227;
 	current_limit 15;
+	mean_replacement_time 3600;
 	status CLOSED;
 }
 
@@ -385,6 +418,7 @@ object fuse:842 {
 	from R1-12-47-4_node_113;
 	to R1-12-47-4_node_228;
 	current_limit 15;
+	mean_replacement_time 3600;
 	status CLOSED;
 }
 
@@ -394,6 +428,7 @@ object fuse:843 {
 	from R1-12-47-4_node_115;
 	to R1-12-47-4_node_229;
 	current_limit 25;
+	mean_replacement_time 3600;
 	status CLOSED;
 }
 
@@ -403,6 +438,7 @@ object fuse:844 {
 	from R1-12-47-4_node_126;
 	to R1-12-47-4_node_230;
 	current_limit 15;
+	mean_replacement_time 3600;
 	status CLOSED;
 }
 
@@ -412,6 +448,7 @@ object fuse:845 {
 	from R1-12-47-4_node_204;
 	to R1-12-47-4_node_107;
 	current_limit 65;
+	mean_replacement_time 3600;
 	status CLOSED;
 }
 
@@ -421,6 +458,7 @@ object fuse:846 {
 	from R1-12-47-4_node_209;
 	to R1-12-47-4_node_106;
 	current_limit 65;
+	mean_replacement_time 3600;
 	status CLOSED;
 }
 
@@ -430,6 +468,7 @@ object fuse:847 {
 	from R1-12-47-4_node_153;
 	to R1-12-47-4_node_237;
 	current_limit 65;
+	mean_replacement_time 3600;
 	status CLOSED;
 }
 
@@ -439,6 +478,7 @@ object fuse:848 {
 	from R1-12-47-4_node_101;
 	to R1-12-47-4_node_235;
 	current_limit 65;
+	mean_replacement_time 3600;
 	status CLOSED;
 }
 
@@ -448,6 +488,7 @@ object fuse:849 {
 	from R1-12-47-4_node_157;
 	to R1-12-47-4_node_247;
 	current_limit 8;
+	mean_replacement_time 3600;
 	status CLOSED;
 }
 
@@ -457,6 +498,7 @@ object fuse:850 {
 	from R1-12-47-4_node_159;
 	to R1-12-47-4_node_248;
 	current_limit 3;
+	mean_replacement_time 3600;
 	status CLOSED;
 }
 
@@ -466,6 +508,7 @@ object fuse:851 {
 	from R1-12-47-4_node_162;
 	to R1-12-47-4_node_249;
 	current_limit 15;
+	mean_replacement_time 3600;
 	status CLOSED;
 }
 
@@ -475,6 +518,7 @@ object fuse:852 {
 	from R1-12-47-4_node_164;
 	to R1-12-47-4_node_250;
 	current_limit 25;
+	mean_replacement_time 3600;
 	status CLOSED;
 }
 
@@ -4901,6 +4945,10 @@ object triplex_line_configuration:1 {
 	conductor_N TLC 1/0 AA triplex;
 	insulation_thickness 0.08;
 	diameter 0.368;
+  rating.summer.continuous 10000;
+  rating.summer.emergency 10000;
+  rating.winter.continuous 10000;
+  rating.winter.emergency 10000;
 }
 
 
