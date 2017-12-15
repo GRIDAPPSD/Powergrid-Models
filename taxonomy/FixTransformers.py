@@ -42,15 +42,17 @@ single_phase = [[5,2.10,1.53,0.90,3.38],
 def Find1PhaseXfmr (kva):
     for row in single_phase:
         if row[0] >= kva:
-#            return row[0], 0.01 * row[1], 0.01 * row[2], 0.01 * row[3], 0.01 * row[4]
-            return row[0], 0.0001, 0.0002, 0.001, 0.001
+#            return row[0], 0.0001, 0.0002, 0.01 * row[3], 0.01 * row[4]
+            return row[0], 0.01 * row[1], 0.01 * row[2], 0.01 * row[3], 0.01 * row[4]
+#            return row[0], 0.0001, 0.0002, 0.001, 0.001
     return 0,0,0,0,0
 
 def Find3PhaseXfmr (kva):
     for row in three_phase:
         if row[0] >= kva:
-#            return row[0], 0.01 * row[1], 0.01 * row[2], 0.01 * row[3], 0.01 * row[4]
-            return row[0], 0.0001, 0.0002, 0.001, 0.001
+#            return row[0], 0.0001, 0.0002, 0.01 * row[3], 0.01 * row[4]
+            return row[0], 0.01 * row[1], 0.01 * row[2], 0.01 * row[3], 0.01 * row[4]
+#            return row[0], 0.0001, 0.0002, 0.001, 0.001
     return 0,0,0,0,0
 
 #casefiles = [['R1-12.47-3',12470.0, 7200.0]]
