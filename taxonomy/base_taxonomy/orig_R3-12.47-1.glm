@@ -33791,18 +33791,24 @@ object underground_line_conductor:11 {
 }
 
 object underground_line_conductor:12 {
-	//name 1000 AAC (Tape);
-	rating.summer.continuous 775.0;
-	outer_diameter 1.87;
-	conductor_gmr 0.0371 ft;
-	conductor_diameter 1.15;
-	conductor_resistance 0.0222;
-	neutral_gmr 0.0732739718442675 ft;
-	neutral_resistance 0.05;
-	neutral_diameter 0.102;
-	neutral_strands 20.0;
-	shield_gmr 0.00;
-	shield_resistance 0.00;
+     //name 1000 AAC (Tape); 
+     rating.summer.continuous 775.0; 
+     outer_diameter 1.87; 
+     conductor_gmr 0.0371 ft; 
+     conductor_diameter 1.15; 
+     conductor_resistance 0.0222; 
+//     neutral_gmr 0.0732739718442675 ft; 
+//     neutral_resistance 0.05; 
+//     neutral_diameter 0.102; 
+//     neutral_strands 20.0;
+//     shield_gmr 0.00; 
+//     shield_resistance 0.00; 
+		 neutral_strands 0; 
+     shield_gmr 0.077708; 
+     shield_resistance 2.0135; 
+     shield_thickness 0.005;
+// default permittivity is 1 (air) so this parameter is new
+		 insulation_relative_permitivitty 2.3; 
 }
 
 object underground_line_conductor:13 {
@@ -33818,6 +33824,8 @@ object underground_line_conductor:13 {
 	neutral_strands 15.0;
 	shield_gmr 0.00;
 	shield_resistance 0.00;
+// default permittivity is 1 (air) so this parameter is new
+	insulation_relative_permitivitty 2.3; 
 }
 
 object underground_line_conductor:14 {
@@ -33833,6 +33841,8 @@ object underground_line_conductor:14 {
 	neutral_strands 6.0;
 	shield_gmr 0.00;
 	shield_resistance 0.00;
+// default permittivity is 1 (air) so this parameter is new
+	insulation_relative_permitivitty 2.3; 
 }
 
 object underground_line_conductor:16 {
@@ -33848,6 +33858,8 @@ object underground_line_conductor:16 {
 	neutral_strands 11.0;
 	shield_gmr 0.00;
 	shield_resistance 0.00;
+// default permittivity is 1 (air) so this parameter is new
+	insulation_relative_permitivitty 2.3; 
 }
 
 

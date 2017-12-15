@@ -257,12 +257,12 @@ object line_configuration:33 {
 
 
 object line_spacing:9 {
-	distance_AB 0.0 in;
-	distance_BC 0.0 in;
-	distance_AC 0.0 in;
-	distance_AN 0.0 in;
-	distance_BN 0.0 in;
-	distance_CN 0.0 in;
+	distance_AB 3.0 in;
+	distance_BC 3.0 in;
+	distance_AC 3.0 in;
+	distance_AN 2.0 in;
+	distance_BN 2.0 in;
+	distance_CN 2.0 in;
 }
 
 object line_spacing:10 {

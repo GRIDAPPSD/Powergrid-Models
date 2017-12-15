@@ -6924,36 +6924,6 @@ object underground_line:651 {
 		// limit 1440;
 		// file "UL651.csv";
 	// };
- object complex_assert{
-		target power_in_A;
-		value +211367+132286j;
-		within 1;
-	};
-	object complex_assert{
-		target power_in_B;
-		value +268121+166685j;
-		within 1;
-	};
-	object complex_assert{
-		target power_in_C;
-		value +218030+136134j;
-		within 1;
-	};
- object complex_assert{
-		target power_out_A;
-		value +211366+132286j;
-		within 1;
-	};
-	object complex_assert{
-		target power_out_B;
-		value +268121+166685j;
-		within 1;
-	};
-	object complex_assert{
-		target power_out_C;
-		value +218030+136134j;
-		within 1;
-	};
 }
 
 object underground_line:652 {
@@ -8407,18 +8377,24 @@ object underground_line:808 {
 
 
 object underground_line_conductor:2 {
-	//name 1000 AAC (Tape);
-	rating.summer.continuous 775.0;
-	outer_diameter 1.87;
-	conductor_gmr 0.0371 ft;
-	conductor_diameter 1.15;
-	conductor_resistance 0.0222;
-	neutral_gmr 0.0732739718442675 ft;
-	neutral_resistance 0.05;
-	neutral_diameter 0.102;
-	neutral_strands 20.0;
-	shield_gmr 0.00;
-	shield_resistance 0.00;
+     //name 1000 AAC (Tape); 
+     rating.summer.continuous 775.0; 
+     outer_diameter 1.87; 
+     conductor_gmr 0.0371 ft; 
+     conductor_diameter 1.15; 
+     conductor_resistance 0.0222; 
+//     neutral_gmr 0.0732739718442675 ft; 
+//     neutral_resistance 0.05; 
+//     neutral_diameter 0.102; 
+//     neutral_strands 20.0;
+//     shield_gmr 0.00; 
+//     shield_resistance 0.00; 
+		 neutral_strands 0; 
+     shield_gmr 0.077708; 
+     shield_resistance 2.0135; 
+     shield_thickness 0.005;
+// default permittivity is 1 (air) so this parameter is new
+		 insulation_relative_permitivitty 2.3; 
 }
 
 object underground_line_conductor:3 {
@@ -8434,6 +8410,8 @@ object underground_line_conductor:3 {
 	neutral_strands 20.0;
 	shield_gmr 0.00;
 	shield_resistance 0.00;
+// default permittivity is 1 (air) so this parameter is new
+	insulation_relative_permitivitty 2.3; 
 }
 
 object underground_line_conductor:4 {
@@ -8449,6 +8427,8 @@ object underground_line_conductor:4 {
 	neutral_strands 16.0;
 	shield_gmr 0.00;
 	shield_resistance 0.00;
+// default permittivity is 1 (air) so this parameter is new
+	insulation_relative_permitivitty 2.3; 
 }
 
 
