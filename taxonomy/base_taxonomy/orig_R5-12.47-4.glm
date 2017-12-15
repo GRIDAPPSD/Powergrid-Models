@@ -8046,7 +8046,8 @@ object overhead_line:1973 {
      from R5-12-47-4_node_634; 
      to R5-12-47-4_node_632; 
      length 75.227; 
-     configuration line_configuration:32; 
+//     configuration line_configuration:32; 
+     configuration line_configuration:29; 
 } 
 
 object overhead_line:1974 { 

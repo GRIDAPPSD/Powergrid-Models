@@ -27749,7 +27749,8 @@ clock{
       from R5-12-47-3_node_971;
       to R5-12-47-3_node_974;
       length 937.000;
-      configuration line_configuration:39;
+//      configuration line_configuration:39;
+      configuration line_configuration:86;
  }
 
  object overhead_line_conductor:2 {

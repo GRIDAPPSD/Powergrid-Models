@@ -14550,7 +14550,8 @@ object overhead_line:3811 {
      from R5-12-47-5_node_878; 
      to R5-12-47-5_node_879; 
      length 6.474; 
-     configuration line_configuration:54; 
+//     configuration line_configuration:54; 
+     configuration line_configuration:24; 
 } 
 
 object overhead_line:3812 { 
@@ -14568,7 +14569,8 @@ object overhead_line:3813 {
      from R5-12-47-5_node_879; 
      to R5-12-47-5_node_712; 
      length 271.826; 
-     configuration line_configuration:54; 
+//     configuration line_configuration:54; 
+     configuration line_configuration:24; 
 } 
 
 object overhead_line:3814 { 
@@ -14577,7 +14579,8 @@ object overhead_line:3814 {
      from R5-12-47-5_node_712; 
      to R5-12-47-5_node_713; 
      length 129.879; 
-     configuration line_configuration:54; 
+//     configuration line_configuration:54; 
+     configuration line_configuration:24; 
 } 
 
 object overhead_line:3815 { 
@@ -14604,7 +14607,8 @@ object overhead_line:3817 {
      from R5-12-47-5_node_873; 
      to R5-12-47-5_node_874; 
      length 8.195; 
-     configuration line_configuration:54; 
+//     configuration line_configuration:54; 
+     configuration line_configuration:24; 
 } 
 
 object overhead_line:3818 { 
