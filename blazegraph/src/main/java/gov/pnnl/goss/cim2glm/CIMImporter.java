@@ -7,6 +7,7 @@ package gov.pnnl.goss.cim2glm;
 // package gov.pnnl.gridlabd.cim ;
 
 import java.io.*;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -91,6 +92,8 @@ public class CIMImporter extends Object {
 	HashMap<String,DistXfmrCodeSCTest> mapCodeSCTests = new HashMap<>();
 	HashMap<String,DistXfmrTank> mapTanks = new HashMap<>();
 	HashMap<String,DistXfmrBank> mapBanks = new HashMap<>();
+	
+	boolean allMapsLoaded = false;
 
 	void LoadOneCountMap (String szQuery, HashMap<String,Integer> map) {
 		ResultSet results = queryHandler.query (szQuery);
@@ -364,10 +367,11 @@ public class CIMImporter extends Object {
 		LoadXfmrCodeSCTests();
 		LoadXfmrTanks();
 		LoadXfmrBanks();
+		allMapsLoaded = true;
 	}
 
-	public void WriteJSONSymbolFile (String fXY) throws FileNotFoundException {
-		PrintWriter out = new PrintWriter (fXY);
+	public void WriteJSONSymbolFile (PrintWriter out) {
+		
 		int count, last;
 
 		out.println("{\"feeder\":[");
@@ -473,9 +477,9 @@ public class CIMImporter extends Object {
 		out.close();
 	}
 
-	public void WriteGLMFile (String fOut, double load_scale, boolean bWantSched, String fSched, 
-																	 boolean bWantZIP, double Zcoeff, double Icoeff, double Pcoeff) throws FileNotFoundException {
-		PrintWriter out = new PrintWriter (fOut);
+	
+	public void WriteGLMFile (PrintWriter out, double load_scale, boolean bWantSched, String fSched, 
+																	 boolean bWantZIP, double Zcoeff, double Icoeff, double Pcoeff) {
 
 		// preparatory steps to build the list of nodes
 		ResultSet results = queryHandler.query (
@@ -687,17 +691,46 @@ public class CIMImporter extends Object {
 	 * @param fXY
 	 * @throws FileNotFoundException
 	 */
-	public void start(QueryHandler queryHandler, String fOut, String fSched, double load_scale, boolean bWantSched, boolean bWantZIP, double Zcoeff, double Icoeff, double Pcoeff, String fXY) throws FileNotFoundException{
+	public void start(QueryHandler queryHandler, String fOut, String fSched, double load_scale, boolean bWantSched, boolean bWantZIP, double Zcoeff, double Icoeff, double Pcoeff, String fXY) throws FileNotFoundException {
 		this.queryHandler = queryHandler;
-		
-		LoadAllMaps();
+		if(!allMapsLoaded){
+			LoadAllMaps();
+		}
 
 //		PrintAllMaps();
-		WriteGLMFile (fOut, load_scale, bWantSched, fSched, bWantZIP, Zcoeff, Icoeff, Pcoeff);
-		WriteJSONSymbolFile (fXY);
+		PrintWriter baseOut = new PrintWriter (fOut);
+		WriteGLMFile (baseOut, load_scale, bWantSched, fSched, bWantZIP, Zcoeff, Icoeff, Pcoeff);
+		PrintWriter fXYOut = new PrintWriter (fXY);
+		WriteJSONSymbolFile (fXYOut);
 	}
 	
+	/**
+	 * 
+	 * @param queryHandler
+	 * @param out
+	 * @param fSched
+	 * @param load_scale
+	 * @param bWantSched
+	 * @param bWantZIP
+	 * @param Zcoeff
+	 * @param Icoeff
+	 * @param Pcoeff
+	 */
+	public void generateGLMFile(QueryHandler queryHandler, PrintWriter out, String fSched, double load_scale, boolean bWantSched, boolean bWantZIP, double Zcoeff, double Icoeff, double Pcoeff) {
+		this.queryHandler = queryHandler;
+		if(!allMapsLoaded){
+			LoadAllMaps();
+		}
+		WriteGLMFile (out, load_scale, bWantSched, fSched, bWantZIP, Zcoeff, Icoeff, Pcoeff);
+	}
 	
+	public void generateJSONSymbolFile(QueryHandler queryHandler, PrintWriter out){
+		this.queryHandler = queryHandler;
+		if(!allMapsLoaded){
+			LoadAllMaps();
+		}
+		WriteJSONSymbolFile(out);
+	}
 	
 	
 
