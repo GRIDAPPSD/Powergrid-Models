@@ -5,7 +5,6 @@ package gov.pnnl.goss.cim2glm;
 //      		----------------------------------------------------------
 
 import java.io.*;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -384,13 +383,13 @@ public class CIMImporter extends Object {
 			throw new RuntimeException ("no lines, transformers or switches");
 		}
 		nNodes = mapLoads.size() + mapCapacitors.size(); // TODO - DER
-		if (nLinks < 1) {
+		if (nNodes < 1) {
 			throw new RuntimeException ("no loads or capacitors");
 		}
 		return true;
 	}
 
-	public void WriteJSONSymbolFile (PrintWriter out) throws FileNotFoundException {
+	public void WriteJSONSymbolFile (PrintWriter out)  {
 		
 		int count, last;
 
@@ -511,7 +510,7 @@ public class CIMImporter extends Object {
 	}
 
 	
-	public void WriteGLMFile (PrintWriter out, double load_scale, boolean bWantSched, String fSched, 
+	protected void WriteGLMFile (PrintWriter out, double load_scale, boolean bWantSched, String fSched, 
 																	 boolean bWantZIP, double Zcoeff, double Icoeff, double Pcoeff) {
 
 		// preparatory steps to build the list of nodes
@@ -747,8 +746,7 @@ public class CIMImporter extends Object {
 		}
 	}
 
-	public void WriteDSSCoordinates (String fXY) throws FileNotFoundException {
-		PrintWriter out = new PrintWriter (fXY);
+	protected void WriteDSSCoordinates (PrintWriter out)  {
 		String bus;
 		DistCoordinates pt1, pt2;
 		HashMap<String,Double[]> mapBusXY = new HashMap<String,Double[]>();
@@ -882,10 +880,10 @@ public class CIMImporter extends Object {
 		out.close();
 	}
 
-	public void WriteDSSFile (String fOut, String fXY, String fID, double load_scale, boolean bWantZIP, 
-														double Zcoeff, double Icoeff, double Pcoeff) throws FileNotFoundException {
-		PrintWriter out = new PrintWriter (fOut);
-		PrintWriter outID = new PrintWriter (fID);
+	protected void WriteDSSFile (PrintWriter out, PrintWriter outID, String fXY, String fID, double load_scale, boolean bWantZIP, 
+														double Zcoeff, double Icoeff, double Pcoeff)  {
+//		PrintWriter out = new PrintWriter (fOut);
+//		PrintWriter outID = new PrintWriter (fID);
 
 		for (HashMap.Entry<String,DistSubstation> pair : mapSubstations.entrySet()) {
 			out.print (pair.getValue().GetDSS());
@@ -1028,14 +1026,19 @@ public class CIMImporter extends Object {
 		if (fTarget.equals("glm")) {
 			fOut = fRoot + "_base.glm";
 			fXY = fRoot + "_symbols.json";
-			WriteGLMFile(fOut, load_scale, bWantSched, fSched, bWantZIP, Zcoeff, Icoeff, Pcoeff);
-			WriteJSONSymbolFile (fXY);
+			PrintWriter pOut = new PrintWriter(fOut);
+			WriteGLMFile(pOut, load_scale, bWantSched, fSched, bWantZIP, Zcoeff, Icoeff, Pcoeff);
+			PrintWriter pXY = new PrintWriter(fXY);
+			WriteJSONSymbolFile (pXY);
 		} else if (fTarget.equals("dss")) {
 			fOut = fRoot + "_base.dss";
 			fXY = fRoot + "_busxy.dss";
 			fID = fRoot + "_guid.dss";
-			WriteDSSFile (fOut, fXY, fID, load_scale, bWantZIP, Zcoeff, Icoeff, Pcoeff);
-			WriteDSSCoordinates (fXY);
+			PrintWriter pOut = new PrintWriter(fOut);
+			PrintWriter pID = new PrintWriter(fID);
+			WriteDSSFile (pOut, pID, fXY, fID, load_scale, bWantZIP, Zcoeff, Icoeff, Pcoeff);
+			PrintWriter pXY = new PrintWriter(fXY);
+			WriteDSSCoordinates (pXY);
 		}	}
 	
 	
@@ -1057,25 +1060,68 @@ public class CIMImporter extends Object {
 		if(!allMapsLoaded){
 			LoadAllMaps();
 		}
+		CheckMaps();
 		WriteGLMFile (out, load_scale, bWantSched, fSched, bWantZIP, Zcoeff, Icoeff, Pcoeff);
 	}
 	
-	public void generateJSONSymbolFile(QueryHandler queryHandler, PrintWriter out){
+	/**
+	 * 
+	 * @param queryHandler
+	 * @param out
+	 */
+	protected void generateJSONSymbolFile(QueryHandler queryHandler, PrintWriter out){
 		this.queryHandler = queryHandler;
 		if(!allMapsLoaded){
 			LoadAllMaps();
 		}
+		CheckMaps();
 		WriteJSONSymbolFile(out);
 	}
 	
+	/**
+	 * 
+	 * @param queryHandler
+	 * @param out
+	 * @param outID
+	 * @param fXY
+	 * @param fID
+	 * @param load_scale
+	 * @param bWantZIP
+	 * @param Zcoeff
+	 * @param Icoeff
+	 * @param Pcoeff
+	 */
+	public void generateDSSFile(QueryHandler queryHandler, PrintWriter out, PrintWriter outID, String fXY, String fID, double load_scale, boolean bWantZIP, 
+														double Zcoeff, double Icoeff, double Pcoeff){
+		this.queryHandler = queryHandler;
+		if(!allMapsLoaded){
+			LoadAllMaps();
+		}
+		CheckMaps();
+		WriteDSSFile(out, outID, fXY, fID, load_scale, bWantZIP, Zcoeff, Icoeff, Pcoeff);
+	}
 	
-
+	/**
+	 * 
+	 * @param queryHandler
+	 * @param out
+	 */
+	public void generateDSSCoordinates(QueryHandler queryHandler, PrintWriter out){
+		this.queryHandler = queryHandler;
+		if(!allMapsLoaded){
+			LoadAllMaps();
+		}
+		CheckMaps();
+		
+		WriteDSSCoordinates(out);
+	}
+	
 	public static void main (String args[]) throws FileNotFoundException {
 		String fRoot = "";
 		double freq = 60.0, load_scale = 1.0;
 		boolean bWantSched = false, bWantZIP = false;
 		String fSched = "";
-		String fTarget = "glm";
+		String fTarget = "dss";
 		double Zcoeff = 0.0, Icoeff = 0.0, Pcoeff = 0.0;
 		String blazegraphURI = "http://localhost:9999/blazegraph/namespace/kb/sparql";
 		if (args.length < 1) {

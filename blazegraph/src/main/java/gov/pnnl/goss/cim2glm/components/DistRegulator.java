@@ -327,7 +327,7 @@ public class DistRegulator extends DistComponent {
 								 " x=" + df2.format(fwdX[i]) + " revr=" + df2.format(revR[i]) + " revx=" + df2.format(revX[i]) +
 								 " delay=" + df2.format(initDelay[i]) + " tapdelay=" + df2.format(subDelay[i]) + " vlimit=" + df2.format(vlim[i]));
 			// ptphase, enabled
-			buf.append ("\nedit transformer." + xfName + " wdg=" + Integer.toString(wnum[i]) + " tap=" + df6.format(step));
+			buf.append ("\nedit transformer." + xfName + " wdg=" + Integer.toString(wnum[i]) + " tap=" + df6.format(step[i]));
 			buf.append("\n");
 		}
 
