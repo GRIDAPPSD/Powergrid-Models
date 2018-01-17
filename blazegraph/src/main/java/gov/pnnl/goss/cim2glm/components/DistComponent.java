@@ -4,11 +4,10 @@ package gov.pnnl.goss.cim2glm.components;
 //	All rights reserved.
 //	----------------------------------------------------------
 
-// package gov.pnnl.gridlabd.cim;
-
 import org.apache.jena.query.*; 
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.commons.math3.complex.Complex;
+import java.text.DecimalFormat;
 
 public abstract class DistComponent {
 	public static final String nsCIM = "http://iec.ch/TC57/2012/CIM-schema-cim16#";
@@ -19,6 +18,14 @@ public abstract class DistComponent {
 	static final double gOMEGA = 377.0;
 	static final double gMperMILE = 1609.344;
 	static final double gFTperM = 3.2809;
+
+	static final DecimalFormat df1 = new DecimalFormat("#0.0");
+	static final DecimalFormat df2 = new DecimalFormat("#0.00");
+	static final DecimalFormat df3 = new DecimalFormat("#0.000");
+	static final DecimalFormat df4 = new DecimalFormat("#0.0000");
+	static final DecimalFormat df5 = new DecimalFormat("#0.00000");
+	static final DecimalFormat df6 = new DecimalFormat("#0.000000");
+	static final DecimalFormat df12 = new DecimalFormat("#0.000000000000");
 
 //	public static ResultSet RunQuery (String szQuery) {
 //		String qPrefix = "PREFIX r: <" + nsRDF + "> PREFIX c: <" + nsCIM + "> PREFIX xsd:<" + nsXSD + "> ";
@@ -72,20 +79,19 @@ public abstract class DistComponent {
 	}
 
  	/** prefix all bus names with `nd_` for GridLAB-D, so they "should" be unique
- 	 *	@param arg the root bus name, aka CIM name
+ 	 *	@param arg the root bus name
  	 *	@return nd_arg
  	 */
- 	static String GldPrefixedNodeName (String arg) {
+ 	static String GldBusName (String arg) {
  		return "nd_" + arg;
  	}
 
  	/** 
- 	 *	convert a CIM name to GridLAB-D name, replacing unallowed characters and prefixing for a bus/node
+ 	 *	convert a CIM name to simulator name, replacing unallowed characters
  	 *	@param arg the root bus or component name, aka CIM name
- 	 *	@param bus to flag whether `nd_` should be prepended
- 	 *	@return the compatible name for GridLAB-D
+ 	 *	@return the compatible name for GridLAB-D or OpenDSS
  	 */  
- 	public static String GLD_Name (String arg, boolean bus) {			// GLD conversion
+ 	public static String SafeName (String arg) {			// GLD conversion
  		String s = arg.replace (' ', '_');
  		s = s.replace ('.', '_');
  		s = s.replace ('=', '_');
@@ -100,7 +106,6 @@ public abstract class DistComponent {
  		s = s.replace ('}', '_');
  		s = s.replace ('(', '_');
  		s = s.replace (')', '_');
- 		if (bus) return GldPrefixedNodeName (s);
  		return s;
  	}
 
@@ -111,6 +116,113 @@ public abstract class DistComponent {
  		if (t.equals("PowerTransformer")) return "xf";
  		return "##UNKNOWN##";
  	}
+
+	static String DSSClassPrefix (String t) {  // DSS conversion
+		if (t.equals("LinearShuntCompensator")) return "capacitor";
+		if (t.equals("ACLineSegment")) return "line";
+		if (t.equals("EnergyConsumer")) return "load";
+		if (t.equals("PowerTransformer")) return "transformer";
+		return "##UNKNOWN##";
+	}
+
+	static String FirstDSSPhase (String phs) {
+		if (phs.contains ("A")) return "1";
+		if (phs.contains ("B")) return "2";
+		return "3";
+	}
+
+	static int DSSPhaseCount (String phs, boolean bDelta) {
+		int nphases = 0;
+		if (phs.contains ("A")) nphases += 1;
+		if (phs.contains ("B")) nphases += 1;
+		if (phs.contains ("C")) nphases += 1;
+		if (phs.contains ("s1")) nphases += 1;
+		if (phs.contains ("s2")) nphases += 1;
+		if ((nphases < 3) && bDelta) {
+			nphases = 1;
+		}
+//		System.out.println (phs + "," + Boolean.toString(bDelta) + "," + Integer.toString(nphases));
+		return nphases;
+	}
+
+	static String DSSConn (boolean bDelta) {
+		if (bDelta) {
+			return "d";
+		}
+		return "w";
+	}
+
+	static String DSSShuntPhases (String bus, String phs, boolean bDelta) {
+		if (phs.contains ("ABC")) {
+			return bus + ".1.2.3";
+		}
+		if (!bDelta) {
+			return DSSBusPhases(bus, phs);
+		}
+//		if (phs_cnt == 1) {
+			if (phs.contains ("A")) {
+				return bus + ".1.2";
+			} else if (phs.contains ("B")) {
+				return bus + ".2.3";
+			} else if (phs.contains ("C")) {
+				return bus + ".3.1";
+			}
+//		}
+		// TODO - can we have two-phase delta in the CIM?
+//		if (phs.contains ("AB")) {
+//			return ".1.2.3";
+//		} else if (phs.contains ("AC")) {
+//			return ".3.1.2";
+//		}
+		// phs.contains ("BC")) for 2-phase delta
+		return bus;// ".2.3.1";
+	}
+
+	static String DSSBusPhases (String bus, String phs) {
+    if (phs.contains ("ABC")) {
+      return bus + ".1.2.3";
+    } else if (phs.contains ("AB") || phs.contains ("A:B")) {
+      return bus + ".1.2";
+		} else if (phs.contains ("12")) {
+			return bus + ".1.2";
+    } else if (phs.contains ("AC") || phs.contains ("A:C")) {
+      return bus + ".1.3";
+    } else if (phs.contains ("BC") || phs.contains ("B:C")) {
+      return bus + ".2.3";
+		} else if (phs.contains ("B:A")) {
+			return bus + ".2.1";
+		} else if (phs.contains ("C:A")) {
+			return bus + ".3.1";
+		} else if (phs.contains ("C:B")) {
+			return bus + ".3.2";
+		} else if (phs.contains ("s1:s2")) {
+			return bus + ".1.2";
+		} else if (phs.contains ("s2:s1")) {
+			return bus + ".2.1";
+		} else if (phs.contains ("s1")) {
+			return bus + ".1";
+		} else if (phs.contains ("s2")) {
+			return bus + ".2";
+    } else if (phs.contains ("A")) {
+      return bus + ".1";
+    } else if (phs.contains ("B")) {
+      return bus + ".2";
+    } else if (phs.contains ("C")) {
+      return bus + ".3";
+		} else if (phs.contains ("1")) {
+			return bus + ".1";
+		} else if (phs.contains ("2")) {
+			return bus + ".2";
+    } else {
+      return bus;  // defaults to 3 phases
+    }
+  }
+
+	static String DSSXfmrBusPhases (String bus, String phs) {
+		if (phs.contains("s2")) return (bus + ".0.2");
+		if (phs.contains("s1")) return (bus + ".1.0");
+		return DSSBusPhases (bus, phs);
+	}
 
 	/** 
 	 *  Rotates a phasor +120 degrees by multiplication

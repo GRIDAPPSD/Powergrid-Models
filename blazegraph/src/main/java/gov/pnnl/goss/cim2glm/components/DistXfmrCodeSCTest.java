@@ -4,10 +4,7 @@ package gov.pnnl.goss.cim2glm.components;
 //	All rights reserved.
 //	----------------------------------------------------------
 
-// package gov.pnnl.gridlabd.cim;
-
 import org.apache.jena.query.*;
-import java.text.DecimalFormat;
 import java.util.HashMap;
 
 public class DistXfmrCodeSCTest extends DistComponent {
@@ -58,8 +55,8 @@ public class DistXfmrCodeSCTest extends DistComponent {
 			QuerySolution soln = results.next();
 			String p = soln.get("?pname").toString();
 			String t = soln.get("?tname").toString();
-			pname = GLD_Name (p, false);
-			tname = GLD_Name (t, false);
+			pname = SafeName (p);
+			tname = SafeName (t);
 			SetSize (map.get(tname));
 			for (int i = 0; i < size; i++) {
 				fwdg[i] = Integer.parseInt (soln.get("?enum").toString());
@@ -74,12 +71,11 @@ public class DistXfmrCodeSCTest extends DistComponent {
 	}
 
 	public String DisplayString() {
-		DecimalFormat df = new DecimalFormat("#0.0000");
 		StringBuilder buf = new StringBuilder ("");
 		buf.append (pname + ":" + tname);
 		for (int i = 0; i < size; i++) {
 			buf.append ("\n  fwdg=" + Integer.toString(fwdg[i]) + " twdg=" + Integer.toString(twdg[i]) +
-								" z=" + df.format(z[i]) + " LL=" + df.format(ll[i]));
+								" z=" + df4.format(z[i]) + " LL=" + df4.format(ll[i]));
 		}
 		return buf.toString();
 	}

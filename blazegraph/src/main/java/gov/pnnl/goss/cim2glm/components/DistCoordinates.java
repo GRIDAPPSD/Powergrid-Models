@@ -4,10 +4,7 @@ package gov.pnnl.goss.cim2glm.components;
 //	All rights reserved.
 //	----------------------------------------------------------
 
-// package gov.pnnl.gridlabd.cim;
-
 import org.apache.jena.query.*;
-import java.text.DecimalFormat;
 
 public class DistCoordinates extends DistComponent {
 	public static final String szQUERY =
@@ -36,7 +33,7 @@ public class DistCoordinates extends DistComponent {
 	public DistCoordinates (ResultSet results) {
 		if (results.hasNext()) {
 			QuerySolution soln = results.next();
-			name = GLD_Name (soln.get("?name").toString(), false);
+			name = SafeName (soln.get("?name").toString());
 			x = Double.parseDouble (soln.get("?x").toString());
 			y = Double.parseDouble (soln.get("?y").toString());
 			seq = Integer.parseInt (soln.get("?seq").toString());
@@ -45,9 +42,8 @@ public class DistCoordinates extends DistComponent {
 	}
 
 	public String DisplayString() {
-		DecimalFormat df = new DecimalFormat("#0.0000");
 		StringBuilder buf = new StringBuilder ("");
-		buf.append (cname + ":" + name + ":" + Integer.toString(seq) + " x=" + df.format(x) + " y=" + df.format(y));
+		buf.append (cname + ":" + name + ":" + Integer.toString(seq) + " x=" + df4.format(x) + " y=" + df4.format(y));
 		return buf.toString();
 	}
 

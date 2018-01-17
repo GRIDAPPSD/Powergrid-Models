@@ -4,21 +4,18 @@ package gov.pnnl.goss.cim2glm.components;
 //	All rights reserved.
 //	----------------------------------------------------------
 
-// package gov.pnnl.gridlabd.cim;
-
 import org.apache.jena.query.*;
 
 import gov.pnnl.goss.cim2glm.queryhandler.QueryHandler;
 
-import java.text.DecimalFormat;
 import java.util.HashMap;
 
 public class DistRegulator extends DistComponent {
 	public static final String szQUERY =
-		"SELECT ?rname ?pname ?wnum ?phs ?incr ?mode ?enabled ?highStep ?lowStep ?neutralStep"+
+		"SELECT ?rname ?pname ?tname ?wnum ?phs ?incr ?mode ?enabled ?highStep ?lowStep ?neutralStep"+
 		" ?normalStep ?neutralU ?step ?initDelay ?subDelay ?ltc ?vlim"+
 		" ?vset ?vbw ?ldc ?fwdR ?fwdX ?revR ?revX ?discrete ?ctl_enabled ?ctlmode"+
-		" ?monphs ?ctRating ?ctRatio ?ptRatio"+
+		" ?monphs ?ctRating ?ctRatio ?ptRatio ?id"+
 		" WHERE {"+
 		" ?rtc r:type c:RatioTapChanger."+
 		" ?rtc c:IdentifiedObject.name ?rname."+
@@ -29,6 +26,7 @@ public class DistRegulator extends DistComponent {
 		" ?end c:TransformerTankEnd.TransformerTank ?tank."+
 		" ?tank c:TransformerTank.PowerTransformer ?pxf."+
 		" ?pxf c:IdentifiedObject.name ?pname."+
+		" ?tank c:IdentifiedObject.name ?tname."+
 		" ?rtc c:RatioTapChanger.stepVoltageIncrement ?incr."+
 		" ?rtc c:RatioTapChanger.tculControlMode ?moderaw."+
 		"  bind(strafter(str(?moderaw),\"TransformerControlMode.\") as ?mode)"+
@@ -62,8 +60,9 @@ public class DistRegulator extends DistComponent {
 		" ?inf c:TapChangerInfo.ctRating ?ctRating."+
 		" ?inf c:TapChangerInfo.ctRatio ?ctRatio."+
 		" ?inf c:TapChangerInfo.ptRatio ?ptRatio."+
+		" bind(strafter(str(?rtc),\"#_\") as ?id)"+
 		"}"+
-		" ORDER BY ?pname ?rname ?wnum";
+		" ORDER BY ?pname ?rname ?tname ?wnum";
 
 	public String pname;
 	public String bankphases;
@@ -75,7 +74,9 @@ public class DistRegulator extends DistComponent {
 	// GridLAB-D codes phs variations into certain attribute labels
 	public String[] phs;
 	// TODO: if any of these vary within the bank, should write separate single-phase instances for GridLAB-D
+	public String[] tname;
 	public String[] rname;
+	public String[] id;
 	public String[] monphs;
 	public String[] mode;
 	public String[] ctlmode;
@@ -117,6 +118,8 @@ public class DistRegulator extends DistComponent {
 		}
 		phs = new String[size];
 		rname = new String[size];
+		tname = new String[size];
+		id = new String[size];
 		monphs = new String[size];
 		mode = new String[size];
 		ctlmode = new String[size];
@@ -150,10 +153,12 @@ public class DistRegulator extends DistComponent {
 	public DistRegulator (ResultSet results, QueryHandler queryHandler) {
 		if (results.hasNext()) {
 			QuerySolution soln = results.next();
-			pname = GLD_Name (soln.get("?pname").toString(), false);
+			pname = SafeName (soln.get("?pname").toString());
 			SetSize (pname, queryHandler);
 			for (int i = 0; i < size; i++) {
-				rname[i] = GLD_Name (soln.get("?rname").toString(), false);
+				id[i] = soln.get("?id").toString();
+				rname[i] = SafeName (soln.get("?rname").toString());
+				tname[i] = SafeName (soln.get("?tname").toString());
 				phs[i] = soln.get("?phs").toString();
 				monphs[i] = soln.get("?monphs").toString();
 				mode[i] = soln.get("?mode").toString();
@@ -196,12 +201,12 @@ public class DistRegulator extends DistComponent {
 	}
 
 	public String DisplayString() {
-		DecimalFormat df = new DecimalFormat("#0.0000");
 		StringBuilder buf = new StringBuilder ("");
 		buf.append (pname + " bankphases=" + bankphases);
 		for (int i = 0; i < size; i++) {
 			buf.append ("\n  " + Integer.toString(i));
 			buf.append (" " + Integer.toString(wnum[i]) + ":" +rname[i] + ":" + phs[i]);
+			buf.append (" tank=" + tname[i]);
 			buf.append (" mode=" + mode[i]);
 			buf.append (" ctlmode=" + ctlmode[i]);
 			buf.append (" monphs=" + monphs[i]);
@@ -214,21 +219,21 @@ public class DistRegulator extends DistComponent {
 			buf.append (" lowStep=" + Integer.toString(lowStep[i]));
 			buf.append (" neutralStep=" + Integer.toString(neutralStep[i]));
 			buf.append (" normalStep=" + Integer.toString(normalStep[i]));
-			buf.append (" neutralU=" + df.format(neutralU[i]));
-			buf.append (" step=" + df.format(step[i]));
-			buf.append (" incr=" + df.format(incr[i]));
-			buf.append (" initDelay=" + df.format(initDelay[i]));
-			buf.append (" subDelay=" + df.format(subDelay[i]));
-			buf.append (" vlim=" + df.format(vlim[i]));
-			buf.append (" vset=" + df.format(vset[i]));
-			buf.append (" vbw=" + df.format(vbw[i]));
-			buf.append (" fwdR=" + df.format(fwdR[i]));
-			buf.append (" fwdX=" + df.format(fwdX[i]));
-			buf.append (" revR=" + df.format(revR[i]));
-			buf.append (" revX=" + df.format(revX[i]));
-			buf.append (" ctRating=" + df.format(ctRating[i]));
-			buf.append (" ctRatio=" + df.format(ctRatio[i]));
-			buf.append (" ptRatio=" + df.format(ptRatio[i]));
+			buf.append (" neutralU=" + df4.format(neutralU[i]));
+			buf.append (" step=" + df4.format(step[i]));
+			buf.append (" incr=" + df4.format(incr[i]));
+			buf.append (" initDelay=" + df4.format(initDelay[i]));
+			buf.append (" subDelay=" + df4.format(subDelay[i]));
+			buf.append (" vlim=" + df4.format(vlim[i]));
+			buf.append (" vset=" + df4.format(vset[i]));
+			buf.append (" vbw=" + df4.format(vbw[i]));
+			buf.append (" fwdR=" + df4.format(fwdR[i]));
+			buf.append (" fwdX=" + df4.format(fwdX[i]));
+			buf.append (" revR=" + df4.format(revR[i]));
+			buf.append (" revX=" + df4.format(revX[i]));
+			buf.append (" ctRating=" + df4.format(ctRating[i]));
+			buf.append (" ctRatio=" + df4.format(ctRatio[i]));
+			buf.append (" ptRatio=" + df4.format(ptRatio[i]));
 		}
 		return buf.toString();
 	}
@@ -236,11 +241,10 @@ public class DistRegulator extends DistComponent {
 	public String GetJSONSymbols(HashMap<String,DistCoordinates> map, HashMap<String,DistXfmrTank> mapTank) {
 		DistCoordinates pt1 = map.get("PowerTransformer:" + pname + ":1");
 		DistCoordinates pt2 = map.get("PowerTransformer:" + pname + ":2");
-		DistXfmrTank xfmr = mapTank.get(rname[0]);
+		DistXfmrTank xfmr = mapTank.get(tname[0]);
 		String bus1 = xfmr.bus[0];
 		String bus2 = xfmr.bus[1];
 
-		DecimalFormat df = new DecimalFormat("#0.00");
 		StringBuilder buf = new StringBuilder ();
 
 		buf.append ("{\"name\":\"" + pname + "\"");
@@ -257,7 +261,6 @@ public class DistRegulator extends DistComponent {
 
 	public String GetGLM (DistXfmrTank tank) {
 		StringBuilder buf = new StringBuilder ("object regulator_configuration {\n");
-		DecimalFormat df = new DecimalFormat("#0.000000");
 		double dReg = 0.01 * 0.5 * incr[0] * (highStep[0] - lowStep[0]);
 
 		buf.append ("  name \"rcon_" + pname + "\";\n");
@@ -276,23 +279,23 @@ public class DistRegulator extends DistComponent {
 			buf.append("	Control MANUAL;\n");
 		}
 		buf.append ("  // use these for OUTPUT_VOLTAGE mode\n");
-		buf.append ("  // band_center " + df.format(vset[0] * ptRatio[0]) + ";\n");
-		buf.append ("  // band_width " + df.format(vbw[0] * ptRatio[0]) + ";\n");
+		buf.append ("  // band_center " + df6.format(vset[0] * ptRatio[0]) + ";\n");
+		buf.append ("  // band_width " + df6.format(vbw[0] * ptRatio[0]) + ";\n");
 		buf.append ("  // use these for LINE_DROP_COMP mode\n");
-		buf.append ("  // band_center " + df.format(vset[0]) + ";\n");
-		buf.append ("  // band_width " + df.format(vbw[0]) + ";\n");
+		buf.append ("  // band_center " + df6.format(vset[0]) + ";\n");
+		buf.append ("  // band_width " + df6.format(vbw[0]) + ";\n");
 		buf.append ("  // transducer ratios only apply to LINE_DROP_COMP mode\n");
-		buf.append ("  current_transducer_ratio " + df.format(ctRatio[0]) + ";\n");
-		buf.append ("  power_transducer_ratio " + df.format(ptRatio[0]) + ";\n");
-		buf.append ("  dwell_time " + df.format(initDelay[0]) + ";\n");
+		buf.append ("  current_transducer_ratio " + df6.format(ctRatio[0]) + ";\n");
+		buf.append ("  power_transducer_ratio " + df6.format(ptRatio[0]) + ";\n");
+		buf.append ("  dwell_time " + df6.format(initDelay[0]) + ";\n");
 		buf.append ("  raise_taps " + Integer.toString(Math.abs (highStep[0] - neutralStep[0])) + ";\n");
 		buf.append ("  lower_taps " + Integer.toString(Math.abs (neutralStep[0] - lowStep[0])) + ";\n");
-		buf.append ("  regulation " + df.format(dReg) + ";\n");
+		buf.append ("  regulation " + df6.format(dReg) + ";\n");
 		buf.append ("  Type B;\n");
 		for (int i = 0; i < size; i++) {
 			int iTap = (int) Math.round((step[i] - 1.0) / incr[i] * 100.0);	// TODO - verify this should be an offset from neutralStep
-			buf.append ("  compensator_r_setting_" + phs[i] + " " + df.format(fwdR[i]) + ";\n");
-			buf.append ("  compensator_x_setting_" + phs[i] + " " + df.format(fwdX[i]) + ";\n");
+			buf.append ("  compensator_r_setting_" + phs[i] + " " + df6.format(fwdR[i]) + ";\n");
+			buf.append ("  compensator_x_setting_" + phs[i] + " " + df6.format(fwdX[i]) + ";\n");
 			buf.append ("  // comment out the manual tap setting if using automatic control\n");
 			buf.append ("  tap_pos_" + phs[i] + " " + Integer.toString(iTap) + ";\n");
 		}
@@ -305,6 +308,29 @@ public class DistRegulator extends DistComponent {
 		buf.append ("  phases " + bankphases + ";\n");
 		buf.append ("  configuration \"rcon_" + pname + "\";\n");
 		buf.append ("}\n");
+		return buf.toString();
+	}
+
+	public String GetDSS() {
+		StringBuilder buf = new StringBuilder("");
+		String xfName;
+
+		for (int i = 0; i < size; i++) {
+			if (size > 1) {
+				xfName = tname[i];
+			} else {
+				xfName = pname;
+			}
+			buf.append("new RegControl." + rname[i] + " transformer=" + xfName + " winding=" + Integer.toString(wnum[i]));
+			buf.append(" vreg=" + df2.format(vset[i]) + " band=" + df2.format(vbw[i]) + " ptratio=" + df2.format(ptRatio[i]) +
+								 " ctprim=" + df2.format(ctRating[i]) + " r=" + df2.format(fwdR[i]) +
+								 " x=" + df2.format(fwdX[i]) + " revr=" + df2.format(revR[i]) + " revx=" + df2.format(revX[i]) +
+								 " delay=" + df2.format(initDelay[i]) + " tapdelay=" + df2.format(subDelay[i]) + " vlimit=" + df2.format(vlim[i]));
+			// ptphase, enabled
+			buf.append ("\nedit transformer." + xfName + " wdg=" + Integer.toString(wnum[i]) + " tap=" + df6.format(step));
+			buf.append("\n");
+		}
+
 		return buf.toString();
 	}
 

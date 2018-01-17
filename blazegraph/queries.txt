@@ -42,7 +42,7 @@ SELECT ?name ?bus ?basev ?nomv ?vmag ?vang ?r1 ?x1 ?r0 ?x0 WHERE {
 # capacitors (does not account for 2+ unequal phases on same LinearShuntCompensator)
 PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX c:  <http://iec.ch/TC57/2012/CIM-schema-cim16#>
-SELECT ?name ?basev ?nomu ?bsection ?bus ?conn ?grnd ?phs ?ctrlenabled ?discrete ?mode ?deadband ?setpoint ?delay ?monclass ?moneq ?monbus ?monphs WHERE {
+SELECT ?name ?basev ?nomu ?bsection ?bus ?conn ?grnd ?phs ?ctrlenabled ?discrete ?mode ?deadband ?setpoint ?delay ?monclass ?moneq ?monbus ?monphs ?id WHERE {
  ?s r:type c:LinearShuntCompensator.
  ?s c:IdentifiedObject.name ?name.
  ?s c:ConductingEquipment.BaseVoltage ?bv.
@@ -73,6 +73,7 @@ SELECT ?name ?basev ?nomu ?bsection ?bus ?conn ?grnd ?phs ?ctrlenabled ?discrete
           ?trm c:Terminal.ConnectivityNode ?moncn.
           ?moncn c:IdentifiedObject.name ?monbus.
           }
+ bind(strafter(str(?s),"#_") as ?id). 
  ?t c:Terminal.ConductingEquipment ?s.
  ?t c:Terminal.ConnectivityNode ?cn. 
  ?cn c:IdentifiedObject.name ?bus
@@ -82,7 +83,7 @@ ORDER by ?name
 # loads (need to account for 2+ unequal EnergyConsumerPhases per EnergyConsumer)
 PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX c:  <http://iec.ch/TC57/2012/CIM-schema-cim16#>
-SELECT ?name ?bus ?basev ?p ?q ?conn ?pz ?qz ?pi ?qi ?pp ?qp ?pe ?qe ?phs WHERE {
+SELECT ?name ?bus ?basev ?p ?q ?conn ?pz ?qz ?pi ?qi ?pp ?qp ?pe ?qe (group_concat(distinct ?phs;separator="\n") as ?phases) WHERE {
  ?s r:type c:EnergyConsumer.
  ?s c:IdentifiedObject.name ?name.
  ?s c:ConductingEquipment.BaseVoltage ?bv.
@@ -107,7 +108,8 @@ SELECT ?name ?bus ?basev ?p ?q ?conn ?pz ?qz ?pi ?qi ?pp ?qp ?pe ?qe ?phs WHERE 
  ?t c:Terminal.ConnectivityNode ?cn. 
  ?cn c:IdentifiedObject.name ?bus
 }
-ORDER by ?name ?phs
+GROUP BY ?name ?bus ?basev ?p ?q ?conn ?pz ?qz ?pi ?qi ?pp ?qp ?pe ?qe
+ORDER by ?name
 
 # per-length phase impedance matrics
 PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
@@ -381,7 +383,7 @@ ORDER BY ?key
 # voltage regulators (attached to transformer tank ends; still need power transformer ends)
 PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX c:  <http://iec.ch/TC57/2012/CIM-schema-cim16#>
-SELECT ?rname ?pname ?wnum ?phs ?incr ?mode ?enabled ?highStep ?lowStep ?neutralStep ?normalStep ?neutralU 
+SELECT ?rname ?pname ?tname ?wnum ?phs ?incr ?mode ?enabled ?highStep ?lowStep ?neutralStep ?normalStep ?neutralU 
  ?step ?initDelay ?subDelay ?ltc ?vlim 
 	?vset ?vbw ?ldc ?fwdR ?fwdX ?revR ?revX ?discrete ?ctl_enabled ?ctlmode ?monphs ?ctRating ?ctRatio ?ptRatio
 WHERE {
@@ -394,6 +396,7 @@ WHERE {
  ?end c:TransformerTankEnd.TransformerTank ?tank.
  ?tank c:TransformerTank.PowerTransformer ?pxf.
  ?pxf c:IdentifiedObject.name ?pname.
+ ?tank c:IdentifiedObject.name ?tname.
  ?rtc c:RatioTapChanger.stepVoltageIncrement ?incr.
  ?rtc c:RatioTapChanger.tculControlMode ?moderaw.
   bind(strafter(str(?moderaw),"TransformerControlMode.") as ?mode)
@@ -428,7 +431,7 @@ WHERE {
  ?inf c:TapChangerInfo.ctRatio ?ctRatio.
  ?inf c:TapChangerInfo.ptRatio ?ptRatio.
 }
-ORDER BY ?pname ?rname ?wnum
+ORDER BY ?pname ?tname ?rname ?wnum
 
 # list the base voltage levels
 PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
@@ -588,6 +591,27 @@ WHERE {
 GROUP BY ?name ?cable ?usage ?bundle_count ?bundle_sep
 ORDER BY ?name
 
+# wire spacings with phs ordering before group_concat
+PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX c:  <http://iec.ch/TC57/2012/CIM-schema-cim16#>
+SELECT ?name 
+    (group_concat(?phs;separator="\n") as ?phases) (group_concat(?x;separator="\n") as ?xarray) (group_concat(?y;separator="\n") as ?yarray)
+WHERE {
+  SELECT ?name ?phs ?x ?y
+    WHERE {
+	 ?w r:type c:WireSpacingInfo.
+ 	 ?w c:IdentifiedObject.name ?name.
+ 	 ?pos c:WirePosition.WireSpacingInfo ?w.
+ 	 ?pos c:WirePosition.xCoord ?x.
+ 	 ?pos c:WirePosition.yCoord ?y.
+ 	 ?pos c:WirePosition.phase ?phsraw.
+   	 bind(strafter(str(?phsraw),"SinglePhaseKind.") as ?phs)
+    }
+    ORDER BY ?name ?phs
+}
+GROUP BY ?name
+ORDER BY ?name
+
 # line segments referencing wirespacing
 PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX c:  <http://iec.ch/TC57/2012/CIM-schema-cim16#>
@@ -619,7 +643,7 @@ SELECT ?name ?basev (group_concat(distinct ?bus;separator="\n") as ?buses) (grou
 GROUP BY ?name ?basev ?len ?spacing ?wname ?wclass
 ORDER BY ?name
 
-# line segments with individual phase wire assignments
+# line segments with individual phase wire assignments, ordered by phase
 PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX c:  <http://iec.ch/TC57/2012/CIM-schema-cim16#>
 SELECT ?name ?basev (group_concat(distinct ?bus;separator="\n") as ?buses) 
@@ -628,6 +652,8 @@ SELECT ?name ?basev (group_concat(distinct ?bus;separator="\n") as ?buses)
   (group_concat(distinct ?phname;separator="\n") as ?phwires) 
 	 (group_concat(distinct ?phclass;separator="\n") as ?phclasses)
 WHERE {
+  SELECT ?name ?basev ?bus ?phs ?len ?spacing ?wname ?wclass ?phname ?phclass
+               WHERE {
  ?s r:type c:ACLineSegment.
  ?s c:IdentifiedObject.name ?name.
  ?s c:ConductingEquipment.BaseVoltage ?bv.
@@ -661,6 +687,7 @@ WHERE {
        bind(strafter(str(?phclassraw),"cim16#") as ?phclass)
      }
    }
+                             } ORDER BY ?name ?phs
 }
 GROUP BY ?name ?basev ?len ?spacing ?wname ?wclass
 ORDER BY ?name

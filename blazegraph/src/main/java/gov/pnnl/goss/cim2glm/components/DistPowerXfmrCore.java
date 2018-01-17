@@ -4,10 +4,7 @@ package gov.pnnl.goss.cim2glm.components;
 //	All rights reserved.
 //	----------------------------------------------------------
 
-// package gov.pnnl.gridlabd.cim;
-
 import org.apache.jena.query.*;
-import java.text.DecimalFormat;
 
 public class DistPowerXfmrCore extends DistComponent {
 	public static final String szQUERY =
@@ -29,7 +26,7 @@ public class DistPowerXfmrCore extends DistComponent {
 	public DistPowerXfmrCore (ResultSet results) {
 		if (results.hasNext()) {
 			QuerySolution soln = results.next();
-			name = GLD_Name (soln.get("?pname").toString(), false);
+			name = SafeName (soln.get("?pname").toString());
 			wdg = Integer.parseInt (soln.get("?enum").toString());
 			b = Double.parseDouble (soln.get("?b").toString());
 			g = Double.parseDouble (soln.get("?g").toString());
@@ -37,9 +34,8 @@ public class DistPowerXfmrCore extends DistComponent {
 	}
 
 	public String DisplayString() {
-		DecimalFormat df = new DecimalFormat("#0.0000");
 		StringBuilder buf = new StringBuilder ("");
-		buf.append (name + " wdg=" + Integer.toString(wdg) + " g=" + df.format(g) + " b=" + df.format(b));
+		buf.append (name + " wdg=" + Integer.toString(wdg) + " g=" + df4.format(g) + " b=" + df4.format(b));
 		return buf.toString();
 	}
 

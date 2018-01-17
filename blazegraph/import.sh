@@ -1,35 +1,13 @@
-javac -classpath ".:/Users/mcde601/src/apache-jena-3.1.0/lib/*:/Users/mcde601/src/commons-math3-3.6.1/*" CIMImporter.java
+# updated process: build a jar file using Apache Maven with pom.xml
+mvn clean install
 
-#javac -classpath ".:/Users/mcde601/src/apache-jena-3.1.0/lib/*:/Users/mcde601/src/commons-math3-3.6.1/*" GldNode.java
+java -classpath "target/*:/Users/mcde601/src/apache-jena-3.1.0/lib/*:/Users/mcde601/src/commons-math3-3.6.1/*" gov.pnnl.goss.cim2glm.CIMImporter -o=dss ieee8500
+#java -classpath "target/*:/Users/mcde601/src/apache-jena-3.1.0/lib/*:/Users/mcde601/src/commons-math3-3.6.1/*" gov.pnnl.goss.cim2glm.CIMImporter -o=dss ieee13assets
+#java -classpath "target/*:/Users/mcde601/src/apache-jena-3.1.0/lib/*:/Users/mcde601/src/commons-math3-3.6.1/*" gov.pnnl.goss.cim2glm.CIMImporter -o=dss ieee13
+#java -classpath "target/*:/Users/mcde601/src/apache-jena-3.1.0/lib/*:/Users/mcde601/src/commons-math3-3.6.1/*" gov.pnnl.goss.cim2glm.CIMImporter -o=glm ieee13
 
-#javac -classpath ".:/Users/mcde601/src/apache-jena-3.1.0/lib/*:/Users/mcde601/src/commons-math3-3.6.1/*" DistBaseVoltage.java           
-#javac -classpath ".:/Users/mcde601/src/apache-jena-3.1.0/lib/*:/Users/mcde601/src/commons-math3-3.6.1/*" DistCapacitor.java             
-#javac -classpath ".:/Users/mcde601/src/apache-jena-3.1.0/lib/*:/Users/mcde601/src/commons-math3-3.6.1/*" DistComponent.java             
-#javac -classpath ".:/Users/mcde601/src/apache-jena-3.1.0/lib/*:/Users/mcde601/src/commons-math3-3.6.1/*" DistConcentricNeutralCable.java
-#javac -classpath ".:/Users/mcde601/src/apache-jena-3.1.0/lib/*:/Users/mcde601/src/commons-math3-3.6.1/*" DistCoordinates.java           
-#javac -classpath ".:/Users/mcde601/src/apache-jena-3.1.0/lib/*:/Users/mcde601/src/commons-math3-3.6.1/*" DistLinesCodeZ.java            
-#javac -classpath ".:/Users/mcde601/src/apache-jena-3.1.0/lib/*:/Users/mcde601/src/commons-math3-3.6.1/*" DistLinesInstanceZ.java        
-#javac -classpath ".:/Users/mcde601/src/apache-jena-3.1.0/lib/*:/Users/mcde601/src/commons-math3-3.6.1/*" DistLineSegment.java        
-#javac -classpath ".:/Users/mcde601/src/apache-jena-3.1.0/lib/*:/Users/mcde601/src/commons-math3-3.6.1/*" DistLineSpacing.java           
-#javac -classpath ".:/Users/mcde601/src/apache-jena-3.1.0/lib/*:/Users/mcde601/src/commons-math3-3.6.1/*" DistLinesSpacingZ.java         
-#javac -classpath ".:/Users/mcde601/src/apache-jena-3.1.0/lib/*:/Users/mcde601/src/commons-math3-3.6.1/*" DistLoad.java                  
-#javac -classpath ".:/Users/mcde601/src/apache-jena-3.1.0/lib/*:/Users/mcde601/src/commons-math3-3.6.1/*" DistOverheadWire.java          
-#javac -classpath ".:/Users/mcde601/src/apache-jena-3.1.0/lib/*:/Users/mcde601/src/commons-math3-3.6.1/*" DistPhaseMatrix.java           
-#javac -classpath ".:/Users/mcde601/src/apache-jena-3.1.0/lib/*:/Users/mcde601/src/commons-math3-3.6.1/*" DistPowerXfmrCore.java         
-#javac -classpath ".:/Users/mcde601/src/apache-jena-3.1.0/lib/*:/Users/mcde601/src/commons-math3-3.6.1/*" DistPowerXfmrMesh.java         
-#javac -classpath ".:/Users/mcde601/src/apache-jena-3.1.0/lib/*:/Users/mcde601/src/commons-math3-3.6.1/*" DistPowerXfmrWinding.java      
-#javac -classpath ".:/Users/mcde601/src/apache-jena-3.1.0/lib/*:/Users/mcde601/src/commons-math3-3.6.1/*" DistRegulator.java             
-#javac -classpath ".:/Users/mcde601/src/apache-jena-3.1.0/lib/*:/Users/mcde601/src/commons-math3-3.6.1/*" DistSequenceMatrix.java        
-#javac -classpath ".:/Users/mcde601/src/apache-jena-3.1.0/lib/*:/Users/mcde601/src/commons-math3-3.6.1/*" DistSubstation.java            
-#javac -classpath ".:/Users/mcde601/src/apache-jena-3.1.0/lib/*:/Users/mcde601/src/commons-math3-3.6.1/*" DistSwitch.java                
-#javac -classpath ".:/Users/mcde601/src/apache-jena-3.1.0/lib/*:/Users/mcde601/src/commons-math3-3.6.1/*" DistTapeShieldCable.java       
-#javac -classpath ".:/Users/mcde601/src/apache-jena-3.1.0/lib/*:/Users/mcde601/src/commons-math3-3.6.1/*" DistXfmrCodeOCTest.java        
-#javac -classpath ".:/Users/mcde601/src/apache-jena-3.1.0/lib/*:/Users/mcde601/src/commons-math3-3.6.1/*" DistXfmrCodeRating.java        
-#javac -classpath ".:/Users/mcde601/src/apache-jena-3.1.0/lib/*:/Users/mcde601/src/commons-math3-3.6.1/*" DistXfmrCodeSCTest.java        
-#javac -classpath ".:/Users/mcde601/src/apache-jena-3.1.0/lib/*:/Users/mcde601/src/commons-math3-3.6.1/*" DistXfmrTank.java              
-#javac -classpath ".:/Users/mcde601/src/apache-jena-3.1.0/lib/*:/Users/mcde601/src/commons-math3-3.6.1/*" DistXfmrBank.java              
-
-java -classpath ".:/Users/mcde601/src/apache-jena-3.1.0/lib/*:/Users/mcde601/src/commons-math3-3.6.1/*" CIMImporter -l=1 -i=1 -n=zipload_schedule ieee8500
+#java -classpath "target/*:/Users/mcde601/src/apache-jena-3.1.0/lib/*:/Users/mcde601/src/commons-math3-3.6.1/*" gov.pnnl.goss.cim2glm.CIMImporter -l=1 -i=1 -n=zipload_schedule ieee8500
+# java -classpath "target/*:/Users/mcde601/src/apache-jena-3.1.0/lib/*:/Users/mcde601/src/commons-math3-3.6.1/*" gov.pnnl.goss.cim2glm.CIMImporter -o=dss ieee8500
 #java -classpath ".:/Users/mcde601/src/apache-jena-3.1.0/lib/*:/Users/mcde601/src/commons-math3-3.6.1/*" CIMImporter ieee8500
 #java -classpath ".:/Users/mcde601/src/apache-jena-3.1.0/lib/*:/Users/mcde601/src/commons-math3-3.6.1/*" CIMImporter ieee13
 #java -classpath ".:/Users/mcde601/src/apache-jena-3.1.0/lib/*:/Users/mcde601/src/commons-math3-3.6.1/*" CIMImporter ieee13_assets

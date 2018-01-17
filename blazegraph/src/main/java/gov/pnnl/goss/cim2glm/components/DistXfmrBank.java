@@ -4,8 +4,6 @@ package gov.pnnl.goss.cim2glm.components;
 //	All rights reserved.
 //	----------------------------------------------------------
 
-// package gov.pnnl.gridlabd.cim;
-
 import org.apache.jena.query.*;
 import java.util.HashMap;
 
@@ -39,11 +37,11 @@ public class DistXfmrBank extends DistComponent {
 	public DistXfmrBank (ResultSet results, HashMap<String,Integer> map) {
 		if (results.hasNext()) {
 			QuerySolution soln = results.next();
-			pname = GLD_Name (soln.get("?pname").toString(), false);
+			pname = SafeName (soln.get("?pname").toString());
 			vgrp = soln.get("?vgrp").toString();
 			SetSize (map.get(pname));
 			for (int i = 0; i < size; i++) {
-				tname[i] = GLD_Name (soln.get("?tname").toString(), false);
+				tname[i] = SafeName (soln.get("?tname").toString());
 				if ((i + 1) < size) {
 					soln = results.next();
 				}

@@ -4,19 +4,19 @@ package gov.pnnl.goss.cim2glm.components;
 //	All rights reserved.
 //	----------------------------------------------------------
 
-// package gov.pnnl.gridlabd.cim;
-
 import org.apache.jena.query.*;
-import java.text.DecimalFormat;
 
 public class DistLineSpacing extends DistComponent {
 	public static final String szQUERY = 
-		"SELECT ?name ?cable ?usage ?bundle_count ?bundle_sep"+
+		"SELECT ?name ?cable ?usage ?bundle_count ?bundle_sep ?id"+
 		" (group_concat(?phs;separator=\"\\n\") as ?phases)"+
 		" (group_concat(?x;separator=\"\\n\") as ?xarray)"+
 		" (group_concat(?y;separator=\"\\n\") as ?yarray) WHERE {"+
+		" SELECT ?name ?cable ?usage ?bundle_count ?bundle_sep ?id ?phs ?x ?y"+
+		" WHERE {"+
 		" ?w r:type c:WireSpacingInfo."+
 		" ?w c:IdentifiedObject.name ?name."+
+		" bind(strafter(str(?w),\"#_\") as ?id)."+
 		" ?pos c:WirePosition.WireSpacingInfo ?w."+
 		" ?pos c:WirePosition.xCoord ?x."+
 		" ?pos c:WirePosition.yCoord ?y."+
@@ -27,9 +27,11 @@ public class DistLineSpacing extends DistComponent {
 		" OPTIONAL {?w c:WireSpacingInfo.phaseWireSpacing ?bundle_sep.}"+
 		" OPTIONAL {?w c:WireSpacingInfo.usage ?useraw."+
 		"       bind(strafter(str(?useraw),\"WireUsageKind.\") as ?usage)}"+
-		"} GROUP BY ?name ?cable ?usage ?bundle_count ?bundle_sep ORDER BY ?name";
+		"} ORDER BY ?name ?phs"+
+		"} GROUP BY ?name ?cable ?usage ?bundle_count ?bundle_sep ?id ORDER BY ?name";
 
 	public String name;
+	public String id;
 	public String[] phases;
 	public String[] xarray;
 	public String[] yarray;
@@ -42,7 +44,8 @@ public class DistLineSpacing extends DistComponent {
 	public DistLineSpacing (ResultSet results) {
 		if (results.hasNext()) {
 			QuerySolution soln = results.next();
-			name = GLD_Name (soln.get("?name").toString(), false);
+			name = SafeName (soln.get("?name").toString());
+			id = soln.get("?id").toString();
 			phases = soln.get("?phases").toString().split("\\n");
 			xarray = soln.get("?xarray").toString().split("\\n");
 			yarray = soln.get("?yarray").toString().split("\\n");
@@ -55,13 +58,39 @@ public class DistLineSpacing extends DistComponent {
 	}
 
 	public String DisplayString() {
-		DecimalFormat df = new DecimalFormat("#0.0000");
 		StringBuilder buf = new StringBuilder ("");
 		buf.append (name + " nwires=" + Integer.toString(nwires) + " cable=" + Boolean.toString(cable) + " usage=" + usage); 
-		buf.append (" b_cnt=" + Integer.toString(b_cnt) + " b_sep=" + df.format(b_sep));
+		buf.append (" b_cnt=" + Integer.toString(b_cnt) + " b_sep=" + df4.format(b_sep));
 		for (int i = 0; i < nwires; i++) {
 				buf.append ("\n  phs=" + phases[i] + " x=" + xarray[i] + " y=" + yarray[i]);
 		}
+		return buf.toString();
+	}
+
+	public String GetDSS() {
+		int nphases = nwires;
+		int i;
+		if (phases[nwires-1].equals("N")) {
+			--nphases;
+		}
+
+		StringBuilder buf = new StringBuilder("new LineSpacing." + name + " nconds=" + Integer.toString(nwires) +
+																					 " nphases=" + Integer.toString(nphases) + " units=m\n");
+		buf.append ("~ x=[");
+		for (i = 0; i < nwires; i++) {
+			buf.append (xarray[i]);
+			if (i+1 < nwires) {
+				buf.append (",");
+			}
+		}
+		buf.append ("]\n~ h=[");
+		for (i = 0; i < nwires; i++) {
+			buf.append (yarray[i]);
+			if (i+1 < nwires) {
+				buf.append (",");
+			}
+		}
+		buf.append ("]\n");
 		return buf.toString();
 	}
 

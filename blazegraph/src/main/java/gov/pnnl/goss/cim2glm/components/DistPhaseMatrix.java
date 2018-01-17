@@ -4,18 +4,16 @@ package gov.pnnl.goss.cim2glm.components;
 //	All rights reserved.
 //	----------------------------------------------------------
 
-// package gov.pnnl.gridlabd.cim;
-
 import org.apache.jena.query.*;
-import java.text.DecimalFormat;
 import org.apache.commons.math3.complex.Complex;
 
 public class DistPhaseMatrix extends DistComponent {
 	public static final String szQUERY = 
-		"SELECT ?name ?cnt ?seq ?r ?x ?b WHERE {"+
+		"SELECT ?name ?cnt ?seq ?r ?x ?b ?id WHERE {"+
 		" ?s r:type c:PerLengthPhaseImpedance."+
 		" ?s c:IdentifiedObject.name ?name."+
 		" ?s c:PerLengthPhaseImpedance.conductorCount ?cnt."+
+		" bind(strafter(str(?s),\"#_\") as ?id)."+
 		" ?elm c:PhaseImpedanceData.PhaseImpedance ?s."+
 		" ?elm c:PhaseImpedanceData.sequenceNumber ?seq."+
 		" ?elm c:PhaseImpedanceData.r ?r."+
@@ -23,6 +21,7 @@ public class DistPhaseMatrix extends DistComponent {
 		" ?elm c:PhaseImpedanceData.b ?b"+
 		"} ORDER BY ?name ?seq";
 
+	public String id;
 	public String name;
 	public int cnt; 
 	public double[] r;
@@ -122,7 +121,8 @@ public class DistPhaseMatrix extends DistComponent {
 			QuerySolution soln = results.next();
 			int seq = Integer.parseInt (soln.get("?seq").toString());
 			if (size == 0) {
-				name = GLD_Name (soln.get("?name").toString(), false);
+				name = SafeName (soln.get("?name").toString());
+				id = soln.get("?id").toString();
 				cnt = Integer.parseInt (soln.get("?cnt").toString());
 				SetMatSize();
 				r = new double[size];
@@ -143,21 +143,18 @@ public class DistPhaseMatrix extends DistComponent {
 	}
 
 	public String DisplayString() {
-		DecimalFormat df = new DecimalFormat("#0.0000");
 		StringBuilder buf = new StringBuilder ("");
 		buf.append (name + " " + Integer.toString(cnt));
 		for (int i = 0; i < size; i++) {
 			int seq = i+1;
 			buf.append ("\n  " + Integer.toString(seq) + 
 									" [" + Integer.toString(GetMatRow(seq)) + "," + Integer.toString(GetMatCol(seq)) +"]" +
-									" r=" + df.format(r[i]) + " x=" + df.format(x[i]) + " b=" + df.format(b[i]));
+									" r=" + df4.format(r[i]) + " x=" + df4.format(x[i]) + " b=" + df4.format(b[i]));
 		}
 		return buf.toString();
 	}
 
 	private void AppendPermutation (StringBuilder buf, String perm, int[] permidx) {
-		DecimalFormat df = new DecimalFormat("#0.0000");
-
 		if (glmTriplex) {
 			buf.append("object triplex_line_configuration {\n");
 			buf.append("  name \"tcon_" + name + "_" + perm + "\";\n");
@@ -172,7 +169,7 @@ public class DistPhaseMatrix extends DistComponent {
 				String indices = Integer.toString(permidx[i]) + Integer.toString(permidx[j]) + " ";
 				buf.append ("  z" + indices + CFormat (new Complex(gMperMILE * r[seq], gMperMILE * x[seq])) + ";\n");
 				if (!glmTriplex) {
-					buf.append("  c" + indices + df.format(1.0e9 * gMperMILE * b[seq] / gOMEGA) + ";\n");
+					buf.append("  c" + indices + df4.format(1.0e9 * gMperMILE * b[seq] / gOMEGA) + ";\n");
 				}
 			}
 		}
@@ -193,6 +190,33 @@ public class DistPhaseMatrix extends DistComponent {
 			if (glmB) AppendPermutation (buf, "B", new int[] {2});
 			if (glmC) AppendPermutation (buf, "C", new int[] {3});
 		}
+
+		return buf.toString();
+	}
+
+	public String GetDSS() {
+		StringBuilder buf = new StringBuilder ("new Linecode." + name + " nphases=" + Integer.toString(cnt) + " units=mi");
+		StringBuilder rBuf = new StringBuilder (" rmatrix=[");
+		StringBuilder xBuf = new StringBuilder (" xmatrix=[");
+		StringBuilder cBuf = new StringBuilder (" cmatrix=[");
+
+		for (int i = 0; i < cnt; i++) {  // lower triangular, go across the rows for OpenDSS
+			for (int j = 0; j <= i; j++) {
+				int seq = GetMatSeq (cnt, i, j);
+				rBuf.append (String.format("%6g", r[seq] * gMperMILE) + " ");
+				xBuf.append (String.format("%6g", x[seq] * gMperMILE) + " ");
+				cBuf.append (String.format("%6g", b[seq] * gMperMILE * 1.0e9 / gOMEGA) + " ");
+			}
+			if ((i+1) < cnt) {
+				rBuf.append ("| ");
+				xBuf.append ("| ");
+				cBuf.append ("| ");
+			}
+		}
+
+		buf.append (rBuf + "]");
+		buf.append (xBuf + "]");
+		buf.append (cBuf + "]\n");
 
 		return buf.toString();
 	}
