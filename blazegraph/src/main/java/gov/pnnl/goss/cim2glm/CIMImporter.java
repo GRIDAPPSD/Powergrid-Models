@@ -1069,7 +1069,7 @@ public class CIMImporter extends Object {
 	 * @param queryHandler
 	 * @param out
 	 */
-	protected void generateJSONSymbolFile(QueryHandler queryHandler, PrintWriter out){
+	public void generateJSONSymbolFile(QueryHandler queryHandler, PrintWriter out){
 		this.queryHandler = queryHandler;
 		if(!allMapsLoaded){
 			LoadAllMaps();
