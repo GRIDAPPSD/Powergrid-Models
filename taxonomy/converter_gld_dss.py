@@ -1,5 +1,34 @@
 """
 """
+def parse_kvar(str):
+	toks = str.split()
+	val = float(toks[0])
+	if len(toks) > 1:
+		if 'MVAr' in toks[1]:
+			val *= 1000.0
+	else:
+		val /= 1000.0
+	return val
+
+def parse_gmr_ft(str):
+	toks = str.split()
+	val = float(toks[0])
+	if len(toks) > 1:
+		if 'in' in toks[1]:
+			val /= 12.0
+	else:
+		val *= 1.0
+	return val
+
+def parse_dist_ft(str):
+	toks = str.split()
+	val = float(toks[0])
+	if len(toks) > 1:
+		if 'in' in toks[1]:
+			val /= 12.0
+	else:
+		val *= 1.0
+	return val
 
 def get_phnum(phstr):
 	'''Convert a GLD phase letter to a DSS phase number'''
@@ -116,21 +145,31 @@ import re
 import glob
 import os
 import math
-for ifn in glob.glob("base_taxonomy/*.glm"):
+import sys
+
+for ifn in glob.glob("base_taxonomy/new*.glm"):
 	wd = os.getcwd()
-	m = re.match(r'base_taxonomy\\(.+).glm',ifn)
+	if sys.platform == 'win32':
+		m = re.match(r'base_taxonomy\\(.+).glm',ifn)
+	else:
+		m = re.match(r'base_taxonomy/(.+).glm',ifn)
 	if m:
 		modelname = re.sub('[-\.]','_',m.group(1))
 	else:
 		modelname = 'default'
+	if 'GC-12.47-1' in ifn:
+		taxname = 'GC-12.47-1'
+	else:
+		taxname = 'default'
 	n = re.search(r'(R\d-\d\d\.\d\d-\d).glm',ifn)
 	if n:
 		taxname = n.group(1)
-	else:
-		taxname = 'default'
 	print("Processing "+taxname+"... "+ifn)
 	inf = open(ifn,'r')
-	modeldir = wd + '\\' + modelname
+	if sys.platform == 'win32':
+		modeldir = wd + '\\' + modelname
+	else:
+		modeldir = wd + '/' + modelname
 	if modelname not in glob.glob('*'):
 		os.system('mkdir '+modeldir)
 
@@ -285,12 +324,12 @@ for ifn in glob.glob("base_taxonomy/*.glm"):
 			kvbases.update([round(kvLN*math.sqrt(3),2)])
 			kv = str(kvLN if phqty == '1' else kvLN*math.sqrt(3))
 			kvar = 0
-			if 'capacitor_A' in row:   # TODO - check for MVAr and the others; base_taxonomy always has MVAr
-				kvar += float(row['capacitor_A'])*1000.0
+			if 'capacitor_A' in row: 
+				kvar += parse_kvar(row['capacitor_A'])
 			if 'capacitor_B' in row:
-				kvar += float(row['capacitor_B'])*1000.0
+				kvar += parse_kvar(row['capacitor_B'])
 			if 'capacitor_C' in row:
-				kvar += float(row['capacitor_C'])*1000.0
+				kvar += parse_kvar(row['capacitor_C'])
 			kvar = str(kvar)
 			conn = 'wye' # capacitors are always wye in gld
 			capacitorf.write('new capacitor.' + name	+\
@@ -386,21 +425,21 @@ for ifn in glob.glob("base_taxonomy/*.glm"):
 				if 'overhead_line_conductor' in model:
 					if h[row['conductor_A']] in model['overhead_line_conductor']:
 						ri.append(float(wirehash[h[row['conductor_A']]]['resistance']))
-						GMR.append(float(wirehash[h[row['conductor_A']]]['geometric_mean_radius']))
+						GMR.append(parse_gmr_ft(wirehash[h[row['conductor_A']]]['geometric_mean_radius']))
 				if 'underground_line_conductor' in model:
 					if h[row['conductor_A']] in model['underground_line_conductor']:
 						ri.append(float(wirehash[h[row['conductor_A']]]['conductor_resistance']))
-						GMR.append(float(wirehash[h[row['conductor_A']]]['conductor_gmr']))
+						GMR.append(parse_gmr_ft(wirehash[h[row['conductor_A']]]['conductor_gmr']))
 				Dij.append([])
 				Dij[idx].append(0)
 				if 'conductor_B' in row:
-					D = float(spacehash[h[row['spacing']]]['distance_AB'])
+					D = parse_dist_ft(spacehash[h[row['spacing']]]['distance_AB'])
 					Dij[idx].append(D if D > 0 else 0.001)
 				if 'conductor_C' in row:
-					D = float(spacehash[h[row['spacing']]]['distance_AC'])
+					D = parse_dist_ft(spacehash[h[row['spacing']]]['distance_AC'])
 					Dij[idx].append(D if D > 0 else 0.001)
 				if 'conductor_N' in row:
-					D = float(spacehash[h[row['spacing']]]['distance_AN'])
+					D = parse_dist_ft(spacehash[h[row['spacing']]]['distance_AN'])
 					Dij[idx].append(D if D > 0 else 0.001)
 				idx += 1
 			# Check phase B
@@ -409,21 +448,21 @@ for ifn in glob.glob("base_taxonomy/*.glm"):
 				if 'overhead_line_conductor' in model:
 					if h[row['conductor_B']] in model['overhead_line_conductor']:
 						ri.append(float(wirehash[h[row['conductor_B']]]['resistance']))
-						GMR.append(float(wirehash[h[row['conductor_B']]]['geometric_mean_radius']))
+						GMR.append(parse_gmr_ft(wirehash[h[row['conductor_B']]]['geometric_mean_radius']))
 				if 'underground_line_conductor' in model:
 					if h[row['conductor_B']] in model['underground_line_conductor']:
 						ri.append(float(wirehash[h[row['conductor_B']]]['conductor_resistance']))
-						GMR.append(float(wirehash[h[row['conductor_B']]]['conductor_gmr']))
+						GMR.append(parse_gmr_ft(wirehash[h[row['conductor_B']]]['conductor_gmr']))
 				Dij.append([])
 				if 'conductor_A' in row:
-					D = float(spacehash[h[row['spacing']]]['distance_AB'])
+					D = parse_dist_ft(spacehash[h[row['spacing']]]['distance_AB'])
 					Dij[idx].append(D if D > 0 else 0.001)
 				Dij[idx].append(0)
 				if 'conductor_C' in row:
-					D = float(spacehash[h[row['spacing']]]['distance_BC'])
+					D = parse_dist_ft(spacehash[h[row['spacing']]]['distance_BC'])
 					Dij[idx].append(D if D > 0 else 0.001)
 				if 'conductor_N' in row:
-					D = float(spacehash[h[row['spacing']]]['distance_BN'])
+					D = parse_dist_ft(spacehash[h[row['spacing']]]['distance_BN'])
 					Dij[idx].append(D if D > 0 else 0.001)
 				idx += 1
 			# Check phase C
@@ -432,21 +471,21 @@ for ifn in glob.glob("base_taxonomy/*.glm"):
 				if 'overhead_line_conductor' in model:
 					if h[row['conductor_C']] in model['overhead_line_conductor']:
 						ri.append(float(wirehash[h[row['conductor_C']]]['resistance']))
-						GMR.append(float(wirehash[h[row['conductor_C']]]['geometric_mean_radius']))
+						GMR.append(parse_gmr_ft(wirehash[h[row['conductor_C']]]['geometric_mean_radius']))
 				if 'underground_line_conductor' in model:
 					if h[row['conductor_C']] in model['underground_line_conductor']:
 						ri.append(float(wirehash[h[row['conductor_C']]]['conductor_resistance']))
-						GMR.append(float(wirehash[h[row['conductor_C']]]['conductor_gmr']))
+						GMR.append(parse_gmr_ft(wirehash[h[row['conductor_C']]]['conductor_gmr']))
 				Dij.append([])
 				if 'conductor_A' in row:
-					D = float(spacehash[h[row['spacing']]]['distance_AC'])
+					D = parse_dist_ft(spacehash[h[row['spacing']]]['distance_AC'])
 					Dij[idx].append(D if D > 0 else 0.001)
 				if 'conductor_B' in row:
-					D = float(spacehash[h[row['spacing']]]['distance_BC'])
+					D = parse_dist_ft(spacehash[h[row['spacing']]]['distance_BC'])
 					Dij[idx].append(D if D > 0 else 0.001)
 				Dij[idx].append(0)
 				if 'conductor_N' in row:
-					D = float(spacehash[h[row['spacing']]]['distance_CN'])
+					D = parse_dist_ft(spacehash[h[row['spacing']]]['distance_CN'])
 					Dij[idx].append(D if D > 0 else 0.001)
 				idx += 1
 			# Check phase N
@@ -455,20 +494,20 @@ for ifn in glob.glob("base_taxonomy/*.glm"):
 				if 'overhead_line_conductor' in model:
 					if h[row['conductor_N']] in model['overhead_line_conductor']:
 						ri.append(float(wirehash[h[row['conductor_N']]]['resistance']))
-						GMR.append(float(wirehash[h[row['conductor_N']]]['geometric_mean_radius']))
+						GMR.append(parse_gmr_ft(wirehash[h[row['conductor_N']]]['geometric_mean_radius']))
 				if 'underground_line_conductor' in model:
 					if h[row['conductor_N']] in model['underground_line_conductor']:
 						ri.append(float(wirehash[h[row['conductor_N']]]['conductor_resistance']))
-						GMR.append(float(wirehash[h[row['conductor_N']]]['conductor_gmr']))
+						GMR.append(parse_gmr_ft(wirehash[h[row['conductor_N']]]['conductor_gmr']))
 				Dij.append([])
 				if 'conductor_A' in row:
-					D = float(spacehash[h[row['spacing']]]['distance_AN'])
+					D = parse_dist_ft(spacehash[h[row['spacing']]]['distance_AN'])
 					Dij[idx].append(D if D > 0 else 0.001)
 				if 'conductor_B' in row:
-					D = float(spacehash[h[row['spacing']]]['distance_BN'])
+					D = parse_dist_ft(spacehash[h[row['spacing']]]['distance_BN'])
 					Dij[idx].append(D if D > 0 else 0.001)
 				if 'conductor_C' in row:
-					D = float(spacehash[h[row['spacing']]]['distance_CN'])
+					D = parse_dist_ft(spacehash[h[row['spacing']]]['distance_CN'])
 					Dij[idx].append(D if D > 0 else 0.001)
 				Dij[idx].append(0)
 				idx += 1
