@@ -11,6 +11,52 @@ WHERE {
   ?s a ?class .
 }
 
+# list all the feeders (aka Line)
+PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX c:  <http://iec.ch/TC57/2012/CIM-schema-cim16#>
+SELECT ?name ?id WHERE {
+ ?s r:type c:Line.
+ ?s c:IdentifiedObject.name ?name.
+ ?s c:IdentifiedObject.mRID ?id}
+ORDER by ?name
+
+# list all the connectivity nodes by feeder
+PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX c:  <http://iec.ch/TC57/2012/CIM-schema-cim16#>
+SELECT ?feeder ?name WHERE {
+ ?s r:type c:ConnectivityNode.
+ ?s c:ConnectivityNode.ConnectivityNodeContainer ?fid.
+ ?s c:IdentifiedObject.name ?name.
+ ?fid c:IdentifiedObject.name ?feeder.
+}
+ORDER by ?feeder ?name
+
+# list all the equipment by feeder and type
+PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX c:  <http://iec.ch/TC57/2012/CIM-schema-cim16#>
+SELECT ?feeder ?type ?name WHERE {
+ ?s r:type ?typeraw.
+  bind(strafter(str(?typeraw),"#") as ?type)
+ ?s c:Equipment.EquipmentContainer ?fid.
+ ?s c:IdentifiedObject.name ?name.
+ ?fid c:IdentifiedObject.name ?feeder.
+}
+ORDER by ?feeder ?type ?name
+
+# list things by type for specific feeder
+PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX c:  <http://iec.ch/TC57/2012/CIM-schema-cim16#>
+SELECT ?type ?name WHERE {
+ ?fid r:type c:Line.
+ ?fid c:IdentifiedObject.name "ieee13nodeckt".
+# ?fid c:IdentifiedObject.name "ieee8500".
+ ?s c:ConnectivityNode.ConnectivityNodeContainer|c:Equipment.EquipmentContainer ?fid.
+ ?s c:IdentifiedObject.name ?name.
+ ?s r:type ?typeraw.
+  bind(strafter(str(?typeraw),"#") as ?type)
+}
+ORDER by ?type ?name
+
 # list all the connectivity nodes (aka bus)
 PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX c:  <http://iec.ch/TC57/2012/CIM-schema-cim16#>
