@@ -448,7 +448,10 @@ def union_of_phases(phs1, phs2):
         phs += 'S'
     return phs
 
-batname = glmpath + 'run_all_new.bat'
+if sys.platform == 'win32':
+    batname = glmpath + 'run_all_new.bat'
+else:
+    batname = glmpath + 'run_all_new.sh'
 op = open (batname, 'w')
 for c in casefiles:
     print ('gridlabd', 'new_' + c[0] + '.glm', file=op)
