@@ -20,6 +20,7 @@ from these sources:
 The original taxonomy feeders have been updated as follows:
 
 * more realistic transformer impedance and core parameters
+* use only standard single-phase and three-phase transformer sizes
 * more appropriate secondary and load voltages, based on the size and type of load
 * alleviate line, cable and transformer overloads
 * choose fuse current limits from standard fuse, recloser and breaker sizes 
