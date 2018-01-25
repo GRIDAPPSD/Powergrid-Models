@@ -7,6 +7,8 @@ from math import sqrt;
 glmpath = 'base_taxonomy/'
 
 max208kva = 100.0
+xfmrMargin = 1.20
+fuseMargin = 2.50
 
 # kva, %r, %x, %nll, %imag
 three_phase = [[30,1.90,1.77,0.79,4.43],
@@ -41,19 +43,41 @@ single_phase = [[5,2.10,1.53,0.90,3.38],
 [333,1.00,4.90,0.34,1.97],
 [500,1.00,4.90,0.29,1.98]]
 
+# leave off intermediate fuse sizes 8, 12, 20, 30, 50, 80, 140
+# leave off 6, 10 from the smallest sizes, too easily blown
+standard_fuses = [15, 25, 40, 65, 100, 200]
+standard_reclosers = [280, 400, 560, 630, 800]
+standard_breakers = [600, 1200, 2000]
+
+def FindFuseLimit (amps):
+    amps *= fuseMargin
+    for row in standard_fuses:
+        if row >= amps:
+            return row
+    for row in standard_reclosers:
+        if row >= amps:
+            return row
+    for row in standard_breakers:
+        if row >= amps:
+            return row
+    return 999999
+
 def Find1PhaseXfmrKva (kva):
+    kva *= xfmrMargin
     for row in single_phase:
         if row[0] >= kva:
             return row[0]
     return 0.0
 
 def Find3PhaseXfmrKva (kva):
+    kva *= xfmrMargin
     for row in three_phase:
         if row[0] >= kva:
             return row[0]
     return 0.0
 
 def Find1PhaseXfmr (kva):
+    kva *= xfmrMargin
     for row in single_phase:
         if row[0] >= kva:
             return row[0], 0.01 * row[1], 0.01 * row[2], 0.01 * row[3], 0.01 * row[4]
@@ -62,6 +86,7 @@ def Find1PhaseXfmr (kva):
     return 0,0,0,0,0
 
 def Find3PhaseXfmr (kva):
+    kva *= xfmrMargin
     for row in three_phase:
         if row[0] >= kva:
             return row[0], 0.01 * row[1], 0.01 * row[2], 0.01 * row[3], 0.01 * row[4]
@@ -69,36 +94,33 @@ def Find3PhaseXfmr (kva):
 #            return row[0], 0.0001, 0.0002, 0.001, 0.001
     return 0,0,0,0,0
 
-#casefiles = [['R1-12.47-3',12470.0, 7200.0]]
-#casefiles = [['R1-12.47-1',12470.0, 7200.0],
-#             ['R1-12.47-2',12470.0, 7200.0],
-#             ['R1-12.47-3',12470.0, 7200.0],
-#             ['R1-12.47-4',12470.0, 7200.0],
-#             ['R1-25.00-1',24900.0,14400.0],
-#             ['R2-12.47-1',12470.0, 7200.0],
-#             ['R2-12.47-2',12470.0, 7200.0],
-#             ['R2-12.47-3',12470.0, 7200.0],
-#             ['R2-25.00-1',24900.0,14400.0],
-#             ['R2-35.00-1',34500.0,19920.0],
-#             ['R3-12.47-1',12470.0, 7200.0],
-#             ['R3-12.47-2',12470.0, 7200.0],
-#             ['R3-12.47-3',12470.0, 7200.0],
-#             ['R4-12.47-1',13800.0, 7970.0],
-#             ['R4-12.47-2',12470.0, 7200.0],
-#             ['R4-25.00-1',24900.0,14400.0],
-#             ['R5-12.47-1',13800.0, 7970.0],
-#             ['R5-12.47-2',12470.0, 7200.0],
-#             ['R5-12.47-3',13800.0, 7970.0],
-#             ['R5-12.47-4',12470.0, 7200.0],
-#             ['R5-12.47-5',12470.0, 7200.0],
-#             ['R5-25.00-1',22900.0,13200.0],
-#             ['R5-35.00-1',34500.0,19920.0],
-#             ['GC-12.47-1',12470.0, 7200.0]]
-casefiles = [['R2-25.00-1',24900.0,14400.0],
+casefiles = [['R1-12.47-1',12470.0, 7200.0],
+             ['R1-12.47-2',12470.0, 7200.0],
+             ['R1-12.47-3',12470.0, 7200.0],
+             ['R1-12.47-4',12470.0, 7200.0],
+             ['R1-25.00-1',24900.0,14400.0],
+             ['R2-12.47-1',12470.0, 7200.0],
+             ['R2-12.47-2',12470.0, 7200.0],
+             ['R2-12.47-3',12470.0, 7200.0],
+             ['R2-25.00-1',24900.0,14400.0],
              ['R2-35.00-1',34500.0,19920.0],
+             ['R3-12.47-1',12470.0, 7200.0],
+             ['R3-12.47-2',12470.0, 7200.0],
+             ['R3-12.47-3',12470.0, 7200.0],
+             ['R4-12.47-1',13800.0, 7970.0],
+             ['R4-12.47-2',12470.0, 7200.0],
+             ['R4-25.00-1',24900.0,14400.0],
+             ['R5-12.47-1',13800.0, 7970.0],
+             ['R5-12.47-2',12470.0, 7200.0],
+             ['R5-12.47-3',13800.0, 7970.0],
              ['R5-12.47-4',12470.0, 7200.0],
              ['R5-12.47-5',12470.0, 7200.0],
-             ['R5-35.00-1',34500.0,19920.0]]
+             ['R5-25.00-1',22900.0,13200.0],
+             ['R5-35.00-1',34500.0,19920.0],
+             ['GC-12.47-1',12470.0, 7200.0]]
+#casefiles = [['R1-12.47-1',12470.0, 7200.0],
+#             ['R2-12.47-1',12470.0, 7200.0],
+#             ['R3-12.47-1',12470.0, 7200.0]]
 #casefiles = [['R5-35.00-1',34500.0,19920.0]]
 
 def is_node_class(s):
@@ -426,6 +448,12 @@ def union_of_phases(phs1, phs2):
         phs += 'S'
     return phs
 
+batname = glmpath + 'run_all_new.bat'
+op = open (batname, 'w')
+for c in casefiles:
+    print ('gridlabd', 'new_' + c[0] + '.glm', file=op)
+op.close()
+
 for c in casefiles:
     fname = glmpath + 'orig_' + c[0] + '.glm'
     print (fname)
@@ -563,9 +591,31 @@ for c in casefiles:
             write_xfmr_config (key, xfused[key][0], xfused[key][1], xfused[key][2], xfused[key][3], 
                                xfused[key][4], c[1], c[2], op)
 
+        t = 'capacitor'
+        if t in model:
+            for o in model[t]:
+                model[t][o]['nominal_voltage'] = str(int(c[2]))
+                model[t][o]['cap_nominal_voltage'] = str(int(c[2]))
+
         t = 'fuse'
         for o in model[t]:
-            model[t][o]['current_limit'] = '99999'
+            if o in seg_loads:
+                seg_kva = seg_loads[o][0]
+                seg_phs = seg_loads[o][1]
+                nphs = 0
+                if 'A' in seg_phs:
+                    nphs += 1
+                if 'B' in seg_phs:
+                    nphs += 1
+                if 'C' in seg_phs:
+                    nphs += 1
+                if nphs == 3:
+                    amps = 1000.0 * seg_kva / sqrt(3.0) / c[1]
+                elif nphs == 2:
+                    amps = 1000.0 * seg_kva / 2.0 / c[2]
+                else:
+                    amps = 1000.0 * seg_kva / c[2]
+                model[t][o]['current_limit'] = str (FindFuseLimit (amps))
 
 # OLD STRATEGY - loop through and patch the original transformer_configuration instances      
 #---------------------------------------------------------------------------------------------------------------

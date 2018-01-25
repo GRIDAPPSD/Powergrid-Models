@@ -10384,8 +10384,8 @@ object overhead_line_conductor:10 {
 }
 
 object overhead_line_conductor:15 {
-	//name 636 AAC;
-	rating.summer.continuous 858.0;
+	//name 636 AAC; // increased to 900 AAC
+	rating.summer.continuous 948.0;
 	geometric_mean_radius 0.02940 ft;
 	resistance 0.16300;
 }
