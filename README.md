@@ -26,11 +26,11 @@ The original taxonomy feeders have been updated as follows:
 * choose fuse current limits from standard fuse, recloser and breaker sizes 
 * add margin to fuse current limits so they don't blow during steady state. _Note: This had to be redone because the new load voltage levels increased many of the component currents._
 * assign capacitor nominal voltages based on the nominal primary voltage
-* incorporate the [xy coordinates](http://emac.berkeley.edu/gridlabd/taxonomy_graphs/) from Michael A. Cohen _Note: The xy coordinates are used in GridLAB-D, CIM and OpenDSS, but not standalone GridLAB-D_
+* incorporate the [xy coordinates](http://emac.berkeley.edu/gridlabd/taxonomy_graphs/) from Michael A. Cohen _Note: The xy coordinates are used in GridAPPS-D, CIM and OpenDSS, but not standalone GridLAB-D_
 * remove assertion statements
 
 The solution results change, so GridLAB-D regression tests
-will continue using the original taxonomy feeders from the GridLAB-D
+may continue using the original taxonomy feeders from the GridLAB-D
 repository. The updated taxonomy feeders are recommended for research
 projects, as the updates produce more realistic results, especially
 for voltage and overload questions.
@@ -88,6 +88,17 @@ Helper scripts for Linux/Mac OS X:
 * _import.sh_ will compile and run the Java importer against the triple-store. Within this file:
   * the ```-o=dss``` option creates an OpenDSS model from CIM
   * the ```-o=glm``` option creates a GridLAB-D model from CIM 
+
+Usage and option for ```java gov.pnnl.goss.cim2glm.CIMImporter [options] output_root```
+
+* ```-o={glm|dss}       // output format; defaults to glm```
+* ```-l={0..1}          // load scaling factor; defaults to 1```
+* ```-f={50|60}         // system frequency; defaults to 60```                                                 
+* ```-n={schedule_name} // root filename for scheduled ZIP loads (defaults to none), valid only for -o=glm```      
+* ```-z={0..1}          // constant Z portion (defaults to 0 for CIM-defined LoadResponseCharacteristic)```
+* ```-i={0..1}          // constant I portion (defaults to 0 for CIM-defined LoadResponseCharacteristic)```
+* ```-p={0..1}          // constant P portion (defaults to 0 for CIM-defined LoadResponseCharacteristic)```
+* ```-u={http://localhost:9999} // blazegraph uri (if connecting over HTTP); defaults to http://localhost:9999```
 
 ## Circuit Validation
 
