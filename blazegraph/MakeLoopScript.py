@@ -1,10 +1,6 @@
 import sys;
 
-xmlpath = 'c:\\gridapps-d\\powergrid-models\\blazegraph\\test\\'
-dsspath = 'c:\\gridapps-d\\powergrid-models\\blazegraph\\dss\\'
-glmpath = 'c:\\gridapps-d\\powergrid-models\\blazegraph\\glm\\'
-
-def append_dss_case(casefiles, fp):
+def append_dss_case(casefiles, dsspath, fp):
     for c in casefiles:
         print('//', file=fp)
         print('clear', file=fp)
@@ -15,16 +11,36 @@ def append_dss_case(casefiles, fp):
         print('solve', file=fp)
         print('export summary', c + '.csv', file=fp)
 
-def append_xml_case(casefiles, fp):
+def append_xml_case(casefiles, xmlpath, dsspath, glmpath, fp):
     for c in casefiles:
-        print('call drop_all.bat', file=fp)
-        print('curl -D- -H "Content-Type: application/xml" --upload-file', 
-              xmlpath + c + '.xml',
-              '-X POST "http://localhost:9999/blazegraph/sparql"', file=fp)
-        print('java gov.pnnl.goss.cim2glm.CIMImporter -o=dss -l=1.0 -i=1', 
-              dsspath + c, file=fp)
-        print('java gov.pnnl.goss.cim2glm.CIMImporter -o=glm -l=1.0 -i=1', 
-              glmpath + c, file=fp)
+        if sys.platform == 'win32':
+            print('call drop_all.bat', file=fp)
+            print('curl -D- -H "Content-Type: application/xml" --upload-file', 
+                  xmlpath + c + '.xml',
+                  '-X POST "http://localhost:9999/blazegraph/sparql"', file=fp)
+            print('java gov.pnnl.goss.cim2glm.CIMImporter -o=dss -l=1.0 -i=1', 
+                  dsspath + c, file=fp)
+            print('java gov.pnnl.goss.cim2glm.CIMImporter -o=glm -l=1.0 -i=1', 
+                  glmpath + c, file=fp)
+        else:
+            print('./drop_all.sh', file=fp)
+            print('curl -D- -H "Content-Type: application/xml" --upload-file', 
+                  xmlpath + c + '.xml',
+                  '-X POST "http://localhost:9999/blazegraph/sparql"', file=fp)
+            print('java -classpath "target/*:/Users/mcde601/src/apache-jena-3.1.0/lib/*:/Users/mcde601/src/commons-math3-3.6.1/*" gov.pnnl.goss.cim2glm.CIMImporter -o=dss -l=1.0 -i=1', 
+                  dsspath + c, file=fp)
+            print('java -classpath "target/*:/Users/mcde601/src/apache-jena-3.1.0/lib/*:/Users/mcde601/src/commons-math3-3.6.1/*" gov.pnnl.goss.cim2glm.CIMImporter -o=glm -l=1.0 -i=1', 
+                  glmpath + c, file=fp)
+
+if sys.platform == 'win32':
+    xmlpath = 'c:\\gridapps-d\\powergrid-models\\blazegraph\\test\\'
+    dsspath = 'c:\\gridapps-d\\powergrid-models\\blazegraph\\dss\\'
+    glmpath = 'c:\\gridapps-d\\powergrid-models\\blazegraph\\glm\\'
+else:
+    srcpath = '/Users/mcde601/src/GRIDAPPSD/Powergrid-Models/blazegraph/'
+    xmlpath = srcpath + 'test/'
+    dsspath = srcpath + 'dss/'
+    glmpath = srcpath + 'glm/'
 
 casefiles = ['IEEE13',
              'IEEE13_Assets',
@@ -42,6 +58,7 @@ casefiles = ['IEEE13',
              'EPRI5',
              'EPRI7',
              'EPRI24',
+             'GC_12_47_1',
              'R1_12_47_1',
              'R1_12_47_2',
              'R1_12_47_3',
@@ -72,17 +89,25 @@ casefiles = ['IEEE13',
 arg = sys.argv[1]
 
 if arg == '-b':
-    fp = open ("convert_xml.bat", "w")
-    print ('mkdir', dsspath, file=fp)
-    print ('mkdir', glmpath, file=fp)
-    print ('del /q /y', dsspath + '*.*', file=fp)
-    print ('del /q /y', glmpath + '*.*', file=fp)
-    print ('set JENA_HOME=c:\\apache-jena-3.1.0', file=fp)
-    print ('set CLASSPATH=target/*;c:/apache-jena-3.1.0/lib/*;c:/commons-math3-3.6.1/*', file=fp)
-    append_xml_case(casefiles, fp)
+    if sys.platform == 'win32':
+        fp = open ("convert_xml.bat", "w")
+        print ('mkdir', dsspath, file=fp)
+        print ('mkdir', glmpath, file=fp)
+        print ('del /q /y', dsspath + '*.*', file=fp)
+        print ('del /q /y', glmpath + '*.*', file=fp)
+        print ('set JENA_HOME=c:\\apache-jena-3.1.0', file=fp)
+        print ('set CLASSPATH=target/*;c:/apache-jena-3.1.0/lib/*;c:/commons-math3-3.6.1/*', file=fp)
+    else:
+        fp = open ("convert_xml.sh", "w")
+        print ('mkdir', dsspath, file=fp)
+        print ('mkdir', glmpath, file=fp)
+        print ('rm', dsspath + '*.*', file=fp)
+        print ('rm', glmpath + '*.*', file=fp)
+    append_xml_case(casefiles, xmlpath, dsspath, glmpath, fp)
+    print ('', file=fp)
 
 if arg == '-d':
     fp = open ("check.dss", "w")
-    append_dss_case(casefiles, fp)
+    append_dss_case(casefiles, dsspath, fp)
 
 fp.close()

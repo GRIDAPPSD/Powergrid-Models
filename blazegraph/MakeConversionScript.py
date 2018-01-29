@@ -12,14 +12,27 @@ def append_cases(casefiles, dsspath, outpath, fp):
         print('export cdpsmcombined', c[1] + '.xml', file=fp)
 
 fp = open ("ConvertCDPSM.dss", "w")
-outpath = 'c:/gridapps-d/powergrid-models/blazegraph/test/'
 
-dsspath = 'c:/OpenDSS/Test/'
+if sys.platform == 'win32':
+    outpath = 'c:/gridapps-d/powergrid-models/blazegraph/test/'
+    cimpath = 'c:/OpenDSS/Test/'
+    ieeepath = 'c:/OpenDSS/Distrib/IEEETestCases/'
+    epripath = 'c:/OpenDSS/Distrib/EPRITestCircuits/'
+    taxpath = 'c:/gridapps-d/powergrid-models/taxonomy/'
+    dpvpath = 'c:/epri_dpv/'
+else:
+    srcpath = '/Users/mcde601/src/'
+    outpath = srcpath + 'GRIDAPPSD/Powergrid-Models/blazegraph/test/'
+    cimpath = srcpath + 'opendss/Test/'
+    ieeepath = srcpath + 'opendss/Distrib/IEEETestCases/'
+    epripath = srcpath + 'opendss/Distrib/EPRITestCircuits/'
+    taxpath = srcpath + 'GRIDAPPSD/Powergrid-Models/taxonomy/'
+    dpvpath = srcpath + 'epri_dpv/'
+
 casefiles = [['IEEE13_CDPSM', 'IEEE13'],
              ['IEEE13_Assets', 'IEEE13_Assets']]
-append_cases(casefiles, dsspath, outpath, fp)
+append_cases(casefiles, cimpath, outpath, fp)
 
-dsspath = 'c:/OpenDSS/Distrib/IEEETestCases/'
 casefiles = [['./8500-Node/Master', 'IEEE8500'],
              ['./34Bus/ieee34Mod2', 'IEEE34'],
              ['./37Bus/ieee37', 'IEEE37'],
@@ -31,16 +44,15 @@ casefiles = [['./8500-Node/Master', 'IEEE8500'],
              ['./4Bus-YD-Bal/4Bus-YD-Bal', 'YD-bal'],
              ['./4Bus-YY-Bal/4Bus-YY-Bal', 'YY-bal'],
              ['./8500-Node/Master-unbal', 'IEEE8500u']]
-append_cases(casefiles, dsspath, outpath, fp)
+append_cases(casefiles, ieeepath, outpath, fp)
 
-dsspath = 'c:/OpenDSS/Distrib/EPRITestCircuits/'
 casefiles = [['./ckt5/Master_ckt5', 'EPRI5'],
              ['./ckt7/Master_ckt7', 'EPRI7'],
              ['./ckt24/master_ckt24', 'EPRI24']]
-append_cases(casefiles, dsspath, outpath, fp)
+append_cases(casefiles, epripath, outpath, fp)
 
-dsspath = 'c:/gridapps-d/powergrid-models/taxonomy/'
-casefiles = [['./new_R1_12_47_1/Master', 'R1_12_47_1'],
+casefiles = [['./new_GC_12_47_1/Master', 'GC_12_47_1'],
+             ['./new_R1_12_47_1/Master', 'R1_12_47_1'],
              ['./new_R1_12_47_2/Master', 'R1_12_47_2'],
              ['./new_R1_12_47_3/Master', 'R1_12_47_3'],
              ['./new_R1_12_47_4/Master', 'R1_12_47_4'],
@@ -63,12 +75,11 @@ casefiles = [['./new_R1_12_47_1/Master', 'R1_12_47_1'],
              ['./new_R5_12_47_5/Master', 'R5_12_47_5'],
              ['./new_R5_25_00_1/Master', 'R5_25_00_1'],
              ['./new_R5_35_00_1/Master', 'R5_35_00_1']]
-append_cases(casefiles, dsspath, outpath, fp)
+append_cases(casefiles, taxpath, outpath, fp)
 
-dsspath = 'c:/epri_dpv/'
 casefiles = [['./J1/Master_noPV', 'EPRI_DPV_J1'],
              ['./K1/Master_NoPV', 'EPRI_DPV_K1'],
              ['./M1/master_NoPV', 'EPRI_DPV_M1']]
-append_cases(casefiles, dsspath, outpath, fp)
+append_cases(casefiles, dpvpath, outpath, fp)
 
 fp.close()

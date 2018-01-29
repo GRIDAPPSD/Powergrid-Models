@@ -50,6 +50,7 @@ SELECT ?type ?name WHERE {
  ?fid r:type c:Line.
  ?fid c:IdentifiedObject.name "ieee13nodeckt".
 # ?fid c:IdentifiedObject.name "ieee8500".
+# ?fid c:IdentifiedObject.name "4busoyodbal".
  ?s c:ConnectivityNode.ConnectivityNodeContainer|c:Equipment.EquipmentContainer ?fid.
  ?s c:IdentifiedObject.name ?name.
  ?s r:type ?typeraw.

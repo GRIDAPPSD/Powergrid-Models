@@ -2,9 +2,15 @@ import sys;
 import re;
 import os.path;
 
-glmpath = 'c:\\gridapps-d\\powergrid-models\\blazegraph\\glm\\'
-dsspath = 'c:\\gridapps-d\\powergrid-models\\blazegraph\\dss\\'
-xmlpath = 'c:\\gridapps-d\\powergrid-models\\blazegraph\\test\\'
+if sys.platform == 'win32':
+    xmlpath = 'c:\\gridapps-d\\powergrid-models\\blazegraph\\test\\'
+    dsspath = 'c:\\gridapps-d\\powergrid-models\\blazegraph\\dss\\'
+    glmpath = 'c:\\gridapps-d\\powergrid-models\\blazegraph\\glm\\'
+else:
+    srcpath = '/Users/mcde601/src/GRIDAPPSD/Powergrid-Models/blazegraph/'
+    xmlpath = srcpath + 'test/'
+    dsspath = srcpath + 'dss/'
+    glmpath = srcpath + 'glm/'
 
 casefiles = [['IEEE13',66395.3],
              ['IEEE13_Assets',66395.3],
@@ -14,14 +20,15 @@ casefiles = [['IEEE13',66395.3],
              ['IEEE123',2401.8],
              ['DY-bal',7200.0],
              ['GYD-bal',7200.0],
-             ['OYOD-bal',7200.0],
+#             ['OYOD-bal',7200.0],
              ['OYOD-unbal',7200.0],
              ['YD-bal',7200.0],
              ['YY-bal',7200.0],
              ['IEEE8500u',66395.3],
-             ['EPRI5',66395.3],
+#             ['EPRI5',66395.3],
              ['EPRI7',66395.3],
              ['EPRI24',132790.6],
+             ['GC_12_47_1',57735.0],
              ['R1_12_47_1',57735.0],
              ['R1_12_47_2',57735.0],
              ['R1_12_47_3',57735.0],
@@ -46,8 +53,8 @@ casefiles = [['IEEE13',66395.3],
              ['R5_25_00_1',57735.0],
              ['R5_35_00_1',57735.0],
              ['EPRI_DPV_J1',39837.2],
-             ['EPRI_DPV_K1',39837.2],
-             ['EPRI_DPV_M1',38682.5]]
+             ['EPRI_DPV_K1',39837.2]]
+#             ['EPRI_DPV_M1',38682.5]]
 
 op = open ('table.txt', 'w')
 print ('Case,Solved,Ndev,Nbus,Nnode,Vmax,Vmin,Ptot,Qtot,Ploss,Qloss', file=op)

@@ -1,6 +1,11 @@
 import sys;
 
-glmpath = 'c:\\gridapps-d\\powergrid-models\\blazegraph\\glm\\'
+if sys.platform == 'win32':
+    glmpath = 'c:\\gridapps-d\\powergrid-models\\blazegraph\\glm\\'
+    bp = open (glmpath + 'check_glm.bat', 'w')
+else:
+    glmpath = '/Users/mcde601/src/GRIDAPPSD/Powergrid-Models/blazegraph/glm/'
+    bp = open (glmpath + 'check_glm.sh', 'w')
 
 casefiles = [['IEEE13',66395.3],
              ['IEEE13_Assets',66395.3],
@@ -18,6 +23,7 @@ casefiles = [['IEEE13',66395.3],
              ['EPRI5',66395.3],
              ['EPRI7',66395.3],
              ['EPRI24',132790.6],
+             ['GC_12_47_1',57735.0],
              ['R1_12_47_1',57735.0],
              ['R1_12_47_2',57735.0],
              ['R1_12_47_3',57735.0],
@@ -45,11 +51,12 @@ casefiles = [['IEEE13',66395.3],
              ['EPRI_DPV_K1',39837.2],
              ['EPRI_DPV_M1',38682.5]]
 
-bp = open (glmpath + 'check_glm.bat', 'w')
-
 for c in casefiles:
-    print('gridlabd', c[0] + '_run.glm >' + c[0] + '.log 2>&1', file=bp)
-
+    if sys.platform == 'win32':
+        print('gridlabd', c[0] + '_run.glm >' + c[0] + '.log 2>&1', file=bp)
+    else:
+        print('gridlabd', c[0] + '_run.glm >' + c[0] + '.log', file=bp)
+        
     fp = open (glmpath + c[0] + '_run.glm', 'w')
 
     print('clock {', file=fp)
