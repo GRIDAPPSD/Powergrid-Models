@@ -44,8 +44,8 @@ single_phase = [[5,2.10,1.53,0.90,3.38],
 [500,1.00,4.90,0.29,1.98]]
 
 # leave off intermediate fuse sizes 8, 12, 20, 30, 50, 80, 140
-# leave off 6, 10 from the smallest sizes, too easily blown
-standard_fuses = [15, 25, 40, 65, 100, 200]
+# leave off 6, 10, 15, 25 from the smallest sizes, too easily blown
+standard_fuses = [40, 65, 100, 200]
 standard_reclosers = [280, 400, 560, 630, 800]
 standard_breakers = [600, 1200, 2000]
 
@@ -121,7 +121,7 @@ casefiles = [['R1-12.47-1',12470.0, 7200.0],
 #casefiles = [['R1-12.47-1',12470.0, 7200.0],
 #             ['R2-12.47-1',12470.0, 7200.0],
 #             ['R3-12.47-1',12470.0, 7200.0]]
-#casefiles = [['R5-35.00-1',34500.0,19920.0]]
+#casefiles = [['R1-25.00-1',24900.0,14400.0]]
 
 def is_node_class(s):
     if s == 'node':
@@ -140,6 +140,8 @@ def is_edge_class(s):
     if s == 'switch':
         return True
     if s == 'fuse':
+        return True
+    if s == 'recloser':
         return True
     if s == 'regulator':
         return True
@@ -522,6 +524,11 @@ for c in casefiles:
         sub_graphs = nx.connected_component_subgraphs(G)
         seg_loads = {} # [name][kva, phases]
         total_kva = 0.0
+#       for sg in sub_graphs:
+#           print (sg.number_of_nodes())
+#           if sg.number_of_nodes() < 10:
+#               print(sg.nodes)
+#               print(sg.edges)
         for n1, data in G.nodes(data=True):
             if 'ndata' in data:
                 kva = accumulate_load_kva (data['ndata'])
