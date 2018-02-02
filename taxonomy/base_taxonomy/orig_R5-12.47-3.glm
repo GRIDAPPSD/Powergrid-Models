@@ -29,7 +29,7 @@ object regulator:1 {
 
 //object regulator:2 { 
 //     name R5-12-47-3_reg_2; 
-//     from R5-12-47-3_node_487_2; 
+//     from R5-12-47-3_node_4872; 
 //     to R5-12-47-3_node_488; 
 //     phases ABCN; 
 //     configuration voltage_reg1_cfg; 
@@ -37,7 +37,7 @@ object regulator:1 {
 
 object regulator:2 { 
      name R5-12-47-3_reg_2; 
-     from R5-12-47-3_node_294_2; 
+     from R5-12-47-3_node_2942; 
      to R5-12-47-3_node_294; 
      phases ABCN; 
      configuration voltage_reg1_cfg; 
@@ -46,7 +46,7 @@ object regulator:2 {
 
 object regulator:3 { 
      name R5-12-47-3_reg_3; 
-     from R5-12-47-3_node_334_2; 
+     from R5-12-47-3_node_3342; 
      to R5-12-47-3_node_1273; 
      phases ABCN; 
      configuration voltage_reg2_cfg;
@@ -54,7 +54,7 @@ object regulator:3 {
 
 object regulator:4 { 
      name R5-12-47-3_reg_4; 
-     from R5-12-47-3_node_974_2; 
+     from R5-12-47-3_node_9742; 
      to R5-12-47-3_node_974; 
      phases ABCN; 
      configuration voltage_reg3_cfg;
@@ -8500,7 +8500,7 @@ object node:388 {
 } 
 
 object node:388 { 
-     name R5-12-47-3_node_294_2; 
+     name R5-12-47-3_node_2942; 
      phases ABCN; 
      voltage_A 7967.43+0.0j; 
      voltage_B -3983.72-6900j; 
@@ -8815,7 +8815,7 @@ object node:428 {
 } 
 
 object node:9995 { 
-     name R5-12-47-3_node_334_2; 
+     name R5-12-47-3_node_3342; 
      phases ABCN; 
      voltage_A 7967.43+0.0j; 
      voltage_B -3983.72-6900j; 
@@ -9942,7 +9942,7 @@ object node:581 {
 } 
 
 //object node:9999 { 
-//     name R5-12-47-3_node_487_2; 
+//     name R5-12-47-3_node_4872; 
 //     phases ABCN; 
 //     voltage_A 7967.43+0.0j; 
 //     voltage_B -3983.72-6900j; 
@@ -13550,7 +13550,7 @@ object node:1068 {
 } 
 
 object node { 
-     name R5-12-47-3_node_974_2; 
+     name R5-12-47-3_node_9742; 
      phases ABCN; 
      voltage_A 7967.43+0.0j; 
      voltage_B -3983.72-6900j; 
@@ -18654,7 +18654,7 @@ object overhead_line:8420 {
      phases ABCN; 
      from R5-12-47-3_node_1128;
 //     to R5-12-47-3_node_294;
-     to R5-12-47-3_node_294_2; 
+     to R5-12-47-3_node_2942; 
      length 256.000; 
      configuration line_configuration:51; 
 } 
@@ -26755,7 +26755,7 @@ object overhead_line:9325 {
      name R5-12-47-3_ol_1069; 
      phases ABCN; 
      from R5-12-47-3_node_334; 
-     to R5-12-47-3_node_334_2; 
+     to R5-12-47-3_node_3342; 
      length 7.000; 
      configuration line_configuration:56; 
 } 
@@ -27700,7 +27700,7 @@ object overhead_line {
      name R5-12-47-3_ol_1174; 
      phases ABCN; 
      from R5-12-47-3_node_971; 
-     to R5-12-47-3_node_974_2; 
+     to R5-12-47-3_node_9742; 
      length 937.000; 
      configuration line_configuration:39; 
 } 
@@ -27766,7 +27766,7 @@ object switch:9620 {
 //     name R5-12-47-3_switch_2; 
 //     phases ABCN; 
 //     from R5-12-47-3_node_487; 
-//     to R5-12-47-3_node_487_2; 
+//     to R5-12-47-3_node_4872; 
 //     status CLOSED; 
 //} 
 

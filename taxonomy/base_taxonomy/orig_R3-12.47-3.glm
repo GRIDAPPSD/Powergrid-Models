@@ -28,7 +28,7 @@ object regulator:1 {
 
 object regulator:2 { 
      name R3-12-47-3_reg_2; 
-     from R3-12-47-3_node_871_2; 
+     from R3-12-47-3_node_8712; 
      to R3-12-47-3_node_885; 
      phases ABCN; 
      configuration voltage_reg_cfg; 
@@ -11421,7 +11421,7 @@ object node:940 {
 } 
 
 object node:9999 { 
-     name R3-12-47-3_node_871_2; 
+     name R3-12-47-3_node_8712; 
      phases ABCN; 
      voltage_A 7200+0.0j; 
      voltage_B -3600-6235j; 
@@ -27502,7 +27502,7 @@ object overhead_line:11463 {
      name R3-12-47-3_ol_746; 
      phases ABCN; 
      from R3-12-47-3_node_871; 
-     to R3-12-47-3_node_871_2; 
+     to R3-12-47-3_node_8712; 
      length 283.000; 
      configuration line_configuration:24; 
 } 
