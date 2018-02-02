@@ -440,6 +440,14 @@ object line_configuration:47 {
      spacing line_spacing:16; 
 } 
 
+object line_configuration:48 { 
+     conductor_A underground_line_conductor:14; 
+     conductor_B underground_line_conductor:14; 
+     conductor_C underground_line_conductor:14; 
+     conductor_N underground_line_conductor:14; 
+     spacing line_spacing:17; 
+} 
+
 object line_spacing:16 { 
      distance_BN 36.0 in; 
 } 
@@ -6834,7 +6842,7 @@ object underground_line:685 {
      from R3-12-47-2_node_174; 
      to R3-12-47-2_node_134; 
      length 385.914; 
-     configuration line_configuration:42; 
+     configuration line_configuration:48; 
 } 
 
 object underground_line:686 { 
@@ -6843,7 +6851,7 @@ object underground_line:686 {
      from R3-12-47-2_node_245; 
      to R3-12-47-2_node_135; 
      length 25.844; 
-     configuration line_configuration:42; 
+     configuration line_configuration:48; 
 } 
 
 object underground_line:687 { 
@@ -6852,7 +6860,7 @@ object underground_line:687 {
      from R3-12-47-2_node_72; 
      to R3-12-47-2_node_174; 
      length 280.266; 
-     configuration line_configuration:42; 
+     configuration line_configuration:48; 
 } 
 
 object underground_line:688 { 
@@ -6861,7 +6869,7 @@ object underground_line:688 {
      from R3-12-47-2_node_134; 
      to R3-12-47-2_node_136; 
      length 293.412; 
-     configuration line_configuration:42; 
+     configuration line_configuration:48; 
 } 
 
 object underground_line:689 { 
@@ -7142,6 +7150,20 @@ object underground_line_conductor:13 {
      shield_resistance 2.0135; 
      shield_thickness 0.005;
 		 shield_diameter 1.66;
+		 insulation_relative_permitivitty 2.3;
+} 
+
+object underground_line_conductor:14 { 
+     //name 750 AAC (Conc); 
+     rating.summer.continuous 425.0; 
+     outer_diameter 1.96; 
+     conductor_gmr 0.0321 ft; 
+     conductor_diameter 0.998; 
+     conductor_resistance 0.122496; 
+     neutral_gmr 0.00330 ft; 
+     neutral_resistance 5.9026; 
+     neutral_diameter 0.1019; 
+     neutral_strands 15.0; 
 		 insulation_relative_permitivitty 2.3;
 } 
 

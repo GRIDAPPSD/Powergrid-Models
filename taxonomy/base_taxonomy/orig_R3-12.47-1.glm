@@ -8097,7 +8097,7 @@ object overhead_line:3045 {
      from R3-12-47-1_node_5; 
      to R3-12-47-1_node_6; 
      length 241.300; 
-     configuration line_configuration:35; 
+     configuration line_configuration:61; 
 } 
 
 object overhead_line:3052 { 
@@ -9519,7 +9519,7 @@ object overhead_line:3371 {
      from R3-12-47-1_node_4; 
      to R3-12-47-1_node_387; 
      length 80.100; 
-     configuration line_configuration:35; 
+     configuration line_configuration:61; 
 } 
 
 object overhead_line:3391 { 
@@ -9924,7 +9924,7 @@ object overhead_line:3481 {
      from R3-12-47-1_node_387; 
      to R3-12-47-1_node_543; 
      length 117.000; 
-     configuration line_configuration:35; 
+     configuration line_configuration:61; 
 } 
 
 object overhead_line:3499 { 
@@ -10113,7 +10113,7 @@ object overhead_line:3539 {
      from R3-12-47-1_node_543; 
      to R3-12-47-1_node_612; 
      length 209.700; 
-     configuration line_configuration:35; 
+     configuration line_configuration:61; 
 } 
 
 object overhead_line:3542 { 
@@ -10149,7 +10149,7 @@ object overhead_line:3545 {
      from R3-12-47-1_node_612; 
      to R3-12-47-1_node_619; 
      length 123.700; 
-     configuration line_configuration:35; 
+     configuration line_configuration:61; 
 } 
 
 object overhead_line:3546 { 
@@ -10158,7 +10158,7 @@ object overhead_line:3546 {
      from R3-12-47-1_node_619; 
      to R3-12-47-1_node_620; 
      length 385.700; 
-     configuration line_configuration:35; 
+     configuration line_configuration:61; 
 } 
 
 object overhead_line:3547 { 
@@ -10167,7 +10167,7 @@ object overhead_line:3547 {
      from R3-12-47-1_node_620; 
      to R3-12-47-1_node_621; 
      length 578.000; 
-     configuration line_configuration:35; 
+     configuration line_configuration:61; 
 } 
 
 object overhead_line:3548 { 
@@ -10176,7 +10176,7 @@ object overhead_line:3548 {
      from R3-12-47-1_node_621; 
      to R3-12-47-1_node_622; 
      length 308.600; 
-     configuration line_configuration:35; 
+     configuration line_configuration:61; 
 } 
 
 object overhead_line:3549 { 
@@ -10185,7 +10185,7 @@ object overhead_line:3549 {
      from R3-12-47-1_node_622; 
      to R3-12-47-1_node_623; 
      length 267.000; 
-     configuration line_configuration:35; 
+     configuration line_configuration:61; 
 } 
 
 object overhead_line:3557 { 
@@ -10194,7 +10194,7 @@ object overhead_line:3557 {
      from R3-12-47-1_node_623; 
      to R3-12-47-1_node_5; 
      length 202.300; 
-     configuration line_configuration:35; 
+     configuration line_configuration:61; 
 } 
 
 object overhead_line_conductor:2 { 
@@ -32092,7 +32092,7 @@ object underground_line:3298 {
      from R3-12-47-1_node_302; 
      to R3-12-47-1_node_303; 
      length 49.000; 
-     configuration line_configuration:31; 
+     configuration line_configuration:49; 
 } 
 
 object underground_line:3299 { 
@@ -32110,7 +32110,7 @@ object underground_line:3300 {
      from R3-12-47-1_node_304; 
      to R3-12-47-1_node_305; 
      length 49.000; 
-     configuration line_configuration:31; 
+     configuration line_configuration:49; 
 } 
 
 object underground_line:3301 { 
@@ -32128,7 +32128,7 @@ object underground_line:3302 {
      from R3-12-47-1_node_305; 
      to R3-12-47-1_node_325; 
      length 525.000; 
-     configuration line_configuration:31; 
+     configuration line_configuration:49; 
 } 
 
 object underground_line:3303 { 
@@ -32254,7 +32254,7 @@ object underground_line:3320 {
      from R3-12-47-1_node_325; 
      to R3-12-47-1_node_326; 
      length 52.000; 
-     configuration line_configuration:31; 
+     configuration line_configuration:49; 
 } 
 
 object underground_line:3321 { 
@@ -32290,7 +32290,7 @@ object underground_line:3324 {
      from R3-12-47-1_node_326; 
      to R3-12-47-1_node_330; 
      length 292.000; 
-     configuration line_configuration:31; 
+     configuration line_configuration:49; 
 } 
 
 object underground_line:3325 { 
@@ -32317,7 +32317,7 @@ object underground_line:3327 {
      from R3-12-47-1_node_330; 
      to R3-12-47-1_node_334; 
      length 312.000; 
-     configuration line_configuration:31; 
+     configuration line_configuration:49; 
 } 
 
 object underground_line:3328 { 
@@ -32344,7 +32344,7 @@ object underground_line:3330 {
      from R3-12-47-1_node_334; 
      to R3-12-47-1_node_339; 
      length 53.000; 
-     configuration line_configuration:31; 
+     configuration line_configuration:49; 
 } 
 
 object underground_line:3331 { 
@@ -32380,7 +32380,7 @@ object underground_line:3334 {
      from R3-12-47-1_node_339; 
      to R3-12-47-1_node_340; 
      length 424.000; 
-     configuration line_configuration:31; 
+     configuration line_configuration:49; 
 } 
 
 object underground_line:3335 { 
@@ -32389,7 +32389,7 @@ object underground_line:3335 {
      from R3-12-47-1_node_340; 
      to R3-12-47-1_node_342; 
      length 660; 
-     configuration line_configuration:31; 
+     configuration line_configuration:49; 
 } 
 
 object underground_line:3336 { 
@@ -32416,7 +32416,7 @@ object underground_line:3338 {
      from R3-12-47-1_node_342; 
      to R3-12-47-1_node_347; 
      length 302.000; 
-     configuration line_configuration:31; 
+     configuration line_configuration:49; 
 } 
 
 object underground_line:3339 { 
@@ -32443,7 +32443,7 @@ object underground_line:3341 {
      from R3-12-47-1_node_347; 
      to R3-12-47-1_node_352; 
      length 132.000; 
-     configuration line_configuration:31; 
+     configuration line_configuration:49; 
 } 
 
 object underground_line:3342 { 
@@ -32470,7 +32470,7 @@ object underground_line:3344 {
      from R3-12-47-1_node_352; 
      to R3-12-47-1_node_353; 
      length 45.000; 
-     configuration line_configuration:31; 
+     configuration line_configuration:49; 
 } 
 
 object underground_line:3345 { 
@@ -32479,7 +32479,7 @@ object underground_line:3345 {
      from R3-12-47-1_node_354; 
      to R3-12-47-1_node_355; 
      length 10.000; 
-     configuration line_configuration:27; 
+     configuration line_configuration:49; 
 } 
 
 object underground_line:3346 { 
@@ -32488,7 +32488,7 @@ object underground_line:3346 {
      from R3-12-47-1_node_355; 
      to R3-12-47-1_node_356; 
      length 81.000; 
-     configuration line_configuration:31; 
+     configuration line_configuration:49; 
 } 
 
 object underground_line:3347 { 
