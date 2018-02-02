@@ -13,7 +13,7 @@ clock{
 // modules 
 module tape; 
 module powerflow{ 
-     solver_method FBS;  // fails with NR 
+     solver_method NR;
       default_maximum_voltage_error 1e-6;
 }; 
 
@@ -18535,11 +18535,11 @@ object underground_line_conductor:2 {
      outer_diameter 1.87; 
      conductor_gmr 0.0371 ft; 
      conductor_diameter 1.15; 
-     conductor_resistance 0.0222; 
-		 neutral_strands 0; 
-     shield_gmr 0.077708; 
+     conductor_resistance 0.1162; 
+     shield_gmr 0.069167; 
      shield_resistance 2.0135; 
      shield_thickness 0.005;
+		 shield_diameter 1.66;
 		 insulation_relative_permitivitty 2.3;
 } 
 
@@ -18550,12 +18550,10 @@ object underground_line_conductor:5 {
      conductor_gmr 0.01142 ft; 
      conductor_diameter 0.362; 
      conductor_resistance 0.88704; 
-     neutral_gmr 0.0489686771417213 ft; 
-     neutral_resistance 13.86528; 
+     neutral_gmr 0.00208 ft; 
+     neutral_resistance 14.87; 
      neutral_diameter 0.0641; 
      neutral_strands 16.0; 
-     shield_gmr 0.00; 
-     shield_resistance 0.00; 
 		 insulation_relative_permitivitty 2.3;
 } 
 

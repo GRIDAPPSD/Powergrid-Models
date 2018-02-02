@@ -36704,12 +36704,10 @@ object underground_line_conductor:2 {
      conductor_gmr 0.0088 ft; 
      conductor_diameter 0.292; 
      conductor_resistance 1.38336; 
-     neutral_gmr 0.0348162687755351 ft; 
-     neutral_resistance 13.5696; 
+     neutral_gmr 0.00208 ft; 
+     neutral_resistance 14.87; 
      neutral_diameter 0.0641; 
      neutral_strands 6.0; 
-     shield_gmr 0.00; 
-     shield_resistance 0.00; 
 		 insulation_relative_permitivitty 2.3;
 } 
 
@@ -36720,12 +36718,10 @@ object underground_line_conductor:7 {
      conductor_gmr 0.0177 ft; 
      conductor_diameter 0.528; 
      conductor_resistance 0.433488; 
-     neutral_gmr 0.0485380344339232 ft; 
-     neutral_resistance 13.5696; 
+     neutral_gmr 0.00208 ft; 
+     neutral_resistance 14.87; 
      neutral_diameter 0.0641; 
      neutral_strands 11.0; 
-     shield_gmr 0.00; 
-     shield_resistance 0.00; 
 		 insulation_relative_permitivitty 2.3;
 } 
 
@@ -36736,12 +36732,10 @@ object underground_line_conductor:10 {
      conductor_gmr 0.03592 ft; 
      conductor_diameter 1.117; 
      conductor_resistance 0.093456; 
-     neutral_gmr 0.0897578842950715 ft; 
-     neutral_resistance 5.48592; 
+     neutral_gmr 0.00330 ft; 
+     neutral_resistance 5.9026; 
      neutral_diameter 0.1019; 
      neutral_strands 20.0; 
-     shield_gmr 0.00; 
-     shield_resistance 0.00; 
 		 insulation_relative_permitivitty 2.3;
 } 
 
