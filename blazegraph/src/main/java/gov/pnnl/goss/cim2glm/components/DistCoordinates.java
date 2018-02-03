@@ -12,7 +12,7 @@ public class DistCoordinates extends DistComponent {
 		" ?eq c:PowerSystemResource.Location ?loc."+
 		" ?eq c:IdentifiedObject.name ?name."+
 		" ?eq a ?classraw."+
-		"  bind(strafter(str(?classraw),\"cim16#\") as ?class)"+
+		"  bind(strafter(str(?classraw),\"cim17#\") as ?class)"+
 		" ?pt c:PositionPoint.Location ?loc."+
 		" ?pt c:PositionPoint.xPosition ?x."+
 		" ?pt c:PositionPoint.yPosition ?y."+
