@@ -31,6 +31,8 @@ import gov.pnnl.goss.cim2glm.components.DistPowerXfmrMesh;
 import gov.pnnl.goss.cim2glm.components.DistPowerXfmrWinding;
 import gov.pnnl.goss.cim2glm.components.DistRegulator;
 import gov.pnnl.goss.cim2glm.components.DistSequenceMatrix;
+import gov.pnnl.goss.cim2glm.components.DistSolar;
+import gov.pnnl.goss.cim2glm.components.DistStorage;
 import gov.pnnl.goss.cim2glm.components.DistSubstation;
 import gov.pnnl.goss.cim2glm.components.DistSwitch;
 import gov.pnnl.goss.cim2glm.components.DistTapeShieldCable;
@@ -84,6 +86,8 @@ public class CIMImporter extends Object {
 	HashMap<String,DistPowerXfmrWinding> mapXfmrWindings = new HashMap<>();
 	HashMap<String,DistRegulator> mapRegulators = new HashMap<>();
 	HashMap<String,DistSequenceMatrix> mapSequenceMatrices = new HashMap<>();
+	HashMap<String,DistSolar> mapSolars = new HashMap<>();
+	HashMap<String,DistStorage> mapStorages = new HashMap<>();
 	HashMap<String,DistSubstation> mapSubstations = new HashMap<>();
 	HashMap<String,DistSwitch> mapSwitches = new HashMap<>();
 	HashMap<String,DistTapeShieldCable> mapTSCables = new HashMap<>();
@@ -127,6 +131,22 @@ public class CIMImporter extends Object {
 		while (results.hasNext()) {
 			DistSubstation obj = new DistSubstation (results);
 			mapSubstations.put (obj.GetKey(), obj);
+		}
+	}
+
+	void LoadSolars() {
+		ResultSet results = queryHandler.query (DistSolar.szQUERY);
+		while (results.hasNext()) {
+			DistSolar obj = new DistSolar (results);
+			mapSolars.put (obj.GetKey(), obj);
+		}
+	}
+
+	void LoadStorages() {
+		ResultSet results = queryHandler.query (DistStorage.szQUERY);
+		while (results.hasNext()) {
+			DistStorage obj = new DistStorage (results);
+			mapStorages.put (obj.GetKey(), obj);
 		}
 	}
 
@@ -331,6 +351,8 @@ public class CIMImporter extends Object {
 		PrintOneMap (mapXfmrWindings, "** POWER XFMR WINDINGS");
 		PrintOneMap (mapRegulators, "** REGULATORS");
 		PrintOneMap (mapSequenceMatrices, "** SEQUENCE IMPEDANCE MATRICES");
+		PrintOneMap (mapSolars, "** SOLAR PV SOURCES");
+		PrintOneMap (mapStorages, "** STORAGE SOURCES");
 		PrintOneMap (mapSubstations, "** SUBSTATION SOURCES");
 		PrintOneMap (mapSwitches, "** LOADBREAK SWITCHES");
 		PrintOneMap (mapTSCables, "** TS CABLES");
@@ -359,6 +381,8 @@ public class CIMImporter extends Object {
 		LoadPowerXfmrWindings();
 		LoadRegulators();
 		LoadSequenceMatrices();
+		LoadSolars();
+		LoadStorages();
 		LoadSubstations();
 		LoadSwitches();
 		LoadTapeShieldCables();
@@ -382,9 +406,9 @@ public class CIMImporter extends Object {
 		if (nLinks < 1) {
 			throw new RuntimeException ("no lines, transformers or switches");
 		}
-		nNodes = mapLoads.size() + mapCapacitors.size(); // TODO - DER
+		nNodes = mapLoads.size() + mapCapacitors.size() + mapSolars.size() + mapStorages.size();
 		if (nNodes < 1) {
-			throw new RuntimeException ("no loads or capacitors");
+			throw new RuntimeException ("no loads, capacitors, solar PV or batteries");
 		}
 		return true;
 	}
@@ -412,6 +436,32 @@ public class CIMImporter extends Object {
 		count = 1;
 		last = mapCapacitors.size();
 		for (HashMap.Entry<String,DistCapacitor> pair : mapCapacitors.entrySet()) {
+			out.print (pair.getValue().GetJSONSymbols(mapCoordinates));
+			if (count++ < last) {
+				out.println (",");
+			} else {
+				out.println ("");
+			}
+		}
+		out.println("]},");
+
+		out.println("{\"solarpanels\":[");
+		count = 1;
+		last = mapSolars.size();
+		for (HashMap.Entry<String,DistSolar> pair : mapSolars.entrySet()) {
+			out.print (pair.getValue().GetJSONSymbols(mapCoordinates));
+			if (count++ < last) {
+				out.println (",");
+			} else {
+				out.println ("");
+			}
+		}
+		out.println("]},");
+
+		out.println("{\"batteries\":[");
+		count = 1;
+		last = mapStorages.size();
+		for (HashMap.Entry<String,DistStorage> pair : mapStorages.entrySet()) {
 			out.print (pair.getValue().GetJSONSymbols(mapCoordinates));
 			if (count++ < last) {
 				out.println (",");
@@ -694,6 +744,12 @@ public class CIMImporter extends Object {
 		for (HashMap.Entry<String,DistCapacitor> pair : mapCapacitors.entrySet()) {
 			out.print (pair.getValue().GetGLM());
 		}
+		for (HashMap.Entry<String,DistSolar> pair : mapSolars.entrySet()) {
+			out.print (pair.getValue().GetGLM());
+		}
+		for (HashMap.Entry<String,DistStorage> pair : mapStorages.entrySet()) {
+			out.print (pair.getValue().GetGLM());
+		}
 		for (HashMap.Entry<String,DistLinesSpacingZ> pair : mapLinesSpacingZ.entrySet()) {
 			out.print (pair.getValue().GetGLM());
 		}
@@ -930,6 +986,16 @@ public class CIMImporter extends Object {
 		}
 
 		out.println();
+		for (HashMap.Entry<String,DistSolar> pair : mapSolars.entrySet()) {
+			out.print (pair.getValue().GetDSS());
+			outID.println ("PVSystem." + pair.getValue().name + "\t" + pair.getValue().id);
+		}
+		out.println();
+		for (HashMap.Entry<String,DistStorage> pair : mapStorages.entrySet()) {
+			out.print (pair.getValue().GetDSS());
+			outID.println ("Storage." + pair.getValue().name + "\t" + pair.getValue().id);
+		}
+		out.println();
 		for (HashMap.Entry<String,DistLoad> pair : mapLoads.entrySet()) {
 			out.print (pair.getValue().GetDSS());
 			outID.println ("Load." + pair.getValue().name + "\t" + pair.getValue().id);
@@ -1022,7 +1088,7 @@ public class CIMImporter extends Object {
 		LoadAllMaps();
 		CheckMaps();
 
-//		PrintAllMaps();
+		PrintAllMaps();
 		if (fTarget.equals("glm")) {
 			fOut = fRoot + "_base.glm";
 			fXY = fRoot + "_symbols.json";
