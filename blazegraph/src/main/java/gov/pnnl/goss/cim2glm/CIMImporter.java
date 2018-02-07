@@ -1088,7 +1088,7 @@ public class CIMImporter extends Object {
 		LoadAllMaps();
 		CheckMaps();
 
-		PrintAllMaps();
+//		PrintAllMaps();
 		if (fTarget.equals("glm")) {
 			fOut = fRoot + "_base.glm";
 			fXY = fRoot + "_symbols.json";

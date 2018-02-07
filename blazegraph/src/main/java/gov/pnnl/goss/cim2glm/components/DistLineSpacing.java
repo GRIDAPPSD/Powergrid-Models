@@ -54,7 +54,11 @@ public class DistLineSpacing extends DistComponent {
 			usage = OptionalString (soln, "?usage", "distribution");
 			b_sep = OptionalDouble (soln, "?bundle_sep", 0.0);
 			b_cnt = OptionalInt (soln, "?bundle_count", 0);
-		}		
+			for (int i = 0; i < nwires; i++) {
+				xarray[i] = df4.format (Double.parseDouble (xarray[i]));
+				yarray[i] = df4.format (Double.parseDouble (yarray[i]));
+			}
+		}
 	}
 
 	public String DisplayString() {

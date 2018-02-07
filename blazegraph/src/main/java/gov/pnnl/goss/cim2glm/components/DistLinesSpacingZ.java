@@ -31,7 +31,7 @@ public class DistLinesSpacingZ extends DistLineSegment {
 		"       ?winf c:WireInfo.radius ?rad."+
 		"       ?winf c:IdentifiedObject.name ?wname."+
 		"       ?winf a ?classraw."+
-		"       	bind(strafter(str(?classraw),\"cim16#\") as ?wclass)"+
+		"       	bind(strafter(str(?classraw),\"cim17#\") as ?wclass)"+
 		" }"+
 		" ?t c:Terminal.ConductingEquipment ?s."+
 		" ?t c:Terminal.ConnectivityNode ?cn."+
@@ -46,7 +46,7 @@ public class DistLinesSpacingZ extends DistLineSegment {
 		"       	?phinf c:WireInfo.radius ?phrad."+
 		"       	?phinf c:IdentifiedObject.name ?phname."+
 		"       	?phinf a ?phclassraw."+
-		"       		bind(strafter(str(?phclassraw),\"cim16#\") as ?phclass)"+
+		"       		bind(strafter(str(?phclassraw),\"cim17#\") as ?phclass)"+
 		"       	}"+
 		"       }"+
 		" } ORDER BY ?name ?phs"+

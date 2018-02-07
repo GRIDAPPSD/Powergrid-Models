@@ -35,7 +35,7 @@ public class DistCapacitor extends DistComponent {
        " 	?ctl c:RegulatingControl.Terminal ?trm."+
        " 	?trm c:Terminal.ConductingEquipment ?eq."+
        " 	?eq a ?classraw."+
-       " 		bind(strafter(str(?classraw),\"cim16#\") as ?monclass)"+
+       " 		bind(strafter(str(?classraw),\"cim17#\") as ?monclass)"+
        " 	?eq c:IdentifiedObject.name ?moneq."+
        " 	?trm c:Terminal.ConnectivityNode ?moncn."+
        " 	?moncn c:IdentifiedObject.name ?monbus."+
