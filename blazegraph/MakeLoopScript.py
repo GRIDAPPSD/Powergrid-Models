@@ -90,6 +90,7 @@ casefiles = ['IEEE13',
              'IEEE13_Assets',
              'IEEE8500',
              'IEEE123',
+             'R2_12_47_2',
              'EPRI_DPV_J1']
 
 arg = sys.argv[1]

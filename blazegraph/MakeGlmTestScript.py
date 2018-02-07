@@ -55,6 +55,7 @@ casefiles = [['IEEE13',66395.3],
              ['IEEE13_Assets',66395.3],
              ['IEEE8500',66395.3],
              ['IEEE123',2401.8],
+             ['R2_12_47_2',57735.0],
              ['EPRI_DPV_J1',39837.2]]
 
 for c in casefiles:

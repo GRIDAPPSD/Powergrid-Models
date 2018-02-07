@@ -197,7 +197,8 @@ public class DistRegulator extends DistComponent {
 				buf.append (phs[i]);
 			}
 			bankphases = buf.toString();
-		}		
+		}
+//		System.out.println (DisplayString());		
 	}
 
 	public String DisplayString() {
@@ -319,7 +320,7 @@ public class DistRegulator extends DistComponent {
 			if (size > 1) {
 				xfName = tname[i];
 			} else {
-				xfName = pname;
+				xfName = tname[i]; // pname;
 			}
 			buf.append("new RegControl." + rname[i] + " transformer=" + xfName + " winding=" + Integer.toString(wnum[i]));
 			buf.append(" vreg=" + df2.format(vset[i]) + " band=" + df2.format(vbw[i]) + " ptratio=" + df2.format(ptRatio[i]) +

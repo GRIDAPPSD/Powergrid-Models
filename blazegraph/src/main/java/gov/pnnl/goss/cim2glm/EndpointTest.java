@@ -25,7 +25,7 @@ import org.apache.jena.query.*;
 
 public class EndpointTest extends Object {
   static final String szEND = "http://localhost:9999/blazegraph/namespace/kb/sparql";
-  static final String nsCIM = "http://iec.ch/TC57/2012/CIM-schema-cim16#";
+  static final String nsCIM = "http://iec.ch/TC57/2012/CIM-schema-cim17#";
   static final String nsRDF = "http://www.w3.org/1999/02/22-rdf-syntax-ns#";
 
   public static void main (String args[]) throws UnsupportedEncodingException, FileNotFoundException {

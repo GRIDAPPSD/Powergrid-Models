@@ -95,6 +95,8 @@ public class DistLinesSpacingZ extends DistLineSegment {
 					if (idxWire > 0) --idxWire;
 				}
 			}
+			phases = phases.replace ('\n', ':');
+//			System.out.println (DisplayString());
 		}		
 	}
 

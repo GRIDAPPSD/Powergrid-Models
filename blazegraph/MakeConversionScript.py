@@ -77,7 +77,8 @@ append_cases(casefiles, ieeepath, outpath, 'ieee', 'large',  fp)
 #             ['./new_R5_12_47_5/Master', 'R5_12_47_5'],
 #             ['./new_R5_25_00_1/Master', 'R5_25_00_1'],
 #             ['./new_R5_35_00_1/Master', 'R5_35_00_1']]
-#append_cases(casefiles, taxpath, outpath, 'pnnl', 'taxonomy', fp)
+casefiles = [['./new_R2_12_47_2/Master', 'R2_12_47_2']]
+append_cases(casefiles, taxpath, outpath, 'pnnl', 'taxonomy', fp)
 #
 casefiles = [['./J1/Master_noPV', 'EPRI_DPV_J1']]
 #             ['./K1/Master_NoPV', 'EPRI_DPV_K1'],
