@@ -3,6 +3,9 @@ import sys;
 if sys.platform == 'win32':
     glmpath = 'c:\\gridapps-d\\powergrid-models\\blazegraph\\glm\\'
     bp = open (glmpath + 'check_glm.bat', 'w')
+elif sys.platform == 'linux':
+    glmpath = '/home/mcde601/src/Powergrid-Models/blazegraph/glm/'
+    bp = open (glmpath + 'check_glm.sh', 'w')
 else:
     glmpath = '/Users/mcde601/src/GRIDAPPSD/Powergrid-Models/blazegraph/glm/'
     bp = open (glmpath + 'check_glm.sh', 'w')

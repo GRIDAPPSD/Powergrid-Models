@@ -6,6 +6,11 @@ if sys.platform == 'win32':
     xmlpath = 'c:\\gridapps-d\\powergrid-models\\blazegraph\\test\\'
     dsspath = 'c:\\gridapps-d\\powergrid-models\\blazegraph\\dss\\'
     glmpath = 'c:\\gridapps-d\\powergrid-models\\blazegraph\\glm\\'
+elif sys.platform == 'linux':
+    srcpath = '/home/mcde601/src/Powergrid-Models/blazegraph/'
+    xmlpath = srcpath + 'test/'
+    dsspath = srcpath + 'dss/'
+    glmpath = srcpath + 'glm/'
 else:
     srcpath = '/Users/mcde601/src/GRIDAPPSD/Powergrid-Models/blazegraph/'
     xmlpath = srcpath + 'test/'
@@ -56,8 +61,8 @@ else:
 #             ['EPRI_DPV_K1',39837.2],
 #             ['EPRI_DPV_M1',38682.5]]
 
-casefiles = [['IEEE13',66395.3],
-             ['IEEE13_Assets',66395.3],
+casefiles = [['ieee13',66395.3],
+             ['ieee13_assets',66395.3],
              ['IEEE8500',66395.3],
              ['IEEE123',2401.8],
              ['EPRI_DPV_J1',39837.2]]
