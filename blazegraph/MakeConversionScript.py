@@ -20,6 +20,14 @@ if sys.platform == 'win32':
     epripath = 'c:/OpenDSS/Distrib/EPRITestCircuits/'
     taxpath = 'c:/gridapps-d/powergrid-models/taxonomy/'
     dpvpath = 'c:/epri_dpv/'
+elif sys.platform == 'linux':
+    srcpath = '/home/mcde601/src/'
+    outpath = srcpath + 'Powergrid-Models/blazegraph/test/'
+    cimpath = srcpath + 'OpenDSS/Test/'
+    ieeepath = srcpath + 'OpenDSS/Distrib/IEEETestCases/'
+    epripath = srcpath + 'OpenDSS/Distrib/EPRITestCircuits/'
+    taxpath = srcpath + 'Powergrid-Models/taxonomy/'
+    dpvpath = srcpath + 'epri_dpv/'
 else:
     srcpath = '/Users/mcde601/src/'
     outpath = srcpath + 'GRIDAPPSD/Powergrid-Models/blazegraph/test/'

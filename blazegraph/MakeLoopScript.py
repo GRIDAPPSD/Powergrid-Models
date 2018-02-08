@@ -22,20 +22,34 @@ def append_xml_case(casefiles, xmlpath, dsspath, glmpath, fp):
                   dsspath + c, file=fp)
             print('java gov.pnnl.goss.cim2glm.CIMImporter -o=glm -l=1.0 -i=1', 
                   glmpath + c, file=fp)
+        elif sys.platform == 'linux':
+            print('./drop_all.sh', file=fp)
+            print('curl -D- -H "Content-Type: application/xml" --upload-file', 
+                  xmlpath + c + '.xml',
+                  '-X POST "http://localhost:9999/blazegraph/sparql"', file=fp)
+            print('java -classpath "target/*:/home/mcde601/src/apache-jena-3.6.0/lib/*:/home/mcde601/src/commons-math3-3.6.1/*" gov.pnnl.goss.cim2glm.CIMImporter -o=dss -l=1.0 -i=1', 
+                  dsspath + c, file=fp)
+            print('java -classpath "target/*:/home/mcde601/src/apache-jena-3.6.0/lib/*:/home/mcde601/src/commons-math3-3.6.1/*" gov.pnnl.goss.cim2glm.CIMImporter -o=glm -l=1.0 -i=1', 
+                  glmpath + c, file=fp)
         else:
             print('./drop_all.sh', file=fp)
             print('curl -D- -H "Content-Type: application/xml" --upload-file', 
                   xmlpath + c + '.xml',
                   '-X POST "http://localhost:9999/blazegraph/sparql"', file=fp)
-            print('java -classpath "target/*:/Users/mcde601/src/apache-jena-3.1.0/lib/*:/Users/mcde601/src/commons-math3-3.6.1/*" gov.pnnl.goss.cim2glm.CIMImporter -o=dss -l=1.0 -i=1', 
+            print('java -classpath "target/*:/Users/mcde601/src/apache-jena-3.6.0/lib/*:/Users/mcde601/src/commons-math3-3.6.1/*" gov.pnnl.goss.cim2glm.CIMImporter -o=dss -l=1.0 -i=1', 
                   dsspath + c, file=fp)
-            print('java -classpath "target/*:/Users/mcde601/src/apache-jena-3.1.0/lib/*:/Users/mcde601/src/commons-math3-3.6.1/*" gov.pnnl.goss.cim2glm.CIMImporter -o=glm -l=1.0 -i=1', 
+            print('java -classpath "target/*:/Users/mcde601/src/apache-jena-3.6.0/lib/*:/Users/mcde601/src/commons-math3-3.6.1/*" gov.pnnl.goss.cim2glm.CIMImporter -o=glm -l=1.0 -i=1', 
                   glmpath + c, file=fp)
 
 if sys.platform == 'win32':
     xmlpath = 'c:\\gridapps-d\\powergrid-models\\blazegraph\\test\\'
     dsspath = 'c:\\gridapps-d\\powergrid-models\\blazegraph\\dss\\'
     glmpath = 'c:\\gridapps-d\\powergrid-models\\blazegraph\\glm\\'
+elif sys.platform == 'linux':
+    srcpath = '/home/mcde601/src/Powergrid-Models/blazegraph/'
+    xmlpath = srcpath + 'test/'
+    dsspath = srcpath + 'dss/'
+    glmpath = srcpath + 'glm/'
 else:
     srcpath = '/Users/mcde601/src/GRIDAPPSD/Powergrid-Models/blazegraph/'
     xmlpath = srcpath + 'test/'
