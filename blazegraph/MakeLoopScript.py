@@ -116,8 +116,8 @@ if arg == '-b':
         print ('mkdir', glmpath, file=fp)
         print ('del /q /y', dsspath + '*.*', file=fp)
         print ('del /q /y', glmpath + '*.*', file=fp)
-        print ('set JENA_HOME=c:\\apache-jena-3.1.0', file=fp)
-        print ('set CLASSPATH=target/*;c:/apache-jena-3.1.0/lib/*;c:/commons-math3-3.6.1/*', file=fp)
+        print ('set JENA_HOME=c:\\apache-jena-3.6.0', file=fp)
+        print ('set CLASSPATH=target/*;c:/apache-jena-3.6.0/lib/*;c:/commons-math3-3.6.1/*', file=fp)
     else:
         fp = open ("convert_xml.sh", "w")
         print ('mkdir', dsspath, file=fp)

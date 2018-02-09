@@ -1,5 +1,5 @@
-set JENA_HOME=c:\apache-jena-3.1.0
-set CLASSPATH=target/*;c:/apache-jena-3.1.0/lib/*;c:/commons-math3-3.6.1/*
+set JENA_HOME=c:\apache-jena-3.6.0
+set CLASSPATH=target/*;c:/apache-jena-3.6.0/lib/*;c:/commons-math3-3.6.1/*
 
 rem mvn clean install
 
