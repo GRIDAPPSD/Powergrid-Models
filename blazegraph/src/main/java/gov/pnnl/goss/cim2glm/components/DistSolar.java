@@ -68,7 +68,7 @@ public class DistSolar extends DistComponent {
 	}
 
 	public String GetJSONSymbols(HashMap<String,DistCoordinates> map) {
-		DistCoordinates pt = map.get("PowerElectronicsConnection:" + name + ":1");
+		DistCoordinates pt = map.get("PhotovoltaicUnit:" + name + ":1");
 
 		StringBuilder buf = new StringBuilder ();
 
@@ -79,6 +79,7 @@ public class DistSolar extends DistComponent {
 		buf.append (",\"x1\":" + Double.toString(pt.x));
 		buf.append (",\"y1\":" + Double.toString(pt.y));
 		buf.append ("}");
+
 		return buf.toString();
 	}
 

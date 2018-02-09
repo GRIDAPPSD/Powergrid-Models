@@ -88,7 +88,7 @@ public class DistStorage extends DistComponent {
 	}
 
 	public String GetJSONSymbols(HashMap<String,DistCoordinates> map) {
-		DistCoordinates pt = map.get("PowerElectronicsConnection:" + name + ":1");
+		DistCoordinates pt = map.get("BatteryUnit:" + name + ":1");
 
 		StringBuilder buf = new StringBuilder ();
 
