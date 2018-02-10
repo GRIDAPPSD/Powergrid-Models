@@ -27702,7 +27702,7 @@ object overhead_line {
      from R5-12-47-3_node_971; 
      to R5-12-47-3_node_9742; 
      length 937.000; 
-     configuration line_configuration:39; 
+     configuration line_configuration:51; 
 } 
 
 object overhead_line_conductor:2 { 

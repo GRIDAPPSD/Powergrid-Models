@@ -8106,7 +8106,7 @@ object overhead_line:3052 {
      from R3-12-47-1_node_6; 
      to R3-12-47-1_node_15; 
      length 258.100; 
-     configuration line_configuration:35; 
+     configuration line_configuration:61; 
 } 
 
 object overhead_line:3054 { 
@@ -8115,7 +8115,7 @@ object overhead_line:3054 {
      from R3-12-47-1_node_15; 
      to R3-12-47-1_node_16; 
      length 213.200; 
-     configuration line_configuration:35; 
+     configuration line_configuration:61; 
 } 
 
 object overhead_line:3055 { 
@@ -8124,7 +8124,7 @@ object overhead_line:3055 {
      from R3-12-47-1_node_18; 
      to R3-12-47-1_node_20; 
      length 309.100; 
-     configuration line_configuration:35; 
+     configuration line_configuration:61; 
 } 
 
 object overhead_line:3057 { 
@@ -10240,8 +10240,8 @@ object overhead_line_conductor:10 {
 } 
 
 object overhead_line_conductor:15 { 
-     //name 636 AAC; 
-     rating.summer.continuous 858.0; 
+     //name 636 AAC; increased from 858
+     rating.summer.continuous 958.0; 
      geometric_mean_radius 0.02940 ft; 
      resistance 0.16300; 
 } 

@@ -33432,7 +33432,7 @@ object underground_line:3547 {
      from R2-12-47-3_node_765; 
      to R2-12-47-3_node_84; 
      length 572.390; 
-     configuration line_configuration:43; 
+     configuration line_configuration:48; 
 } 
 
 object underground_line:3570 { 
