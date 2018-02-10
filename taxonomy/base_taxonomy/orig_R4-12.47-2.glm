@@ -6312,6 +6312,10 @@ object triplex_line_conductor: {
      name triplex_4/0 AA; 
      resistance 0.48; 
      geometric_mean_radius 0.0158; 
+  rating.summer.continuous 1000.0; 
+  rating.summer.emergency 1000.0; 
+  rating.winter.continuous 1000.0; 
+  rating.winter.emergency 1000.0; 
 } 
 
 object triplex_line_configuration:1 { 
