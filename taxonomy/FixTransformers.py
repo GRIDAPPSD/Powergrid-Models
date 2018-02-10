@@ -77,21 +77,15 @@ def Find3PhaseXfmrKva (kva):
     return 0.0
 
 def Find1PhaseXfmr (kva):
-    kva *= xfmrMargin
     for row in single_phase:
         if row[0] >= kva:
             return row[0], 0.01 * row[1], 0.01 * row[2], 0.01 * row[3], 0.01 * row[4]
-#            return row[0], 0.0001, 0.0002, 0.01 * row[3], 0.01 * row[4]
-#            return row[0], 0.0001, 0.0002, 0.001, 0.001
     return 0,0,0,0,0
 
 def Find3PhaseXfmr (kva):
-    kva *= xfmrMargin
     for row in three_phase:
         if row[0] >= kva:
             return row[0], 0.01 * row[1], 0.01 * row[2], 0.01 * row[3], 0.01 * row[4]
-#            return row[0], 0.0001, 0.0002, 0.01 * row[3], 0.01 * row[4]
-#            return row[0], 0.0001, 0.0002, 0.001, 0.001
     return 0,0,0,0,0
 
 casefiles = [['R1-12.47-1',12470.0, 7200.0],
@@ -118,7 +112,7 @@ casefiles = [['R1-12.47-1',12470.0, 7200.0],
              ['R5-25.00-1',22900.0,13200.0],
              ['R5-35.00-1',34500.0,19920.0],
              ['GC-12.47-1',12470.0, 7200.0]]
-#casefiles = [['R1-25.00-1',24900.0,14400.0]]
+#casefiles = [['R2-12.47-2',12470.0, 7200.0]]
 
 def is_node_class(s):
     if s == 'node':
@@ -316,6 +310,12 @@ def write_voltage_class (model, h, t, op, vprim, secmtrnode):
                     print('  power_1 ' + model[t][o]['constant_power_C'] + ';', file=op)
                 else:
                     print('  constant_power_C ' + model[t][o]['constant_power_C'] + ';', file=op)
+            if 'power_1' in model[t][o]:
+                print('  power_1 ' + model[t][o]['power_1'] + ';', file=op)
+            if 'power_2' in model[t][o]:
+                print('  power_2 ' + model[t][o]['power_2'] + ';', file=op)
+            if 'power_12' in model[t][o]:
+                print('  power_12 ' + model[t][o]['power_12'] + ';', file=op)
             if 'voltage_A' in model[t][o]:
                 if bHaveS == True:
                     print('  voltage_1 ' + vstarta + ';', file=op)
@@ -453,7 +453,7 @@ else:
     batname = glmpath + 'run_all_new.sh'
 op = open (batname, 'w')
 for c in casefiles:
-    print ('gridlabd', 'new_' + c[0] + '.glm', file=op)
+    print ('gridlabd -D WANT_VI_DUMP=1', 'new_' + c[0] + '.glm', file=op)
 op.close()
 
 for c in casefiles:
@@ -543,9 +543,22 @@ for c in casefiles:
                             seg_loads[ename][0] += kva
                             seg_loads[ename][1] = union_of_phases (seg_loads[ename][1], data['ndata']['phases'])
 
-        print ('  swing node', swing_node, 'with', len(list(sub_graphs)), 'subgraphs and', '{:.2f}'.format(total_kva), 'total kva')
+        print ('  swing node', swing_node, 'with', len(list(sub_graphs)), 'subgraphs and', 
+               '{:.2f}'.format(total_kva), 'total kva')
 #        for row in seg_loads:
 #            print (' ', row, '{:.2f}'.format(seg_loads[row][0]), seg_loads[row][1])
+
+# write the optional volt_dump and curr_dump for validation
+        print ('#ifdef WANT_VI_DUMP', file=op)
+        print ('object voltdump {', file=op)
+        print ('  filename Voltage_Dump_' + c[0] + '.csv;', file=op)
+        print ('  mode polar;', file=op)
+        print ('}', file=op)
+        print ('object currdump {', file=op)
+        print ('  filename Current_Dump_' + c[0] + '.csv;', file=op)
+        print ('  mode polar;', file=op)
+        print ('}', file=op)
+        print ('#endif', file=op)
 
 # NEW STRATEGY - loop through transformer instances and assign a standard size based on the downstream load
 #              - change the referenced transformer_configuration attributes
@@ -623,124 +636,6 @@ for c in casefiles:
                 else:
                     amps = 1000.0 * seg_kva / c[2]
                 model[t][o]['current_limit'] = str (FindFuseLimit (amps))
-
-# OLD STRATEGY - loop through and patch the original transformer_configuration instances      
-#---------------------------------------------------------------------------------------------------------------
-#        xfcode = {} # ID, phases, st, vnom (LN)                                                                
-#        # UPDATE: we can't convert single-phase to center-tapped, because they are not all R class loads       
-#        t = 'transformer_configuration'                                                                        
-#        for o in model[t]:                                                                                     
-#            sa = 0                                                                                             
-#            sb = 0                                                                                             
-#            sc = 0                                                                                             
-#            np = 0                                                                                             
-#            phs = ''                                                                                           
-#            st = float(model[t][o]['power_rating'])                                                            
-#            v1 = float(model[t][o]['primary_voltage'].split(' ',1)[0])                                         
-#            v2 = float(model[t][o]['secondary_voltage'].split(' ',1)[0])                                       
-#            if 'powerA_rating' in model[t][o]:                                                                 
-#                sa = float(model[t][o]['powerA_rating'])                                                       
-#                phs += 'A'                                                                                     
-#                np += 1                                                                                        
-#            if 'powerB_rating' in model[t][o]:                                                                 
-#                sb = float(model[t][o]['powerB_rating'])                                                       
-#                phs += 'B'                                                                                     
-#                np += 1                                                                                        
-#            if 'powerC_rating' in model[t][o]:                                                                 
-#                sc = float(model[t][o]['powerC_rating'])                                                       
-#                phs += 'C'                                                                                     
-#                np += 1                                                                                        
-#                                                                                                               
-#            # not actually making any changes N==>S                                                            
-#            if str.find(model[t][o]['connect_type'], 'SINGLE_PHASE_CENTER_TAPPED') >= 0:                       
-#                phs += 'S'                                                                                     
-#            else:                                                                                              
-#                phs += 'N'                                                                                     
-#                                                                                                               
-#            if np == 1:                                                                                        
-#                row = Find1PhaseXfmr (st)                                                                      
-#                st = row[0]                                                                                    
-#                if sa > 0:                                                                                     
-#                    sa = st                                                                                    
-#                if sb > 0:                                                                                     
-#                    sb = st                                                                                    
-#                if sc > 0:                                                                                     
-#                    sc = st                                                                                    
-#            else:                                                                                              
-#                # make sure the transformer is large enough for the highest-rated phase, and that it's balanced
-#                smax = sa                                                                                      
-#                if sb > smax:                                                                                  
-#                    smax = sb                                                                                  
-#                if sc > smax:                                                                                  
-#                    smax = sc                                                                                  
-#                if str.find(phs, 'A') >= 0:                                                                    
-#                    sa = smax                                                                                  
-#                if str.find(phs, 'B') >= 0:                                                                    
-#                    sb = smax                                                                                  
-#                if str.find(phs, 'C') >= 0:                                                                    
-#                    sc = smax                                                                                  
-#                st = sa + sb + sc                                                                              
-#                row = Find3PhaseXfmr (st)                                                                      
-#                st = row[0]                                                                                    
-#                if sa > 0:                                                                                     
-#                    sa = st / np                                                                               
-#                if sb > 0:                                                                                     
-#                    sb = st / np                                                                               
-#                if sc > 0:                                                                                     
-#                    sc = st / np                                                                               
-#            if str.find(phs, 'S') >= 0:                                                                        
-#                vsec = 120.0                                                                                   
-#                vnom = 120.0                                                                                   
-#            else:                                                                                              
-#                if st > max208kva:                                                                             
-#                    vsec = 480.0                                                                               
-#                    vnom = 277.0                                                                               
-#                else:                                                                                          
-#                    vsec = 208.0                                                                               
-#                    vnom = 120.0                                                                               
-#            print ('object transformer_configuration {', file=op)                                              
-#            print ('  name ' + o + ';', file=op)                                                               
-#            print ('  power_rating ' + format(st, '.2f') + ';', file=op)                                       
-#            print ('  powerA_rating ' + format(sa, '.2f') + ';', file=op)                                      
-#            print ('  powerB_rating ' + format(sb, '.2f') + ';', file=op)                                      
-#            print ('  powerC_rating ' + format(sc, '.2f') + ';', file=op)                                      
-#            if 'install_type' in model[t][o]:                                                                  
-#                print ('  install_type ' + model[t][o]['install_type'] + ';', file=op)                         
-#            if str.find(phs, 'S') >= 0:                                                                        
-#                print ('  connect_type SINGLE_PHASE_CENTER_TAPPED;', file=op)                                  
-#                print ('  primary_voltage ' + str(c[2]) + ';', file=op)                                        
-#                print ('  secondary_voltage ' + format(vsec, '.1f') + ';', file=op)                            
-#                print ('  resistance ' + format(row[1] * 0.5, '.5f') + ';', file=op)                           
-#                print ('  resistance1 ' + format(row[1], '.5f') + ';', file=op)                                
-#                print ('  resistance2 ' + format(row[1], '.5f') + ';', file=op)                                
-#                print ('  reactance ' + format(row[2] * 0.8, '.5f') + ';', file=op)                            
-#                print ('  reactance1 ' + format(row[2] * 0.4, '.5f') + ';', file=op)                           
-#                print ('  reactance2 ' + format(row[2] * 0.4, '.5f') + ';', file=op)                           
-#                print ('  shunt_resistance ' + format(1.0 / row[3], '.2f') + ';', file=op)                     
-#                print ('  shunt_reactance ' + format(1.0 / row[4], '.2f') + ';', file=op)                      
-#            else:                                                                                              
-#                if 'connect_type' in model[t][o]:                                                              
-#                    print ('  connect_type ' + model[t][o]['connect_type'] + ';', file=op)                     
-#                print ('  primary_voltage ' + str(c[1]) + ';', file=op)                                        
-#                print ('  secondary_voltage ' + format(vsec, '.1f') + ';', file=op)                            
-#                print ('  resistance ' + format(row[1], '.5f') + ';', file=op)                                 
-#                print ('  reactance ' + format(row[2], '.5f') + ';', file=op)                                  
-#                print ('  shunt_resistance ' + format(1.0 / row[3], '.2f') + ';', file=op)                     
-#                print ('  shunt_reactance ' + format(1.0 / row[4], '.2f') + ';', file=op)                      
-#            xfcode[o] = [st, phs, vnom]                                                                        
-#            print('}', file=op)                                                                                
-#                                                                                                               
-##        print (xfcode)                                                                                        
-#                                                                                                               
-#        secnode = {} # Node, st, phases, vnom                                                                  
-#        t = 'transformer'                                                                                      
-#        for o in model[t]:                                                                                     
-#            row = xfcode [h[model[t][o]['configuration']]]                                                     
-#            model[t][o]['phases'] = row[1]                                                                     
-#            secnode[model[t][o]['to']] = row                                                                   
-#                                                                                                               
-##        print (secnode)                                                                                       
-#---------------------------------------------------------------------------------------------------------------
 
         write_config_class (model, h, 'regulator_configuration', op)
         write_config_class (model, h, 'overhead_line_conductor', op)
