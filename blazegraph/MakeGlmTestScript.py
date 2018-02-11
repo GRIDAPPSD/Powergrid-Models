@@ -63,9 +63,9 @@ casefiles = [['IEEE13',66395.3],
 
 for c in casefiles:
     if sys.platform == 'win32':
-        print('gridlabd', c[0] + '_run.glm >' + c[0] + '.log 2>&1', file=bp)
+        print('gridlabd -D WANT_VI_DUMP=1', c[0] + '_run.glm >' + c[0] + '.log 2>&1', file=bp)
     else:
-        print('gridlabd', c[0] + '_run.glm >' + c[0] + '.log', file=bp)
+        print('gridlabd -D WANT_VI_DUMP=1', c[0] + '_run.glm >' + c[0] + '.log', file=bp)
         
     fp = open (glmpath + c[0] + '_run.glm', 'w')
 
@@ -83,6 +83,7 @@ for c in casefiles:
     print('module tape;', file=fp)
     print('#define VSOURCE=' + str (c[1]), file=fp)
     print('#include \"' + c[0] + '_base.glm\";', file=fp)
+    print('#ifdef WANT_VI_DUMP', file=fp)
     print('object voltdump {', file=fp)
     print('  filename ' + c[0] + '_volt.csv;', file=fp)
     print('  mode polar;', file=fp)
@@ -91,6 +92,7 @@ for c in casefiles:
     print('  filename ' + c[0] + '_curr.csv;', file=fp)
     print('  mode polar;', file=fp)
     print('};', file=fp)
+    print('#endif', file=fp)
     fp.close()
 
 bp.close()
