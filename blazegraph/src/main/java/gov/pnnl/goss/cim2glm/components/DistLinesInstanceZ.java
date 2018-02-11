@@ -18,10 +18,10 @@ public class DistLinesInstanceZ extends DistLineSegment {
 		" ?s c:Conductor.length ?len."+
 		" ?s c:ACLineSegment.r ?r."+
 		" ?s c:ACLineSegment.x ?x."+
-		" OPTIONAL {?s c:ACLineSegment.b ?b.}"+
+		" OPTIONAL {?s c:ACLineSegment.bch ?b.}"+
 		" OPTIONAL {?s c:ACLineSegment.r0 ?r0.}"+
 		" OPTIONAL {?s c:ACLineSegment.x0 ?x0.}"+
-		" OPTIONAL {?s c:ACLineSegment.b0 ?b0.}"+
+		" OPTIONAL {?s c:ACLineSegment.b0ch ?b0.}"+
 		" ?t c:Terminal.ConductingEquipment ?s."+
 		" ?t c:Terminal.ConnectivityNode ?cn. "+
 		" ?cn c:IdentifiedObject.name ?bus"+
@@ -104,7 +104,9 @@ public class DistLinesInstanceZ extends DistLineSegment {
 
 		buf.append (" phases=" + Integer.toString(DSSPhaseCount(phases, false)) + 
 								" bus1=" + DSSBusPhases(bus1, phases) + " bus2=" + DSSBusPhases (bus2, phases) + 
-								" length=" + df1.format(len * gFTperM) + " units=ft\n");
+								" length=" + df1.format(len * gFTperM) + " units=ft" +
+								" r1=" + df6.format(r1) + " x1=" + df6.format(x1) + " c1=" + df6.format(1.0e9 * b1 / gOMEGA) + 
+								" r0=" + df6.format(r0) + " x0=" + df6.format(x0) + " c0=" + df6.format(1.0e9 * b0 / gOMEGA) + "\n");
 
 		return buf.toString();
 	}
