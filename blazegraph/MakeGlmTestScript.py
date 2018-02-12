@@ -80,6 +80,7 @@ for c in casefiles:
     print('  solver_method NR;', file=fp)
     print('  line_capacitance TRUE;', file=fp)
     print('};', file=fp)
+    print('module generators;', file=fp)
     print('module tape;', file=fp)
     print('#define VSOURCE=' + str (c[1]), file=fp)
     print('#include \"' + c[0] + '_base.glm\";', file=fp)

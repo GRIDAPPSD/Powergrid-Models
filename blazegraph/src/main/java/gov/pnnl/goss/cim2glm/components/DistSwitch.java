@@ -34,6 +34,8 @@ public class DistSwitch extends DistComponent {
 	public boolean open;
 	public double basev;
 
+	protected String glm_phases;
+
 	public DistSwitch (ResultSet results) {
 		if (results.hasNext()) {
 			QuerySolution soln = results.next();
@@ -45,12 +47,19 @@ public class DistSwitch extends DistComponent {
 			bus2 = SafeName(buses[1]); 
 			phases = OptionalString (soln, "?phases", "ABC");
 			open = Boolean.parseBoolean (soln.get("?open").toString());
+			StringBuilder glm_phs = new StringBuilder ();
+			if (phases.contains("A")) glm_phs.append("A");
+			if (phases.contains("B")) glm_phs.append("B");
+			if (phases.contains("C")) glm_phs.append("C");
+			if (phases.contains("s")) glm_phs.append("S");
+			if (glm_phs.length() < 1) glm_phs.append("ABC");
+			glm_phases = glm_phs.toString();
 		}		
 	}
 
 	public String DisplayString() {
 		StringBuilder buf = new StringBuilder ("");
-		buf.append (name + " from " + bus1 + " to " + bus2 + " basev=" + df2.format(basev) + " phases=" + phases + " open=" + Boolean.toString (open));
+		buf.append (name + " from " + bus1 + " to " + bus2 + " basev=" + df2.format(basev) + " phases=" + glm_phases + " open=" + Boolean.toString (open));
 		return buf.toString();
 	}
 
@@ -60,7 +69,7 @@ public class DistSwitch extends DistComponent {
 		buf.append ("  name \"swt_" + name + "\";\n");
 		buf.append ("  from \"" + bus1 + "\";\n");
 		buf.append ("  to \"" + bus2 + "\";\n");
-		buf.append ("  phases " + phases + ";\n");
+		buf.append ("  phases " + glm_phases + ";\n");
 		if (open) {
 			buf.append ("  status OPEN;\n");
 		} else {
@@ -76,19 +85,13 @@ public class DistSwitch extends DistComponent {
 	public String GetJSONSymbols(HashMap<String,DistCoordinates> map) {
 		DistCoordinates pt1 = map.get("LoadBreakSwitch:" + name + ":1");
 		DistCoordinates pt2 = map.get("LoadBreakSwitch:" + name + ":2");
-		StringBuilder lbl_phs = new StringBuilder ();
-		if (phases.contains("A")) lbl_phs.append("A");
-		if (phases.contains("B")) lbl_phs.append("B");
-		if (phases.contains("C")) lbl_phs.append("C");
-		if (phases.contains("s")) lbl_phs.append("S");
-		if (lbl_phs.length() < 1) lbl_phs.append("ABC");
 
 		StringBuilder buf = new StringBuilder ();
 
 		buf.append ("{\"name\":\"" + name + "\"");
 		buf.append (",\"from\":\"" + bus1 + "\"");
 		buf.append (",\"to\":\"" + bus2 + "\"");
-		buf.append (",\"phases\":\"" + lbl_phs.toString() +"\"");
+		buf.append (",\"phases\":\"" + glm_phases +"\"");
 		buf.append (",\"open\":\"" + Boolean.toString(open) +"\"");
 		buf.append (",\"x1\":" + Double.toString(pt1.x));
 		buf.append (",\"y1\":" + Double.toString(pt1.y));

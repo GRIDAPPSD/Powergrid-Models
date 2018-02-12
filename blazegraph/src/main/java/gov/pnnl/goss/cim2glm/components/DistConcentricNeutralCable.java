@@ -90,6 +90,20 @@ public class DistConcentricNeutralCable extends DistCable {
 		return buf.toString();
 	}
 
+	public String GetGLM() {
+		StringBuilder buf = new StringBuilder("object underground_line_conductor {\n");
+
+		buf.append ("  name \"cncab_" + name + "\";\n");
+		if (amps > 0.0) {
+			buf.append ("  rating.summer.continuous " + df2.format (amps) + ";\n");
+			buf.append ("  rating.summer.emergency " + df2.format (amps) + ";\n");
+			buf.append ("  rating.winter.continuous " + df2.format (amps) + ";\n");
+			buf.append ("  rating.winter.emergency " + df2.format (amps) + ";\n");
+		}
+		buf.append("}\n");
+		return buf.toString();
+	}
+
 	public String GetKey() {
 		return name;
 	}

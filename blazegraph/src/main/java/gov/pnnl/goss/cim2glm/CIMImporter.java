@@ -685,6 +685,11 @@ public class CIMImporter extends Object {
 		}
 		for (HashMap.Entry<String,DistLinesSpacingZ> pair : mapLinesSpacingZ.entrySet()) {
 			DistLinesSpacingZ obj = pair.getValue();
+			// TODO - make line configurations on the fly, mark the wires and spacings used
+//			DistLineSpacing spc = mapLineSpacings.get (obj.lname);
+//			if (zmat != null) {
+//				spc.MarkGLMPermutationsUsed(obj.phases);
+//			}
 			GldNode nd1 = mapNodes.get (obj.bus1);
 			nd1.nomvln = obj.basev / Math.sqrt(3.0);
 			nd1.AddPhases (obj.phases);
@@ -725,6 +730,18 @@ public class CIMImporter extends Object {
 		}
 
 		// GLM configurations
+		for (HashMap.Entry<String,DistOverheadWire> pair : mapWires.entrySet()) {
+			out.print (pair.getValue().GetGLM());
+		}
+		for (HashMap.Entry<String,DistConcentricNeutralCable> pair : mapCNCables.entrySet()) {
+			out.print (pair.getValue().GetGLM());
+		}
+		for (HashMap.Entry<String,DistTapeShieldCable> pair : mapTSCables.entrySet()) {
+			out.print (pair.getValue().GetGLM());
+		}
+		for (HashMap.Entry<String,DistLineSpacing> pair : mapSpacings.entrySet()) {
+			out.print (pair.getValue().GetGLM());
+		}
 		for (HashMap.Entry<String,DistPhaseMatrix> pair : mapPhaseMatrices.entrySet()) {
 			out.print (pair.getValue().GetGLM());
 		}

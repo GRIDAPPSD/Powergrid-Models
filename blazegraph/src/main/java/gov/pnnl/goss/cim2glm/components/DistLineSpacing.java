@@ -5,6 +5,7 @@ package gov.pnnl.goss.cim2glm.components;
 //	----------------------------------------------------------
 
 import org.apache.jena.query.*;
+import java.lang.Math.*;
 
 public class DistLineSpacing extends DistComponent {
 	public static final String szQUERY = 
@@ -41,6 +42,55 @@ public class DistLineSpacing extends DistComponent {
 	public double b_sep;
 	public int b_cnt;
 
+	// only write the phasing permutations that are actually used
+	private boolean glmABC;
+	private boolean glmAB;
+	private boolean glmAC;
+	private boolean glmBC;
+	private boolean glmA;
+	private boolean glmB;
+	private boolean glmC;
+	private int idxA;
+	private int idxB;
+	private int idxC;
+	private int idxN;
+
+	private void FindGLMIndices () {
+		idxA = -1;
+		idxB = -1;
+		idxC = -1;
+		idxN = -1;
+		for (int i = 0; i < nwires; i++) {
+			if (phases[i].contains("A")) {
+				idxA = i;
+			} else if (phases[i].contains("B")) {
+				idxB = i;
+			} else if (phases[i].contains("C")) {
+				idxC = i;
+			} else if (phases[i].contains("N")) {
+				idxN = i;
+			}
+		}
+	}
+
+	public void MarkGLMPermutationsUsed (String s) {
+		if (s.contains ("A") && s.contains ("B") && s.contains ("C") && idxA >= 0 && idxB >= 0 && idxC >= 0) {
+			glmABC = true;
+		} else if (s.contains ("A") && s.contains ("B") && idxA >= 0 && idxB >= 0) {
+			glmAB = true;
+		} else if (s.contains ("A") && s.contains ("C") && idxA >= 0 && idxC >= 0) {
+			glmAC = true;
+		} else if (s.contains ("B") && s.contains ("C") && idxB >= 0 && idxC >= 0) {
+			glmBC = true;
+		} else if (s.contains ("A") && idxA >= 0) {
+			glmA = true;
+		} else if (s.contains ("B") && idxB >= 0) {
+			glmB = true;
+		} else if (s.contains ("C") && idxC >= 0) {
+			glmC = true;
+		}
+	}
+
 	public DistLineSpacing (ResultSet results) {
 		if (results.hasNext()) {
 			QuerySolution soln = results.next();
@@ -58,6 +108,7 @@ public class DistLineSpacing extends DistComponent {
 				xarray[i] = df4.format (Double.parseDouble (xarray[i]));
 				yarray[i] = df4.format (Double.parseDouble (yarray[i]));
 			}
+			FindGLMIndices();
 		}
 	}
 
@@ -95,6 +146,63 @@ public class DistLineSpacing extends DistComponent {
 			}
 		}
 		buf.append ("]\n");
+		return buf.toString();
+	}
+
+	private double WireSeparation (int i, int j) {
+		double dx = Double.parseDouble (xarray[i]) - Double.parseDouble (xarray[j]);
+		double dy = Double.parseDouble (yarray[i]) - Double.parseDouble (yarray[j]);
+		return Math.sqrt (dx * dx + dy * dy);
+	}
+
+	private void AppendPermutation (StringBuilder buf, String perm) {
+		buf.append("object line_spacing {\n");
+		buf.append("  name \"spc_" + name + "_" + perm + "\";\n");
+		if (perm.contains ("A") && idxA >= 0) {
+			if (perm.contains ("B") && idxB >= 0) {
+				buf.append ("  distance_AB " + df4.format(gFTperM * WireSeparation (idxA, idxB)) + ";\n");
+			}
+			if (perm.contains ("C") && idxC >= 0) {
+				buf.append ("  distance_AC " + df4.format(gFTperM * WireSeparation (idxA, idxC)) + ";\n");
+			}
+			if (idxN >= 0) {
+				buf.append ("  distance_AN " + df4.format(gFTperM * WireSeparation (idxA, idxN)) + ";\n");
+			}
+		}
+		if (perm.contains ("B") && idxB >= 0) {
+			if (perm.contains ("C") && idxC >= 0) {
+				buf.append ("  distance_BC " + df4.format(gFTperM * WireSeparation (idxB, idxC)) + ";\n");
+			}
+			if (idxN >= 0) {
+				buf.append ("  distance_BN " + df4.format(gFTperM * WireSeparation (idxB, idxN)) + ";\n");
+			}
+		}
+		if (perm.contains ("C") && idxC >= 0) {
+			if (idxN >= 0) {
+				buf.append ("  distance_CN " + df4.format(gFTperM * WireSeparation (idxC, idxN)) + ";\n");
+			}
+		}
+		buf.append("}\n");
+	}
+
+	public String GetGLM() {
+		glmABC = true;
+		glmAB = true;
+		glmAC = true;
+		glmBC = true;
+		glmA = true;
+		glmB = true;
+		glmC = true;
+
+		StringBuilder buf = new StringBuilder ("");
+		if (glmABC) AppendPermutation (buf, "ABC");
+		if (glmAB) AppendPermutation (buf, "AB");
+		if (glmAC) AppendPermutation (buf, "AC");
+		if (glmBC) AppendPermutation (buf, "BC");
+		if (glmA) AppendPermutation (buf, "A");
+		if (glmB) AppendPermutation (buf, "B");
+		if (glmC) AppendPermutation (buf, "C");
+
 		return buf.toString();
 	}
 
