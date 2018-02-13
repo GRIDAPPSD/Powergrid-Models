@@ -1061,12 +1061,13 @@ for ifn in glob.glob("base_taxonomy/new*.glm"):
                 regf.write('new transformer.' + name + '_A' +\
                         ' bank=vreg' + regbank              +\
                         ' phases=1'                         +\
-                        ' kva=100000'                       +\
                         ' numtaps=' + numtaps               +\
                         ' wdg=1'                            +\
+                        ' kva=100000'                       +\
                         ' kv=' + kvbase                     +\
                         ' bus=' + bus1 + '.1'               +\
                         ' wdg=2'                            +\
+                        ' kva=100000'                       +\
                         ' kv=' + kvbase                     +\
                         ' bus=' + bus2 + '.1'               +\
                         '\n')
@@ -1082,12 +1083,13 @@ for ifn in glob.glob("base_taxonomy/new*.glm"):
                 regf.write('new transformer.' + name + '_B' +\
                         ' bank=vreg' + regbank              +\
                         ' phases=1'                         +\
-                        ' kva=100000'                       +\
                         ' numtaps=' + numtaps               +\
                         ' wdg=1'                            +\
+                        ' kva=100000'                       +\
                         ' kv=' + kvbase                     +\
                         ' bus=' + bus1 + '.2'               +\
                         ' wdg=2'                            +\
+                        ' kva=100000'                       +\
                         ' kv=' + kvbase                     +\
                         ' bus=' + bus2 + '.2'               +\
                         '\n')
@@ -1103,12 +1105,13 @@ for ifn in glob.glob("base_taxonomy/new*.glm"):
                 regf.write('new transformer.' + name + '_C' +\
                         ' bank=vreg' + regbank              +\
                         ' phases=1'                         +\
-                        ' kva=100000'                       +\
                         ' numtaps=' + numtaps               +\
                         ' wdg=1'                            +\
+                        ' kva=100000'                       +\
                         ' kv=' + kvbase                     +\
                         ' bus=' + bus1 + '.3'               +\
                         ' wdg=2'                            +\
+                        ' kva=100000'                       +\
                         ' kv=' + kvbase                     +\
                         ' bus=' + bus2 + '.3'               +\
                         '\n')
@@ -1199,15 +1202,14 @@ for ifn in glob.glob("base_taxonomy/new*.glm"):
                         # Connect gld swing bus to the source bus
                         sourcef.write('new transformer.source_'+str(o))
                         sourcef.write(' phases='+str(count_ph(row['phases'])))
-                        sourcef.write(' kva=100000')
                         sourcef.write(' %noloadloss=0.0001')
                         sourcef.write(' %imag=0.0001')
                         sourcef.write(' %loadloss=0.0001')
                         sourcef.write(' xhl=0.0001')
                         sourcef.write(' windings=2')
-                        sourcef.write(' wdg=1 kv=100')
+                        sourcef.write(' wdg=1 kva=100000 kv=100')
                         sourcef.write(' bus=rootbus')
-                        sourcef.write(' wdg=2 kv='+\
+                        sourcef.write(' wdg=2 kva=100000 kv='+\
                             '{:.3f}'.format(float(model[t][o]['nominal_voltage'])/1000*1.73205))
                         kvbases.update([round(float(\
                             model[t][o]['nominal_voltage'])/1000*1.73205,2)])
