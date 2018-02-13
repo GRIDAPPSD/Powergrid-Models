@@ -38,8 +38,10 @@ public class GldNode {
 		return String.format("%6g", c.getReal()) + sgn + String.format("%6g", Math.abs(c.getImaginary())) + "j";
 	}
 
-	/** root name of the node (or load), will have `nd_` prepended */
+	/** root name of the node or meter, will have `nd_` prepended */
 	public final String name;
+	/** name of the load, if any, will have `ld_` prepended */
+	public String loadname;
 	/** ABC allowed */
 	public String phases;
 	/** this nominal voltage is always line-to-neutral */
@@ -83,7 +85,12 @@ public class GldNode {
 	/** will add N or D phasing, if not S */
 	public boolean bDelta;	
 	/** denotes the SWING bus, aka substation source bus */
-	public boolean bSwing;  
+	public boolean bSwing;
+	/** signifies are inverters connected to this bus */
+	public boolean bInverters;
+	/** signifies this bus is connected to a tertiary (or higher) transformer winding,
+	 *  which is not supported in GridLAB-D. */
+	public boolean bTertiaryWinding;
 
  /** if bSecondary true, the member variables for phase A and B 
   * loads actually correspond to secondary phases 1 and 2. For 
@@ -100,12 +107,15 @@ public class GldNode {
 		this.name = name;
 		nomvln = -1.0;
 		phases = "";
+		loadname = "";
 		pa_z = pb_z = pc_z = qa_z = qb_z = qc_z = 0.0;
 		pa_i = pb_i = pc_i = qa_i = qb_i = qc_i = 0.0;
 		pa_p = pb_p = pc_p = qa_p = qb_p = qc_p = 0.0;
 		bDelta = false;
 		bSwing = false;
 		bSecondary = false;
+		bInverters = false;
+		bTertiaryWinding = false;
 	}
 
 	/** accumulates phases present
@@ -141,9 +151,10 @@ public class GldNode {
 	@param Pp real power constant-power percentage from a CIM LoadResponseCharacteristic 
 	@param Qp reactive power constant-power percentage from a CIM LoadResponseCharacteristic 
 	@return void */ 
-	public void AccumulateLoads (String phs, double pL, double qL, double Pv, double Qv,
+	public void AccumulateLoads (String ldname, String phs, double pL, double qL, double Pv, double Qv,
 															 double Pz, double Pi, double Pp, double Qz, double Qi, double Qp) {
 		double fa = 0.0, fb = 0.0, fc = 0.0, denom = 0.0;
+		loadname = "ld_" + ldname;
 		if (phs.contains("A") || phs.contains("s")) {
 			fa = 1.0;
 			denom += 1.0;
@@ -303,6 +314,10 @@ public class GldNode {
 		StringBuilder buf = new StringBuilder();
 		DecimalFormat df2 = new DecimalFormat("#0.00");
 
+		if (bTertiaryWinding) { // we have to skip it
+			return "";
+		}
+
 		if (bSwing) {
 			buf.append ("object substation {\n");
 			buf.append ("  name \"" + name + "\";\n");
@@ -325,8 +340,14 @@ public class GldNode {
 			Complex amps;
 			Complex vmagsq = new Complex (nomvln * nomvln);
 			if (bSecondary) {
-				buf.append ("object triplex_load {\n");
+				buf.append ("object triplex_meter {\n");
 				buf.append ("  name \"" + name + "\";\n");
+				buf.append ("  phases " + GetPhases() + ";\n");
+				buf.append ("  nominal_voltage " + df2.format(nomvln) + ";\n");
+				buf.append ("}\n");
+				buf.append ("object triplex_load {\n");
+				buf.append ("  name \"" + loadname + "\";\n");
+				buf.append ("  parent \"" + name + "\";\n");
 				buf.append ("  phases " + GetPhases() + ";\n");
 				buf.append ("  nominal_voltage " + df2.format(nomvln) + ";\n");
 				Complex base1 = new Complex (pa_z + pa_i + pa_p, qa_z + qa_i + qa_p);
@@ -370,8 +391,14 @@ public class GldNode {
 				}
 				buf.append ("}\n");
 			} else {
-				buf.append ("object load {\n");
+				buf.append ("object meter {\n");
 				buf.append ("  name \"" + name + "\";\n");
+				buf.append ("  phases " + GetPhases() + ";\n");
+				buf.append ("  nominal_voltage " + df2.format(nomvln) + ";\n");
+				buf.append ("}\n");
+				buf.append ("object load {\n");
+				buf.append ("  name \"" + loadname + "\";\n");
+				buf.append ("  parent \"" + name + "\";\n");
 				buf.append ("  phases " + GetPhases() + ";\n");
 				buf.append ("  nominal_voltage " + df2.format(nomvln) + ";\n");
 				if (pa_p > 0.0 || qa_p != 0.0)	{
@@ -416,10 +443,18 @@ public class GldNode {
 				buf.append ("}\n");
 			}
 		} else {
-			if (bSecondary) {
-				buf.append ("object triplex_node {\n");
+			if (bInverters) {
+				if (bSecondary) {
+					buf.append ("object triplex_meter {\n");
+				} else {
+					buf.append ("object meter {\n");
+				}
 			} else {
-				buf.append ("object node {\n");
+				if (bSecondary) {
+					buf.append ("object triplex_node {\n");
+				} else {
+					buf.append ("object node {\n");
+				}
 			}
 			buf.append ("  name \"" + name + "\";\n");
 			buf.append ("  phases " + GetPhases() + ";\n");

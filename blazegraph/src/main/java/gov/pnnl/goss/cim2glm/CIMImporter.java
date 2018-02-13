@@ -668,6 +668,9 @@ public class CIMImporter extends Object {
 					bServiceTransformer = true;
 				} else {
 					primaryPhase = obj.phs[i];
+					if (i > 1) {
+						nd.bTertiaryWinding = true; // unsupported primary node in GridLAB-D - TODO: throw some kind of warning
+					}
 				}
 			}
 			if (bServiceTransformer) {
@@ -696,7 +699,7 @@ public class CIMImporter extends Object {
 			DistLoad obj = pair.getValue();
 			GldNode nd = mapNodes.get (obj.bus);
 			nd.nomvln = obj.basev / Math.sqrt(3.0);
-			nd.AccumulateLoads (obj.phases, obj.p, obj.q, obj.pe, obj.qe, obj.pz, obj.pi, obj.pp, obj.qz, obj.qi, obj.qp);
+			nd.AccumulateLoads (obj.name, obj.phases, obj.p, obj.q, obj.pe, obj.qe, obj.pz, obj.pi, obj.pp, obj.qz, obj.qi, obj.qp);
 		}
 		for (HashMap.Entry<String,DistCapacitor> pair : mapCapacitors.entrySet()) {
 			DistCapacitor obj = pair.getValue();
@@ -704,7 +707,7 @@ public class CIMImporter extends Object {
 			nd.nomvln = obj.basev / Math.sqrt(3.0);
 			nd.AddPhases (obj.phs);
 		}
-		for (HashMap.Entry<String,DistLinesInstanceZ> pair : mapLinesInstanceZ.entrySet()) {
+		for (HashMap.Entry<String, DistLinesInstanceZ> pair: mapLinesInstanceZ.entrySet()) {
 			DistLinesInstanceZ obj = pair.getValue();
 			GldNode nd1 = mapNodes.get (obj.bus1);
 			nd1.nomvln = obj.basev / Math.sqrt(3.0);
@@ -786,6 +789,41 @@ public class CIMImporter extends Object {
 				GldNode nd = mapNodes.get(obj.bus[i]);
 				nd.nomvln = obj.basev[i] / Math.sqrt(3.0);
 				nd.AddPhases ("ABC");
+				if (i > 1) {
+					nd.bTertiaryWinding = true; // unsupported node in GridLAB-D - TODO: throw some kind of warning
+				}
+			}
+		}
+		for (HashMap.Entry<String,DistSolar> pair : mapSolars.entrySet()) {
+			DistSolar obj = pair.getValue();
+			GldNode nd = mapNodes.get (obj.bus);
+			nd.bInverters = true;
+			if (nd.nomvln < 0.0) {
+				if (obj.phases.equals("ABC") || obj.phases.equals("AB") || obj.phases.equals("AC") || obj.phases.equals("BC")) {
+					nd.nomvln = obj.ratedU / Math.sqrt(3.0);
+				} else {
+					nd.nomvln = obj.ratedU;
+				}
+			}
+			nd.AddPhases (obj.phases);
+			if (nd.bSecondary) {
+				obj.phases = nd.GetPhases();
+			}
+		}
+		for (HashMap.Entry<String,DistStorage> pair : mapStorages.entrySet()) {
+			DistStorage obj = pair.getValue();
+			GldNode nd = mapNodes.get (obj.bus);
+			nd.bInverters = true;
+			if (nd.nomvln < 0.0) {
+				if (obj.phases.equals("ABC") || obj.phases.equals("AB") || obj.phases.equals("AC") || obj.phases.equals("BC")) {
+					nd.nomvln = obj.ratedU / Math.sqrt(3.0);
+				} else {
+					nd.nomvln = obj.ratedU;
+				}
+			}
+			nd.AddPhases (obj.phases);
+			if (nd.bSecondary) {
+				obj.phases = nd.GetPhases();
 			}
 		}
 		for (HashMap.Entry<String,DistRegulator> pair : mapRegulators.entrySet()) {
