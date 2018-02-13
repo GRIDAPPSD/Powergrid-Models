@@ -722,28 +722,20 @@ for ifn in glob.glob("base_taxonomy/new*.glm"):
         redirects.append('Transformers.dss')
         xff = open(modeldir+'/Transformers.dss','w')
         xff.write('! Transformer Definitions\n')
-        for xfmr in model['transformer']:
-            row = {**model['transformer'][xfmr],\
-                **model['transformer_configuration']\
-                [h[model['transformer'][xfmr]['configuration']]]}
-            bus1=str(row['from'])
-            bus2=str(row['to'])
-            phsfx = ''
+        for xfcode in model['transformer_configuration']:
+            row = model['transformer_configuration'][xfcode]
             phct = 0
             if 'powerA_rating' in row:
                 if float(row['powerA_rating']) > 0.0:
-                    phsfx += '.1'
                     phct += 1
             if 'powerB_rating' in row:
                 if float(row['powerB_rating']) > 0.0:
-                    phsfx += '.2'
                     phct += 1
             if 'powerC_rating' in row:
                 if float(row['powerC_rating']) > 0.0:
-                    phsfx += '.3'
                     phct +=1
             kvastr = ' kva='+str(row['power_rating'])
-            xff.write('new transformer.transformer_'+str(xfmr))
+            xff.write('new xfmrcode.xfcode_'+str(xfcode))
             if row['connect_type'] == 'SINGLE_PHASE_CENTER_TAPPED':
                 xff.write(' windings=3')
             else:
@@ -785,7 +777,6 @@ for ifn in glob.glob("base_taxonomy/new*.glm"):
                 xff.write(' xlt='+'{:.3f}'.format(xlt))
                 # Primary winding
                 xff.write('\n\t~ wdg=1')
-                xff.write(' bus='+bus1+phsfx)
                 xff.write(' conn=wye')
                 xff.write(kvastr)
                 xff.write(' kv='+'{:.3f}'.format(float(row['primary_voltage'])/1000))
@@ -793,7 +784,6 @@ for ifn in glob.glob("base_taxonomy/new*.glm"):
                 xff.write(' %R='+'{:.3f}'.format(rwdg1))
                 # Secondary winding
                 xff.write('\n\t~ wdg=2')
-                xff.write(' bus='+bus2+'.1.0')
                 xff.write(' conn=wye')
                 xff.write(kvastr)
                 xff.write(' kv=.120')
@@ -802,7 +792,6 @@ for ifn in glob.glob("base_taxonomy/new*.glm"):
                 xff.write(' %R='+'{:.3f}'.format(rwdg2))
                 # Tertiary winding
                 xff.write('\n\t~ wdg=3')
-                xff.write(' bus='+bus2+'.0.2')
                 xff.write(' conn=wye')
                 xff.write(kvastr)
                 xff.write(' kv=.120')
@@ -835,16 +824,33 @@ for ifn in glob.glob("base_taxonomy/new*.glm"):
                 xff.write(' xhl='+str(float(row['reactance'])*100))
                 # Primary winding
                 xff.write('\n\t~ wdg=1')
-                xff.write(' bus='+bus1+phsfx)
                 xff.write(' conn='+conn1)
                 xff.write(kvastr)
                 xff.write(' kv='+'{:.3f}'.format(kv1))
                 # Secondary winding
                 xff.write('\n\t~ wdg=2')
-                xff.write(' bus='+bus2+phsfx)
                 xff.write(' conn='+conn2)
                 xff.write(kvastr)
                 xff.write(' kv='+'{:.3f}'.format(kv2))
+            xff.write('\n');
+        for xfmr in model['transformer']:
+            row = model['transformer'][xfmr]
+            bus1=str(row['from'])
+            bus2=str(row['to'])
+            phsfx = ''
+            phases = row['phases']
+            if 'A' in phases:
+                phsfx += '.1'
+            if 'B' in phases:
+                phsfx += '.2'
+            if 'C' in phases:
+                phsfx += '.3'
+            xff.write('new transformer.transformer_'+str(xfmr) + ' xfmrcode=xfcode_' 
+                      + str(row['configuration']))
+            if 'S' in phases:
+                xff.write(' buses=[' + bus1 + phsfx + ' ' + bus2 + '.1.0 ' + bus2 + '.0.2]')
+            else:
+                xff.write(' buses=[' + bus1 + phsfx + ' ' + bus2 + phsfx + ']')
             xff.write('\n');
         xff.close()
 
