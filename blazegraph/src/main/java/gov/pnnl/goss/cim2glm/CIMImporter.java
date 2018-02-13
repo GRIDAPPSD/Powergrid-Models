@@ -62,6 +62,7 @@ public class CIMImporter extends Object {
 	QueryHandler queryHandler;
 	
 	HashMap<String,GldNode> mapNodes = new HashMap<>();
+	HashMap<String,GldLineConfig> mapLineConfigs = new HashMap<>();
 
 	HashMap<String,Integer> mapCountMesh = new HashMap<>();
 	HashMap<String,Integer> mapCountWinding = new HashMap<>();
@@ -559,6 +560,78 @@ public class CIMImporter extends Object {
 		out.close();
 	}
 
+	private String GetGLMLineConfiguration (DistLinesSpacingZ ln) {
+		String match_A = "";
+		String match_B = "";
+		String match_C = "";
+		String match_N = "";
+		String config_name;
+		boolean bCable = false;
+		StringBuilder buf = new StringBuilder ("spc_" + ln.spacing + "_");
+
+		// what are we looking for?
+		for (int i = 0; i < ln.nwires; i++) {
+			if (ln.wire_classes[i].equals ("ConcentricNeutralCableInfo")) {
+				bCable = true;
+				break;
+			}
+			if (ln.wire_classes[i].equals ("TapeShieldCableInfo")) {
+				bCable = true;
+				break;
+			}
+		}
+		for (int i = 0; i < ln.nwires; i++) {
+			if (ln.wire_phases[i].equals ("A")) {
+				match_A = GldLineConfig.GetMatchWire (ln.wire_classes[i], ln.wire_names[i]);
+				buf.append ("A");
+			}
+			if (ln.wire_phases[i].equals ("B")) {
+				match_B = GldLineConfig.GetMatchWire (ln.wire_classes[i], ln.wire_names[i]);
+				buf.append ("B");
+			}
+			if (ln.wire_phases[i].equals ("C")) {
+				match_C = GldLineConfig.GetMatchWire (ln.wire_classes[i], ln.wire_names[i]);
+				buf.append ("C");
+			}
+			if (ln.wire_phases[i].equals ("N")) {
+				if (bCable) {
+					match_N = GldLineConfig.GetMatchWire(ln.wire_classes[0], ln.wire_names[0]); // we can't use any bare wires in GLD cables
+				} else {
+					match_N = GldLineConfig.GetMatchWire(ln.wire_classes[i], ln.wire_names[i]);
+				}
+				buf.append ("N");
+			}
+		}
+		String match_SPC = buf.toString();
+
+		// search for an existing one
+		for (HashMap.Entry<String, GldLineConfig> pair: mapLineConfigs.entrySet()) {
+			GldLineConfig cfg = pair.getValue();
+			config_name = pair.getKey();
+			if (cfg.spacing.equals (match_SPC)) {
+				if (cfg.conductor_A.equals (match_A)) {
+					if (cfg.conductor_B.equals (match_B)) {
+						if (cfg.conductor_C.equals (match_C)) {
+							if (cfg.conductor_N.equals (match_N)) {
+								return config_name;
+							}
+						}
+					}
+				}
+			}
+		}
+
+		// need to make a new one
+		config_name = "lcon_" + ln.spacing + "_" + ln.name;
+		GldLineConfig cfg = new GldLineConfig (config_name);
+		cfg.spacing = match_SPC;
+		cfg.conductor_A = match_A;
+		cfg.conductor_B = match_B;
+		cfg.conductor_C = match_C;
+		cfg.conductor_N = match_N;
+		mapLineConfigs.put (config_name, cfg);
+		return config_name;
+	}
 	
 	protected void WriteGLMFile (PrintWriter out, double load_scale, boolean bWantSched, String fSched, 
 																	 boolean bWantZIP, double Zcoeff, double Icoeff, double Pcoeff) {
@@ -686,10 +759,11 @@ public class CIMImporter extends Object {
 		for (HashMap.Entry<String,DistLinesSpacingZ> pair : mapLinesSpacingZ.entrySet()) {
 			DistLinesSpacingZ obj = pair.getValue();
 			// TODO - make line configurations on the fly, mark the wires and spacings used
-//			DistLineSpacing spc = mapLineSpacings.get (obj.lname);
-//			if (zmat != null) {
-//				spc.MarkGLMPermutationsUsed(obj.phases);
-//			}
+			obj.glm_config = GetGLMLineConfiguration (obj);
+			DistLineSpacing spc = mapSpacings.get (obj.spacing);
+			if (spc != null) {
+				spc.MarkGLMPermutationsUsed(obj.phases);
+			}
 			GldNode nd1 = mapNodes.get (obj.bus1);
 			nd1.nomvln = obj.basev / Math.sqrt(3.0);
 			nd1.AddPhases (obj.phases);
@@ -740,6 +814,9 @@ public class CIMImporter extends Object {
 			out.print (pair.getValue().GetGLM());
 		}
 		for (HashMap.Entry<String,DistLineSpacing> pair : mapSpacings.entrySet()) {
+			out.print (pair.getValue().GetGLM());
+		}
+		for (HashMap.Entry<String,GldLineConfig> pair : mapLineConfigs.entrySet()) {
 			out.print (pair.getValue().GetGLM());
 		}
 		for (HashMap.Entry<String,DistPhaseMatrix> pair : mapPhaseMatrices.entrySet()) {
@@ -800,7 +877,7 @@ public class CIMImporter extends Object {
 		out.close();
 	}
 	
-	// helper class to keep track of the conductor counts for WireSpacingInfo instances
+	// helper class to keep track of segment coordinates
 	static class DSSSegmentXY {
 		public String bus1;
 		public String bus2;
@@ -1106,6 +1183,8 @@ public class CIMImporter extends Object {
 		CheckMaps();
 
 //		PrintAllMaps();
+//		PrintOneMap (mapSpacings, "** LINE SPACINGS");
+//		PrintOneMap (mapLinesSpacingZ, "** LINES REFERENCING SPACINGS");
 		if (fTarget.equals("glm")) {
 			fOut = fRoot + "_base.glm";
 			fXY = fRoot + "_symbols.json";

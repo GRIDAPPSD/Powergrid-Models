@@ -65,12 +65,7 @@ public class DistOverheadWire extends DistWire {
 		buf.append ("  geometric_mean_radius " + df6.format (gmr * gFTperM) + ";\n");
 		buf.append ("  diameter " + df6.format (2.0 * rad * gFTperM * 12.0) + ";\n");
 		buf.append ("  resistance " + df6.format (r50 * gMperMILE) + ";\n");
-		if (amps > 0.0) {
-			buf.append ("  rating.summer.continuous " + df2.format (amps) + ";\n");
-			buf.append ("  rating.summer.emergency " + df2.format (amps) + ";\n");
-			buf.append ("  rating.winter.continuous " + df2.format (amps) + ";\n");
-			buf.append ("  rating.winter.emergency " + df2.format (amps) + ";\n");
-		}
+		AppendGLMWireAttributes (buf);
 		buf.append("}\n");
 		return buf.toString();
 	}

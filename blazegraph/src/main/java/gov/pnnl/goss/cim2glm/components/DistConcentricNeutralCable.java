@@ -94,12 +94,11 @@ public class DistConcentricNeutralCable extends DistCable {
 		StringBuilder buf = new StringBuilder("object underground_line_conductor {\n");
 
 		buf.append ("  name \"cncab_" + name + "\";\n");
-		if (amps > 0.0) {
-			buf.append ("  rating.summer.continuous " + df2.format (amps) + ";\n");
-			buf.append ("  rating.summer.emergency " + df2.format (amps) + ";\n");
-			buf.append ("  rating.winter.continuous " + df2.format (amps) + ";\n");
-			buf.append ("  rating.winter.emergency " + df2.format (amps) + ";\n");
-		}
+		buf.append ("  neutral_gmr " + df6.format (strand_gmr * gFTperM) + ";\n");
+		buf.append ("  neutral_diameter " + df6.format (2.0 * strand_rad * gFTperM * 12.0) + ";\n");
+		buf.append ("  neutral_resistance " + df6.format (strand_rdc * gMperMILE) + ";\n");
+		buf.append ("  neutral_strands " + Integer.toString(strand_cnt) + ";\n");
+		AppendGLMCableAttributes (buf);
 		buf.append("}\n");
 		return buf.toString();
 	}

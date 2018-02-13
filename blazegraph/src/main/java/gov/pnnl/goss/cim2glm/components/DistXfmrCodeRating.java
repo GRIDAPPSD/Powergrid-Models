@@ -106,8 +106,8 @@ public class DistXfmrCodeRating extends DistComponent {
 			// which is the only three-winding case that GridLAB-D supports
 			rpu = (r[0] / zbase1) + 0.5 * (r[1] / zbase2);
 		}
-		if (rpu <= 0.0) {
-			rpu = 0.0001; // GridLAB-D doesn't like zero
+		if (rpu <= 0.000001) {
+			rpu = 0.000001; // GridLAB-D doesn't like zero
 		}
 		if (sct.fwdg[0] == 1) {
 			zpu = sct.z[0] / zbase1;
@@ -138,7 +138,7 @@ public class DistXfmrCodeRating extends DistComponent {
 			buf.append ("  impedance1 " + impedance1 + ";\n");
 			buf.append ("  impedance2 " + impedance2 + ";\n");
 		} else {
-			buf.append ("  resistance " + df6.format(rpu) + ";\n");
+			buf.append ("  resistance " + df6.format (rpu) + ";\n");
 			buf.append ("  reactance " + df6.format (xpu) + ";\n");
 		}
 		if (oct.iexc > 0.0) {

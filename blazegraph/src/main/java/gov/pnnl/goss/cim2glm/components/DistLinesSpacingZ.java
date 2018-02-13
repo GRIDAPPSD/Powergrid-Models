@@ -62,6 +62,8 @@ public class DistLinesSpacingZ extends DistLineSegment {
 	public String[] wire_names;
 	public String[] wire_classes;
 
+	public String glm_config;
+
 	public DistLinesSpacingZ (ResultSet results) {
 		if (results.hasNext()) {
 			QuerySolution soln = results.next();
@@ -113,7 +115,12 @@ public class DistLinesSpacingZ extends DistLineSegment {
 
 	public String GetGLM() {
 		StringBuilder buf = new StringBuilder ();
-		AppendSharedGLMAttributes (buf, name);
+		if (wclass.equals("OverheadWireInfo")) {
+			bCable = false;
+		} else {
+			bCable = true;
+		}
+		AppendSharedGLMAttributes(buf, glm_config, true);
 		return buf.toString();
 	}
 

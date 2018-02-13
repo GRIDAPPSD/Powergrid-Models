@@ -154,6 +154,9 @@ public class DistPowerXfmrWinding extends DistComponent {
 				break;
 			}
 		}
+		if (rpu <= 0.000001) {
+			rpu = 0.000001; // GridLAB-D doesn't like zero
+		}
 		buf.append ("  resistance " + df6.format (rpu) + ";\n");
 		buf.append ("  reactance " + df6.format (xpu) + ";\n");
 		idx = core.wdg - 1;

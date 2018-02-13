@@ -82,14 +82,16 @@ public class DistTapeShieldCable extends DistCable {
 
 	public String GetGLM() {
 		StringBuilder buf = new StringBuilder("object underground_line_conductor {\n");
+		// equation 4.89 from Kersting 3rd edition gives rshield = 18.826/ds/T [Ohms/mile]
+		//  where ds is shield diameter [in] and T is tape thickness [mil]
+		double rshield = 1.214583e-5 / dscreen / tthick; // for dscreen and tthick in [m]
 
 		buf.append ("  name \"tscab_" + name + "\";\n");
-		if (amps > 0.0) {
-			buf.append ("  rating.summer.continuous " + df2.format (amps) + ";\n");
-			buf.append ("  rating.summer.emergency " + df2.format (amps) + ";\n");
-			buf.append ("  rating.winter.continuous " + df2.format (amps) + ";\n");
-			buf.append ("  rating.winter.emergency " + df2.format (amps) + ";\n");
-		}
+		buf.append ("  shield_gmr " + df6.format (0.5 * dscreen * gFTperM) + ";\n");
+		buf.append ("  shield_diameter " + df6.format (dscreen * gFTperM * 12.0) + ";\n");
+		buf.append ("  shield_resistance " + df6.format (rshield) + ";\n");
+		buf.append ("  shield_thickness " + df6.format (tthick * gFTperM * 12.0) + ";\n");
+		AppendGLMCableAttributes (buf);
 		buf.append("}\n");
 		return buf.toString();
 	}

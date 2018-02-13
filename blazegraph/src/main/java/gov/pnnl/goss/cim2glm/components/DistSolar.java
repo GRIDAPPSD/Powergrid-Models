@@ -84,17 +84,32 @@ public class DistSolar extends DistComponent {
 	}
 
 	public String GetGLM() {
-		StringBuilder buf = new StringBuilder ("object solar {\n");
+		String phs = GLMPhaseString (phases);
+		StringBuilder buf = new StringBuilder ("object inverter {\n");
 
-		buf.append ("  name \"pv_" + name + "\";\n");
+		buf.append ("  name \"inv_" + name + "\";\n");
 		buf.append ("  parent \"" + bus + "\";\n");
 		if (bDelta) {
-			buf.append ("  phases " + phases + "D;\n");
-			buf.append ("  phases_connected " + phases + "D;\n");
+			buf.append ("  phases " + phs + "D;\n");
 		} else {
-			buf.append ("  phases " + phases + "N;\n");
-			buf.append ("  phases_connected " + phases + "N;\n");
-		}  // TODO: rating and inverter parameters
+			buf.append ("  phases " + phs + "N;\n");
+		}
+		buf.append ("  generator_status ONLINE;\n");
+		buf.append ("  generator_mode CONSTANT_PF;\n");
+		buf.append ("  inverter_type FOUR_QUADRANT;\n");
+		buf.append ("  inverter_efficiency 1.0;\n");
+		buf.append ("  power_factor 1.0;\n");
+		buf.append ("  V_base " + df3.format (ratedU) + ";\n");
+		buf.append ("  rated_power " + df3.format (ratedS) + ";\n");
+		buf.append ("  object solar {\n");
+		buf.append ("    name \"pv_" + name + "\";\n");
+		buf.append ("    generator_mode SUPPLY_DRIVEN;\n");
+		buf.append ("    generator_status ONLINE;\n");
+		buf.append ("    panel_type SINGLE_CRYSTAL_SILICON;\n");
+		buf.append ("    efficiency 0.2;\n");
+		buf.append ("    rated_power " + df3.format (ratedS) + ";\n");
+		buf.append ("  };\n");
+
 		buf.append("}\n");
 
 		return buf.toString();

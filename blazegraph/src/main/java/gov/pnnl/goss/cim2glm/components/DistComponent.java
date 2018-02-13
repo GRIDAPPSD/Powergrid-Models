@@ -224,6 +224,15 @@ public abstract class DistComponent {
 		return DSSBusPhases (bus, phs);
 	}
 
+	static String GLMPhaseString (String cim_phases) {
+		StringBuilder ret = new StringBuilder();
+		if (cim_phases.contains ("A")) ret.append ("A");
+		if (cim_phases.contains ("B")) ret.append ("B");
+		if (cim_phases.contains ("C")) ret.append ("C");
+		if (cim_phases.contains ("s")) ret.append ("S");
+		return ret.toString();
+	}
+
 	/** 
 	 *  Rotates a phasor +120 degrees by multiplication
 		 */

@@ -53,7 +53,7 @@ public class DistLinesCodeZ extends DistLineSegment {
 
 	public String GetGLM() {
 		StringBuilder buf = new StringBuilder ();
-		AppendSharedGLMAttributes (buf, lname);
+		AppendSharedGLMAttributes (buf, lname, false);
 		return buf.toString();
 	}
 

@@ -103,18 +103,45 @@ public class DistStorage extends DistComponent {
 	}
 
 	public String GetGLM() {
-		StringBuilder buf = new StringBuilder ("object battery {\n");
+		String phs = GLMPhaseString (phases);
+		StringBuilder buf = new StringBuilder ("object inverter {\n");
 
-		buf.append ("  name \"pv_" + name + "\";\n");
+		buf.append ("  name \"inv_" + name + "\";\n");
 		buf.append ("  parent \"" + bus + "\";\n");
 		if (bDelta) {
-			buf.append ("  phases " + phases + "D;\n");
-			buf.append ("  phases_connected " + phases + "D;\n");
+			buf.append ("  phases " + phs + "D;\n");
 		} else {
-			buf.append ("  phases " + phases + "N;\n");
-			buf.append ("  phases_connected " + phases + "N;\n");
-		}  // TODO: rating and inverter parameters
-		buf.append("}\n");
+			buf.append ("  phases " + phs + "N;\n");
+		}
+		buf.append ("  generator_status ONLINE;\n");
+		buf.append ("  generator_mode CONSTANT_PQ;\n");
+		buf.append ("  inverter_type FOUR_QUADRANT;\n");
+		buf.append ("  four_quadrant_control_mode LOAD_FOLLOWING;\n");
+		buf.append ("  charge_lockout_time 1;\n");
+		buf.append ("  discharge_lockout_time 1;\n");
+		buf.append ("  sense_object \"" + bus + "\";\n");
+		buf.append ("  charge_on_threshold " + df3.format (-0.02 * ratedS) + ";\n");
+		buf.append ("  charge_off_threshold " + df3.format (0.0 * ratedS) + ";\n");
+		buf.append ("  discharge_off_threshold " + df3.format (0.4 * ratedS) + ";\n");
+		buf.append ("  discharge_on_threshold " + df3.format (0.6 * ratedS) + ";\n");
+		buf.append ("  inverter_efficiency 0.975;\n");
+		buf.append ("  V_base " + df3.format (ratedU) + ";\n");
+		buf.append ("  rated_power " + df3.format (ratedS) + ";\n");
+		buf.append ("  max_charge_rate " + df3.format (ratedS) + ";\n");
+		buf.append ("  max_discharge_rate " + df3.format (ratedS) + ";\n");
+		buf.append ("  object battery {\n");
+		buf.append ("    name \"bat_" + name + "\";\n");
+		buf.append ("    nominal_voltage 48;\n");
+		buf.append ("    battery_capacity " + df1.format (1000.0 * kwhRated) + ";\n");
+		buf.append ("    state_of_charge " + df4.format (kwhStored / kwhRated) + ";\n");
+		buf.append ("    use_internal_battery_model true;\n");
+		buf.append ("    generator_mode CONSTANT_PQ;\n");
+		buf.append ("    generator_status ONLINE;\n");
+		buf.append ("    battery_type LI_ION;\n");
+		buf.append ("    round_trip_efficiency 0.86;\n");
+		buf.append ("    rated_power " + df3.format (ratedS) + ";\n");
+		buf.append ("  };\n");
+		buf.append ("}\n");
 
 		return buf.toString();
 	}

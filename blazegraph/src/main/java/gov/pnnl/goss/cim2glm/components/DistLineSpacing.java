@@ -50,43 +50,35 @@ public class DistLineSpacing extends DistComponent {
 	private boolean glmA;
 	private boolean glmB;
 	private boolean glmC;
-	private int idxA;
-	private int idxB;
-	private int idxC;
-	private int idxN;
+	private boolean has_neutral;
+	private int nphases;
 
-	private void FindGLMIndices () {
-		idxA = -1;
-		idxB = -1;
-		idxC = -1;
-		idxN = -1;
+	private void FindNeutral () {
+		has_neutral = false;
+		nphases = nwires;
 		for (int i = 0; i < nwires; i++) {
-			if (phases[i].contains("A")) {
-				idxA = i;
-			} else if (phases[i].contains("B")) {
-				idxB = i;
-			} else if (phases[i].contains("C")) {
-				idxC = i;
-			} else if (phases[i].contains("N")) {
-				idxN = i;
+			if (phases[i].contains("N")) {
+				has_neutral = true;
+				--nphases;
+				break;
 			}
 		}
 	}
 
 	public void MarkGLMPermutationsUsed (String s) {
-		if (s.contains ("A") && s.contains ("B") && s.contains ("C") && idxA >= 0 && idxB >= 0 && idxC >= 0) {
+		if (s.contains ("A") && s.contains ("B") && s.contains ("C") && nphases >= 3) {
 			glmABC = true;
-		} else if (s.contains ("A") && s.contains ("B") && idxA >= 0 && idxB >= 0) {
+		} else if (s.contains ("A") && s.contains ("B") && nphases >= 2) {
 			glmAB = true;
-		} else if (s.contains ("A") && s.contains ("C") && idxA >= 0 && idxC >= 0) {
+		} else if (s.contains ("A") && s.contains ("C") && nphases >= 2) {
 			glmAC = true;
-		} else if (s.contains ("B") && s.contains ("C") && idxB >= 0 && idxC >= 0) {
+		} else if (s.contains ("B") && s.contains ("C") && nphases >= 2) {
 			glmBC = true;
-		} else if (s.contains ("A") && idxA >= 0) {
+		} else if (s.contains ("A") && nphases >= 1) {
 			glmA = true;
-		} else if (s.contains ("B") && idxB >= 0) {
+		} else if (s.contains ("B") && nphases >= 1) {
 			glmB = true;
-		} else if (s.contains ("C") && idxC >= 0) {
+		} else if (s.contains ("C") && nphases >= 1) {
 			glmC = true;
 		}
 	}
@@ -108,7 +100,7 @@ public class DistLineSpacing extends DistComponent {
 				xarray[i] = df4.format (Double.parseDouble (xarray[i]));
 				yarray[i] = df4.format (Double.parseDouble (yarray[i]));
 			}
-			FindGLMIndices();
+			FindNeutral();
 		}
 	}
 
@@ -123,11 +115,11 @@ public class DistLineSpacing extends DistComponent {
 	}
 
 	public String GetDSS() {
-		int nphases = nwires;
+//		int nphases = nwires;  // TODO - remove this block if FindNeutral and private vars work
+//		if (phases[nwires-1].equals("N")) {
+//			--nphases;
+//		}
 		int i;
-		if (phases[nwires-1].equals("N")) {
-			--nphases;
-		}
 
 		StringBuilder buf = new StringBuilder("new LineSpacing." + name + " nconds=" + Integer.toString(nwires) +
 																					 " nphases=" + Integer.toString(nphases) + " units=m\n");
@@ -157,43 +149,67 @@ public class DistLineSpacing extends DistComponent {
 
 	private void AppendPermutation (StringBuilder buf, String perm) {
 		buf.append("object line_spacing {\n");
-		buf.append("  name \"spc_" + name + "_" + perm + "\";\n");
-		if (perm.contains ("A") && idxA >= 0) {
-			if (perm.contains ("B") && idxB >= 0) {
+		if (has_neutral) {
+			buf.append("  name \"spc_" + name + "_" + perm + "N\";\n");
+		} else {
+			buf.append("  name \"spc_" + name + "_" + perm + "\";\n");
+		}
+
+		int idxA = 0;
+		int idxB = 1;
+		int idxC = 2;
+		if (nphases == 1) {
+			idxB = 0;
+			idxC = 0;
+		} else if (nphases == 2) {
+			if (perm.contains ("AC")) {
+				idxC = 1;
+			} else if (perm.contains ("BC")) {
+				idxB = 0;
+				idxC = 1;
+			}
+		}
+
+		if (perm.contains("A")) {
+			if (perm.contains ("B")) {
 				buf.append ("  distance_AB " + df4.format(gFTperM * WireSeparation (idxA, idxB)) + ";\n");
 			}
-			if (perm.contains ("C") && idxC >= 0) {
+			if (perm.contains ("C")) {
 				buf.append ("  distance_AC " + df4.format(gFTperM * WireSeparation (idxA, idxC)) + ";\n");
 			}
-			if (idxN >= 0) {
-				buf.append ("  distance_AN " + df4.format(gFTperM * WireSeparation (idxA, idxN)) + ";\n");
+			if (has_neutral) {
+				buf.append ("  distance_AN " + df4.format(gFTperM * WireSeparation (idxA, nwires-1)) + ";\n");
 			}
 		}
-		if (perm.contains ("B") && idxB >= 0) {
-			if (perm.contains ("C") && idxC >= 0) {
+		if (perm.contains ("B")) {
+			if (perm.contains ("C")) {
 				buf.append ("  distance_BC " + df4.format(gFTperM * WireSeparation (idxB, idxC)) + ";\n");
 			}
-			if (idxN >= 0) {
-				buf.append ("  distance_BN " + df4.format(gFTperM * WireSeparation (idxB, idxN)) + ";\n");
+			if (has_neutral) {
+				buf.append ("  distance_BN " + df4.format(gFTperM * WireSeparation (idxB, nwires-1)) + ";\n");
 			}
 		}
-		if (perm.contains ("C") && idxC >= 0) {
-			if (idxN >= 0) {
-				buf.append ("  distance_CN " + df4.format(gFTperM * WireSeparation (idxC, idxN)) + ";\n");
+		if (perm.contains ("C")) {
+			if (has_neutral) {
+				buf.append ("  distance_CN " + df4.format(gFTperM * WireSeparation (idxC, nwires-1)) + ";\n");
 			}
 		}
 		buf.append("}\n");
 	}
 
 	public String GetGLM() {
-		glmABC = true;
-		glmAB = true;
-		glmAC = true;
-		glmBC = true;
-		glmA = true;
-		glmB = true;
-		glmC = true;
-
+//		if (nphases == 3) {
+//			MarkGLMPermutationsUsed("ABC");
+//		} else if (nphases == 2) {
+//			MarkGLMPermutationsUsed("AB");
+//			MarkGLMPermutationsUsed("AC");
+//			MarkGLMPermutationsUsed("BC");
+//		} else if (nphases == 1) {
+//			MarkGLMPermutationsUsed("A");
+//			MarkGLMPermutationsUsed("B");
+//			MarkGLMPermutationsUsed("C");
+//		}
+//
 		StringBuilder buf = new StringBuilder ("");
 		if (glmABC) AppendPermutation (buf, "ABC");
 		if (glmAB) AppendPermutation (buf, "AB");

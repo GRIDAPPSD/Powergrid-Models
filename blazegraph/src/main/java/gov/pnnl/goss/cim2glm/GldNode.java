@@ -9,7 +9,7 @@ import org.apache.commons.math3.complex.Complex;
 
 /** 
  Helper class to accumulate nodes and loads. 
- </p>All EnergyConsumer data will be attached to node objects, then written as load objects. This preserves the input ConnectivityNode names</p> 
+ <p>All EnergyConsumer data will be attached to node objects, then written as load objects. This preserves the input ConnectivityNode names</p> 
  <p>TODO - another option is to leave all nodes un-loaded, and attach all loads to 
  parent nodes, closer to what OpenDSS does</p>  
 */
