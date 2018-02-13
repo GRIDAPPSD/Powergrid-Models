@@ -377,7 +377,7 @@ public abstract class DistComponent {
 			} else if (conn[1].equals("A")) {
 				return "I_A";
 			} else if (conn[1].equals("I")) {
-				return "SINGLE_PHASE"; // supported in GridLAB-D
+				return "SINGLE_PHASE"; // partially supported in GridLAB-D, but implement as WYE_WYE with one non-zero power rating
 			}
 		}
 		return "** Unsupported **";  // TODO - this could be solvable as UNKNOWN in some cases

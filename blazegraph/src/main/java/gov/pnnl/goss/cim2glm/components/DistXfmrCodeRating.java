@@ -120,16 +120,47 @@ public class DistXfmrCodeRating extends DistComponent {
 		}
 
 		String sConnect = GetGldTransformerConnection (conn, size);
+		String sKVA = df3.format (ratedS[0] * 0.001);
 		buf.append ("  name \"xcon_" + tname + "\";\n");
-		buf.append ("  connect_type " + sConnect + ";\n");
-		if (conn[0].equals("I")) {
-			buf.append ("  primary_voltage " + df3.format(ratedU[0]) + ";\n");
+		buf.append ("  power_rating " + sKVA + ";\n");
+		if (sConnect.equals("SINGLE_PHASE_CENTER_TAPPED")) {
+			if (tname.contains ("_as_")) { // TODO - this is hard-wired to PNNL taxonomy feeder import
+				buf.append ("  powerA_rating " + sKVA + ";\n");
+				buf.append ("  powerB_rating 0.0;\n");
+				buf.append ("  powerC_rating 0.0;\n");
+			} else if (tname.contains ("_bs_")) {
+				buf.append ("  powerA_rating 0.0;\n");
+				buf.append ("  powerB_rating " + sKVA + ";\n");
+				buf.append ("  powerC_rating 0.0;\n");
+			} else if (tname.contains ("_cs_")) {
+				buf.append ("  powerA_rating 0.0;\n");
+				buf.append ("  powerB_rating 0.0;\n");
+				buf.append ("  powerC_rating " + sKVA + ";\n");
+			}
+			buf.append ("  primary_voltage " + df3.format (ratedU[0]) + ";\n");
 			buf.append ("  secondary_voltage " + df3.format (ratedU[1]) + ";\n");
+		} else if (sConnect.equals("SINGLE_PHASE")) {
+			if (tname.contains ("_an_")) { // TODO - this is hard-wired to PNNL taxonomy feeder import
+				buf.append ("  powerA_rating " + sKVA + ";\n");
+				buf.append ("  powerB_rating 0.0;\n");
+				buf.append ("  powerC_rating 0.0;\n");
+			} else if (tname.contains ("_bn_")) {
+				buf.append ("  powerA_rating 0.0;\n");
+				buf.append ("  powerB_rating " + sKVA + ";\n");
+				buf.append ("  powerC_rating 0.0;\n");
+			} else if (tname.contains ("_cn_")) {
+				buf.append ("  powerA_rating 0.0;\n");
+				buf.append ("  powerB_rating 0.0;\n");
+				buf.append ("  powerC_rating " + sKVA + ";\n");
+			}
+			buf.append ("  primary_voltage " + df3.format (ratedU[0] * Math.sqrt(3.0)) + ";\n");
+			buf.append ("  secondary_voltage " + df3.format (ratedU[1] * Math.sqrt(3.0)) + ";\n");
+			sConnect = "WYE_WYE";
 		} else {
-			buf.append ("  primary_voltage " + df3.format(ratedU[0] / Math.sqrt(3.0)) + ";\n");
+			buf.append ("  primary_voltage " + df3.format (ratedU[0] / Math.sqrt(3.0)) + ";\n");
 			buf.append ("  secondary_voltage " + df3.format (ratedU[1] / Math.sqrt(3.0)) + ";\n");
 		}
-		buf.append ("  power_rating " + df3.format (ratedS[0] * 0.001) + ";\n");
+		buf.append ("  connect_type " + sConnect + ";\n");
 		if (sConnect.equals ("SINGLE_PHASE_CENTER_TAPPED")) {
 			String impedance = CFormat (new Complex (0.5 * rpu, 0.8 * xpu));
 			String impedance1 = CFormat (new Complex (rpu, 0.4 * xpu));
