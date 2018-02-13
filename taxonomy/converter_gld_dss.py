@@ -147,6 +147,8 @@ import os
 import math
 import sys
 
+SQRT3 = math.sqrt(3.0)
+
 for ifn in glob.glob("base_taxonomy/new*.glm"):
     wd = os.getcwd()
     if sys.platform == 'win32':
@@ -321,8 +323,8 @@ for ifn in glob.glob("base_taxonomy/new*.glm"):
             phsfx = get_phsfx(row['phases'])        # DSS phase suffix
             phqty = str(count_ph(row['phases']))    # 
             kvLN = float(row['nominal_voltage'])/1000.0; # node voltage is LN
-            kvbases.update([round(kvLN*math.sqrt(3),2)])
-            kv = '{:.3f}'.format(kvLN if phqty == '1' else kvLN*math.sqrt(3))
+            kvbases.update([round(kvLN*SQRT3,2)])
+            kv = '{:.3f}'.format(kvLN if phqty == '1' else kvLN*SQRT3)
             kvar = 0
             if 'capacitor_A' in row: 
                 kvar += parse_kvar(row['capacitor_A'])
@@ -787,7 +789,7 @@ for ifn in glob.glob("base_taxonomy/new*.glm"):
                 xff.write(' conn=wye')
                 xff.write(kvastr)
                 xff.write(' kv='+'{:.3f}'.format(float(row['primary_voltage'])/1000))
-                kvbases.update([round(float(row['primary_voltage'])/1000*1.7321,2)])
+                kvbases.update([round(float(row['primary_voltage'])/1000*SQRT3,2)])
                 xff.write(' %R='+'{:.3f}'.format(rwdg1))
                 # Secondary winding
                 xff.write('\n\t~ wdg=2')
@@ -806,36 +808,43 @@ for ifn in glob.glob("base_taxonomy/new*.glm"):
                 xff.write(' kv=.120')
                 xff.write(' %R='+'{:.3f}'.format(rwdg3))
             else:
+                kv1 = float(row['primary_voltage']) / 1000
+                kv2 = float(row['secondary_voltage']) / 1000
                 if row['connect_type'] == 'WYE_WYE':
                     conn1 = 'wye'
                     conn2 = 'wye'
-                    kvbases.update([round(float(row['primary_voltage'])/1000*1.7321,2)])
-                    kvbases.update([round(float(row['secondary_voltage'])/1000*1.7321,2)])
+                    kvbases.update([round(kv1*SQRT3,2)])
+                    kvbases.update([round(kv2*SQRT3,2)])
+                    if phct == 1:
+                        kv1 /= SQRT3
+                        kv2 /= SQRT3
                 elif row['connect_type'] == 'DELTA_GWYE':
                     conn1 = 'delta'
                     conn2 = 'wye'
-                    kvbases.update([round(float(row['primary_voltage'])/1000,2)])
-                    kvbases.update([round(float(row['secondary_voltage'])/1000*1.7321,2)])
+                    kvbases.update([round(kv1,2)])
+                    kvbases.update([round(kv2*SQRT3,2)])
+                    if phct == 1:
+                        kv2 /= SQRT3
                 elif row['connect_type'] == 'DELTA_DELTA':
                     conn1 = 'delta'
                     conn2 = 'delta'
-                    kvbases.update([round(float(row['primary_voltage'])/1000,2)])
-                    kvbases.update([round(float(row['secondary_voltage'])/1000,2)])
+                    kvbases.update([round(kv1,2)])
+                    kvbases.update([round(kv2,2)])
                 # Impedance
-                xff.write(' %loadloss='+str(float(row['resistance'])*100))
+                xff.write(' %loadloss='+'{:.3f}'.format(float(row['resistance'])*100))
                 xff.write(' xhl='+str(float(row['reactance'])*100))
                 # Primary winding
                 xff.write('\n\t~ wdg=1')
                 xff.write(' bus='+bus1+phsfx)
                 xff.write(' conn='+conn1)
                 xff.write(kvastr)
-                xff.write(' kv='+str(float(row['primary_voltage'])/1000))
+                xff.write(' kv='+'{:.3f}'.format(kv1))
                 # Secondary winding
                 xff.write('\n\t~ wdg=2')
                 xff.write(' bus='+bus2+phsfx)
                 xff.write(' conn='+conn2)
                 xff.write(kvastr)
-                xff.write(' kv='+str(float(row['secondary_voltage'])/1000))
+                xff.write(' kv='+'{:.3f}'.format(kv2))
             xff.write('\n');
         xff.close()
 
