@@ -328,6 +328,29 @@ public class GldNode {
 		return false;
 	}
 
+	public boolean CopyLoad (GldNode src) {
+		loadname = src.name;
+		pa_z = src.pa_z;
+		pa_i = src.pa_i;
+		pa_p = src.pa_p;
+		qa_z = src.qa_z;
+		qa_i = src.qa_i;
+		qa_p = src.qa_p;
+		pb_z = src.pb_z;
+		pb_i = src.pb_i;
+		pb_p = src.pb_p;
+		qb_z = src.qb_z;
+		qb_i = src.qb_i;
+		qb_p = src.qb_p;
+		pc_z = src.pc_z;
+		pc_i = src.pc_i;
+		pc_p = src.pc_p;
+		qc_z = src.qc_z;
+		qc_i = src.qc_i;
+		qc_p = src.qc_p;
+		return true;
+	}
+
 	public String GetGLM (double load_scale, boolean bWantSched, String fSched, boolean bWantZIP, double Zcoeff, double Icoeff, double Pcoeff) {
 		StringBuilder buf = new StringBuilder();
 		DecimalFormat df2 = new DecimalFormat("#0.00");
@@ -370,17 +393,34 @@ public class GldNode {
 				buf.append ("  nominal_voltage " + df2.format(nomvln) + ";\n");
 				Complex base1 = new Complex (pa_z + pa_i + pa_p, qa_z + qa_i + qa_p);
 				Complex base2 = new Complex (pb_z + pb_i + pb_p, qb_z + qb_i + qb_p);
+				boolean b12 = false;
+				if (base1.abs() > 0.0 && base2.abs() == 0.0) {
+					b12 = true;
+				}
 				if (bWantSched) {
-					buf.append ("  base_power_1 " + fSched + ".value*" + df2.format(base1.abs()) + ";\n");
-					buf.append ("  base_power_2 " + fSched + ".value*" + df2.format(base2.abs()) + ";\n");
+					if (b12) {
+						buf.append ("  base_power_12 " + fSched + ".value*" + df2.format(base1.abs()) + ";\n");
+					} else {
+						buf.append ("  base_power_1 " + fSched + ".value*" + df2.format(base1.abs()) + ";\n");
+						buf.append ("  base_power_2 " + fSched + ".value*" + df2.format(base2.abs()) + ";\n");
+					}
 				} else {
-					buf.append ("  base_power_1 " + df2.format(base1.abs()) + ";\n");
-					buf.append ("  base_power_2 " + df2.format(base2.abs()) + ";\n");
+					if (b12) {
+						buf.append ("  base_power_12 " + df2.format(base1.abs()) + ";\n");
+					} else {
+						buf.append ("  base_power_1 " + df2.format(base1.abs()) + ";\n");
+						buf.append ("  base_power_2 " + df2.format(base2.abs()) + ";\n");
+					}
 				}
 				if (pa_p > 0.0) {
 					Complex base = new Complex(pa_p, qa_p);
-					buf.append ("  power_pf_1 " + df2.format(pa_p / base.abs()) + ";\n");
-					buf.append ("  power_fraction_1 " + df2.format(pa_p / base1.getReal()) + ";\n");
+					if (b12) {
+						buf.append ("  power_pf_12 " + df2.format(pa_p / base.abs()) + ";\n");
+						buf.append ("  power_fraction_12 " + df2.format(pa_p / base1.getReal()) + ";\n");
+					} else {
+						buf.append ("  power_pf_1 " + df2.format(pa_p / base.abs()) + ";\n");
+						buf.append ("  power_fraction_1 " + df2.format(pa_p / base1.getReal()) + ";\n");
+					}
 				}
 				if (pb_p > 0.0) {
 					Complex base = new Complex(pb_p, qb_p);
@@ -389,8 +429,13 @@ public class GldNode {
 				}
 				if (pa_i > 0.0) {
 					Complex base = new Complex(pa_i, qa_i);
-					buf.append ("  current_pf_1 " + df2.format(pa_i / base.abs()) + ";\n");
-					buf.append ("  current_fraction_1 " + df2.format(pa_i / base1.getReal()) + ";\n");
+					if (b12) {
+						buf.append ("  current_pf_12 " + df2.format(pa_i / base.abs()) + ";\n");
+						buf.append ("  current_fraction_12 " + df2.format(pa_i / base1.getReal()) + ";\n");
+					} else {
+						buf.append ("  current_pf_1 " + df2.format(pa_i / base.abs()) + ";\n");
+						buf.append ("  current_fraction_1 " + df2.format(pa_i / base1.getReal()) + ";\n");
+					}
 				}
 				if (pb_i > 0.0) {
 					Complex base = new Complex(pb_i, qb_i);
@@ -399,8 +444,13 @@ public class GldNode {
 				}
 				if (pa_z > 0.0) {
 					Complex base = new Complex(pa_z, qa_z);
-					buf.append ("  impedance_pf_1 " + df2.format(pa_z / base.abs()) + ";\n");
-					buf.append ("  impedance_fraction_1 " + df2.format(pa_z / base1.getReal()) + ";\n");
+					if (b12) {
+						buf.append ("  impedance_pf_12 " + df2.format(pa_z / base.abs()) + ";\n");
+						buf.append ("  impedance_fraction_12 " + df2.format(pa_z / base1.getReal()) + ";\n");
+					} else {
+						buf.append ("  impedance_pf_1 " + df2.format(pa_z / base.abs()) + ";\n");
+						buf.append ("  impedance_fraction_1 " + df2.format(pa_z / base1.getReal()) + ";\n");
+					}
 				}
 				if (pb_z > 0.0) {
 					Complex base = new Complex(pb_z, qb_z);

@@ -776,7 +776,7 @@ public class CIMImporter extends Object {
 		}
 		for (HashMap.Entry<String,DistSwitch> pair : mapSwitches.entrySet()) {
 			DistSwitch obj = pair.getValue();
-			GldNode nd1 = mapNodes.get(obj.bus1);
+			GldNode nd1 = mapNodes.get (obj.bus1);
 			GldNode nd2 = mapNodes.get (obj.bus2);
 			if (obj.glm_phases.equals("S")) {  // TODO - we should be using a graph component like networkx (but for Java) to assign phasing
 				String phs1 = nd1.GetPhases();
@@ -904,7 +904,20 @@ public class CIMImporter extends Object {
 			out.print (pair.getValue().GetGLM());
 		}
 		for (HashMap.Entry<String,DistSwitch> pair : mapSwitches.entrySet()) {
-			out.print (pair.getValue().GetGLM());
+			DistSwitch obj = pair.getValue();
+			if (obj.glm_phases.contains ("S")) { // need to parent the nodes instead of writing a switch - TODO: this is hard-wired to PNNL taxonomy
+				GldNode nd1 = mapNodes.get (obj.bus1);
+				GldNode nd2 = mapNodes.get (obj.bus2);
+				if (nd1.name.contains ("_tn_")) {
+					nd2.CopyLoad (nd1);
+					mapNodes.remove (obj.bus1);
+				} else {
+					nd1.CopyLoad (nd2);
+					mapNodes.remove (obj.bus2);
+				}
+			} else {
+				out.print(obj.GetGLM());
+			}
 		}
 		for (HashMap.Entry<String,DistPowerXfmrWinding> pair : mapXfmrWindings.entrySet()) {
 			DistPowerXfmrWinding obj = pair.getValue();
