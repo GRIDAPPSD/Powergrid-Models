@@ -776,12 +776,24 @@ public class CIMImporter extends Object {
 		}
 		for (HashMap.Entry<String,DistSwitch> pair : mapSwitches.entrySet()) {
 			DistSwitch obj = pair.getValue();
-			GldNode nd1 = mapNodes.get (obj.bus1);
-			nd1.nomvln = obj.basev / Math.sqrt(3.0);
-			nd1.AddPhases (obj.phases);
+			GldNode nd1 = mapNodes.get(obj.bus1);
 			GldNode nd2 = mapNodes.get (obj.bus2);
-			nd2.nomvln = nd1.nomvln;
-			nd2.AddPhases (obj.phases);
+			if (obj.glm_phases.equals("S")) {  // TODO - we should be using a graph component like networkx (but for Java) to assign phasing
+				String phs1 = nd1.GetPhases();
+				String phs2 = nd2.GetPhases();
+				if (phs1.contains ("S")) {
+					obj.glm_phases = nd1.GetPhases();
+					nd2.ResetPhases (phs1);
+				} else if (phs2.contains ("S")) {
+					obj.glm_phases = nd2.GetPhases();
+					nd1.ResetPhases (phs2);
+				}
+			} else {
+				nd1.nomvln = obj.basev / Math.sqrt(3.0);
+				nd1.AddPhases (obj.phases);
+				nd2.nomvln = nd1.nomvln;
+				nd2.AddPhases (obj.phases);
+			}
 		}
 		for (HashMap.Entry<String,DistPowerXfmrWinding> pair : mapXfmrWindings.entrySet()) {
 			DistPowerXfmrWinding obj = pair.getValue();
@@ -1221,8 +1233,7 @@ public class CIMImporter extends Object {
 		CheckMaps();
 
 //		PrintAllMaps();
-//		PrintOneMap (mapSpacings, "** LINE SPACINGS");
-//		PrintOneMap (mapLinesSpacingZ, "** LINES REFERENCING SPACINGS");
+//		PrintOneMap (mapSwitches, "** SWITCHES");
 		if (fTarget.equals("glm")) {
 			fOut = fRoot + "_base.glm";
 			fXY = fRoot + "_symbols.json";

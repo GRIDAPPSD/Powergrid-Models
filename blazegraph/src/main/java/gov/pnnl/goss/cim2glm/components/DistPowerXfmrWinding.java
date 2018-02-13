@@ -162,10 +162,10 @@ public class DistPowerXfmrWinding extends DistComponent {
 		idx = core.wdg - 1;
 		Zbase = ratedU[idx] * ratedU[idx] / ratedS[idx];
 		if (core.b > 0.0) {
-			buf.append ("  shunt_reactance " + df6.format (Zbase / core.b) + ";\n");
+			buf.append ("  shunt_reactance " + df6.format (1.0 / Zbase / core.b) + ";\n");
 		}
 		if (core.g > 0.0) {
-			buf.append ("  shunt_resistance " + df6.format (Zbase / core.g) + ";\n");
+			buf.append ("  shunt_resistance " + df6.format (1.0 / Zbase / core.g) + ";\n");
 		}
 		buf.append ("}\n");
 

@@ -34,7 +34,7 @@ public class DistSwitch extends DistComponent {
 	public boolean open;
 	public double basev;
 
-	protected String glm_phases;
+	public String glm_phases;
 
 	public DistSwitch (ResultSet results) {
 		if (results.hasNext()) {
@@ -53,7 +53,11 @@ public class DistSwitch extends DistComponent {
 			if (phases.contains("C")) glm_phs.append("C");
 			if (phases.contains("s")) glm_phs.append("S");
 			if (glm_phs.length() < 1) glm_phs.append("ABC");
-			glm_phases = glm_phs.toString();
+			if (glm_phs.toString().equals("AB") && basev <= 208.1) { // TODO - artifact of non-triplex secondaries in CIM and OpenDSS
+				glm_phases = "S"; // need to figure out AS, BS, or CS from connected triplex
+			} else {
+				glm_phases = glm_phs.toString();
+			}
 		}		
 	}
 

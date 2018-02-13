@@ -126,9 +126,27 @@ public class GldNode {
 		if (phases.contains("A") || phs.contains("A")) buf.append("A");
 		if (phases.contains("B") || phs.contains("B")) buf.append("B");
 		if (phases.contains("C") || phs.contains("C")) buf.append("C");
-		if (phs.contains("s")) bSecondary = true;
+		if (phs.toLowerCase().contains("s")) {
+			bSecondary = true;
+		} else if (phs.contains("ABC")) {
+			bSecondary = false;
+		}
 		phases = buf.toString();
+//		if (name.contains("_load_3")) {
+//			System.out.println ("_load_3 setting phases to " + phs);
+//			new Exception().printStackTrace();
+//		}
+//		if (name.contains("_tn_296")) {
+//			System.out.println ("_tn_296 setting phases to " + phs);
+//			new Exception().printStackTrace();
+//		}
 		return true;
+	}
+
+	public boolean ResetPhases(String phs) {
+		phases = "";
+		bSecondary = false;
+		return AddPhases (phs);
 	}
 
 	/** @return phasing string for GridLAB-D with appropriate D, S or N suffix */
