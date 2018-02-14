@@ -11,6 +11,7 @@ maps.txt
 *base.dss
 *busxy.dss
 *guid.dss
+test*.json
 /bin/
 /generated/
 /target/

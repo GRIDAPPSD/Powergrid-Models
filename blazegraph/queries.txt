@@ -17,19 +17,22 @@ PREFIX c:  <http://iec.ch/TC57/2012/CIM-schema-cim17#>
 SELECT ?feeder ?fid ?station ?sid ?subregion ?sgrid ?region ?rgnid WHERE {
  ?s r:type c:Feeder.
  ?s c:IdentifiedObject.name ?feeder.
- ?s c:IdentifiedObject.mRID ?fid.
+ ?s c:IdentifiedObject.mRID ?fidraw.
+  bind(strafter(str(?fidraw),"_") as ?fid)
  ?s c:Feeder.NormalEnergizingSubstation ?sub.
  ?sub c:IdentifiedObject.name ?station.
- ?sub c:IdentifiedObject.mRID ?sid.
+ ?sub c:IdentifiedObject.mRID ?sidraw.
+  bind(strafter(str(?sidraw),"_") as ?sid)
  ?sub c:Substation.Region ?sgr.
  ?sgr c:IdentifiedObject.name ?subregion.
- ?sgr c:IdentifiedObject.mRID ?sgrid.
+ ?sgr c:IdentifiedObject.mRID ?sgridraw.
+  bind(strafter(str(?sgridraw),"_") as ?sgrid)
  ?sgr c:SubGeographicalRegion.Region ?rgn.
  ?rgn c:IdentifiedObject.name ?region.
- ?rgn c:IdentifiedObject.mRID ?rgnid.
+ ?rgn c:IdentifiedObject.mRID ?rgnidraw.
+  bind(strafter(str(?rgnidraw),"_") as ?rgnid)
 }
 ORDER by ?station ?feeder
-
 # list all the connectivity nodes by feeder
 PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX c:  <http://iec.ch/TC57/2012/CIM-schema-cim17#>

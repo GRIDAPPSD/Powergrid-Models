@@ -18,6 +18,7 @@ import gov.pnnl.goss.cim2glm.components.DistCapacitor;
 import gov.pnnl.goss.cim2glm.components.DistComponent;
 import gov.pnnl.goss.cim2glm.components.DistConcentricNeutralCable;
 import gov.pnnl.goss.cim2glm.components.DistCoordinates;
+import gov.pnnl.goss.cim2glm.components.DistFeeder;
 import gov.pnnl.goss.cim2glm.components.DistLineSegment;
 import gov.pnnl.goss.cim2glm.components.DistLineSpacing;
 import gov.pnnl.goss.cim2glm.components.DistLinesCodeZ;
@@ -75,6 +76,7 @@ public class CIMImporter extends Object {
 	HashMap<String,DistCapacitor> mapCapacitors = new HashMap<>();
 	HashMap<String,DistConcentricNeutralCable> mapCNCables = new HashMap<>();
 	HashMap<String,DistCoordinates> mapCoordinates = new HashMap<>();
+	HashMap<String,DistFeeder> mapFeeders = new HashMap<>();
 	HashMap<String,DistLinesCodeZ> mapLinesCodeZ = new HashMap<>();
 	HashMap<String,DistLinesInstanceZ> mapLinesInstanceZ = new HashMap<>();
 	HashMap<String,DistLineSpacing> mapSpacings = new HashMap<>();
@@ -324,6 +326,14 @@ public class CIMImporter extends Object {
 		while (results.hasNext()) {
 			DistCoordinates obj = new DistCoordinates (results);
 			mapCoordinates.put (obj.GetKey(), obj);
+		}
+	}
+
+	void LoadFeeders() {
+		ResultSet results = queryHandler.query (DistFeeder.szQUERY);
+		while (results.hasNext()) {
+			DistFeeder obj = new DistFeeder (results);
+			mapFeeders.put (obj.GetKey(), obj);
 		}
 	}
 
@@ -1256,7 +1266,26 @@ public class CIMImporter extends Object {
 		outID.close();
 	}
 	
-	
+	protected void WriteIndexFile (PrintWriter out)  {
+		LoadFeeders ();
+		PrintOneMap (mapFeeders, "*** FEEDERS ***");
+
+		out.println("{\"feeders\":[");
+
+		int count = 1, last = mapFeeders.size();
+
+		for (HashMap.Entry<String,DistFeeder> pair : mapFeeders.entrySet()) {
+			out.print (pair.getValue().GetJSONEntry());
+			if (count++ < last) {
+				out.println (",");
+			} else {
+				out.println ("");
+			}
+		}
+		out.println("]}");
+		out.close();
+	}
+
 	/**
 	 * 
 	 * @param fOut
@@ -1273,13 +1302,11 @@ public class CIMImporter extends Object {
 	public void start(QueryHandler queryHandler, String fTarget, String fRoot, String fSched, double load_scale, boolean bWantSched, boolean bWantZIP, double Zcoeff, double Icoeff, double Pcoeff) throws FileNotFoundException{
 		this.queryHandler = queryHandler;
 		String fOut, fXY, fID, fDict;		
-		LoadAllMaps();
-		CheckMaps();
 
-//		PrintAllMaps();
-//		PrintOneMap (mapSwitches, "** SWITCHES");
-		fDict = fRoot + "_dict.json";
 		if (fTarget.equals("glm")) {
+			LoadAllMaps();
+			CheckMaps();
+			fDict = fRoot + "_dict.json";
 			fOut = fRoot + "_base.glm";
 			fXY = fRoot + "_symbols.json";
 			PrintWriter pOut = new PrintWriter(fOut);
@@ -1289,6 +1316,9 @@ public class CIMImporter extends Object {
 			PrintWriter pDict = new PrintWriter(fDict);
 			WriteDictionaryFile (pDict);
 		} else if (fTarget.equals("dss")) {
+			LoadAllMaps();
+			CheckMaps();
+			fDict = fRoot + "_dict.json";
 			fOut = fRoot + "_base.dss";
 			fXY = fRoot + "_busxy.dss";
 			fID = fRoot + "_guid.dss";
@@ -1296,10 +1326,15 @@ public class CIMImporter extends Object {
 			PrintWriter pID = new PrintWriter(fID);
 			WriteDSSFile (pOut, pID, fXY, fID, load_scale, bWantZIP, Zcoeff, Icoeff, Pcoeff);
 			PrintWriter pXY = new PrintWriter(fXY);
-			WriteDSSCoordinates (pXY);
+			WriteDSSCoordinates (pXY);  // TODO - should also write the JSON symbol file
 			PrintWriter pDict = new PrintWriter(fDict);
 			WriteDictionaryFile (pDict);
-		}	}
+		}	else if (fTarget.equals("idx")) {
+			fOut = fRoot + "_feeder_index.json";
+			PrintWriter pOut = new PrintWriter(fOut);
+			WriteIndexFile (pOut);
+		}
+	}
 	
 	
 	
@@ -1386,7 +1421,7 @@ public class CIMImporter extends Object {
 		String blazegraphURI = "http://localhost:9999/blazegraph/namespace/kb/sparql";
 		if (args.length < 1) {
 			System.out.println ("Usage: java CIMImporter [options] output_root");
-			System.out.println ("       -o={glm|dss}       // output format; defaults to glm");
+			System.out.println ("       -o={glm|dss|idx}   // output format; defaults to glm");
 			System.out.println ("       -l={0..1}          // load scaling factor; defaults to 1");
 			System.out.println ("       -f={50|60}         // system frequency; defaults to 60");
 			System.out.println ("       -n={schedule_name} // root filename for scheduled ZIP loads (defaults to none), valid only for -o=glm");
@@ -1440,13 +1475,15 @@ public class CIMImporter extends Object {
 				} else if (opt == 'p') {
 					Pcoeff = Double.parseDouble(optVal);
 					bWantZIP = true;
-				}else if (opt == 'u') {
+				} else if (opt == 'u') {
 					blazegraphURI = optVal;
 				}
 			} else {
 				if (fTarget.equals("glm")) {
 					fRoot = args[i];
 				} else if (fTarget.equals("dss")) {
+					fRoot = args[i];
+				} else if (fTarget.equals("idx")) {
 					fRoot = args[i];
 				} else {
 					System.out.println ("Unknown target type " + fTarget);
