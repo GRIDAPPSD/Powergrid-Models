@@ -36,6 +36,15 @@ public class DistLinesInstanceZ extends DistLineSegment {
 	public double x0; 
 	public double b0; 
 
+	public String GetJSONEntry () {
+		StringBuilder buf = new StringBuilder ();
+
+		buf.append ("{\"name\":\"" + name +"\"");
+		buf.append (",\"mRID\":\"" + id +"\"");
+		buf.append ("}");
+		return buf.toString();
+	}
+
 	public DistLinesInstanceZ (ResultSet results) {
 		if (results.hasNext()) {
 			QuerySolution soln = results.next();

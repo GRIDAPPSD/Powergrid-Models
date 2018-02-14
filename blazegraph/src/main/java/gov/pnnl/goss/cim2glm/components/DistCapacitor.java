@@ -71,6 +71,53 @@ public class DistCapacitor extends DistComponent {
 	private boolean bDelta;
 	private int nphases;
 
+	public String GetJSONEntry () {
+		StringBuilder buf = new StringBuilder ();
+
+		buf.append ("{\"name\":\"" + name + "\"");
+		buf.append (",\"mRID\":\"" + id + "\"");
+		buf.append (",\"CN1\":\"" + bus + "\"");
+		buf.append (",\"phases\":\"" + phs + "\"");
+		buf.append (",\"kvar_A\":" + df1.format(kvar_A));
+		buf.append (",\"kvar_B\":" + df1.format(kvar_B));
+		buf.append (",\"kvar_C\":" + df1.format(kvar_C));
+		buf.append (",\"nominalVoltage\":" + df1.format(basev));
+		buf.append (",\"nomU\":" + df1.format(nomu));
+		buf.append (",\"phaseConnection\":\"" + conn + "\"");
+		buf.append (",\"grounded\":" + grnd.toLowerCase());
+		buf.append (",\"enabled\":" + ctrl.toLowerCase());
+		if (mode == null) {
+			buf.append(",\"mode\":null");
+		} else {
+			buf.append(",\"mode\":\"" + mode + "\"");
+		}
+		buf.append (",\"targetValue\":" + df1.format (setpoint));
+		buf.append (",\"targetDeadband\":" + df1.format (deadband));
+		buf.append (",\"aVRDelay\":" + df1.format (delay));
+		if (moneq == null) {
+			buf.append(",\"monitoredName\":null");
+		} else {
+			buf.append(",\"monitoredName\":\"" + moneq + "\"");
+		}
+		if (monclass == null) {
+			buf.append(",\"monitoredClass\":null");
+		} else {
+			buf.append(",\"monitoredClass\":\"" + monclass + "\"");
+		}
+		if (monbus == null) {
+			buf.append(",\"monitoredBus\":null");
+		} else {
+			buf.append(",\"monitoredBus\":\"" + monbus + "\"");
+		}
+		if (monphs == null) {
+			buf.append(",\"monitoredPhase\":null");
+		} else {
+			buf.append(",\"monitoredPhase\":\"" + monphs + "\"");
+		}
+		buf.append ("}");
+		return buf.toString();
+	}
+
 	private String DSSCapMode (String s) {
 		if (s.equals("currentFlow")) return "current";
 		if (s.equals("voltage")) return "voltage";
@@ -163,7 +210,6 @@ public class DistCapacitor extends DistComponent {
 		buf.append (",\"kvar_C\":" + df1.format(kvar_C));
 		buf.append (",\"x1\":" + Double.toString(pt.x));
 		buf.append (",\"y1\":" + Double.toString(pt.y));
-		buf.append ("}");
 		return buf.toString();
 	}
 

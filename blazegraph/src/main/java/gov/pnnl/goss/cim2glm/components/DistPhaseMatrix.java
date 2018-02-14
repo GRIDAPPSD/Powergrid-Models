@@ -38,6 +38,15 @@ public class DistPhaseMatrix extends DistComponent {
 	private boolean glmC;
 	private boolean glmTriplex;
 
+	public String GetJSONEntry () {
+		StringBuilder buf = new StringBuilder ();
+
+		buf.append ("{\"name\":\"" + name +"\"");
+		buf.append (",\"mRID\":\"" + id +"\"");
+		buf.append ("}");
+		return buf.toString();
+	}
+
 	public void MarkGLMPermutationsUsed (String s) {
 		if (cnt == 3) {
 			glmABC = true;

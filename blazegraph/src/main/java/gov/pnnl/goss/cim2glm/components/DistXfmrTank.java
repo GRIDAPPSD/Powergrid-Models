@@ -60,6 +60,15 @@ public class DistXfmrTank extends DistComponent {
 
 	public int size;
 
+	public String GetJSONEntry () {
+		StringBuilder buf = new StringBuilder ();
+
+		buf.append ("{\"name\":\"" + pname +"\"");
+		buf.append (",\"mRID\":\"" + id +"\"");
+		buf.append ("}");
+		return buf.toString();
+	}
+
 	private void SetSize (int val) {
 		size = val;
 		bus = new String[size];

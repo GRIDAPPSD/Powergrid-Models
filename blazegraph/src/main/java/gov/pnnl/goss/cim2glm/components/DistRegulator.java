@@ -105,6 +105,104 @@ public class DistRegulator extends DistComponent {
 
 	public int size;
 
+	private void AddJSONDoubleArray (StringBuilder buf, String tag, double[] vals) {
+		buf.append (",\"" + tag + "\":[");
+		for (int i = 0; i < size; i++) {
+			buf.append (df4.format (vals[i]));
+			if (i+1 < size) {
+				buf.append (",");
+			} else {
+				buf.append ("]");
+			}
+		}
+	}
+
+	private void AddJSONIntegerArray (StringBuilder buf, String tag, int[] vals) {
+		buf.append (",\"" + tag + "\":[");
+		for (int i = 0; i < size; i++) {
+			buf.append (Integer.toString (vals[i]));
+			if (i+1 < size) {
+				buf.append (",");
+			} else {
+				buf.append ("]");
+			}
+		}
+	}
+
+	private void AddJSONBooleanArray (StringBuilder buf, String tag, boolean[] vals) {
+		buf.append (",\"" + tag + "\":[");
+		for (int i = 0; i < size; i++) {
+			if (vals[i]) {
+				buf.append("true");
+			} else {
+				buf.append("false");
+			}
+			if (i+1 < size) {
+				buf.append (",");
+			} else {
+				buf.append ("]");
+			}
+		}
+	}
+
+	private void AddJSONStringArray (StringBuilder buf, String tag, String[] vals) {
+		buf.append (",\"" + tag + "\":[");
+		for (int i = 0; i < size; i++) {
+			if (vals[i] == null) {
+				buf.append ("null");
+			} else {
+				buf.append("\"" + vals[i] + "\"");
+			}
+			if (i+1 < size) {
+				buf.append (",");
+			} else {
+				buf.append ("]");
+			}
+		}
+	}
+
+	public String GetJSONEntry () {
+		StringBuilder buf = new StringBuilder ();
+
+		buf.append ("{\"bankName\":\"" + pname +"\"");
+		buf.append (",\"size\":\"" + Integer.toString (size) +"\"");
+		buf.append (",\"bankPhases\":\"" + bankphases +"\"");
+		AddJSONStringArray (buf, "tankName", tname);
+		AddJSONIntegerArray (buf, "endNumber", wnum);
+		AddJSONStringArray (buf, "endPhase", phs);
+		AddJSONStringArray (buf, "rtcName", rname);
+		AddJSONStringArray (buf, "mRID", id);
+		AddJSONStringArray (buf, "monitoredPhase", monphs);
+		AddJSONStringArray (buf, "TapChanger.tculControlMode", mode);
+		AddJSONIntegerArray (buf, "highStep", highStep);
+		AddJSONIntegerArray (buf, "lowStep", lowStep);
+		AddJSONIntegerArray (buf, "neutralStep", neutralStep);
+		AddJSONIntegerArray (buf, "normalStep", normalStep);
+		AddJSONBooleanArray (buf, "TapChanger.controlEnabled", enabled);
+		AddJSONBooleanArray (buf, "lineDropCompensation", ldc);
+		AddJSONBooleanArray (buf, "ltcFlag", ltc);
+		AddJSONBooleanArray (buf, "RegulatingControl.enabled", ctl_enabled);
+		AddJSONBooleanArray (buf, "RegulatingControl.discrete", discrete); 
+		AddJSONStringArray (buf, "RegulatingControl.mode", ctlmode);
+		AddJSONDoubleArray (buf, "step", step);
+		AddJSONDoubleArray (buf, "targetValue", vset);
+		AddJSONDoubleArray (buf, "targetDeadband", vbw);
+		AddJSONDoubleArray (buf, "limitVoltage", vlim);
+		AddJSONDoubleArray (buf, "stepVoltageIncrement", incr);
+		AddJSONDoubleArray (buf, "neutralU", neutralU);
+		AddJSONDoubleArray (buf, "initialDelay", initDelay); 
+		AddJSONDoubleArray (buf, "subsequentDelay", subDelay);
+		AddJSONDoubleArray (buf, "lineDropR", fwdR);
+		AddJSONDoubleArray (buf, "lineDropX", fwdX);
+		AddJSONDoubleArray (buf, "reverseLineDropR", revR);
+		AddJSONDoubleArray (buf, "reverseLineDropX", revX);
+		AddJSONDoubleArray (buf, "ctRating", ctRating);
+		AddJSONDoubleArray (buf, "ctRatio", ctRatio);
+		AddJSONDoubleArray (buf, "ptRatio", ptRatio);
+		buf.append ("}");
+		return buf.toString();
+	}
+
 	private void SetSize (String p, QueryHandler queryHandler) {
 		size = 1;
 		String szCount = "SELECT (count (?tank) as ?count) WHERE {"+

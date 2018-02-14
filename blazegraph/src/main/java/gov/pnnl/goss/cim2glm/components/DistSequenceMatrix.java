@@ -35,6 +35,15 @@ public class DistSequenceMatrix extends DistComponent {
 	private String seqCs;
 	private String seqCm;
 
+	public String GetJSONEntry () {
+		StringBuilder buf = new StringBuilder ();
+
+		buf.append ("{\"name\":\"" + name +"\"");
+		buf.append (",\"mRID\":\"" + id +"\"");
+		buf.append ("}");
+		return buf.toString();
+	}
+
 	public DistSequenceMatrix (ResultSet results) {
 		if (results.hasNext()) {
 			QuerySolution soln = results.next();

@@ -39,6 +39,15 @@ public class DistSubstation extends DistComponent {
 	public double r0;
 	public double x0;
 
+	public String GetJSONEntry () {
+		StringBuilder buf = new StringBuilder ();
+
+		buf.append ("{\"name\":\"" + name +"\"");
+		buf.append (",\"mRID\":\"" + id +"\"");
+		buf.append ("}");
+		return buf.toString();
+	}
+
 	public DistSubstation (ResultSet results) {
 		if (results.hasNext()) {
 			QuerySolution soln = results.next();

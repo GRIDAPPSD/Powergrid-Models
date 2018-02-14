@@ -38,8 +38,24 @@ public class DistSolar extends DistComponent {
 	public double q;
 	public double ratedU;
 	public double ratedS;
-	public double iFaultLimit;
+	public double maxIFault;
 	public boolean bDelta;
+
+	public String GetJSONEntry () {
+		StringBuilder buf = new StringBuilder ();
+
+		buf.append ("{\"name\":\"" + name +"\"");
+		buf.append (",\"mRID\":\"" + id +"\"");
+		buf.append (",\"CN1\":\"" + bus + "\"");
+		buf.append (",\"phases\":\"" + phases + "\"");
+		buf.append (",\"ratedS\":" + df1.format(ratedS));
+		buf.append (",\"ratedU\":" + df1.format(ratedU));
+		buf.append (",\"p\":" + df3.format(p));
+		buf.append (",\"q\":" + df3.format(q));
+		buf.append (",\"maxIFault\":" + df3.format(maxIFault));
+		buf.append ("}");
+		return buf.toString();
+	}
 
 	public DistSolar (ResultSet results) {
 		if (results.hasNext()) {
@@ -49,11 +65,11 @@ public class DistSolar extends DistComponent {
 			bus = SafeName (soln.get("?bus").toString());
 			phases = OptionalString (soln, "?phases", "ABC");
 			phases = phases.replace ('\n', ':');
-			p = 0.001 * Double.parseDouble (soln.get("?p").toString());
-			q = 0.001 * Double.parseDouble (soln.get("?q").toString());
+			p = Double.parseDouble (soln.get("?p").toString());
+			q = Double.parseDouble (soln.get("?q").toString());
 			ratedU = Double.parseDouble (soln.get("?ratedU").toString());
 			ratedS = Double.parseDouble (soln.get("?ratedS").toString());
-			iFaultLimit = Double.parseDouble (soln.get("?ipu").toString());
+			maxIFault = Double.parseDouble (soln.get("?ipu").toString());
 			bDelta = false;
 		}		
 //		System.out.println (DisplayString());
@@ -63,7 +79,7 @@ public class DistSolar extends DistComponent {
 		StringBuilder buf = new StringBuilder ("");
 		buf.append (name + " @ " + bus + " phases=" + phases);
 		buf.append (" vnom=" + df4.format(ratedU) + " vanom=" + df4.format(ratedS));
-		buf.append (" kw=" + df4.format(p) + " kvar=" + df4.format(q) + " ilimit=" + df4.format(iFaultLimit));
+		buf.append (" kw=" + df4.format(0.001 * p) + " kvar=" + df4.format(0.001 * q) + " ilimit=" + df4.format(maxIFault));
 		return buf.toString();
 	}
 
@@ -131,8 +147,8 @@ public class DistSolar extends DistComponent {
 
 		buf.append (" phases=" + Integer.toString(nphases) + " bus1=" + DSSShuntPhases (bus, phases, bDelta) + 
 								" conn=" + DSSConn(bDelta) + " kva=" + df3.format(kva) + " kv=" + df3.format(kv) +
-								" pmpp=" + df3.format(kva) + " irrad=" + df3.format(p/kva) + " pf=" + df4.format(pf) +
-								" vminpu=" + df4.format(1/iFaultLimit) + " LimitCurrent=yes");
+								" pmpp=" + df3.format(kva) + " irrad=" + df3.format(0.001 * p/kva) + " pf=" + df4.format(pf) +
+								" vminpu=" + df4.format(1.0/maxIFault) + " LimitCurrent=yes");
 		buf.append("\n");
 
 		return buf.toString();

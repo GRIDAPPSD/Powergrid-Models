@@ -23,6 +23,14 @@ public class DistPowerXfmrCore extends DistComponent {
 	public double b;
 	public double g;
 
+	public String GetJSONEntry () {
+		StringBuilder buf = new StringBuilder ();
+
+		buf.append ("{\"name\":\"" + name +"\"");
+		buf.append ("}");
+		return buf.toString();
+	}
+
 	public DistPowerXfmrCore (ResultSet results) {
 		if (results.hasNext()) {
 			QuerySolution soln = results.next();

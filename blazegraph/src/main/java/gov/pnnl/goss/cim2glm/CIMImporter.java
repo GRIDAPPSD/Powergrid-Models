@@ -414,6 +414,37 @@ public class CIMImporter extends Object {
 		return true;
 	}
 
+	public void WriteMapDictionary (HashMap<String,? extends DistComponent> map, String label, boolean bLast, PrintWriter out) {
+		int count = 1, last = map.size();
+		out.println ("{\"" + label + "\":[");
+
+		SortedSet<String> keys = new TreeSet<String>(map.keySet());
+		for (String key : keys) {
+			out.print (map.get(key).GetJSONEntry ());
+			if (count++ < last) {
+				out.println (",");
+			} else {
+				out.println ("");
+			}
+		}
+		if (bLast) {
+			out.println("]}");
+		} else {
+			out.println("]},");
+		}
+	}
+
+	public void WriteDictionaryFile (PrintWriter out) {
+		out.println("{\"feeder\":[");
+		WriteMapDictionary (mapCapacitors, "capacitors", false, out);
+		WriteMapDictionary (mapRegulators, "regulators", false, out);
+		WriteMapDictionary (mapSolars, "solarpanels", false, out);
+		WriteMapDictionary (mapStorages, "batteries", false, out);
+		WriteMapDictionary (mapSwitches, "switches", true, out);
+		out.println("]}");
+		out.close();
+	}
+
 	public void WriteJSONSymbolFile (PrintWriter out)  {
 		
 		int count, last;
@@ -1241,12 +1272,13 @@ public class CIMImporter extends Object {
 	 */
 	public void start(QueryHandler queryHandler, String fTarget, String fRoot, String fSched, double load_scale, boolean bWantSched, boolean bWantZIP, double Zcoeff, double Icoeff, double Pcoeff) throws FileNotFoundException{
 		this.queryHandler = queryHandler;
-		String fOut, fXY, fID;		
+		String fOut, fXY, fID, fDict;		
 		LoadAllMaps();
 		CheckMaps();
 
 //		PrintAllMaps();
 //		PrintOneMap (mapSwitches, "** SWITCHES");
+		fDict = fRoot + "_dict.json";
 		if (fTarget.equals("glm")) {
 			fOut = fRoot + "_base.glm";
 			fXY = fRoot + "_symbols.json";
@@ -1254,6 +1286,8 @@ public class CIMImporter extends Object {
 			WriteGLMFile(pOut, load_scale, bWantSched, fSched, bWantZIP, Zcoeff, Icoeff, Pcoeff);
 			PrintWriter pXY = new PrintWriter(fXY);
 			WriteJSONSymbolFile (pXY);
+			PrintWriter pDict = new PrintWriter(fDict);
+			WriteDictionaryFile (pDict);
 		} else if (fTarget.equals("dss")) {
 			fOut = fRoot + "_base.dss";
 			fXY = fRoot + "_busxy.dss";
@@ -1263,6 +1297,8 @@ public class CIMImporter extends Object {
 			WriteDSSFile (pOut, pID, fXY, fID, load_scale, bWantZIP, Zcoeff, Icoeff, Pcoeff);
 			PrintWriter pXY = new PrintWriter(fXY);
 			WriteDSSCoordinates (pXY);
+			PrintWriter pDict = new PrintWriter(fDict);
+			WriteDictionaryFile (pDict);
 		}	}
 	
 	

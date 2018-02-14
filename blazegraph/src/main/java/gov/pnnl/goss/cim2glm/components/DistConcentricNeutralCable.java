@@ -44,6 +44,15 @@ public class DistConcentricNeutralCable extends DistCable {
 	public double strand_rad;
 	public double strand_rdc;
 
+	public String GetJSONEntry () {
+		StringBuilder buf = new StringBuilder ();
+
+		buf.append ("{\"name\":\"" + name +"\"");
+		buf.append (",\"mRID\":\"" + id +"\"");
+		buf.append ("}");
+		return buf.toString();
+	}
+
 	public DistConcentricNeutralCable (ResultSet results) {
 		if (results.hasNext()) {
 			QuerySolution soln = results.next();

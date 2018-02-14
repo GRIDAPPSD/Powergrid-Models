@@ -38,6 +38,15 @@ public class DistTapeShieldCable extends DistCable {
 	public double tlap;
 	public double tthick;
 
+	public String GetJSONEntry () {
+		StringBuilder buf = new StringBuilder ();
+
+		buf.append ("{\"name\":\"" + name +"\"");
+		buf.append (",\"mRID\":\"" + id +"\"");
+		buf.append ("}");
+		return buf.toString();
+	}
+
 	public DistTapeShieldCable (ResultSet results) {
 		if (results.hasNext()) {
 			QuerySolution soln = results.next();

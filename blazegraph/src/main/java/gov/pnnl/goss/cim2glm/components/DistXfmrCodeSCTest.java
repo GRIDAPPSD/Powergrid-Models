@@ -42,6 +42,14 @@ public class DistXfmrCodeSCTest extends DistComponent {
 
 	public int size;
 
+	public String GetJSONEntry () {
+		StringBuilder buf = new StringBuilder ();
+
+		buf.append ("{\"name\":\"" + pname +"\"");
+		buf.append ("}");
+		return buf.toString();
+	}
+
 	private void SetSize (int val) {
 		size = val;
 		fwdg = new int[size];

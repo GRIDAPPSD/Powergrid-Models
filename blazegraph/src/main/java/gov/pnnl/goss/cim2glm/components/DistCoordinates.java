@@ -30,6 +30,14 @@ public class DistCoordinates extends DistComponent {
 	public int seq;
 	public String cname;
 
+	public String GetJSONEntry () {
+		StringBuilder buf = new StringBuilder ();
+
+		buf.append ("{\"name\":\"" + name +"\"");
+		buf.append ("}");
+		return buf.toString();
+	}
+
 	public DistCoordinates (ResultSet results) {
 		if (results.hasNext()) {
 			QuerySolution soln = results.next();

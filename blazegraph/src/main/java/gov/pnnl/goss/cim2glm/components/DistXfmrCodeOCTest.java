@@ -24,6 +24,14 @@ public class DistXfmrCodeOCTest extends DistComponent {
 	public double nll;
 	public double iexc;
 
+	public String GetJSONEntry () {
+		StringBuilder buf = new StringBuilder ();
+
+		buf.append ("{\"name\":\"" + pname +"\"");
+		buf.append ("}");
+		return buf.toString();
+	}
+
 	public DistXfmrCodeOCTest (ResultSet results) {
 		if (results.hasNext()) {
 			QuerySolution soln = results.next();

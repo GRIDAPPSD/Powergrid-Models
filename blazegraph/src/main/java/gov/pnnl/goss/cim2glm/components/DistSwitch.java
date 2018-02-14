@@ -36,6 +36,24 @@ public class DistSwitch extends DistComponent {
 
 	public String glm_phases;
 
+	public String GetJSONEntry () {
+		StringBuilder buf = new StringBuilder ();
+
+		buf.append ("{\"name\":\"" + name +"\"");
+		buf.append (",\"mRID\":\"" + id +"\"");
+		buf.append (",\"CN1\":\"" + bus1 + "\"");
+		buf.append (",\"CN2\":\"" + bus2 + "\"");
+		buf.append (",\"phases\":\"" + phases + "\"");
+		buf.append (",\"nominalVoltage\":" + df1.format(basev));
+		if (open) {
+			buf.append (",\"normalOpen\":true");
+		} else {
+			buf.append (",\"normalOpen\":false");
+		}
+		buf.append("}");
+		return buf.toString();
+	}
+
 	public DistSwitch (ResultSet results) {
 		if (results.hasNext()) {
 			QuerySolution soln = results.next();

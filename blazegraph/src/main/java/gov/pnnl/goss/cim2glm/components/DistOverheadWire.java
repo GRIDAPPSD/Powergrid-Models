@@ -26,6 +26,15 @@ public class DistOverheadWire extends DistWire {
 		" OPTIONAL {?w c:WireInfo.insulationThickness ?insthick.}"+
 		"} ORDER BY ?name";
 
+	public String GetJSONEntry () {
+		StringBuilder buf = new StringBuilder ();
+
+		buf.append ("{\"name\":\"" + name +"\"");
+		buf.append (",\"mRID\":\"" + id +"\"");
+		buf.append ("}");
+		return buf.toString();
+	}
+
 	public DistOverheadWire (ResultSet results) {
 		if (results.hasNext()) {
 			QuerySolution soln = results.next();

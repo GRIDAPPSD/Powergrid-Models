@@ -64,6 +64,15 @@ public class DistLinesSpacingZ extends DistLineSegment {
 
 	public String glm_config;
 
+	public String GetJSONEntry () {
+		StringBuilder buf = new StringBuilder ();
+
+		buf.append ("{\"name\":\"" + name +"\"");
+		buf.append (",\"mRID\":\"" + id +"\"");
+		buf.append ("}");
+		return buf.toString();
+	}
+
 	public DistLinesSpacingZ (ResultSet results) {
 		if (results.hasNext()) {
 			QuerySolution soln = results.next();

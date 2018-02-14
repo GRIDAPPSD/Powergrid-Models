@@ -53,6 +53,15 @@ public class DistLineSpacing extends DistComponent {
 	private boolean has_neutral;
 	private int nphases;
 
+	public String GetJSONEntry () {
+		StringBuilder buf = new StringBuilder ();
+
+		buf.append ("{\"name\":\"" + name +"\"");
+		buf.append (",\"mRID\":\"" + id +"\"");
+		buf.append ("}");
+		return buf.toString();
+	}
+
 	private void FindNeutral () {
 		has_neutral = false;
 		nphases = nwires;

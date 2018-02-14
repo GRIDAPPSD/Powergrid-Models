@@ -29,6 +29,14 @@ public class DistXfmrBank extends DistComponent {
 
 	public int size;
 
+	public String GetJSONEntry () {
+		StringBuilder buf = new StringBuilder ();
+
+		buf.append ("{\"name\":\"" + pname +"\"");
+		buf.append ("}");
+		return buf.toString();
+	}
+
 	private void SetSize (int val) {
 		size = val;
 		tname = new String[size];

@@ -43,10 +43,29 @@ public class DistStorage extends DistComponent {
 	public double q;
 	public double ratedU;
 	public double ratedS;
-	public double kwhRated;
-	public double kwhStored;
-	public double iFaultLimit;
+	public double ratedE;
+	public double storedE;
+	public double maxIFault;
 	public boolean bDelta;
+
+	public String GetJSONEntry () {
+		StringBuilder buf = new StringBuilder ();
+
+		buf.append ("{\"name\":\"" + name +"\"");
+		buf.append (",\"mRID\":\"" + id +"\"");
+		buf.append (",\"CN1\":\"" + bus + "\"");
+		buf.append (",\"phases\":\"" + phases + "\"");
+		buf.append (",\"ratedS\":" + df1.format(ratedS));
+		buf.append (",\"ratedU\":" + df1.format(ratedU));
+		buf.append (",\"p\":" + df1.format(p));
+		buf.append (",\"q\":" + df1.format(q));
+		buf.append (",\"ratedE\":" + df1.format(ratedE));
+		buf.append (",\"storedE\":" + df1.format(storedE));
+		buf.append (",\"batteryState\":\"" + state + "\"");
+		buf.append (",\"maxIFault\":" + df3.format(maxIFault));
+		buf.append ("}");
+		return buf.toString();
+	}
 
 	private String DSSBatteryState (String s) {
 		if (s.equals("Charging")) return "charging";
@@ -65,14 +84,14 @@ public class DistStorage extends DistComponent {
 			bus = SafeName (soln.get("?bus").toString());
 			phases = OptionalString (soln, "?phases", "ABC");
 			phases = phases.replace ('\n', ':');
-			p = 0.001 * Double.parseDouble (soln.get("?p").toString());
-			q = 0.001 * Double.parseDouble (soln.get("?q").toString());
+			p = Double.parseDouble (soln.get("?p").toString());
+			q = Double.parseDouble (soln.get("?q").toString());
 			ratedU = Double.parseDouble (soln.get("?ratedU").toString());
 			ratedS = Double.parseDouble (soln.get("?ratedS").toString());
-			iFaultLimit = Double.parseDouble (soln.get("?ipu").toString());
+			maxIFault = Double.parseDouble (soln.get("?ipu").toString());
 			bDelta = false;
-			kwhRated = 0.001 * Double.parseDouble (soln.get("?ratedE").toString());
-			kwhStored = 0.001 * Double.parseDouble (soln.get("?storedE").toString());
+			ratedE = Double.parseDouble (soln.get("?ratedE").toString());
+			storedE = Double.parseDouble (soln.get("?storedE").toString());
 			state = soln.get("?state").toString();
 		}		
 	}
@@ -81,9 +100,9 @@ public class DistStorage extends DistComponent {
 		StringBuilder buf = new StringBuilder ("");
 		buf.append (name + " @ " + bus + " phases=" + phases);
 		buf.append (" vnom=" + df4.format(ratedU) + " vanom=" + df4.format(ratedS));
-		buf.append (" kw=" + df4.format(p) + " kvar=" + df4.format(q));
-		buf.append (" capacity=" + df4.format(kwhRated) + " stored=" + df4.format(kwhStored));
-		buf.append (" " + DSSBatteryState (state) + " ilimit=" + df4.format(iFaultLimit));
+		buf.append (" kw=" + df4.format(0.001 * p) + " kvar=" + df4.format(0.001 * q));
+		buf.append (" capacity=" + df4.format(0.001 * ratedE) + " stored=" + df4.format(0.001 * storedE));
+		buf.append (" " + DSSBatteryState (state) + " ilimit=" + df4.format(maxIFault));
 		return buf.toString();
 	}
 
@@ -132,8 +151,8 @@ public class DistStorage extends DistComponent {
 		buf.append ("  object battery {\n");
 		buf.append ("    name \"bat_" + name + "\";\n");
 		buf.append ("    nominal_voltage 48;\n");
-		buf.append ("    battery_capacity " + df1.format (1000.0 * kwhRated) + ";\n");
-		buf.append ("    state_of_charge " + df4.format (kwhStored / kwhRated) + ";\n");
+		buf.append ("    battery_capacity " + df1.format (ratedE) + ";\n");
+		buf.append ("    state_of_charge " + df4.format (storedE / ratedE) + ";\n");
 		buf.append ("    use_internal_battery_model true;\n");
 		buf.append ("    generator_mode CONSTANT_PQ;\n");
 		buf.append ("    generator_status ONLINE;\n");
@@ -162,9 +181,9 @@ public class DistStorage extends DistComponent {
 
 		buf.append (" phases=" + Integer.toString(nphases) + " bus1=" + DSSShuntPhases (bus, phases, bDelta) + 
 								" conn=" + DSSConn(bDelta) + " kva=" + df3.format(kva) + " kv=" + df3.format(kv) +
-								" kwrated=" + df3.format(kva) + " kwhrated=" + df3.format(kwhRated) + 
-								" kwhstored=" + df3.format(kwhStored) + " state=" + DSSBatteryState(state) +
-								" vminpu=" + df4.format(1/iFaultLimit) + " LimitCurrent=yes");
+								" kwrated=" + df3.format(kva) + " kwhrated=" + df3.format(0.001 * ratedE) + 
+								" kwhstored=" + df3.format(0.001 * storedE) + " state=" + DSSBatteryState(state) +
+								" vminpu=" + df4.format(1/maxIFault) + " LimitCurrent=yes");
 		buf.append("\n");
 
 		return buf.toString();

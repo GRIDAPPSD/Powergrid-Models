@@ -15,6 +15,14 @@ public class DistBaseVoltage extends DistComponent {
 	public String name;
 	double vnom;
 
+	public String GetJSONEntry () {
+		StringBuilder buf = new StringBuilder ();
+
+		buf.append ("{\"name\":\"" + name +"\"");
+		buf.append ("}");
+		return buf.toString();
+	}
+
 	public DistBaseVoltage (ResultSet results) {
 		if (results.hasNext()) {
 			QuerySolution soln = results.next();

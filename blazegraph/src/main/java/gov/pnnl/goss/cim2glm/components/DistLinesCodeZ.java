@@ -29,6 +29,15 @@ public class DistLinesCodeZ extends DistLineSegment {
 
 	public String lname;
 
+	public String GetJSONEntry () {
+		StringBuilder buf = new StringBuilder ();
+
+		buf.append ("{\"name\":\"" + name +"\"");
+		buf.append (",\"mRID\":\"" + id +"\"");
+		buf.append ("}");
+		return buf.toString();
+	}
+
 	public DistLinesCodeZ (ResultSet results) {
 		if (results.hasNext()) {
 			QuerySolution soln = results.next();

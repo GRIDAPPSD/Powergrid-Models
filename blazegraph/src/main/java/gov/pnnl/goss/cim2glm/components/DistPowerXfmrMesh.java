@@ -44,6 +44,14 @@ public class DistPowerXfmrMesh extends DistComponent {
 		x = new double[size];
 	}
 
+	public String GetJSONEntry () {
+		StringBuilder buf = new StringBuilder ();
+
+		buf.append ("{\"name\":\"" + name +"\"");
+		buf.append ("}");
+		return buf.toString();
+	}
+
 	public DistPowerXfmrMesh (ResultSet results, HashMap<String,Integer> map) {
 		if (results.hasNext()) {
 			QuerySolution soln = results.next();

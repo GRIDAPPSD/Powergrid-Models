@@ -385,5 +385,6 @@ public abstract class DistComponent {
 
  	public abstract String DisplayString();
  	public abstract String GetKey();
+	public abstract String GetJSONEntry();
 }
 

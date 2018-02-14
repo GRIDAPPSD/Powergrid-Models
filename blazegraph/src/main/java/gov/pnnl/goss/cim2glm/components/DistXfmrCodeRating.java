@@ -49,6 +49,15 @@ public class DistXfmrCodeRating extends DistComponent {
 
 	public boolean glmUsed;
 
+	public String GetJSONEntry () {
+		StringBuilder buf = new StringBuilder ();
+
+		buf.append ("{\"name\":\"" + pname +"\"");
+		buf.append (",\"mRID\":\"" + id +"\"");
+		buf.append ("}");
+		return buf.toString();
+	}
+
 	private void SetSize (int val) {
 		size = val;
 		wdg = new int[size];

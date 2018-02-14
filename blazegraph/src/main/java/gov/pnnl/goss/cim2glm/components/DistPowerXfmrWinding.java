@@ -56,6 +56,15 @@ public class DistPowerXfmrWinding extends DistComponent {
 	public double[] xg;
 	public int size;
 
+	public String GetJSONEntry () {
+		StringBuilder buf = new StringBuilder ();
+
+		buf.append ("{\"name\":\"" + name +"\"");
+		buf.append (",\"mRID\":\"" + id +"\"");
+		buf.append ("}");
+		return buf.toString();
+	}
+
 	private void SetSize (int val) {
 		size = val;
 		bus = new String[size];
