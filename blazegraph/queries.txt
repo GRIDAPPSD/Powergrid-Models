@@ -11,11 +11,11 @@ WHERE {
   ?s a ?class .
 }
 
-# filtering things by feeder ID
+# nominal voltages by feeder ID
 PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX c:  <http://iec.ch/TC57/2012/CIM-schema-cim17#>
 #CONSTRUCT {?s ?fdr ?o} WHERE {
-SELECT ?name WHERE {
+SELECT DISTINCT ?vnom WHERE {
 # ?fdr c:IdentifiedObject.mRID "_C1C3E687-6FFD-C753-582B-632A27E28507". # 123 bus
 # ?fdr c:IdentifiedObject.mRID "_49AD8E07-3BF9-A4E2-CB8F-C3722F837B62".  # 13 bus
 # ?fdr c:IdentifiedObject.mRID "_5B816B93-7A5F-B64C-8460-47C17D6E4B0F".  # 13 bus assets
@@ -23,13 +23,10 @@ SELECT ?name WHERE {
  ?fdr c:IdentifiedObject.mRID "_67AB291F-DCCD-31B7-B499-338206B9828F".  # J1
 # ?fdr c:IdentifiedObject.mRID "_9CE150A8-8CC5-A0F9-B67E-BBD8C79D3095".  # R2 12.47 3
  ?s c:ConnectivityNode.ConnectivityNodeContainer|c:Equipment.EquipmentContainer ?fdr.
- ?s c:ConductingEquipment.BaseVoltage ?o.
-# ?s ?p ?o .
- ?o c:IdentifiedObject.name ?name.
-# ?s r:type ?typeraw.
-#  bind(strafter(str(?typeraw),"#") as ?type)
+ ?s c:ConductingEquipment.BaseVoltage ?lev.
+ ?lev c:BaseVoltage.nominalVoltage ?vnom.
 }
-GROUP by ?name
+ORDER by ?vnom
 
 # list all the feeders, with substations and regions
 PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
@@ -183,8 +180,23 @@ SELECT ?name ?bus ?basev ?nomv ?vmag ?vang ?r1 ?x1 ?r0 ?x0 WHERE {
 # capacitors (does not account for 2+ unequal phases on same LinearShuntCompensator)
 PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX c:  <http://iec.ch/TC57/2012/CIM-schema-cim17#>
-SELECT ?name ?basev ?nomu ?bsection ?bus ?conn ?grnd ?phs ?ctrlenabled ?discrete ?mode ?deadband ?setpoint ?delay ?monclass ?moneq ?monbus ?monphs ?id WHERE {
+SELECT ?name ?basev ?nomu ?bsection ?bus ?conn ?grnd ?phs ?ctrlenabled ?discrete ?mode ?deadband ?setpoint ?delay ?monclass ?moneq ?monbus ?monphs ?id ?fdrid WHERE {
  ?s r:type c:LinearShuntCompensator.
+#
+# feeder selection begins
+#
+# ?fdr c:IdentifiedObject.mRID "_C1C3E687-6FFD-C753-582B-632A27E28507".  # 123 bus
+# ?fdr c:IdentifiedObject.mRID "_49AD8E07-3BF9-A4E2-CB8F-C3722F837B62".  # 13 bus
+# ?fdr c:IdentifiedObject.mRID "_5B816B93-7A5F-B64C-8460-47C17D6E4B0F".  # 13 bus assets
+# ?fdr c:IdentifiedObject.mRID "_4F76A5F9-271D-9EB8-5E31-AA362D86F2C3".  # 8500 node
+# ?fdr c:IdentifiedObject.mRID "_67AB291F-DCCD-31B7-B499-338206B9828F".  # J1
+# ?fdr c:IdentifiedObject.mRID "_9CE150A8-8CC5-A0F9-B67E-BBD8C79D3095".  # R2 12.47 3
+ ?fdr c:IdentifiedObject.mRID ?any.  # selects any feeder
+ ?s c:Equipment.EquipmentContainer ?fdr.
+ ?fdr c:IdentifiedObject.mRID ?fdrid. 
+#
+# feeder selection ends
+#
  ?s c:IdentifiedObject.name ?name.
  ?s c:ConductingEquipment.BaseVoltage ?bv.
  ?bv c:BaseVoltage.nominalVoltage ?basev.
@@ -214,7 +226,7 @@ SELECT ?name ?basev ?nomu ?bsection ?bus ?conn ?grnd ?phs ?ctrlenabled ?discrete
           ?trm c:Terminal.ConnectivityNode ?moncn.
           ?moncn c:IdentifiedObject.name ?monbus.
           }
- bind(strafter(str(?s),"#_") as ?id). 
+ ?s c:IdentifiedObject.mRID ?id. 
  ?t c:Terminal.ConductingEquipment ?s.
  ?t c:Terminal.ConnectivityNode ?cn. 
  ?cn c:IdentifiedObject.name ?bus
@@ -828,7 +840,7 @@ WHERE {
        bind(strafter(str(?phclassraw),"cim17#") as ?phclass)
      }
    }
-                             } ORDER BY ?name ?phs
+ } ORDER BY ?name ?phs
 }
 GROUP BY ?name ?basev ?len ?spacing ?wname ?wclass
 ORDER BY ?name
