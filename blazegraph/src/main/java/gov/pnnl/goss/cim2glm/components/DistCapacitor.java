@@ -210,6 +210,7 @@ public class DistCapacitor extends DistComponent {
 		buf.append (",\"kvar_C\":" + df1.format(kvar_C));
 		buf.append (",\"x1\":" + Double.toString(pt.x));
 		buf.append (",\"y1\":" + Double.toString(pt.y));
+		buf.append ("}");
 		return buf.toString();
 	}
 
