@@ -1414,13 +1414,15 @@ public class CIMImporter extends Object {
 	public static void main (String args[]) throws FileNotFoundException {
 		String fRoot = "";
 		double freq = 60.0, load_scale = 1.0;
-		boolean bWantSched = false, bWantZIP = false;
+		boolean bWantSched = false, bWantZIP = false, bSelectFeeder = false;
 		String fSched = "";
 		String fTarget = "dss";
+		String feeder_mRID = "";
 		double Zcoeff = 0.0, Icoeff = 0.0, Pcoeff = 0.0;
 		String blazegraphURI = "http://localhost:9999/blazegraph/namespace/kb/sparql";
 		if (args.length < 1) {
 			System.out.println ("Usage: java CIMImporter [options] output_root");
+			System.out.println ("       -s={mRID}          // select one feeder by CIM mRID; selects all feeders if not specified");
 			System.out.println ("       -o={glm|dss|idx}   // output format; defaults to glm");
 			System.out.println ("       -l={0..1}          // load scaling factor; defaults to 1");
 			System.out.println ("       -f={50|60}         // system frequency; defaults to 60");
@@ -1448,7 +1450,6 @@ public class CIMImporter extends Object {
 			System.out.println ("      It should be invoked from a separate OpenDSS file that sets up the solution and options.");
 			System.out.println ("   2) ieee8500_busxy.dss with node xy coordinates");
 			System.out.println ("   3) ieee8500_guid.dss with CIM mRID values for the components");
-			System.out.println ("TODO: implement argument for CIM EquipmentContainer selection");
 			System.exit (0);
 		}
 
@@ -1475,6 +1476,9 @@ public class CIMImporter extends Object {
 				} else if (opt == 'p') {
 					Pcoeff = Double.parseDouble(optVal);
 					bWantZIP = true;
+				} else if (opt == 's') {
+					feeder_mRID = optVal;
+					bSelectFeeder = true;
 				} else if (opt == 'u') {
 					blazegraphURI = optVal;
 				}
@@ -1494,7 +1498,12 @@ public class CIMImporter extends Object {
 		}
 		
 		try {
-			new CIMImporter().start(new HTTPBlazegraphQueryHandler(blazegraphURI), fTarget, fRoot, fSched, load_scale,
+			HTTPBlazegraphQueryHandler qh = new HTTPBlazegraphQueryHandler(blazegraphURI);
+			if (bSelectFeeder) {
+				qh.addFeederSelection (feeder_mRID);
+				System.out.println ("Selecting only feeder " + feeder_mRID);
+			}
+			new CIMImporter().start(qh, fTarget, fRoot, fSched, load_scale,
 															bWantSched, bWantZIP, Zcoeff, Icoeff, Pcoeff);
 		} catch (RuntimeException e) {
 			System.out.println ("Can not produce a model: " + e.getMessage());

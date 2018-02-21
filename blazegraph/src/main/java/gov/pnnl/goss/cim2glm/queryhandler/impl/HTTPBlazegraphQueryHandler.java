@@ -11,9 +11,12 @@ import gov.pnnl.goss.cim2glm.queryhandler.QueryHandler;
 
 public class HTTPBlazegraphQueryHandler implements QueryHandler {
 	String endpoint;
+	String mRID;
+	boolean use_mRID;
 	
 	public HTTPBlazegraphQueryHandler(String endpoint) {
 		this.endpoint = endpoint;
+		this.use_mRID = false;
 	}
 	public String getEndpoint() {
 		return endpoint;
@@ -30,5 +33,13 @@ public class HTTPBlazegraphQueryHandler implements QueryHandler {
 		QueryExecution qexec = QueryExecutionFactory.sparqlService (endpoint, query);
 		return qexec.execSelect();
 	}
-
+	public boolean addFeederSelection (String mRID) {
+		this.mRID = mRID;
+		use_mRID = true;
+		return use_mRID;
+	}
+	public boolean clearFeederSelections () {
+		use_mRID = false;
+		return use_mRID;
+	}
 }
