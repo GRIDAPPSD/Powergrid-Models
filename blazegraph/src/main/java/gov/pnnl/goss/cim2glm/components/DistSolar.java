@@ -24,7 +24,7 @@ public class DistSolar extends DistComponent {
 		"	OPTIONAL {?pecp c:PowerElectronicsConnectionPhase.PowerElectronicsConnection ?pec."+
 		"	?pecp c:PowerElectronicsConnectionPhase.phase ?phsraw."+
 		"		bind(strafter(str(?phsraw),\"SinglePhaseKind.\") as ?phs) }"+
-		" bind(strafter(str(?s),\"#_\") as ?id)."+
+		" bind(strafter(str(?s),\"#\") as ?id)."+
 		"	?t c:Terminal.ConductingEquipment ?pec."+
 		"	?t c:Terminal.ConnectivityNode ?cn."+ 
 		"	?cn c:IdentifiedObject.name ?bus"+

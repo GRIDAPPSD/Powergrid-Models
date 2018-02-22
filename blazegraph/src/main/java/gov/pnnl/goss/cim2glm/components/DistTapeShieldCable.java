@@ -22,7 +22,7 @@ public class DistTapeShieldCable extends DistCable {
 		"   ?phasset c:Asset.AssetInfo ?w.}"+
 		" ?w r:type c:TapeShieldCableInfo."+
 		" ?w c:IdentifiedObject.name ?name."+
-		" bind(strafter(str(?w),\"#_\") as ?id)."+
+		" bind(strafter(str(?w),\"#\") as ?id)."+
 		" ?w c:WireInfo.radius ?rad."+
 		" ?w c:WireInfo.gmr ?gmr."+
 		" OPTIONAL {?w c:WireInfo.rDC20 ?rdc.}"+

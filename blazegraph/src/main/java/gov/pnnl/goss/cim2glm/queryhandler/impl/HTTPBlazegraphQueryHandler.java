@@ -34,10 +34,12 @@ public class HTTPBlazegraphQueryHandler implements QueryHandler {
 			String insertion_point = "WHERE {";
 			int idx = szQuery.lastIndexOf (insertion_point);
 			if (idx >= 0) {
-				System.out.println (szQuery);
+//				System.out.println ("\n***");
+//				System.out.println (szQuery);
+//				System.out.println ("***");
 				StringBuilder buf = new StringBuilder (qPrefix + szQuery.substring (0, idx) + insertion_point + " VALUES ?fdrid {\"");
 				buf.append (mRID + "\"} " + szQuery.substring (idx + insertion_point.length()));
-				System.out.println ("Sending " + buf.toString());
+//				System.out.println ("Sending " + buf.toString());
 				query = QueryFactory.create (buf.toString());
 			} else {
 				query = QueryFactory.create (qPrefix + szQuery);

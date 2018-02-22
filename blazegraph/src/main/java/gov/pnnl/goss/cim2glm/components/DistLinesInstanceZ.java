@@ -14,7 +14,7 @@ public class DistLinesInstanceZ extends DistLineSegment {
 		" ?s c:Equipment.EquipmentContainer ?fdr."+
 		" ?fdr c:IdentifiedObject.mRID ?fdrid."+
 		" ?s c:IdentifiedObject.name ?name."+
-		" bind(strafter(str(?s),\"#_\") as ?id)."+
+		" bind(strafter(str(?s),\"#\") as ?id)."+
 		" ?s c:ConductingEquipment.BaseVoltage ?bv."+
 		" ?bv c:BaseVoltage.nominalVoltage ?basev."+
 		" ?s c:Conductor.length ?len."+

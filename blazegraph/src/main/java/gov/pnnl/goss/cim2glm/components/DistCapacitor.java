@@ -42,7 +42,7 @@ public class DistCapacitor extends DistComponent {
        " 	?trm c:Terminal.ConnectivityNode ?moncn."+
        " 	?moncn c:IdentifiedObject.name ?monbus."+
        "  }" +
-			 " bind(strafter(str(?s),\"#_\") as ?id)."+
+			 " bind(strafter(str(?s),\"#\") as ?id)."+
        " ?t c:Terminal.ConductingEquipment ?s."+
        " ?t c:Terminal.ConnectivityNode ?cn."+ 
        " ?cn c:IdentifiedObject.name ?bus" + 

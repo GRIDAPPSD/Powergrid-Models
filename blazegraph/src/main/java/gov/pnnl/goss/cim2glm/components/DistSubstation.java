@@ -24,7 +24,7 @@ public class DistSubstation extends DistComponent {
 		" ?s c:EnergySource.r0 ?r0." + 
 		" ?s c:EnergySource.x0 ?x0." + 
 		" ?t c:Terminal.ConductingEquipment ?s." +
-		" bind(strafter(str(?s),\"#_\") as ?id)."+
+		" bind(strafter(str(?s),\"#\") as ?id)."+
 		" ?t c:Terminal.ConnectivityNode ?cn." + 
 		" ?cn c:IdentifiedObject.name ?bus" +
 		"}";

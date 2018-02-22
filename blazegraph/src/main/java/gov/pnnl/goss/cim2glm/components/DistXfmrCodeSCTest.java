@@ -29,7 +29,8 @@ public class DistXfmrCodeSCTest extends DistComponent {
 		"} ORDER BY ?pname ?tname ?enum ?gnum";
 
 	public static final String szCountQUERY =
-		"SELECT DISTINCT ?key (count(?sct) as ?count) WHERE {"+
+		"SELECT ?key (count(?sct) as ?count) WHERE {"+
+		" SELECT DISTINCT ?key ?sct WHERE {"+
 		" ?fdr c:IdentifiedObject.mRID ?fdrid."+
 		" ?xft c:TransformerTank.PowerTransformer ?eq."+
 		" ?eq c:Equipment.EquipmentContainer ?fdr."+
@@ -41,7 +42,7 @@ public class DistXfmrCodeSCTest extends DistComponent {
 		" ?t c:IdentifiedObject.name ?key."+
 		" ?e c:TransformerEndInfo.TransformerTankInfo ?t."+
 		" ?sct c:ShortCircuitTest.EnergisedEnd ?e."+
-		"} GROUP BY ?key ORDER BY ?key";
+		"}} GROUP BY ?key ORDER BY ?key";
 
 	public String pname;
 	public String tname;

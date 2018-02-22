@@ -21,7 +21,7 @@ public class DistXfmrCodeRating extends DistComponent {
 		" ?e c:TransformerEndInfo.TransformerTankInfo ?t."+
 		" ?p c:IdentifiedObject.name ?pname."+
 		" ?t c:IdentifiedObject.name ?tname."+
-		" bind(strafter(str(?t),\"#_\") as ?id)."+
+		" bind(strafter(str(?t),\"#\") as ?id)."+
 		" ?e c:TransformerEndInfo.endNumber ?enum."+
 		" ?e c:TransformerEndInfo.ratedS ?ratedS."+
 		" ?e c:TransformerEndInfo.ratedU ?ratedU."+
@@ -32,7 +32,8 @@ public class DistXfmrCodeRating extends DistComponent {
 		"} ORDER BY ?pname ?tname ?enum";
 
 	public static final String szCountQUERY =
-		"SELECT DISTINCT ?key (count(?enum) as ?count) WHERE {"+
+		"SELECT ?key (count(?enum) as ?count) WHERE {"+
+		" SELECT DISTINCT ?key ?enum WHERE {"+
 		" ?fdr c:IdentifiedObject.mRID ?fdrid."+
 		" ?xft c:TransformerTank.PowerTransformer ?eq."+
 		" ?eq c:Equipment.EquipmentContainer ?fdr."+
@@ -44,7 +45,7 @@ public class DistXfmrCodeRating extends DistComponent {
 		" ?t c:IdentifiedObject.name ?key."+
 		" ?e c:TransformerEndInfo.TransformerTankInfo ?t."+
 		" ?e c:TransformerEndInfo.endNumber ?enum."+
-		"} GROUP BY ?key ORDER BY ?key";
+		"}} GROUP BY ?key ORDER BY ?key";
 
 	public String pname;
 	public String tname;

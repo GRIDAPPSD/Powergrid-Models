@@ -15,7 +15,7 @@ public class DistPowerXfmrWinding extends DistComponent {
 		" ?fdr c:IdentifiedObject.mRID ?fdrid."+
 		" ?p c:IdentifiedObject.name ?pname."+
 		" ?p c:PowerTransformer.vectorGroup ?vgrp."+
-		" bind(strafter(str(?p),\"#_\") as ?id)."+
+		" bind(strafter(str(?p),\"#\") as ?id)."+
 		" ?end c:PowerTransformerEnd.PowerTransformer ?p."+
 		" ?end c:TransformerEnd.endNumber ?enum."+
 		" ?end c:PowerTransformerEnd.ratedS ?ratedS."+

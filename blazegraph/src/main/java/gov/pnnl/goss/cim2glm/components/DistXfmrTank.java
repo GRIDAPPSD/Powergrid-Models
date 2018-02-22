@@ -30,7 +30,7 @@ public class DistXfmrTank extends DistComponent {
 		" ?end c:TransformerEnd.Terminal ?trm."+
 		" ?trm c:Terminal.ConnectivityNode ?cn."+ 
 		" ?cn c:IdentifiedObject.name ?bus."+
-		" bind(strafter(str(?t),\"#_\") as ?id)."+
+		" bind(strafter(str(?t),\"#\") as ?id)."+
 		" ?end c:TransformerEnd.BaseVoltage ?bv."+
 		" ?bv c:BaseVoltage.nominalVoltage ?basev"+
 		"}"+

@@ -20,7 +20,7 @@ public class DistSwitch extends DistComponent {
 		" ?t c:Terminal.ConductingEquipment ?s."+
 		" ?t c:Terminal.ConnectivityNode ?cn."+
 		" ?cn c:IdentifiedObject.name ?bus"+
-		" bind(strafter(str(?s),\"#_\") as ?id)."+
+		" bind(strafter(str(?s),\"#\") as ?id)."+
 		" OPTIONAL {?swp c:SwitchPhase.Switch ?s."+
 		" ?swp c:SwitchPhase.phaseSide1 ?phsraw."+
 		"   bind(strafter(str(?phsraw),\"SinglePhaseKind.\") as ?phs) }"+

@@ -21,7 +21,7 @@ public class DistLinesCodeZ extends DistLineSegment {
 		" ?t c:Terminal.ConductingEquipment ?s."+
 		" ?t c:Terminal.ConnectivityNode ?cn."+
 		" ?cn c:IdentifiedObject.name ?bus"+
-		" bind(strafter(str(?s),\"#_\") as ?id)."+
+		" bind(strafter(str(?s),\"#\") as ?id)."+
 		" OPTIONAL {?acp c:ACLineSegmentPhase.ACLineSegment ?s."+
 		" ?acp c:ACLineSegmentPhase.phase ?phsraw."+
 		"   bind(strafter(str(?phsraw),\"SinglePhaseKind.\") as ?phs) }"+

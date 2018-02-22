@@ -16,7 +16,7 @@ public class DistSequenceMatrix extends DistComponent {
 		" ?eq c:ACLineSegment.PerLengthImpedance ?s."+
 		" ?s r:type c:PerLengthSequenceImpedance."+
 		" ?s c:IdentifiedObject.name ?name."+
-		" bind(strafter(str(?s),\"#_\") as ?id)."+
+		" bind(strafter(str(?s),\"#\") as ?id)."+
 		" ?s c:PerLengthSequenceImpedance.r ?r1."+
 		" ?s c:PerLengthSequenceImpedance.x ?x1."+
 		" ?s c:PerLengthSequenceImpedance.bch ?b1."+

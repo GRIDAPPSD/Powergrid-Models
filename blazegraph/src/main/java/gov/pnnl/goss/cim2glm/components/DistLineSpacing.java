@@ -22,7 +22,7 @@ public class DistLineSpacing extends DistComponent {
 		" ?asset c:Asset.AssetInfo ?w."+
 		" ?w r:type c:WireSpacingInfo."+
 		" ?w c:IdentifiedObject.name ?name."+
-		" bind(strafter(str(?w),\"#_\") as ?id)."+
+		" bind(strafter(str(?w),\"#\") as ?id)."+
 		" ?pos c:WirePosition.WireSpacingInfo ?w."+
 		" ?pos c:WirePosition.xCoord ?x."+
 		" ?pos c:WirePosition.yCoord ?y."+

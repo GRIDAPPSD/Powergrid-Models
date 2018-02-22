@@ -15,7 +15,7 @@ public class DistRegulator extends DistComponent {
 		"SELECT ?rname ?pname ?tname ?wnum ?phs ?incr ?mode ?enabled ?highStep ?lowStep ?neutralStep"+
 		" ?normalStep ?neutralU ?step ?initDelay ?subDelay ?ltc ?vlim"+
 		" ?vset ?vbw ?ldc ?fwdR ?fwdX ?revR ?revX ?discrete ?ctl_enabled ?ctlmode"+
-		" ?monphs ?ctRating ?ctRatio ?ptRatio ?id ?fdrid"+
+		" ?monphs ?ctRating ?ctRatio ?ptRatio ?id ?fdrid ?pxfid"+
 		" WHERE {"+
 		" ?pxf c:Equipment.EquipmentContainer ?fdr."+
 		" ?fdr c:IdentifiedObject.mRID ?fdrid."+
@@ -28,6 +28,7 @@ public class DistRegulator extends DistComponent {
 		" ?end c:TransformerTankEnd.TransformerTank ?tank."+
 		" ?tank c:TransformerTank.PowerTransformer ?pxf."+
 		" ?pxf c:IdentifiedObject.name ?pname."+
+		" ?pxf c:IdentifiedObject.mRID ?pxfid."+
 		" ?tank c:IdentifiedObject.name ?tname."+
 		" ?rtc c:RatioTapChanger.stepVoltageIncrement ?incr."+
 		" ?rtc c:RatioTapChanger.tculControlMode ?moderaw."+
@@ -62,7 +63,7 @@ public class DistRegulator extends DistComponent {
 		" ?inf c:TapChangerInfo.ctRating ?ctRating."+
 		" ?inf c:TapChangerInfo.ctRatio ?ctRatio."+
 		" ?inf c:TapChangerInfo.ptRatio ?ptRatio."+
-		" bind(strafter(str(?rtc),\"#_\") as ?id)"+
+		" bind(strafter(str(?rtc),\"#\") as ?id)"+
 		"}"+
 		" ORDER BY ?pname ?rname ?tname ?wnum";
 
@@ -106,6 +107,8 @@ public class DistRegulator extends DistComponent {
 	public double[] ptRatio;
 
 	public int size;
+
+	private String pxfid;
 
 	private void AddJSONDoubleArray (StringBuilder buf, String tag, double[] vals) {
 		buf.append (",\"" + tag + "\":[");
@@ -205,11 +208,11 @@ public class DistRegulator extends DistComponent {
 		return buf.toString();
 	}
 
-	private void SetSize (String p, QueryHandler queryHandler) {
+	private void SetSize (QueryHandler queryHandler) {
 		size = 1;
 		String szCount = "SELECT (count (?tank) as ?count) WHERE {"+
 			" ?tank c:TransformerTank.PowerTransformer ?pxf."+
-			" ?pxf c:IdentifiedObject.name \"" + p + "\"."+
+			" ?pxf c:IdentifiedObject.mRID \"" + pxfid + "\"."+
 			"}";
 		ResultSet results = queryHandler.query (szCount);
 		if (results.hasNext()) {
@@ -254,7 +257,8 @@ public class DistRegulator extends DistComponent {
 		if (results.hasNext()) {
 			QuerySolution soln = results.next();
 			pname = SafeName (soln.get("?pname").toString());
-			SetSize (pname, queryHandler);
+			pxfid = soln.get("?pxfid").toString();
+			SetSize (queryHandler);
 			for (int i = 0; i < size; i++) {
 				id[i] = soln.get("?id").toString();
 				rname[i] = SafeName (soln.get("?rname").toString());

@@ -33,7 +33,7 @@ public class DistLoad extends DistComponent {
 	 	" OPTIONAL {?ecp c:EnergyConsumerPhase.EnergyConsumer ?s."+
 	 	" ?ecp c:EnergyConsumerPhase.phase ?phsraw."+
 	 	" 			bind(strafter(str(?phsraw),\"SinglePhaseKind.\") as ?phs) }"+
-	 	" bind(strafter(str(?s),\"#_\") as ?id)."+
+	 	" bind(strafter(str(?s),\"#\") as ?id)."+
 	 	" ?t c:Terminal.ConductingEquipment ?s."+
 	 	" ?t c:Terminal.ConnectivityNode ?cn."+
 	 	" ?cn c:IdentifiedObject.name ?bus"+

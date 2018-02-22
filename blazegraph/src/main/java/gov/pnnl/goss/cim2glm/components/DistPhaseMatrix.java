@@ -17,7 +17,7 @@ public class DistPhaseMatrix extends DistComponent {
 		" ?s r:type c:PerLengthPhaseImpedance."+
 		" ?s c:IdentifiedObject.name ?name."+
 		" ?s c:PerLengthPhaseImpedance.conductorCount ?cnt."+
-		" bind(strafter(str(?s),\"#_\") as ?id)."+
+		" bind(strafter(str(?s),\"#\") as ?id)."+
 		" ?elm c:PhaseImpedanceData.PhaseImpedance ?s."+
 		" ?elm c:PhaseImpedanceData.sequenceNumber ?seq."+
 		" ?elm c:PhaseImpedanceData.r ?r."+

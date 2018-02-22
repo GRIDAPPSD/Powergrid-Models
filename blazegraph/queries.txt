@@ -71,14 +71,16 @@ SELECT ?feeder ?fid ?station ?sid ?subregion ?sgrid ?region ?rgnid WHERE {
 }
 ORDER by ?station ?feeder
 
-# list all the connectivity nodes by feeder
+# list all the connectivity nodes by feeder - CIMImporter when building GldNodes
 PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX c:  <http://iec.ch/TC57/2012/CIM-schema-cim17#>
 SELECT ?feeder ?name WHERE {
+ VALUES ?fdrid {"_49AD8E07-3BF9-A4E2-CB8F-C3722F837B62"}  # 13 bus
+ ?fdr c:IdentifiedObject.mRID ?fdrid.
+ ?s c:ConnectivityNode.ConnectivityNodeContainer ?fdr.
  ?s r:type c:ConnectivityNode.
- ?s c:ConnectivityNode.ConnectivityNodeContainer ?fid.
  ?s c:IdentifiedObject.name ?name.
- ?fid c:IdentifiedObject.name ?feeder.
+ ?fdr c:IdentifiedObject.name ?feeder.
 }
 ORDER by ?feeder ?name
 
@@ -799,9 +801,14 @@ VALUES ?fdrid {"_49AD8E07-3BF9-A4E2-CB8F-C3722F837B62"}  # 13 bus
  ?fdr c:IdentifiedObject.mRID ?fdrid.
  ?eq c:Equipment.EquipmentContainer ?fdr.
  ?eq c:PowerSystemResource.Location ?loc.
- ?eq c:IdentifiedObject.name ?name.
- ?eq a ?classraw.
-  bind(strafter(str(?classraw),"cim17#") as ?class)
+{ ?eq c:IdentifiedObject.name ?name.
+  ?eq a ?classraw.
+  bind(strafter(str(?classraw),"cim17#") as ?class)}
+  UNION
+{ ?eq c:PowerElectronicsConnection.PowerElectronicsUnit ?unit.
+  ?unit c:IdentifiedObject.name ?name.
+  ?unit a ?classraw.
+  bind(strafter(str(?classraw),"cim17#") as ?class)}
  ?pt c:PositionPoint.Location ?loc.
  ?pt c:PositionPoint.xPosition ?x.
  ?pt c:PositionPoint.yPosition ?y.
