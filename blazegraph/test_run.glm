@@ -27,8 +27,11 @@ module tape;
 //#define VSOURCE=39837.2
 //#include "testJ1_base.glm";
 
-#define VSOURCE=57735.0
-#include "testR2_base.glm";
+//#define VSOURCE=57735.0
+//#include "testR2_base.glm";
+
+#define VSOURCE=132790.6
+#include "test37_base.glm";
 
 //#ifdef WANT_VI_DUMP
 object voltdump {

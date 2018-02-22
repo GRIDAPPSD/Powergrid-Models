@@ -46,3 +46,11 @@ set maxiterations=20
 set controlmode=off
 solve
 export summary testJ1.csv
+//
+clear
+cd /Users/mcde601/src/GRIDAPPSD/Powergrid-Models/blazegraph/
+redirect test37_base.dss
+set maxiterations=20
+set controlmode=off
+solve
+export summary test37.csv
