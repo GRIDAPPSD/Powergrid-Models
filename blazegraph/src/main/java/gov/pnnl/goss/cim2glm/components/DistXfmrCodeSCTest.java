@@ -9,7 +9,12 @@ import java.util.HashMap;
 
 public class DistXfmrCodeSCTest extends DistComponent {
 	public static final String szQUERY = 
-		"SELECT ?pname ?tname ?enum ?gnum ?z ?ll WHERE {"+
+		"SELECT DiSTINCT ?pname ?tname ?enum ?gnum ?z ?ll WHERE {"+
+		" ?fdr c:IdentifiedObject.mRID ?fdrid."+
+		" ?xft c:TransformerTank.PowerTransformer ?eq."+
+		" ?eq c:Equipment.EquipmentContainer ?fdr."+
+		" ?asset c:Asset.PowerSystemResources ?xft."+
+		" ?asset c:Asset.AssetInfo ?t."+
 		" ?p r:type c:PowerTransformerInfo."+
 		" ?p c:IdentifiedObject.name ?pname."+
 		" ?t c:TransformerTankInfo.PowerTransformerInfo ?p."+
@@ -24,7 +29,12 @@ public class DistXfmrCodeSCTest extends DistComponent {
 		"} ORDER BY ?pname ?tname ?enum ?gnum";
 
 	public static final String szCountQUERY =
-		"SELECT ?key (count(?sct) as ?count) WHERE {"+
+		"SELECT DISTINCT ?key (count(?sct) as ?count) WHERE {"+
+		" ?fdr c:IdentifiedObject.mRID ?fdrid."+
+		" ?xft c:TransformerTank.PowerTransformer ?eq."+
+		" ?eq c:Equipment.EquipmentContainer ?fdr."+
+		" ?asset c:Asset.PowerSystemResources ?xft."+
+		" ?asset c:Asset.AssetInfo ?t."+
 		" ?p r:type c:PowerTransformerInfo."+
 		" ?p c:IdentifiedObject.name ?pname."+
 		" ?t c:TransformerTankInfo.PowerTransformerInfo ?p."+

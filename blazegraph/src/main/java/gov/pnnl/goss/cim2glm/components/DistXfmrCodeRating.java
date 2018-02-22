@@ -10,7 +10,12 @@ import org.apache.commons.math3.complex.Complex;
 
 public class DistXfmrCodeRating extends DistComponent {
 	public static final String szQUERY = 
-		"SELECT ?pname ?tname ?enum ?ratedS ?ratedU ?conn ?ang ?res ?id WHERE {"+
+		"SELECT DISTINCT ?pname ?tname ?enum ?ratedS ?ratedU ?conn ?ang ?res ?id WHERE {"+
+		" ?fdr c:IdentifiedObject.mRID ?fdrid."+
+		" ?xft c:TransformerTank.PowerTransformer ?eq."+
+		" ?eq c:Equipment.EquipmentContainer ?fdr."+
+		" ?asset c:Asset.PowerSystemResources ?xft."+
+		" ?asset c:Asset.AssetInfo ?t."+
 		" ?p r:type c:PowerTransformerInfo."+
 		" ?t c:TransformerTankInfo.PowerTransformerInfo ?p."+
 		" ?e c:TransformerEndInfo.TransformerTankInfo ?t."+
@@ -27,7 +32,12 @@ public class DistXfmrCodeRating extends DistComponent {
 		"} ORDER BY ?pname ?tname ?enum";
 
 	public static final String szCountQUERY =
-		"SELECT ?key (count(?enum) as ?count) WHERE {"+
+		"SELECT DISTINCT ?key (count(?enum) as ?count) WHERE {"+
+		" ?fdr c:IdentifiedObject.mRID ?fdrid."+
+		" ?xft c:TransformerTank.PowerTransformer ?eq."+
+		" ?eq c:Equipment.EquipmentContainer ?fdr."+
+		" ?asset c:Asset.PowerSystemResources ?xft."+
+		" ?asset c:Asset.AssetInfo ?t."+
 		" ?p r:type c:PowerTransformerInfo."+
 		" ?p c:IdentifiedObject.name ?pname."+
 		" ?t c:TransformerTankInfo.PowerTransformerInfo ?p."+

@@ -8,9 +8,18 @@ import org.apache.jena.query.*;
 
 public class DistTapeShieldCable extends DistCable {
 	public static final String szQUERY = 
-		"SELECT ?name ?rad ?corerad ?gmr ?rdc ?r25 ?r50 ?r75 ?amps ?ins ?insmat"+
+		"SELECT DISTINCT ?name ?rad ?corerad ?gmr ?rdc ?r25 ?r50 ?r75 ?amps ?ins ?insmat"+
 		" ?insthick ?diacore ?diains ?diascreen ?diajacket ?sheathneutral"+
 		" ?tapelap ?tapethickness ?id WHERE {"+
+		" ?eq r:type c:ACLineSegment."+
+		" ?eq c:Equipment.EquipmentContainer ?fdr."+
+		" ?fdr c:IdentifiedObject.mRID ?fdrid."+
+		" { ?asset c:Asset.PowerSystemResources ?eq."+
+		"   ?asset c:Asset.AssetInfo ?w.}"+
+		" UNION"+
+		" { ?acp c:ACLineSegmentPhase.ACLineSegment ?eq."+
+		"   ?phasset c:Asset.PowerSystemResources ?acp."+
+		"   ?phasset c:Asset.AssetInfo ?w.}"+
 		" ?w r:type c:TapeShieldCableInfo."+
 		" ?w c:IdentifiedObject.name ?name."+
 		" bind(strafter(str(?w),\"#_\") as ?id)."+

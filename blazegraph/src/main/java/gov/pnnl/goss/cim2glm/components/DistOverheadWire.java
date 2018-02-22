@@ -8,7 +8,16 @@ import org.apache.jena.query.*;
 
 public class DistOverheadWire extends DistWire {
 	public static final String szQUERY =  
-		"SELECT ?name ?rad ?corerad ?gmr ?rdc ?r25 ?r50 ?r75 ?amps ?ins ?insmat ?insthick ?id WHERE {"+
+		"SELECT DISTINCT ?name ?rad ?corerad ?gmr ?rdc ?r25 ?r50 ?r75 ?amps ?ins ?insmat ?insthick ?id WHERE {"+
+		" ?eq r:type c:ACLineSegment."+
+		" ?eq c:Equipment.EquipmentContainer ?fdr."+
+		" ?fdr c:IdentifiedObject.mRID ?fdrid."+
+		" { ?asset c:Asset.PowerSystemResources ?eq."+
+		"   ?asset c:Asset.AssetInfo ?w.}"+
+		" UNION"+
+		" { ?acp c:ACLineSegmentPhase.ACLineSegment ?eq."+
+		"   ?phasset c:Asset.PowerSystemResources ?acp."+
+		"   ?phasset c:Asset.AssetInfo ?w.}"+
 		" ?w r:type c:OverheadWireInfo."+
 		" ?w c:IdentifiedObject.name ?name."+
 		" bind(strafter(str(?w),\"#_\") as ?id)."+

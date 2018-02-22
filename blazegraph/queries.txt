@@ -319,7 +319,7 @@ VALUES ?fdrid {"_C1C3E687-6FFD-C753-582B-632A27E28507"}  # 123 bus
 GROUP BY ?name ?bus ?basev ?p ?q ?conn ?pz ?qz ?pi ?qi ?pp ?qp ?pe ?qe ?fdrid
 ORDER by ?name
 
-# per-length phase impedance matrics actually used
+# per-length phase impedance matrics actually used - DistPhaseMatrix
 PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX c:  <http://iec.ch/TC57/2012/CIM-schema-cim17#>
 SELECT DISTINCT ?name ?cnt ?seq ?r ?x ?b WHERE {
@@ -345,7 +345,7 @@ SELECT DISTINCT ?name ?cnt ?seq ?r ?x ?b WHERE {
 }
 ORDER BY ?name ?seq
 
-# per-length sequence impedance matrices actually used
+# per-length sequence impedance matrices actually used - DistSequenceMatrix
 PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX c:  <http://iec.ch/TC57/2012/CIM-schema-cim17#>
 SELECT DISTINCT ?name ?r1 ?x1 ?b1 ?r0 ?x0 ?b0 ?fdrid WHERE {
@@ -426,7 +426,7 @@ VALUES ?fdrid {"_49AD8E07-3BF9-A4E2-CB8F-C3722F837B62"}  # 13 bus
 GROUP BY ?name ?basev ?open ?fdrid
 ORDER BY ?name
 
-# transformer codes; winding ratings actually used
+# transformer codes; winding ratings actually used - DistXfmrCodeRating
 PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX c:  <http://iec.ch/TC57/2012/CIM-schema-cim17#>
 SELECT DISTINCT ?pname ?tname ?enum ?ratedS ?ratedU ?conn ?ang ?res WHERE {
@@ -457,7 +457,7 @@ VALUES ?fdrid {"_4F76A5F9-271D-9EB8-5E31-AA362D86F2C3"}  # 8500 node
 }
 ORDER BY ?pname ?tname ?enum
 
-# transformer codes; count winding ratings actually used
+# transformer codes; count winding ratings actually used - DistXfmrCodeRating
 PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX c:  <http://iec.ch/TC57/2012/CIM-schema-cim17#>
 SELECT ?key (count(?enum) as ?count) WHERE {
@@ -485,7 +485,7 @@ VALUES ?fdrid {"_5B816B93-7A5F-B64C-8460-47C17D6E4B0F"}  # 13 bus assets
 GROUP BY ?key
 ORDER BY ?key
 
-# transformer codes; no-load tests actually used
+# transformer codes; no-load tests actually used - DistXfmrCodeOCTest
 PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX c:  <http://iec.ch/TC57/2012/CIM-schema-cim17#>
 SELECT DISTINCT ?pname ?tname ?nll ?iexc WHERE {
@@ -512,7 +512,7 @@ VALUES ?fdrid {"_9CE150A8-8CC5-A0F9-B67E-BBD8C79D3095"}  # R2 12.47 3
 }
 ORDER BY ?pname ?tname
 
-# transformer codes; short-circuit tests
+# transformer codes; short-circuit tests - DistXfmrCodeSCTest
 PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX c:  <http://iec.ch/TC57/2012/CIM-schema-cim17#>
 SELECT DISTINCT ?pname ?tname ?enum ?gnum ?z ?ll WHERE {
@@ -542,7 +542,7 @@ VALUES ?fdrid {"_9CE150A8-8CC5-A0F9-B67E-BBD8C79D3095"}  # R2 12.47 3
 }
 ORDER BY ?pname ?tname ?enum ?gnum
 
-# transformer codes; count short-circuit tests
+# transformer codes; count short-circuit tests - DistXfmrCodeSCTest
 PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX c:  <http://iec.ch/TC57/2012/CIM-schema-cim17#>
 SELECT ?key (count(?sct) as ?count) WHERE {
@@ -623,7 +623,7 @@ VALUES ?fdrid {"_5B816B93-7A5F-B64C-8460-47C17D6E4B0F"}  # 13 bus assets
 GROUP BY ?key
 ORDER BY ?key
 
-# power transformers on their own; windings
+# power transformers on their own; windings - DistPowerXfmrWinding
 PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX c:  <http://iec.ch/TC57/2012/CIM-schema-cim17#>
 SELECT ?pname ?vgrp ?enum ?bus ?basev ?conn ?ratedS ?ratedU ?r ?ang ?grounded ?rground ?xground ?fdrid WHERE {
@@ -658,7 +658,7 @@ SELECT ?pname ?vgrp ?enum ?bus ?basev ?conn ?ratedS ?ratedU ?r ?ang ?grounded ?r
 }
 ORDER BY ?pname ?enum
 
-# count power transformer windings
+# count power transformer windings - DistPowerXfmrWinding
 PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX c:  <http://iec.ch/TC57/2012/CIM-schema-cim17#>
 SELECT ?key (count(?p) as ?count) WHERE {
@@ -672,7 +672,7 @@ VALUES ?fdrid {"_67AB291F-DCCD-31B7-B499-338206B9828F"}  # J1
 GROUP BY ?key
 ORDER BY ?key
 
-# power transformers on their own; core branch
+# power transformers on their own; core branch - DistPowerXfmrCore
 PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX c:  <http://iec.ch/TC57/2012/CIM-schema-cim17#>
 SELECT ?pname ?enum ?b ?g WHERE {
@@ -689,7 +689,7 @@ VALUES ?fdrid {"_67AB291F-DCCD-31B7-B499-338206B9828F"}  # J1
 }
 ORDER BY ?pname
 
-# power transformers on their own; mesh impedances
+# power transformers on their own; mesh impedances - DistPowerXfmrMesh
 PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX c:  <http://iec.ch/TC57/2012/CIM-schema-cim17#>
 SELECT ?pname ?fnum ?tnum ?r ?x WHERE {
@@ -708,7 +708,7 @@ VALUES ?fdrid {"_67AB291F-DCCD-31B7-B499-338206B9828F"}  # J1
 }
 ORDER BY ?pname ?fnum ?tnum
 
-# count the number of transformer mesh impedances
+# count the number of transformer mesh impedances - DistPowerXfmrMesh
 PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX c:  <http://iec.ch/TC57/2012/CIM-schema-cim17#>
 SELECT ?key (count (?imp) as ?count) WHERE {
@@ -844,7 +844,7 @@ VALUES ?fdrid {"_C1C3E687-6FFD-C753-582B-632A27E28507"}  # 123 bus
 GROUP BY ?name ?basev ?len ?r ?x ?b ?r0 ?x0 ?b0 ?fdrid
 ORDER BY ?name
 
-# wiredata actually used
+# wiredata actually used - DistOverheadWire
 PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX c:  <http://iec.ch/TC57/2012/CIM-schema-cim17#>
 SELECT DISTINCT ?name ?rad ?corerad ?gmr ?rdc ?r25 ?r50 ?r75 ?amps ?ins ?insmat ?insthick WHERE {
@@ -881,7 +881,7 @@ VALUES ?fdrid {"_5B816B93-7A5F-B64C-8460-47C17D6E4B0F"}  # 13 bus assets
 }
 ORDER BY ?name
 
-# tape shield cables actually used
+# tape shield cables actually used - DistTapeShieldCable
 PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX c:  <http://iec.ch/TC57/2012/CIM-schema-cim17#>
 SELECT DISTINCT ?name ?rad ?corerad ?gmr ?rdc ?r25 ?r50 ?r75 ?amps ?ins ?insmat ?insthick ?diacore ?diains 
@@ -927,7 +927,7 @@ WHERE {
 }
 ORDER BY ?name
 
-# concentric neutrals actually used
+# concentric neutrals actually used - DistConcentricNeutralCable
 PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX c:  <http://iec.ch/TC57/2012/CIM-schema-cim17#>
 SELECT DISTINCT ?name ?rad ?corerad ?gmr ?rdc ?r25 ?r50 ?r75 ?amps ?ins ?insmat ?insthick ?diacore ?diains ?diascreen ?diajacket ?dianeut ?sheathneutral 
@@ -1010,7 +1010,7 @@ VALUES ?fdrid {"_5B816B93-7A5F-B64C-8460-47C17D6E4B0F"}  # 13 bus assets
 GROUP BY ?name ?cable ?usage ?bundle_count ?bundle_sep
 ORDER BY ?name
 
-# wire spacings with phs ordering before group_concat
+# wire spacings with phs ordering before group_concat - DistLineSpacing
 PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX c:  <http://iec.ch/TC57/2012/CIM-schema-cim17#>
 SELECT ?name 

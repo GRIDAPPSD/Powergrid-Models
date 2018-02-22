@@ -9,7 +9,11 @@ import org.apache.commons.math3.complex.Complex;
 
 public class DistSequenceMatrix extends DistComponent {
 	public static final String szQUERY = 
-		"SELECT ?name ?r1 ?x1 ?b1 ?r0 ?x0 ?b0 ?id WHERE {"+
+		"SELECT DISTINCT ?name ?r1 ?x1 ?b1 ?r0 ?x0 ?b0 ?id WHERE {"+
+		" ?eq r:type c:ACLineSegment."+
+		" ?eq c:Equipment.EquipmentContainer ?fdr."+
+		" ?fdr c:IdentifiedObject.mRID ?fdrid."+
+		" ?eq c:ACLineSegment.PerLengthImpedance ?s."+
 		" ?s r:type c:PerLengthSequenceImpedance."+
 		" ?s c:IdentifiedObject.name ?name."+
 		" bind(strafter(str(?s),\"#_\") as ?id)."+

@@ -9,7 +9,11 @@ import org.apache.commons.math3.complex.Complex;
 
 public class DistPhaseMatrix extends DistComponent {
 	public static final String szQUERY = 
-		"SELECT ?name ?cnt ?seq ?r ?x ?b ?id WHERE {"+
+		"SELECT DISTINCT ?name ?cnt ?seq ?r ?x ?b ?id WHERE {"+
+		" ?eq r:type c:ACLineSegment."+
+		" ?eq c:Equipment.EquipmentContainer ?fdr."+
+		" ?fdr c:IdentifiedObject.mRID ?fdrid."+
+		" ?eq c:ACLineSegment.PerLengthImpedance ?s."+
 		" ?s r:type c:PerLengthPhaseImpedance."+
 		" ?s c:IdentifiedObject.name ?name."+
 		" ?s c:PerLengthPhaseImpedance.conductorCount ?cnt."+

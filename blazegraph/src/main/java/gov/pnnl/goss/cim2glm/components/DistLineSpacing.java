@@ -13,8 +13,13 @@ public class DistLineSpacing extends DistComponent {
 		" (group_concat(?phs;separator=\"\\n\") as ?phases)"+
 		" (group_concat(?x;separator=\"\\n\") as ?xarray)"+
 		" (group_concat(?y;separator=\"\\n\") as ?yarray) WHERE {"+
-		" SELECT ?name ?cable ?usage ?bundle_count ?bundle_sep ?id ?phs ?x ?y"+
+		" SELECT DISTINCT ?name ?cable ?usage ?bundle_count ?bundle_sep ?id ?phs ?x ?y"+
 		" WHERE {"+
+		" ?eq r:type c:ACLineSegment."+
+		" ?eq c:Equipment.EquipmentContainer ?fdr."+
+		" ?fdr c:IdentifiedObject.mRID ?fdrid."+
+		" ?asset c:Asset.PowerSystemResources ?eq."+
+		" ?asset c:Asset.AssetInfo ?w."+
 		" ?w r:type c:WireSpacingInfo."+
 		" ?w c:IdentifiedObject.name ?name."+
 		" bind(strafter(str(?w),\"#_\") as ?id)."+

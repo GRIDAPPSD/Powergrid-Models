@@ -9,8 +9,10 @@ import java.util.HashMap;
 
 public class DistPowerXfmrWinding extends DistComponent {
 	public static final String szQUERY = 
-		"SELECT ?pname ?vgrp ?enum ?bus ?basev ?conn ?ratedS ?ratedU ?r ?ang ?grounded ?rground ?xground ?id WHERE {"+
+		"SELECT ?pname ?vgrp ?enum ?bus ?basev ?conn ?ratedS ?ratedU ?r ?ang ?grounded ?rground ?xground ?id ?fdrid WHERE {"+
 		" ?p r:type c:PowerTransformer."+
+		" ?p c:Equipment.EquipmentContainer ?fdr."+
+		" ?fdr c:IdentifiedObject.mRID ?fdrid."+
 		" ?p c:IdentifiedObject.name ?pname."+
 		" ?p c:PowerTransformer.vectorGroup ?vgrp."+
 		" bind(strafter(str(?p),\"#_\") as ?id)."+
@@ -36,6 +38,8 @@ public class DistPowerXfmrWinding extends DistComponent {
 	public static final String szCountQUERY =
 		"SELECT ?key (count(?p) as ?count) WHERE {"+
 		" ?p r:type c:PowerTransformer."+
+		" ?fdr c:IdentifiedObject.mRID ?fdrid."+
+		" ?p c:Equipment.EquipmentContainer ?fdr."+
 		" ?p c:IdentifiedObject.name ?key."+
 		" ?end c:PowerTransformerEnd.PowerTransformer ?p."+
 		"} GROUP BY ?key ORDER BY ?key";
