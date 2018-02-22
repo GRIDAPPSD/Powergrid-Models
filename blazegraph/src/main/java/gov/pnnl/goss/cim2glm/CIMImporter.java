@@ -1318,6 +1318,7 @@ public class CIMImporter extends Object {
 		} else if (fTarget.equals("dss")) {
 			LoadAllMaps();
 			CheckMaps();
+			PrintOneMap (mapBaseVoltages, "** BASE VOLTAGES");
 			fDict = fRoot + "_dict.json";
 			fOut = fRoot + "_base.dss";
 			fXY = fRoot + "_busxy.dss";

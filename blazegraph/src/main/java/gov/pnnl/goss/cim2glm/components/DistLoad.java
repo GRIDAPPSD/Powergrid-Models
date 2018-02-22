@@ -8,10 +8,12 @@ import org.apache.jena.query.*;
 
 public class DistLoad extends DistComponent {
 	public static final String szQUERY = 
-	 	"SELECT ?name ?bus ?basev ?p ?q ?conn ?pz ?qz ?pi ?qi ?pp ?qp ?pe ?qe ?id "+
+	 	"SELECT ?name ?bus ?basev ?p ?q ?conn ?pz ?qz ?pi ?qi ?pp ?qp ?pe ?qe ?id ?fdrid "+
 		"(group_concat(distinct ?phs;separator=\"\\n\") as ?phases) "+
 		"WHERE {"+
 	 	" ?s r:type c:EnergyConsumer."+
+		" ?s c:Equipment.EquipmentContainer ?fdr."+
+		" ?fdr c:IdentifiedObject.mRID ?fdrid."+
 	 	" ?s c:IdentifiedObject.name ?name."+
 	   " ?s c:ConductingEquipment.BaseVoltage ?bv."+
 	   " ?bv c:BaseVoltage.nominalVoltage ?basev."+
@@ -36,7 +38,7 @@ public class DistLoad extends DistComponent {
 	 	" ?t c:Terminal.ConnectivityNode ?cn."+
 	 	" ?cn c:IdentifiedObject.name ?bus"+
 	 	"} "+
-		"GROUP BY ?name ?bus ?basev ?p ?q ?conn ?pz ?qz ?pi ?qi ?pp ?qp ?pe ?qe ?id "+
+		"GROUP BY ?name ?bus ?basev ?p ?q ?conn ?pz ?qz ?pi ?qi ?pp ?qp ?pe ?qe ?id ?fdrid "+
 		"ORDER BY ?name";
 
 	public String id;

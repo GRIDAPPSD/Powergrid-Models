@@ -9,8 +9,10 @@ import org.apache.commons.math3.complex.Complex;
 
 public class DistLinesInstanceZ extends DistLineSegment {
 	public static final String szQUERY = 
-		"SELECT ?name ?id ?basev (group_concat(distinct ?bus;separator=\"\\n\") as ?buses) ?len ?r ?x ?b ?r0 ?x0 ?b0 WHERE {"+
+		"SELECT ?name ?id ?basev (group_concat(distinct ?bus;separator=\"\\n\") as ?buses) ?len ?r ?x ?b ?r0 ?x0 ?b0 ?fdrid WHERE {"+
 		" ?s r:type c:ACLineSegment."+
+		" ?s c:Equipment.EquipmentContainer ?fdr."+
+		" ?fdr c:IdentifiedObject.mRID ?fdrid."+
 		" ?s c:IdentifiedObject.name ?name."+
 		" bind(strafter(str(?s),\"#_\") as ?id)."+
 		" ?s c:ConductingEquipment.BaseVoltage ?bv."+
@@ -23,10 +25,10 @@ public class DistLinesInstanceZ extends DistLineSegment {
 		" OPTIONAL {?s c:ACLineSegment.x0 ?x0.}"+
 		" OPTIONAL {?s c:ACLineSegment.b0ch ?b0.}"+
 		" ?t c:Terminal.ConductingEquipment ?s."+
-		" ?t c:Terminal.ConnectivityNode ?cn. "+
+		" ?t c:Terminal.ConnectivityNode ?cn."+
 		" ?cn c:IdentifiedObject.name ?bus"+
 		"}"+
-		" GROUP BY ?name ?id ?basev ?len ?r ?x ?b ?r0 ?x0 ?b0"+
+		" GROUP BY ?name ?id ?basev ?len ?r ?x ?b ?r0 ?x0 ?b0 ?fdrid"+
 		" ORDER BY ?name";
 
 	public double r1; 

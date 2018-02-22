@@ -9,8 +9,10 @@ import java.util.HashMap;
 
 public class DistSwitch extends DistComponent {
 	public static final String szQUERY = 
-		"SELECT ?name ?id ?basev (group_concat(distinct ?bus;separator=\"\\n\") as ?buses) (group_concat(distinct ?phs;separator=\"\\n\") as ?phases) ?open WHERE {"+
+		"SELECT ?name ?id ?basev (group_concat(distinct ?bus;separator=\"\\n\") as ?buses) (group_concat(distinct ?phs;separator=\"\\n\") as ?phases) ?open ?fdrid WHERE {"+
 		" ?s r:type c:LoadBreakSwitch."+
+		" ?s c:Equipment.EquipmentContainer ?fdr."+
+		" ?fdr c:IdentifiedObject.mRID ?fdrid."+
 		" ?s c:IdentifiedObject.name ?name."+
 		" ?s c:ConductingEquipment.BaseVoltage ?bv."+
 		" ?bv c:BaseVoltage.nominalVoltage ?basev."+
@@ -23,7 +25,7 @@ public class DistSwitch extends DistComponent {
 		" ?swp c:SwitchPhase.phaseSide1 ?phsraw."+
 		"   bind(strafter(str(?phsraw),\"SinglePhaseKind.\") as ?phs) }"+
 		"}"+
-		" GROUP BY ?name ?basev ?open ?id"+
+		" GROUP BY ?name ?basev ?open ?id ?fdrid"+
 		" ORDER BY ?name";
 
 	public String id;

@@ -8,8 +8,10 @@ import org.apache.jena.query.*;
 
 public class DistLinesCodeZ extends DistLineSegment {
 	public static final String szQUERY =
-		"SELECT ?name ?id ?basev (group_concat(distinct ?bus;separator=\"\\n\") as ?buses) (group_concat(distinct ?phs;separator=\"\\n\") as ?phases) ?len ?lname WHERE {"+
+		"SELECT ?name ?id ?basev (group_concat(distinct ?bus;separator=\"\\n\") as ?buses) (group_concat(distinct ?phs;separator=\"\\n\") as ?phases) ?len ?lname ?fdrid WHERE {"+
 		" ?s r:type c:ACLineSegment."+
+		" ?s c:Equipment.EquipmentContainer ?fdr."+
+		" ?fdr c:IdentifiedObject.mRID ?fdrid."+
 		" ?s c:IdentifiedObject.name ?name."+
 		" ?s c:ConductingEquipment.BaseVoltage ?bv."+
 		" ?bv c:BaseVoltage.nominalVoltage ?basev."+
@@ -24,7 +26,7 @@ public class DistLinesCodeZ extends DistLineSegment {
 		" ?acp c:ACLineSegmentPhase.phase ?phsraw."+
 		"   bind(strafter(str(?phsraw),\"SinglePhaseKind.\") as ?phs) }"+
 		"}"+
-		" GROUP BY ?name ?id ?len ?lname ?basev"+
+		" GROUP BY ?name ?id ?len ?lname ?basev ?fdrid"+
 		" ORDER BY ?name";
 
 	public String lname;

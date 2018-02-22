@@ -15,8 +15,10 @@ public class DistRegulator extends DistComponent {
 		"SELECT ?rname ?pname ?tname ?wnum ?phs ?incr ?mode ?enabled ?highStep ?lowStep ?neutralStep"+
 		" ?normalStep ?neutralU ?step ?initDelay ?subDelay ?ltc ?vlim"+
 		" ?vset ?vbw ?ldc ?fwdR ?fwdX ?revR ?revX ?discrete ?ctl_enabled ?ctlmode"+
-		" ?monphs ?ctRating ?ctRatio ?ptRatio ?id"+
+		" ?monphs ?ctRating ?ctRatio ?ptRatio ?id ?fdrid"+
 		" WHERE {"+
+		" ?pxf c:Equipment.EquipmentContainer ?fdr."+
+		" ?fdr c:IdentifiedObject.mRID ?fdrid."+
 		" ?rtc r:type c:RatioTapChanger."+
 		" ?rtc c:IdentifiedObject.name ?rname."+
 		" ?rtc c:RatioTapChanger.TransformerEnd ?end."+

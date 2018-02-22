@@ -9,7 +9,9 @@ import java.util.HashMap;
 
 public class DistCapacitor extends DistComponent {
     public static final String szQUERY = "SELECT ?name ?basev ?nomu ?bsection ?bus ?conn ?grnd ?phs"+
-			 " ?ctrlenabled ?discrete ?mode ?deadband ?setpoint ?delay ?monclass ?moneq ?monbus ?monphs ?id WHERE {"+
+			 " ?ctrlenabled ?discrete ?mode ?deadband ?setpoint ?delay ?monclass ?moneq ?monbus ?monphs ?id ?fdrid WHERE {"+
+			 " ?s c:Equipment.EquipmentContainer ?fdr."+
+			 " ?fdr c:IdentifiedObject.mRID ?fdrid."+
        " ?s r:type c:LinearShuntCompensator."+
        " ?s c:IdentifiedObject.name ?name."+
 			 " ?s c:ConductingEquipment.BaseVoltage ?bv."+

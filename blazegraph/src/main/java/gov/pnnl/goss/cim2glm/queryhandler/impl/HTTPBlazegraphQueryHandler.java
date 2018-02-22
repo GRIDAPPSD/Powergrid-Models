@@ -29,7 +29,22 @@ public class HTTPBlazegraphQueryHandler implements QueryHandler {
 	@Override
 	public ResultSet query(String szQuery) { 
 		String qPrefix = "PREFIX r: <" + DistComponent.nsRDF + "> PREFIX c: <" + DistComponent.nsCIM + "> PREFIX xsd:<" + DistComponent.nsXSD + "> ";
-		Query query = QueryFactory.create (qPrefix + szQuery);
+		Query query;
+		if (use_mRID) { // try to insert a VALUES block for the feeder mRID of interest
+			String insertion_point = "WHERE {";
+			int idx = szQuery.lastIndexOf (insertion_point);
+			if (idx >= 0) {
+				System.out.println (szQuery);
+				StringBuilder buf = new StringBuilder (qPrefix + szQuery.substring (0, idx) + insertion_point + " VALUES ?fdrid {\"");
+				buf.append (mRID + "\"} " + szQuery.substring (idx + insertion_point.length()));
+				System.out.println ("Sending " + buf.toString());
+				query = QueryFactory.create (buf.toString());
+			} else {
+				query = QueryFactory.create (qPrefix + szQuery);
+			}
+		} else {
+			query = QueryFactory.create (qPrefix + szQuery);
+		}
 		QueryExecution qexec = QueryExecutionFactory.sparqlService (endpoint, query);
 		return qexec.execSelect();
 	}

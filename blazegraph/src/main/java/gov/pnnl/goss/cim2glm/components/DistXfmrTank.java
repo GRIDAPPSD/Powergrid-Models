@@ -9,8 +9,10 @@ import java.util.HashMap;
 
 public class DistXfmrTank extends DistComponent {
 	public static final String szQUERY =
-		"SELECT ?pname ?tname ?xfmrcode ?vgrp ?enum ?bus ?basev ?phs ?grounded ?rground ?xground ?id WHERE {"+
+		"SELECT ?pname ?tname ?xfmrcode ?vgrp ?enum ?bus ?basev ?phs ?grounded ?rground ?xground ?id ?fdrid WHERE {"+
 		" ?p r:type c:PowerTransformer."+
+		" ?p c:Equipment.EquipmentContainer ?fdr."+
+		" ?fdr c:IdentifiedObject.mRID ?fdrid."+
 		" ?p c:IdentifiedObject.name ?pname."+
 		" ?p c:PowerTransformer.vectorGroup ?vgrp."+
 		" ?t c:TransformerTank.PowerTransformer ?p."+
@@ -36,6 +38,8 @@ public class DistXfmrTank extends DistComponent {
 
 	public static final String szCountQUERY =
 		"SELECT ?key (count(?end) as ?count) WHERE {"+
+		" ?p c:Equipment.EquipmentContainer ?fdr."+
+		" ?fdr c:IdentifiedObject.mRID ?fdrid."+
 		" ?p r:type c:PowerTransformer."+
 		" ?p c:IdentifiedObject.name ?pname."+
 		" ?t c:TransformerTank.PowerTransformer ?p."+

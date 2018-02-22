@@ -13,9 +13,11 @@ public class DistLinesSpacingZ extends DistLineSegment {
 		"       ?len ?spacing ?wname ?wclass"+
 		"       (group_concat(distinct ?phname;separator=\"\\n\") as ?phwires)"+
 		"       (group_concat(distinct ?phclass;separator=\"\\n\") as ?phclasses) WHERE {"+
-		" SELECT ?name ?id ?basev ?bus ?phs ?len ?spacing ?wname ?wclass ?phname ?phclass"+
+		" SELECT ?name ?id ?basev ?bus ?phs ?len ?spacing ?wname ?wclass ?phname ?phclass ?fdrid"+
 		" WHERE {"+
 		" ?s r:type c:ACLineSegment."+
+		" ?s c:Equipment.EquipmentContainer ?fdr."+
+		" ?fdr c:IdentifiedObject.mRID ?fdrid."+
 		" ?s c:IdentifiedObject.name ?name."+
 		" bind(strafter(str(?s),\"#_\") as ?id)."+
 		" ?s c:ConductingEquipment.BaseVoltage ?bv."+
@@ -51,7 +53,7 @@ public class DistLinesSpacingZ extends DistLineSegment {
 		"       }"+
 		" } ORDER BY ?name ?phs"+
 		" }"+
-		" GROUP BY ?name ?id ?basev ?len ?spacing ?wname ?wclass"+
+		" GROUP BY ?name ?id ?basev ?len ?spacing ?wname ?wclass ?fdrid"+
 		" ORDER BY ?name";
 
 	public String spacing;

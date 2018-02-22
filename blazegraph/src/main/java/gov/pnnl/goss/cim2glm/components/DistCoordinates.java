@@ -9,6 +9,8 @@ import org.apache.jena.query.*;
 public class DistCoordinates extends DistComponent {
 	public static final String szQUERY =
 		"SELECT ?class ?name ?seq ?x ?y WHERE {"+
+		" ?eq c:Equipment.EquipmentContainer ?fdr."+
+		" ?fdr c:IdentifiedObject.mRID ?fdrid."+
 		" ?eq c:PowerSystemResource.Location ?loc."+
 		" ?eq c:IdentifiedObject.name ?name."+
 		" ?eq a ?classraw."+

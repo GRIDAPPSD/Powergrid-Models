@@ -9,11 +9,13 @@ import java.util.HashMap;
 
 public class DistStorage extends DistComponent {
 	public static final String szQUERY = 
-	 	"SELECT ?name ?bus ?ratedS ?ratedU ?ipu ?ratedE ?storedE ?state ?p ?q ?id (group_concat(distinct ?phs;separator=\"\\n\") as ?phases) "+
+	 	"SELECT ?name ?bus ?ratedS ?ratedU ?ipu ?ratedE ?storedE ?state ?p ?q ?id ?fdrid (group_concat(distinct ?phs;separator=\"\\n\") as ?phases) "+
 		"WHERE {"+
 	 	" ?s r:type c:BatteryUnit."+
 		"	?s c:IdentifiedObject.name ?name."+
 		"	?pec c:PowerElectronicsConnection.PowerElectronicsUnit ?s."+
+		" ?pec c:Equipment.EquipmentContainer ?fdr."+
+		" ?fdr c:IdentifiedObject.mRID ?fdrid."+
 		"	?pec c:PowerElectronicsConnection.ratedS ?ratedS."+
 		"	?pec c:PowerElectronicsConnection.ratedU ?ratedU."+
 		"	?pec c:PowerElectronicsConnection.p ?p."+
@@ -31,7 +33,7 @@ public class DistStorage extends DistComponent {
 		"	?t c:Terminal.ConnectivityNode ?cn."+ 
 		"	?cn c:IdentifiedObject.name ?bus"+
 	 	"} "+
-		"GROUP by ?name ?bus ?ratedS ?ratedU ?ipu ?ratedE ?storedE ?state ?p ?q ?id "+
+		"GROUP by ?name ?bus ?ratedS ?ratedU ?ipu ?ratedE ?storedE ?state ?p ?q ?id ?fdrid "+
 		"ORDER BY ?name";
 
 	public String id;
