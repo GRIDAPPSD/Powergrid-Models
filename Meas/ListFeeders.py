@@ -1,6 +1,5 @@
-from SPARQLWrapper import SPARQLWrapper, SPARQLWrapper2, JSON
+from SPARQLWrapper import SPARQLWrapper2, JSON
 
-#sparql = SPARQLWrapper("http://localhost:9999/blazegraph/namespace/kb/sparql")
 sparql = SPARQLWrapper2("http://localhost:9999/blazegraph/namespace/kb/sparql")
 
 sparql.setQuery("""
@@ -26,16 +25,6 @@ sparql.setQuery("""
 
 ret = sparql.query()
 print ('binding keys are:',ret.variables)
-#print (ret.bindings)
 for b in ret.bindings:
 	print (b['feeder'].value,b['fid'].value)
-
-#sparql.setReturnFormat(JSON)
-#results = sparql.query().convert()
-#print (results)
-#for result in results["results"]["bindings"]:
-#    print(result["feeder"]["value"],result["fid"]["value"],result["station"]["value"],
-#          result["subregion"]["value"],result["region"]["value"])
-
-
    
