@@ -11,6 +11,151 @@ WHERE {
   ?s a ?class .
 }
 
+# list all measurements, with buses and equipments
+PREFIX r: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX c: <http://iec.ch/TC57/2012/CIM-schema-cim17#>
+SELECT ?class ?type ?name ?bus ?phases ?eqtype ?eqname ?eqid ?trmid ?id WHERE {
+{ ?s r:type c:Discrete. bind ("Discrete" as ?class)}
+  UNION
+{ ?s r:type c:Analog. bind ("Analog" as ?class)}
+ ?s c:IdentifiedObject.name ?name .
+ ?s c:IdentifiedObject.mRID ?id .
+ ?s c:Measurement.PowerSystemResource ?eq .
+ ?s c:Measurement.Terminal ?trm .
+ ?s c:Measurement.measurementType ?type .
+ ?trm c:IdentifiedObject.mRID ?trmid.
+ ?eq c:IdentifiedObject.mRID ?eqid.
+ ?eq c:IdentifiedObject.name ?eqname.
+ ?eq r:type ?typeraw.
+  bind(strafter(str(?typeraw),"#") as ?eqtype)
+ ?trm c:Terminal.ConnectivityNode ?cn.
+ ?cn c:IdentifiedObject.name ?bus.
+ ?s c:Measurement.phases ?phsraw .
+   {bind(strafter(str(?phsraw),"PhaseCode.") as ?phases)}
+} ORDER BY ?class ?type ?name
+
+# insert a measurement
+PREFIX r: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX c: <http://iec.ch/TC57/2012/CIM-schema-cim17#>
+INSERT DATA {
+	<http://localhost:9999/blazegraph/namespace/kb/sparql#1> a c:Analog.
+  <http://localhost:9999/blazegraph/namespace/kb/sparql#1> c:IdentifiedObject.mRID "uuid".
+  <http://localhost:9999/blazegraph/namespace/kb/sparql#1> c:IdentifiedObject.name "name".
+  <http://localhost:9999/blazegraph/namespace/kb/sparql#1> c:Measurement.PowerSystemResource  <http://localhost:9999/blazegraph/namespace/kb/sparql#2>.
+  <http://localhost:9999/blazegraph/namespace/kb/sparql#1> c:Measurement.Terminal <http://localhost:9999/blazegraph/namespace/kb/sparql#3>.
+  <http://localhost:9999/blazegraph/namespace/kb/sparql#1> c:Measurement.phases "ABC" .
+  <http://localhost:9999/blazegraph/namespace/kb/sparql#1> c:Measurement.measurementType "PNV"
+}
+
+# list all measurements - not depending on valid model
+PREFIX r: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX c: <http://iec.ch/TC57/2012/CIM-schema-cim17#>
+SELECT ?name ?phases ?type ?eqid ?trmid ?id WHERE {
+  ?s r:type c:Analog .
+	?s c:IdentifiedObject.name ?name .
+	?s c:IdentifiedObject.mRID ?id .
+	?s c:Measurement.PowerSystemResource ?eqid .
+	?s c:Measurement.Terminal ?trmid .
+	?s c:Measurement.measurementType ?type .
+	?s c:Measurement.phases ?phases .
+}
+
+# list measurement points for PowerTransformer with tanks
+PREFIX r: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX c: <http://iec.ch/TC57/2012/CIM-schema-cim17#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+SELECT ?name ?wnum ?bus ?phs ?eqid ?trmid WHERE { 
+ VALUES ?fdrid {"_49AD8E07-3BF9-A4E2-CB8F-C3722F837B62"}
+ ?s c:Equipment.EquipmentContainer ?fdr.
+ ?fdr c:IdentifiedObject.mRID ?fdrid. 
+ ?s r:type c:PowerTransformer.
+ ?end c:TransformerTankEnd.TransformerTank ?tank.
+ ?tank c:TransformerTank.PowerTransformer ?s.
+ ?s c:IdentifiedObject.name ?name.
+ ?s c:IdentifiedObject.mRID ?eqid.
+ ?end c:TransformerEnd.Terminal ?trm.
+ ?end c:TransformerEnd.endNumber ?wnum.
+ ?trm c:IdentifiedObject.mRID ?trmid. 
+ ?trm c:Terminal.ConnectivityNode ?cn. 
+ ?cn c:IdentifiedObject.name ?bus.
+ OPTIONAL {?end c:TransformerTankEnd.phases ?phsraw.
+  bind(strafter(str(?phsraw),"PhaseCode.") as ?phs)}
+}
+ORDER BY ?name ?wnum ?phs
+
+# list measurement points for PowerTransformer with no tanks
+PREFIX r: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX c: <http://iec.ch/TC57/2012/CIM-schema-cim17#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+SELECT ?name ?wnum ?bus ?eqid ?trmid WHERE { 
+ VALUES ?fdrid {"_49AD8E07-3BF9-A4E2-CB8F-C3722F837B62"}
+ ?s c:Equipment.EquipmentContainer ?fdr.
+ ?fdr c:IdentifiedObject.mRID ?fdrid. 
+ ?s r:type c:PowerTransformer.
+ ?s c:IdentifiedObject.name ?name.
+ ?s c:IdentifiedObject.mRID ?eqid.
+ ?end c:PowerTransformerEnd.PowerTransformer ?s.
+ ?end c:TransformerEnd.Terminal ?trm.
+ ?end c:TransformerEnd.endNumber ?wnum.
+ ?trm c:IdentifiedObject.mRID ?trmid. 
+ ?trm c:Terminal.ConnectivityNode ?cn. 
+ ?cn c:IdentifiedObject.name ?bus.
+}
+ORDER BY ?name ?wnum
+
+# list measurement points for PowerElectronicsConnection with BatteryUnit in a selected feeder
+PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX c:  <http://iec.ch/TC57/2012/CIM-schema-cim17#>
+SELECT ?name ?uname ?bus (group_concat(distinct ?phs;separator="") as ?phases) ?id WHERE {
+  SELECT ?name ?uname ?bus ?phs ?id WHERE {
+ VALUES ?fdrid {"_49AD8E07-3BF9-A4E2-CB8F-C3722F837B62"}  # 13 bus
+ ?fdr c:IdentifiedObject.mRID ?fdrid.
+ ?s r:type c:PowerElectronicsConnection.
+ ?s c:Equipment.EquipmentContainer ?fdr.
+ ?s c:IdentifiedObject.name ?name.
+ ?s c:IdentifiedObject.mRID ?id.
+ ?peu r:type c:BatteryUnit.
+ ?peu c:IdentifiedObject.name ?uname.
+ ?s c:PowerElectronicsConnection.PowerElectronicsUnit ?peu.
+ ?t1 c:Terminal.ConductingEquipment ?s.
+ ?t1 c:ACDCTerminal.sequenceNumber "1".
+ ?t1 c:Terminal.ConnectivityNode ?cn1. 
+ ?cn1 c:IdentifiedObject.name ?bus.
+	OPTIONAL {?pep c:PowerElectronicsConnectionPhase.PowerElectronicsConnection ?s.
+ 	?pep c:PowerElectronicsConnectionPhase.phase ?phsraw.
+   	bind(strafter(str(?phsraw),"SinglePhaseKind.") as ?phs) }
+ } ORDER BY ?name ?phs
+}
+GROUP BY ?name ?uname ?bus ?id
+ORDER BY ?name
+
+# list measurement points for ACLineSegments in a selected feeder
+PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX c:  <http://iec.ch/TC57/2012/CIM-schema-cim17#>
+SELECT ?name ?bus1 ?bus2 (group_concat(distinct ?phs;separator="") as ?phases) ?id WHERE {
+  SELECT ?name ?bus1 ?bus2 ?phs ?id WHERE {
+ VALUES ?fdrid {"_49AD8E07-3BF9-A4E2-CB8F-C3722F837B62"}  # 13 bus
+ ?fdr c:IdentifiedObject.mRID ?fdrid.
+ ?s r:type c:ACLineSegment.
+ ?s c:Equipment.EquipmentContainer ?fdr.
+ ?s c:IdentifiedObject.name ?name.
+ ?s c:IdentifiedObject.mRID ?id.
+ ?t1 c:Terminal.ConductingEquipment ?s.
+ ?t1 c:ACDCTerminal.sequenceNumber "1".
+ ?t1 c:Terminal.ConnectivityNode ?cn1. 
+ ?cn1 c:IdentifiedObject.name ?bus1.
+ ?t2 c:Terminal.ConductingEquipment ?s.
+ ?t2 c:ACDCTerminal.sequenceNumber "2".
+ ?t2 c:Terminal.ConnectivityNode ?cn2. 
+ ?cn2 c:IdentifiedObject.name ?bus2
+	OPTIONAL {?acp c:ACLineSegmentPhase.ACLineSegment ?s.
+ 	?acp c:ACLineSegmentPhase.phase ?phsraw.
+   	bind(strafter(str(?phsraw),"SinglePhaseKind.") as ?phs) }
+ } ORDER BY ?name ?phs
+}
+GROUP BY ?name ?bus1 ?bus2 ?id
+ORDER BY ?name
+
 # list the base voltage levels - DistBaseVoltage
 PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX c:  <http://iec.ch/TC57/2012/CIM-schema-cim17#>
