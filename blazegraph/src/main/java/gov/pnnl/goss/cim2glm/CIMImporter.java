@@ -25,6 +25,7 @@ import gov.pnnl.goss.cim2glm.components.DistLinesCodeZ;
 import gov.pnnl.goss.cim2glm.components.DistLinesInstanceZ;
 import gov.pnnl.goss.cim2glm.components.DistLinesSpacingZ;
 import gov.pnnl.goss.cim2glm.components.DistLoad;
+import gov.pnnl.goss.cim2glm.components.DistMeasurement;
 import gov.pnnl.goss.cim2glm.components.DistOverheadWire;
 import gov.pnnl.goss.cim2glm.components.DistPhaseMatrix;
 import gov.pnnl.goss.cim2glm.components.DistPowerXfmrCore;
@@ -99,6 +100,7 @@ public class CIMImporter extends Object {
 	HashMap<String,DistXfmrCodeSCTest> mapCodeSCTests = new HashMap<>();
 	HashMap<String,DistXfmrTank> mapTanks = new HashMap<>();
 	HashMap<String,DistXfmrBank> mapBanks = new HashMap<>();
+	HashMap<String,DistMeasurement> mapMeasurements = new HashMap<>();
 	
 	boolean allMapsLoaded = false;
 
@@ -142,6 +144,14 @@ public class CIMImporter extends Object {
 		while (results.hasNext()) {
 			DistSolar obj = new DistSolar (results);
 			mapSolars.put (obj.GetKey(), obj);
+		}
+	}
+
+	void LoadMeasurements() {
+		ResultSet results = queryHandler.query (DistMeasurement.szQUERY);
+		while (results.hasNext()) {
+			DistMeasurement obj = new DistMeasurement (results);
+			mapMeasurements.put (obj.GetKey(), obj);
 		}
 	}
 
@@ -385,6 +395,7 @@ public class CIMImporter extends Object {
 		LoadLineSpacings();
 		LoadLinesSpacingZ();
 		LoadLoads();
+		LoadMeasurements();
 		LoadOverheadWires();
 		LoadPhaseMatrices();
 		LoadPowerXfmrCore();
@@ -450,7 +461,8 @@ public class CIMImporter extends Object {
 		WriteMapDictionary (mapRegulators, "regulators", false, out);
 		WriteMapDictionary (mapSolars, "solarpanels", false, out);
 		WriteMapDictionary (mapStorages, "batteries", false, out);
-		WriteMapDictionary (mapSwitches, "switches", true, out);
+		WriteMapDictionary (mapSwitches, "switches", false, out);
+		WriteMapDictionary (mapMeasurements, "measurements", true, out);
 		out.println("]}");
 		out.close();
 	}
