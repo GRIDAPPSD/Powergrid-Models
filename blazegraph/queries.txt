@@ -11,6 +11,28 @@ WHERE {
   ?s a ?class .
 }
 
+# delete all measurements
+PREFIX r: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX c: <http://iec.ch/TC57/2012/CIM-schema-cim17#>
+DELETE {
+ ?m a ?class.
+ ?m c:IdentifiedObject.mRID ?uuid.
+ ?m c:IdentifiedObject.name ?name.
+ ?m c:Measurement.PowerSystemResource ?psr.
+ ?m c:Measurement.Terminal ?trm.
+ ?m c:Measurement.phases ?phases.
+ ?m c:Measurement.measurementType ?type.
+} WHERE {
+ VALUES ?class {c:Analog c:Discrete}
+ ?m a ?class.
+ ?m c:IdentifiedObject.mRID ?uuid.
+ ?m c:IdentifiedObject.name ?name.
+ ?m c:Measurement.PowerSystemResource ?psr.
+ ?m c:Measurement.Terminal ?trm.
+ ?m c:Measurement.phases ?phases.
+ ?m c:Measurement.measurementType ?type.
+}
+
 # list all measurements, with buses and equipments
 PREFIX r: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX c: <http://iec.ch/TC57/2012/CIM-schema-cim17#>
