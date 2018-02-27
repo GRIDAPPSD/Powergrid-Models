@@ -65,6 +65,33 @@ for ln in lines:
 #		print (id1, 'Pos', phs, eqid, trmid)
 #		print (id2, 'A', phs, eqid, trmid)
 		InsertMeasurement ('Discrete', id1, 'RatioTapChanger_' + toks[2], eqid, trmid, 'Pos', phases)
+	if toks[0] == 'PowerTransformer' and toks[1] == 'PowerTransformerEnd':
+		what = toks[2]
+		phases = toks[6]
+		eqid = toks[7]
+		trmid = toks[8]
+		id1 = uuid.uuid4()
+		if 'v' in what:
+			InsertMeasurement ('Analog', id1, 'PowerTransformer_' + toks[3] + '_Voltage', eqid, trmid, 'PNV', phases)
+		elif 's' in what:
+			InsertMeasurement ('Analog', id1, 'PowerTransformer_' + toks[3] + '_Power', eqid, trmid, 'VA', phases)
+		elif 'i' in what:
+			InsertMeasurement ('Analog', id1, 'PowerTransformer_' + toks[3] + '_Current', eqid, trmid, 'A', phases)
+	if toks[0] == 'ACLineSegment' or toks[0] == 'LoadBreakSwitch':
+		what = toks[1]
+		phases = toks[5]
+		eqid = toks[6]
+		if '1' in what:
+			trmid = toks[7]
+		else:
+			trmid = toks[8]
+		id1 = uuid.uuid4()
+		if 'v' in what:
+			InsertMeasurement ('Analog', id1, toks[0] + '_' + toks[2] + '_Voltage', eqid, trmid, 'PNV', phases)
+		elif 's' in what:
+			InsertMeasurement ('Analog', id1, toks[0] + '_' + toks[2] + '_Power', eqid, trmid, 'VA', phases)
+		elif 'i' in what:
+			InsertMeasurement ('Analog', id1, toks[0] + '_' + toks[2] + '_Current', eqid, trmid, 'A', phases)
 
 
 fp.close()
