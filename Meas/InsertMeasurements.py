@@ -33,12 +33,12 @@ def InsertMeasurement (meascls, measid, eqname, eqid, trmid, meastype, phases):
 	ln5 = resource + ' c:Measurement.Terminal ' + terminal + '. '
 	ln6 = resource + ' c:Measurement.phases ' + cim17 + 'PhaseCode.' + phases + '>. '
 	ln7 = resource + ' c:Measurement.measurementType \"' + meastype + '\"'
-	qstr = prefix + 'INSERT DATA { ' + ln1 + ln2 + ln3 + ln4 +ln5 +ln6 +ln7 + '}'
+	qstr = prefix + 'INSERT DATA { ' + ln1 + ln2 + ln3 + ln4 + ln5 + ln6 + ln7 + '}'
 
-	print (qstr)
+#	print (qstr)
 	sparql.setQuery(qstr)
 	ret = sparql.query()
-	print (ret)
+#	print (ret)
 	return
 
 lines = fp.readlines()
@@ -51,9 +51,6 @@ for ln in lines:
 		id1 = uuid.uuid4()
 		id2 = uuid.uuid4()
 		id3 = uuid.uuid4()
-#		print (id1, 'PNV', phs, eqid, trmid)
-#		print (id2, 'VA', phs, eqid, trmid)
-#		print (id3, 'Pos', phs, eqid, trmid)
 		InsertMeasurement ('Analog', id1, 'LinearShuntCompensator_' + toks[1], eqid, trmid, 'PNV', phases)
 		InsertMeasurement ('Analog', id2, 'LinearShuntCompensator_' + toks[1], eqid, trmid, 'VA', phases)
 		InsertMeasurement ('Discrete', id3, 'LinearShuntCompensator_' + toks[1], eqid, trmid, 'Pos', phases)
@@ -62,8 +59,6 @@ for ln in lines:
 		eqid = toks[6]
 		trmid = toks[7]
 		id1 = uuid.uuid4()
-#		print (id1, 'Pos', phs, eqid, trmid)
-#		print (id2, 'A', phs, eqid, trmid)
 		InsertMeasurement ('Discrete', id1, 'RatioTapChanger_' + toks[2], eqid, trmid, 'Pos', phases)
 	if toks[0] == 'PowerTransformer' and toks[1] == 'PowerTransformerEnd':
 		what = toks[2]
