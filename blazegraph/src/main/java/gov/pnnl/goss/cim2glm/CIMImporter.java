@@ -481,69 +481,55 @@ public class CIMImporter extends Object {
 		out.close();
 	}
 
+	public void WriteMapSymbols (HashMap<String,? extends DistComponent> map, String label, boolean bLast, PrintWriter out) {
+		int count = 1, last = map.size();
+		out.println ("\"" + label + "\":[");
+
+		SortedSet<String> keys = new TreeSet<String>(map.keySet());
+		for (String key : keys) {
+			out.print (map.get(key).GetJSONSymbols (mapCoordinates, mapTanks));
+			if (count++ < last) {
+				out.println (",");
+			} else {
+				out.println ("");
+			}
+		}
+		if (bLast) {
+			out.println("]");
+		} else {
+			out.println("],");
+		}
+	}
+
 	public void WriteJSONSymbolFile (PrintWriter out)  {
 		
 		int count, last;
 
-		out.println("{\"feeder\":[");
-
-		out.println("{\"swing_nodes\":[");
-		count = 1;
-		last = mapSubstations.size();
-		for (HashMap.Entry<String,DistSubstation> pair : mapSubstations.entrySet()) {
-			out.print (pair.getValue().GetJSONSymbols(mapCoordinates));
-			if (count++ < last) {
-				out.println (",");
-			} else {
-				out.println ("");
+		out.println("{\"feeders\":[");
+		for (HashMap.Entry<String,DistFeeder> pair : mapFeeders.entrySet()) {
+			DistFeeder fdr = pair.getValue();
+			if (fdr.feederID.equals (queryHandler.getFeederSelection())) {
+				out.println("{\"name\":\"" + fdr.feederName + "\",");
+				out.println("\"mRID\":\"" + fdr.feederID + "\",");
+				out.println("\"substation\":\"" + fdr.substationName + "\",");
+				out.println("\"substationID\":\"" + fdr.substationID + "\",");
+				out.println("\"subregion\":\"" + fdr.subregionName + "\",");
+				out.println("\"subregionID\":\"" + fdr.subregionID + "\",");
+				out.println("\"region\":\"" + fdr.regionName + "\",");
+				out.println("\"regionID\":\"" + fdr.regionID + "\",");
 			}
 		}
-		out.println("]},");
 
-		out.println("{\"capacitors\":[");
-		count = 1;
-		last = mapCapacitors.size();
-		for (HashMap.Entry<String,DistCapacitor> pair : mapCapacitors.entrySet()) {
-			out.print (pair.getValue().GetJSONSymbols(mapCoordinates));
-			if (count++ < last) {
-				out.println (",");
-			} else {
-				out.println ("");
-			}
-		}
-		out.println("]},");
+		WriteMapSymbols (mapSubstations, "swing_nodes", false, out);
+		WriteMapSymbols (mapCapacitors, "capacitors", false, out);
+		WriteMapSymbols (mapSolars, "solarpanels", false, out);
+		WriteMapSymbols (mapStorages, "batteries", false, out);
 
-		out.println("{\"solarpanels\":[");
-		count = 1;
-		last = mapSolars.size();
-		for (HashMap.Entry<String,DistSolar> pair : mapSolars.entrySet()) {
-			out.print (pair.getValue().GetJSONSymbols(mapCoordinates));
-			if (count++ < last) {
-				out.println (",");
-			} else {
-				out.println ("");
-			}
-		}
-		out.println("]},");
-
-		out.println("{\"batteries\":[");
-		count = 1;
-		last = mapStorages.size();
-		for (HashMap.Entry<String,DistStorage> pair : mapStorages.entrySet()) {
-			out.print (pair.getValue().GetJSONSymbols(mapCoordinates));
-			if (count++ < last) {
-				out.println (",");
-			} else {
-				out.println ("");
-			}
-		}
-		out.println("]},");
-
-		out.println("{\"overhead_lines\":[");
+		out.println("\"overhead_lines\":[");
 		count = 1;
 		last = mapLinesCodeZ.size() + mapLinesInstanceZ.size() + mapLinesSpacingZ.size();
 		for (HashMap.Entry<String,DistLinesCodeZ> pair : mapLinesCodeZ.entrySet()) {
-			out.print (pair.getValue().GetJSONSymbols(mapCoordinates));
+			out.print (pair.getValue().GetJSONSymbols(mapCoordinates, mapTanks));
 			if (count++ < last) {
 				out.println (",");
 			} else {
@@ -551,7 +537,7 @@ public class CIMImporter extends Object {
 			}
 		}
 		for (HashMap.Entry<String,DistLinesInstanceZ> pair : mapLinesInstanceZ.entrySet()) {
-			out.print (pair.getValue().GetJSONSymbols(mapCoordinates));
+			out.print (pair.getValue().GetJSONSymbols(mapCoordinates, mapTanks));
 			if (count++ < last) {
 				out.println (",");
 			} else {
@@ -559,29 +545,18 @@ public class CIMImporter extends Object {
 			}
 		}
 		for (HashMap.Entry<String,DistLinesSpacingZ> pair : mapLinesSpacingZ.entrySet()) {
-			out.print (pair.getValue().GetJSONSymbols(mapCoordinates));
+			out.print (pair.getValue().GetJSONSymbols(mapCoordinates, mapTanks));
 			if (count++ < last) {
 				out.println (",");
 			} else {
 				out.println ("");
 			}
 		}
-		out.println("]},");
+		out.println("],");
 
-		out.println("{\"switches\":[");
-		count = 1;
-		last = mapSwitches.size();
-		for (HashMap.Entry<String,DistSwitch> pair : mapSwitches.entrySet()) {
-			out.print (pair.getValue().GetJSONSymbols(mapCoordinates));
-			if (count++ < last) {
-				out.println (",");
-			} else {
-				out.println ("");
-			}
-		}
-		out.println("]},");
+		WriteMapSymbols (mapSwitches, "switches", false, out);
 
-		out.println("{\"transformers\":[");
+		out.println("\"transformers\":[");
 		count = 1;
 		last =  mapXfmrWindings.size();
 		for (HashMap.Entry<String,DistXfmrTank> pair : mapTanks.entrySet()) {
@@ -590,7 +565,7 @@ public class CIMImporter extends Object {
 			}
 		}
 		for (HashMap.Entry<String,DistPowerXfmrWinding> pair : mapXfmrWindings.entrySet()) {
-			out.print (pair.getValue().GetJSONSymbols(mapCoordinates));
+			out.print (pair.getValue().GetJSONSymbols(mapCoordinates, mapTanks));
 			if (count++ < last) {
 				out.println (",");
 			} else {
@@ -600,7 +575,7 @@ public class CIMImporter extends Object {
 		for (HashMap.Entry<String,DistXfmrTank> pair : mapTanks.entrySet()) {
 			DistXfmrTank obj = pair.getValue();
 			if (obj.glmUsed) {
-				out.print(obj.GetJSONSymbols(mapCoordinates));
+				out.print(obj.GetJSONSymbols(mapCoordinates, mapTanks));
 				if (count++ < last) {
 					out.println (",");
 				} else {
@@ -608,22 +583,11 @@ public class CIMImporter extends Object {
 				}
 			}
 		}
-		out.println("]},");
+		out.println("],");
 
-		out.println("{\"regulators\":[");
-		count = 1;
-		last = mapRegulators.size();
-		for (HashMap.Entry<String,DistRegulator> pair : mapRegulators.entrySet()) {
-			out.print (pair.getValue().GetJSONSymbols(mapCoordinates, mapTanks));
-			if (count++ < last) {
-				out.println (",");
-			} else {
-				out.println ("");
-			}
-		}
-		out.println("]}");
+		WriteMapSymbols (mapRegulators, "regulators", true, out);
 
-		out.println("]}");
+		out.println("}]}");
 		out.close();
 	}
 
@@ -1365,7 +1329,9 @@ public class CIMImporter extends Object {
 			PrintWriter pID = new PrintWriter(fID);
 			WriteDSSFile (pOut, pID, fXY, fID, load_scale, bWantZIP, Zcoeff, Icoeff, Pcoeff);
 			PrintWriter pXY = new PrintWriter(fXY);
-			WriteDSSCoordinates (pXY);  // TODO - should also write the JSON symbol file
+			WriteDSSCoordinates (pXY);
+			PrintWriter pSym = new PrintWriter (fRoot + "_symbols.json");
+			WriteJSONSymbolFile (pSym);
 			PrintWriter pDict = new PrintWriter(fDict);
 			WriteDictionaryFile (pDict);
 		}	else if (fTarget.equals("idx")) {

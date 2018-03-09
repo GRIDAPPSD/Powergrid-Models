@@ -106,7 +106,7 @@ public class DistSwitch extends DistComponent {
 	public String GetKey() {
 		return name;
 	}
-	public String GetJSONSymbols(HashMap<String,DistCoordinates> map) {
+	public String GetJSONSymbols(HashMap<String,DistCoordinates> map, HashMap<String,DistXfmrTank> mapTank) {
 		DistCoordinates pt1 = map.get("LoadBreakSwitch:" + name + ":1");
 		DistCoordinates pt2 = map.get("LoadBreakSwitch:" + name + ":2");
 

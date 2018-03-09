@@ -79,7 +79,7 @@ public class DistSubstation extends DistComponent {
 		return buf.toString();
 	}
 
-	public String GetJSONSymbols(HashMap<String,DistCoordinates> map) {
+	public String GetJSONSymbols(HashMap<String,DistCoordinates> map, HashMap<String,DistXfmrTank> mapTank) {
 		DistCoordinates pt = map.get("EnergySource:" + name + ":1");
 
 		StringBuilder buf = new StringBuilder ();

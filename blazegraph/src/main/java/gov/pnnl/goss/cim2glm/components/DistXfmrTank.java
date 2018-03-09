@@ -119,7 +119,7 @@ public class DistXfmrTank extends DistComponent {
 		return buf.toString();
 	}
 
-	public String GetJSONSymbols(HashMap<String,DistCoordinates> map) {
+	public String GetJSONSymbols(HashMap<String,DistCoordinates> map, HashMap<String,DistXfmrTank> mapTank) {
 		DistCoordinates pt1 = map.get("PowerTransformer:" + pname + ":1");
 		DistCoordinates pt2 = map.get("PowerTransformer:" + pname + ":2");
 		String bus1 = bus[0];

@@ -8,6 +8,7 @@ import org.apache.jena.query.*;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.commons.math3.complex.Complex;
 import java.text.DecimalFormat;
+import java.util.HashMap;
 
 public abstract class DistComponent {
 	public static final String nsCIM = "http://iec.ch/TC57/2012/CIM-schema-cim17#";
@@ -386,5 +387,9 @@ public abstract class DistComponent {
  	public abstract String DisplayString();
  	public abstract String GetKey();
 	public abstract String GetJSONEntry();
+
+	public String GetJSONSymbols (HashMap<String,DistCoordinates> map, HashMap<String,DistXfmrTank> mapTank) {
+		return "";
+	}
 }
 
