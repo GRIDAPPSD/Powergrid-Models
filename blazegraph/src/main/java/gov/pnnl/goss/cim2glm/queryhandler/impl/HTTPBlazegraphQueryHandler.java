@@ -24,7 +24,9 @@ public class HTTPBlazegraphQueryHandler implements QueryHandler {
 	public void setEndpoint(String endpoint) {
 		this.endpoint = endpoint;
 	}
-
+	public String getFeederSelection () {
+		return mRID;
+	}
 
 	@Override
 	public ResultSet query(String szQuery) { 

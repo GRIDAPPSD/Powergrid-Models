@@ -413,6 +413,7 @@ public class CIMImporter extends Object {
 		LoadXfmrCodeSCTests();
 		LoadXfmrTanks();
 		LoadXfmrBanks();
+		LoadFeeders();
 		allMapsLoaded = true;
 
 	}
@@ -437,7 +438,7 @@ public class CIMImporter extends Object {
 
 	public void WriteMapDictionary (HashMap<String,? extends DistComponent> map, String label, boolean bLast, PrintWriter out) {
 		int count = 1, last = map.size();
-		out.println ("{\"" + label + "\":[");
+		out.println ("\"" + label + "\":[");
 
 		SortedSet<String> keys = new TreeSet<String>(map.keySet());
 		for (String key : keys) {
@@ -449,21 +450,34 @@ public class CIMImporter extends Object {
 			}
 		}
 		if (bLast) {
-			out.println("]}");
+			out.println("]");
 		} else {
-			out.println("]},");
+			out.println("],");
 		}
 	}
 
 	public void WriteDictionaryFile (PrintWriter out) {
-		out.println("{\"feeder\":[");
+		out.println("{\"feeders\":[");
+		for (HashMap.Entry<String,DistFeeder> pair : mapFeeders.entrySet()) {
+			DistFeeder fdr = pair.getValue();
+			if (fdr.feederID.equals (queryHandler.getFeederSelection())) {
+				out.println("{\"name\":\"" + fdr.feederName + "\",");
+				out.println("\"mRID\":\"" + fdr.feederID + "\",");
+				out.println("\"substation\":\"" + fdr.substationName + "\",");
+				out.println("\"substationID\":\"" + fdr.substationID + "\",");
+				out.println("\"subregion\":\"" + fdr.subregionName + "\",");
+				out.println("\"subregionID\":\"" + fdr.subregionID + "\",");
+				out.println("\"region\":\"" + fdr.regionName + "\",");
+				out.println("\"regionID\":\"" + fdr.regionID + "\",");
+			}
+		}
 		WriteMapDictionary (mapCapacitors, "capacitors", false, out);
 		WriteMapDictionary (mapRegulators, "regulators", false, out);
 		WriteMapDictionary (mapSolars, "solarpanels", false, out);
 		WriteMapDictionary (mapStorages, "batteries", false, out);
 		WriteMapDictionary (mapSwitches, "switches", false, out);
 		WriteMapDictionary (mapMeasurements, "measurements", true, out);
-		out.println("]}");
+		out.println("}]}");
 		out.close();
 	}
 
