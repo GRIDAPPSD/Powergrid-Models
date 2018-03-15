@@ -18,6 +18,7 @@ Through this process, you would remove lines from rawlist.txt, but don't add or 
 
 5) from a browser interface, the following SPARQL query lists the measurement instances, 78 of them, created in step 4:
 
+```
 # list all measurements, with buses and equipments
 PREFIX r: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX c: <http://iec.ch/TC57/2012/CIM-schema-cim17#>
@@ -40,9 +41,11 @@ SELECT ?class ?type ?name ?bus ?phases ?eqtype ?eqname ?eqid ?trmid ?id WHERE {
  ?s c:Measurement.phases ?phsraw .
    {bind(strafter(str(?phsraw),"PhaseCode.") as ?phases)}
 } ORDER BY ?class ?type ?name
+```
 
 6) If you need to re-do step 4, try this SPARQL query, but note that it doesn't select by feeder.  You can implement feeder selection by following other examples in ../blazegraph/queries.txt
 
+```
 # delete all measurements
 PREFIX r: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX c: <http://iec.ch/TC57/2012/CIM-schema-cim17#>
@@ -64,5 +67,6 @@ DELETE {
  ?m c:Measurement.phases ?phases.
  ?m c:Measurement.measurementType ?type.
 }
+```
 
 7) whenever you create a new feeder model, it will also create a JSON file that describes the sensors added in step 4
