@@ -1382,6 +1382,20 @@ public class CIMImporter extends Object {
 	 * 
 	 * @param queryHandler
 	 * @param out
+	 */
+	public void generateDictionaryFile(QueryHandler queryHandler, PrintWriter out){
+		this.queryHandler = queryHandler;
+		if(!allMapsLoaded){
+			LoadAllMaps();
+		}
+		CheckMaps();
+		WriteDictionaryFile(out);
+	}
+	
+	/**
+	 * 
+	 * @param queryHandler
+	 * @param out
 	 * @param outID
 	 * @param fXY
 	 * @param fID
@@ -1414,6 +1428,17 @@ public class CIMImporter extends Object {
 		CheckMaps();
 		
 		WriteDSSCoordinates(out);
+	}
+	
+	/**
+	 * 
+	 * @param queryHandler
+	 * @param out
+	 */
+	public void generateFeederIndexFile(QueryHandler queryHandler, PrintWriter out){
+		this.queryHandler = queryHandler;
+		
+		WriteIndexFile(out);
 	}
 	
 	public static void main (String args[]) throws FileNotFoundException {
