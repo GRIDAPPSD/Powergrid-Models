@@ -1,6 +1,34 @@
 from SPARQLWrapper import SPARQLWrapper2, JSON
 import sys
 
+def FlatPhases (phases):
+	if len(phases) < 1:
+		return ['A', 'B', 'C']
+	if 'ABC' in phases:
+		return ['A', 'B', 'C']
+	if 'AB' in phases:
+		return ['A', 'B']
+	if 'AC' in phases:
+		return ['A', 'C']
+	if 'BC' in phases:
+		return ['B', 'C']
+	if 'A' in phases:
+		return ['A']
+	if 'B' in phases:
+		return ['B']
+	if 'C' in phases:
+		return ['C']
+	if 's12' in phases:
+		return ['s12']
+	if 's1s2' in phases:
+		return ['s1', 's2']
+	if 's1' in phases:
+		return ['s1']
+	if 's2' in phases:
+		return ['s2']
+	return []
+
+
 if len(sys.argv) < 3:
 	print ('usage: python ListMeasureables.py feeder_mRID fname')
 	print (' (Blazegraph server must already be started, with feeder_mRID model data loaded)')
@@ -21,7 +49,7 @@ fidselect = """ VALUES ?fdrid {\"""" + sys.argv[1] + """\"}
 
 #################### capacitors
 
-qstr = prefix + """SELECT ?name ?bus ?phs ?eqid ?trmid WHERE {""" + fidselect + """
+qstr = prefix + """SELECT ?name ?bus ?phases ?eqid ?trmid WHERE {""" + fidselect + """
  ?s r:type c:LinearShuntCompensator.
  ?s c:IdentifiedObject.name ?name.
  ?s c:IdentifiedObject.mRID ?eqid. 
@@ -31,17 +59,19 @@ qstr = prefix + """SELECT ?name ?bus ?phs ?eqid ?trmid WHERE {""" + fidselect + 
  ?cn c:IdentifiedObject.name ?bus.
  OPTIONAL {?scp c:ShuntCompensatorPhase.ShuntCompensator ?s.
  ?scp c:ShuntCompensatorPhase.phase ?phsraw.
-   bind(strafter(str(?phsraw),\"SinglePhaseKind.\") as ?phs) } }
+   bind(strafter(str(?phsraw),\"SinglePhaseKind.\") as ?phases) } }
 """
 #print (qstr)
 sparql.setQuery(qstr)
 ret = sparql.query()
 #print ('\nLinearShuntCompensator binding keys are:',ret.variables)
 for b in ret.bindings:
-	phs = 'ABC'
-	if 'phs' in b: # was OPTIONAL in the query
-		phs = b['phs'].value
-	print ('LinearShuntCompensator',b['name'].value,b['bus'].value,phs,b['eqid'].value,b['trmid'].value,file=op)
+	if 'phases' in b: # was OPTIONAL in the query
+		phases = FlatPhases (b['phases'].value)
+	else:
+		phases = FlatPhases ('ABC')
+	for phs in phases:
+		print ('LinearShuntCompensator',b['name'].value,b['bus'].value,phs,b['eqid'].value,b['trmid'].value,file=op)
    
 #################### regulators
 
@@ -73,10 +103,9 @@ sparql.setQuery(qstr)
 ret = sparql.query()
 #print ('\nRatioTapChanger binding keys are:',ret.variables)
 for b in ret.bindings:
-	phs = b['phases'].value
-	if len(phs) < 1:
-		phs = 'ABC'
-	print ('PowerTransformer','RatioTapChanger',b['name'].value,b['wnum'].value,b['bus'].value,phs,b['eqid'].value,b['trmid'].value,file=op)
+	phases = FlatPhases (b['phases'].value)
+	for phs in phases:
+		print ('PowerTransformer','RatioTapChanger',b['name'].value,b['wnum'].value,b['bus'].value,phs,b['eqid'].value,b['trmid'].value,file=op)
 
 #################### switches
 
@@ -106,10 +135,9 @@ sparql.setQuery(qstr)
 ret = sparql.query()
 #print ('\nLoadBreakSwitch binding keys are:',ret.variables)
 for b in ret.bindings:
-	phs1 = b['phases1'].value
-	if len(phs1) < 1:
-		phs1 = 'ABC'
-	print ('LoadBreakSwitch',b['name'].value,b['bus1'].value,b['bus2'].value,phs1,b['eqid'].value,b['trm1id'].value,b['trm2id'].value,file=op)
+	phases1 = FlatPhases (b['phases1'].value)
+	for phs1 in phases1:
+		print ('LoadBreakSwitch','v1',b['name'].value,b['bus1'].value,b['bus2'].value,phs1,b['eqid'].value,b['trm1id'].value,b['trm2id'].value,file=op)
    
 ##################### ACLineSegments
    
@@ -139,10 +167,9 @@ sparql.setQuery(qstr)
 ret = sparql.query()
 #print ('\nACLineSegment binding keys are:',ret.variables)
 for b in ret.bindings:
-	phs = b['phases'].value
-	if len(phs) < 1:
-		phs = 'ABC'
-	print ('ACLineSegment',b['name'].value,b['bus1'].value,b['bus2'].value,phs,b['eqid'].value,b['trm1id'].value,b['trm2id'].value,file=op)
+	phases = FlatPhases (b['phases'].value)
+	for phs in phases:
+		print ('ACLineSegment','v1',b['name'].value,b['bus1'].value,b['bus2'].value,phs,b['eqid'].value,b['trm1id'].value,b['trm2id'].value,file=op)
    
 ####################### - EnergyConsumer
 
@@ -167,10 +194,9 @@ sparql.setQuery(qstr)
 ret = sparql.query()
 #print ('\nEnergyConsumer binding keys are:',ret.variables)
 for b in ret.bindings:
-	phs = b['phases'].value
-	if len(phs) < 1:
-		phs = 'ABC'
-	print ('EnergyConsumer',b['name'].value,b['bus'].value,phs,b['eqid'].value,b['trmid'].value,file=op)
+	phases = FlatPhases (b['phases'].value)
+	for phs in phases:
+		print ('EnergyConsumer',b['name'].value,b['bus'].value,phs,b['eqid'].value,b['trmid'].value,file=op)
 
 
 ####################### - Storage
@@ -199,10 +225,9 @@ sparql.setQuery(qstr)
 ret = sparql.query()
 #print ('\nPowerElectronicsConnection->BatteryUnit binding keys are:',ret.variables)
 for b in ret.bindings:
-	phs = b['phases'].value
-	if len(phs) < 1:
-		phs = 'ABC'
-	print ('PowerElectronicsConnection','BatteryUnit',b['name'].value,b['uname'].value,b['bus'].value,phs,b['eqid'].value,b['trmid'].value,file=op)
+	phases = FlatPhases (b['phases'].value)
+	for phs in phases:
+		print ('PowerElectronicsConnection','BatteryUnit',b['name'].value,b['uname'].value,b['bus'].value,phs,b['eqid'].value,b['trmid'].value,file=op)
 
 ####################### - Solar
 
@@ -230,10 +255,9 @@ sparql.setQuery(qstr)
 ret = sparql.query()
 #print ('\nPowerElectronicsConnection->PhotovoltaicUnit binding keys are:',ret.variables)
 for b in ret.bindings:
-	phs = b['phases'].value
-	if len(phs) < 1:
-		phs = 'ABC'
-	print ('PowerElectronicsConnection','PhotovoltaicUnit',b['name'].value,b['uname'].value,b['bus'].value,phs,b['eqid'].value,b['trmid'].value,file=op)
+	phases = FlatPhases (b['phases'].value)
+	for phs in phases:
+		print ('PowerElectronicsConnection','PhotovoltaicUnit',b['name'].value,b['uname'].value,b['bus'].value,phs,b['eqid'].value,b['trmid'].value,file=op)
 
 ####################### - PowerTransformer, no tanks
 
@@ -255,11 +279,12 @@ sparql.setQuery(qstr)
 ret = sparql.query()
 #print ('\nPowerTransformer (no-tank) binding keys are:',ret.variables,'plus phases=ABC')
 for b in ret.bindings:
-	print ('PowerTransformer','PowerTransformerEnd',b['name'].value,b['wnum'].value,b['bus'].value,'ABC',b['eqid'].value,b['trmid'].value,file=op)
+	for phs in 'ABC':
+		print ('PowerTransformer','PowerTransformerEnd','v1',b['name'].value,b['wnum'].value,b['bus'].value,phs,b['eqid'].value,b['trmid'].value,file=op)
 
 ####################### - PowerTransformer, with tanks
 
-qstr = prefix + """SELECT ?name ?wnum ?bus ?phs ?eqid ?trmid WHERE {""" + fidselect + """
+qstr = prefix + """SELECT ?name ?wnum ?bus ?phases ?eqid ?trmid WHERE {""" + fidselect + """
  ?s r:type c:PowerTransformer.
  ?s c:IdentifiedObject.name ?name.
  ?s c:IdentifiedObject.mRID ?eqid.
@@ -271,7 +296,7 @@ qstr = prefix + """SELECT ?name ?wnum ?bus ?phs ?eqid ?trmid WHERE {""" + fidsel
  ?trm c:Terminal.ConnectivityNode ?cn. 
  ?cn c:IdentifiedObject.name ?bus.
  OPTIONAL {?end c:TransformerTankEnd.phases ?phsraw.
-  bind(strafter(str(?phsraw),"PhaseCode.") as ?phs)}
+  bind(strafter(str(?phsraw),"PhaseCode.") as ?phases)}
 }
 ORDER BY ?name ?wnum ?phs
 """
@@ -280,7 +305,9 @@ sparql.setQuery(qstr)
 ret = sparql.query()
 #print ('\nPowerTransformer (with tank) binding keys are:',ret.variables)
 for b in ret.bindings:
-	print ('PowerTransformer','TransformerTankEnd',b['name'].value,b['wnum'].value,b['bus'].value,b['phs'].value,b['eqid'].value,b['trmid'].value,file=op)
+	phases = FlatPhases (b['phases'].value)
+	for phs in phases:
+		print ('PowerTransformer','TransformerTankEnd','v1',b['name'].value,b['wnum'].value,b['bus'].value,phs,b['eqid'].value,b['trmid'].value,file=op)
 
 
 op.close()

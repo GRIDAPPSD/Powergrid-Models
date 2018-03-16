@@ -60,6 +60,30 @@ for ln in lines:
 		trmid = toks[7]
 		id1 = uuid.uuid4()
 		InsertMeasurement ('Discrete', id1, 'RatioTapChanger_' + toks[2], eqid, trmid, 'Pos', phases)
+	if toks[0] == 'EnergyConsumer':
+		phases = toks[3]
+		eqid = toks[4]
+		trmid = toks[5]
+		id1 = uuid.uuid4()
+		id2 = uuid.uuid4()
+		InsertMeasurement ('Analog', id1, 'EnergyConsumer_' + toks[1], eqid, trmid, 'PNV', phases)
+		InsertMeasurement ('Analog', id2, 'EnergyConsumer_' + toks[1], eqid, trmid, 'VA', phases)
+	if toks[0] == 'PowerElectronicsConnection' and toks[1] == 'PhotovoltaicUnit':
+		phases = toks[5]
+		eqid = toks[6]
+		trmid = toks[7]
+		id1 = uuid.uuid4()
+		id2 = uuid.uuid4()
+		InsertMeasurement ('Analog', id1, 'PowerElectronicsConnection_PhotovoltaicUnit_' + toks[3], eqid, trmid, 'PNV', phases)
+		InsertMeasurement ('Analog', id2, 'PowerElectronicsConnection_PhotovoltaicUnit_' + toks[3], eqid, trmid, 'VA', phases)
+	if toks[0] == 'PowerElectronicsConnection' and toks[1] == 'BatteryUnit':
+		phases = toks[5]
+		eqid = toks[6]
+		trmid = toks[7]
+		id1 = uuid.uuid4()
+		id2 = uuid.uuid4()
+		InsertMeasurement ('Analog', id1, 'PowerElectronicsConnection_BatteryUnit_' + toks[3], eqid, trmid, 'PNV', phases)
+		InsertMeasurement ('Analog', id2, 'PowerElectronicsConnection_BatteryUnit_' + toks[3], eqid, trmid, 'VA', phases)
 	if toks[0] == 'PowerTransformer' and toks[1] == 'PowerTransformerEnd':
 		what = toks[2]
 		phases = toks[6]
