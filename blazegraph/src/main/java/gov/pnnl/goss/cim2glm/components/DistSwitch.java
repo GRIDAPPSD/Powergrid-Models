@@ -7,16 +7,20 @@ package gov.pnnl.goss.cim2glm.components;
 import org.apache.jena.query.*;
 import java.util.HashMap;
 
-public class DistSwitch extends DistComponent {
-	public static final String szQUERY = 
-		"SELECT ?name ?id ?basev (group_concat(distinct ?bus;separator=\"\\n\") as ?buses) (group_concat(distinct ?phs;separator=\"\\n\") as ?phases) ?open ?fdrid WHERE {"+
-		" ?s r:type c:LoadBreakSwitch."+
+public abstract class DistSwitch extends DistComponent {
+
+	protected static final String szSELECT = 
+		"SELECT ?name ?id ?basev ?rated ?breaking (group_concat(distinct ?bus;separator=\"\\n\") as ?buses) (group_concat(distinct ?phs;separator=\"\\n\") as ?phases) ?open ?fdrid WHERE {";
+
+	protected static final String szWHERE = 
 		" ?s c:Equipment.EquipmentContainer ?fdr."+
 		" ?fdr c:IdentifiedObject.mRID ?fdrid."+
 		" ?s c:IdentifiedObject.name ?name."+
 		" ?s c:ConductingEquipment.BaseVoltage ?bv."+
 		" ?bv c:BaseVoltage.nominalVoltage ?basev."+
 		" ?s c:Switch.normalOpen ?open."+
+		" ?s c:Switch.ratedCurrent ?rated."+
+		" OPTIONAL {?s c:ProtectedSwitch.breakingCapacity ?breaking.}"+
 		" ?t c:Terminal.ConductingEquipment ?s."+
 		" ?t c:Terminal.ConnectivityNode ?cn."+
 		" ?cn c:IdentifiedObject.name ?bus"+
@@ -25,7 +29,7 @@ public class DistSwitch extends DistComponent {
 		" ?swp c:SwitchPhase.phaseSide1 ?phsraw."+
 		"   bind(strafter(str(?phsraw),\"SinglePhaseKind.\") as ?phs) }"+
 		"}"+
-		" GROUP BY ?name ?basev ?open ?id ?fdrid"+
+		" GROUP BY ?name ?basev ?rated ?breaking ?open ?id ?fdrid"+
 		" ORDER BY ?name";
 
 	public String id;
@@ -35,8 +39,12 @@ public class DistSwitch extends DistComponent {
 	public String phases;
 	public boolean open;
 	public double basev;
+	public double rated;
+	public double breaking;
 
 	public String glm_phases;
+
+	public abstract String CIMClass();
 
 	public String GetJSONEntry () {
 		StringBuilder buf = new StringBuilder ();
@@ -46,7 +54,8 @@ public class DistSwitch extends DistComponent {
 		buf.append (",\"CN1\":\"" + bus1 + "\"");
 		buf.append (",\"CN2\":\"" + bus2 + "\"");
 		buf.append (",\"phases\":\"" + phases + "\"");
-		buf.append (",\"nominalVoltage\":" + df1.format(basev));
+		buf.append (",\"ratedCurrent\":" + df1.format(rated));
+		buf.append (",\"breakingCapacity\":" + df1.format(breaking));
 		if (open) {
 			buf.append (",\"normalOpen\":true");
 		} else {
@@ -62,6 +71,8 @@ public class DistSwitch extends DistComponent {
 			name = SafeName (soln.get("?name").toString());
 			id = soln.get("?id").toString();
 			basev = Double.parseDouble (soln.get("?basev").toString());
+			rated = Double.parseDouble (soln.get("?rated").toString());
+			breaking = Double.parseDouble (soln.get("?breaking").toString());
 			String[] buses = soln.get("?buses").toString().split("\\n");
 			bus1 = SafeName(buses[0]); 
 			bus2 = SafeName(buses[1]); 
@@ -83,7 +94,8 @@ public class DistSwitch extends DistComponent {
 
 	public String DisplayString() {
 		StringBuilder buf = new StringBuilder ("");
-		buf.append (name + " from " + bus1 + " to " + bus2 + " basev=" + df2.format(basev) + " phases=" + glm_phases + " open=" + Boolean.toString (open));
+		buf.append (name + " from " + bus1 + " to " + bus2 + " basev=" + df2.format(basev) + " rated=" + df1.format(rated) +
+								" breaking=" + df1.format(breaking) +	" phases=" + glm_phases + " open=" + Boolean.toString (open));
 		return buf.toString();
 	}
 
@@ -106,9 +118,10 @@ public class DistSwitch extends DistComponent {
 	public String GetKey() {
 		return name;
 	}
+
 	public String GetJSONSymbols(HashMap<String,DistCoordinates> map, HashMap<String,DistXfmrTank> mapTank) {
-		DistCoordinates pt1 = map.get("LoadBreakSwitch:" + name + ":1");
-		DistCoordinates pt2 = map.get("LoadBreakSwitch:" + name + ":2");
+		DistCoordinates pt1 = map.get(CIMClass() + ":" + name + ":1");
+		DistCoordinates pt2 = map.get(CIMClass() + ":" + name + ":2");
 
 		StringBuilder buf = new StringBuilder ();
 
@@ -125,12 +138,12 @@ public class DistSwitch extends DistComponent {
 		return buf.toString();
 	}
 
-	public String GetDSS() {
+	public String GetDSS () {
 		StringBuilder buf = new StringBuilder ("new Line." + name);
 
 		buf.append (" phases=" + Integer.toString(DSSPhaseCount(phases, false)) + 
 								" bus1=" + DSSBusPhases(bus1, phases) + " bus2=" + DSSBusPhases (bus2, phases) + 
-								" switch=y // CIM LoadBreakSwitch\n");
+								" switch=y // CIM " + CIMClass() + "\n");
 		if (open) {
 			buf.append ("  open Line." + name + " 1\n");
 		} else {

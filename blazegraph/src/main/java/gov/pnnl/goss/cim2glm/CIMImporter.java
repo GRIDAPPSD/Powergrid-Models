@@ -18,13 +18,16 @@ import gov.pnnl.goss.cim2glm.components.DistCapacitor;
 import gov.pnnl.goss.cim2glm.components.DistComponent;
 import gov.pnnl.goss.cim2glm.components.DistConcentricNeutralCable;
 import gov.pnnl.goss.cim2glm.components.DistCoordinates;
+import gov.pnnl.goss.cim2glm.components.DistDisconnector;
 import gov.pnnl.goss.cim2glm.components.DistFeeder;
+import gov.pnnl.goss.cim2glm.components.DistFuse;
 import gov.pnnl.goss.cim2glm.components.DistLineSegment;
 import gov.pnnl.goss.cim2glm.components.DistLineSpacing;
 import gov.pnnl.goss.cim2glm.components.DistLinesCodeZ;
 import gov.pnnl.goss.cim2glm.components.DistLinesInstanceZ;
 import gov.pnnl.goss.cim2glm.components.DistLinesSpacingZ;
 import gov.pnnl.goss.cim2glm.components.DistLoad;
+import gov.pnnl.goss.cim2glm.components.DistLoadBreakSwitch;
 import gov.pnnl.goss.cim2glm.components.DistMeasurement;
 import gov.pnnl.goss.cim2glm.components.DistOverheadWire;
 import gov.pnnl.goss.cim2glm.components.DistPhaseMatrix;
@@ -36,7 +39,6 @@ import gov.pnnl.goss.cim2glm.components.DistSequenceMatrix;
 import gov.pnnl.goss.cim2glm.components.DistSolar;
 import gov.pnnl.goss.cim2glm.components.DistStorage;
 import gov.pnnl.goss.cim2glm.components.DistSubstation;
-import gov.pnnl.goss.cim2glm.components.DistSwitch;
 import gov.pnnl.goss.cim2glm.components.DistTapeShieldCable;
 import gov.pnnl.goss.cim2glm.components.DistXfmrBank;
 import gov.pnnl.goss.cim2glm.components.DistXfmrCodeOCTest;
@@ -77,12 +79,15 @@ public class CIMImporter extends Object {
 	HashMap<String,DistCapacitor> mapCapacitors = new HashMap<>();
 	HashMap<String,DistConcentricNeutralCable> mapCNCables = new HashMap<>();
 	HashMap<String,DistCoordinates> mapCoordinates = new HashMap<>();
+	HashMap<String,DistDisconnector> mapDisconnectors = new HashMap<>();
 	HashMap<String,DistFeeder> mapFeeders = new HashMap<>();
+	HashMap<String,DistFuse> mapFuses = new HashMap<>();
 	HashMap<String,DistLinesCodeZ> mapLinesCodeZ = new HashMap<>();
 	HashMap<String,DistLinesInstanceZ> mapLinesInstanceZ = new HashMap<>();
 	HashMap<String,DistLineSpacing> mapSpacings = new HashMap<>();
 	HashMap<String,DistLinesSpacingZ> mapLinesSpacingZ = new HashMap<>();
 	HashMap<String,DistLoad> mapLoads = new HashMap<>();
+	HashMap<String,DistLoadBreakSwitch> mapLoadBreakSwitches = new HashMap<>();
 	HashMap<String,DistOverheadWire> mapWires = new HashMap<>();
 	HashMap<String,DistPhaseMatrix> mapPhaseMatrices = new HashMap<>();
 	HashMap<String,DistPowerXfmrCore> mapXfmrCores = new HashMap<>();
@@ -93,7 +98,6 @@ public class CIMImporter extends Object {
 	HashMap<String,DistSolar> mapSolars = new HashMap<>();
 	HashMap<String,DistStorage> mapStorages = new HashMap<>();
 	HashMap<String,DistSubstation> mapSubstations = new HashMap<>();
-	HashMap<String,DistSwitch> mapSwitches = new HashMap<>();
 	HashMap<String,DistTapeShieldCable> mapTSCables = new HashMap<>();
 	HashMap<String,DistXfmrCodeOCTest> mapCodeOCTests = new HashMap<>();
 	HashMap<String,DistXfmrCodeRating> mapCodeRatings = new HashMap<>();
@@ -267,11 +271,27 @@ public class CIMImporter extends Object {
 		}
 	}
 
-	void LoadSwitches() {
-		ResultSet results = queryHandler.query (DistSwitch.szQUERY);
+	void LoadLoadBreakSwitches() {
+		ResultSet results = queryHandler.query (DistLoadBreakSwitch.szQUERY);
 		while (results.hasNext()) {
-			DistSwitch obj = new DistSwitch (results);
-			mapSwitches.put (obj.GetKey(), obj);
+			DistLoadBreakSwitch obj = new DistLoadBreakSwitch (results);
+			mapLoadBreakSwitches.put (obj.GetKey(), obj);
+		}
+	}
+
+	void LoadFuses() {
+		ResultSet results = queryHandler.query (DistFuse.szQUERY);
+		while (results.hasNext()) {
+			DistFuse obj = new DistFuse (results);
+			mapFuses.put (obj.GetKey(), obj);
+		}
+	}
+
+	void LoadDisconnectors() {
+		ResultSet results = queryHandler.query (DistDisconnector.szQUERY);
+		while (results.hasNext()) {
+			DistDisconnector obj = new DistDisconnector (results);
+			mapDisconnectors.put (obj.GetKey(), obj);
 		}
 	}
 
@@ -364,6 +384,9 @@ public class CIMImporter extends Object {
 		PrintOneMap (mapLinesInstanceZ, "** LINES WITH IMPEDANCE ATTRIBUTES");
 		PrintOneMap (mapSpacings, "** LINE SPACINGS");
 		PrintOneMap (mapLinesSpacingZ, "** LINES REFERENCING SPACINGS");
+		PrintOneMap (mapLoadBreakSwitches, "** LOADBREAK SWITCHES");
+		PrintOneMap (mapFuses, "** FUSES");
+		PrintOneMap (mapDisconnectors, "** DISCONNECTORS");
 		PrintOneMap (mapLoads, "** LOADS");
 		PrintOneMap (mapWires, "** OVERHEAD WIRES");
 		PrintOneMap (mapPhaseMatrices, "** PHASE IMPEDANCE MATRICES");
@@ -375,7 +398,6 @@ public class CIMImporter extends Object {
 		PrintOneMap (mapSolars, "** SOLAR PV SOURCES");
 		PrintOneMap (mapStorages, "** STORAGE SOURCES");
 		PrintOneMap (mapSubstations, "** SUBSTATION SOURCES");
-		PrintOneMap (mapSwitches, "** LOADBREAK SWITCHES");
 		PrintOneMap (mapTSCables, "** TS CABLES");
 		PrintOneMap (mapCodeOCTests, "** XFMR CODE OC TESTS");
 		PrintOneMap (mapCodeRatings, "** XFMR CODE WINDING RATINGS");
@@ -390,10 +412,13 @@ public class CIMImporter extends Object {
 		LoadCapacitors();
 		LoadConcentricNeutralCables();
 		LoadCoordinates();
+		LoadDisconnectors();
+		LoadFuses();
 		LoadLinesCodeZ();
 		LoadLinesInstanceZ();
 		LoadLineSpacings();
 		LoadLinesSpacingZ();
+		LoadLoadBreakSwitches();
 		LoadLoads();
 		LoadMeasurements();
 		LoadOverheadWires();
@@ -406,7 +431,6 @@ public class CIMImporter extends Object {
 		LoadSolars();
 		LoadStorages();
 		LoadSubstations();
-		LoadSwitches();
 		LoadTapeShieldCables();
 		LoadXfmrCodeOCTests();
 		LoadXfmrCodeRatings();
@@ -424,8 +448,8 @@ public class CIMImporter extends Object {
 		if (mapSubstations.size() < 1) {
 			throw new RuntimeException ("no substation source");
 		}
-		nLinks = mapSwitches.size() + mapLinesCodeZ.size() + mapLinesSpacingZ.size() + mapLinesInstanceZ.size() +
-			mapXfmrWindings.size() + mapTanks.size(); // standalone regulators not allowed in CIM
+		nLinks = mapLoadBreakSwitches.size() + mapLinesCodeZ.size() + mapLinesSpacingZ.size() + mapLinesInstanceZ.size() +
+			mapXfmrWindings.size() + mapTanks.size() + mapFuses.size() + mapDisconnectors.size(); // standalone regulators not allowed in CIM
 		if (nLinks < 1) {
 			throw new RuntimeException ("no lines, transformers or switches");
 		}
@@ -475,7 +499,9 @@ public class CIMImporter extends Object {
 		WriteMapDictionary (mapRegulators, "regulators", false, out);
 		WriteMapDictionary (mapSolars, "solarpanels", false, out);
 		WriteMapDictionary (mapStorages, "batteries", false, out);
-		WriteMapDictionary (mapSwitches, "switches", false, out);
+		WriteMapDictionary (mapLoadBreakSwitches, "switches", false, out);
+		WriteMapDictionary (mapFuses, "fuses", false, out);
+		WriteMapDictionary (mapDisconnectors, "disconnectors", false, out);
 		WriteMapDictionary (mapMeasurements, "measurements", true, out);
 		out.println("}]}");
 		out.close();
@@ -554,7 +580,9 @@ public class CIMImporter extends Object {
 		}
 		out.println("],");
 
-		WriteMapSymbols (mapSwitches, "switches", false, out);
+		WriteMapSymbols (mapLoadBreakSwitches, "switches", false, out);
+		WriteMapSymbols (mapFuses, "fuses", false, out);
+		WriteMapSymbols (mapDisconnectors, "disconnectors", false, out);
 
 		out.println("\"transformers\":[");
 		count = 1;
@@ -809,8 +837,8 @@ public class CIMImporter extends Object {
 			nd2.nomvln = nd1.nomvln;
 			nd2.AddPhases (obj.phases);
 		}
-		for (HashMap.Entry<String,DistSwitch> pair : mapSwitches.entrySet()) {
-			DistSwitch obj = pair.getValue();
+		for (HashMap.Entry<String,DistLoadBreakSwitch> pair : mapLoadBreakSwitches.entrySet()) {  // TODO - polymorphic mapSwitches
+			DistLoadBreakSwitch obj = pair.getValue();
 			GldNode nd1 = mapNodes.get (obj.bus1);
 			GldNode nd2 = mapNodes.get (obj.bus2);
 			if (obj.glm_phases.equals("S")) {  // TODO - we should be using a graph component like networkx (but for Java) to assign phasing
@@ -938,8 +966,8 @@ public class CIMImporter extends Object {
 		for (HashMap.Entry<String,DistLinesInstanceZ> pair : mapLinesInstanceZ.entrySet()) {
 			out.print (pair.getValue().GetGLM());
 		}
-		for (HashMap.Entry<String,DistSwitch> pair : mapSwitches.entrySet()) {
-			DistSwitch obj = pair.getValue();
+		for (HashMap.Entry<String,DistLoadBreakSwitch> pair : mapLoadBreakSwitches.entrySet()) { // TODO - polymorphic mapSwitches
+			DistLoadBreakSwitch obj = pair.getValue();
 			if (obj.glm_phases.contains ("S")) { // need to parent the nodes instead of writing a switch - TODO: this is hard-wired to PNNL taxonomy
 				GldNode nd1 = mapNodes.get (obj.bus1);
 				GldNode nd2 = mapNodes.get (obj.bus2);
@@ -1049,10 +1077,22 @@ public class CIMImporter extends Object {
 			pt2 = mapCoordinates.get("ACLineSegment:" + obj.name + ":2");
 			setSegXY.add(new DSSSegmentXY (obj.bus1, pt1.x, pt1.y, obj.bus2, pt2.x, pt2.y));
 		}
-		for (HashMap.Entry<String,DistSwitch> pair : mapSwitches.entrySet()) {
-			DistSwitch obj = pair.getValue();
+		for (HashMap.Entry<String,DistLoadBreakSwitch> pair : mapLoadBreakSwitches.entrySet()) {
+			DistLoadBreakSwitch obj = pair.getValue();
 			pt1 = mapCoordinates.get("LoadBreakSwitch:" + obj.name + ":1");
 			pt2 = mapCoordinates.get("LoadBreakSwitch:" + obj.name + ":2");
+			setSegXY.add(new DSSSegmentXY (obj.bus1, pt1.x, pt1.y, obj.bus2, pt2.x, pt2.y));
+		}
+		for (HashMap.Entry<String,DistFuse> pair : mapFuses.entrySet()) { // TODO - polymorphic switch maps
+			DistFuse obj = pair.getValue();
+			pt1 = mapCoordinates.get("Fuse:" + obj.name + ":1");
+			pt2 = mapCoordinates.get("Fuse:" + obj.name + ":2");
+			setSegXY.add(new DSSSegmentXY (obj.bus1, pt1.x, pt1.y, obj.bus2, pt2.x, pt2.y));
+		}
+		for (HashMap.Entry<String,DistDisconnector> pair : mapDisconnectors.entrySet()) { // TODO - polymorphic switch maps
+			DistDisconnector obj = pair.getValue();
+			pt1 = mapCoordinates.get("Disconnector:" + obj.name + ":1");
+			pt2 = mapCoordinates.get("Disconnector:" + obj.name + ":2");
 			setSegXY.add(new DSSSegmentXY (obj.bus1, pt1.x, pt1.y, obj.bus2, pt2.x, pt2.y));
 		}
 
@@ -1201,7 +1241,17 @@ public class CIMImporter extends Object {
 			outID.println ("Load." + pair.getValue().name + "\t" + GUIDfromCIMmRID (pair.getValue().id));
 		}
 		out.println();
-		for (HashMap.Entry<String,DistSwitch> pair : mapSwitches.entrySet()) {
+		for (HashMap.Entry<String,DistLoadBreakSwitch> pair : mapLoadBreakSwitches.entrySet()) {
+			out.print (pair.getValue().GetDSS());
+			outID.println ("Line." + pair.getValue().name + "\t" + GUIDfromCIMmRID (pair.getValue().id));
+		}
+		out.println();
+		for (HashMap.Entry<String,DistFuse> pair : mapFuses.entrySet()) {
+			out.print (pair.getValue().GetDSS());
+			outID.println ("Line." + pair.getValue().name + "\t" + GUIDfromCIMmRID (pair.getValue().id));
+		}
+		out.println();
+		for (HashMap.Entry<String,DistDisconnector> pair : mapDisconnectors.entrySet()) { // TODO - polymorphic mapSwitches
 			out.print (pair.getValue().GetDSS());
 			outID.println ("Line." + pair.getValue().name + "\t" + GUIDfromCIMmRID (pair.getValue().id));
 		}
