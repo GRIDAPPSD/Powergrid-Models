@@ -1510,7 +1510,7 @@ public class CIMImporter extends Object {
 			System.out.println ("       -z={0..1}          // constant Z portion (defaults to 0 for CIM-defined LoadResponseCharacteristic)");
 			System.out.println ("       -i={0..1}          // constant I portion (defaults to 0 for CIM-defined LoadResponseCharacteristic)");
 			System.out.println ("       -p={0..1}          // constant P portion (defaults to 0 for CIM-defined LoadResponseCharacteristic)");
-			System.out.println ("       -u={http://localhost:9999} // blazegraph uri (if connecting over HTTP); defaults to http://localhost:9999");
+			System.out.println ("       -u={http://localhost:9999/blazegraph/namespace/kb/sparql} // blazegraph uri (if connecting over HTTP); defaults to http://localhost:9999/blazegraph/namespace/kb/sparql");
 
 			System.out.println ("Example 1: java CIMImporter -l=1 -i=1 -n=zipload_schedule ieee8500");
 			System.out.println ("   assuming Jena and Commons-Math are in Java's classpath, this will produce two output files");

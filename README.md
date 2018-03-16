@@ -63,14 +63,19 @@ to manage the feeder model conversions to and from CIM. [Maven](https://maven.ap
 To set up and test the converter:
 
 1. Download the [Blazegraph jar file](https://www.blazegraph.com/download/)
-2. On Windows only, patch the configuration:
+2. Make sure to run Java 8. There have been reports that Blazegraph isn't compatible with Java 9 yet.
+3. On Windows only, patch the configuration:
    * Add to _rwstore.properties_ ```com.bigdata.rwstore.RWStore.readBlobsAsync=false```
    * Invoke ```jar uf blazegraph.jar RWStore.properties```
-3. To start Blazegraph, invoke from a terminal ```java -server -Xmx4g -Dfile.encoding=UTF-8 -jar blazegraph.jar```
-4. Point browser to _http://localhost:9999/blazegraph_ 
+4. To start Blazegraph, invoke from a terminal ```java -server -Xmx4g -Dfile.encoding=UTF-8 -jar blazegraph.jar```
+5. Point a web browser to _http://localhost:9999/blazegraph_ 
    * On-line help on Blazegraph is available from the browser
-5. Load some data from a CIM XML file, or any other XML triple-store
-6. Run a query in the browser
+6. Create the Blazegraph namespace _kb_ and use that for the rest of these examples
+   * You can use a different namespace, but you'll have to specify that using the -u option for the CIMImporter, handediting the default _-u=http://localhost:9999/blazegraph/namespace/kb/sparql_
+   * You can use a different namespace, but you may have to hand-edit some of the Python files (e.g. under the Meas directory)
+   * The GridAPPS-D platform itself may use a different namespace
+7. Load some data from a CIM XML file, or any other XML triple-store
+8. Run a query in the browser
    * the file _queries.txt_ contains sample SPARQL that can be pasted into the Blazegraph browser window
 
 Helper scripts on Windows:
@@ -88,36 +93,38 @@ Helper scripts for Linux/Mac OS X:
 * _import.sh_ will compile and run the Java importer against the triple-store. Within this file:
   * the ```-o=dss``` option creates an OpenDSS model from CIM
   * the ```-o=glm``` option creates a GridLAB-D model from CIM 
+  * the ```-o=idx``` option creates a JSON index of all Feeders in the triple-store. Use this to obtain valid mRID values for the -s option
 
-Usage and option for ```java gov.pnnl.goss.cim2glm.CIMImporter [options] output_root```
+Usage and options for ```java gov.pnnl.goss.cim2glm.CIMImporter [options] output_root```
 
-* ```-o={glm|dss}       // output format; defaults to glm```
+* ```-s={mRID}          // select one feeder by CIM mRID; selects all feeders if not specified```
+* ```-o={glm|dss|idx}   // output format; defaults to glm```
 * ```-l={0..1}          // load scaling factor; defaults to 1```
 * ```-f={50|60}         // system frequency; defaults to 60```                                                 
 * ```-n={schedule_name} // root filename for scheduled ZIP loads (defaults to none), valid only for -o=glm```      
 * ```-z={0..1}          // constant Z portion (defaults to 0 for CIM-defined LoadResponseCharacteristic)```
 * ```-i={0..1}          // constant I portion (defaults to 0 for CIM-defined LoadResponseCharacteristic)```
 * ```-p={0..1}          // constant P portion (defaults to 0 for CIM-defined LoadResponseCharacteristic)```
-* ```-u={http://localhost:9999} // blazegraph uri (if connecting over HTTP); defaults to http://localhost:9999```
+* ```-u={http://localhost:9999/blazegraph/namespace/kb/sparql} // blazegraph uri (if connecting over HTTP); defaults to http://localhost:9999/blazegraph/namespace/kb/sparql```
 
 ## Circuit Validation
 
-_This is work in progress; Linux/Mac has not been tested._ The goal is to verify round-trip model translation
+_This is work in progress; essential changes to DPV J1 are not yet under version control._ The goal is to verify round-trip model translation
 and solution between the supported model formats. 
 There are currently four supporting Python files in the _blazegraph_ subdirectory:
 
 * _MakeConversionScript.py_ creates _ConvertCDPSM.dss_ that will batch-load all supported test circuits into OpenDSS, and export CIM XML
   * Use this first
   * Assumes the OpenDSS **source tree** has been checked out to _c:\opendss_
-  * Assumes the EPRI DPV models have been downloaded to directories like _c:\epri_dpv|J1_
+  * Assumes the EPRI DPV models have been downloaded to directories like _c:\epri_dpv|J1_ or _~/src/epri_dpv/J1_
   * After ```python MakeConversionScript.py``` invoke ```opendsscmd ConvertCDPSM.dss```
 * _MakeLoopScript.py_ loads the CIM XML files one at a time into Blazegraph, and then extracts a feeder model
   * Use this after _MakeConversionScript.py_  
   * Blazegraph must be set up
-  * Invoke ```python MakeLoopScript.py -b``` to make _convert\_xml.bat_, which converts all CIM XML into DSS and GLM files
+  * Invoke ```python MakeLoopScript.py -b``` to make _convert\_xml.bat_ or _convert\_xml.sh_, which converts all CIM XML into DSS and GLM files
   * Invoke ```python MakeLoopScript.py -d``` to make _check.dss_, after which invoke ```opendsscmd check.dss``` to batch-solve all converted DSS files
-* _MakeTable.py_ gathers OpenDSS solution summary information from CSV files into _Table.txt_
-* _MakeGlmTestScript.py_ creates _check\_glm.bat_ that will solve all supported test circuits in GridLAB-D
+* _MakeTable.py_ gathers OpenDSS solution summary information from CSV files into _table.txt_
+* _MakeGlmTestScript.py_ creates _check\_glm.bat_ or _check\_glm.sh_ that will solve all supported test circuits in GridLAB-D
 
 
 
