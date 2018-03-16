@@ -10,7 +10,7 @@ import java.util.HashMap;
 public abstract class DistSwitch extends DistComponent {
 
 	protected static final String szSELECT = 
-		"SELECT ?name ?id ?basev ?rated ?breaking (group_concat(distinct ?bus;separator=\"\\n\") as ?buses) (group_concat(distinct ?phs;separator=\"\\n\") as ?phases) ?open ?fdrid WHERE {";
+		"SELECT ?name ?id ?bus1 ?bus2 ?basev ?rated ?breaking (group_concat(distinct ?phs;separator=\"\\n\") as ?phases) ?open ?fdrid WHERE {";
 
 	protected static final String szWHERE = 
 		" ?s c:Equipment.EquipmentContainer ?fdr."+
@@ -21,15 +21,20 @@ public abstract class DistSwitch extends DistComponent {
 		" ?s c:Switch.normalOpen ?open."+
 		" ?s c:Switch.ratedCurrent ?rated."+
 		" OPTIONAL {?s c:ProtectedSwitch.breakingCapacity ?breaking.}"+
-		" ?t c:Terminal.ConductingEquipment ?s."+
-		" ?t c:Terminal.ConnectivityNode ?cn."+
-		" ?cn c:IdentifiedObject.name ?bus"+
+		" ?t1 c:Terminal.ConductingEquipment ?s."+
+		" ?t1 c:Terminal.ConnectivityNode ?cn1."+
+		" ?t1 c:ACDCTerminal.sequenceNumber \"1\"."+
+		" ?cn1 c:IdentifiedObject.name ?bus1."+
+		" ?t2 c:Terminal.ConductingEquipment ?s."+
+		" ?t2 c:Terminal.ConnectivityNode ?cn2."+
+		" ?t2 c:ACDCTerminal.sequenceNumber \"2\"."+
+		" ?cn2 c:IdentifiedObject.name ?bus2."+
 		" bind(strafter(str(?s),\"#\") as ?id)."+
 		" OPTIONAL {?swp c:SwitchPhase.Switch ?s."+
 		" ?swp c:SwitchPhase.phaseSide1 ?phsraw."+
 		"   bind(strafter(str(?phsraw),\"SinglePhaseKind.\") as ?phs) }"+
 		"}"+
-		" GROUP BY ?name ?basev ?rated ?breaking ?open ?id ?fdrid"+
+		" GROUP BY ?name ?basev ?bus1 ?bus2 ?rated ?breaking ?open ?id ?fdrid"+
 		" ORDER BY ?name";
 
 	public String id;
@@ -73,9 +78,8 @@ public abstract class DistSwitch extends DistComponent {
 			basev = Double.parseDouble (soln.get("?basev").toString());
 			rated = Double.parseDouble (soln.get("?rated").toString());
 			breaking = Double.parseDouble (soln.get("?breaking").toString());
-			String[] buses = soln.get("?buses").toString().split("\\n");
-			bus1 = SafeName(buses[0]); 
-			bus2 = SafeName(buses[1]); 
+			bus1 = SafeName (soln.get("?bus1").toString()); 
+			bus2 = SafeName (soln.get("?bus2").toString()); 
 			phases = OptionalString (soln, "?phases", "ABC");
 			open = Boolean.parseBoolean (soln.get("?open").toString());
 			StringBuilder glm_phs = new StringBuilder ();

@@ -8,12 +8,12 @@ import org.apache.jena.query.*;
 
 public class DistLinesSpacingZ extends DistLineSegment {
 	public static final String szQUERY =
-		"SELECT ?name ?id ?basev (group_concat(distinct ?bus;separator=\"\\n\") as ?buses)"+
+		"SELECT ?name ?id ?basev ?bus1 ?bus2"+
 		"       (group_concat(distinct ?phs;separator=\"\\n\") as ?phases)"+
 		"       ?len ?spacing ?wname ?wclass"+
 		"       (group_concat(distinct ?phname;separator=\"\\n\") as ?phwires)"+
 		"       (group_concat(distinct ?phclass;separator=\"\\n\") as ?phclasses) WHERE {"+
-		" SELECT ?name ?id ?basev ?bus ?phs ?len ?spacing ?wname ?wclass ?phname ?phclass ?fdrid"+
+		" SELECT ?name ?id ?basev ?bus1 ?bus2 ?phs ?len ?spacing ?wname ?wclass ?phname ?phclass ?fdrid"+
 		" WHERE {"+
 		" ?s r:type c:ACLineSegment."+
 		" ?s c:Equipment.EquipmentContainer ?fdr."+
@@ -35,9 +35,14 @@ public class DistLinesSpacingZ extends DistLineSegment {
 		"       ?winf a ?classraw."+
 		"       	bind(strafter(str(?classraw),\"cim17#\") as ?wclass)"+
 		" }"+
-		" ?t c:Terminal.ConductingEquipment ?s."+
-		" ?t c:Terminal.ConnectivityNode ?cn."+
-		" ?cn c:IdentifiedObject.name ?bus"+
+		" ?t1 c:Terminal.ConductingEquipment ?s."+
+		" ?t1 c:Terminal.ConnectivityNode ?cn1."+
+		" ?t1 c:ACDCTerminal.sequenceNumber \"1\"."+
+		" ?cn1 c:IdentifiedObject.name ?bus1."+
+		" ?t2 c:Terminal.ConductingEquipment ?s."+
+		" ?t2 c:Terminal.ConnectivityNode ?cn2."+
+		" ?t2 c:ACDCTerminal.sequenceNumber \"2\"."+
+		" ?cn2 c:IdentifiedObject.name ?bus2"+
 		" OPTIONAL {"+
 		"       ?acp c:ACLineSegmentPhase.ACLineSegment ?s."+
 		"       ?acp c:ACLineSegmentPhase.phase ?phsraw."+
@@ -53,7 +58,7 @@ public class DistLinesSpacingZ extends DistLineSegment {
 		"       }"+
 		" } ORDER BY ?name ?phs"+
 		" }"+
-		" GROUP BY ?name ?id ?basev ?len ?spacing ?wname ?wclass ?fdrid"+
+		" GROUP BY ?name ?id ?basev ?bus1 ?bus2 ?len ?spacing ?wname ?wclass ?fdrid"+
 		" ORDER BY ?name";
 
 	public String spacing;
@@ -80,9 +85,8 @@ public class DistLinesSpacingZ extends DistLineSegment {
 			QuerySolution soln = results.next();
 			name = SafeName (soln.get("?name").toString());
 			id = soln.get("?id").toString();
-			String[] buses = soln.get("?buses").toString().split("\\n");
-			bus1 = SafeName(buses[0]); 
-			bus2 = SafeName(buses[1]); 
+			bus1 = SafeName (soln.get("?bus1").toString()); 
+			bus2 = SafeName (soln.get("?bus2").toString()); 
 			len = Double.parseDouble (soln.get("?len").toString());
 			basev = Double.parseDouble (soln.get("?basev").toString());
 			spacing = soln.get("?spacing").toString();

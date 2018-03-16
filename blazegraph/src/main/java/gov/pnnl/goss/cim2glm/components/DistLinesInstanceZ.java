@@ -9,7 +9,7 @@ import org.apache.commons.math3.complex.Complex;
 
 public class DistLinesInstanceZ extends DistLineSegment {
 	public static final String szQUERY = 
-		"SELECT ?name ?id ?basev (group_concat(distinct ?bus;separator=\"\\n\") as ?buses) ?len ?r ?x ?b ?r0 ?x0 ?b0 ?fdrid WHERE {"+
+		"SELECT ?name ?id ?basev ?bus1 ?bus2 ?len ?r ?x ?b ?r0 ?x0 ?b0 ?fdrid WHERE {"+
 		" ?s r:type c:ACLineSegment."+
 		" ?s c:Equipment.EquipmentContainer ?fdr."+
 		" ?fdr c:IdentifiedObject.mRID ?fdrid."+
@@ -24,11 +24,16 @@ public class DistLinesInstanceZ extends DistLineSegment {
 		" OPTIONAL {?s c:ACLineSegment.r0 ?r0.}"+
 		" OPTIONAL {?s c:ACLineSegment.x0 ?x0.}"+
 		" OPTIONAL {?s c:ACLineSegment.b0ch ?b0.}"+
-		" ?t c:Terminal.ConductingEquipment ?s."+
-		" ?t c:Terminal.ConnectivityNode ?cn."+
-		" ?cn c:IdentifiedObject.name ?bus"+
+		" ?t1 c:Terminal.ConductingEquipment ?s."+
+		" ?t1 c:Terminal.ConnectivityNode ?cn1."+
+		" ?t1 c:ACDCTerminal.sequenceNumber \"1\"."+
+		" ?cn1 c:IdentifiedObject.name ?bus1."+
+		" ?t2 c:Terminal.ConductingEquipment ?s."+
+		" ?t2 c:Terminal.ConnectivityNode ?cn2."+
+		" ?t2 c:ACDCTerminal.sequenceNumber \"2\"."+
+		" ?cn2 c:IdentifiedObject.name ?bus2"+
 		"}"+
-		" GROUP BY ?name ?id ?basev ?len ?r ?x ?b ?r0 ?x0 ?b0 ?fdrid"+
+		" GROUP BY ?name ?id ?basev ?bus1 ?bus2 ?len ?r ?x ?b ?r0 ?x0 ?b0 ?fdrid"+
 		" ORDER BY ?name";
 
 	public double r1; 
@@ -52,9 +57,8 @@ public class DistLinesInstanceZ extends DistLineSegment {
 			QuerySolution soln = results.next();
 			name = SafeName (soln.get("?name").toString());
 			id = soln.get("?id").toString();
-			String[] buses = soln.get("?buses").toString().split("\\n");
-			bus1 = SafeName(buses[0]); 
-			bus2 = SafeName(buses[1]); 
+			bus1 = SafeName (soln.get("?bus1").toString()); 
+			bus2 = SafeName (soln.get("?bus2").toString()); 
 			phases = "ABC";
 			len = Double.parseDouble (soln.get("?len").toString());
 			basev = Double.parseDouble (soln.get("?basev").toString());
