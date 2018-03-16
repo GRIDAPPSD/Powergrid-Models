@@ -1279,7 +1279,7 @@ for ifn in glob.glob("base_taxonomy/new*.glm"):
         # print(kvbase)
         # masterf.write(',' if ctr < len(# kvbases) else '"\n')
     masterf.write('calcv\n')
-    masterf.write('buscoords buscoords.csv\n')
+    masterf.write('buscoords Buscoords.csv\n')
 
 
 
