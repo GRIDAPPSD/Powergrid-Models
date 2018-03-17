@@ -1003,30 +1003,10 @@ public class CIMImporter extends Object {
 		out.close();
 	}
 	
-	// helper class to keep track of segment coordinates
-	static class DSSSegmentXY {
-		public String bus1;
-		public String bus2;
-		public double x1;
-		public double y1;
-		public double x2;
-		public double y2;
-
-		public DSSSegmentXY(String bus1, double x1, double y1, String bus2, double x2, double y2) {
-			this.bus1 = bus1;
-			this.bus2 = bus2;
-			this.x1 = x1;
-			this.y1 = y1;
-			this.x2 = x2;
-			this.y2 = y2;
-		}
-	}
-
 	protected void WriteDSSCoordinates (PrintWriter out)  {
 		String bus;
 		DistCoordinates pt1, pt2;
 		HashMap<String,Double[]> mapBusXY = new HashMap<String,Double[]>();
-		HashSet<DSSSegmentXY> setSegXY = new HashSet<DSSSegmentXY>();
 
 		// loads, capacitors, transformers and energy sources have a single bus location, assumed to be correct
 		for (HashMap.Entry<String,DistCoordinates> pair : mapCoordinates.entrySet()) {
@@ -1057,104 +1037,49 @@ public class CIMImporter extends Object {
 			}
 		}
 
-		// switches and lines have two unordered bus locations; 
-		// below, bus1 and bus2 could be in the wrong order w.r.t [x1,y1] and [x2,y2]
+		// switches and lines have bus locations; should be in correct order using ACDCTerminal.sequenceNumber
 		for (HashMap.Entry<String,DistLinesCodeZ> pair : mapLinesCodeZ.entrySet()) {
 			DistLineSegment obj = pair.getValue();
 			pt1 = mapCoordinates.get("ACLineSegment:" + obj.name + ":1");
 			pt2 = mapCoordinates.get("ACLineSegment:" + obj.name + ":2");
-			setSegXY.add(new DSSSegmentXY (obj.bus1, pt1.x, pt1.y, obj.bus2, pt2.x, pt2.y));
+			mapBusXY.put (obj.bus1, new Double [] {pt1.x, pt1.y});
+			mapBusXY.put (obj.bus2, new Double [] {pt2.x, pt2.y});
+//			setSegXY.add(new DSSSegmentXY (obj.bus1, pt1.x, pt1.y, obj.bus2, pt2.x, pt2.y));
 		}
 		for (HashMap.Entry<String,DistLinesInstanceZ> pair : mapLinesInstanceZ.entrySet()) {
 			DistLineSegment obj = pair.getValue();
 			pt1 = mapCoordinates.get("ACLineSegment:" + obj.name + ":1");
 			pt2 = mapCoordinates.get("ACLineSegment:" + obj.name + ":2");
-			setSegXY.add(new DSSSegmentXY (obj.bus1, pt1.x, pt1.y, obj.bus2, pt2.x, pt2.y));
+			mapBusXY.put (obj.bus1, new Double [] {pt1.x, pt1.y});
+			mapBusXY.put (obj.bus2, new Double [] {pt2.x, pt2.y});
 		}
 		for (HashMap.Entry<String,DistLinesSpacingZ> pair : mapLinesSpacingZ.entrySet()) {
 			DistLineSegment obj = pair.getValue();
 			pt1 = mapCoordinates.get("ACLineSegment:" + obj.name + ":1");
 			pt2 = mapCoordinates.get("ACLineSegment:" + obj.name + ":2");
-			setSegXY.add(new DSSSegmentXY (obj.bus1, pt1.x, pt1.y, obj.bus2, pt2.x, pt2.y));
+			mapBusXY.put (obj.bus1, new Double [] {pt1.x, pt1.y});
+			mapBusXY.put (obj.bus2, new Double [] {pt2.x, pt2.y});
 		}
 		for (HashMap.Entry<String,DistLoadBreakSwitch> pair : mapLoadBreakSwitches.entrySet()) {
 			DistLoadBreakSwitch obj = pair.getValue();
 			pt1 = mapCoordinates.get("LoadBreakSwitch:" + obj.name + ":1");
 			pt2 = mapCoordinates.get("LoadBreakSwitch:" + obj.name + ":2");
-			setSegXY.add(new DSSSegmentXY (obj.bus1, pt1.x, pt1.y, obj.bus2, pt2.x, pt2.y));
+			mapBusXY.put (obj.bus1, new Double [] {pt1.x, pt1.y});
+			mapBusXY.put (obj.bus2, new Double [] {pt2.x, pt2.y});
 		}
 		for (HashMap.Entry<String,DistFuse> pair : mapFuses.entrySet()) { // TODO - polymorphic switch maps
 			DistFuse obj = pair.getValue();
 			pt1 = mapCoordinates.get("Fuse:" + obj.name + ":1");
 			pt2 = mapCoordinates.get("Fuse:" + obj.name + ":2");
-			setSegXY.add(new DSSSegmentXY (obj.bus1, pt1.x, pt1.y, obj.bus2, pt2.x, pt2.y));
+			mapBusXY.put (obj.bus1, new Double [] {pt1.x, pt1.y});
+			mapBusXY.put (obj.bus2, new Double [] {pt2.x, pt2.y});
 		}
 		for (HashMap.Entry<String,DistDisconnector> pair : mapDisconnectors.entrySet()) { // TODO - polymorphic switch maps
 			DistDisconnector obj = pair.getValue();
 			pt1 = mapCoordinates.get("Disconnector:" + obj.name + ":1");
 			pt2 = mapCoordinates.get("Disconnector:" + obj.name + ":2");
-			setSegXY.add(new DSSSegmentXY (obj.bus1, pt1.x, pt1.y, obj.bus2, pt2.x, pt2.y));
-		}
-
-		// Now sweep through the mapSegXY and shift new, known-good coordinates onto the mapBusXY list
-		// A coordinate is known-good if it's already in the list, but we don't move it;
-		//   instead, we move the paired coordinate onto mapSegXY, only if the paired coordinate isn't there
-		// Each time we visit a mapSegXY with one or two known-good coordinates, we remove it from the
-		//   map, whether or not it was added to mapBusXY
-		// Stop when mapSegXY is empty, or no further shifts can be made
-
-//		out.println("// bus locations - before");
-//		for (HashMap.Entry<String,Double[]> pair : mapBusXY.entrySet()) {
-//			Double[] xy = pair.getValue();
-//			bus = pair.getKey();
-//			out.println(bus + "," + Double.toString(xy[0]) + "," + Double.toString(xy[1]));
-//		}
-
-//		out.println("// mapSegXY contents - before");
-//		for (DSSSegmentXY seg : setSegXY) {
-//			out.println("// " + seg.bus1 + "," + Double.toString(seg.x1) + "," + Double.toString(seg.y1)
-//									 + "," + seg.bus2 + "," + Double.toString(seg.x2) + "," + Double.toString(seg.y2));
-//		}
-
-		boolean found = true;
-		Double eps = 1.0e-6;
-		while (found) {
-			found = false;
-			Iterator<DSSSegmentXY> it = setSegXY.iterator();
-			while (it.hasNext()) {
-				DSSSegmentXY seg = it.next();
-				Double [] loc1 = mapBusXY.get(seg.bus1);
-				Double [] loc2 = mapBusXY.get(seg.bus2);
-				if (loc1 != null) {
-					found = true;
-					if (loc2 == null) {
-						if ((Math.abs(seg.x1 - loc1[0])) < eps && (Math.abs(seg.y1 - loc1[1]) < eps)) {
-							mapBusXY.put(seg.bus2, new Double[] {seg.x2, seg.y2});
-						} else {
-							mapBusXY.put(seg.bus2, new Double[] {seg.x1, seg.y1});
-						}
-					}
-				}
-				if (loc2 != null) {
-					found = true;
-					if (loc1 == null) {
-						if ((Math.abs(seg.x1 - loc2[0])) < eps && (Math.abs(seg.y1 - loc2[1]) < eps)) {
-							mapBusXY.put(seg.bus1, new Double[] {seg.x2, seg.y2});
-						} else {
-							mapBusXY.put(seg.bus1, new Double[] {seg.x1, seg.y1});
-						}
-					}
-				}
-				if (found) {
-					it.remove();
-				}
-			}		
-		}
-
-		out.println("// mapSegXY contents - after");
-		for (DSSSegmentXY seg : setSegXY) {
-			out.println("// " + seg.bus1 + "," + Double.toString(seg.x1) + "," + Double.toString(seg.y1)
-									 + "," + seg.bus2 + "," + Double.toString(seg.x2) + "," + Double.toString(seg.y2));
+			mapBusXY.put (obj.bus1, new Double [] {pt1.x, pt1.y});
+			mapBusXY.put (obj.bus2, new Double [] {pt2.x, pt2.y});
 		}
 
 		// The bus locations in mapBusXY should now be unique, and topologically consistent, so write them.
@@ -1178,8 +1103,6 @@ public class CIMImporter extends Object {
 
 	protected void WriteDSSFile (PrintWriter out, PrintWriter outID, String fXY, String fID, double load_scale, boolean bWantZIP, 
 														double Zcoeff, double Icoeff, double Pcoeff)  {
-//		PrintWriter out = new PrintWriter (fOut);
-//		PrintWriter outID = new PrintWriter (fID);
 
 		for (HashMap.Entry<String,DistSubstation> pair : mapSubstations.entrySet()) {
 			out.print (pair.getValue().GetDSS());
