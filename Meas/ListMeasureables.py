@@ -30,11 +30,13 @@ def FlatPhases (phases):
 
 
 if len(sys.argv) < 3:
-	print ('usage: python ListMeasureables.py feeder_mRID fname')
+	print ('usage: python ListMeasureables.py filename_root feeder_mRID')
 	print (' (Blazegraph server must already be started, with feeder_mRID model data loaded)')
 	exit()
 
-op = open (sys.argv[2], 'w')
+froot = sys.argv[1]
+op = open (froot + '_special.txt', 'w')
+np = open (froot + '_node_v.txt', 'w')
 sparql = SPARQLWrapper2("http://localhost:9999/blazegraph/namespace/kb/sparql")
 
 prefix = """
@@ -43,9 +45,26 @@ PREFIX c: <http://iec.ch/TC57/2012/CIM-schema-cim17#>
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 """
 
-fidselect = """ VALUES ?fdrid {\"""" + sys.argv[1] + """\"}
+fidselect = """ VALUES ?fdrid {\"""" + sys.argv[2] + """\"}
  ?s c:Equipment.EquipmentContainer ?fdr.
  ?fdr c:IdentifiedObject.mRID ?fdrid. """
+
+#################### start by listing all the buses
+busphases = {}
+
+qstr = prefix + """SELECT ?bus WHERE { VALUES ?fdrid {\"""" + sys.argv[2] + """\"}
+ ?fdr c:IdentifiedObject.mRID ?fdrid.
+ ?s c:ConnectivityNode.ConnectivityNodeContainer ?fdr.
+ ?s r:type c:ConnectivityNode.
+ ?s c:IdentifiedObject.name ?bus.
+}
+ORDER by ?bus
+"""
+#print (qstr)
+sparql.setQuery(qstr)
+ret = sparql.query()
+for b in ret.bindings:
+	busphases[b['bus'].value] = {'A':False, 'B':False, 'C':False, 's1': False, 's2': False}
 
 #################### capacitors
 
@@ -66,13 +85,15 @@ sparql.setQuery(qstr)
 ret = sparql.query()
 #print ('\nLinearShuntCompensator binding keys are:',ret.variables)
 for b in ret.bindings:
+	bus = b['bus'].value
 	if 'phases' in b: # was OPTIONAL in the query
 		phases = FlatPhases (b['phases'].value)
 	else:
 		phases = FlatPhases ('ABC')
 	for phs in phases:
-		print ('LinearShuntCompensator',b['name'].value,b['bus'].value,phs,b['eqid'].value,b['trmid'].value,file=op)
-   
+		busphases[bus][phs] = True
+		print ('LinearShuntCompensator',b['name'].value,bus,phs,b['eqid'].value,b['trmid'].value,file=op)
+
 #################### regulators
 
 qstr = prefix + """SELECT ?name ?wnum ?bus (group_concat(distinct ?phs;separator=\"\") as ?phases) ?eqid ?trmid WHERE {
@@ -107,98 +128,6 @@ for b in ret.bindings:
 	for phs in phases:
 		print ('PowerTransformer','RatioTapChanger',b['name'].value,b['wnum'].value,b['bus'].value,phs,b['eqid'].value,b['trmid'].value,file=op)
 
-#################### switches
-
-qstr = prefix + """SELECT ?name ?bus1 ?bus2 (group_concat(distinct ?phs1;separator=\"\") as ?phases1) ?eqid ?trm1id ?trm2id WHERE {
-  SELECT ?name ?bus1 ?bus2 ?phs1 ?eqid ?trm1id ?trm2id WHERE {""" + fidselect + """
- ?s r:type c:LoadBreakSwitch.
- ?s c:IdentifiedObject.name ?name.
- ?s c:IdentifiedObject.mRID ?eqid. 
- ?t1 c:Terminal.ConductingEquipment ?s.
- ?t1 c:ACDCTerminal.sequenceNumber "1".
- ?t1 c:IdentifiedObject.mRID ?trm1id. 
- ?t1 c:Terminal.ConnectivityNode ?cn1. 
- ?cn1 c:IdentifiedObject.name ?bus1.
- ?t2 c:Terminal.ConductingEquipment ?s.
- ?t2 c:ACDCTerminal.sequenceNumber "2".
- ?t2 c:IdentifiedObject.mRID ?trm2id. 
- ?t2 c:Terminal.ConnectivityNode ?cn2. 
- ?cn2 c:IdentifiedObject.name ?bus2.
- OPTIONAL {?scp c:SwitchPhase.Switch ?s.
- ?scp c:SwitchPhase.phaseSide1 ?phs1raw.
- 	bind(strafter(str(?phs1raw),\"SinglePhaseKind.\") as ?phs1) } } ORDER BY ?name ?phs1
- } GROUP BY ?name ?bus1 ?bus2 ?eqid ?trm1id ?trm2id
- ORDER BY ?name
-"""
-#print (qstr)
-sparql.setQuery(qstr)
-ret = sparql.query()
-#print ('\nLoadBreakSwitch binding keys are:',ret.variables)
-for b in ret.bindings:
-	phases1 = FlatPhases (b['phases1'].value)
-	for phs1 in phases1:
-		print ('LoadBreakSwitch','v1',b['name'].value,b['bus1'].value,b['bus2'].value,phs1,b['eqid'].value,b['trm1id'].value,b['trm2id'].value,file=op)
-   
-##################### ACLineSegments
-   
-qstr = prefix + """SELECT ?name ?bus1 ?bus2 (group_concat(distinct ?phs;separator=\"\") as ?phases) ?eqid ?trm1id ?trm2id WHERE {
-  SELECT ?name ?bus1 ?bus2 ?phs ?eqid ?trm1id ?trm2id WHERE {""" + fidselect + """
- ?s r:type c:ACLineSegment.
- ?s c:IdentifiedObject.name ?name.
- ?s c:IdentifiedObject.mRID ?eqid. 
- ?t1 c:Terminal.ConductingEquipment ?s.
- ?t1 c:ACDCTerminal.sequenceNumber "1".
- ?t1 c:IdentifiedObject.mRID ?trm1id. 
- ?t1 c:Terminal.ConnectivityNode ?cn1. 
- ?cn1 c:IdentifiedObject.name ?bus1.
- ?t2 c:Terminal.ConductingEquipment ?s.
- ?t2 c:ACDCTerminal.sequenceNumber "2".
- ?t2 c:IdentifiedObject.mRID ?trm2id. 
- ?t2 c:Terminal.ConnectivityNode ?cn2. 
- ?cn2 c:IdentifiedObject.name ?bus2.
- OPTIONAL {?acp c:ACLineSegmentPhase.ACLineSegment ?s.
- ?acp c:ACLineSegmentPhase.phase ?phsraw.
-	bind(strafter(str(?phsraw),\"SinglePhaseKind.\") as ?phs) } } ORDER BY ?name ?phs
- } GROUP BY ?name ?bus1 ?bus2 ?eqid ?trm1id ?trm2id
- ORDER BY ?name
-"""
-#print (qstr)
-sparql.setQuery(qstr)
-ret = sparql.query()
-#print ('\nACLineSegment binding keys are:',ret.variables)
-for b in ret.bindings:
-	phases = FlatPhases (b['phases'].value)
-	for phs in phases:
-		print ('ACLineSegment','v1',b['name'].value,b['bus1'].value,b['bus2'].value,phs,b['eqid'].value,b['trm1id'].value,b['trm2id'].value,file=op)
-   
-####################### - EnergyConsumer
-
-qstr = prefix + """SELECT ?name ?bus (group_concat(distinct ?phs;separator=\"\") as ?phases) ?eqid ?trmid WHERE {
-	SELECT ?name ?bus ?phs ?eqid ?trmid WHERE {""" + fidselect + """
- ?s r:type c:EnergyConsumer.
- ?s c:IdentifiedObject.name ?name.
- ?s c:IdentifiedObject.mRID ?eqid. 
- ?t1 c:Terminal.ConductingEquipment ?s.
- ?t1 c:IdentifiedObject.mRID ?trmid. 
- ?t1 c:ACDCTerminal.sequenceNumber "1".
- ?t1 c:Terminal.ConnectivityNode ?cn1. 
- ?cn1 c:IdentifiedObject.name ?bus.
- OPTIONAL {?acp c:EnergyConsumerPhase.EnergyConsumer ?s.
- ?acp c:EnergyConsumerPhase.phase ?phsraw.
-	bind(strafter(str(?phsraw),\"SinglePhaseKind.\") as ?phs) } } ORDER BY ?name ?phs
- } GROUP BY ?name ?bus ?eqid ?trmid
- ORDER BY ?name
-"""
-#print (qstr)
-sparql.setQuery(qstr)
-ret = sparql.query()
-#print ('\nEnergyConsumer binding keys are:',ret.variables)
-for b in ret.bindings:
-	phases = FlatPhases (b['phases'].value)
-	for phs in phases:
-		print ('EnergyConsumer',b['name'].value,b['bus'].value,phs,b['eqid'].value,b['trmid'].value,file=op)
-
-
 ####################### - Storage
 
 qstr = prefix + """SELECT ?name ?uname ?bus (group_concat(distinct ?phs;separator=\"\") as ?phases) ?eqid ?trmid WHERE {
@@ -226,8 +155,10 @@ ret = sparql.query()
 #print ('\nPowerElectronicsConnection->BatteryUnit binding keys are:',ret.variables)
 for b in ret.bindings:
 	phases = FlatPhases (b['phases'].value)
+	bus = b['bus'].value
 	for phs in phases:
-		print ('PowerElectronicsConnection','BatteryUnit',b['name'].value,b['uname'].value,b['bus'].value,phs,b['eqid'].value,b['trmid'].value,file=op)
+		busphases[bus][phs] = True
+		print ('PowerElectronicsConnection','BatteryUnit',b['name'].value,b['uname'].value,bus,phs,b['eqid'].value,b['trmid'].value,file=op)
 
 ####################### - Solar
 
@@ -256,10 +187,129 @@ ret = sparql.query()
 #print ('\nPowerElectronicsConnection->PhotovoltaicUnit binding keys are:',ret.variables)
 for b in ret.bindings:
 	phases = FlatPhases (b['phases'].value)
+	bus = b['bus'].value
 	for phs in phases:
-		print ('PowerElectronicsConnection','PhotovoltaicUnit',b['name'].value,b['uname'].value,b['bus'].value,phs,b['eqid'].value,b['trmid'].value,file=op)
+		busphases[bus][phs] = True
+		print ('PowerElectronicsConnection','PhotovoltaicUnit',b['name'].value,b['uname'].value,bus,phs,b['eqid'].value,b['trmid'].value,file=op)
+   
+#################### switches
+op.close()
+op = open (froot + '_switch_i.txt', 'w')
+
+qstr = prefix + """SELECT ?name ?bus1 ?bus2 (group_concat(distinct ?phs1;separator=\"\") as ?phases1) ?eqid ?trm1id ?trm2id WHERE {
+	SELECT ?name ?bus1 ?bus2 ?phs1 ?eqid ?trm1id ?trm2id WHERE {""" + fidselect + """
+ ?s r:type c:LoadBreakSwitch.
+ ?s c:IdentifiedObject.name ?name.
+ ?s c:IdentifiedObject.mRID ?eqid. 
+ ?t1 c:Terminal.ConductingEquipment ?s.
+ ?t1 c:ACDCTerminal.sequenceNumber "1".
+ ?t1 c:IdentifiedObject.mRID ?trm1id. 
+ ?t1 c:Terminal.ConnectivityNode ?cn1. 
+ ?cn1 c:IdentifiedObject.name ?bus1.
+ ?t2 c:Terminal.ConductingEquipment ?s.
+ ?t2 c:ACDCTerminal.sequenceNumber "2".
+ ?t2 c:IdentifiedObject.mRID ?trm2id. 
+ ?t2 c:Terminal.ConnectivityNode ?cn2. 
+ ?cn2 c:IdentifiedObject.name ?bus2.
+ OPTIONAL {?scp c:SwitchPhase.Switch ?s.
+ ?scp c:SwitchPhase.phaseSide1 ?phs1raw.
+	bind(strafter(str(?phs1raw),\"SinglePhaseKind.\") as ?phs1) } } ORDER BY ?name ?phs1
+ } GROUP BY ?name ?bus1 ?bus2 ?eqid ?trm1id ?trm2id
+ ORDER BY ?name
+"""
+#print (qstr)
+sparql.setQuery(qstr)
+ret = sparql.query()
+#print ('\nLoadBreakSwitch binding keys are:',ret.variables)
+for b in ret.bindings:
+	phases1 = FlatPhases (b['phases1'].value)
+	bus1 = b['bus1'].value
+	bus2 = b['bus2'].value
+	for phs1 in phases1:
+		print ('LoadBreakSwitch','i1',b['name'].value,bus1,bus2,phs1,b['eqid'].value,b['trm1id'].value,b['trm2id'].value,file=op)
+		if not busphases[bus1][phs1]:
+			print ('LoadBreakSwitch','v1',b['name'].value,bus1,bus2,phs1,b['eqid'].value,b['trm1id'].value,b['trm2id'].value,file=np)
+			busphases[bus1][phs1] = True
+		if not busphases[bus2][phs1]:
+			print ('LoadBreakSwitch','v2',b['name'].value,bus1,bus2,phs1,b['eqid'].value,b['trm1id'].value,b['trm2id'].value,file=np)
+			busphases[bus2][phs1] = True
+
+##################### ACLineSegments
+op.close()
+op = open (froot + '_lines_pq.txt', 'w')
+   
+qstr = prefix + """SELECT ?name ?bus1 ?bus2 (group_concat(distinct ?phs;separator=\"\") as ?phases) ?eqid ?trm1id ?trm2id WHERE {
+  SELECT ?name ?bus1 ?bus2 ?phs ?eqid ?trm1id ?trm2id WHERE {""" + fidselect + """
+ ?s r:type c:ACLineSegment.
+ ?s c:IdentifiedObject.name ?name.
+ ?s c:IdentifiedObject.mRID ?eqid. 
+ ?t1 c:Terminal.ConductingEquipment ?s.
+ ?t1 c:ACDCTerminal.sequenceNumber "1".
+ ?t1 c:IdentifiedObject.mRID ?trm1id. 
+ ?t1 c:Terminal.ConnectivityNode ?cn1. 
+ ?cn1 c:IdentifiedObject.name ?bus1.
+ ?t2 c:Terminal.ConductingEquipment ?s.
+ ?t2 c:ACDCTerminal.sequenceNumber "2".
+ ?t2 c:IdentifiedObject.mRID ?trm2id. 
+ ?t2 c:Terminal.ConnectivityNode ?cn2. 
+ ?cn2 c:IdentifiedObject.name ?bus2.
+ OPTIONAL {?acp c:ACLineSegmentPhase.ACLineSegment ?s.
+ ?acp c:ACLineSegmentPhase.phase ?phsraw.
+	bind(strafter(str(?phsraw),\"SinglePhaseKind.\") as ?phs) } } ORDER BY ?name ?phs
+ } GROUP BY ?name ?bus1 ?bus2 ?eqid ?trm1id ?trm2id
+ ORDER BY ?name
+"""
+#print (qstr)
+sparql.setQuery(qstr)
+ret = sparql.query()
+#print ('\nACLineSegment binding keys are:',ret.variables)
+for b in ret.bindings:
+	phases = FlatPhases (b['phases'].value)
+	bus1 = b['bus1'].value
+	bus2 = b['bus2'].value
+	for phs in phases:
+		print ('ACLineSegment','s1',b['name'].value,bus1,bus2,phs,b['eqid'].value,b['trm1id'].value,b['trm2id'].value,file=op)
+		if not busphases[bus1][phs]:
+			print ('ACLineSegment','v1',b['name'].value,bus1,bus2,phs,b['eqid'].value,b['trm1id'].value,b['trm2id'].value,file=np)
+			busphases[bus1][phs] = True
+		if not busphases[bus2][phs]:
+			print ('ACLineSegment','v2',b['name'].value,bus1,bus2,phs,b['eqid'].value,b['trm1id'].value,b['trm2id'].value,file=np)
+			busphases[bus2][phs] = True
+
+   
+####################### - EnergyConsumer
+op.close()
+op = open (froot + '_loads.txt', 'w')
+
+qstr = prefix + """SELECT ?name ?bus (group_concat(distinct ?phs;separator=\"\") as ?phases) ?eqid ?trmid WHERE {
+	SELECT ?name ?bus ?phs ?eqid ?trmid WHERE {""" + fidselect + """
+ ?s r:type c:EnergyConsumer.
+ ?s c:IdentifiedObject.name ?name.
+ ?s c:IdentifiedObject.mRID ?eqid. 
+ ?t1 c:Terminal.ConductingEquipment ?s.
+ ?t1 c:IdentifiedObject.mRID ?trmid. 
+ ?t1 c:ACDCTerminal.sequenceNumber "1".
+ ?t1 c:Terminal.ConnectivityNode ?cn1. 
+ ?cn1 c:IdentifiedObject.name ?bus.
+ OPTIONAL {?acp c:EnergyConsumerPhase.EnergyConsumer ?s.
+ ?acp c:EnergyConsumerPhase.phase ?phsraw.
+	bind(strafter(str(?phsraw),\"SinglePhaseKind.\") as ?phs) } } ORDER BY ?name ?phs
+ } GROUP BY ?name ?bus ?eqid ?trmid
+ ORDER BY ?name
+"""
+#print (qstr)
+sparql.setQuery(qstr)
+ret = sparql.query()
+#print ('\nEnergyConsumer binding keys are:',ret.variables)
+for b in ret.bindings:
+	phases = FlatPhases (b['phases'].value)
+	bus = b['bus'].value
+	for phs in phases:
+		print ('EnergyConsumer',b['name'].value,bus,phs,b['eqid'].value,b['trmid'].value,file=op)
 
 ####################### - PowerTransformer, no tanks
+op.close()
+op = open (froot + '_xfmr_pq.txt', 'w')
 
 qstr = prefix + """SELECT ?name ?wnum ?bus ?eqid ?trmid WHERE {""" + fidselect + """
  ?s r:type c:PowerTransformer.
@@ -279,8 +329,12 @@ sparql.setQuery(qstr)
 ret = sparql.query()
 #print ('\nPowerTransformer (no-tank) binding keys are:',ret.variables,'plus phases=ABC')
 for b in ret.bindings:
+	bus = b['bus'].value
 	for phs in 'ABC':
-		print ('PowerTransformer','PowerTransformerEnd','v1',b['name'].value,b['wnum'].value,b['bus'].value,phs,b['eqid'].value,b['trmid'].value,file=op)
+		print ('PowerTransformer','PowerTransformerEnd','s1',b['name'].value,b['wnum'].value,bus,phs,b['eqid'].value,b['trmid'].value,file=op)
+		if not busphases[bus][phs]:
+			print ('PowerTransformer','PowerTransformerEnd','v1',b['name'].value,b['wnum'].value,bus,phs,b['eqid'].value,b['trmid'].value,file=np)
+			busphases[bus][phs] = True
 
 ####################### - PowerTransformer, with tanks
 
@@ -305,11 +359,14 @@ sparql.setQuery(qstr)
 ret = sparql.query()
 #print ('\nPowerTransformer (with tank) binding keys are:',ret.variables)
 for b in ret.bindings:
+	bus = b['bus'].value
 	phases = FlatPhases (b['phases'].value)
 	for phs in phases:
-		print ('PowerTransformer','TransformerTankEnd','v1',b['name'].value,b['wnum'].value,b['bus'].value,phs,b['eqid'].value,b['trmid'].value,file=op)
-
+		print ('PowerTransformer','TransformerTankEnd','s1',b['name'].value,b['wnum'].value,bus,phs,b['eqid'].value,b['trmid'].value,file=op)
+		if not busphases[bus][phs]:
+			print ('PowerTransformer','TransformerTankEnd','v1',b['name'].value,b['wnum'].value,bus,phs,b['eqid'].value,b['trmid'].value,file=np)
+			busphases[bus][phs] = True
 
 op.close()
-
+np.close()
    
