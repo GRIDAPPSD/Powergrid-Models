@@ -11,7 +11,7 @@ WHERE {
   ?s a ?class .
 }
 
-# delete all measurements
+# delete all measurements for a selected circuit
 PREFIX r: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX c: <http://iec.ch/TC57/2012/CIM-schema-cim17#>
 DELETE {
@@ -23,7 +23,14 @@ DELETE {
  ?m c:Measurement.phases ?phases.
  ?m c:Measurement.measurementType ?type.
 } WHERE {
+# VALUES ?fdrid {"_C1C3E687-6FFD-C753-582B-632A27E28507"} # 123-bus
+# VALUES ?fdrid {"_4F76A5F9-271D-9EB8-5E31-AA362D86F2C3"} # 8500-node
+# VALUES ?fdrid {"_67AB291F-DCCD-31B7-B499-338206B9828F"} # EPRI J1
+ VALUES ?fdrid {"_9CE150A8-8CC5-A0F9-B67E-BBD8C79D3095"} # R2 12.47 2
  VALUES ?class {c:Analog c:Discrete}
+ ?fdr c:IdentifiedObject.mRID ?fdrid. 
+ ?eq c:Equipment.EquipmentContainer ?fdr.
+ ?trm c:Terminal.ConductingEquipment ?eq.
  ?m a ?class.
  ?m c:IdentifiedObject.mRID ?uuid.
  ?m c:IdentifiedObject.name ?name.
@@ -33,10 +40,13 @@ DELETE {
  ?m c:Measurement.measurementType ?type.
 }
 
-# list all measurements, with buses and equipments
+# list all measurements, with buses and equipments - DistMeasurement
 PREFIX r: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX c: <http://iec.ch/TC57/2012/CIM-schema-cim17#>
 SELECT ?class ?type ?name ?bus ?phases ?eqtype ?eqname ?eqid ?trmid ?id WHERE {
+ VALUES ?fdrid {"_C1C3E687-6FFD-C753-582B-632A27E28507"}
+ ?eq c:Equipment.EquipmentContainer ?fdr.
+ ?fdr c:IdentifiedObject.mRID ?fdrid. 
 { ?s r:type c:Discrete. bind ("Discrete" as ?class)}
   UNION
 { ?s r:type c:Analog. bind ("Analog" as ?class)}
