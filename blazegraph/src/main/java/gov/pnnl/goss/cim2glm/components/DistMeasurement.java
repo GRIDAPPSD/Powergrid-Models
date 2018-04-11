@@ -10,6 +10,8 @@ import java.util.HashMap;
 public class DistMeasurement extends DistComponent {
 	public static final String szQUERY = 
 		"SELECT ?class ?type ?name ?bus ?phases ?eqtype ?eqname ?eqid ?trmid ?id WHERE {"+
+    " ?eq c:Equipment.EquipmentContainer ?fdr."+
+    " ?fdr c:IdentifiedObject.mRID ?fdrid."+ 
 		" { ?s r:type c:Discrete. bind (\"Discrete\" as ?class)}"+
 		"   UNION"+
 		" { ?s r:type c:Analog. bind (\"Analog\" as ?class)}"+
