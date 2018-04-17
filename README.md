@@ -80,7 +80,7 @@ To set up and test the converter:
 
 Helper scripts on Windows:
 
-* _go.bat_ starts Blazegraph, like item 3 above
+* _go.bat_ starts Blazegraph, like item 4 above
 * _compile.bat_ recompiles the Java CIM Importer; this step can't be included within _import.bat_ on Windows
 * _drop\_all.bat_ empties the triple-store
 * _import.bat_ will run the Java importer against the triple-store. Within this file:
@@ -89,7 +89,7 @@ Helper scripts on Windows:
 
 Helper scripts for Linux/Mac OS X:
 
-* _start\_server.sh_ starts Blazegraph, like item 3 above
+* _start\_server.sh_ starts Blazegraph, like item 4 above
 * _import.sh_ will compile and run the Java importer against the triple-store. Within this file:
   * the ```-o=dss``` option creates an OpenDSS model from CIM
   * the ```-o=glm``` option creates a GridLAB-D model from CIM 

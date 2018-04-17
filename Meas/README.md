@@ -4,7 +4,7 @@ Under powergrid-models/Meas, there are four sample Python files and three shell 
 
 1. "python ListFeeders.py" produces an index of feeders in the triple-store.  Find the mRID of the feeder you want to instrument.  
 
-2. "python ListMeasureables.py _4F76A5F9-271D-9EB8-5E31-AA362D86F2C3 rootname" produces a list of ConductingEquipment instances that can have sensors attached, written to separate files as listed below.  The example mRID corresponds to the IEEE 8500-node feeder, circa March 2018.
+2. "python ListMeasureables.py rootname _4F76A5F9-271D-9EB8-5E31-AA362D86F2C3" produces a list of ConductingEquipment instances that can have sensors attached, written to separate files as listed below.  The example mRID corresponds to the IEEE 8500-node feeder, circa March 2018.
  
     - rootname_special.txt contains capacitor (state, S, V), tap changer (state), solar PV (S, V), and storage (S, V) measurements. 
  
