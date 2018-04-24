@@ -1,6 +1,8 @@
 Measurements in GridAPPS-D are added to the triple-store in Blazegraph according to a sensor scheme. Physically, electrical sensors are always connected to a piece of conducting equipment. Therefore, they must be referenced to the correct CIM terminal ID. To get started, the feeder backbone model should already be loaded into the triple-store, and you should have a feeder map or other information required to implement your sensor strategy. It is expected that sensor strategies will be changed as part of platform configuration, either to change an application's test environment, or to evaluate the cost-benefit of different sensor strategies. Therefore, the Measurements are associated to, but not really part of, the feeder model. When GridAPPS-D starts a simulation, it will use both.
 
-Under powergrid-models/Meas, there are four sample Python files and three shell scripts that help manage the Measurements. First, these functions extract the candidate Measurements with valid CIM IDs. Second, you have a chance to customize them. Third, you batch-insert the Measurements into Blazegraph's triple-store.
+Under powergrid-models/Meas, there are four sample Python files, one constants file (constants.py), and three shell scripts that help manage the Measurements. First, these functions extract the candidate Measurements with valid CIM IDs. Second, you have a chance to customize them. Third, you batch-insert the Measurements into Blazegraph's triple-store.
+
+Sample commands below should be executed in the powergrid-models/Meas directory. Inspect constants.py to ensure the blazegraph url and sparql prefix is correct.
 
 1. "python ListFeeders.py" produces an index of feeders in the triple-store.  Find the mRID of the feeder you want to instrument.  
 

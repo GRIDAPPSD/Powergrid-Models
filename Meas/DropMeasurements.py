@@ -1,4 +1,6 @@
-from SPARQLWrapper import SPARQLWrapper2, JSON
+from SPARQLWrapper import SPARQLWrapper2#, JSON
+# constants.py is used for configuring blazegraph.
+import constants
 import sys
 
 if len(sys.argv) < 2:
@@ -6,19 +8,10 @@ if len(sys.argv) < 2:
 	print (' (Blazegraph server must already be started)')
 	exit()
 
-endpoint = "http://localhost:9999/blazegraph/namespace/kb/sparql"
-
-prefix = """
-PREFIX r: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-PREFIX c: <http://iec.ch/TC57/2012/CIM-schema-cim17#>
-PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
-"""
-
-sparql = SPARQLWrapper2 (endpoint)
+sparql = SPARQLWrapper2(constants.blazegraph_url)
 sparql.method = 'POST'
 
-qstr = prefix + """
- DELETE {
+qstr = constants.prefix + """DELETE {
   ?m a ?class.
   ?m c:IdentifiedObject.mRID ?uuid.
   ?m c:IdentifiedObject.name ?name.
@@ -42,8 +35,8 @@ qstr = prefix + """
  }
 """
 
-print (qstr)
+#print (qstr)
 sparql.setQuery(qstr)
 ret = sparql.query()
-print (ret.info)
-   
+#print (ret.info)
+print(ret.response.msg)
