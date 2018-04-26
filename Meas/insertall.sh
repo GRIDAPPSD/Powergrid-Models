@@ -3,6 +3,7 @@
 python InsertMeasurements.py ieee123_special.txt
 #python InsertMeasurements.py ieee123_switch_i.txt
 python InsertMeasurements.py ieee123_node_v.txt
+python InsertMeasurements.py ieee123_supplement.txt
 #python InsertMeasurements.py ieee123_loads.txt
 #python InsertMeasurements.py ieee123_lines_pq.txt
 #python InsertMeasurements.py ieee123_xfmr_pq.txt
