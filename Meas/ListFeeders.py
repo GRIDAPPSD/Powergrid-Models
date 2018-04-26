@@ -1,11 +1,11 @@
-from SPARQLWrapper import SPARQLWrapper2, JSON
+from SPARQLWrapper import SPARQLWrapper2#, JSON
+# constants.py is used for configuring blazegraph.
+import constants
 
-sparql = SPARQLWrapper2("http://localhost:9999/blazegraph/namespace/kb/sparql")
+sparql = SPARQLWrapper2(constants.blazegraph_url)
 
-sparql.setQuery("""
-    PREFIX r: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-    PREFIX c: <http://iec.ch/TC57/2012/CIM-schema-cim17#>
-    PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+sparql.setQuery(constants.prefix + 
+    """
     SELECT ?feeder ?fid ?station ?sid ?subregion ?sgrid ?region ?rgnid WHERE {
      ?s r:type c:Feeder.
      ?s c:IdentifiedObject.name ?feeder.
@@ -26,5 +26,5 @@ sparql.setQuery("""
 ret = sparql.query()
 print ('binding keys are:',ret.variables)
 for b in ret.bindings:
-	print (b['feeder'].value,b['fid'].value)
+    print (b['feeder'].value,b['fid'].value)
    

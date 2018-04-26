@@ -1,5 +1,7 @@
-from SPARQLWrapper import SPARQLWrapper2, JSON
+from SPARQLWrapper import SPARQLWrapper2#, JSON
 import sys
+# constants.py is used for configuring blazegraph.
+import constants
 
 def FlatPhases (phases):
 	if len(phases) < 1:
@@ -37,13 +39,7 @@ if len(sys.argv) < 3:
 froot = sys.argv[1]
 op = open (froot + '_special.txt', 'w')
 np = open (froot + '_node_v.txt', 'w')
-sparql = SPARQLWrapper2("http://localhost:9999/blazegraph/namespace/kb/sparql")
-
-prefix = """
-PREFIX r: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-PREFIX c: <http://iec.ch/TC57/2012/CIM-schema-cim17#>
-PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
-"""
+sparql = SPARQLWrapper2(constants.blazegraph_url)
 
 fidselect = """ VALUES ?fdrid {\"""" + sys.argv[2] + """\"}
  ?s c:Equipment.EquipmentContainer ?fdr.
@@ -52,7 +48,7 @@ fidselect = """ VALUES ?fdrid {\"""" + sys.argv[2] + """\"}
 #################### start by listing all the buses
 busphases = {}
 
-qstr = prefix + """SELECT ?bus WHERE { VALUES ?fdrid {\"""" + sys.argv[2] + """\"}
+qstr = constants.prefix + """SELECT ?bus WHERE { VALUES ?fdrid {\"""" + sys.argv[2] + """\"}
  ?fdr c:IdentifiedObject.mRID ?fdrid.
  ?s c:ConnectivityNode.ConnectivityNodeContainer ?fdr.
  ?s r:type c:ConnectivityNode.
@@ -68,7 +64,7 @@ for b in ret.bindings:
 
 #################### capacitors
 
-qstr = prefix + """SELECT ?name ?bus ?phases ?eqid ?trmid WHERE {""" + fidselect + """
+qstr = constants.prefix + """SELECT ?name ?bus ?phases ?eqid ?trmid WHERE {""" + fidselect + """
  ?s r:type c:LinearShuntCompensator.
  ?s c:IdentifiedObject.name ?name.
  ?s c:IdentifiedObject.mRID ?eqid. 
@@ -96,7 +92,7 @@ for b in ret.bindings:
 
 #################### regulators
 
-qstr = prefix + """SELECT ?name ?wnum ?bus (group_concat(distinct ?phs;separator=\"\") as ?phases) ?eqid ?trmid WHERE {
+qstr = constants.prefix + """SELECT ?name ?wnum ?bus (group_concat(distinct ?phs;separator=\"\") as ?phases) ?eqid ?trmid WHERE {
  SELECT ?name ?wnum ?bus ?phs ?eqid ?trmid WHERE { """ + fidselect + """
  ?rtc r:type c:RatioTapChanger.
  ?rtc c:IdentifiedObject.name ?rname.
@@ -130,7 +126,7 @@ for b in ret.bindings:
 
 ####################### - Storage
 
-qstr = prefix + """SELECT ?name ?uname ?bus (group_concat(distinct ?phs;separator=\"\") as ?phases) ?eqid ?trmid WHERE {
+qstr = constants.prefix + """SELECT ?name ?uname ?bus (group_concat(distinct ?phs;separator=\"\") as ?phases) ?eqid ?trmid WHERE {
 	SELECT ?name ?uname ?bus ?phs ?eqid ?trmid WHERE {""" + fidselect + """
  ?s r:type c:PowerElectronicsConnection.
  ?s c:IdentifiedObject.name ?name.
@@ -162,7 +158,7 @@ for b in ret.bindings:
 
 ####################### - Solar
 
-qstr = prefix + """SELECT ?name ?uname ?bus (group_concat(distinct ?phs;separator=\"\") as ?phases) ?eqid ?trmid WHERE {
+qstr = constants.prefix + """SELECT ?name ?uname ?bus (group_concat(distinct ?phs;separator=\"\") as ?phases) ?eqid ?trmid WHERE {
 	SELECT ?name ?uname ?bus ?phs ?eqid ?trmid WHERE {""" + fidselect + """
  ?s r:type c:PowerElectronicsConnection.
  ?s c:IdentifiedObject.name ?name.
@@ -191,12 +187,12 @@ for b in ret.bindings:
 	for phs in phases:
 		busphases[bus][phs] = True
 		print ('PowerElectronicsConnection','PhotovoltaicUnit',b['name'].value,b['uname'].value,bus,phs,b['eqid'].value,b['trmid'].value,file=op)
-   
+
 #################### switches
 op.close()
 op = open (froot + '_switch_i.txt', 'w')
 
-qstr = prefix + """SELECT ?name ?bus1 ?bus2 (group_concat(distinct ?phs1;separator=\"\") as ?phases1) ?eqid ?trm1id ?trm2id WHERE {
+qstr = constants.prefix + """SELECT ?name ?bus1 ?bus2 (group_concat(distinct ?phs1;separator=\"\") as ?phases1) ?eqid ?trm1id ?trm2id WHERE {
 	SELECT ?name ?bus1 ?bus2 ?phs1 ?eqid ?trm1id ?trm2id WHERE {""" + fidselect + """
  ?s r:type c:LoadBreakSwitch.
  ?s c:IdentifiedObject.name ?name.
@@ -237,8 +233,8 @@ for b in ret.bindings:
 ##################### ACLineSegments
 op.close()
 op = open (froot + '_lines_pq.txt', 'w')
-   
-qstr = prefix + """SELECT ?name ?bus1 ?bus2 (group_concat(distinct ?phs;separator=\"\") as ?phases) ?eqid ?trm1id ?trm2id WHERE {
+
+qstr = constants.prefix + """SELECT ?name ?bus1 ?bus2 (group_concat(distinct ?phs;separator=\"\") as ?phases) ?eqid ?trm1id ?trm2id WHERE {
   SELECT ?name ?bus1 ?bus2 ?phs ?eqid ?trm1id ?trm2id WHERE {""" + fidselect + """
  ?s r:type c:ACLineSegment.
  ?s c:IdentifiedObject.name ?name.
@@ -276,12 +272,11 @@ for b in ret.bindings:
 			print ('ACLineSegment','v2',b['name'].value,bus1,bus2,phs,b['eqid'].value,b['trm1id'].value,b['trm2id'].value,file=np)
 			busphases[bus2][phs] = True
 
-   
 ####################### - EnergyConsumer
 op.close()
 op = open (froot + '_loads.txt', 'w')
 
-qstr = prefix + """SELECT ?name ?bus (group_concat(distinct ?phs;separator=\"\") as ?phases) ?eqid ?trmid WHERE {
+qstr = constants.prefix + """SELECT ?name ?bus (group_concat(distinct ?phs;separator=\"\") as ?phases) ?eqid ?trmid WHERE {
 	SELECT ?name ?bus ?phs ?eqid ?trmid WHERE {""" + fidselect + """
  ?s r:type c:EnergyConsumer.
  ?s c:IdentifiedObject.name ?name.
@@ -311,7 +306,7 @@ for b in ret.bindings:
 op.close()
 op = open (froot + '_xfmr_pq.txt', 'w')
 
-qstr = prefix + """SELECT ?name ?wnum ?bus ?eqid ?trmid WHERE {""" + fidselect + """
+qstr = constants.prefix + """SELECT ?name ?wnum ?bus ?eqid ?trmid WHERE {""" + fidselect + """
  ?s r:type c:PowerTransformer.
  ?s c:IdentifiedObject.name ?name.
  ?s c:IdentifiedObject.mRID ?eqid.
@@ -338,7 +333,7 @@ for b in ret.bindings:
 
 ####################### - PowerTransformer, with tanks
 
-qstr = prefix + """SELECT ?name ?wnum ?bus ?phases ?eqid ?trmid WHERE {""" + fidselect + """
+qstr = constants.prefix + """SELECT ?name ?wnum ?bus ?phases ?eqid ?trmid WHERE {""" + fidselect + """
  ?s r:type c:PowerTransformer.
  ?s c:IdentifiedObject.name ?name.
  ?s c:IdentifiedObject.mRID ?eqid.
@@ -369,4 +364,3 @@ for b in ret.bindings:
 
 op.close()
 np.close()
-   

@@ -1,7 +1,10 @@
-from SPARQLWrapper import SPARQLWrapper2, JSON
+from SPARQLWrapper import SPARQLWrapper2#, JSON
 import sys
 import re
 import uuid
+
+# constants.py is used for configuring blazegraph.
+import constants
 
 if len(sys.argv) < 2:
 	print ('usage: python InsertMeasurements.py fname')
@@ -9,31 +12,24 @@ if len(sys.argv) < 2:
 	exit()
 
 fp = open (sys.argv[1], 'r')
-endpoint = "http://localhost:9999/blazegraph/namespace/kb/sparql"
 
-prefix = """
-PREFIX r: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-PREFIX c: <http://iec.ch/TC57/2012/CIM-schema-cim17#>
-PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
-"""
-
-cim17 = '<http://iec.ch/TC57/2012/CIM-schema-cim17#'
-
-sparql = SPARQLWrapper2 (endpoint)
+sparql = SPARQLWrapper2 (constants.blazegraph_url)
 sparql.method = 'POST'
 
 def InsertMeasurement (meascls, measid, eqname, eqid, trmid, meastype, phases):
-	resource = '<' + endpoint + '#' + str(measid) + '>'
-	equipment = '<' + endpoint + '#' + str(eqid) + '>'
-	terminal = '<' + endpoint + '#' + str(trmid) + '>'
+	resource = '<' + constants.blazegraph_url + '#' + str(measid) + '>'
+	equipment = '<' + constants.blazegraph_url + '#' + str(eqid) + '>'
+	terminal = '<' + constants.blazegraph_url + '#' + str(trmid) + '>'
 	ln1 = resource + ' a c:' + meascls + '. ' 
 	ln2 = resource + ' c:IdentifiedObject.mRID \"' + str(measid) + '\". '
 	ln3 = resource + ' c:IdentifiedObject.name \"' + str(eqname) + '\". '
 	ln4 = resource + ' c:Measurement.PowerSystemResource ' + equipment + '. '
 	ln5 = resource + ' c:Measurement.Terminal ' + terminal + '. '
-	ln6 = resource + ' c:Measurement.phases ' + cim17 + 'PhaseCode.' + phases + '>. '
+	ln6 = (resource + ' c:Measurement.phases ' + constants.cim17
+		+ 'PhaseCode.' + phases + '>. ')
 	ln7 = resource + ' c:Measurement.measurementType \"' + meastype + '\"'
-	qstr = prefix + 'INSERT DATA { ' + ln1 + ln2 + ln3 + ln4 + ln5 + ln6 + ln7 + '}'
+	qstr = (constants.prefix + 'INSERT DATA { ' + ln1 + ln2 + ln3 + ln4 +
+		ln5 + ln6 + ln7 + '}')
 
 #	print (qstr)
 	sparql.setQuery(qstr)
@@ -114,5 +110,3 @@ for ln in lines:
 
 
 fp.close()
-
-   
