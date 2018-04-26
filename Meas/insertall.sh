@@ -10,6 +10,7 @@ python InsertMeasurements.py ieee123_node_v.txt
 python InsertMeasurements.py ieee8500_special.txt
 python InsertMeasurements.py ieee8500_switch_i.txt
 python InsertMeasurements.py ieee8500_node_v.txt
+python InsertMeasurements.py ieee8500_rc1_supplement.txt
 #python InsertMeasurements.py ieee8500_loads.txt
 #python InsertMeasurements.py ieee8500_lines_pq.txt
 #python InsertMeasurements.py ieee8500_xfmr_pq.txt
