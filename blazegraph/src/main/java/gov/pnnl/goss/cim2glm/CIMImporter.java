@@ -515,7 +515,7 @@ public class CIMImporter extends Object {
 		WriteMapDictionary (mapLoadBreakSwitches, "switches", false, out);
 		WriteMapDictionary (mapFuses, "fuses", false, out);
 		WriteMapDictionary (mapDisconnectors, "disconnectors", false, out);
-		WriteMapDictionary (mapMeasurements, "measurements", true, out);
+		WriteMapDictionary (mapMeasurements, "measurements", true, out, maxMeasurements);
 		out.println("}]}");
 		out.close();
 	}
