@@ -15,10 +15,10 @@ blazegraph_url = "http://localhost:9999/blazegraph/namespace/kb/sparql"
 # for calling from outside the docker container.
 
 # URL from inside the docker container:
-# blazegraph_url = "http://blazegraph:8080/bigdata/namespace/kb/sparql"
+# blazegraph_url = "http://blazegraph:8080/bigdata/sparql"
 
 # URL from outside the docker container:
-# blazegraph_url = "http://localhost:8889/bigdata/namespace/kb/sparql"
+# blazegraph_url = "http://localhost:8889/bigdata/sparql"
 
 #******************************************************************************
 # Prefix for blazegraph queries.
