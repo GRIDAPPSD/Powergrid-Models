@@ -473,7 +473,7 @@ public class CIMImporter extends Object {
 
 		SortedSet<String> keys = new TreeSet<String>(map.keySet());
 		//If we only want a limited number of measurements restrict them
-		if(maxMeasurements>=0){
+		if(maxMeasurements>=0 && keys.size()>maxMeasurements){
 			List<String> tmp = new ArrayList<String>();
 			tmp.addAll(keys);
 			keys = new TreeSet<String>(tmp.subList(0, maxMeasurements));
