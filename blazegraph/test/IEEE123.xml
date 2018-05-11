@@ -3521,14 +3521,14 @@
 <cim:PositionPoint rdf:ID="_E4F9AF2A-D6BE-117F-931F-7896DFF4EB0A">
   <cim:PositionPoint.Location rdf:resource="#_C51F1698-6B1F-2DDF-4DE8-C8ACD5B9F8CE"/>
   <cim:PositionPoint.sequenceNumber>1</cim:PositionPoint.sequenceNumber>
-  <cim:PositionPoint.xPosition>1450</cim:PositionPoint.xPosition>
-  <cim:PositionPoint.yPosition>2150</cim:PositionPoint.yPosition>
+  <cim:PositionPoint.xPosition>1200</cim:PositionPoint.xPosition>
+  <cim:PositionPoint.yPosition>1500</cim:PositionPoint.yPosition>
 </cim:PositionPoint>
 <cim:PositionPoint rdf:ID="_80714FBC-23F0-DBC3-BA90-3A63FA2D0414">
   <cim:PositionPoint.Location rdf:resource="#_C51F1698-6B1F-2DDF-4DE8-C8ACD5B9F8CE"/>
   <cim:PositionPoint.sequenceNumber>2</cim:PositionPoint.sequenceNumber>
-  <cim:PositionPoint.xPosition>1450</cim:PositionPoint.xPosition>
-  <cim:PositionPoint.yPosition>2150</cim:PositionPoint.yPosition>
+  <cim:PositionPoint.xPosition>1500</cim:PositionPoint.xPosition>
+  <cim:PositionPoint.yPosition>1500</cim:PositionPoint.yPosition>
 </cim:PositionPoint>
 <cim:ACLineSegment rdf:ID="_59015291-3083-6305-E192-0278D46A7C46">
   <cim:IdentifiedObject.mRID>_59015291-3083-6305-E192-0278D46A7C46</cim:IdentifiedObject.mRID>
