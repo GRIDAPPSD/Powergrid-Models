@@ -5,11 +5,13 @@ package gov.pnnl.goss.cim2glm;
 //      		----------------------------------------------------------
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 
 import org.apache.jena.query.*;
 
@@ -460,11 +462,22 @@ public class CIMImporter extends Object {
 		return true;
 	}
 
-	public void WriteMapDictionary (HashMap<String,? extends DistComponent> map, String label, boolean bLast, PrintWriter out) {
+	
+	public void WriteMapDictionary (HashMap<String,? extends DistComponent> map, String label, boolean bLast, PrintWriter out){
+		WriteMapDictionary(map, label, bLast, out, -1);
+	}
+
+	public void WriteMapDictionary (HashMap<String,? extends DistComponent> map, String label, boolean bLast, PrintWriter out, int maxMeasurements) {
 		int count = 1, last = map.size();
 		out.println ("\"" + label + "\":[");
 
 		SortedSet<String> keys = new TreeSet<String>(map.keySet());
+		//If we only want a limited number of measurements restrict them
+		if(maxMeasurements>=0 && keys.size()>maxMeasurements){
+			List<String> tmp = new ArrayList<String>();
+			tmp.addAll(keys);
+			keys = new TreeSet<String>(tmp.subList(0, maxMeasurements));
+		}
 		for (String key : keys) {
 			out.print (map.get(key).GetJSONEntry ());
 			if (count++ < last) {
@@ -480,7 +493,7 @@ public class CIMImporter extends Object {
 		}
 	}
 
-	public void WriteDictionaryFile (PrintWriter out) {
+	public void WriteDictionaryFile (PrintWriter out, int maxMeasurements) {
 		out.println("{\"feeders\":[");
 		for (HashMap.Entry<String,DistFeeder> pair : mapFeeders.entrySet()) {
 			DistFeeder fdr = pair.getValue();
@@ -502,7 +515,7 @@ public class CIMImporter extends Object {
 		WriteMapDictionary (mapLoadBreakSwitches, "switches", false, out);
 		WriteMapDictionary (mapFuses, "fuses", false, out);
 		WriteMapDictionary (mapDisconnectors, "disconnectors", false, out);
-		WriteMapDictionary (mapMeasurements, "measurements", true, out);
+		WriteMapDictionary (mapMeasurements, "measurements", true, out, maxMeasurements);
 		out.println("}]}");
 		out.close();
 	}
@@ -1261,6 +1274,11 @@ public class CIMImporter extends Object {
 		out.close();
 	}
 
+	public void start(QueryHandler queryHandler, String fTarget, String fRoot, String fSched, double load_scale, boolean bWantSched, boolean bWantZIP, double Zcoeff, double Icoeff, double Pcoeff) throws FileNotFoundException{
+		start(queryHandler, fTarget, fRoot, fSched, load_scale, bWantSched, bWantZIP, Zcoeff, Icoeff, Pcoeff, -1);
+	}
+	
+	
 	/**
 	 * 
 	 * @param fOut
@@ -1274,7 +1292,7 @@ public class CIMImporter extends Object {
 	 * @param fXY
 	 * @throws FileNotFoundException
 	 */
-	public void start(QueryHandler queryHandler, String fTarget, String fRoot, String fSched, double load_scale, boolean bWantSched, boolean bWantZIP, double Zcoeff, double Icoeff, double Pcoeff) throws FileNotFoundException{
+	public void start(QueryHandler queryHandler, String fTarget, String fRoot, String fSched, double load_scale, boolean bWantSched, boolean bWantZIP, double Zcoeff, double Icoeff, double Pcoeff, int maxMeasurements) throws FileNotFoundException{
 		this.queryHandler = queryHandler;
 		String fOut, fXY, fID, fDict;		
 
@@ -1290,7 +1308,7 @@ public class CIMImporter extends Object {
 			PrintWriter pXY = new PrintWriter(fXY);
 			WriteJSONSymbolFile (pXY);
 			PrintWriter pDict = new PrintWriter(fDict);
-			WriteDictionaryFile (pDict);
+			WriteDictionaryFile (pDict, maxMeasurements);
 		} else if (fTarget.equals("dss")) {
 			LoadAllMaps();
 			CheckMaps();
@@ -1306,7 +1324,7 @@ public class CIMImporter extends Object {
 			PrintWriter pSym = new PrintWriter (fRoot + "_symbols.json");
 			WriteJSONSymbolFile (pSym);
 			PrintWriter pDict = new PrintWriter(fDict);
-			WriteDictionaryFile (pDict);
+			WriteDictionaryFile (pDict, maxMeasurements);
 		}	else if (fTarget.equals("idx")) {
 			fOut = fRoot + "_feeder_index.json";
 			PrintWriter pOut = new PrintWriter(fOut);
@@ -1351,18 +1369,22 @@ public class CIMImporter extends Object {
 		WriteJSONSymbolFile(out);
 	}
 	
+	
+	public void generateDictionaryFile(QueryHandler queryHandler, PrintWriter out){
+		generateDictionaryFile(queryHandler, out, -1);
+	}
 	/**
 	 * 
 	 * @param queryHandler
 	 * @param out
 	 */
-	public void generateDictionaryFile(QueryHandler queryHandler, PrintWriter out){
+	public void generateDictionaryFile(QueryHandler queryHandler, PrintWriter out, int maxMeasurements){
 		this.queryHandler = queryHandler;
 		if(!allMapsLoaded){
 			LoadAllMaps();
 		}
 		CheckMaps();
-		WriteDictionaryFile(out);
+		WriteDictionaryFile(out, maxMeasurements);
 	}
 	
 	/**
