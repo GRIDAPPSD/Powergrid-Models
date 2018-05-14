@@ -1529,7 +1529,7 @@ public class CIMImporter extends Object {
 //				System.out.println ("Selecting only feeder " + feeder_mRID);
 			}
 			new CIMImporter().start(qh, fTarget, fRoot, fSched, load_scale,
-															bWantSched, bWantZIP, Zcoeff, Icoeff, Pcoeff, 10);
+															bWantSched, bWantZIP, Zcoeff, Icoeff, Pcoeff);
 		} catch (RuntimeException e) {
 			System.out.println ("Can not produce a model: " + e.getMessage());
 			e.printStackTrace();
