@@ -17,7 +17,7 @@ sparql = SPARQLWrapper2 (constants.blazegraph_url)
 sparql.method = 'POST'
 
 def InsertMeasurement (meascls, measid, eqname, eqid, trmid, meastype, phases):
-	#TODO add if not measid starts with _ then prepend it
+	#if not measid starts with _ then prepend it, this is here for consistency. otherwise the mrids are uploaded without the initial _
 	if (not str(measid).startswith("_")):
 		measid = "_"+str(measid)
 
