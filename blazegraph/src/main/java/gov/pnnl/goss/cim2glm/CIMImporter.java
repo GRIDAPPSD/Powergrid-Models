@@ -16,6 +16,7 @@ import java.util.List;
 import org.apache.jena.query.*;
 
 import gov.pnnl.goss.cim2glm.components.DistBaseVoltage;
+import gov.pnnl.goss.cim2glm.components.DistBreaker;
 import gov.pnnl.goss.cim2glm.components.DistCapacitor;
 import gov.pnnl.goss.cim2glm.components.DistComponent;
 import gov.pnnl.goss.cim2glm.components.DistConcentricNeutralCable;
@@ -23,6 +24,8 @@ import gov.pnnl.goss.cim2glm.components.DistCoordinates;
 import gov.pnnl.goss.cim2glm.components.DistDisconnector;
 import gov.pnnl.goss.cim2glm.components.DistFeeder;
 import gov.pnnl.goss.cim2glm.components.DistFuse;
+import gov.pnnl.goss.cim2glm.components.DistGroundDisconnector;
+import gov.pnnl.goss.cim2glm.components.DistJumper;
 import gov.pnnl.goss.cim2glm.components.DistLineSegment;
 import gov.pnnl.goss.cim2glm.components.DistLineSpacing;
 import gov.pnnl.goss.cim2glm.components.DistLinesCodeZ;
@@ -36,7 +39,9 @@ import gov.pnnl.goss.cim2glm.components.DistPhaseMatrix;
 import gov.pnnl.goss.cim2glm.components.DistPowerXfmrCore;
 import gov.pnnl.goss.cim2glm.components.DistPowerXfmrMesh;
 import gov.pnnl.goss.cim2glm.components.DistPowerXfmrWinding;
+import gov.pnnl.goss.cim2glm.components.DistRecloser;
 import gov.pnnl.goss.cim2glm.components.DistRegulator;
+import gov.pnnl.goss.cim2glm.components.DistSectionaliser;
 import gov.pnnl.goss.cim2glm.components.DistSequenceMatrix;
 import gov.pnnl.goss.cim2glm.components.DistSolar;
 import gov.pnnl.goss.cim2glm.components.DistStorage;
@@ -78,12 +83,15 @@ public class CIMImporter extends Object {
 	HashMap<String,Integer> mapCountBank = new HashMap<>();
 
 	HashMap<String,DistBaseVoltage> mapBaseVoltages = new HashMap<>();
+	HashMap<String,DistBreaker> mapBreakers = new HashMap<>();
 	HashMap<String,DistCapacitor> mapCapacitors = new HashMap<>();
 	HashMap<String,DistConcentricNeutralCable> mapCNCables = new HashMap<>();
 	HashMap<String,DistCoordinates> mapCoordinates = new HashMap<>();
 	HashMap<String,DistDisconnector> mapDisconnectors = new HashMap<>();
 	HashMap<String,DistFeeder> mapFeeders = new HashMap<>();
 	HashMap<String,DistFuse> mapFuses = new HashMap<>();
+	HashMap<String,DistGroundDisconnector> mapGroundDisconnectors = new HashMap<>();
+	HashMap<String,DistJumper> mapJumpers = new HashMap<>();
 	HashMap<String,DistLinesCodeZ> mapLinesCodeZ = new HashMap<>();
 	HashMap<String,DistLinesInstanceZ> mapLinesInstanceZ = new HashMap<>();
 	HashMap<String,DistLineSpacing> mapSpacings = new HashMap<>();
@@ -95,7 +103,9 @@ public class CIMImporter extends Object {
 	HashMap<String,DistPowerXfmrCore> mapXfmrCores = new HashMap<>();
 	HashMap<String,DistPowerXfmrMesh> mapXfmrMeshes = new HashMap<>();
 	HashMap<String,DistPowerXfmrWinding> mapXfmrWindings = new HashMap<>();
+	HashMap<String,DistRecloser> mapReclosers = new HashMap<>();
 	HashMap<String,DistRegulator> mapRegulators = new HashMap<>();
+	HashMap<String,DistSectionaliser> mapSectionalisers = new HashMap<>();
 	HashMap<String,DistSequenceMatrix> mapSequenceMatrices = new HashMap<>();
 	HashMap<String,DistSolar> mapSolars = new HashMap<>();
 	HashMap<String,DistStorage> mapStorages = new HashMap<>();
@@ -297,6 +307,46 @@ public class CIMImporter extends Object {
 		}
 	}
 
+	void LoadGroundDisconnectors() {
+		ResultSet results = queryHandler.query (DistGroundDisconnector.szQUERY);
+		while (results.hasNext()) {
+			DistGroundDisconnector obj = new DistGroundDisconnector (results);
+			mapGroundDisconnectors.put (obj.GetKey(), obj);
+		}
+	}
+
+	void LoadJumpers() {
+		ResultSet results = queryHandler.query (DistJumper.szQUERY);
+		while (results.hasNext()) {
+			DistJumper obj = new DistJumper (results);
+			mapJumpers.put (obj.GetKey(), obj);
+		}
+	}
+
+	void LoadBreakers() {
+		ResultSet results = queryHandler.query (DistBreaker.szQUERY);
+		while (results.hasNext()) {
+			DistBreaker obj = new DistBreaker (results);
+			mapBreakers.put (obj.GetKey(), obj);
+		}
+	}
+
+	void LoadReclosers() {
+		ResultSet results = queryHandler.query (DistRecloser.szQUERY);
+		while (results.hasNext()) {
+			DistRecloser obj = new DistRecloser (results);
+			mapReclosers.put (obj.GetKey(), obj);
+		}
+	}
+
+	void LoadSectionalisers() {
+		ResultSet results = queryHandler.query (DistSectionaliser.szQUERY);
+		while (results.hasNext()) {
+			DistSectionaliser obj = new DistSectionaliser (results);
+			mapSectionalisers.put (obj.GetKey(), obj);
+		}
+	}
+
 	void LoadLinesInstanceZ() {
 		ResultSet results = queryHandler.query (DistLinesInstanceZ.szQUERY);
 		while (results.hasNext()) {
@@ -386,9 +436,14 @@ public class CIMImporter extends Object {
 		PrintOneMap (mapLinesInstanceZ, "** LINES WITH IMPEDANCE ATTRIBUTES");
 		PrintOneMap (mapSpacings, "** LINE SPACINGS");
 		PrintOneMap (mapLinesSpacingZ, "** LINES REFERENCING SPACINGS");
-		PrintOneMap (mapLoadBreakSwitches, "** LOADBREAK SWITCHES");
+		PrintOneMap (mapBreakers, "** BREAKERS");
+		PrintOneMap (mapReclosers, "** RECLOSERS");
 		PrintOneMap (mapFuses, "** FUSES");
+		PrintOneMap (mapSectionalisers, "** SECTIONALISERS");
+		PrintOneMap (mapLoadBreakSwitches, "** LOADBREAK SWITCHES");
+		PrintOneMap (mapJumpers, "** JUMPERS");
 		PrintOneMap (mapDisconnectors, "** DISCONNECTORS");
+		PrintOneMap (mapGroundDisconnectors, "** GROUND DISCONNECTORS");
 		PrintOneMap (mapLoads, "** LOADS");
 		PrintOneMap (mapWires, "** OVERHEAD WIRES");
 		PrintOneMap (mapPhaseMatrices, "** PHASE IMPEDANCE MATRICES");
