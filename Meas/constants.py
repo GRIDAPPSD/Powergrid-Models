@@ -32,3 +32,14 @@ PREFIX c: {cimURL}>
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 """.format(cimURL=cim17)
 #******************************************************************************
+
+# cim16 is used for some utility feeders and ListOverheadWires.py, ListCNCables.py
+cim16 = '<http://iec.ch/TC57/2012/CIM-schema-cim16#'
+# Prefix for all queries.
+prefix16 = """PREFIX r: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX c: {cimURL}>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+""".format(cimURL=cim16)
+#******************************************************************************
+
+
