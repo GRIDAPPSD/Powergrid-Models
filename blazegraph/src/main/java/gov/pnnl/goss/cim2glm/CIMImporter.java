@@ -761,7 +761,7 @@ public class CIMImporter extends Object {
 	}
 	
 	protected void WriteGLMFile (PrintWriter out, double load_scale, boolean bWantSched, String fSched, 
-																	 boolean bWantZIP, double Zcoeff, double Icoeff, double Pcoeff) {
+																	 boolean bWantZIP, boolean randomZIP, double Zcoeff, double Icoeff, double Pcoeff) {
 
 		// preparatory steps to build the list of nodes
 		ResultSet results = queryHandler.query (
@@ -830,7 +830,7 @@ public class CIMImporter extends Object {
 			DistLoad obj = pair.getValue();
 			GldNode nd = mapNodes.get (obj.bus);
 			nd.nomvln = obj.basev / Math.sqrt(3.0);
-			nd.AccumulateLoads (obj.name, obj.phases, obj.p, obj.q, obj.pe, obj.qe, obj.pz, obj.pi, obj.pp, obj.qz, obj.qi, obj.qp);
+			nd.AccumulateLoads (obj.name, obj.phases, obj.p, obj.q, obj.pe, obj.qe, obj.pz, obj.pi, obj.pp, obj.qz, obj.qi, obj.qp, randomZIP);
 		}
 		for (HashMap.Entry<String,DistCapacitor> pair : mapCapacitors.entrySet()) {
 			DistCapacitor obj = pair.getValue();
@@ -1329,8 +1329,8 @@ public class CIMImporter extends Object {
 		out.close();
 	}
 
-	public void start(QueryHandler queryHandler, String fTarget, String fRoot, String fSched, double load_scale, boolean bWantSched, boolean bWantZIP, double Zcoeff, double Icoeff, double Pcoeff) throws FileNotFoundException{
-		start(queryHandler, fTarget, fRoot, fSched, load_scale, bWantSched, bWantZIP, Zcoeff, Icoeff, Pcoeff, -1);
+	public void start(QueryHandler queryHandler, String fTarget, String fRoot, String fSched, double load_scale, boolean bWantSched, boolean bWantZIP, boolean randomZIP, double Zcoeff, double Icoeff, double Pcoeff) throws FileNotFoundException{
+		start(queryHandler, fTarget, fRoot, fSched, load_scale, bWantSched, bWantZIP, randomZIP, Zcoeff, Icoeff, Pcoeff, -1);
 	}
 	
 	
@@ -1347,7 +1347,7 @@ public class CIMImporter extends Object {
 	 * @param fXY
 	 * @throws FileNotFoundException
 	 */
-	public void start(QueryHandler queryHandler, String fTarget, String fRoot, String fSched, double load_scale, boolean bWantSched, boolean bWantZIP, double Zcoeff, double Icoeff, double Pcoeff, int maxMeasurements) throws FileNotFoundException{
+	public void start(QueryHandler queryHandler, String fTarget, String fRoot, String fSched, double load_scale, boolean bWantSched, boolean bWantZIP, boolean randomZIP, double Zcoeff, double Icoeff, double Pcoeff, int maxMeasurements) throws FileNotFoundException{
 		this.queryHandler = queryHandler;
 		String fOut, fXY, fID, fDict;		
 
@@ -1359,7 +1359,7 @@ public class CIMImporter extends Object {
 			fOut = fRoot + "_base.glm";
 			fXY = fRoot + "_symbols.json";
 			PrintWriter pOut = new PrintWriter(fOut);
-			WriteGLMFile(pOut, load_scale, bWantSched, fSched, bWantZIP, Zcoeff, Icoeff, Pcoeff);
+			WriteGLMFile(pOut, load_scale, bWantSched, fSched, bWantZIP, randomZIP, Zcoeff, Icoeff, Pcoeff);
 			PrintWriter pXY = new PrintWriter(fXY);
 			WriteJSONSymbolFile (pXY);
 			PrintWriter pDict = new PrintWriter(fDict);
@@ -1401,13 +1401,13 @@ public class CIMImporter extends Object {
 	 * @param Icoeff
 	 * @param Pcoeff
 	 */
-	public void generateGLMFile(QueryHandler queryHandler, PrintWriter out, String fSched, double load_scale, boolean bWantSched, boolean bWantZIP, double Zcoeff, double Icoeff, double Pcoeff) {
+	public void generateGLMFile(QueryHandler queryHandler, PrintWriter out, String fSched, double load_scale, boolean bWantSched, boolean bWantZIP, boolean randomZIP, double Zcoeff, double Icoeff, double Pcoeff) {
 		this.queryHandler = queryHandler;
 		if(!allMapsLoaded){
 			LoadAllMaps();
 		}
 		CheckMaps();
-		WriteGLMFile (out, load_scale, bWantSched, fSched, bWantZIP, Zcoeff, Icoeff, Pcoeff);
+		WriteGLMFile (out, load_scale, bWantSched, fSched, bWantZIP, randomZIP, Zcoeff, Icoeff, Pcoeff);
 	}
 	
 	/**
@@ -1494,7 +1494,7 @@ public class CIMImporter extends Object {
 	public static void main (String args[]) throws FileNotFoundException {
 		String fRoot = "";
 		double freq = 60.0, load_scale = 1.0;
-		boolean bWantSched = false, bWantZIP = false, bSelectFeeder = false;
+		boolean bWantSched = false, bWantZIP = false, bSelectFeeder = false, randomZIP = false;
 		String fSched = "";
 		String fTarget = "dss";
 		String feeder_mRID = "";
@@ -1510,6 +1510,7 @@ public class CIMImporter extends Object {
 			System.out.println ("       -z={0..1}          // constant Z portion (defaults to 0 for CIM-defined LoadResponseCharacteristic)");
 			System.out.println ("       -i={0..1}          // constant I portion (defaults to 0 for CIM-defined LoadResponseCharacteristic)");
 			System.out.println ("       -p={0..1}          // constant P portion (defaults to 0 for CIM-defined LoadResponseCharacteristic)");
+			System.out.println ("       -r={0, 1}          // determine ZIP load fraction based on given xml file or randomized fractions");
 			System.out.println ("       -u={http://localhost:9999/blazegraph/namespace/kb/sparql} // blazegraph uri (if connecting over HTTP); defaults to http://localhost:9999/blazegraph/namespace/kb/sparql");
 
 			System.out.println ("Example 1: java CIMImporter -l=1 -i=1 -n=zipload_schedule ieee8500");
@@ -1556,6 +1557,8 @@ public class CIMImporter extends Object {
 				} else if (opt == 'p') {
 					Pcoeff = Double.parseDouble(optVal);
 					bWantZIP = true;
+				} else if (opt == 'r' && Integer.parseInt(optVal) == 1) {
+					randomZIP = true;
 				} else if (opt == 's') {
 					feeder_mRID = optVal;
 					bSelectFeeder = true;
@@ -1584,7 +1587,7 @@ public class CIMImporter extends Object {
 //				System.out.println ("Selecting only feeder " + feeder_mRID);
 			}
 			new CIMImporter().start(qh, fTarget, fRoot, fSched, load_scale,
-															bWantSched, bWantZIP, Zcoeff, Icoeff, Pcoeff);
+															bWantSched, bWantZIP, randomZIP, Zcoeff, Icoeff, Pcoeff);
 		} catch (RuntimeException e) {
 			System.out.println ("Can not produce a model: " + e.getMessage());
 			e.printStackTrace();
