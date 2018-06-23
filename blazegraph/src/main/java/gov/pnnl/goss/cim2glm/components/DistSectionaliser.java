@@ -14,6 +14,22 @@ public class DistSectionaliser extends DistSwitch {
 		super (results);
 	}
 
+	public String GetGLM () {
+		StringBuilder buf = new StringBuilder ("object sectionalizer {\n");
+
+		buf.append ("  name \"swt_" + name + "\";\n");
+		buf.append ("  from \"" + bus1 + "\";\n");
+		buf.append ("  to \"" + bus2 + "\";\n");
+		buf.append ("  phases " + glm_phases + ";\n");
+		if (open) {
+			buf.append ("  status OPEN;\n");
+		} else {
+			buf.append ("  status CLOSED;\n");
+		}
+		buf.append("}\n");
+		return buf.toString();
+	}
+
 	public String CIMClass() {
 		return "Sectionaliser";
 	}
