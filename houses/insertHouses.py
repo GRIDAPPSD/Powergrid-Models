@@ -61,7 +61,8 @@ def main(fdrid, region, loglevel='INFO', logfile=None, seed=None):
     # Get the EnergyConsumers, commercial loads, and total magnitude of 
     # residential energy consumer loads.
     ec, comm, magS = getEnergyConsumers(sparql=sparql, fdrid=fdrid)
-    LOG.info('Total res. load apparent power magnitude: {} MVA'.format(magS/10e06))
+    LOG.info('Total res. load apparent power magnitude: '
+             + '{} MVA'.format(magS/10e06))
     
     # Alert user about loads which will not be converted.
     LOG.info(('There are {} {}V loads totalling {} VA which will not have '
@@ -71,8 +72,25 @@ def main(fdrid, region, loglevel='INFO', logfile=None, seed=None):
     # Initialize a "createHouses" object
     obj = createHouses(region=region, log=LOG, seed=seed)
     
-    # Add houses
-    ec = obj.genHousesForFeeder(loadDf=ec, magS=magS)
+    # Generate houses. NOTE: it may technically be more efficient if the house
+    # objects were inserted into the triplstore CIM database 'on the fly' as
+    # they're generated, but since this functionality doesn't particularly rely
+    # on speed, we'll make things more modular and readable by "double-looping"
+    housingDict = obj.genHousesForFeeder(loadDf=ec, magS=magS)
+    
+    # Loop over residential energy consumers, push associated houses into 
+    # the CIM triplestore.
+    for load, tup in housingDict.items():
+        # Grab first element of the tuple: the dataframe representing houses.
+        houseDf = tup[0]
+        
+        # Grab the MRID for this load
+        mrid = ec.loc[load, 'mrid']
+        
+        # Loop over the houses and insert into CIM triplestore
+        for row, houseData in houseDf.iterrows():
+            # TODO: insert into database.
+            pass
     
     print('hooray')
     

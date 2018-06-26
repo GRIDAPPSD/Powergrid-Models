@@ -33,7 +33,7 @@ OUTFILE = 'housing_data.json'
 #
 cols = ['TYPEHUQ', 'YEARMADERANGE', 'ADQINSUL', 'CLIMATE_REGION_PUB',
         'TOTSQFT_EN', 'NWEIGHT', 'AIRCOND', 'CENACHP', 'TEMPHOMEAC',
-        'TEMPHOME', 'HEATHOME', 'EQUIPM', 'STORIES']
+        'TEMPHOME', 'HEATHOME', 'EQUIPM', 'STORIES', 'DRAFTY']
 
 # Notes on columns which aren't described in more depth later:
 # 
@@ -94,6 +94,14 @@ VARCAT = {
         2: 'Adequately insulated',
         3: 'Poorly insulated',
         4: 'Not insulated'
+    },
+    
+    # "Frequency of draft" (on website "Home is too drafty during the winter"
+    'DRAFTY': {
+        1: 'All the time',
+        2: 'Most of the time',
+        3: 'Some of the time',
+        4: 'Never'
     },
     
     # "Main space heating equipment type"

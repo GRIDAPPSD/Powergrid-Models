@@ -17,7 +17,7 @@ import pandas as pd
 # Modules in this repository:
 #
 # Import some EIA RECS data constants from housingData.py.
-from eia_recs.housingData import OUTFILE, VARCAT, VARVALUE, CLIMATE_REGION_PUB
+from eia_recs.housingData import OUTFILE, TYPEHUQ, CLIMATE_REGION_PUB
 
 # Get path to this directory
 THIS_DIR = os.path.dirname(os.path.realpath(__file__))
@@ -31,6 +31,13 @@ DATA_DIR = 'eia_recs'
 # Tuning parameter used in guessing how many houses there are per transformer.
 # This is a more or less "out of the air" guess at the moment.
 VA_PER_SQFT = 3
+
+# We need to specify a power factor for the HVAC system. This could use a bit
+# more research, here's something that seems reasonable:
+HVAC_PF = (0.85, 0.95)
+
+# Create a reversed dictionary of TYPEHUQ for lookup by string instead of code.
+TYPEHUQ_REV = {v:k for k, v in TYPEHUQ.items()}
 
 #******************************************************************************
 # CLASS DEFINITION: createHouses
@@ -148,8 +155,15 @@ class createHouses():
         magS: total magnitude of all loads.
         
         OUTPUT:
-        loadDf will have a 'houses' column, which contains a dataframe of 
-            housing characteristics for each load (row) in loadDf.
+        housingDict: dictionary with nodes/loads (index from loadDf) as keys.
+            Each key maps to a two-element tuple - the first is a dataframe
+            containing housing data and the second is the chosen housing type
+            code (see eia_recs.housingData.TYPEHUQ). Using the code instead of
+            the full name for efficiency.
+            
+        note: We may want to use a different datatype other than a dictionary.
+            When we loop back over the items, this will be inefficient as 
+            the key will have to be looked up every time.
         """
         # First, estimate how many houses we'll be placing.
         guess = self.estimateTotalHouses(magS=magS)
@@ -160,37 +174,413 @@ class createHouses():
         
         self.housing = housing * guess
         
-        count = 0
+        # Track how many loads we handled.
+        self.loadCount = 1
+        self.houseCount = pd.Series(data=np.zeros(len(self.data['TYPEHUQ'])),
+                                    index=self.data['TYPEHUQ'].index)
+        # Initialize flag so we aren't throwing too many warnings.
+        self.warnFlag = False
+        
+        # Since the number of houses per load/node is variable, we're best
+        # suited to use a dictionary here.
+        housingDict = {}
+        
         # Loop over each load and add houses.
         for loadName, data in loadDf.iterrows():
             
             # Draw a housing type from the distribution and then draw square
             # footages for each house that will be added to the load/xfmr.
-            housingType, sqftArray = self.typeAndSQFTForLoad(data.loc['magS'])
+            housingType, floorArea = self.typeAndSQFTForLoad(data.loc['magS'])
+            
+            # Number of houses is the length of the floorArea
+            n = len(floorArea)
             
             # Initialize a DataFrame for these houses. We'll be mapping 
             # EIA RECS codes into the codes used for the house model in 
             # PNNL's CIM extension.
-            houseDf = pd.DataFrame(data=sqftArray, columns=['floorArea'])
+            houseDf = pd.DataFrame(data=floorArea, columns=['floorArea'])
             
-            # TODO: draw all the other house characteristics, add to the
-            # houseDf.
+            # Add cooling (AC) information:
+            coolingSystem, coolingSetpoint = self.drawAC(housingType, n)
+            houseDf['coolingSystem'] = coolingSystem
+            houseDf['coolingSetpoint'] = coolingSetpoint
+            # Using the above syntax because apparently assign returns a copy,
+            # which feels very inefficient...
+            '''
+            houseDf.assign(coolingSystem=coolingSystem,
+                           coolingSetpoint=coolingSetpoint)
+            '''
             
-            # Add this DataFrame to the larger loadDf
-            loadDf.loc[loadName, 'houses'] = houseDf
+            # Add heating information:
+            heatingSystem, heatingSetpoint = self.drawHeating(housingType, n)
+            houseDf['heatingSystem'] = heatingSystem
+            houseDf['heatingSetpoint'] = heatingSetpoint
             
-            count += 1
-            pass
+            # Draw HVAC power system, using nan if there's neither electric 
+            # heating nor cooling
+            hvacPowerFactor = pd.Series(self.rand.uniform(low=HVAC_PF[0],
+                                        high=HVAC_PF[1], size=n))
+            hvacPowerFactor[(houseDf['coolingSystem'] == 'none') & \
+                            (houseDf['heatingSystem'] == 'none')] = np.nan
+            houseDf['hvacPowerFactor'] = hvacPowerFactor
             
-            # 
+            # Draw number of stories.
+            houseDf['numberOfStories'] = self.drawNumStories(housingType, n)
+            
+            # Draw thermal integrity.
+            houseDf['thermalIntegrity'] = \
+                self.drawThermalIntegrity(housingType, n)
+            
+            # Lookup housing code and assign houseDf and code to dictionary.
+            hCode = TYPEHUQ_REV[housingType]
+            housingDict[loadName] = (houseDf, hCode)
+            
+            self.loadCount += 1
+            self.houseCount[housingType] += n
+            
+        # Print totals to the log. 
+        self.log.info(('{} loads were accounted for, totaling {} '
+                       + 'housing units').format(self.loadCount,
+                                                 self.houseCount.sum())
+                       )
         
-        # Done!   
-        return loadDf
+        # Print final distribution to the log.
+        self.log.info('Final housing breakdown:\n{}'.format(self.houseCount))
+                        
+        # Done!
+        return housingDict
     
-    def drawAC(self, n):
-        """Draw all AC related parameters for 'n' houses
+    def drawThermalIntegrity(self, housingType, n):
+        """Decide thermal integrity levels for 'n' houses.
+        
+        housingType: string (from self.data['TYPEHUQ'].index) representing
+            housing type.
+        n: number of houses to determine properties for.
+        
+        OUTPUTS:
+        thermalIntegrity: pandas Series indicating thermal integrity level for
+            each of the 'n' housing units. Options (from GridLAB-D,
+            http://gridlab-d.shoutwiki.com/wiki/Thermal_integrity_level) are:
+            
+            'veryLittle': old, uninsulated
+            'little': old, insulated
+            'belowNormal': old, weatherized
+            'normal': old, retrofit upgraded
+            'aboveNormal': moderately insulated
+            'good': very well insulated
+            'veryGood': extermely well insulated
+            'unknown': unkown. "Built-in defaults or user-specified values are
+                used."
+                
+        NOTES:
+        We'll be using three parameters to make a decision here:
+        YEARMADERANGE, ADQINSUL, and DRAFTY.
+        
+        year made will decide if house is 'old' or not, adequate insulation
+        will determine 'insulated,' and 'drafty' will determine weatherized.
+        
+        TODO: I don't love this one... The mapping is too.. hand-wavy. Maybe
+            instead of this intersection method we could come up with a 'score'
+            where equal points are possible from the three categories?
+        TODO: Get someone to review and weigh in.
         """
+        # Grab pointer to relevant data for readability.
+        data = self.data[housingType]
+        
+        # For each house, draw each characterstic from the relevant
+        # distributions.
+        
+        # Year made range.
+        (optionsY, pY) = zip(*data['YEARMADERANGE'].items())
+        year = pd.Series(self.rand.choice(a=optionsY, size=n,
+                                          p=pY).astype(int))
+        
+        # Insulation.
+        (optionsI, pI) = zip(*data['ADQINSUL'].items())
+        insul = pd.Series(self.rand.choice(a=optionsI, size=n,
+                                           p=pI).astype(int))
+        
+        # Drafty.
+        (optionsD, pD) = zip(*data['DRAFTY'].items())
+        draft = pd.Series(self.rand.choice(a=optionsD, size=n,
+                                           p=pD).astype(int))
+        
+        # Initialize return.
+        thermalIntegrity = pd.Series(index=year.index)
+        
+        # Loop and select thermalIntegrity based on the combination of year,
+        # insul, and draft.
+        for index, y in year.iteritems():
+            # Grab other information.
+            i = insul.iloc[index]
+            d = draft.iloc[index]
+            
+            # Start with insulation we'll narrow from there.
+            if i == 1:
+                # Well insulated.
+                choicesI = ['veryGood', 'good', 'aboveNormal']
+            elif i == 2:
+                # Adequately insulated.
+                choicesI = ['aboveNormal', 'normal']
+            elif i == 3:
+                # Poorly insulated.
+                choicesI = ['normal', 'belowNormal', 'little']
+            elif i == 4:
+                # Not insulated.
+                # Here we're going to take a shortcut and just assign
+                # 'veryLittle'
+                thermalIntegrity.iloc[index] = 'veryLittle'
+                continue
+            
+            # Define more options based on draftiness
+            if d == 1:
+                # All the time
+                choicesD = ['little', 'veryLittle']
+            elif d == 2:
+                # Most of the time
+                choicesD = ['belowNormal', 'little', 'veryLittle']
+            elif d == 3: 
+                # Some of the time
+                choicesD = ['aboveNormal', 'normal']
+            elif d == 4:
+                # Never
+                choicesD = ['veryGood', 'good']
+                
+            # Find common items in choicesI and choicesD.
+            common = list(set(choicesI).intersection(choicesD))
+            
+            # If the length of the list is 1, assign and move on.
+            if len(common) == 1:
+                thermalIntegrity.iloc[index] = common[0]
+                continue
+            
+            # Define options based on year of construction. This is uber hand-
+            # wavy. I've made it so there's only a single overlap between cases
+            # as you work your way down the if/else cases
+            if y in [1, 2, 3]:
+                # Pre-1950 to 1969
+                choicesY = ['belowNormal', 'little', 'veryLittle']
+            elif y in [4, 5, 6]:
+                # 1970 to 1999
+                choicesY = ['good', 'aboveNormal', 'normal',  'belowNormal']
+            else:
+                # 2000 to 2015
+                choicesY = ['veryGood', 'good']
+            
+            # Get common options
+            common = list(set(common).intersection(choicesY))
+            
+            # Pick thermal integrity value.
+            if len(common) == 1:
+                # Use what's leftover
+                val = common[0]
+            elif len(common) == 0:
+                # Fall back and draw from insulation.
+                # TODO: maybe we should bias the draw based on insulation?
+                val = self.rand.choice(choicesI)
+            elif len(common) > 1:
+                # Randomly draw from remaining items..
+                val = self.rand.choice(list(common))
+            
+            # Assign.
+            thermalIntegrity.iloc[index] = val
+        
+        # Done!
+        return thermalIntegrity
+        
+        
+    def drawNumStories(self, housingType, n):
+        """Draw number of stories for 'n' houses.
+        
+        INPUTS:
+        housingType: string (from self.data['TYPEHUQ'].index) representing
+            housing type.
+        n: number of houses to determine properties for.
+        
+        OUTPUTS:
+        numberOfStories: pandas Series indicating the number of stories for
+            each of the 'n' housing units. Note that mobile homes and
+            apartments will always be 1 story.
+        """
+        # If housing type has one story be definition, set and return.
+        if housingType in ['Mobile home',
+                           'Apartment in a building with 2 to 4 units',
+                           'Apartment in a building with 5 or more units']:
+            numberOfStories = pd.Series(np.ones(n))
+            return numberOfStories
+        
+        # Draw number of stories for single family housing.
+        
+        # Grab pointer to relevant data for readability.
+        data = self.data[housingType]
+        
+        # Grab distribution of number of stories.
+        (options, p) = zip(*data['STORIES'].items()) 
+        numberOfStories = pd.Series(self.rand.choice(a=options, size=n,
+                                              p=p).astype(int))
+        
+        # Map results to number of stories (see definition in housingData.py).
+        # Notes: 'Four or more stories' is being mapped to 4, and 'Split-level'
+        # is being mapped to 2.
+        numberOfStories = numberOfStories.map({10: 1, 20: 2, 31: 3, 32: 4,
+                                               40: 2})
+        
+        # Done.
+        return numberOfStories
+        
+    
+    def drawHeating(self, housingType, n):
+        """Draw all heating related parameters for 'n' houses.
+        
+        INPUTS:
+        housingType: string (from self.data['TYPEHUQ'].index) representing
+            housing type.
+        n: number of houses to determine properties for.
+        
+        OUTPUTS:
+        heatingSystem: pandas Series with a string for each of the 'n' housing
+            units. Options are 'none,' 'electric,' 'heatPump,' or 'gas.'
+        heatingSetpoint: pandas Series with a number for each of the 'n' 
+            housing units. Represents heating setpoint in degrees F. If the
+            corresponding heating system is 'none,' the setpoint will be
+            np.nan 
+        """
+        
+        # Grab pointer to relevant data for readability.
+        data = self.data[housingType]
+        
+        # First, determine whether or not the houses have heating
+        (options, p) = zip(*data['HEATHOME'].items()) 
+        hasHeat = pd.Series(self.rand.choice(a=options, size=n,
+                                             p=p).astype(int))
+        
+        # Draw heating system type (see eia_recs.housingData.EQUIPM for
+        # options). To keep things simple, we'll just draw even if hasHeat is
+        # false. While this isn't optimally efficient, it's silly to chase
+        # micro-optimizations early on, especially when it'll make the code
+        # less readable.
+        (options, p) = zip(*data['EQUIPM'].items())
+        heatType = pd.Series(self.rand.choice(a=options, size=n,
+                                              p=p).astype(int))
+        
+        # Map combination of hasHeat and heatType into 'none,' 'gas,'
+        # 'heatPump,' or 'resistance'
+        heatingSystem = pd.Series(index=heatType.index)
+        for index, hH in hasHeat.iteritems():
+            # Grab type
+            hT = heatType.iloc[index]
+            
+            # TODO: get a second opinion on this mapping. 
+            #
+            # According to the GridLAB-D Wiki:
+            # (http://gridlab-d.shoutwiki.com/wiki/Heating_system_type#GAS):
+            #
+            # Gas: "Specifies that heat is provided by a gas-powered furnace or
+            # boiler that cycles on and off in order to maintain air
+            # temperature above the heating thermostat setpoint. Can be used to
+            # model heating systems supplied by natural gas, propane,
+            # wood/biomass, and other non-electric sources." 
+            #
+            # So, we'll just
+            # lump everything that isn't obviously heat pump or resistance into
+            # 'gas'
+            if not hH:
+                # No heating system
+                h = 'none'
+            elif hT == 4:
+                # heat pump
+                h = 'heatPump'
+            elif (hT == 5) or (hT == 10):
+                # 'Built-in electric units installed in walls, ceilings,
+                # baseboards, or floors' or 'Portable electric heaters'
+                h = 'electric'
+            else:
+                # Cast everything else into "gas"
+                h = 'gas'
+            
+            # Assign.
+            heatingSystem.iloc[index] = h
+            
+        # Draw heating setpoint.
+        heatingSetpoint = self.drawFromDist(\
+            pmf=data['TEMPHOME']['pmf'],
+            bin_edges=data['TEMPHOME']['bin_edges'], num=n)
+        
+        # Make all the coolingSetpoints nan if there's no coolingSystem
+        heatingSetpoint[heatingSystem == 'none'] = np.nan
+        
+        return heatingSystem, heatingSetpoint
+    
+    def drawAC(self, housingType, n):
+        """Draw all AC related parameters for 'n' houses.
+        
+        INPUTS:
+        housingType: string (from self.data['TYPEHUQ'].index) representing
+            housing type.
+        n: number of houses to determine properties for.
+        
+        OUTPUTS:
+        coolingSystem: pandas Series which containes either 'electric' for 
+            standard AC, 'none' if there's no cooling, or 'heatPump' if the AC
+            is from a heatpump.
+        coolingSetpoint: pandas Series containing a thermostat cooling setpoint
+            (in degrees F) for each home. np.nan will be used for homes with
+            'none' in coolingSystem
+        """
+        # Grab pointer to relevant data for readability.
+        data = self.data[housingType]
+        
         # First, determine whether or not the object has AC
+        (options, p) = zip(*data['AIRCOND'].items()) 
+        hasAC = pd.Series(self.rand.choice(a=options, size=n, p=p).astype(int))
+        
+        # Draw cooling system type (either heatpump or AC). To keep things
+        # simple, we'll just draw even if hasAC is false. While this isn't
+        # optimally efficient, it's silly to chase micro-optimizations early
+        # on, especially when it'll make the code less readable.
+        (options, p) = zip(*data['CENACHP'].items())
+        isHP = pd.Series(self.rand.choice(a=options, size=n, p=p).astype(int))
+        
+        # Map combination of hasAC and isHP into coolingSystem return.
+        # NOTE: attempt to use Series.combine didn't work because mapping ints
+        # to strings failed.
+        coolingSystem = pd.Series(index=hasAC.index)
+        for index, hS in hasAC.iteritems():
+            # Grab pointers to heatpump value
+            HP = isHP.iloc[index]
+            
+            # Assign type accordingly
+            if not hS:
+                # no cooling
+                c = 'none'
+            elif HP:
+                c = 'heatPump'
+            else:
+                c = 'electric'
+                
+            coolingSystem.iloc[index] = c
+        
+        # Draw cooling setpoint.
+        coolingSetpoint = self.drawFromDist(\
+            pmf=data['TEMPHOMEAC']['pmf'],
+            bin_edges=data['TEMPHOMEAC']['bin_edges'], num=n)
+        
+        # Make all the coolingSetpoints nan if there's no coolingSystem
+        coolingSetpoint[coolingSystem == 'none'] = np.nan
+        
+        return coolingSystem, coolingSetpoint
+    
+    def mapAC(self, hasSystem, isHP):
+        """
+        """
+        if hasSystem and isHP:
+            out = 'heatPump'
+        elif hasSystem:
+            out = 'electric'
+        else:
+            out = 'none'
+            
+        return out
     
     def typeAndSQFTForLoad(self, magS):
         """Randomly draw a housing type, then choose number of housing units.
@@ -200,7 +590,9 @@ class createHouses():
         
         OUTPUTS:
         housingType: Selected housing type string.
-        sqftArray: numpy array of square footages for houses to be added.
+        housingCode: index from TYPEHUQ that matches up with the housingType
+            string
+        floorArea: pandas Series of square footages for houses to be added.
         """
         # Grab the denominator needed to normalize self.housing.
         denom = self.housing.sum()
@@ -211,19 +603,32 @@ class createHouses():
         else:
             # If all our housing has been zeroed out, we'll need to default to the
             # distribution we started with.
-            self.log.warn('All houses from self.housing have been depleted, '
-                           + 'falling back on initial distribution.')
+            if not self.warnFlag:
+                self.log.warn('All houses from self.housing have been '
+                              + 'depleted, falling back on the initial '
+                              + 'distribution, which will cause deviations '
+                              + 'from the distribution since.')
+                self.log.info(('{} loads were accounted for, totaling {} '
+                               + 'housing units').format(self.loadCount,
+                                                         self.houseCount.sum())
+                               )
+                # Set the warn flag so we don't throw this for the rest of the
+                # houses.
+                self.warnFlag = True
+            
+            # Grab the standard housing distribution.
             p = self.data['TYPEHUQ']
         
         # Draw a housing type.
         housingType = self.rand.choice(self.housing.index, p=p)
         
-        # Initialize array for tracking square footage.
-        sqftArray = []
+        # Initialize array for tracking square footage (use PNNL's house CIM
+        # extension verbage).
+        floorArea = []
         totalSqft = 0
         
         # Draw squarefootages for this housing type until we've "filled" the
-        # transformer. 
+        # transformer.
         #
         # TODO: I'd like to find a better method here: in reality, housing
         # units attached to the same transformer will be of a similiar size.
@@ -241,13 +646,13 @@ class createHouses():
             
             # Note: return comes back as a numpy array, but we just want the
             # value.
-            sqftArray.append(s[0])
+            floorArea.append(s[0])
             
             # Increment the total.
             totalSqft += s
         
         # Grab the number of housing units for convenience.
-        numUnits = len(sqftArray)
+        numUnits = len(floorArea)
         
         # For now, warn if we didn't "pick enough" or picked "too many"
         # TODO: If things are way off, we should probably consider trying again
@@ -273,7 +678,7 @@ class createHouses():
             self.housing[self.housing < 0] = 0
         
         # Done!
-        return housingType, np.array(sqftArray)
+        return housingType, pd.Series(floorArea)
     
     def drawFromDist(self, pmf, bin_edges, num=1):
         """Select a discrete bin from a distribution, then use the uniform
