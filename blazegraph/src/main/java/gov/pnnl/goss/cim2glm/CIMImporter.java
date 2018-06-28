@@ -23,6 +23,7 @@ import gov.pnnl.goss.cim2glm.components.DistDisconnector;
 import gov.pnnl.goss.cim2glm.components.DistFeeder;
 import gov.pnnl.goss.cim2glm.components.DistFuse;
 import gov.pnnl.goss.cim2glm.components.DistGroundDisconnector;
+import gov.pnnl.goss.cim2glm.components.DistHouse;
 import gov.pnnl.goss.cim2glm.components.DistJumper;
 import gov.pnnl.goss.cim2glm.components.DistLineSegment;
 import gov.pnnl.goss.cim2glm.components.DistLineSpacing;
@@ -115,6 +116,7 @@ public class CIMImporter extends Object {
 	HashMap<String,DistXfmrTank> mapTanks = new HashMap<>();
 	HashMap<String,DistXfmrBank> mapBanks = new HashMap<>();
 	HashMap<String,DistMeasurement> mapMeasurements = new HashMap<>();
+	HashMap<String,DistHouse> mapHouses - new HashMap<>();
 	
 	boolean allMapsLoaded = false;
 
@@ -416,6 +418,14 @@ public class CIMImporter extends Object {
 			mapFeeders.put (obj.GetKey(), obj);
 		}
 	}
+	
+	void LoadHouses() {
+		ResultSet results = queryHandler.query (DistHouse.szQUERY);
+		while (results.hasNext()) {
+			DistHouse obj = new DistHouse (results);
+			mapHouses.put (obj.GetKey(), obj);
+		}
+	}
 
 	public void PrintOneMap(HashMap<String,? extends DistComponent> map, String label) {
 		System.out.println(label);
@@ -459,6 +469,7 @@ public class CIMImporter extends Object {
 		PrintOneMap (mapCodeSCTests, "** XFMR CODE SC TESTS");
 		PrintOneMap (mapBanks, "** XFMR BANKS");
 		PrintOneMap (mapTanks, "** XFMR TANKS");
+		PrintOneMap (mapHouses, "** HOUSES");
 	}
 
 	public void LoadAllMaps() {
@@ -493,6 +504,7 @@ public class CIMImporter extends Object {
 		LoadXfmrTanks();
 		LoadXfmrBanks();
 		LoadFeeders();
+		LoadHouses();
 		allMapsLoaded = true;
 
 	}
@@ -759,7 +771,7 @@ public class CIMImporter extends Object {
 	}
 	
 	protected void WriteGLMFile (PrintWriter out, double load_scale, boolean bWantSched, String fSched, 
-																	 boolean bWantZIP, boolean randomZIP, double Zcoeff, double Icoeff, double Pcoeff) {
+																	 boolean bWantZIP, boolean randomZIP, boolean useHouses, double Zcoeff, double Icoeff, double Pcoeff) {
 
 		// preparatory steps to build the list of nodes
 		ResultSet results = queryHandler.query (
@@ -1063,7 +1075,12 @@ public class CIMImporter extends Object {
 
 		// GLM nodes and loads
 		for (HashMap.Entry<String,GldNode> pair : mapNodes.entrySet()) {
-			out.print (pair.getValue().GetGLM (load_scale, bWantSched, fSched, bWantZIP, Zcoeff, Icoeff, Pcoeff));
+			out.print (pair.getValue().GetGLM (load_scale, bWantSched, fSched, bWantZIP, useHouses, Zcoeff, Icoeff, Pcoeff));
+		}
+		
+		// GLM houses
+		for (HashMap.Entry<String, DistHouse> pair : mapHouses.entrySet()) {
+			out.print((pair.getValue().GetGLM()));
 		}
 
 		out.close();
