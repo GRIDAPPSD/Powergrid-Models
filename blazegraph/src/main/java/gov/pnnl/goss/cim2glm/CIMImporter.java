@@ -1079,8 +1079,10 @@ public class CIMImporter extends Object {
 		}
 		
 		// GLM houses
-		for (HashMap.Entry<String, DistHouse> pair : mapHouses.entrySet()) {
-			out.print((pair.getValue().GetGLM()));
+		if (useHouses) {
+			for (HashMap.Entry<String, DistHouse> pair : mapHouses.entrySet()) {
+				out.print((pair.getValue().GetGLM()));
+			}
 		}
 
 		out.close();
