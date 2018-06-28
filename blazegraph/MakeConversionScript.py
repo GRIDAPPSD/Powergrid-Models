@@ -14,11 +14,11 @@ def append_cases(casefiles, dsspath, outpath, region, subregion, fp):
 fp = open ("ConvertCDPSM.dss", "w")
 
 if sys.platform == 'win32':
-    outpath = r'C:\Users\thay838\git_repos\Powergrid-Models\blazegraph\test/'
+    outpath = 'c:/gridapps-d/powergrid-models/blazegraph/test/'
     cimpath = 'c:/OpenDSS/Test/'
     ieeepath = 'c:/OpenDSS/Distrib/IEEETestCases/'
     epripath = 'c:/OpenDSS/Distrib/EPRITestCircuits/'
-    taxpath = r'C:\Users\thay838\git_repos\Powergrid-Models\taxonomy'
+    taxpath = 'c:/gridapps-d/powergrid-models/taxonomy/'
     dpvpath = 'c:/epri_dpv/'
 elif sys.platform == 'linux':
     srcpath = '/home/mcde601/src/'
@@ -37,9 +37,9 @@ else:
     taxpath = srcpath + 'GRIDAPPSD/Powergrid-Models/taxonomy/'
     dpvpath = srcpath + 'epri_dpv/'
 
-#casefiles = [['IEEE13_CDPSM', 'IEEE13'],
-#             ['IEEE13_Assets', 'IEEE13_Assets']]
-#append_cases(casefiles, cimpath, outpath, 'ieee', 'test', fp)
+casefiles = [['IEEE13_CDPSM', 'IEEE13'],
+             ['IEEE13_Assets', 'IEEE13_Assets']]
+append_cases(casefiles, cimpath, outpath, 'ieee', 'test', fp)
 
 #casefiles = [['./8500-Node/Master', 'IEEE8500'],
 #            ['./34Bus/ieee34Mod2', 'IEEE34'],
@@ -52,9 +52,9 @@ else:
 #            ['./4Bus-YD-Bal/4Bus-YD-Bal', 'YD-bal'],
 #            ['./4Bus-YY-Bal/4Bus-YY-Bal', 'YY-bal'],
 #            ['./8500-Node/Master-unbal', 'IEEE8500u']]
-#casefiles = [['./8500-Node/Master', 'IEEE8500'],
-#            ['./123Bus/IEEE123Master', 'IEEE123']]
-#append_cases(casefiles, ieeepath, outpath, 'ieee', 'large',  fp)
+casefiles = [['./8500-Node/Master', 'IEEE8500'],
+            ['./123Bus/IEEE123Master', 'IEEE123']]
+append_cases(casefiles, ieeepath, outpath, 'ieee', 'large',  fp)
 
 #casefiles = [['./ckt5/Master_ckt5', 'EPRI5'],
 #             ['./ckt7/Master_ckt7', 'EPRI7'],
@@ -88,9 +88,9 @@ else:
 casefiles = [['./new_R2_12_47_2/Master', 'R2_12_47_2']]
 append_cases(casefiles, taxpath, outpath, 'pnnl', 'taxonomy', fp)
 #
-#casefiles = [['./J1/Master_noPV', 'EPRI_DPV_J1']]
+casefiles = [['./J1/Master_noPV', 'EPRI_DPV_J1']]
 #             ['./K1/Master_NoPV', 'EPRI_DPV_K1'],
 #             ['./M1/master_NoPV', 'EPRI_DPV_M1']]
-#append_cases(casefiles, dpvpath, outpath, 'epri', 'dpv', fp)
+append_cases(casefiles, dpvpath, outpath, 'epri', 'dpv', fp)
 
 fp.close()

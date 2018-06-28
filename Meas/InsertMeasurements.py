@@ -20,22 +20,17 @@ def InsertMeasurement (meascls, measid, eqname, eqid, trmid, meastype, phases):
 	#if not measid starts with _ then prepend it, this is here for consistency. otherwise the mrids are uploaded without the initial _
 	if (not str(measid).startswith("_")):
 		measid = "_"+str(measid)
-	
-	# resource analog to house
+
 	resource = '<' + constants.blazegraph_url + '#' + str(measid) + '>'
-	# equipment is analog to energy consumer
 	equipment = '<' + constants.blazegraph_url + '#' + str(eqid) + '>'
-	# no need for terminal
 	terminal = '<' + constants.blazegraph_url + '#' + str(trmid) + '>'
-	# meascls should be 'House'
 	ln1 = resource + ' a c:' + meascls + '. ' 
 	ln2 = resource + ' c:IdentifiedObject.mRID \"' + str(measid) + '\". '
 	ln3 = resource + ' c:IdentifiedObject.name \"' + str(eqname) + '\". '
-	ln4 = resource + ' c:House.EnergyConsumer ' + equipment + '. '
-	#ln5 = resource + ' c:Measurement.Terminal ' + terminal + '. '
-	# Phases is example of enumeration
-	ln6 = (resource + ' c:House.thermalIntegrity ' + constants.cim17
-		+ 'HouseThermalIntegrity.' + 'aboveNormal' + '>. ')
+	ln4 = resource + ' c:Measurement.PowerSystemResource ' + equipment + '. '
+	ln5 = resource + ' c:Measurement.Terminal ' + terminal + '. '
+	ln6 = (resource + ' c:Measurement.phases ' + constants.cim17
+		+ 'PhaseCode.' + phases + '>. ')
 	ln7 = resource + ' c:Measurement.measurementType \"' + meastype + '\"'
 	qstr = (constants.prefix + 'INSERT DATA { ' + ln1 + ln2 + ln3 + ln4 +
 		ln5 + ln6 + ln7 + '}')

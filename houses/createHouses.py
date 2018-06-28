@@ -212,8 +212,7 @@ class createHouses():
             '''
             
             # Add heating information:
-            heatingSystem, heatingSetpoint = self.drawHeating(coolingSystem,
-                                                              housingType, n)
+            heatingSystem, heatingSetpoint = self.drawHeating(housingType, n)
             houseDf['heatingSystem'] = heatingSystem
             houseDf['heatingSetpoint'] = heatingSetpoint
             
@@ -221,12 +220,8 @@ class createHouses():
             # heating nor cooling
             hvacPowerFactor = pd.Series(self.rand.uniform(low=HVAC_PF[0],
                                         high=HVAC_PF[1], size=n))
-            # Use np.nan when both heating and cooling are absent.
             hvacPowerFactor[(houseDf['coolingSystem'] == 'none') & \
                             (houseDf['heatingSystem'] == 'none')] = np.nan
-            # Use unity(1) when there's no cooling, but heating is resistive.
-            hvacPowerFactor[((houseDf['coolingSystem'] == 'none') & \
-                            (houseDf['heatingSystem'] == 'resistance'))] = 1
             houseDf['hvacPowerFactor'] = hvacPowerFactor
             
             # Draw number of stories.
@@ -434,12 +429,10 @@ class createHouses():
         return numberOfStories
         
     
-    def drawHeating(self, coolingSystem, housingType, n):
+    def drawHeating(self, housingType, n):
         """Draw all heating related parameters for 'n' houses.
         
         INPUTS:
-        coolingSystem: one of the returns from "drawAC." Used for heat 
-            pumps.
         housingType: string (from self.data['TYPEHUQ'].index) representing
             housing type.
         n: number of houses to determine properties for.
@@ -466,9 +459,9 @@ class createHouses():
         # false. While this isn't optimally efficient, it's silly to chase
         # micro-optimizations early on, especially when it'll make the code
         # less readable.
-        (optionsHT, pHT) = zip(*data['EQUIPM'].items())
-        heatType = pd.Series(self.rand.choice(a=optionsHT, size=n,
-                                              p=pHT).astype(int))
+        (options, p) = zip(*data['EQUIPM'].items())
+        heatType = pd.Series(self.rand.choice(a=options, size=n,
+                                              p=p).astype(int))
         
         # Map combination of hasHeat and heatType into 'none,' 'gas,'
         # 'heatPump,' or 'resistance'
@@ -477,38 +470,36 @@ class createHouses():
             # Grab type
             hT = heatType.iloc[index]
             
-            # Handle different heating type cases.
-            if coolingSystem.iloc[index] == 'heatPump':
-                # If the cooling system is heat pump, force the heating system
-                # to be a heat pump. While this may cause slight diversions
-                # from the distribution, theoretically anyone who has a heat
-                # pump will use it for heating as well as cooling... They're
-                # too damned expensive to do something else (personal
-                # experience)
-                h = 'heatPump'
-            elif not hH:
+            # TODO: get a second opinion on this mapping. 
+            #
+            # According to the GridLAB-D Wiki:
+            # (http://gridlab-d.shoutwiki.com/wiki/Heating_system_type#GAS):
+            #
+            # Gas: "Specifies that heat is provided by a gas-powered furnace or
+            # boiler that cycles on and off in order to maintain air
+            # temperature above the heating thermostat setpoint. Can be used to
+            # model heating systems supplied by natural gas, propane,
+            # wood/biomass, and other non-electric sources." 
+            #
+            # So, we'll just
+            # lump everything that isn't obviously heat pump or resistance into
+            # 'gas'
+            if not hH:
                 # No heating system
                 h = 'none'
+            elif hT == 4:
+                # heat pump
+                h = 'heatPump'
+            elif (hT == 5) or (hT == 10):
+                # 'Built-in electric units installed in walls, ceilings,
+                # baseboards, or floors' or 'Portable electric heaters'
+                h = 'electric'
             else:
-                # Handle heat pumps.
-                if hT == 4:
-                    # heat pump. We need to draw until we get a non-heat pump.
-                    itCount = 0
-                    while hT != 4:
-                        hT = pd.Series(self.rand.choice(a=optionsHT, size=1,
-                                                        p=pHT).astype(int))
-                        
-                        # Infinite loop protection.
-                        itCount += 1
-                        if itCount > 100:
-                            raise UserWarning("Looks like we're stuck in a loop.")
-                        
-                # Map.
-                h = self.mapHeating(code=hT)
+                # Cast everything else into "gas"
+                h = 'gas'
             
             # Assign.
             heatingSystem.iloc[index] = h
-            
             
         # Draw heating setpoint.
         heatingSetpoint = self.drawFromDist(\
@@ -519,21 +510,6 @@ class createHouses():
         heatingSetpoint[heatingSystem == 'none'] = np.nan
         
         return heatingSystem, heatingSetpoint
-    
-    @staticmethod
-    def mapHeating(code):
-        """Helper function for mapping heating codes to values.
-        """
-        if (code == 5) or (code == 10):
-            # 'Built-in electric units installed in walls, ceilings,
-            # baseboards, or floors' or 'Portable electric heaters'
-            h = 'resistance'
-        else:
-            # Cast everything else into "gas"
-            h = 'gas'
-        
-        return h
-        
     
     def drawAC(self, housingType, n):
         """Draw all AC related parameters for 'n' houses.
@@ -593,6 +569,18 @@ class createHouses():
         coolingSetpoint[coolingSystem == 'none'] = np.nan
         
         return coolingSystem, coolingSetpoint
+    
+    def mapAC(self, hasSystem, isHP):
+        """
+        """
+        if hasSystem and isHP:
+            out = 'heatPump'
+        elif hasSystem:
+            out = 'electric'
+        else:
+            out = 'none'
+            
+        return out
     
     def typeAndSQFTForLoad(self, magS):
         """Randomly draw a housing type, then choose number of housing units.
