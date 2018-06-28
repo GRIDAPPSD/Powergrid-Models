@@ -13,6 +13,7 @@ Created on Jun 1, 2018
 import logging
 import sys
 import math
+from uuid import uuid4
 
 # Installed packages:
 import numpy as np
@@ -41,6 +42,11 @@ TRIPLEX_V = 208
 # We'll let the user know how many 480 volt loads are in there, even though we 
 # won't be adding houses to them.
 COMMERCIAL_V = 480
+
+# We need to define which housing properties are enumerations, as this uses 
+# a different syntax for sparql updates.
+ENUM = {'coolingSystem': 'HouseCooling', 'heatingSystem': 'HouseHeating',
+        'thermalIntegrity': 'HouseThermalIntegrity'}
 
 # Do initial log setup
 LOG = logging.getLogger(__name__)
@@ -78,6 +84,11 @@ def main(fdrid, region, loglevel='INFO', logfile=None, seed=None):
     # on speed, we'll make things more modular and readable by "double-looping"
     housingDict = obj.genHousesForFeeder(loadDf=ec, magS=magS)
     
+    LOG.info('All houses generated. Inserting into database.')
+    
+    # Get sparql object ready for posting data.
+    sparql.method = 'POST'
+    
     # Loop over residential energy consumers, push associated houses into 
     # the CIM triplestore.
     for load, tup in housingDict.items():
@@ -89,8 +100,11 @@ def main(fdrid, region, loglevel='INFO', logfile=None, seed=None):
         
         # Loop over the houses and insert into CIM triplestore
         for row, houseData in houseDf.iterrows():
-            # TODO: insert into database.
-            pass
+            # Insert into database.
+            insertHouse(sparql=sparql, ecName=load, ecID=mrid, houseNum=row,
+                        houseData=houseData)
+            
+    LOG.info('All houses inserted into database.')
     
     print('hooray')
     
@@ -201,6 +215,59 @@ def getEnergyConsumers(sparql, fdrid):
                               )
         
     return ec, comm, abs(totalRes)
+
+def insertHouse(sparql, ecName, ecID, houseNum, houseData):
+    """Insert a single house into the CIM triplestore.
+    """
+    # Initialize query
+    q = (constants.prefix + 'INSERT DATA { ')
+    
+    # Get MRIDs as strings
+    ecIDStr = str(ecID)
+    hIDStr = str(uuid4())
+    # Need an underscore on the ID.
+    if hIDStr[0] != '_':
+        hIDStr = '_' + hIDStr
+    
+    # Define strings for the house and energy consumer.
+    house = '<' + constants.blazegraph_url + '#' + hIDStr + '>'
+    ec = '<' + constants.blazegraph_url + '#' + ecIDStr + '>'
+    
+    # Define string for attaching house to energy consumer
+    q += (\
+          house + ' a c:House. ' +
+          house + ' c:IdentifiedObject.mRID \"' + hIDStr + '\". ' +
+          (house + ' c:IdentifiedObject.name \"' + ecName + '_house_' + 
+            str(houseNum) + '\". ') +
+          house + ' c:House.EnergyConsumer ' + ec + '. '
+        )
+    
+    # Loop over attributes 
+    a = []
+    for name, value in houseData.iteritems():
+        # If the value is nan, skip it. e.g. if we don't have a cooling system
+        # the cooling setpoint will be nan.
+        if pd.isnull(value):
+            continue
+         
+        # Enumerations are handled differently
+        try:
+            # Enumerations are handled differently
+            valStr = constants.cim17 + ENUM[name] + '.' + str(value) + '>. ' 
+        except KeyError:
+            # Non-enumeration
+            valStr = '\"' + str(value) + '\". '
+            
+            
+        a.append(house + ' c:House.' + name + ' ' + valStr)
+        
+    # Update query
+    q += ''.join(a) + '}'
+    
+    # Make update in triplestore.
+    sparql.setQuery(q)
+    ret = sparql.query()
+    pass
 
 if __name__ == "__main__":
     # Get command line arguments
