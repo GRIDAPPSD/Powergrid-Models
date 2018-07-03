@@ -498,13 +498,6 @@ public class CIMImporter extends Object {
 		LoadXfmrBanks();
 		LoadFeeders();
 		allMapsLoaded = true;
-
-		PrintOneMap (mapBreakers, "** BREAKERS");
-		PrintOneMap (mapReclosers, "** RECLOSERS");
-		PrintOneMap (mapSectionalisers, "** SECTIONALISERS");
-		PrintOneMap (mapFuses, "** FUSES");
-		PrintOneMap (mapDisconnectors, "** DISCONNECTORS");
-		PrintOneMap (mapLoadBreakSwitches, "** LOADBREAK SWITCHES");
 	}
 
 	public boolean CheckMaps() {
