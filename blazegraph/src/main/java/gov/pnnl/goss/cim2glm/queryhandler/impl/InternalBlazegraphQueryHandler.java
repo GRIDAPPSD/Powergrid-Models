@@ -67,6 +67,13 @@ public class InternalBlazegraphQueryHandler implements QueryHandler{
 //		return result;
 		return null;
 	}
-	
-	
+	public boolean addFeederSelection (String mRID) {
+		return false;
+	}
+	public boolean clearFeederSelections () {
+		return false;
+	}
+	public String getFeederSelection () {
+		return "";
+	}
 }

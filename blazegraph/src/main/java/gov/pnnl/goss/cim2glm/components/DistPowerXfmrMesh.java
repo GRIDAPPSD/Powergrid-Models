@@ -10,7 +10,9 @@ import java.util.HashMap;
 public class DistPowerXfmrMesh extends DistComponent {
 	public static final String szQUERY = 
 		"SELECT ?pname ?fnum ?tnum ?r ?x WHERE {"+
+		" ?fdr c:IdentifiedObject.mRID ?fdrid."+
 		" ?p r:type c:PowerTransformer."+
+		" ?p c:Equipment.EquipmentContainer ?fdr."+
 		" ?p c:IdentifiedObject.name ?pname."+
 		" ?from c:PowerTransformerEnd.PowerTransformer ?p."+
 		" ?imp c:TransformerMeshImpedance.FromTransformerEnd ?from."+
@@ -23,7 +25,9 @@ public class DistPowerXfmrMesh extends DistComponent {
 
 	public static final String szCountQUERY =
 		"SELECT ?key (count(?imp) as ?count) WHERE {"+
+		" ?fdr c:IdentifiedObject.mRID ?fdrid."+
 		" ?p r:type c:PowerTransformer."+
+		" ?p c:Equipment.EquipmentContainer ?fdr."+
 		" ?p c:IdentifiedObject.name ?key."+
 		" ?from c:PowerTransformerEnd.PowerTransformer ?p."+
 		" ?imp c:TransformerMeshImpedance.FromTransformerEnd ?from."+
@@ -42,6 +46,14 @@ public class DistPowerXfmrMesh extends DistComponent {
 		twdg = new int[size];
 		r = new double[size];
 		x = new double[size];
+	}
+
+	public String GetJSONEntry () {
+		StringBuilder buf = new StringBuilder ();
+
+		buf.append ("{\"name\":\"" + name +"\"");
+		buf.append ("}");
+		return buf.toString();
 	}
 
 	public DistPowerXfmrMesh (ResultSet results, HashMap<String,Integer> map) {

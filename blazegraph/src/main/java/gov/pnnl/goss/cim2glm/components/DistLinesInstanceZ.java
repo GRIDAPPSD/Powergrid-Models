@@ -9,24 +9,31 @@ import org.apache.commons.math3.complex.Complex;
 
 public class DistLinesInstanceZ extends DistLineSegment {
 	public static final String szQUERY = 
-		"SELECT ?name ?id ?basev (group_concat(distinct ?bus;separator=\"\\n\") as ?buses) ?len ?r ?x ?b ?r0 ?x0 ?b0 WHERE {"+
+		"SELECT ?name ?id ?basev ?bus1 ?bus2 ?len ?r ?x ?b ?r0 ?x0 ?b0 ?fdrid WHERE {"+
 		" ?s r:type c:ACLineSegment."+
+		" ?s c:Equipment.EquipmentContainer ?fdr."+
+		" ?fdr c:IdentifiedObject.mRID ?fdrid."+
 		" ?s c:IdentifiedObject.name ?name."+
-		" bind(strafter(str(?s),\"#_\") as ?id)."+
+		" bind(strafter(str(?s),\"#\") as ?id)."+
 		" ?s c:ConductingEquipment.BaseVoltage ?bv."+
 		" ?bv c:BaseVoltage.nominalVoltage ?basev."+
 		" ?s c:Conductor.length ?len."+
 		" ?s c:ACLineSegment.r ?r."+
 		" ?s c:ACLineSegment.x ?x."+
-		" OPTIONAL {?s c:ACLineSegment.b ?b.}"+
+		" OPTIONAL {?s c:ACLineSegment.bch ?b.}"+
 		" OPTIONAL {?s c:ACLineSegment.r0 ?r0.}"+
 		" OPTIONAL {?s c:ACLineSegment.x0 ?x0.}"+
-		" OPTIONAL {?s c:ACLineSegment.b0 ?b0.}"+
-		" ?t c:Terminal.ConductingEquipment ?s."+
-		" ?t c:Terminal.ConnectivityNode ?cn. "+
-		" ?cn c:IdentifiedObject.name ?bus"+
+		" OPTIONAL {?s c:ACLineSegment.b0ch ?b0.}"+
+		" ?t1 c:Terminal.ConductingEquipment ?s."+
+		" ?t1 c:Terminal.ConnectivityNode ?cn1."+
+		" ?t1 c:ACDCTerminal.sequenceNumber \"1\"."+
+		" ?cn1 c:IdentifiedObject.name ?bus1."+
+		" ?t2 c:Terminal.ConductingEquipment ?s."+
+		" ?t2 c:Terminal.ConnectivityNode ?cn2."+
+		" ?t2 c:ACDCTerminal.sequenceNumber \"2\"."+
+		" ?cn2 c:IdentifiedObject.name ?bus2"+
 		"}"+
-		" GROUP BY ?name ?id ?basev ?len ?r ?x ?b ?r0 ?x0 ?b0"+
+		" GROUP BY ?name ?id ?basev ?bus1 ?bus2 ?len ?r ?x ?b ?r0 ?x0 ?b0 ?fdrid"+
 		" ORDER BY ?name";
 
 	public double r1; 
@@ -36,14 +43,22 @@ public class DistLinesInstanceZ extends DistLineSegment {
 	public double x0; 
 	public double b0; 
 
+	public String GetJSONEntry () {
+		StringBuilder buf = new StringBuilder ();
+
+		buf.append ("{\"name\":\"" + name +"\"");
+		buf.append (",\"mRID\":\"" + id +"\"");
+		buf.append ("}");
+		return buf.toString();
+	}
+
 	public DistLinesInstanceZ (ResultSet results) {
 		if (results.hasNext()) {
 			QuerySolution soln = results.next();
 			name = SafeName (soln.get("?name").toString());
 			id = soln.get("?id").toString();
-			String[] buses = soln.get("?buses").toString().split("\\n");
-			bus1 = SafeName(buses[0]); 
-			bus2 = SafeName(buses[1]); 
+			bus1 = SafeName (soln.get("?bus1").toString()); 
+			bus2 = SafeName (soln.get("?bus2").toString()); 
 			phases = "ABC";
 			len = Double.parseDouble (soln.get("?len").toString());
 			basev = Double.parseDouble (soln.get("?basev").toString());
@@ -66,7 +81,7 @@ public class DistLinesInstanceZ extends DistLineSegment {
 
 	public String GetGLM() {
 		StringBuilder buf = new StringBuilder ();
-		AppendSharedGLMAttributes (buf, name);
+		AppendSharedGLMAttributes (buf, name, false);
 
 		String seqZs = CFormat (new Complex ((r0 + 2.0 * r1) / 3.0, (x0 + 2.0 * x1) / 3.0));
 		String seqZm = CFormat (new Complex ((r0 - r1) / 3.0, (x0 - x1) / 3.0));
@@ -104,7 +119,9 @@ public class DistLinesInstanceZ extends DistLineSegment {
 
 		buf.append (" phases=" + Integer.toString(DSSPhaseCount(phases, false)) + 
 								" bus1=" + DSSBusPhases(bus1, phases) + " bus2=" + DSSBusPhases (bus2, phases) + 
-								" length=" + df1.format(len * gFTperM) + " units=ft\n");
+								" length=" + df1.format(len * gFTperM) + " units=ft" +
+								" r1=" + df6.format(r1) + " x1=" + df6.format(x1) + " c1=" + df6.format(1.0e9 * b1 / gOMEGA) + 
+								" r0=" + df6.format(r0) + " x0=" + df6.format(x0) + " c0=" + df6.format(1.0e9 * b0 / gOMEGA) + "\n");
 
 		return buf.toString();
 	}

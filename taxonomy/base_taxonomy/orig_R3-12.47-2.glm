@@ -1,22 +1,16 @@
 // $Id: R3-12.47-2.glm 
-// 12.47 kV feeder
-//*********************************************
-// validates voltages with FBS at selected load, node, meter, and triplex_node/meter
-// objects
-//
-// also validates power_in,power_out and power losses at selected
-// underground lines
-// written by alek332
-clock{
-	timezone EST+5EDT;
-	timestamp '2000-01-01 0:00:00';
-	stoptime '2000-01-01 0:01:00';
-}
+// 12.47 kV feeder 
+//********************************************* 
+clock{ 
+     timezone EST+5EDT; 
+     timestamp '2000-01-01 0:00:00'; 
+     stoptime '2000-01-01 0:01:00'; 
+
+} 
 
 #set profiler=1 
 //********************************************* 
 // modules 
-module assert;
 module tape; 
 module powerflow{ 
      solver_method NR; 
@@ -29,13 +23,7 @@ object regulator:785 {
      from R3-12-47-2_node_267; 
      to R3-12-47-2_meter_63; 
      phases ABCN; 
-     configuration regulator_configuration:786; 
-     object recorder { 
-          property tap_A,tap_B,tap_C,power_in_A.real,power_in_A.imag,power_in_B.real,power_in_B.imag,power_in_C.real,power_in_C.imag,power_in.real,power_in.imag; 
-          limit 1440; 
-          interval 60; 
-          file "R3-12.27-2_reg_output.csv"; 
-     }; 
+     configuration feeder_reg_cfg; 
 } 
 
 object regulator_configuration:786 { 
@@ -58,9 +46,9 @@ object fuse:724 {
      phases ABCN; 
      from R3-12-47-2_node_105; 
      to R3-12-47-2_node_88; 
-     current_limit 100; 
-		 mean_replacement_time 3600;
+     current_limit 50000;// 100; 
      status CLOSED; 
+		 mean_replacement_time 3600;
 } 
 
 object fuse:725 { 
@@ -68,9 +56,9 @@ object fuse:725 {
      phases ABCN; 
      from R3-12-47-2_node_88; 
      to R3-12-47-2_node_87; 
-     current_limit 200; 
-		 mean_replacement_time 3600;
+     current_limit 50000;// 200; 
      status CLOSED; 
+		 mean_replacement_time 3600;
 } 
 
 object fuse:726 { 
@@ -78,9 +66,9 @@ object fuse:726 {
      phases BN; 
      from R3-12-47-2_node_196; 
      to R3-12-47-2_node_90; 
-     current_limit 40; 
-		 mean_replacement_time 3600;
+     current_limit 50000;// 40; 
      status CLOSED; 
+		 mean_replacement_time 3600;
 } 
 
 object fuse:727 { 
@@ -88,9 +76,9 @@ object fuse:727 {
      phases ABCN; 
      from R3-12-47-2_node_201; 
      to R3-12-47-2_node_81; 
-     current_limit 25; 
-		 mean_replacement_time 3600;
+     current_limit 50000;// 25; 
      status CLOSED; 
+		 mean_replacement_time 3600;
 } 
 
 object fuse:728 { 
@@ -98,9 +86,9 @@ object fuse:728 {
      phases ABCN; 
      from R3-12-47-2_node_202; 
      to R3-12-47-2_node_82; 
-     current_limit 25; 
-		 mean_replacement_time 3600;
+     current_limit 50000;// 25; 
      status CLOSED; 
+		 mean_replacement_time 3600;
 } 
 
 object fuse:729 { 
@@ -108,9 +96,9 @@ object fuse:729 {
      phases ABCN; 
      from R3-12-47-2_node_227; 
      to R3-12-47-2_node_84; 
-     current_limit 65; 
-		 mean_replacement_time 3600;
+     current_limit 50000;// 65; 
      status CLOSED; 
+		 mean_replacement_time 3600;
 } 
 
 object fuse:730 { 
@@ -118,9 +106,9 @@ object fuse:730 {
      phases BN; 
      from R3-12-47-2_node_217; 
      to R3-12-47-2_node_95; 
-     current_limit 25; 
-		 mean_replacement_time 3600;
+     current_limit 50000;// 25; 
      status CLOSED; 
+		 mean_replacement_time 3600;
 } 
 
 object fuse:731 { 
@@ -128,9 +116,9 @@ object fuse:731 {
      phases ABCN; 
      from R3-12-47-2_node_198; 
      to R3-12-47-2_node_91; 
-     current_limit 40; 
-		 mean_replacement_time 3600;
+     current_limit 50000;// 40; 
      status CLOSED; 
+		 mean_replacement_time 3600;
 } 
 
 object fuse:732 { 
@@ -138,9 +126,9 @@ object fuse:732 {
      phases ABCN; 
      from R3-12-47-2_node_198; 
      to R3-12-47-2_node_83; 
-     current_limit 80; 
-		 mean_replacement_time 3600;
+     current_limit 50000;// 80; 
      status CLOSED; 
+		 mean_replacement_time 3600;
 } 
 
 object fuse:733 { 
@@ -148,9 +136,9 @@ object fuse:733 {
      phases ABCN; 
      from R3-12-47-2_node_209; 
      to R3-12-47-2_node_85; 
-     current_limit 65; 
-		 mean_replacement_time 3600;
+     current_limit 50000;// 65; 
      status CLOSED; 
+		 mean_replacement_time 3600;
 } 
 
 object fuse:734 { 
@@ -158,9 +146,9 @@ object fuse:734 {
      phases ABCN; 
      from R3-12-47-2_node_211; 
      to R3-12-47-2_node_93; 
-     current_limit 100; 
-		 mean_replacement_time 3600;
+     current_limit 50000;// 100; 
      status CLOSED; 
+		 mean_replacement_time 3600;
 } 
 
 object fuse:735 { 
@@ -168,9 +156,9 @@ object fuse:735 {
      phases ABCN; 
      from R3-12-47-2_node_184; 
      to R3-12-47-2_node_89; 
-     current_limit 65; 
-		 mean_replacement_time 3600;
+     current_limit 50000;// 65; 
      status CLOSED; 
+		 mean_replacement_time 3600;
 } 
 
 object fuse:736 { 
@@ -178,9 +166,9 @@ object fuse:736 {
      phases ABCN; 
      from R3-12-47-2_node_210; 
      to R3-12-47-2_node_92; 
-     current_limit 65; 
-		 mean_replacement_time 3600;
+     current_limit 50000;// 65; 
      status CLOSED; 
+		 mean_replacement_time 3600;
 } 
 
 object fuse:737 { 
@@ -188,9 +176,9 @@ object fuse:737 {
      phases ABCN; 
      from R3-12-47-2_node_213; 
      to R3-12-47-2_node_94; 
-     current_limit 65; 
-		 mean_replacement_time 3600;
+     current_limit 50000;// 65; 
      status CLOSED; 
+		 mean_replacement_time 3600;
 } 
 
 object fuse:738 { 
@@ -198,9 +186,9 @@ object fuse:738 {
      phases ABCN; 
      from R3-12-47-2_node_215; 
      to R3-12-47-2_node_86; 
-     current_limit 65; 
-		 mean_replacement_time 3600;
+     current_limit 50000;// 65; 
      status CLOSED; 
+		 mean_replacement_time 3600;
 } 
 
 object fuse:739 { 
@@ -208,9 +196,9 @@ object fuse:739 {
      phases BN; 
      from R3-12-47-2_node_115; 
      to R3-12-47-2_node_80; 
-     current_limit 118; 
-		 mean_replacement_time 3600;
+     current_limit 50000;// 118; 
      status CLOSED; 
+		 mean_replacement_time 3600;
 } 
 
 object fuse:740 { 
@@ -218,9 +206,9 @@ object fuse:740 {
      phases ABCN; 
      from R3-12-47-2_node_128; 
      to R3-12-47-2_node_73; 
-     current_limit 300; 
-		 mean_replacement_time 3600;
+     current_limit 50000;// 300; 
      status CLOSED; 
+		 mean_replacement_time 3600;
 } 
 
 object fuse:741 { 
@@ -228,9 +216,9 @@ object fuse:741 {
      phases ABCN; 
      from R3-12-47-2_node_3; 
      to R3-12-47-2_node_78; 
-     current_limit 90; 
-		 mean_replacement_time 3600;
+     current_limit 50000;// 90; 
      status CLOSED; 
+		 mean_replacement_time 3600;
 } 
 
 object fuse:742 { 
@@ -238,9 +226,9 @@ object fuse:742 {
      phases ABCN; 
      from R3-12-47-2_node_2; 
      to R3-12-47-2_node_79; 
-     current_limit 18; 
-		 mean_replacement_time 3600;
+     current_limit 50000;// 18; 
      status CLOSED; 
+		 mean_replacement_time 3600;
 } 
 
 object fuse:743 { 
@@ -248,9 +236,9 @@ object fuse:743 {
      phases ABCN; 
      from R3-12-47-2_node_6; 
      to R3-12-47-2_node_72; 
-     current_limit 300; 
-		 mean_replacement_time 3600;
+     current_limit 50000;// 300; 
      status CLOSED; 
+		 mean_replacement_time 3600;
 } 
 
 object fuse:744 { 
@@ -258,9 +246,9 @@ object fuse:744 {
      phases ABCN; 
      from R3-12-47-2_node_8; 
      to R3-12-47-2_node_76; 
-     current_limit 300; 
-		 mean_replacement_time 3600;
+     current_limit 50000;// 300; 
      status CLOSED; 
+		 mean_replacement_time 3600;
 } 
 
 object line_configuration:21 { 
@@ -452,6 +440,14 @@ object line_configuration:47 {
      spacing line_spacing:16; 
 } 
 
+object line_configuration:48 { 
+     conductor_A underground_line_conductor:14; 
+     conductor_B underground_line_conductor:14; 
+     conductor_C underground_line_conductor:14; 
+     conductor_N underground_line_conductor:14; 
+     spacing line_spacing:17; 
+} 
+
 object line_spacing:16 { 
      distance_BN 36.0 in; 
 } 
@@ -485,7 +481,7 @@ object load:314 {
      phases BN; 
      voltage_B -3600-6235j; 
      constant_power_B 6435.223+1906.9363j; 
-     nominal_voltage 7200; 
+     nominal_voltage 480; 
      load_class C; 
 } 
 
@@ -495,7 +491,7 @@ object load:315 {
      phases AN; 
      voltage_A 7200+0.0j; 
      constant_power_A 6156.2257+1836.7523j; 
-     nominal_voltage 7200; 
+     nominal_voltage 480; 
      load_class C; 
 } 
 
@@ -505,7 +501,7 @@ object load:316 {
      phases AN; 
      voltage_A 7200+0.0j; 
      constant_power_A 10260.3762+3061.2538j; 
-     nominal_voltage 7200; 
+     nominal_voltage 480; 
      load_class C; 
 } 
 
@@ -515,7 +511,7 @@ object load:317 {
      phases BN; 
      voltage_B -3600-6235j; 
      constant_power_B 429.0149+127.1291j; 
-     nominal_voltage 7200; 
+     nominal_voltage 480; 
      load_class I; 
 } 
 
@@ -525,7 +521,7 @@ object load:318 {
      phases BN; 
      voltage_B -3600-6235j; 
      constant_power_B 10725.3717+3178.2272j; 
-     nominal_voltage 7200; 
+     nominal_voltage 480; 
      load_class C; 
 } 
 
@@ -535,35 +531,8 @@ object load:319 {
      phases AN; 
      voltage_A 7200+0.0j; 
      constant_power_A 6156.2257+1836.7523j; 
-     nominal_voltage 7200; 
-     // load_class C; 
-	  	// object recorder {
-		// property voltage_A,voltage_B,voltage_C;
-		// interval 60;
-		// limit 1440;
-		// file "319.csv";
-	// };
-	object complex_assert{
-		once ONCE_TRUE;
-		in '2000-01-01 00:04:00 EST';
-		target voltage_A;
-		value +277.802-2.83292d;
-		within 1;
-	};
-	object complex_assert{
-		once ONCE_TRUE;
-		in '2000-01-01 00:04:00 EST';
-		target voltage_B;
-		value  +0+0j;
-		within 1;
-	};
-	object complex_assert{
-		once ONCE_TRUE;
-		in '2000-01-01 00:04:00 EST';
-		target voltage_C;
-		value +0+0j;
-		within 1;
-	}; 
+     nominal_voltage 480; 
+     load_class C; 
 } 
 
 object load:320 { 
@@ -572,7 +541,7 @@ object load:320 {
      phases AN; 
      voltage_A 7200+0.0j; 
      constant_power_A 6156.2257+1836.7523j; 
-     nominal_voltage 7200; 
+     nominal_voltage 480; 
      load_class C; 
 } 
 
@@ -582,7 +551,7 @@ object load:321 {
      phases BN; 
      voltage_B -3600-6235j; 
      constant_power_B 4290.1487+1271.2909j; 
-     nominal_voltage 7200; 
+     nominal_voltage 480; 
      load_class C; 
 } 
 
@@ -596,7 +565,7 @@ object load:322 {
      constant_power_A 10260.3762+3061.2538j; 
      constant_power_B 10725.3717+3178.2272j; 
      constant_power_C 10432.0447+3103.7766j; 
-     nominal_voltage 7200; 
+     nominal_voltage 480; 
      load_class C; 
 } 
 
@@ -608,7 +577,7 @@ object load:323 {
      voltage_B -3600-6235j; 
      constant_power_A 8208.3009+2449.0031j; 
      constant_power_B 8580.2974+2542.5817j; 
-     nominal_voltage 7200; 
+     nominal_voltage 480; 
      load_class C; 
 } 
 
@@ -618,7 +587,7 @@ object load:324 {
      phases AN; 
      voltage_A 7200+0.0j; 
      constant_power_A 6156.2257+1836.7523j; 
-     nominal_voltage 7200; 
+     nominal_voltage 480; 
      load_class C; 
 } 
 
@@ -630,7 +599,7 @@ object load:325 {
      voltage_B -3600-6235j; 
      constant_power_A 8208.3009+2449.0031j; 
      constant_power_B 8580.2974+2542.5817j; 
-     nominal_voltage 7200; 
+     nominal_voltage 480; 
      load_class C; 
 } 
 
@@ -640,7 +609,7 @@ object load:326 {
      phases AN; 
      voltage_A 7200+0.0j; 
      constant_power_A 2052.0752+612.2508j; 
-     nominal_voltage 7200; 
+     nominal_voltage 480; 
      load_class C; 
 } 
 
@@ -654,7 +623,7 @@ object load:327 {
      constant_power_A 6156.2257+1836.7523j; 
      constant_power_B 6435.223+1906.9363j; 
      constant_power_C 6259.2268+1862.266j; 
-     nominal_voltage 7200; 
+     nominal_voltage 480; 
      load_class C; 
 } 
 
@@ -668,7 +637,7 @@ object load:328 {
      constant_power_A 20520.7523+6122.5077j; 
      constant_power_B 21450.7435+6356.4543j; 
      constant_power_C 20864.0894+6207.5532j; 
-     nominal_voltage 7200; 
+     nominal_voltage 480; 
      load_class C; 
 } 
 
@@ -678,7 +647,7 @@ object load:329 {
      phases BN; 
      voltage_B -3600-6235j; 
      constant_power_B 6435.223+1906.9363j; 
-     nominal_voltage 7200; 
+     nominal_voltage 480; 
      load_class C; 
 } 
 
@@ -692,7 +661,7 @@ object load:330 {
      constant_power_A 20520.7523+6122.5077j; 
      constant_power_B 21450.7435+6356.4543j; 
      constant_power_C 20864.0894+6207.5532j; 
-     nominal_voltage 7200; 
+     nominal_voltage 480; 
      load_class C; 
 } 
 
@@ -706,7 +675,7 @@ object load:331 {
      constant_power_A 10260.3762+3061.2538j; 
      constant_power_B 10725.3717+3178.2272j; 
      constant_power_C 10432.0447+3103.7766j; 
-     nominal_voltage 7200; 
+     nominal_voltage 480; 
      load_class C; 
 } 
 
@@ -720,7 +689,7 @@ object load:332 {
      constant_power_A 20520.7523+6122.5077j; 
      constant_power_B 21450.7435+6356.4543j; 
      constant_power_C 20864.0894+6207.5532j; 
-     nominal_voltage 7200; 
+     nominal_voltage 480; 
      load_class C; 
 } 
 
@@ -734,7 +703,7 @@ object load:333 {
      constant_power_A 6156.2257+1836.7523j; 
      constant_power_B 6435.223+1906.9363j; 
      constant_power_C 6259.2268+1862.266j; 
-     nominal_voltage 7200; 
+     nominal_voltage 480; 
      load_class C; 
 } 
 
@@ -744,7 +713,7 @@ object load:334 {
      phases BN; 
      voltage_B -3600-6235j; 
      constant_power_B 6435.223+1906.9363j; 
-     nominal_voltage 7200; 
+     nominal_voltage 480; 
      load_class C; 
 } 
 
@@ -754,7 +723,7 @@ object load:335 {
      phases CN; 
      voltage_C -3600+6235j; 
      constant_power_C 10432.0447+3103.7766j; 
-     nominal_voltage 7200; 
+     nominal_voltage 480; 
      load_class C; 
 } 
 
@@ -764,7 +733,7 @@ object load:336 {
      phases CN; 
      voltage_C -3600+6235j; 
      constant_power_C 10432.0447+3103.7766j; 
-     nominal_voltage 7200; 
+     nominal_voltage 480; 
      load_class I; 
 } 
 
@@ -778,7 +747,7 @@ object load:337 {
      constant_power_A 6156.2257+1836.7523j; 
      constant_power_B 6435.223+1906.9363j; 
      constant_power_C 6259.2268+1862.266j; 
-     nominal_voltage 7200; 
+     nominal_voltage 480; 
      load_class C; 
 } 
 
@@ -792,7 +761,7 @@ object load:338 {
      constant_power_A 20520.7523+6122.5077j; 
      constant_power_B 21450.7435+6356.4543j; 
      constant_power_C 20864.0894+6207.5532j; 
-     nominal_voltage 7200; 
+     nominal_voltage 480; 
      load_class C; 
 } 
 
@@ -802,7 +771,7 @@ object load:339 {
      phases AN; 
      voltage_A 7200+0.0j; 
      constant_power_A 10260.3762+3061.2538j; 
-     nominal_voltage 7200; 
+     nominal_voltage 480; 
      load_class C; 
 } 
 
@@ -816,7 +785,7 @@ object load:340 {
      constant_power_A 41041.5046+12245.0154j; 
      constant_power_B 42901.487+12712.9087j; 
      constant_power_C 41728.1788+12415.1064j; 
-     nominal_voltage 7200; 
+     nominal_voltage 480; 
      load_class C; 
 } 
 
@@ -830,7 +799,7 @@ object load:341 {
      constant_power_A 136668.2104+40775.9011j; 
      constant_power_B 142861.9516+42333.9859j; 
      constant_power_C 138954.8355+41342.3042j; 
-     nominal_voltage 7200; 
+     nominal_voltage 480; 
      load_class C; 
 } 
 
@@ -844,7 +813,7 @@ object load:342 {
      constant_power_A 41041.5046+12245.0154j; 
      constant_power_B 42901.487+12712.9087j; 
      constant_power_C 41728.1788+12415.1064j; 
-     nominal_voltage 7200; 
+     nominal_voltage 480; 
      load_class I; 
 } 
 
@@ -854,7 +823,7 @@ object load:343 {
      phases AN; 
      voltage_A 7200+0.0j; 
      constant_power_A 10260.3762+3061.2538j; 
-     nominal_voltage 7200; 
+     nominal_voltage 480; 
      load_class C; 
 } 
 
@@ -868,7 +837,7 @@ object load:344 {
      constant_power_A 10260.3762+3061.2538j; 
      constant_power_B 10725.3717+3178.2272j; 
      constant_power_C 10432.0447+3103.7766j; 
-     nominal_voltage 7200; 
+     nominal_voltage 480; 
      load_class C; 
 } 
 
@@ -882,7 +851,7 @@ object load:345 {
      constant_power_A 10260.3762+3061.2538j; 
      constant_power_B 10725.3717+3178.2272j; 
      constant_power_C 10432.0447+3103.7766j; 
-     nominal_voltage 7200; 
+     nominal_voltage 480; 
      load_class C; 
 } 
 
@@ -892,7 +861,7 @@ object load:346 {
      phases AN; 
      voltage_A 7200+0.0j; 
      constant_power_A 10260.3762+3061.2538j; 
-     nominal_voltage 7200; 
+     nominal_voltage 480; 
      load_class C; 
 } 
 
@@ -906,7 +875,7 @@ object load:347 {
      constant_power_A 20520.7523+6122.5077j; 
      constant_power_B 21450.7435+6356.4543j; 
      constant_power_C 20864.0894+6207.5532j; 
-     nominal_voltage 7200; 
+     nominal_voltage 480; 
      load_class C; 
 } 
 
@@ -916,7 +885,7 @@ object load:348 {
      phases CN; 
      voltage_C -3600+6235j; 
      constant_power_C 6259.2268+1862.266j; 
-     nominal_voltage 7200; 
+     nominal_voltage 480; 
      load_class C; 
 } 
 
@@ -926,7 +895,7 @@ object load:349 {
      phases CN; 
      voltage_C -3600+6235j; 
      constant_power_C 6259.2268+1862.266j; 
-     nominal_voltage 7200; 
+     nominal_voltage 480; 
      load_class C; 
 } 
 
@@ -940,7 +909,7 @@ object load:350 {
      constant_power_A 10260.3762+3061.2538j; 
      constant_power_B 10725.3717+3178.2272j; 
      constant_power_C 10432.0447+3103.7766j; 
-     nominal_voltage 7200; 
+     nominal_voltage 480; 
      load_class C; 
 } 
 
@@ -950,7 +919,7 @@ object load:351 {
      phases BN; 
      voltage_B -3600-6235j; 
      constant_power_B 10725.3717+3178.2272j; 
-     nominal_voltage 7200; 
+     nominal_voltage 480; 
      load_class C; 
 } 
 
@@ -964,7 +933,7 @@ object load:352 {
      constant_power_A 20520.7523+6122.5077j; 
      constant_power_B 21450.7435+6356.4543j; 
      constant_power_C 20864.0894+6207.5532j; 
-     nominal_voltage 7200; 
+     nominal_voltage 480; 
      load_class C; 
 } 
 
@@ -974,7 +943,7 @@ object load:353 {
      phases BN; 
      voltage_B -3600-6235j; 
      constant_power_B 10725.3717+3178.2272j; 
-     nominal_voltage 7200; 
+     nominal_voltage 480; 
      load_class C; 
 } 
 
@@ -988,7 +957,7 @@ object load:354 {
      constant_power_A 20520.7523+6122.5077j; 
      constant_power_B 21450.7435+6356.4543j; 
      constant_power_C 20864.0894+6207.5532j; 
-     nominal_voltage 7200; 
+     nominal_voltage 480; 
      load_class C; 
 } 
 
@@ -998,35 +967,8 @@ object load:355 {
      phases BN; 
      voltage_B -3600-6235j; 
      constant_power_B 4290.1487+1271.2909j; 
-     nominal_voltage 7200; 
-     load_class C;
-	// object recorder {
-		// property voltage_A,voltage_B,voltage_C;
-		// interval 60;
-		// limit 1440;
-		// file "355.csv";
-	// };
-	object complex_assert{
-		once ONCE_TRUE;
-		in '2000-01-01 00:04:00 EST';
-		target voltage_A;
-		value +0+0j;
-		within 1;
-	};
-	object complex_assert{
-		once ONCE_TRUE;
-		in '2000-01-01 00:04:00 EST';
-		target voltage_B;
-		value  -152.929-228.122j;
-		within 1;
-	};
-	object complex_assert{
-		once ONCE_TRUE;
-		in '2000-01-01 00:04:00 EST';
-		target voltage_C;
-		value +0+0j;
-		within 1;
-	};	 
+     nominal_voltage 480; 
+     load_class C; 
 } 
 
 object load:356 { 
@@ -1039,35 +981,8 @@ object load:356 {
      constant_power_A 6156.2257+1836.7523j; 
      constant_power_B 6435.223+1906.9363j; 
      constant_power_C 6259.2268+1862.266j; 
-     nominal_voltage 7200; 
-     load_class C;
-	// object recorder {
-		// property voltage_A,voltage_B,voltage_C;
-		// interval 60;
-		// limit 1440;
-		// file "356.csv";
-	// };
-	object complex_assert{
-		once ONCE_TRUE;
-		in '2000-01-01 00:04:00 EST';
-		target voltage_A;
-		value +285.431-2.29404j;
-		within 1;
-	};
-	object complex_assert{
-		once ONCE_TRUE;
-		in '2000-01-01 00:04:00 EST';
-		target voltage_B;
-		value  -144.749-245.876j;
-		within 1;
-	};
-	object complex_assert{
-		once ONCE_TRUE;
-		in '2000-01-01 00:04:00 EST';
-		target voltage_C;
-		value -140.729+248.389j;
-		within 1;
-	};	 
+     nominal_voltage 480; 
+     load_class C; 
 } 
 
 object load:357 { 
@@ -1076,7 +991,7 @@ object load:357 {
      phases BN; 
      voltage_B -3600-6235j; 
      constant_power_B 4290.1487+1271.2909j; 
-     nominal_voltage 7200; 
+     nominal_voltage 480; 
      load_class C; 
 } 
 
@@ -1090,7 +1005,7 @@ object load:358 {
      constant_power_A 68402.5077+20408.3589j; 
      constant_power_B 71502.4783+21188.1812j; 
      constant_power_C 69546.9647+20691.8439j; 
-     nominal_voltage 7200; 
+     nominal_voltage 480; 
      load_class I; 
 } 
 
@@ -1104,7 +1019,7 @@ object load:359 {
      constant_power_A 6200+1800j; 
      constant_power_B 6400+1900j; 
      constant_power_C 6300+1900j; 
-     nominal_voltage 7200; 
+     nominal_voltage 480; 
      load_class I; 
 } 
 
@@ -1118,35 +1033,8 @@ object load:360 {
      constant_power_A 41041.5046+12245.0154j; 
      constant_power_B 42901.487+12712.9087j; 
      constant_power_C 41728.1788+12415.1064j; 
-     nominal_voltage 7200; 
-     load_class C;
-	// object recorder {
-		// property voltage_A,voltage_B,voltage_C;
-		// interval 60;
-		// limit 1440;
-		// file "360.csv";
-	// };
-	object complex_assert{
-		once ONCE_TRUE;
-		in '2000-01-01 00:04:00 EST';
-		target voltage_A;
-		value +282.519-5.75152j;
-		within 1;
-	};
-	object complex_assert{
-		once ONCE_TRUE;
-		in '2000-01-01 00:04:00 EST';
-		target voltage_B;
-		value  -146.538-241.337j;
-		within 1;
-	};
-	object complex_assert{
-		once ONCE_TRUE;
-		in '2000-01-01 00:04:00 EST';
-		target voltage_C;
-		value -136.319+247.841j;
-		within 1;
-	};	 
+     nominal_voltage 480; 
+     load_class C; 
 } 
 
 object load:361 { 
@@ -1155,7 +1043,7 @@ object load:361 {
      phases AN; 
      voltage_A 7200+0.0j; 
      constant_power_A 10260.3762+3061.2538j; 
-     nominal_voltage 7200; 
+     nominal_voltage 480; 
      load_class C; 
 } 
 
@@ -1169,7 +1057,7 @@ object load:362 {
      constant_power_A 0+0j; 
      constant_power_B 0+0j; 
      constant_power_C 4172.8179+1241.5106j; 
-     nominal_voltage 7200; 
+     nominal_voltage 480; 
      load_class C; 
 } 
 
@@ -1183,7 +1071,7 @@ object load:363 {
      constant_power_A 20520.7523+6122.5077j; 
      constant_power_B 21450.7435+6356.4543j; 
      constant_power_C 20864.0894+6207.5532j; 
-     nominal_voltage 7200; 
+     nominal_voltage 480; 
      load_class C; 
 } 
 
@@ -1197,7 +1085,7 @@ object load:364 {
      constant_power_A 6156.2257+1836.7523j; 
      constant_power_B 6435.223+1906.9363j; 
      constant_power_C 6259.2268+1862.266j; 
-     nominal_voltage 7200; 
+     nominal_voltage 480; 
      load_class C; 
 } 
 
@@ -1211,7 +1099,7 @@ object load:365 {
      constant_power_A 10260.3762+3061.2538j; 
      constant_power_B 10725.3717+3178.2272j; 
      constant_power_C 10432.0447+3103.7766j; 
-     nominal_voltage 7200; 
+     nominal_voltage 480; 
      load_class C; 
 } 
 
@@ -1225,7 +1113,7 @@ object load:366 {
      constant_power_A 20520.7523+6122.5077j; 
      constant_power_B 21450.7435+6356.4543j; 
      constant_power_C 20864.0894+6207.5532j; 
-     nominal_voltage 7200; 
+     nominal_voltage 480; 
      load_class C; 
 } 
 
@@ -1239,7 +1127,7 @@ object load:367 {
      constant_power_A 6156.2257+1836.7523j; 
      constant_power_B 6435.223+1906.9363j; 
      constant_power_C 6259.2268+1862.266j; 
-     nominal_voltage 7200; 
+     nominal_voltage 480; 
      load_class C; 
 } 
 
@@ -1253,7 +1141,7 @@ object load:368 {
      constant_power_A 68402.5077+20408.3589j; 
      constant_power_B 71502.4783+21188.1812j; 
      constant_power_C 69546.9647+20691.8439j; 
-     nominal_voltage 7200; 
+     nominal_voltage 480; 
      load_class C; 
 } 
 
@@ -1267,7 +1155,7 @@ object load:369 {
      constant_power_A 68402.5077+20408.3589j; 
      constant_power_B 71502.4783+21188.1812j; 
      constant_power_C 69546.9647+20691.8439j; 
-     nominal_voltage 7200; 
+     nominal_voltage 480; 
      load_class C; 
 } 
 
@@ -1281,7 +1169,7 @@ object load:370 {
      constant_power_A 205207.5232+61225.0768j; 
      constant_power_B 214507.4348+63564.5435j; 
      constant_power_C 208640.8941+62075.5318j; 
-     nominal_voltage 7200; 
+     nominal_voltage 480; 
      load_class C; 
 } 
 
@@ -1295,7 +1183,7 @@ object load:371 {
      constant_power_A 205207.5232+61225.0768j; 
      constant_power_B 214507.4348+63564.5435j; 
      constant_power_C 208640.8941+62075.5318j; 
-     nominal_voltage 7200; 
+     nominal_voltage 480; 
      load_class C; 
 } 
 
@@ -1309,7 +1197,7 @@ object load:372 {
      constant_power_A 10260.3762+3061.2538j; 
      constant_power_B 10725.3717+3178.2272j; 
      constant_power_C 10432.0447+3103.7766j; 
-     nominal_voltage 7200; 
+     nominal_voltage 480; 
      load_class C; 
 } 
 
@@ -1323,7 +1211,7 @@ object load:373 {
      constant_power_A 102603.7616+30612.5384j; 
      constant_power_B 107253.7174+31782.2717j; 
      constant_power_C 104320.4471+31037.7659j; 
-     nominal_voltage 7200; 
+     nominal_voltage 480; 
      load_class C; 
 } 
 
@@ -1337,7 +1225,7 @@ object load:374 {
      constant_power_A 68402.5077+20408.3589j; 
      constant_power_B 71502.4783+21188.1812j; 
      constant_power_C 69546.9647+20691.8439j; 
-     nominal_voltage 7200; 
+     nominal_voltage 480; 
      load_class C; 
 } 
 
@@ -1351,7 +1239,7 @@ object load:375 {
      constant_power_A 10260.3762+3061.2538j; 
      constant_power_B 10725.3717+3178.2272j; 
      constant_power_C 10432.0447+3103.7766j; 
-     nominal_voltage 7200; 
+     nominal_voltage 480; 
      load_class C; 
 } 
 
@@ -1359,56 +1247,56 @@ object meter:376 {
      name R3-12-47-2_meter_1; 
      phases BN; 
      voltage_B -3600-6235j; 
-     nominal_voltage 7200; 
+     nominal_voltage 480; 
 } 
 
 object meter:377 { 
      name R3-12-47-2_meter_2; 
      phases AN; 
      voltage_A 7200+0.0j; 
-     nominal_voltage 7200; 
+     nominal_voltage 480; 
 } 
 
 object meter:378 { 
      name R3-12-47-2_meter_3; 
      phases AN; 
      voltage_A 7200+0.0j; 
-     nominal_voltage 7200; 
+     nominal_voltage 480; 
 } 
 
 object meter:379 { 
      name R3-12-47-2_meter_4; 
      phases BN; 
      voltage_B -3600-6235j; 
-     nominal_voltage 7200; 
+     nominal_voltage 480; 
 } 
 
 object meter:380 { 
      name R3-12-47-2_meter_5; 
      phases BN; 
      voltage_B -3600-6235j; 
-     nominal_voltage 7200; 
+     nominal_voltage 480; 
 } 
 
 object meter:381 { 
      name R3-12-47-2_meter_6; 
      phases AN; 
      voltage_A 7200+0.0j; 
-     nominal_voltage 7200; 
+     nominal_voltage 480; 
 } 
 
 object meter:382 { 
      name R3-12-47-2_meter_7; 
      phases AN; 
      voltage_A 7200+0.0j; 
-     nominal_voltage 7200; 
+     nominal_voltage 480; 
 } 
 
 object meter:383 { 
      name R3-12-47-2_meter_8; 
      phases BN; 
      voltage_B -3600-6235j; 
-     nominal_voltage 7200; 
+     nominal_voltage 480; 
 } 
 
 object meter:384 { 
@@ -1417,7 +1305,7 @@ object meter:384 {
      voltage_A 7200+0.0j; 
      voltage_B -3600-6235j; 
      voltage_C -3600+6235j; 
-     nominal_voltage 7200; 
+     nominal_voltage 480; 
 } 
 
 object meter:385 { 
@@ -1425,14 +1313,14 @@ object meter:385 {
      phases ABN; 
      voltage_A 7200+0.0j; 
      voltage_B -3600-6235j; 
-     nominal_voltage 7200; 
+     nominal_voltage 480; 
 } 
 
 object meter:386 { 
      name R3-12-47-2_meter_11; 
      phases AN; 
      voltage_A 7200+0.0j; 
-     nominal_voltage 7200; 
+     nominal_voltage 480; 
 } 
 
 object meter:387 { 
@@ -1440,14 +1328,14 @@ object meter:387 {
      phases ABN; 
      voltage_A 7200+0.0j; 
      voltage_B -3600-6235j; 
-     nominal_voltage 7200; 
+     nominal_voltage 480; 
 } 
 
 object meter:388 { 
      name R3-12-47-2_meter_13; 
      phases AN; 
      voltage_A 7200+0.0j; 
-     nominal_voltage 7200; 
+     nominal_voltage 480; 
 } 
 
 object meter:389 { 
@@ -1456,34 +1344,7 @@ object meter:389 {
      voltage_A 7200+0.0j; 
      voltage_B -3600-6235j; 
      voltage_C -3600+6235j; 
-     nominal_voltage 7200;
-	// object recorder {
-		// property voltage_A,voltage_B,voltage_C;
-		// interval 60;
-		// limit 1440;
-		// file "389.csv";
-	// };
-	object complex_assert{
-		once ONCE_TRUE;
-		in '2000-01-01 00:04:00 EST';
-		target voltage_A;
-		value +282.359-5.99962j;
-		within 1;
-	};
-	object complex_assert{
-		once ONCE_TRUE;
-		in '2000-01-01 00:04:00 EST';
-		target voltage_B;
-		value  -146.636-241.077j;
-		within 1;
-	};
-	object complex_assert{
-		once ONCE_TRUE;
-		in '2000-01-01 00:04:00 EST';
-		target voltage_C;
-		value -136+247.773j;
-		within 1;
-	};	 
+     nominal_voltage 480; 
 } 
 
 object meter:390 { 
@@ -1492,14 +1353,14 @@ object meter:390 {
      voltage_A 7200+0.0j; 
      voltage_B -3600-6235j; 
      voltage_C -3600+6235j; 
-     nominal_voltage 7200; 
+     nominal_voltage 480; 
 } 
 
 object meter:391 { 
      name R3-12-47-2_meter_16; 
      phases BN; 
      voltage_B -3600-6235j; 
-     nominal_voltage 7200; 
+     nominal_voltage 480; 
 } 
 
 object meter:392 { 
@@ -1508,7 +1369,7 @@ object meter:392 {
      voltage_A 7200+0.0j; 
      voltage_B -3600-6235j; 
      voltage_C -3600+6235j; 
-     nominal_voltage 7200; 
+     nominal_voltage 480; 
 } 
 
 object meter:393 { 
@@ -1517,7 +1378,7 @@ object meter:393 {
      voltage_A 7200+0.0j; 
      voltage_B -3600-6235j; 
      voltage_C -3600+6235j; 
-     nominal_voltage 7200; 
+     nominal_voltage 480; 
 } 
 
 object meter:394 { 
@@ -1526,7 +1387,7 @@ object meter:394 {
      voltage_A 7200+0.0j; 
      voltage_B -3600-6235j; 
      voltage_C -3600+6235j; 
-     nominal_voltage 7200; 
+     nominal_voltage 480; 
 } 
 
 object meter:395 { 
@@ -1535,28 +1396,28 @@ object meter:395 {
      voltage_A 7200+0.0j; 
      voltage_B -3600-6235j; 
      voltage_C -3600+6235j; 
-     nominal_voltage 7200; 
+     nominal_voltage 480; 
 } 
 
 object meter:396 { 
      name R3-12-47-2_meter_21; 
      phases BN; 
      voltage_B -3600-6235j; 
-     nominal_voltage 7200; 
+     nominal_voltage 480; 
 } 
 
 object meter:397 { 
      name R3-12-47-2_meter_22; 
      phases CN; 
      voltage_C -3600+6235j; 
-     nominal_voltage 7200; 
+     nominal_voltage 480; 
 } 
 
 object meter:398 { 
      name R3-12-47-2_meter_23; 
      phases CN; 
      voltage_C -3600+6235j; 
-     nominal_voltage 7200; 
+     nominal_voltage 480; 
 } 
 
 object meter:399 { 
@@ -1565,7 +1426,7 @@ object meter:399 {
      voltage_A 7200+0.0j; 
      voltage_B -3600-6235j; 
      voltage_C -3600+6235j; 
-     nominal_voltage 7200; 
+     nominal_voltage 480; 
 } 
 
 object meter:400 { 
@@ -1574,14 +1435,14 @@ object meter:400 {
      voltage_A 7200+0.0j; 
      voltage_B -3600-6235j; 
      voltage_C -3600+6235j; 
-     nominal_voltage 7200; 
+     nominal_voltage 480; 
 } 
 
 object meter:401 { 
      name R3-12-47-2_meter_26; 
      phases AN; 
      voltage_A 7200+0.0j; 
-     nominal_voltage 7200; 
+     nominal_voltage 480; 
 } 
 
 object meter:402 { 
@@ -1590,7 +1451,7 @@ object meter:402 {
      voltage_A 7200+0.0j; 
      voltage_B -3600-6235j; 
      voltage_C -3600+6235j; 
-     nominal_voltage 7200; 
+     nominal_voltage 480; 
 } 
 
 object meter:403 { 
@@ -1599,7 +1460,7 @@ object meter:403 {
      voltage_A 7200+0.0j; 
      voltage_B -3600-6235j; 
      voltage_C -3600+6235j; 
-     nominal_voltage 7200; 
+     nominal_voltage 480; 
 } 
 
 object meter:404 { 
@@ -1608,14 +1469,14 @@ object meter:404 {
      voltage_A 7200+0.0j; 
      voltage_B -3600-6235j; 
      voltage_C -3600+6235j; 
-     nominal_voltage 7200; 
+     nominal_voltage 480; 
 } 
 
 object meter:405 { 
      name R3-12-47-2_meter_30; 
      phases AN; 
      voltage_A 7200+0.0j; 
-     nominal_voltage 7200; 
+     nominal_voltage 480; 
 } 
 
 object meter:406 { 
@@ -1624,7 +1485,7 @@ object meter:406 {
      voltage_A 7200+0.0j; 
      voltage_B -3600-6235j; 
      voltage_C -3600+6235j; 
-     nominal_voltage 7200; 
+     nominal_voltage 480; 
 } 
 
 object meter:407 { 
@@ -1633,14 +1494,14 @@ object meter:407 {
      voltage_A 7200+0.0j; 
      voltage_B -3600-6235j; 
      voltage_C -3600+6235j; 
-     nominal_voltage 7200; 
+     nominal_voltage 480; 
 } 
 
 object meter:408 { 
      name R3-12-47-2_meter_33; 
      phases AN; 
      voltage_A 7200+0.0j; 
-     nominal_voltage 7200; 
+     nominal_voltage 480; 
 } 
 
 object meter:409 { 
@@ -1649,48 +1510,21 @@ object meter:409 {
      voltage_A 7200+0.0j; 
      voltage_B -3600-6235j; 
      voltage_C -3600+6235j; 
-     nominal_voltage 7200; 
+     nominal_voltage 480; 
 } 
 
 object meter:410 { 
      name R3-12-47-2_meter_35; 
      phases CN; 
      voltage_C -3600+6235j; 
-     nominal_voltage 7200; 
+     nominal_voltage 480; 
 } 
 
 object meter:411 { 
      name R3-12-47-2_meter_36; 
      phases CN; 
      voltage_C -3600+6235j; 
-     nominal_voltage 7200;
-	// object recorder {
-		// property voltage_A,voltage_B,voltage_C;
-		// interval 60;
-		// limit 1440;
-		// file "411.csv";
-	// };
-	object complex_assert{
-		once ONCE_TRUE;
-		in '2000-01-01 00:04:00 EST';
-		target voltage_A;
-		value +0+0j;
-		within 1;
-	};
-	object complex_assert{
-		once ONCE_TRUE;
-		in '2000-01-01 00:04:00 EST';
-		target voltage_B;
-		value  +0+0j;
-		within 1;
-	};
-	object complex_assert{
-		once ONCE_TRUE;
-		in '2000-01-01 00:04:00 EST';
-		target voltage_C;
-		value +281.92+117.85d;
-		within 1;
-	};	 
+     nominal_voltage 480; 
 } 
 
 object meter:412 { 
@@ -1699,14 +1533,14 @@ object meter:412 {
      voltage_A 7200+0.0j; 
      voltage_B -3600-6235j; 
      voltage_C -3600+6235j; 
-     nominal_voltage 7200; 
+     nominal_voltage 480; 
 } 
 
 object meter:413 { 
      name R3-12-47-2_meter_38; 
      phases BN; 
      voltage_B -3600-6235j; 
-     nominal_voltage 7200; 
+     nominal_voltage 480; 
 } 
 
 object meter:414 { 
@@ -1715,14 +1549,14 @@ object meter:414 {
      voltage_A 7200+0.0j; 
      voltage_B -3600-6235j; 
      voltage_C -3600+6235j; 
-     nominal_voltage 7200; 
+     nominal_voltage 480; 
 } 
 
 object meter:415 { 
      name R3-12-47-2_meter_40; 
      phases BN; 
      voltage_B -3600-6235j; 
-     nominal_voltage 7200; 
+     nominal_voltage 480; 
 } 
 
 object meter:416 { 
@@ -1731,14 +1565,14 @@ object meter:416 {
      voltage_A 7200+0.0j; 
      voltage_B -3600-6235j; 
      voltage_C -3600+6235j; 
-     nominal_voltage 7200; 
+     nominal_voltage 480; 
 } 
 
 object meter:417 { 
      name R3-12-47-2_meter_42; 
      phases BN; 
      voltage_B -3600-6235j; 
-     nominal_voltage 7200; 
+     nominal_voltage 480; 
 } 
 
 object meter:418 { 
@@ -1747,14 +1581,14 @@ object meter:418 {
      voltage_A 7200+0.0j; 
      voltage_B -3600-6235j; 
      voltage_C -3600+6235j; 
-     nominal_voltage 7200; 
+     nominal_voltage 480; 
 } 
 
 object meter:419 { 
      name R3-12-47-2_meter_44; 
      phases BN; 
      voltage_B -3600-6235j; 
-     nominal_voltage 7200; 
+     nominal_voltage 480; 
 } 
 
 object meter:420 { 
@@ -1763,7 +1597,7 @@ object meter:420 {
      voltage_A 7200+0.0j; 
      voltage_B -3600-6235j; 
      voltage_C -3600+6235j; 
-     nominal_voltage 7200; 
+     nominal_voltage 480; 
 } 
 
 object meter:421 { 
@@ -1772,7 +1606,7 @@ object meter:421 {
      voltage_A 7200+0.0j; 
      voltage_B -3600-6235j; 
      voltage_C -3600+6235j; 
-     nominal_voltage 7200; 
+     nominal_voltage 480; 
 } 
 
 object meter:422 { 
@@ -1781,14 +1615,14 @@ object meter:422 {
      voltage_A 7200+0.0j; 
      voltage_B -3600-6235j; 
      voltage_C -3600+6235j; 
-     nominal_voltage 7200; 
+     nominal_voltage 480; 
 } 
 
 object meter:423 { 
      name R3-12-47-2_meter_48; 
      phases AN; 
      voltage_A 7200+0.0j; 
-     nominal_voltage 7200; 
+     nominal_voltage 480; 
 } 
 
 object meter:424 { 
@@ -1797,7 +1631,7 @@ object meter:424 {
      voltage_A 7200+0.0j; 
      voltage_B -3600-6235j; 
      voltage_C -3600+6235j; 
-     nominal_voltage 7200; 
+     nominal_voltage 480; 
 } 
 
 object meter:425 { 
@@ -1806,7 +1640,7 @@ object meter:425 {
      voltage_A 7200+0.0j; 
      voltage_B -3600-6235j; 
      voltage_C -3600+6235j; 
-     nominal_voltage 7200; 
+     nominal_voltage 480; 
 } 
 
 object meter:426 { 
@@ -1815,7 +1649,7 @@ object meter:426 {
      voltage_A 7200+0.0j; 
      voltage_B -3600-6235j; 
      voltage_C -3600+6235j; 
-     nominal_voltage 7200; 
+     nominal_voltage 480; 
 } 
 
 object meter:427 { 
@@ -1824,7 +1658,7 @@ object meter:427 {
      voltage_A 7200+0.0j; 
      voltage_B -3600-6235j; 
      voltage_C -3600+6235j; 
-     nominal_voltage 7200; 
+     nominal_voltage 480; 
 } 
 
 object meter:428 { 
@@ -1833,7 +1667,7 @@ object meter:428 {
      voltage_A 7200+0.0j; 
      voltage_B -3600-6235j; 
      voltage_C -3600+6235j; 
-     nominal_voltage 7200; 
+     nominal_voltage 480; 
 } 
 
 object meter:429 { 
@@ -1842,7 +1676,7 @@ object meter:429 {
      voltage_A 7200+0.0j; 
      voltage_B -3600-6235j; 
      voltage_C -3600+6235j; 
-     nominal_voltage 7200; 
+     nominal_voltage 480; 
 } 
 
 object meter:430 { 
@@ -1851,7 +1685,7 @@ object meter:430 {
      voltage_A 7200+0.0j; 
      voltage_B -3600-6235j; 
      voltage_C -3600+6235j; 
-     nominal_voltage 7200; 
+     nominal_voltage 480; 
 } 
 
 object meter:431 { 
@@ -1860,7 +1694,7 @@ object meter:431 {
      voltage_A 7200+0.0j; 
      voltage_B -3600-6235j; 
      voltage_C -3600+6235j; 
-     nominal_voltage 7200; 
+     nominal_voltage 480; 
 } 
 
 object meter:432 { 
@@ -1869,7 +1703,7 @@ object meter:432 {
      voltage_A 7200+0.0j; 
      voltage_B -3600-6235j; 
      voltage_C -3600+6235j; 
-     nominal_voltage 7200; 
+     nominal_voltage 480; 
 } 
 
 object meter:433 { 
@@ -1878,7 +1712,7 @@ object meter:433 {
      voltage_A 7200+0.0j; 
      voltage_B -3600-6235j; 
      voltage_C -3600+6235j; 
-     nominal_voltage 7200; 
+     nominal_voltage 480; 
 } 
 
 object meter:434 { 
@@ -1887,7 +1721,7 @@ object meter:434 {
      voltage_A 7200+0.0j; 
      voltage_B -3600-6235j; 
      voltage_C -3600+6235j; 
-     nominal_voltage 7200; 
+     nominal_voltage 480; 
 } 
 
 object meter:435 { 
@@ -1896,34 +1730,7 @@ object meter:435 {
      voltage_A 7200+0.0j; 
      voltage_B -3600-6235j; 
      voltage_C -3600+6235j; 
-     nominal_voltage 7200;
-	// object recorder {
-		// property voltage_A,voltage_B,voltage_C;
-		// interval 60;
-		// limit 1440;
-		// file "435.csv";
-	// };
-	object complex_assert{
-		once ONCE_TRUE;
-		in '2000-01-01 00:04:00 EST';
-		target voltage_A;
-		value +284.606-1.83586j;
-		within 1;
-	};
-	object complex_assert{
-		once ONCE_TRUE;
-		in '2000-01-01 00:04:00 EST';
-		target voltage_B;
-		value  -143.912-245.356j;
-		within 1;
-	};
-	object complex_assert{
-		once ONCE_TRUE;
-		in '2000-01-01 00:04:00 EST';
-		target voltage_C;
-		value -140.737+247.497j;
-		within 1;
-	};	 
+     nominal_voltage 480; 
 } 
 
 object meter:436 { 
@@ -1932,7 +1739,7 @@ object meter:436 {
      voltage_A 7200+0.0j; 
      voltage_B -3600-6235j; 
      voltage_C -3600+6235j; 
-     nominal_voltage 7200; 
+     nominal_voltage 480; 
 } 
 
 object meter:437 { 
@@ -1941,14 +1748,14 @@ object meter:437 {
      voltage_A 7200+0.0j; 
      voltage_B -3600-6235j; 
      voltage_C -3600+6235j; 
-     nominal_voltage 7200; 
+     nominal_voltage 480; 
 } 
 
 // Meter at feeder 
 object meter:784 { 
      name R3-12-47-2_meter_63; 
      phases ABCN; 
-     nominal_voltage 7200; 
+     nominal_voltage 480; 
      voltage_A 7200+0.0j; 
      voltage_B -3600-6235j; 
      voltage_C -3600+6235j; 
@@ -2627,35 +2434,7 @@ object node:128 {
      voltage_A 7200+0.0j; 
      voltage_B -3600-6235j; 
      voltage_C -3600+6235j; 
-     nominal_voltage 7200;
-	// object recorder {
-		// property voltage_A,voltage_B,voltage_C;
-		// interval 60;
-		// limit 1440;
-		// file "128.csv";
-	// };
-	object complex_assert{
-		once ONCE_TRUE;
-		in '2000-01-01 00:04:00 EST';
-		target voltage_A;
-		value +7342.24-144.89j;
-		value +7342.24-144.89j;
-		within 1;
-	};
-	object complex_assert{
-		once ONCE_TRUE;
-		in '2000-01-01 00:04:00 EST';
-		target voltage_B;
-		value -3804.22-6274.48j;
-		within 1;
-	};
-	object complex_assert{
-		once ONCE_TRUE;
-		in '2000-01-01 00:04:00 EST';
-		target voltage_C;
-		value -3546.78+6438.72j;
-		within 1;
-	};	 
+     nominal_voltage 7200; 
 } 
 
 object node:129 { 
@@ -3210,34 +2989,7 @@ object node:191 {
      voltage_A 7200+0.0j; 
      voltage_B -3600-6235j; 
      voltage_C -3600+6235j; 
-     nominal_voltage 7200;
-	// object recorder {
-		// property voltage_A,voltage_B,voltage_C;
-		// interval 60;
-		// limit 1440;
-		// file "191.csv";
-	// };
-	object complex_assert{
-		once ONCE_TRUE;
-		in '2000-01-01 00:04:00 EST';
-		target voltage_A;
-		value +7344.69-143.881j;
-		within 1;
-	};
-	object complex_assert{
-		once ONCE_TRUE;
-		in '2000-01-01 00:04:00 EST';
-		target voltage_B;
-		value  -3804.49-6277.05j;
-		within 1;
-	};
-	object complex_assert{
-		once ONCE_TRUE;
-		in '2000-01-01 00:04:00 EST';
-		target voltage_C;
-		value -3548.74+6440.18j;
-		within 1;
-	};	 
+     nominal_voltage 7200; 
 } 
 
 object node:192 { 
@@ -3913,34 +3665,7 @@ object node:267 {
      voltage_A 7200+0.0j; 
      voltage_B -3600-6235j; 
      voltage_C -3600+6235j; 
-     nominal_voltage 7200;
-	// object recorder {
-		// property voltage_A,voltage_B,voltage_C;
-		// interval 60;
-		// limit 1440;
-		// file "267.csv";
-	// };
-	object complex_assert{
-		once ONCE_TRUE;
-		in '2000-01-01 00:04:00 EST';
-		target voltage_A;
-		value +7342.62-150.164j;
-		within 1;
-	};
-	object complex_assert{
-		once ONCE_TRUE;
-		in '2000-01-01 00:04:00 EST';
-		target voltage_B;
-		value -3809.4-6271.51j;
-		within 1;
-	};
-	object complex_assert{
-		once ONCE_TRUE;
-		in '2000-01-01 00:04:00 EST';
-		target voltage_C;
-		value -3542.02+6441.83j;
-		within 1;
-	};	 
+     nominal_voltage 7200; 
 } 
 
 object node:268 { 
@@ -4364,34 +4089,7 @@ object node:787 {
      nominal_voltage 7200; 
      voltage_A 7200+0.0j; 
      voltage_B -3600-6235j; 
-     voltage_C -3600+6235j;
-	// object recorder {
-		// property voltage_A,voltage_B,voltage_C;
-		// interval 60;
-		// limit 1440;
-		// file "787.csv";
-	// };
-	object complex_assert{
-		once ONCE_TRUE;
-		in '2000-01-01 00:04:00 EST';
-		target voltage_A;
-		value +7200+0j;
-		within 1;
-	};
-	object complex_assert{
-		once ONCE_TRUE;
-		in '2000-01-01 00:04:00 EST';
-		target voltage_B;
-		value  -3600-6235j;
-		within 1;
-	};
-	object complex_assert{
-		once ONCE_TRUE;
-		in '2000-01-01 00:04:00 EST';
-		target voltage_C;
-		value -3600+6235j;
-		within 1;
-	};	 
+     voltage_C -3600+6235j; 
 } 
 
 object overhead_line:519 { 
@@ -5544,32 +5242,50 @@ object switch:780 {
      status CLOSED; 
 } 
 
-//Recloser, used as switch for now 
-object switch:781 { 
-     name R3-12-47-2_switch_37; 
-     phases ABCN; 
+object recloser:781 {
+	 name R3-12-47-2_recloser_1;
+	 phases ABCN;
      from R3-12-47-2_node_219; 
      to R3-12-47-2_node_74; 
-     status CLOSED; 
-} 
+	 status CLOSED;
+	 operating_mode INDIVIDUAL;
+	 phase_A_state CLOSED;
+	 phase_B_state CLOSED;
+	 phase_C_state CLOSED;
+	 retry_time 1.0 s;
+	 max_number_of_tries 3;
+	 number_of_tries 0;
+}
 
-//Recloser, used as switch for now 
-object switch:782 { 
-     name R3-12-47-2_switch_38; 
-     phases ABCN; 
+object recloser:782 {
+	 name R3-12-47-2_recloser_2;
+	 phases ABCN;
      from R3-12-47-2_node_220; 
-     to R3-12-47-2_node_77; 
-     status CLOSED; 
-} 
+     to R3-12-47-2_node_77;  
+	 status CLOSED;
+	 operating_mode INDIVIDUAL;
+	 phase_A_state CLOSED;
+	 phase_B_state CLOSED;
+	 phase_C_state CLOSED;
+	 retry_time 1.0 s;
+	 max_number_of_tries 3;
+	 number_of_tries 0;
+}
 
-//Recloser, used as switch for now 
-object switch:783 { 
-     name R3-12-47-2_switch_39; 
-     phases ABCN; 
+object recloser:783 {
+	 name R3-12-47-2_recloser_3;
+	 phases ABCN;
      from R3-12-47-2_node_222; 
-     to R3-12-47-2_node_75; 
-     status CLOSED; 
-} 
+     to R3-12-47-2_node_75;   
+	 status CLOSED;
+	 operating_mode INDIVIDUAL;
+	 phase_A_state CLOSED;
+	 phase_B_state CLOSED;
+	 phase_C_state CLOSED;
+	 retry_time 1.0 s;
+	 max_number_of_tries 3;
+	 number_of_tries 0;
+}
 
 object transformer:457 { 
      name R3-12-47-2_xfmr_1; 
@@ -6315,21 +6031,21 @@ object transformer_configuration:456 {
 } 
 
 object triplex_line_conductor: { 
-     name TLC 1/0 AA triplex; 
-     resistance 0.97; 
-     geometric_mean_radius 0.0111; 
+     name triplex_4/0 AA; 
+     resistance 0.48; 
+     geometric_mean_radius 0.0158; 
+  rating.summer.continuous 1000.0; 
+  rating.summer.emergency 1000.0; 
+  rating.winter.continuous 1000.0; 
+  rating.winter.emergency 1000.0; 
 } 
 
 object triplex_line_configuration:1 { 
-     conductor_1 TLC 1/0 AA triplex; 
-     conductor_2 TLC 1/0 AA triplex; 
-     conductor_N TLC 1/0 AA triplex; 
+     conductor_1 triplex_4/0 AA; 
+     conductor_2 triplex_4/0 AA; 
+     conductor_N triplex_4/0 AA; 
      insulation_thickness 0.08; 
-     diameter 0.368; 
-  rating.summer.continuous 10000;
-  rating.summer.emergency 10000;
-  rating.winter.continuous 10000;
-  rating.winter.emergency 10000;
+     diameter 0.522; 
 } 
 
 object underground_line:597 { 
@@ -6356,55 +6072,7 @@ object underground_line:599 {
      from R3-12-47-2_node_130; 
      to R3-12-47-2_node_69; 
      length 141.727; 
-     configuration line_configuration:39;
-		// object recorder {
-		// property power_in_A,power_in_B,power_in_C,power_out_A,power_out_B,power_out_C,power_losses_A,power_losses_B,power_losses_C,current_in_A,current_in_B,current_in_C,current_out_A,current_out_B,current_out_C;
-		// interval 60;
-		// limit 1440;
-		// file "UL599.csv";
-	// }; // @off by 100
-	 object complex_assert{	// NR +20526.8+6151.41j	+21457.3+6388.02j	+20870.3+6237.4j	+20526.5+6151.28j	+21457.1+6387.88j	+20870.1+6237.27j
-		once ONCE_TRUE;		// FBS +20615.3+6233.5j	+21545.7+6470.06j	+20958.8+6319.54j	+20615+6233.37j	+21545.5+6469.92j	+20958.6+6319.4j
-		in '2000-01-01 00:04:00 EST';
-		target power_in_A;
-		value +20526.8+6151.41j;
-		within 90;
-	};
-	object complex_assert{
-		once ONCE_TRUE;
-		in '2000-01-01 00:04:00 EST';
-		target power_in_B;
-		value +21457.4+6388.44j;
-		within 90;
-	};
-	object complex_assert{
-		once ONCE_TRUE;
-		in '2000-01-01 00:04:00 EST';
-		target power_in_C;
-		value +20870.3+6237.4j;
-		within 90;
-	};
-	object complex_assert{
-		once ONCE_TRUE;
-		in '2000-01-01 00:04:00 EST';
-		target power_out_A;
-		value +20526.5+6151.28j;
-		within 90;
-	};
-	object complex_assert{
-		once ONCE_TRUE;
-		in '2000-01-01 00:04:00 EST';
-		target power_out_B;
-		value +21457.1+6387.88j;
-		within 90;
-	};
-	object complex_assert{
-		once ONCE_TRUE;
-		in '2000-01-01 00:04:00 EST';
-		target power_out_C;
-		value +20870.1+6237.27j;
-		within 90;
-	}; 
+     configuration line_configuration:39; 
 } 
 
 object underground_line:600 { 
@@ -6656,55 +6324,7 @@ object underground_line:627 {
      from R3-12-47-2_node_114; 
      to R3-12-47-2_node_15; 
      length 73.810; 
-     configuration line_configuration:40;
-	// object recorder {
-		// property power_in_A,power_in_B,power_in_C,power_out_A,power_out_B,power_out_C,power_losses_A,power_losses_B,power_losses_C,current_in_A,current_in_B,current_in_C,current_out_A,current_out_B,current_out_C;
-		// interval 60;
-		// limit 1440;
-		// file "UL627.csv";
-	// }; // @off by  50
-	 object complex_assert{
-		once ONCE_TRUE;
-		in '2000-01-01 00:04:00 EST';
-		target power_in_A;
-		value +10312.6+3322.34j;
-		within 50;
-	};
-	object complex_assert{
-		once ONCE_TRUE;
-		in '2000-01-01 00:04:00 EST';
-		target power_in_B;
-		value +0+0j;
-		within 1;
-	};
-	object complex_assert{
-		once ONCE_TRUE;
-		in '2000-01-01 00:04:00 EST';
-		target power_in_C;
-		value +0+0j;
-		within 1;
-	};
-	object complex_assert{
-		once ONCE_TRUE;
-		in '2000-01-01 00:04:00 EST';
-		target power_out_A;
-		value +10834.5+17.8569d;
-		within 50;
-	};
-	object complex_assert{
-		once ONCE_TRUE;
-		in '2000-01-01 00:04:00 EST';
-		target power_out_B;
-		value +0+0j;
-		within 1;
-	};
-	object complex_assert{
-		once ONCE_TRUE;
-		in '2000-01-01 00:04:00 EST';
-		target power_out_C;
-		value +0+0j;
-		within 1;
-	}; 
+     configuration line_configuration:40; 
 } 
 
 object underground_line:628 { 
@@ -7055,55 +6675,7 @@ object underground_line:666 {
      from R3-12-47-2_node_113; 
      to R3-12-47-2_node_111; 
      length 337.082; 
-     configuration line_configuration:42;
-	// object recorder {
-		// property power_in_A,power_in_B,power_in_C,power_out_A,power_out_B,power_out_C,power_losses_A,power_losses_B,power_losses_C,current_in_A,current_in_B,current_in_C,current_out_A,current_out_B,current_out_C;
-		// interval 60;
-		// limit 1440;
-		// file "UL666.csv";
-	// };
-	 object complex_assert{
-		once ONCE_TRUE;
-		in '2000-01-01 00:04:00 EST';
-		target power_in_A;
-		value +0+0j;
-		within 1;
-	};
-	object complex_assert{
-		once ONCE_TRUE;
-		in '2000-01-01 00:04:00 EST';
-		target power_in_B;
-		value +0+0j;
-		within 1;
-	};
-	object complex_assert{
-		once ONCE_TRUE;
-		in '2000-01-01 00:04:00 EST';
-		target power_in_C;
-		value +0+0j;
-		within 1;
-	};
-	object complex_assert{
-		once ONCE_TRUE;
-		in '2000-01-01 00:04:00 EST';
-		target power_out_A;
-		value +0+0j;
-		within 1;
-	};
-	object complex_assert{
-		once ONCE_TRUE;
-		in '2000-01-01 00:04:00 EST';
-		target power_out_B;
-		value +0+0j;
-		within 1;
-	};
-	object complex_assert{
-		once ONCE_TRUE;
-		in '2000-01-01 00:04:00 EST';
-		target power_out_C;
-		value +0+0j;
-		within 1;
-	};	 
+     configuration line_configuration:42; 
 } 
 
 object underground_line:667 { 
@@ -7274,7 +6846,7 @@ object underground_line:685 {
      from R3-12-47-2_node_174; 
      to R3-12-47-2_node_134; 
      length 385.914; 
-     configuration line_configuration:42; 
+     configuration line_configuration:48; 
 } 
 
 object underground_line:686 { 
@@ -7283,7 +6855,7 @@ object underground_line:686 {
      from R3-12-47-2_node_245; 
      to R3-12-47-2_node_135; 
      length 25.844; 
-     configuration line_configuration:42; 
+     configuration line_configuration:48; 
 } 
 
 object underground_line:687 { 
@@ -7292,7 +6864,7 @@ object underground_line:687 {
      from R3-12-47-2_node_72; 
      to R3-12-47-2_node_174; 
      length 280.266; 
-     configuration line_configuration:42; 
+     configuration line_configuration:48; 
 } 
 
 object underground_line:688 { 
@@ -7301,7 +6873,7 @@ object underground_line:688 {
      from R3-12-47-2_node_134; 
      to R3-12-47-2_node_136; 
      length 293.412; 
-     configuration line_configuration:42; 
+     configuration line_configuration:48; 
 } 
 
 object underground_line:689 { 
@@ -7490,55 +7062,7 @@ object underground_line:709 {
      from R3-12-47-2_node_130; 
      to R3-12-47-2_node_129; 
      length 952.351; 
-     configuration line_configuration:42;
-	object recorder {
-		property power_in_A,power_in_B,power_in_C,power_out_A,power_out_B,power_out_C,power_losses_A,power_losses_B,power_losses_C,current_in_A,current_in_B,current_in_C,current_out_A,current_out_B,current_out_C;
-		interval 60;
-		limit 1440;
-		file "UL709.csv";
-	}; // @off by ~3000; see comparison of values below:
-	 object complex_assert{ 	// NR  +1.33367e+006+420710j	+1.36649e+006+430556j	+1.2939e+006+406805j	+1.32966e+006+417087j	+1.36221e+006+426615j	+1.29021e+006+403273j
-		once ONCE_TRUE;	   	// FBS +1.336390e+006+423535j	+1.36915e+006+433306j	+1.29641e+006+409391j	+1.33236e+006+419893j	+1.36484e+006+429346j	+1.2927e+006+405842j
-		in '2000-01-01 00:04:00 EST';
-		target power_in_A; 
-		value +1.33367e+006+420710j;
-		within 3000;
-	};
-	object complex_assert{
-		once ONCE_TRUE;
-		in '2000-01-01 00:04:00 EST';
-		target power_in_B;
-		value +1.36649e+006+430556j;
-		within 3000;
-	};
-	object complex_assert{
-		once ONCE_TRUE;
-		in '2000-01-01 00:04:00 EST';
-		target power_in_C;
-		value +1.2939e+006+406805j;
-		within 3000;
-	};
-	object complex_assert{
-		once ONCE_TRUE;
-		in '2000-01-01 00:04:00 EST';
-		target power_out_A;
-		value +1.32966e+006+417087j;
-		within 3000;
-	};
-	object complex_assert{
-		once ONCE_TRUE;
-		in '2000-01-01 00:04:00 EST';
-		target power_out_B;
-		value +1.36221e+006+426615j;
-		within 3000;
-	};
-	object complex_assert{
-		once ONCE_TRUE;
-		in '2000-01-01 00:04:00 EST';
-		target power_out_C;
-		value +1.29021e+006+403273j;
-		within 3000;
-	};	 
+     configuration line_configuration:42; 
 } 
 
 object underground_line:710 { 
@@ -7584,14 +7108,11 @@ object underground_line_conductor:10 {
      conductor_gmr 0.01142 ft; 
      conductor_diameter 0.362; 
      conductor_resistance 0.88704; 
-     neutral_gmr 0.0489686771417213 ft; 
-     neutral_resistance 13.86528; 
+     neutral_gmr 0.00208 ft; 
+     neutral_resistance 14.87; 
      neutral_diameter 0.0641; 
      neutral_strands 16.0; 
-     shield_gmr 0.00; 
-     shield_resistance 0.00; 
-// default permittivity is 1 (air) so this parameter is new
-	insulation_relative_permitivitty 2.3; 
+		 insulation_relative_permitivitty 2.3;
 } 
 
 object underground_line_conductor:11 { 
@@ -7601,14 +7122,11 @@ object underground_line_conductor:11 {
      conductor_gmr 0.0088 ft; 
      conductor_diameter 0.292; 
      conductor_resistance 1.38336; 
-     neutral_gmr 0.0348162687755351 ft; 
-     neutral_resistance 13.5696; 
+     neutral_gmr 0.00208 ft; 
+     neutral_resistance 14.87; 
      neutral_diameter 0.0641; 
      neutral_strands 6.0; 
-     shield_gmr 0.00; 
-     shield_resistance 0.00; 
-// default permittivity is 1 (air) so this parameter is new
-  insulation_relative_permitivitty 2.3; 
+		 insulation_relative_permitivitty 2.3;
 } 
 
 object underground_line_conductor:12 { 
@@ -7618,14 +7136,11 @@ object underground_line_conductor:12 {
      conductor_gmr 0.0177 ft; 
      conductor_diameter 0.528; 
      conductor_resistance 0.433488; 
-     neutral_gmr 0.0485380344339232 ft; 
-     neutral_resistance 13.5696; 
+     neutral_gmr 0.00208 ft; 
+     neutral_resistance 14.87; 
      neutral_diameter 0.0641; 
      neutral_strands 11.0; 
-     shield_gmr 0.00; 
-     shield_resistance 0.00; 
-// default permittivity is 1 (air) so this parameter is new
-	insulation_relative_permitivitty 2.3; 
+		 insulation_relative_permitivitty 2.3;
 } 
 
 object underground_line_conductor:13 { 
@@ -7634,18 +7149,35 @@ object underground_line_conductor:13 {
      outer_diameter 1.87; 
      conductor_gmr 0.0371 ft; 
      conductor_diameter 1.15; 
-     conductor_resistance 0.0222; 
-//     neutral_gmr 0.0732739718442675 ft; 
-//     neutral_resistance 0.05; 
-//     neutral_diameter 0.102; 
-//     neutral_strands 20.0;
-//     shield_gmr 0.00; 
-//     shield_resistance 0.00; 
-		 neutral_strands 0; 
-     shield_gmr 0.077708; 
+     conductor_resistance 0.1162; 
+     shield_gmr 0.069167; 
      shield_resistance 2.0135; 
      shield_thickness 0.005;
-// default permittivity is 1 (air) so this parameter is new
-		 insulation_relative_permitivitty 2.3; 
+		 shield_diameter 1.66;
+		 insulation_relative_permitivitty 2.3;
 } 
+
+object underground_line_conductor:14 { 
+     //name 750 AAC (Conc); 
+     rating.summer.continuous 425.0; 
+     outer_diameter 1.96; 
+     conductor_gmr 0.0321 ft; 
+     conductor_diameter 0.998; 
+     conductor_resistance 0.122496; 
+     neutral_gmr 0.00330 ft; 
+     neutral_resistance 5.9026; 
+     neutral_diameter 0.1019; 
+     neutral_strands 15.0; 
+		 insulation_relative_permitivitty 2.3;
+} 
+
+// Recorders
+
+//object recorder {
+//    parent R3-12-47-2_reg_1;
+//    property tap_A,tap_B,tap_C,power_in_A.real,power_in_A.imag,power_in_B.real,power_in_B.imag,power_in_C.real,power_in_C.imag,power_in.real,power_in.imag;
+//    limit 1440;
+//    interval 60;
+//    file "R3-12.47-2_reg1_output.csv";
+//};
 

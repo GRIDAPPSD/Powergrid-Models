@@ -17,11 +17,12 @@ public abstract class DistLineSegment extends DistComponent {
 	public double basev;
 
 	protected boolean bTriplex;
+	protected boolean bCable;
 	protected String glm_phases;
 
 	public abstract String LabelString();
 
-	protected void AppendSharedGLMAttributes (StringBuilder buf, String config_root) {
+	protected void AppendSharedGLMAttributes (StringBuilder buf, String config_root, boolean bSpacing) {
 
 		if (phases.contains ("s")) {
 			bTriplex = true;
@@ -29,7 +30,11 @@ public abstract class DistLineSegment extends DistComponent {
 			buf.append ("  name \"tpx_" + name + "\";\n");
 		} else {
 			bTriplex = false;
-			buf.append ("object overhead_line {\n");
+			if (bCable) {
+				buf.append("object underground_line {\n");
+			} else {
+				buf.append("object overhead_line {\n");
+			}
 			buf.append ("  name \"line_" + name + "\";\n");
 		}
 
@@ -44,7 +49,9 @@ public abstract class DistLineSegment extends DistComponent {
 		glm_phases = phs.toString();
 		buf.append ("  phases " + glm_phases + ";\n");
 		buf.append ("  length " + df4.format(len * gFTperM) + ";\n");
-		if (bTriplex) {
+		if (bSpacing) {
+			buf.append("  configuration \"" + config_root + "\";\n");
+		} else if (bTriplex) {
 			buf.append("  configuration \"tcon_" + config_root + "_12\";\n");
 		} else {
 			buf.append("  configuration \"lcon_" + config_root + "_" + glm_phases + "\";\n");
@@ -52,7 +59,7 @@ public abstract class DistLineSegment extends DistComponent {
 		buf.append ("}\n");
 	}
 
-	public String GetJSONSymbols(HashMap<String,DistCoordinates> map) {
+	public String GetJSONSymbols(HashMap<String,DistCoordinates> map, HashMap<String,DistXfmrTank> mapTank) {
 		DistCoordinates pt1 = map.get("ACLineSegment:" + name + ":1");
 		DistCoordinates pt2 = map.get("ACLineSegment:" + name + ":2");
 		StringBuilder lbl_phs = new StringBuilder ();

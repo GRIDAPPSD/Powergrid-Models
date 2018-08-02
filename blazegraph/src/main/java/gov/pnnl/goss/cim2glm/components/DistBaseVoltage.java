@@ -7,13 +7,27 @@ package gov.pnnl.goss.cim2glm.components;
 import org.apache.jena.query.*;
 
 public class DistBaseVoltage extends DistComponent {
-	public static final String szQUERY = "SELECT ?vnom WHERE {"+
+	public static final String szQUERY = "SELECT DISTINCT ?vnom WHERE {"+
+																	" ?fdr c:IdentifiedObject.mRID ?fdrid."+
+		                              " ?s c:Equipment.EquipmentContainer ?fdr."+
+	                              	" {?s c:ConductingEquipment.BaseVoltage ?lev.}"+
+		                              "  UNION "+
+		                              " { ?end c:PowerTransformerEnd.PowerTransformer|c:TransformerTankEnd.TransformerTank ?s."+
+		                              "	 ?end c:TransformerEnd.BaseVoltage ?lev.}"+
 																	" ?lev r:type c:BaseVoltage."+
 																	" ?lev c:BaseVoltage.nominalVoltage ?vnom."+
 																	"} ORDER BY ?vnom";
 
 	public String name;
 	double vnom;
+
+	public String GetJSONEntry () {
+		StringBuilder buf = new StringBuilder ();
+
+		buf.append ("{\"name\":\"" + name +"\"");
+		buf.append ("}");
+		return buf.toString();
+	}
 
 	public DistBaseVoltage (ResultSet results) {
 		if (results.hasNext()) {

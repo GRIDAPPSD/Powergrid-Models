@@ -15,8 +15,10 @@ public class DistRegulator extends DistComponent {
 		"SELECT ?rname ?pname ?tname ?wnum ?phs ?incr ?mode ?enabled ?highStep ?lowStep ?neutralStep"+
 		" ?normalStep ?neutralU ?step ?initDelay ?subDelay ?ltc ?vlim"+
 		" ?vset ?vbw ?ldc ?fwdR ?fwdX ?revR ?revX ?discrete ?ctl_enabled ?ctlmode"+
-		" ?monphs ?ctRating ?ctRatio ?ptRatio ?id"+
+		" ?monphs ?ctRating ?ctRatio ?ptRatio ?id ?fdrid ?pxfid"+
 		" WHERE {"+
+		" ?pxf c:Equipment.EquipmentContainer ?fdr."+
+		" ?fdr c:IdentifiedObject.mRID ?fdrid."+
 		" ?rtc r:type c:RatioTapChanger."+
 		" ?rtc c:IdentifiedObject.name ?rname."+
 		" ?rtc c:RatioTapChanger.TransformerEnd ?end."+
@@ -26,6 +28,7 @@ public class DistRegulator extends DistComponent {
 		" ?end c:TransformerTankEnd.TransformerTank ?tank."+
 		" ?tank c:TransformerTank.PowerTransformer ?pxf."+
 		" ?pxf c:IdentifiedObject.name ?pname."+
+		" ?pxf c:IdentifiedObject.mRID ?pxfid."+
 		" ?tank c:IdentifiedObject.name ?tname."+
 		" ?rtc c:RatioTapChanger.stepVoltageIncrement ?incr."+
 		" ?rtc c:RatioTapChanger.tculControlMode ?moderaw."+
@@ -60,7 +63,7 @@ public class DistRegulator extends DistComponent {
 		" ?inf c:TapChangerInfo.ctRating ?ctRating."+
 		" ?inf c:TapChangerInfo.ctRatio ?ctRatio."+
 		" ?inf c:TapChangerInfo.ptRatio ?ptRatio."+
-		" bind(strafter(str(?rtc),\"#_\") as ?id)"+
+		" bind(strafter(str(?rtc),\"#\") as ?id)"+
 		"}"+
 		" ORDER BY ?pname ?rname ?tname ?wnum";
 
@@ -105,11 +108,111 @@ public class DistRegulator extends DistComponent {
 
 	public int size;
 
-	private void SetSize (String p, QueryHandler queryHandler) {
+	private String pxfid;
+
+	private void AddJSONDoubleArray (StringBuilder buf, String tag, double[] vals) {
+		buf.append (",\"" + tag + "\":[");
+		for (int i = 0; i < size; i++) {
+			buf.append (df4.format (vals[i]));
+			if (i+1 < size) {
+				buf.append (",");
+			} else {
+				buf.append ("]");
+			}
+		}
+	}
+
+	private void AddJSONIntegerArray (StringBuilder buf, String tag, int[] vals) {
+		buf.append (",\"" + tag + "\":[");
+		for (int i = 0; i < size; i++) {
+			buf.append (Integer.toString (vals[i]));
+			if (i+1 < size) {
+				buf.append (",");
+			} else {
+				buf.append ("]");
+			}
+		}
+	}
+
+	private void AddJSONBooleanArray (StringBuilder buf, String tag, boolean[] vals) {
+		buf.append (",\"" + tag + "\":[");
+		for (int i = 0; i < size; i++) {
+			if (vals[i]) {
+				buf.append("true");
+			} else {
+				buf.append("false");
+			}
+			if (i+1 < size) {
+				buf.append (",");
+			} else {
+				buf.append ("]");
+			}
+		}
+	}
+
+	private void AddJSONStringArray (StringBuilder buf, String tag, String[] vals) {
+		buf.append (",\"" + tag + "\":[");
+		for (int i = 0; i < size; i++) {
+			if (vals[i] == null) {
+				buf.append ("null");
+			} else {
+				buf.append("\"" + vals[i] + "\"");
+			}
+			if (i+1 < size) {
+				buf.append (",");
+			} else {
+				buf.append ("]");
+			}
+		}
+	}
+
+	public String GetJSONEntry () {
+		StringBuilder buf = new StringBuilder ();
+
+		buf.append ("{\"bankName\":\"" + pname +"\"");
+		buf.append (",\"size\":\"" + Integer.toString (size) +"\"");
+		buf.append (",\"bankPhases\":\"" + bankphases +"\"");
+		AddJSONStringArray (buf, "tankName", tname);
+		AddJSONIntegerArray (buf, "endNumber", wnum);
+		AddJSONStringArray (buf, "endPhase", phs);
+		AddJSONStringArray (buf, "rtcName", rname);
+		AddJSONStringArray (buf, "mRID", id);
+		AddJSONStringArray (buf, "monitoredPhase", monphs);
+		AddJSONStringArray (buf, "TapChanger.tculControlMode", mode);
+		AddJSONIntegerArray (buf, "highStep", highStep);
+		AddJSONIntegerArray (buf, "lowStep", lowStep);
+		AddJSONIntegerArray (buf, "neutralStep", neutralStep);
+		AddJSONIntegerArray (buf, "normalStep", normalStep);
+		AddJSONBooleanArray (buf, "TapChanger.controlEnabled", enabled);
+		AddJSONBooleanArray (buf, "lineDropCompensation", ldc);
+		AddJSONBooleanArray (buf, "ltcFlag", ltc);
+		AddJSONBooleanArray (buf, "RegulatingControl.enabled", ctl_enabled);
+		AddJSONBooleanArray (buf, "RegulatingControl.discrete", discrete); 
+		AddJSONStringArray (buf, "RegulatingControl.mode", ctlmode);
+		AddJSONDoubleArray (buf, "step", step);
+		AddJSONDoubleArray (buf, "targetValue", vset);
+		AddJSONDoubleArray (buf, "targetDeadband", vbw);
+		AddJSONDoubleArray (buf, "limitVoltage", vlim);
+		AddJSONDoubleArray (buf, "stepVoltageIncrement", incr);
+		AddJSONDoubleArray (buf, "neutralU", neutralU);
+		AddJSONDoubleArray (buf, "initialDelay", initDelay); 
+		AddJSONDoubleArray (buf, "subsequentDelay", subDelay);
+		AddJSONDoubleArray (buf, "lineDropR", fwdR);
+		AddJSONDoubleArray (buf, "lineDropX", fwdX);
+		AddJSONDoubleArray (buf, "reverseLineDropR", revR);
+		AddJSONDoubleArray (buf, "reverseLineDropX", revX);
+		AddJSONDoubleArray (buf, "ctRating", ctRating);
+		AddJSONDoubleArray (buf, "ctRatio", ctRatio);
+		AddJSONDoubleArray (buf, "ptRatio", ptRatio);
+		buf.append ("}");
+		return buf.toString();
+	}
+
+	private void SetSize (QueryHandler queryHandler) {
 		size = 1;
 		String szCount = "SELECT (count (?tank) as ?count) WHERE {"+
 			" ?tank c:TransformerTank.PowerTransformer ?pxf."+
-			" ?pxf c:IdentifiedObject.name \"" + p + "\"."+
+			" ?pxf c:IdentifiedObject.mRID \"" + pxfid + "\"."+
 			"}";
 		ResultSet results = queryHandler.query (szCount);
 		if (results.hasNext()) {
@@ -154,7 +257,8 @@ public class DistRegulator extends DistComponent {
 		if (results.hasNext()) {
 			QuerySolution soln = results.next();
 			pname = SafeName (soln.get("?pname").toString());
-			SetSize (pname, queryHandler);
+			pxfid = soln.get("?pxfid").toString();
+			SetSize (queryHandler);
 			for (int i = 0; i < size; i++) {
 				id[i] = soln.get("?id").toString();
 				rname[i] = SafeName (soln.get("?rname").toString());
@@ -197,7 +301,8 @@ public class DistRegulator extends DistComponent {
 				buf.append (phs[i]);
 			}
 			bankphases = buf.toString();
-		}		
+		}
+//		System.out.println (DisplayString());		
 	}
 
 	public String DisplayString() {
@@ -319,7 +424,7 @@ public class DistRegulator extends DistComponent {
 			if (size > 1) {
 				xfName = tname[i];
 			} else {
-				xfName = pname;
+				xfName = tname[i]; // pname;
 			}
 			buf.append("new RegControl." + rname[i] + " transformer=" + xfName + " winding=" + Integer.toString(wnum[i]));
 			buf.append(" vreg=" + df2.format(vset[i]) + " band=" + df2.format(vbw[i]) + " ptratio=" + df2.format(ptRatio[i]) +

@@ -8,12 +8,21 @@ import org.apache.jena.query.*;
 
 public class DistConcentricNeutralCable extends DistCable {
 	public static final String szQUERY = 
-		"SELECT ?name ?rad ?corerad ?gmr ?rdc ?r25 ?r50 ?r75 ?amps ?ins ?insmat ?id"+
+		"SELECT DISTINCT ?name ?rad ?corerad ?gmr ?rdc ?r25 ?r50 ?r75 ?amps ?ins ?insmat ?id"+
 		" ?insthick ?diacore ?diains ?diascreen ?diajacket ?sheathneutral"+
 		" ?strand_cnt ?strand_rad ?strand_gmr ?strand_rdc WHERE {"+
+		" ?eq r:type c:ACLineSegment."+
+		" ?eq c:Equipment.EquipmentContainer ?fdr."+
+		" ?fdr c:IdentifiedObject.mRID ?fdrid."+
+	  " { ?asset c:Asset.PowerSystemResources ?eq."+
+		"   ?asset c:Asset.AssetInfo ?w.}"+
+		" UNION"+
+	  " { ?acp c:ACLineSegmentPhase.ACLineSegment ?eq."+
+		"   ?phasset c:Asset.PowerSystemResources ?acp."+
+		"   ?phasset c:Asset.AssetInfo ?w.}"+
 		" ?w r:type c:ConcentricNeutralCableInfo."+
 		" ?w c:IdentifiedObject.name ?name."+
-		" bind(strafter(str(?w),\"#_\") as ?id)."+
+		" bind(strafter(str(?w),\"#\") as ?id)."+
 		" ?w c:WireInfo.radius ?rad."+
 		" ?w c:WireInfo.gmr ?gmr."+
 		" OPTIONAL {?w c:WireInfo.rDC20 ?rdc.}"+
@@ -43,6 +52,15 @@ public class DistConcentricNeutralCable extends DistCable {
 	public double strand_gmr;
 	public double strand_rad;
 	public double strand_rdc;
+
+	public String GetJSONEntry () {
+		StringBuilder buf = new StringBuilder ();
+
+		buf.append ("{\"name\":\"" + name +"\"");
+		buf.append (",\"mRID\":\"" + id +"\"");
+		buf.append ("}");
+		return buf.toString();
+	}
 
 	public DistConcentricNeutralCable (ResultSet results) {
 		if (results.hasNext()) {
@@ -87,6 +105,19 @@ public class DistConcentricNeutralCable extends DistCable {
 		buf.append ("\n~ k=" + Integer.toString(strand_cnt) + " GmrStrand=" + df6.format(strand_gmr) +
 								" DiaStrand=" + df6.format(2.0 * strand_rad) + " Rstrand=" + df6.format(strand_rdc));
 		buf.append ("\n");
+		return buf.toString();
+	}
+
+	public String GetGLM() {
+		StringBuilder buf = new StringBuilder("object underground_line_conductor {\n");
+
+		buf.append ("  name \"cncab_" + name + "\";\n");
+		buf.append ("  neutral_gmr " + df6.format (strand_gmr * gFTperM) + ";\n");
+		buf.append ("  neutral_diameter " + df6.format (2.0 * strand_rad * gFTperM * 12.0) + ";\n");
+		buf.append ("  neutral_resistance " + df6.format (strand_rdc * gMperMILE) + ";\n");
+		buf.append ("  neutral_strands " + Integer.toString(strand_cnt) + ";\n");
+		AppendGLMCableAttributes (buf);
+		buf.append("}\n");
 		return buf.toString();
 	}
 

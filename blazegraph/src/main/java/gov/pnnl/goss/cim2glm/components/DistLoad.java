@@ -8,10 +8,12 @@ import org.apache.jena.query.*;
 
 public class DistLoad extends DistComponent {
 	public static final String szQUERY = 
-	 	"SELECT ?name ?bus ?basev ?p ?q ?conn ?pz ?qz ?pi ?qi ?pp ?qp ?pe ?qe ?id "+
+	 	"SELECT ?name ?bus ?basev ?p ?q ?conn ?pz ?qz ?pi ?qi ?pp ?qp ?pe ?qe ?id ?fdrid "+
 		"(group_concat(distinct ?phs;separator=\"\\n\") as ?phases) "+
 		"WHERE {"+
 	 	" ?s r:type c:EnergyConsumer."+
+		" ?s c:Equipment.EquipmentContainer ?fdr."+
+		" ?fdr c:IdentifiedObject.mRID ?fdrid."+
 	 	" ?s c:IdentifiedObject.name ?name."+
 	   " ?s c:ConductingEquipment.BaseVoltage ?bv."+
 	   " ?bv c:BaseVoltage.nominalVoltage ?basev."+
@@ -31,12 +33,12 @@ public class DistLoad extends DistComponent {
 	 	" OPTIONAL {?ecp c:EnergyConsumerPhase.EnergyConsumer ?s."+
 	 	" ?ecp c:EnergyConsumerPhase.phase ?phsraw."+
 	 	" 			bind(strafter(str(?phsraw),\"SinglePhaseKind.\") as ?phs) }"+
-	 	" bind(strafter(str(?s),\"#_\") as ?id)."+
+	 	" bind(strafter(str(?s),\"#\") as ?id)."+
 	 	" ?t c:Terminal.ConductingEquipment ?s."+
 	 	" ?t c:Terminal.ConnectivityNode ?cn."+
 	 	" ?cn c:IdentifiedObject.name ?bus"+
 	 	"} "+
-		"GROUP BY ?name ?bus ?basev ?p ?q ?conn ?pz ?qz ?pi ?qi ?pp ?qp ?pe ?qe ?id "+
+		"GROUP BY ?name ?bus ?basev ?p ?q ?conn ?pz ?qz ?pi ?qi ?pp ?qp ?pe ?qe ?id ?fdrid "+
 		"ORDER BY ?name";
 
 	public String id;
@@ -58,6 +60,15 @@ public class DistLoad extends DistComponent {
 
 	private int dss_load_model;
 	private boolean bDelta;
+
+	public String GetJSONEntry () {
+		StringBuilder buf = new StringBuilder ();
+
+		buf.append ("{\"name\":\"" + name +"\"");
+		buf.append (",\"mRID\":\"" + id +"\"");
+		buf.append ("}");
+		return buf.toString();
+	}
 
 	public DistLoad (ResultSet results) {
 		if (results.hasNext()) {

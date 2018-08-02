@@ -1,0 +1,6 @@
+*.txt
+
+# pydev/eclipse:
+*.project
+*.pydevproject
+__pycache__/**

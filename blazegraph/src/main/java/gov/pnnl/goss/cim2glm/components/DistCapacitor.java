@@ -9,7 +9,9 @@ import java.util.HashMap;
 
 public class DistCapacitor extends DistComponent {
     public static final String szQUERY = "SELECT ?name ?basev ?nomu ?bsection ?bus ?conn ?grnd ?phs"+
-			 " ?ctrlenabled ?discrete ?mode ?deadband ?setpoint ?delay ?monclass ?moneq ?monbus ?monphs ?id WHERE {"+
+			 " ?ctrlenabled ?discrete ?mode ?deadband ?setpoint ?delay ?monclass ?moneq ?monbus ?monphs ?id ?fdrid WHERE {"+
+			 " ?s c:Equipment.EquipmentContainer ?fdr."+
+			 " ?fdr c:IdentifiedObject.mRID ?fdrid."+
        " ?s r:type c:LinearShuntCompensator."+
        " ?s c:IdentifiedObject.name ?name."+
 			 " ?s c:ConductingEquipment.BaseVoltage ?bv."+
@@ -35,12 +37,12 @@ public class DistCapacitor extends DistComponent {
        " 	?ctl c:RegulatingControl.Terminal ?trm."+
        " 	?trm c:Terminal.ConductingEquipment ?eq."+
        " 	?eq a ?classraw."+
-       " 		bind(strafter(str(?classraw),\"cim16#\") as ?monclass)"+
+       " 		bind(strafter(str(?classraw),\"cim17#\") as ?monclass)"+
        " 	?eq c:IdentifiedObject.name ?moneq."+
        " 	?trm c:Terminal.ConnectivityNode ?moncn."+
        " 	?moncn c:IdentifiedObject.name ?monbus."+
        "  }" +
-			 " bind(strafter(str(?s),\"#_\") as ?id)."+
+			 " bind(strafter(str(?s),\"#\") as ?id)."+
        " ?t c:Terminal.ConductingEquipment ?s."+
        " ?t c:Terminal.ConnectivityNode ?cn."+ 
        " ?cn c:IdentifiedObject.name ?bus" + 
@@ -70,6 +72,53 @@ public class DistCapacitor extends DistComponent {
 	private double kvar_C;
 	private boolean bDelta;
 	private int nphases;
+
+	public String GetJSONEntry () {
+		StringBuilder buf = new StringBuilder ();
+
+		buf.append ("{\"name\":\"" + name + "\"");
+		buf.append (",\"mRID\":\"" + id + "\"");
+		buf.append (",\"CN1\":\"" + bus + "\"");
+		buf.append (",\"phases\":\"" + phs + "\"");
+		buf.append (",\"kvar_A\":" + df1.format(kvar_A));
+		buf.append (",\"kvar_B\":" + df1.format(kvar_B));
+		buf.append (",\"kvar_C\":" + df1.format(kvar_C));
+		buf.append (",\"nominalVoltage\":" + df1.format(basev));
+		buf.append (",\"nomU\":" + df1.format(nomu));
+		buf.append (",\"phaseConnection\":\"" + conn + "\"");
+		buf.append (",\"grounded\":" + grnd.toLowerCase());
+		buf.append (",\"enabled\":" + ctrl.toLowerCase());
+		if (mode == null) {
+			buf.append(",\"mode\":null");
+		} else {
+			buf.append(",\"mode\":\"" + mode + "\"");
+		}
+		buf.append (",\"targetValue\":" + df1.format (setpoint));
+		buf.append (",\"targetDeadband\":" + df1.format (deadband));
+		buf.append (",\"aVRDelay\":" + df1.format (delay));
+		if (moneq == null) {
+			buf.append(",\"monitoredName\":null");
+		} else {
+			buf.append(",\"monitoredName\":\"" + moneq + "\"");
+		}
+		if (monclass == null) {
+			buf.append(",\"monitoredClass\":null");
+		} else {
+			buf.append(",\"monitoredClass\":\"" + monclass + "\"");
+		}
+		if (monbus == null) {
+			buf.append(",\"monitoredBus\":null");
+		} else {
+			buf.append(",\"monitoredBus\":\"" + monbus + "\"");
+		}
+		if (monphs == null) {
+			buf.append(",\"monitoredPhase\":null");
+		} else {
+			buf.append(",\"monitoredPhase\":\"" + monphs + "\"");
+		}
+		buf.append ("}");
+		return buf.toString();
+	}
 
 	private String DSSCapMode (String s) {
 		if (s.equals("currentFlow")) return "current";
@@ -150,7 +199,7 @@ public class DistCapacitor extends DistComponent {
 		return buf.toString();
 	}
 
-	public String GetJSONSymbols(HashMap<String,DistCoordinates> map) {
+	public String GetJSONSymbols(HashMap<String,DistCoordinates> map, HashMap<String,DistXfmrTank> mapTank) {
 		DistCoordinates pt = map.get("LinearShuntCompensator:" + name + ":1");
 
 		StringBuilder buf = new StringBuilder ();

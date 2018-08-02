@@ -8,12 +8,21 @@ import org.apache.jena.query.*;
 
 public class DistTapeShieldCable extends DistCable {
 	public static final String szQUERY = 
-		"SELECT ?name ?rad ?corerad ?gmr ?rdc ?r25 ?r50 ?r75 ?amps ?ins ?insmat"+
+		"SELECT DISTINCT ?name ?rad ?corerad ?gmr ?rdc ?r25 ?r50 ?r75 ?amps ?ins ?insmat"+
 		" ?insthick ?diacore ?diains ?diascreen ?diajacket ?sheathneutral"+
 		" ?tapelap ?tapethickness ?id WHERE {"+
+		" ?eq r:type c:ACLineSegment."+
+		" ?eq c:Equipment.EquipmentContainer ?fdr."+
+		" ?fdr c:IdentifiedObject.mRID ?fdrid."+
+		" { ?asset c:Asset.PowerSystemResources ?eq."+
+		"   ?asset c:Asset.AssetInfo ?w.}"+
+		" UNION"+
+		" { ?acp c:ACLineSegmentPhase.ACLineSegment ?eq."+
+		"   ?phasset c:Asset.PowerSystemResources ?acp."+
+		"   ?phasset c:Asset.AssetInfo ?w.}"+
 		" ?w r:type c:TapeShieldCableInfo."+
 		" ?w c:IdentifiedObject.name ?name."+
-		" bind(strafter(str(?w),\"#_\") as ?id)."+
+		" bind(strafter(str(?w),\"#\") as ?id)."+
 		" ?w c:WireInfo.radius ?rad."+
 		" ?w c:WireInfo.gmr ?gmr."+
 		" OPTIONAL {?w c:WireInfo.rDC20 ?rdc.}"+
@@ -37,6 +46,15 @@ public class DistTapeShieldCable extends DistCable {
 
 	public double tlap;
 	public double tthick;
+
+	public String GetJSONEntry () {
+		StringBuilder buf = new StringBuilder ();
+
+		buf.append ("{\"name\":\"" + name +"\"");
+		buf.append (",\"mRID\":\"" + id +"\"");
+		buf.append ("}");
+		return buf.toString();
+	}
 
 	public DistTapeShieldCable (ResultSet results) {
 		if (results.hasNext()) {
@@ -77,6 +95,22 @@ public class DistTapeShieldCable extends DistCable {
 		buf.append ("\n~ DiaShield=" + df6.format(dscreen + 2.0 * tthick) + " tapeLayer=" + df6.format(tthick) +
 								" tapeLap=" + df3.format(tlap));
 		buf.append ("\n");
+		return buf.toString();
+	}
+
+	public String GetGLM() {
+		StringBuilder buf = new StringBuilder("object underground_line_conductor {\n");
+		// equation 4.89 from Kersting 3rd edition gives rshield = 18.826/ds/T [Ohms/mile]
+		//  where ds is shield diameter [in] and T is tape thickness [mil]
+		double rshield = 1.214583e-5 / dscreen / tthick; // for dscreen and tthick in [m]
+
+		buf.append ("  name \"tscab_" + name + "\";\n");
+		buf.append ("  shield_gmr " + df6.format (0.5 * dscreen * gFTperM) + ";\n");
+		buf.append ("  shield_diameter " + df6.format (dscreen * gFTperM * 12.0) + ";\n");
+		buf.append ("  shield_resistance " + df6.format (rshield) + ";\n");
+		buf.append ("  shield_thickness " + df6.format (tthick * gFTperM * 12.0) + ";\n");
+		AppendGLMCableAttributes (buf);
+		buf.append("}\n");
 		return buf.toString();
 	}
 

@@ -9,8 +9,10 @@ import java.util.HashMap;
 
 public class DistXfmrTank extends DistComponent {
 	public static final String szQUERY =
-		"SELECT ?pname ?tname ?xfmrcode ?vgrp ?enum ?bus ?basev ?phs ?grounded ?rground ?xground ?id WHERE {"+
+		"SELECT ?pname ?tname ?xfmrcode ?vgrp ?enum ?bus ?basev ?phs ?grounded ?rground ?xground ?id ?fdrid WHERE {"+
 		" ?p r:type c:PowerTransformer."+
+		" ?p c:Equipment.EquipmentContainer ?fdr."+
+		" ?fdr c:IdentifiedObject.mRID ?fdrid."+
 		" ?p c:IdentifiedObject.name ?pname."+
 		" ?p c:PowerTransformer.vectorGroup ?vgrp."+
 		" ?t c:TransformerTank.PowerTransformer ?p."+
@@ -28,7 +30,7 @@ public class DistXfmrTank extends DistComponent {
 		" ?end c:TransformerEnd.Terminal ?trm."+
 		" ?trm c:Terminal.ConnectivityNode ?cn."+ 
 		" ?cn c:IdentifiedObject.name ?bus."+
-		" bind(strafter(str(?t),\"#_\") as ?id)."+
+		" bind(strafter(str(?t),\"#\") as ?id)."+
 		" ?end c:TransformerEnd.BaseVoltage ?bv."+
 		" ?bv c:BaseVoltage.nominalVoltage ?basev"+
 		"}"+
@@ -36,6 +38,8 @@ public class DistXfmrTank extends DistComponent {
 
 	public static final String szCountQUERY =
 		"SELECT ?key (count(?end) as ?count) WHERE {"+
+		" ?p c:Equipment.EquipmentContainer ?fdr."+
+		" ?fdr c:IdentifiedObject.mRID ?fdrid."+
 		" ?p r:type c:PowerTransformer."+
 		" ?p c:IdentifiedObject.name ?pname."+
 		" ?t c:TransformerTank.PowerTransformer ?p."+
@@ -59,6 +63,15 @@ public class DistXfmrTank extends DistComponent {
 	public boolean glmUsed;
 
 	public int size;
+
+	public String GetJSONEntry () {
+		StringBuilder buf = new StringBuilder ();
+
+		buf.append ("{\"name\":\"" + pname +"\"");
+		buf.append (",\"mRID\":\"" + id +"\"");
+		buf.append ("}");
+		return buf.toString();
+	}
 
 	private void SetSize (int val) {
 		size = val;
@@ -106,7 +119,7 @@ public class DistXfmrTank extends DistComponent {
 		return buf.toString();
 	}
 
-	public String GetJSONSymbols(HashMap<String,DistCoordinates> map) {
+	public String GetJSONSymbols(HashMap<String,DistCoordinates> map, HashMap<String,DistXfmrTank> mapTank) {
 		DistCoordinates pt1 = map.get("PowerTransformer:" + pname + ":1");
 		DistCoordinates pt2 = map.get("PowerTransformer:" + pname + ":2");
 		String bus1 = bus[0];

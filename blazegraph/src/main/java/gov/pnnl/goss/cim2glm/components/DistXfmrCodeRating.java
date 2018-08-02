@@ -10,13 +10,18 @@ import org.apache.commons.math3.complex.Complex;
 
 public class DistXfmrCodeRating extends DistComponent {
 	public static final String szQUERY = 
-		"SELECT ?pname ?tname ?enum ?ratedS ?ratedU ?conn ?ang ?res ?id WHERE {"+
+		"SELECT DISTINCT ?pname ?tname ?enum ?ratedS ?ratedU ?conn ?ang ?res ?id WHERE {"+
+		" ?fdr c:IdentifiedObject.mRID ?fdrid."+
+		" ?xft c:TransformerTank.PowerTransformer ?eq."+
+		" ?eq c:Equipment.EquipmentContainer ?fdr."+
+		" ?asset c:Asset.PowerSystemResources ?xft."+
+		" ?asset c:Asset.AssetInfo ?t."+
 		" ?p r:type c:PowerTransformerInfo."+
 		" ?t c:TransformerTankInfo.PowerTransformerInfo ?p."+
 		" ?e c:TransformerEndInfo.TransformerTankInfo ?t."+
 		" ?p c:IdentifiedObject.name ?pname."+
 		" ?t c:IdentifiedObject.name ?tname."+
-		" bind(strafter(str(?t),\"#_\") as ?id)."+
+		" bind(strafter(str(?t),\"#\") as ?id)."+
 		" ?e c:TransformerEndInfo.endNumber ?enum."+
 		" ?e c:TransformerEndInfo.ratedS ?ratedS."+
 		" ?e c:TransformerEndInfo.ratedU ?ratedU."+
@@ -28,13 +33,19 @@ public class DistXfmrCodeRating extends DistComponent {
 
 	public static final String szCountQUERY =
 		"SELECT ?key (count(?enum) as ?count) WHERE {"+
+		" SELECT DISTINCT ?key ?enum WHERE {"+
+		" ?fdr c:IdentifiedObject.mRID ?fdrid."+
+		" ?xft c:TransformerTank.PowerTransformer ?eq."+
+		" ?eq c:Equipment.EquipmentContainer ?fdr."+
+		" ?asset c:Asset.PowerSystemResources ?xft."+
+		" ?asset c:Asset.AssetInfo ?t."+
 		" ?p r:type c:PowerTransformerInfo."+
 		" ?p c:IdentifiedObject.name ?pname."+
 		" ?t c:TransformerTankInfo.PowerTransformerInfo ?p."+
 		" ?t c:IdentifiedObject.name ?key."+
 		" ?e c:TransformerEndInfo.TransformerTankInfo ?t."+
 		" ?e c:TransformerEndInfo.endNumber ?enum."+
-		"} GROUP BY ?key ORDER BY ?key";
+		"}} GROUP BY ?key ORDER BY ?key";
 
 	public String pname;
 	public String tname;
@@ -48,6 +59,15 @@ public class DistXfmrCodeRating extends DistComponent {
 	public int size;
 
 	public boolean glmUsed;
+
+	public String GetJSONEntry () {
+		StringBuilder buf = new StringBuilder ();
+
+		buf.append ("{\"name\":\"" + pname +"\"");
+		buf.append (",\"mRID\":\"" + id +"\"");
+		buf.append ("}");
+		return buf.toString();
+	}
 
 	private void SetSize (int val) {
 		size = val;
@@ -106,6 +126,9 @@ public class DistXfmrCodeRating extends DistComponent {
 			// which is the only three-winding case that GridLAB-D supports
 			rpu = (r[0] / zbase1) + 0.5 * (r[1] / zbase2);
 		}
+		if (rpu <= 0.000001) {
+			rpu = 0.000001; // GridLAB-D doesn't like zero
+		}
 		if (sct.fwdg[0] == 1) {
 			zpu = sct.z[0] / zbase1;
 		} else if (sct.fwdg[0] == 2) {
@@ -117,16 +140,47 @@ public class DistXfmrCodeRating extends DistComponent {
 		}
 
 		String sConnect = GetGldTransformerConnection (conn, size);
+		String sKVA = df3.format (ratedS[0] * 0.001);
 		buf.append ("  name \"xcon_" + tname + "\";\n");
-		buf.append ("  connect_type " + sConnect + ";\n");
-		if (conn[0].equals("I")) {
-			buf.append ("  primary_voltage " + df3.format(ratedU[0]) + ";\n");
+		buf.append ("  power_rating " + sKVA + ";\n");
+		if (sConnect.equals("SINGLE_PHASE_CENTER_TAPPED")) {
+			if (tname.contains ("_as_")) { // TODO - this is hard-wired to PNNL taxonomy feeder import
+				buf.append ("  powerA_rating " + sKVA + ";\n");
+				buf.append ("  powerB_rating 0.0;\n");
+				buf.append ("  powerC_rating 0.0;\n");
+			} else if (tname.contains ("_bs_")) {
+				buf.append ("  powerA_rating 0.0;\n");
+				buf.append ("  powerB_rating " + sKVA + ";\n");
+				buf.append ("  powerC_rating 0.0;\n");
+			} else if (tname.contains ("_cs_")) {
+				buf.append ("  powerA_rating 0.0;\n");
+				buf.append ("  powerB_rating 0.0;\n");
+				buf.append ("  powerC_rating " + sKVA + ";\n");
+			}
+			buf.append ("  primary_voltage " + df3.format (ratedU[0]) + ";\n");
 			buf.append ("  secondary_voltage " + df3.format (ratedU[1]) + ";\n");
+		} else if (sConnect.equals("SINGLE_PHASE")) {
+			if (tname.contains ("_an_")) { // TODO - this is hard-wired to PNNL taxonomy feeder import
+				buf.append ("  powerA_rating " + sKVA + ";\n");
+				buf.append ("  powerB_rating 0.0;\n");
+				buf.append ("  powerC_rating 0.0;\n");
+			} else if (tname.contains ("_bn_")) {
+				buf.append ("  powerA_rating 0.0;\n");
+				buf.append ("  powerB_rating " + sKVA + ";\n");
+				buf.append ("  powerC_rating 0.0;\n");
+			} else if (tname.contains ("_cn_")) {
+				buf.append ("  powerA_rating 0.0;\n");
+				buf.append ("  powerB_rating 0.0;\n");
+				buf.append ("  powerC_rating " + sKVA + ";\n");
+			}
+			buf.append ("  primary_voltage " + df3.format (ratedU[0] * Math.sqrt(3.0)) + ";\n");
+			buf.append ("  secondary_voltage " + df3.format (ratedU[1] * Math.sqrt(3.0)) + ";\n");
+			sConnect = "WYE_WYE";
 		} else {
-			buf.append ("  primary_voltage " + df3.format(ratedU[0] / Math.sqrt(3.0)) + ";\n");
+			buf.append ("  primary_voltage " + df3.format (ratedU[0] / Math.sqrt(3.0)) + ";\n");
 			buf.append ("  secondary_voltage " + df3.format (ratedU[1] / Math.sqrt(3.0)) + ";\n");
 		}
-		buf.append ("  power_rating " + df3.format (ratedS[0] * 0.001) + ";\n");
+		buf.append ("  connect_type " + sConnect + ";\n");
 		if (sConnect.equals ("SINGLE_PHASE_CENTER_TAPPED")) {
 			String impedance = CFormat (new Complex (0.5 * rpu, 0.8 * xpu));
 			String impedance1 = CFormat (new Complex (rpu, 0.4 * xpu));
@@ -135,7 +189,7 @@ public class DistXfmrCodeRating extends DistComponent {
 			buf.append ("  impedance1 " + impedance1 + ";\n");
 			buf.append ("  impedance2 " + impedance2 + ";\n");
 		} else {
-			buf.append ("  resistance " + df6.format(rpu) + ";\n");
+			buf.append ("  resistance " + df6.format (rpu) + ";\n");
 			buf.append ("  reactance " + df6.format (xpu) + ";\n");
 		}
 		if (oct.iexc > 0.0) {

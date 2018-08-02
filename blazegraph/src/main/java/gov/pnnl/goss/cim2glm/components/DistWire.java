@@ -38,5 +38,14 @@ public abstract class DistWire extends DistComponent {
 			buf.append (" rdc=" + df6.format(rdc) + " normamps=" + df1.format(amps) + " Runits=m Radunits=m gmrunits=m");
 		}
 	}
+
+	protected void AppendGLMWireAttributes (StringBuilder buf) {
+		if (amps > 0.0) {
+			buf.append ("  rating.summer.continuous " + df2.format (amps) + ";\n");
+			buf.append ("  rating.summer.emergency " + df2.format (amps) + ";\n");
+			buf.append ("  rating.winter.continuous " + df2.format (amps) + ";\n");
+			buf.append ("  rating.winter.emergency " + df2.format (amps) + ";\n");
+		}
+	}
 }
 

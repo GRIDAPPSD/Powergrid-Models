@@ -9,10 +9,14 @@ import org.apache.commons.math3.complex.Complex;
 
 public class DistSequenceMatrix extends DistComponent {
 	public static final String szQUERY = 
-		"SELECT ?name ?r1 ?x1 ?b1 ?r0 ?x0 ?b0 ?id WHERE {"+
+		"SELECT DISTINCT ?name ?r1 ?x1 ?b1 ?r0 ?x0 ?b0 ?id WHERE {"+
+		" ?eq r:type c:ACLineSegment."+
+		" ?eq c:Equipment.EquipmentContainer ?fdr."+
+		" ?fdr c:IdentifiedObject.mRID ?fdrid."+
+		" ?eq c:ACLineSegment.PerLengthImpedance ?s."+
 		" ?s r:type c:PerLengthSequenceImpedance."+
 		" ?s c:IdentifiedObject.name ?name."+
-		" bind(strafter(str(?s),\"#_\") as ?id)."+
+		" bind(strafter(str(?s),\"#\") as ?id)."+
 		" ?s c:PerLengthSequenceImpedance.r ?r1."+
 		" ?s c:PerLengthSequenceImpedance.x ?x1."+
 		" ?s c:PerLengthSequenceImpedance.bch ?b1."+
@@ -34,6 +38,15 @@ public class DistSequenceMatrix extends DistComponent {
 	private String seqZm;
 	private String seqCs;
 	private String seqCm;
+
+	public String GetJSONEntry () {
+		StringBuilder buf = new StringBuilder ();
+
+		buf.append ("{\"name\":\"" + name +"\"");
+		buf.append (",\"mRID\":\"" + id +"\"");
+		buf.append ("}");
+		return buf.toString();
+	}
 
 	public DistSequenceMatrix (ResultSet results) {
 		if (results.hasNext()) {

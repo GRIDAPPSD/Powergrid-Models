@@ -9,10 +9,17 @@ import org.apache.jena.query.*;
 public class DistCoordinates extends DistComponent {
 	public static final String szQUERY =
 		"SELECT ?class ?name ?seq ?x ?y WHERE {"+
+		" ?eq c:Equipment.EquipmentContainer ?fdr."+
+		" ?fdr c:IdentifiedObject.mRID ?fdrid."+
 		" ?eq c:PowerSystemResource.Location ?loc."+
-		" ?eq c:IdentifiedObject.name ?name."+
-		" ?eq a ?classraw."+
-		"  bind(strafter(str(?classraw),\"cim16#\") as ?class)"+
+		" { ?eq c:IdentifiedObject.name ?name."+
+    "   ?eq a ?classraw."+
+    "   bind(strafter(str(?classraw),\"cim17#\") as ?class)}"+
+    "  UNION"+
+    " { ?eq c:PowerElectronicsConnection.PowerElectronicsUnit ?unit."+
+		"   ?unit c:IdentifiedObject.name ?name."+
+    "   ?unit a ?classraw."+
+    "   bind(strafter(str(?classraw),\"cim17#\") as ?class)}"+
 		" ?pt c:PositionPoint.Location ?loc."+
 		" ?pt c:PositionPoint.xPosition ?x."+
 		" ?pt c:PositionPoint.yPosition ?y."+
@@ -29,6 +36,14 @@ public class DistCoordinates extends DistComponent {
 	public double y;
 	public int seq;
 	public String cname;
+
+	public String GetJSONEntry () {
+		StringBuilder buf = new StringBuilder ();
+
+		buf.append ("{\"name\":\"" + name +"\"");
+		buf.append ("}");
+		return buf.toString();
+	}
 
 	public DistCoordinates (ResultSet results) {
 		if (results.hasNext()) {

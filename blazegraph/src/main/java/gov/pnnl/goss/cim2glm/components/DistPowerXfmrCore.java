@@ -9,7 +9,9 @@ import org.apache.jena.query.*;
 public class DistPowerXfmrCore extends DistComponent {
 	public static final String szQUERY =
 		"SELECT ?pname ?enum ?b ?g WHERE {"+
+		" ?fdr c:IdentifiedObject.mRID ?fdrid."+
 		" ?p r:type c:PowerTransformer."+
+		" ?p c:Equipment.EquipmentContainer ?fdr."+
 		" ?p c:IdentifiedObject.name ?pname."+
 		" ?end c:PowerTransformerEnd.PowerTransformer ?p."+
 		" ?adm c:TransformerCoreAdmittance.TransformerEnd ?end."+
@@ -22,6 +24,14 @@ public class DistPowerXfmrCore extends DistComponent {
 	public int wdg;
 	public double b;
 	public double g;
+
+	public String GetJSONEntry () {
+		StringBuilder buf = new StringBuilder ();
+
+		buf.append ("{\"name\":\"" + name +"\"");
+		buf.append ("}");
+		return buf.toString();
+	}
 
 	public DistPowerXfmrCore (ResultSet results) {
 		if (results.hasNext()) {

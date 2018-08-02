@@ -8,9 +8,10 @@ import org.apache.jena.query.*;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.commons.math3.complex.Complex;
 import java.text.DecimalFormat;
+import java.util.HashMap;
 
 public abstract class DistComponent {
-	public static final String nsCIM = "http://iec.ch/TC57/2012/CIM-schema-cim16#";
+	public static final String nsCIM = "http://iec.ch/TC57/2012/CIM-schema-cim17#";
 	public static final String nsRDF = "http://www.w3.org/1999/02/22-rdf-syntax-ns#";
 	public static final String nsXSD = "http://www.w3.org/2001/XMLSchema#";
 
@@ -224,6 +225,15 @@ public abstract class DistComponent {
 		return DSSBusPhases (bus, phs);
 	}
 
+	static String GLMPhaseString (String cim_phases) {
+		StringBuilder ret = new StringBuilder();
+		if (cim_phases.contains ("A")) ret.append ("A");
+		if (cim_phases.contains ("B")) ret.append ("B");
+		if (cim_phases.contains ("C")) ret.append ("C");
+		if (cim_phases.contains ("s")) ret.append ("S");
+		return ret.toString();
+	}
+
 	/** 
 	 *  Rotates a phasor +120 degrees by multiplication
 		 */
@@ -368,7 +378,7 @@ public abstract class DistComponent {
 			} else if (conn[1].equals("A")) {
 				return "I_A";
 			} else if (conn[1].equals("I")) {
-				return "SINGLE_PHASE"; // supported in GridLAB-D
+				return "SINGLE_PHASE"; // partially supported in GridLAB-D, but implement as WYE_WYE with one non-zero power rating
 			}
 		}
 		return "** Unsupported **";  // TODO - this could be solvable as UNKNOWN in some cases
@@ -376,5 +386,10 @@ public abstract class DistComponent {
 
  	public abstract String DisplayString();
  	public abstract String GetKey();
+	public abstract String GetJSONEntry();
+
+	public String GetJSONSymbols (HashMap<String,DistCoordinates> map, HashMap<String,DistXfmrTank> mapTank) {
+		return "";
+	}
 }
 

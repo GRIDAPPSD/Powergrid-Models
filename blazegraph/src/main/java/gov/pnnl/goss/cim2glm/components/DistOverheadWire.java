@@ -8,10 +8,19 @@ import org.apache.jena.query.*;
 
 public class DistOverheadWire extends DistWire {
 	public static final String szQUERY =  
-		"SELECT ?name ?rad ?corerad ?gmr ?rdc ?r25 ?r50 ?r75 ?amps ?ins ?insmat ?insthick ?id WHERE {"+
+		"SELECT DISTINCT ?name ?rad ?corerad ?gmr ?rdc ?r25 ?r50 ?r75 ?amps ?ins ?insmat ?insthick ?id WHERE {"+
+		" ?eq r:type c:ACLineSegment."+
+		" ?eq c:Equipment.EquipmentContainer ?fdr."+
+		" ?fdr c:IdentifiedObject.mRID ?fdrid."+
+		" { ?asset c:Asset.PowerSystemResources ?eq."+
+		"   ?asset c:Asset.AssetInfo ?w.}"+
+		" UNION"+
+		" { ?acp c:ACLineSegmentPhase.ACLineSegment ?eq."+
+		"   ?phasset c:Asset.PowerSystemResources ?acp."+
+		"   ?phasset c:Asset.AssetInfo ?w.}"+
 		" ?w r:type c:OverheadWireInfo."+
 		" ?w c:IdentifiedObject.name ?name."+
-		" bind(strafter(str(?w),\"#_\") as ?id)."+
+		" bind(strafter(str(?w),\"#\") as ?id)."+
 		" ?w c:WireInfo.radius ?rad."+
 		" ?w c:WireInfo.gmr ?gmr."+
 		" OPTIONAL {?w c:WireInfo.rDC20 ?rdc.}"+
@@ -25,6 +34,15 @@ public class DistOverheadWire extends DistWire {
 		" OPTIONAL {?w c:WireInfo.insulated ?ins.}"+
 		" OPTIONAL {?w c:WireInfo.insulationThickness ?insthick.}"+
 		"} ORDER BY ?name";
+
+	public String GetJSONEntry () {
+		StringBuilder buf = new StringBuilder ();
+
+		buf.append ("{\"name\":\"" + name +"\"");
+		buf.append (",\"mRID\":\"" + id +"\"");
+		buf.append ("}");
+		return buf.toString();
+	}
 
 	public DistOverheadWire (ResultSet results) {
 		if (results.hasNext()) {
@@ -55,6 +73,18 @@ public class DistOverheadWire extends DistWire {
 		StringBuilder buf = new StringBuilder ("new WireData.");
 		AppendDSSWireAttributes (buf);
 		buf.append ("\n");
+		return buf.toString();
+	}
+
+	public String GetGLM() {
+		StringBuilder buf = new StringBuilder("object overhead_line_conductor {\n");
+
+		buf.append ("  name \"wire_" + name + "\";\n");
+		buf.append ("  geometric_mean_radius " + df6.format (gmr * gFTperM) + ";\n");
+		buf.append ("  diameter " + df6.format (2.0 * rad * gFTperM * 12.0) + ";\n");
+		buf.append ("  resistance " + df6.format (r50 * gMperMILE) + ";\n");
+		AppendGLMWireAttributes (buf);
+		buf.append("}\n");
 		return buf.toString();
 	}
 

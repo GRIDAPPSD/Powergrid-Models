@@ -9,11 +9,13 @@ import java.util.HashMap;
 
 public class DistPowerXfmrWinding extends DistComponent {
 	public static final String szQUERY = 
-		"SELECT ?pname ?vgrp ?enum ?bus ?basev ?conn ?ratedS ?ratedU ?r ?ang ?grounded ?rground ?xground ?id WHERE {"+
+		"SELECT ?pname ?vgrp ?enum ?bus ?basev ?conn ?ratedS ?ratedU ?r ?ang ?grounded ?rground ?xground ?id ?fdrid WHERE {"+
 		" ?p r:type c:PowerTransformer."+
+		" ?p c:Equipment.EquipmentContainer ?fdr."+
+		" ?fdr c:IdentifiedObject.mRID ?fdrid."+
 		" ?p c:IdentifiedObject.name ?pname."+
 		" ?p c:PowerTransformer.vectorGroup ?vgrp."+
-		" bind(strafter(str(?p),\"#_\") as ?id)."+
+		" bind(strafter(str(?p),\"#\") as ?id)."+
 		" ?end c:PowerTransformerEnd.PowerTransformer ?p."+
 		" ?end c:TransformerEnd.endNumber ?enum."+
 		" ?end c:PowerTransformerEnd.ratedS ?ratedS."+
@@ -36,6 +38,8 @@ public class DistPowerXfmrWinding extends DistComponent {
 	public static final String szCountQUERY =
 		"SELECT ?key (count(?p) as ?count) WHERE {"+
 		" ?p r:type c:PowerTransformer."+
+		" ?fdr c:IdentifiedObject.mRID ?fdrid."+
+		" ?p c:Equipment.EquipmentContainer ?fdr."+
 		" ?p c:IdentifiedObject.name ?key."+
 		" ?end c:PowerTransformerEnd.PowerTransformer ?p."+
 		"} GROUP BY ?key ORDER BY ?key";
@@ -55,6 +59,15 @@ public class DistPowerXfmrWinding extends DistComponent {
 	public double[] rg;
 	public double[] xg;
 	public int size;
+
+	public String GetJSONEntry () {
+		StringBuilder buf = new StringBuilder ();
+
+		buf.append ("{\"name\":\"" + name +"\"");
+		buf.append (",\"mRID\":\"" + id +"\"");
+		buf.append ("}");
+		return buf.toString();
+	}
 
 	private void SetSize (int val) {
 		size = val;
@@ -109,7 +122,7 @@ public class DistPowerXfmrWinding extends DistComponent {
 		return buf.toString();
 	}
 
-	public String GetJSONSymbols(HashMap<String,DistCoordinates> map) {
+	public String GetJSONSymbols(HashMap<String,DistCoordinates> map, HashMap<String,DistXfmrTank> mapTank) {
 		DistCoordinates pt1 = map.get("PowerTransformer:" + name + ":1");
 		DistCoordinates pt2 = map.get("PowerTransformer:" + name + ":2");
 		String bus1 = bus[0];
@@ -154,15 +167,18 @@ public class DistPowerXfmrWinding extends DistComponent {
 				break;
 			}
 		}
+		if (rpu <= 0.000001) {
+			rpu = 0.000001; // GridLAB-D doesn't like zero
+		}
 		buf.append ("  resistance " + df6.format (rpu) + ";\n");
 		buf.append ("  reactance " + df6.format (xpu) + ";\n");
 		idx = core.wdg - 1;
 		Zbase = ratedU[idx] * ratedU[idx] / ratedS[idx];
 		if (core.b > 0.0) {
-			buf.append ("  shunt_reactance " + df6.format (Zbase / core.b) + ";\n");
+			buf.append ("  shunt_reactance " + df6.format (1.0 / Zbase / core.b) + ";\n");
 		}
 		if (core.g > 0.0) {
-			buf.append ("  shunt_resistance " + df6.format (Zbase / core.b) + ";\n");
+			buf.append ("  shunt_resistance " + df6.format (1.0 / Zbase / core.g) + ";\n");
 		}
 		buf.append ("}\n");
 

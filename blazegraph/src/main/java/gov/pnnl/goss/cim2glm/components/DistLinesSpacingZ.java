@@ -8,16 +8,17 @@ import org.apache.jena.query.*;
 
 public class DistLinesSpacingZ extends DistLineSegment {
 	public static final String szQUERY =
-		"SELECT ?name ?id ?basev (group_concat(distinct ?bus;separator=\"\\n\") as ?buses)"+
+		"SELECT ?name ?id ?basev ?bus1 ?bus2 ?fdrid ?len ?spacing ?wname ?wclass"+
 		"       (group_concat(distinct ?phs;separator=\"\\n\") as ?phases)"+
-		"       ?len ?spacing ?wname ?wclass"+
 		"       (group_concat(distinct ?phname;separator=\"\\n\") as ?phwires)"+
 		"       (group_concat(distinct ?phclass;separator=\"\\n\") as ?phclasses) WHERE {"+
-		" SELECT ?name ?id ?basev ?bus ?phs ?len ?spacing ?wname ?wclass ?phname ?phclass"+
+		" SELECT ?name ?id ?basev ?bus1 ?bus2 ?fdrid ?len ?spacing ?wname ?wclass ?phs ?phname ?phclass"+
 		" WHERE {"+
 		" ?s r:type c:ACLineSegment."+
+		" ?s c:Equipment.EquipmentContainer ?fdr."+
+		" ?fdr c:IdentifiedObject.mRID ?fdrid."+
 		" ?s c:IdentifiedObject.name ?name."+
-		" bind(strafter(str(?s),\"#_\") as ?id)."+
+		" bind(strafter(str(?s),\"#\") as ?id)."+
 		" ?s c:ConductingEquipment.BaseVoltage ?bv."+
 		" ?bv c:BaseVoltage.nominalVoltage ?basev."+
 		" ?s c:Conductor.length ?len."+
@@ -31,11 +32,16 @@ public class DistLinesSpacingZ extends DistLineSegment {
 		"       ?winf c:WireInfo.radius ?rad."+
 		"       ?winf c:IdentifiedObject.name ?wname."+
 		"       ?winf a ?classraw."+
-		"       	bind(strafter(str(?classraw),\"cim16#\") as ?wclass)"+
+		"       	bind(strafter(str(?classraw),\"cim17#\") as ?wclass)"+
 		" }"+
-		" ?t c:Terminal.ConductingEquipment ?s."+
-		" ?t c:Terminal.ConnectivityNode ?cn."+
-		" ?cn c:IdentifiedObject.name ?bus"+
+		" ?t1 c:Terminal.ConductingEquipment ?s."+
+		" ?t1 c:Terminal.ConnectivityNode ?cn1."+
+		" ?t1 c:ACDCTerminal.sequenceNumber \"1\"."+
+		" ?cn1 c:IdentifiedObject.name ?bus1."+
+		" ?t2 c:Terminal.ConductingEquipment ?s."+
+		" ?t2 c:Terminal.ConnectivityNode ?cn2."+
+		" ?t2 c:ACDCTerminal.sequenceNumber \"2\"."+
+		" ?cn2 c:IdentifiedObject.name ?bus2"+
 		" OPTIONAL {"+
 		"       ?acp c:ACLineSegmentPhase.ACLineSegment ?s."+
 		"       ?acp c:ACLineSegmentPhase.phase ?phsraw."+
@@ -46,12 +52,12 @@ public class DistLinesSpacingZ extends DistLineSegment {
 		"       	?phinf c:WireInfo.radius ?phrad."+
 		"       	?phinf c:IdentifiedObject.name ?phname."+
 		"       	?phinf a ?phclassraw."+
-		"       		bind(strafter(str(?phclassraw),\"cim16#\") as ?phclass)"+
+		"       		bind(strafter(str(?phclassraw),\"cim17#\") as ?phclass)"+
 		"       	}"+
 		"       }"+
 		" } ORDER BY ?name ?phs"+
 		" }"+
-		" GROUP BY ?name ?id ?basev ?len ?spacing ?wname ?wclass"+
+		" GROUP BY ?name ?id ?basev ?bus1 ?bus2 ?fdrid ?len ?spacing ?wname ?wclass"+
 		" ORDER BY ?name";
 
 	public String spacing;
@@ -62,14 +68,24 @@ public class DistLinesSpacingZ extends DistLineSegment {
 	public String[] wire_names;
 	public String[] wire_classes;
 
+	public String glm_config;
+
+	public String GetJSONEntry () {
+		StringBuilder buf = new StringBuilder ();
+
+		buf.append ("{\"name\":\"" + name +"\"");
+		buf.append (",\"mRID\":\"" + id +"\"");
+		buf.append ("}");
+		return buf.toString();
+	}
+
 	public DistLinesSpacingZ (ResultSet results) {
 		if (results.hasNext()) {
 			QuerySolution soln = results.next();
 			name = SafeName (soln.get("?name").toString());
 			id = soln.get("?id").toString();
-			String[] buses = soln.get("?buses").toString().split("\\n");
-			bus1 = SafeName(buses[0]); 
-			bus2 = SafeName(buses[1]); 
+			bus1 = SafeName (soln.get("?bus1").toString()); 
+			bus2 = SafeName (soln.get("?bus2").toString()); 
 			len = Double.parseDouble (soln.get("?len").toString());
 			basev = Double.parseDouble (soln.get("?basev").toString());
 			spacing = soln.get("?spacing").toString();
@@ -95,6 +111,8 @@ public class DistLinesSpacingZ extends DistLineSegment {
 					if (idxWire > 0) --idxWire;
 				}
 			}
+			phases = phases.replace ('\n', ':');
+//			System.out.println (DisplayString());
 		}		
 	}
 
@@ -102,7 +120,7 @@ public class DistLinesSpacingZ extends DistLineSegment {
 		StringBuilder buf = new StringBuilder ("");
 		buf.append (name + " from " + bus1 + " to " + bus2 + 
 								" basev=" + df4.format(basev) + " len=" + df4.format(len) + " spacing=" + spacing);
-		buf.append (" wname=" + wname + "wclass=" + wclass);
+		buf.append (" wname=" + wname + " wclass=" + wclass);
 		for (int i = 0; i < nwires; i++) {
 			buf.append ("\n  phs=" + wire_phases[i] + " wire=" + wire_names[i] + " class=" + wire_classes[i]);
 		}
@@ -111,7 +129,12 @@ public class DistLinesSpacingZ extends DistLineSegment {
 
 	public String GetGLM() {
 		StringBuilder buf = new StringBuilder ();
-		AppendSharedGLMAttributes (buf, name);
+		if (wclass.equals("OverheadWireInfo")) {
+			bCable = false;
+		} else {
+			bCable = true;
+		}
+		AppendSharedGLMAttributes(buf, glm_config, true);
 		return buf.toString();
 	}
 

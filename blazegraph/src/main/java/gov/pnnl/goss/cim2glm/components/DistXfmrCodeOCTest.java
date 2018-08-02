@@ -8,7 +8,12 @@ import org.apache.jena.query.*;
 
 public class DistXfmrCodeOCTest extends DistComponent {
 	public static final String szQUERY = 
-		"SELECT ?pname ?tname ?nll ?iexc WHERE {"+
+		"SELECT DISTINCT ?pname ?tname ?nll ?iexc WHERE {"+
+		" ?fdr c:IdentifiedObject.mRID ?fdrid."+
+		" ?xft c:TransformerTank.PowerTransformer ?eq."+
+		" ?eq c:Equipment.EquipmentContainer ?fdr."+
+		" ?asset c:Asset.PowerSystemResources ?xft."+
+		" ?asset c:Asset.AssetInfo ?t."+
 		" ?p r:type c:PowerTransformerInfo."+
 		" ?p c:IdentifiedObject.name ?pname."+
 		" ?t c:TransformerTankInfo.PowerTransformerInfo ?p."+
@@ -23,6 +28,14 @@ public class DistXfmrCodeOCTest extends DistComponent {
 	public String tname;
 	public double nll;
 	public double iexc;
+
+	public String GetJSONEntry () {
+		StringBuilder buf = new StringBuilder ();
+
+		buf.append ("{\"name\":\"" + pname +"\"");
+		buf.append ("}");
+		return buf.toString();
+	}
 
 	public DistXfmrCodeOCTest (ResultSet results) {
 		if (results.hasNext()) {

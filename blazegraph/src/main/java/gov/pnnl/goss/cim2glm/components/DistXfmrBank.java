@@ -9,8 +9,10 @@ import java.util.HashMap;
 
 public class DistXfmrBank extends DistComponent {
 	public static final String szQUERY =
-		"SELECT ?pname ?vgrp ?tname WHERE {"+
+		"SELECT ?pname ?vgrp ?tname ?fdrid WHERE {"+
 		" ?p r:type c:PowerTransformer."+
+		" ?p c:Equipment.EquipmentContainer ?fdr."+
+		" ?fdr c:IdentifiedObject.mRID ?fdrid."+
 		" ?p c:IdentifiedObject.name ?pname."+
 		" ?p c:PowerTransformer.vectorGroup ?vgrp."+
 		" ?t c:TransformerTank.PowerTransformer ?p."+
@@ -19,6 +21,8 @@ public class DistXfmrBank extends DistComponent {
 
 	public static final String szCountQUERY =
 		"SELECT ?key (count(?tank) as ?count) WHERE {"+
+		" ?pxf c:Equipment.EquipmentContainer ?fdr."+
+		" ?fdr c:IdentifiedObject.mRID ?fdrid."+
 		" ?tank c:TransformerTank.PowerTransformer ?pxf."+
 		" ?pxf c:IdentifiedObject.name ?key"+
 		"} GROUP BY ?key ORDER BY ?key";
@@ -28,6 +32,14 @@ public class DistXfmrBank extends DistComponent {
 	public String[] tname;
 
 	public int size;
+
+	public String GetJSONEntry () {
+		StringBuilder buf = new StringBuilder ();
+
+		buf.append ("{\"name\":\"" + pname +"\"");
+		buf.append ("}");
+		return buf.toString();
+	}
 
 	private void SetSize (int val) {
 		size = val;
