@@ -232,18 +232,15 @@ def write(ofn):
 		outf.write(directive)
 	outf.write('\n')
 	
-	# Write the clock
-	outf.write('clock')
-	if len(clock) == 0:
-		outf.write('\n')
-	else:
-		outf.write(' {\n')
+	# Write the clock, if found
+	if len(clock) > 0:
+		outf.write('clock {\n')
 		for param in clock:
 			outf.write('\t'+param+' '+clock[param]+';\n')
 		outf.write('}\n')
 	outf.write('\n')
 	
-	# Write the moduls
+	# Write the modules
 	for module in modules:
 		outf.write('module '+module)
 		if len(modules[module]) == 0:
