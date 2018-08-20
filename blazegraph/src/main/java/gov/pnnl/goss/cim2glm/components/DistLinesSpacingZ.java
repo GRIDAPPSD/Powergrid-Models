@@ -8,12 +8,11 @@ import org.apache.jena.query.*;
 
 public class DistLinesSpacingZ extends DistLineSegment {
 	public static final String szQUERY =
-		"SELECT ?name ?id ?basev ?bus1 ?bus2"+
+		"SELECT ?name ?id ?basev ?bus1 ?bus2 ?fdrid ?len ?spacing ?wname ?wclass"+
 		"       (group_concat(distinct ?phs;separator=\"\\n\") as ?phases)"+
-		"       ?len ?spacing ?wname ?wclass"+
 		"       (group_concat(distinct ?phname;separator=\"\\n\") as ?phwires)"+
 		"       (group_concat(distinct ?phclass;separator=\"\\n\") as ?phclasses) WHERE {"+
-		" SELECT ?name ?id ?basev ?bus1 ?bus2 ?phs ?len ?spacing ?wname ?wclass ?phname ?phclass ?fdrid"+
+		" SELECT ?name ?id ?basev ?bus1 ?bus2 ?fdrid ?len ?spacing ?wname ?wclass ?phs ?phname ?phclass"+
 		" WHERE {"+
 		" ?s r:type c:ACLineSegment."+
 		" ?s c:Equipment.EquipmentContainer ?fdr."+
@@ -58,7 +57,7 @@ public class DistLinesSpacingZ extends DistLineSegment {
 		"       }"+
 		" } ORDER BY ?name ?phs"+
 		" }"+
-		" GROUP BY ?name ?id ?basev ?bus1 ?bus2 ?len ?spacing ?wname ?wclass ?fdrid"+
+		" GROUP BY ?name ?id ?basev ?bus1 ?bus2 ?fdrid ?len ?spacing ?wname ?wclass"+
 		" ORDER BY ?name";
 
 	public String spacing;
@@ -121,7 +120,7 @@ public class DistLinesSpacingZ extends DistLineSegment {
 		StringBuilder buf = new StringBuilder ("");
 		buf.append (name + " from " + bus1 + " to " + bus2 + 
 								" basev=" + df4.format(basev) + " len=" + df4.format(len) + " spacing=" + spacing);
-		buf.append (" wname=" + wname + "wclass=" + wclass);
+		buf.append (" wname=" + wname + " wclass=" + wclass);
 		for (int i = 0; i < nwires; i++) {
 			buf.append ("\n  phs=" + wire_phases[i] + " wire=" + wire_names[i] + " class=" + wire_classes[i]);
 		}

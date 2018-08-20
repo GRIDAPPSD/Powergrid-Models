@@ -77,7 +77,7 @@ public abstract class DistSwitch extends DistComponent {
 			id = soln.get("?id").toString();
 			basev = Double.parseDouble (soln.get("?basev").toString());
 			rated = Double.parseDouble (soln.get("?rated").toString());
-			breaking = Double.parseDouble (soln.get("?breaking").toString());
+			breaking = OptionalDouble (soln, "?breaking", 0.0);
 			bus1 = SafeName (soln.get("?bus1").toString()); 
 			bus2 = SafeName (soln.get("?bus2").toString()); 
 			phases = OptionalString (soln, "?phases", "ABC");
@@ -104,7 +104,7 @@ public abstract class DistSwitch extends DistComponent {
 	}
 
 	public String GetGLM () {
-		StringBuilder buf = new StringBuilder ("object switch {\n");
+		StringBuilder buf = new StringBuilder ("object switch { // CIM " + CIMClass() + "\n");
 
 		buf.append ("  name \"swt_" + name + "\";\n");
 		buf.append ("  from \"" + bus1 + "\";\n");

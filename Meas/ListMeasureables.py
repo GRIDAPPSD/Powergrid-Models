@@ -188,13 +188,15 @@ for b in ret.bindings:
 		busphases[bus][phs] = True
 		print ('PowerElectronicsConnection','PhotovoltaicUnit',b['name'].value,b['uname'].value,bus,phs,b['eqid'].value,b['trmid'].value,file=op)
 
-#################### switches
+#################### LoadBreakSwitches, Breakers and Reclosers
 op.close()
 op = open (froot + '_switch_i.txt', 'w')
 
-qstr = constants.prefix + """SELECT ?name ?bus1 ?bus2 (group_concat(distinct ?phs1;separator=\"\") as ?phases1) ?eqid ?trm1id ?trm2id WHERE {
-	SELECT ?name ?bus1 ?bus2 ?phs1 ?eqid ?trm1id ?trm2id WHERE {""" + fidselect + """
- ?s r:type c:LoadBreakSwitch.
+qstr = constants.prefix + """SELECT ?cimtype ?name ?bus1 ?bus2 (group_concat(distinct ?phs1;separator=\"\") as ?phases1) ?eqid ?trm1id ?trm2id WHERE {
+	SELECT ?cimtype ?name ?bus1 ?bus2 ?phs1 ?eqid ?trm1id ?trm2id WHERE {""" + fidselect + """
+ VALUES ?cimraw {c:LoadBreakSwitch c:Recloser c:Breaker}
+ ?s r:type ?cimraw.
+  bind(strafter(str(?cimraw),"#") as ?cimtype)
  ?s c:IdentifiedObject.name ?name.
  ?s c:IdentifiedObject.mRID ?eqid. 
  ?t1 c:Terminal.ConductingEquipment ?s.
@@ -210,24 +212,22 @@ qstr = constants.prefix + """SELECT ?name ?bus1 ?bus2 (group_concat(distinct ?ph
  OPTIONAL {?scp c:SwitchPhase.Switch ?s.
  ?scp c:SwitchPhase.phaseSide1 ?phs1raw.
 	bind(strafter(str(?phs1raw),\"SinglePhaseKind.\") as ?phs1) } } ORDER BY ?name ?phs1
- } GROUP BY ?name ?bus1 ?bus2 ?eqid ?trm1id ?trm2id
- ORDER BY ?name
+ } GROUP BY ?cimtype ?name ?bus1 ?bus2 ?eqid ?trm1id ?trm2id
+ ORDER BY ?cimtype ?name
 """
-#print (qstr)
 sparql.setQuery(qstr)
 ret = sparql.query()
-#print ('\nLoadBreakSwitch binding keys are:',ret.variables)
 for b in ret.bindings:
 	phases1 = FlatPhases (b['phases1'].value)
 	bus1 = b['bus1'].value
 	bus2 = b['bus2'].value
 	for phs1 in phases1:
-		print ('LoadBreakSwitch','i1',b['name'].value,bus1,bus2,phs1,b['eqid'].value,b['trm1id'].value,b['trm2id'].value,file=op)
+		print (b['cimtype'].value,'i1',b['name'].value,bus1,bus2,phs1,b['eqid'].value,b['trm1id'].value,b['trm2id'].value,file=op)
 		if not busphases[bus1][phs1]:
-			print ('LoadBreakSwitch','v1',b['name'].value,bus1,bus2,phs1,b['eqid'].value,b['trm1id'].value,b['trm2id'].value,file=np)
+			print (b['cimtype'].value,'v1',b['name'].value,bus1,bus2,phs1,b['eqid'].value,b['trm1id'].value,b['trm2id'].value,file=np)
 			busphases[bus1][phs1] = True
 		if not busphases[bus2][phs1]:
-			print ('LoadBreakSwitch','v2',b['name'].value,bus1,bus2,phs1,b['eqid'].value,b['trm1id'].value,b['trm2id'].value,file=np)
+			print (b['cimtype'].value,'v2',b['name'].value,bus1,bus2,phs1,b['eqid'].value,b['trm1id'].value,b['trm2id'].value,file=np)
 			busphases[bus2][phs1] = True
 
 ##################### ACLineSegments

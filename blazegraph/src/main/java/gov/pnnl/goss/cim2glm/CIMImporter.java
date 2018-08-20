@@ -45,6 +45,7 @@ import gov.pnnl.goss.cim2glm.components.DistSequenceMatrix;
 import gov.pnnl.goss.cim2glm.components.DistSolar;
 import gov.pnnl.goss.cim2glm.components.DistStorage;
 import gov.pnnl.goss.cim2glm.components.DistSubstation;
+import gov.pnnl.goss.cim2glm.components.DistSwitch;
 import gov.pnnl.goss.cim2glm.components.DistTapeShieldCable;
 import gov.pnnl.goss.cim2glm.components.DistXfmrBank;
 import gov.pnnl.goss.cim2glm.components.DistXfmrCodeOCTest;
@@ -474,8 +475,8 @@ public class CIMImporter extends Object {
 		PrintOneMap (mapBreakers, "** BREAKERS");
 		PrintOneMap (mapReclosers, "** RECLOSERS");
 		PrintOneMap (mapFuses, "** FUSES");
-		PrintOneMap (mapSectionalisers, "** SECTIONALISERS");
 		PrintOneMap (mapLoadBreakSwitches, "** LOADBREAK SWITCHES");
+		PrintOneMap (mapSectionalisers, "** SECTIONALISERS");
 		PrintOneMap (mapJumpers, "** JUMPERS");
 		PrintOneMap (mapDisconnectors, "** DISCONNECTORS");
 		PrintOneMap (mapGroundDisconnectors, "** GROUND DISCONNECTORS");
@@ -501,6 +502,7 @@ public class CIMImporter extends Object {
 	public void LoadAllMaps() {
 		LoadCountMaps();
 		LoadBaseVoltages();
+		LoadBreakers();
 		LoadCapacitors();
 		LoadConcentricNeutralCables();
 		LoadCoordinates();
@@ -518,7 +520,9 @@ public class CIMImporter extends Object {
 		LoadPowerXfmrCore();
 		LoadPowerXfmrMesh();
 		LoadPowerXfmrWindings();
+		LoadReclosers();
 		LoadRegulators();
+		LoadSectionalisers();
 		LoadSequenceMatrices();
 		LoadSolars();
 		LoadStorages();
@@ -531,7 +535,6 @@ public class CIMImporter extends Object {
 		LoadXfmrBanks();
 		LoadFeeders();
 		allMapsLoaded = true;
-
 	}
 
 	public boolean CheckMaps() {
@@ -541,7 +544,8 @@ public class CIMImporter extends Object {
 			throw new RuntimeException ("no substation source");
 		}
 		nLinks = mapLoadBreakSwitches.size() + mapLinesCodeZ.size() + mapLinesSpacingZ.size() + mapLinesInstanceZ.size() +
-			mapXfmrWindings.size() + mapTanks.size() + mapFuses.size() + mapDisconnectors.size(); // standalone regulators not allowed in CIM
+			mapXfmrWindings.size() + mapTanks.size() + mapFuses.size() + mapDisconnectors.size() + mapBreakers.size() +
+			mapReclosers.size() + mapSectionalisers.size(); // standalone regulators not allowed in CIM
 		if (nLinks < 1) {
 			throw new RuntimeException ("no lines, transformers or switches");
 		}
@@ -604,6 +608,9 @@ public class CIMImporter extends Object {
 		WriteMapDictionary (mapStorages, "batteries", false, out);
 		WriteMapDictionary (mapLoadBreakSwitches, "switches", false, out);
 		WriteMapDictionary (mapFuses, "fuses", false, out);
+		WriteMapDictionary (mapSectionalisers, "sectionalisers", false, out);
+		WriteMapDictionary (mapBreakers, "breakers", false, out);
+		WriteMapDictionary (mapReclosers, "reclosers", false, out);
 		WriteMapDictionary (mapDisconnectors, "disconnectors", false, out);
 		WriteMapDictionary (mapMeasurements, "measurements", true, out, maxMeasurements);
 		out.println("}]}");
@@ -685,6 +692,9 @@ public class CIMImporter extends Object {
 
 		WriteMapSymbols (mapLoadBreakSwitches, "switches", false, out);
 		WriteMapSymbols (mapFuses, "fuses", false, out);
+		WriteMapSymbols (mapBreakers, "breakers", false, out);
+		WriteMapSymbols (mapReclosers, "reclosers", false, out);
+		WriteMapSymbols (mapSectionalisers, "sectionalisers", false, out);
 		WriteMapSymbols (mapDisconnectors, "disconnectors", false, out);
 
 		out.println("\"transformers\":[");
@@ -797,6 +807,15 @@ public class CIMImporter extends Object {
 	
 	protected void WriteGLMFile (PrintWriter out, double load_scale, boolean bWantSched, String fSched, 
 																	 boolean bWantZIP, boolean randomZIP, double Zcoeff, double Icoeff, double Pcoeff) {
+
+		// build a polymorphic map of switches
+		HashMap<String,DistSwitch> mapSwitches = new HashMap<>();
+		mapSwitches.putAll (mapLoadBreakSwitches);
+		mapSwitches.putAll (mapFuses);
+		mapSwitches.putAll (mapBreakers);
+		mapSwitches.putAll (mapReclosers);
+		mapSwitches.putAll (mapSectionalisers);
+		mapSwitches.putAll (mapDisconnectors);
 
 		// preparatory steps to build the list of nodes
 		ResultSet results = queryHandler.query (
@@ -940,8 +959,8 @@ public class CIMImporter extends Object {
 			nd2.nomvln = nd1.nomvln;
 			nd2.AddPhases (obj.phases);
 		}
-		for (HashMap.Entry<String,DistLoadBreakSwitch> pair : mapLoadBreakSwitches.entrySet()) {  // TODO - polymorphic mapSwitches
-			DistLoadBreakSwitch obj = pair.getValue();
+		for (HashMap.Entry<String,DistSwitch> pair : mapSwitches.entrySet()) {
+			DistSwitch obj = pair.getValue();
 			GldNode nd1 = mapNodes.get (obj.bus1);
 			GldNode nd2 = mapNodes.get (obj.bus2);
 			if (obj.glm_phases.equals("S")) {  // TODO - we should be using a graph component like networkx (but for Java) to assign phasing
@@ -1069,8 +1088,8 @@ public class CIMImporter extends Object {
 		for (HashMap.Entry<String,DistLinesInstanceZ> pair : mapLinesInstanceZ.entrySet()) {
 			out.print (pair.getValue().GetGLM());
 		}
-		for (HashMap.Entry<String,DistLoadBreakSwitch> pair : mapLoadBreakSwitches.entrySet()) { // TODO - polymorphic mapSwitches
-			DistLoadBreakSwitch obj = pair.getValue();
+		for (HashMap.Entry<String,DistSwitch> pair : mapSwitches.entrySet()) {
+			DistSwitch obj = pair.getValue();
 			if (obj.glm_phases.contains ("S")) { // need to parent the nodes instead of writing a switch - TODO: this is hard-wired to PNNL taxonomy
 				GldNode nd1 = mapNodes.get (obj.bus1);
 				GldNode nd2 = mapNodes.get (obj.bus2);
@@ -1177,7 +1196,28 @@ public class CIMImporter extends Object {
 			mapBusXY.put (obj.bus1, new Double [] {pt1.x, pt1.y});
 			mapBusXY.put (obj.bus2, new Double [] {pt2.x, pt2.y});
 		}
-		for (HashMap.Entry<String,DistDisconnector> pair : mapDisconnectors.entrySet()) { // TODO - polymorphic switch maps
+		for (HashMap.Entry<String,DistRecloser> pair : mapReclosers.entrySet()) {
+			DistRecloser obj = pair.getValue();
+			pt1 = mapCoordinates.get("Recloser:" + obj.name + ":1");
+			pt2 = mapCoordinates.get("Recloser:" + obj.name + ":2");
+			mapBusXY.put (obj.bus1, new Double [] {pt1.x, pt1.y});
+			mapBusXY.put (obj.bus2, new Double [] {pt2.x, pt2.y});
+		}
+		for (HashMap.Entry<String,DistBreaker> pair : mapBreakers.entrySet()) {
+			DistBreaker obj = pair.getValue();
+			pt1 = mapCoordinates.get("Breaker:" + obj.name + ":1");
+			pt2 = mapCoordinates.get("Breaker:" + obj.name + ":2");
+			mapBusXY.put (obj.bus1, new Double [] {pt1.x, pt1.y});
+			mapBusXY.put (obj.bus2, new Double [] {pt2.x, pt2.y});
+		}
+		for (HashMap.Entry<String,DistSectionaliser> pair : mapSectionalisers.entrySet()) {
+			DistSectionaliser obj = pair.getValue();
+			pt1 = mapCoordinates.get("Sectionaliser:" + obj.name + ":1");
+			pt2 = mapCoordinates.get("Sectionaliser:" + obj.name + ":2");
+			mapBusXY.put (obj.bus1, new Double [] {pt1.x, pt1.y});
+			mapBusXY.put (obj.bus2, new Double [] {pt2.x, pt2.y});
+		}
+		for (HashMap.Entry<String,DistDisconnector> pair : mapDisconnectors.entrySet()) {
 			DistDisconnector obj = pair.getValue();
 			pt1 = mapCoordinates.get("Disconnector:" + obj.name + ":1");
 			pt2 = mapCoordinates.get("Disconnector:" + obj.name + ":2");
@@ -1273,6 +1313,21 @@ public class CIMImporter extends Object {
 		}
 		out.println();
 		for (HashMap.Entry<String,DistFuse> pair : mapFuses.entrySet()) {
+			out.print (pair.getValue().GetDSS());
+			outID.println ("Line." + pair.getValue().name + "\t" + GUIDfromCIMmRID (pair.getValue().id));
+		}
+		out.println();
+		for (HashMap.Entry<String,DistRecloser> pair : mapReclosers.entrySet()) {
+			out.print (pair.getValue().GetDSS());
+			outID.println ("Line." + pair.getValue().name + "\t" + GUIDfromCIMmRID (pair.getValue().id));
+		}
+		out.println();
+		for (HashMap.Entry<String,DistSectionaliser> pair : mapSectionalisers.entrySet()) {
+			out.print (pair.getValue().GetDSS());
+			outID.println ("Line." + pair.getValue().name + "\t" + GUIDfromCIMmRID (pair.getValue().id));
+		}
+		out.println();
+		for (HashMap.Entry<String,DistBreaker> pair : mapBreakers.entrySet()) {
 			out.print (pair.getValue().GetDSS());
 			outID.println ("Line." + pair.getValue().name + "\t" + GUIDfromCIMmRID (pair.getValue().id));
 		}

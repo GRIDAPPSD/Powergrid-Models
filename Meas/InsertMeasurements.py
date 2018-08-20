@@ -96,7 +96,7 @@ for ln in lines:
 			InsertMeasurement ('Analog', id1, 'PowerTransformer_' + toks[3] + '_Power', eqid, trmid, 'VA', phases)
 		elif 'i' in what:
 			InsertMeasurement ('Analog', id1, 'PowerTransformer_' + toks[3] + '_Current', eqid, trmid, 'A', phases)
-	if toks[0] == 'ACLineSegment' or toks[0] == 'LoadBreakSwitch':
+	if toks[0] == 'ACLineSegment' or toks[0] == 'LoadBreakSwitch' or toks[0] == 'Breaker' or toks[0] == 'Recloser':
 		what = toks[1]
 		phases = toks[5]
 		eqid = toks[6]
