@@ -6,6 +6,7 @@ package gov.pnnl.goss.cim2glm;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -126,6 +127,7 @@ public class CIMImporter extends Object {
 			int count = soln.getLiteral("?count").getInt();
 			map.put (key, count);
 		}
+		((ResultSetCloseable)results).close();
 	}
 
 	void LoadCountMaps() {
@@ -143,6 +145,7 @@ public class CIMImporter extends Object {
 			DistBaseVoltage obj = new DistBaseVoltage (results);
 			mapBaseVoltages.put (obj.GetKey(), obj);
 		}
+		((ResultSetCloseable)results).close();
 	}
 
 	void LoadSubstations() {
@@ -151,6 +154,7 @@ public class CIMImporter extends Object {
 			DistSubstation obj = new DistSubstation (results);
 			mapSubstations.put (obj.GetKey(), obj);
 		}
+		((ResultSetCloseable)results).close();
 	}
 
 	void LoadSolars() {
@@ -159,6 +163,7 @@ public class CIMImporter extends Object {
 			DistSolar obj = new DistSolar (results);
 			mapSolars.put (obj.GetKey(), obj);
 		}
+		((ResultSetCloseable)results).close();
 	}
 
 	void LoadMeasurements() {
@@ -167,6 +172,7 @@ public class CIMImporter extends Object {
 			DistMeasurement obj = new DistMeasurement (results);
 			mapMeasurements.put (obj.GetKey(), obj);
 		}
+		((ResultSetCloseable)results).close();
 	}
 
 	void LoadStorages() {
@@ -175,6 +181,7 @@ public class CIMImporter extends Object {
 			DistStorage obj = new DistStorage (results);
 			mapStorages.put (obj.GetKey(), obj);
 		}
+		((ResultSetCloseable)results).close();
 	}
 
 	void LoadCapacitors() {
@@ -183,6 +190,7 @@ public class CIMImporter extends Object {
 			DistCapacitor obj = new DistCapacitor (results);
 			mapCapacitors.put (obj.GetKey(), obj);
 		}
+		((ResultSetCloseable)results).close();
 	}
 
 	void LoadLoads() {
@@ -191,6 +199,7 @@ public class CIMImporter extends Object {
 			DistLoad obj = new DistLoad (results);
 			mapLoads.put (obj.GetKey(), obj);
 		}
+		((ResultSetCloseable)results).close();
 	}
 
 	void LoadPhaseMatrices() {
@@ -199,6 +208,7 @@ public class CIMImporter extends Object {
 			DistPhaseMatrix obj = new DistPhaseMatrix (results);
 			mapPhaseMatrices.put (obj.GetKey(), obj);
 		}
+		((ResultSetCloseable)results).close();
 	}
 
 	void LoadSequenceMatrices() {
@@ -207,6 +217,7 @@ public class CIMImporter extends Object {
 			DistSequenceMatrix obj = new DistSequenceMatrix (results);
 			mapSequenceMatrices.put (obj.GetKey(), obj);
 		}
+		((ResultSetCloseable)results).close();
 	}
 
 	void LoadXfmrCodeRatings() {
@@ -215,6 +226,7 @@ public class CIMImporter extends Object {
 			DistXfmrCodeRating obj = new DistXfmrCodeRating (results, mapCountCodeRating);
 			mapCodeRatings.put (obj.GetKey(), obj);
 		}
+		((ResultSetCloseable)results).close();
 	}
 
 	void LoadXfmrCodeOCTests() {
@@ -223,6 +235,7 @@ public class CIMImporter extends Object {
 			DistXfmrCodeOCTest obj = new DistXfmrCodeOCTest (results);
 			mapCodeOCTests.put (obj.GetKey(), obj);
 		}
+		((ResultSetCloseable)results).close();
 	}
 
 	void LoadXfmrCodeSCTests() {
@@ -231,6 +244,7 @@ public class CIMImporter extends Object {
 			DistXfmrCodeSCTest obj = new DistXfmrCodeSCTest (results, mapCountCodeSCTest);
 			mapCodeSCTests.put (obj.GetKey(), obj);
 		}
+		((ResultSetCloseable)results).close();
 	}
 
 	void LoadPowerXfmrCore() {
@@ -239,6 +253,7 @@ public class CIMImporter extends Object {
 			DistPowerXfmrCore obj = new DistPowerXfmrCore (results);
 			mapXfmrCores.put (obj.GetKey(), obj);
 		}
+		((ResultSetCloseable)results).close();
 	}
 
 	void LoadPowerXfmrMesh() {
@@ -247,6 +262,7 @@ public class CIMImporter extends Object {
 			DistPowerXfmrMesh obj = new DistPowerXfmrMesh (results, mapCountMesh);
 			mapXfmrMeshes.put (obj.GetKey(), obj);
 		}
+		((ResultSetCloseable)results).close();
 	}
 
 	void LoadOverheadWires() {
@@ -255,6 +271,7 @@ public class CIMImporter extends Object {
 			DistOverheadWire obj = new DistOverheadWire (results);
 			mapWires.put (obj.GetKey(), obj);
 		}
+		((ResultSetCloseable)results).close();
 	}
 
 	void LoadTapeShieldCables() {
@@ -263,6 +280,7 @@ public class CIMImporter extends Object {
 			DistTapeShieldCable obj = new DistTapeShieldCable (results);
 			mapTSCables.put (obj.GetKey(), obj);
 		}
+		((ResultSetCloseable)results).close();
 	}
 
 	void LoadConcentricNeutralCables() {
@@ -271,6 +289,7 @@ public class CIMImporter extends Object {
 			DistConcentricNeutralCable obj = new DistConcentricNeutralCable (results);
 			mapCNCables.put (obj.GetKey(), obj);
 		}
+		((ResultSetCloseable)results).close();
 	}
 
 	void LoadLineSpacings() {
@@ -279,6 +298,7 @@ public class CIMImporter extends Object {
 			DistLineSpacing obj = new DistLineSpacing (results);
 			mapSpacings.put (obj.GetKey(), obj);
 		}
+		((ResultSetCloseable)results).close();
 	}
 
 	void LoadLoadBreakSwitches() {
@@ -287,6 +307,7 @@ public class CIMImporter extends Object {
 			DistLoadBreakSwitch obj = new DistLoadBreakSwitch (results);
 			mapLoadBreakSwitches.put (obj.GetKey(), obj);
 		}
+		((ResultSetCloseable)results).close();
 	}
 
 	void LoadFuses() {
@@ -295,6 +316,7 @@ public class CIMImporter extends Object {
 			DistFuse obj = new DistFuse (results);
 			mapFuses.put (obj.GetKey(), obj);
 		}
+		((ResultSetCloseable)results).close();
 	}
 
 	void LoadDisconnectors() {
@@ -303,6 +325,7 @@ public class CIMImporter extends Object {
 			DistDisconnector obj = new DistDisconnector (results);
 			mapDisconnectors.put (obj.GetKey(), obj);
 		}
+		((ResultSetCloseable)results).close();
 	}
 
 	void LoadGroundDisconnectors() {
@@ -311,6 +334,7 @@ public class CIMImporter extends Object {
 			DistGroundDisconnector obj = new DistGroundDisconnector (results);
 			mapGroundDisconnectors.put (obj.GetKey(), obj);
 		}
+		((ResultSetCloseable)results).close();
 	}
 
 	void LoadJumpers() {
@@ -319,6 +343,7 @@ public class CIMImporter extends Object {
 			DistJumper obj = new DistJumper (results);
 			mapJumpers.put (obj.GetKey(), obj);
 		}
+		((ResultSetCloseable)results).close();
 	}
 
 	void LoadBreakers() {
@@ -327,6 +352,7 @@ public class CIMImporter extends Object {
 			DistBreaker obj = new DistBreaker (results);
 			mapBreakers.put (obj.GetKey(), obj);
 		}
+		((ResultSetCloseable)results).close();
 	}
 
 	void LoadReclosers() {
@@ -335,6 +361,7 @@ public class CIMImporter extends Object {
 			DistRecloser obj = new DistRecloser (results);
 			mapReclosers.put (obj.GetKey(), obj);
 		}
+		((ResultSetCloseable)results).close();
 	}
 
 	void LoadSectionalisers() {
@@ -343,6 +370,7 @@ public class CIMImporter extends Object {
 			DistSectionaliser obj = new DistSectionaliser (results);
 			mapSectionalisers.put (obj.GetKey(), obj);
 		}
+		((ResultSetCloseable)results).close();
 	}
 
 	void LoadLinesInstanceZ() {
@@ -351,6 +379,7 @@ public class CIMImporter extends Object {
 			DistLinesInstanceZ obj = new DistLinesInstanceZ (results);
 			mapLinesInstanceZ.put (obj.GetKey(), obj);
 		}
+		((ResultSetCloseable)results).close();
 	}
 
 	void LoadLinesCodeZ() {
@@ -359,6 +388,7 @@ public class CIMImporter extends Object {
 			DistLinesCodeZ obj = new DistLinesCodeZ (results);
 			mapLinesCodeZ.put (obj.GetKey(), obj);
 		}
+		((ResultSetCloseable)results).close();
 	}
 
 	void LoadLinesSpacingZ() {
@@ -367,6 +397,7 @@ public class CIMImporter extends Object {
 			DistLinesSpacingZ obj = new DistLinesSpacingZ (results);
 			mapLinesSpacingZ.put (obj.GetKey(), obj);
 		}
+		((ResultSetCloseable)results).close();
 	}
 
 	void LoadRegulators() { 
@@ -375,6 +406,7 @@ public class CIMImporter extends Object {
 			DistRegulator obj = new DistRegulator (results, queryHandler);
 			mapRegulators.put (obj.GetKey(), obj);
 		}
+		((ResultSetCloseable)results).close();
 	}
 
 	void LoadXfmrTanks() {
@@ -383,6 +415,7 @@ public class CIMImporter extends Object {
 			DistXfmrTank obj = new DistXfmrTank (results, mapCountTank);
 			mapTanks.put (obj.GetKey(), obj);
 		}
+		((ResultSetCloseable)results).close();
 	}
 
 	void LoadXfmrBanks() {
@@ -391,6 +424,7 @@ public class CIMImporter extends Object {
 			DistXfmrBank obj = new DistXfmrBank (results, mapCountBank);
 			mapBanks.put (obj.GetKey(), obj);
 		}
+		((ResultSetCloseable)results).close();
 	}
 
 	void LoadPowerXfmrWindings() {
@@ -399,6 +433,7 @@ public class CIMImporter extends Object {
 			DistPowerXfmrWinding obj = new DistPowerXfmrWinding (results, mapCountWinding);
 			mapXfmrWindings.put (obj.GetKey(), obj); 
 		}
+		((ResultSetCloseable)results).close();
 	}
 
 	void LoadCoordinates() {
@@ -407,6 +442,7 @@ public class CIMImporter extends Object {
 			DistCoordinates obj = new DistCoordinates (results);
 			mapCoordinates.put (obj.GetKey(), obj);
 		}
+		((ResultSetCloseable)results).close();
 	}
 
 	void LoadFeeders() {
@@ -415,6 +451,7 @@ public class CIMImporter extends Object {
 			DistFeeder obj = new DistFeeder (results);
 			mapFeeders.put (obj.GetKey(), obj);
 		}
+		((ResultSetCloseable)results).close();
 	}
 
 	public void PrintOneMap(HashMap<String,? extends DistComponent> map, String label) {

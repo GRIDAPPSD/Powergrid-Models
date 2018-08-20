@@ -1,10 +1,13 @@
 package gov.pnnl.goss.cim2glm.queryhandler.impl;
 
+import java.util.Date;
+
 import org.apache.jena.query.Query;
 import org.apache.jena.query.QueryExecution;
 import org.apache.jena.query.QueryExecutionFactory;
 import org.apache.jena.query.QueryFactory;
 import org.apache.jena.query.ResultSet;
+import org.apache.jena.query.ResultSetCloseable;
 
 import gov.pnnl.goss.cim2glm.components.DistComponent;
 import gov.pnnl.goss.cim2glm.queryhandler.QueryHandler;
@@ -50,7 +53,8 @@ public class HTTPBlazegraphQueryHandler implements QueryHandler {
 			query = QueryFactory.create (qPrefix + szQuery);
 		}
 		QueryExecution qexec = QueryExecutionFactory.sparqlService (endpoint, query);
-		return qexec.execSelect();
+		ResultSetCloseable rs=  ResultSetCloseable.closeableResultSet(qexec);
+		return rs;
 	}
 	public boolean addFeederSelection (String mRID) {
 		this.mRID = mRID;
