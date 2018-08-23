@@ -2,7 +2,13 @@ Measurements in GridAPPS-D are added to the triple-store in Blazegraph according
 
 Under powergrid-models/Meas, there are four sample Python files, one constants file (constants.py), and three shell scripts that help manage the Measurements. First, these functions extract the candidate Measurements with valid CIM IDs. Second, you have a chance to customize them. Third, you batch-insert the Measurements into Blazegraph's triple-store.
 
-Sample commands below should be executed in the powergrid-models/Meas directory. Inspect constants.py to ensure the blazegraph url and sparql prefix is correct.
+Inspect constants.py to ensure the blazegraph url and sparql prefix is correct:
+
+ - Port 9999 for standalone use of Blazegraph with terminal scripts and a web browser
+ - Port 8080 for using Blazegraph within the GridAPPS-D docker container
+ - Port 8889 for using Blazegraph from outside the GridAPPS-D docker container
+
+Sample commands below should be executed in the powergrid-models/Meas directory. 
 
 1. "python ListFeeders.py" produces an index of feeders in the triple-store.  Find the mRID of the feeder you want to instrument.  
 
