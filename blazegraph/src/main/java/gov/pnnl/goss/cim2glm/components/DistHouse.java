@@ -1,7 +1,5 @@
 package gov.pnnl.goss.cim2glm.components;
 
-import java.sql.ResultSet;
-
 import org.apache.jena.query.*;
 
 public class DistHouse extends DistComponent {
