@@ -116,7 +116,7 @@ public class CIMImporter extends Object {
 	HashMap<String,DistXfmrTank> mapTanks = new HashMap<>();
 	HashMap<String,DistXfmrBank> mapBanks = new HashMap<>();
 	HashMap<String,DistMeasurement> mapMeasurements = new HashMap<>();
-	HashMap<String,DistHouse> mapHouses - new HashMap<>();
+	HashMap<String,DistHouse> mapHouses = new HashMap<>();
 	
 	boolean allMapsLoaded = false;
 
@@ -1376,7 +1376,7 @@ public class CIMImporter extends Object {
 			fOut = fRoot + "_base.glm";
 			fXY = fRoot + "_symbols.json";
 			PrintWriter pOut = new PrintWriter(fOut);
-			WriteGLMFile(pOut, load_scale, bWantSched, fSched, bWantZIP, randomZIP, Zcoeff, Icoeff, Pcoeff);
+			WriteGLMFile(pOut, load_scale, bWantSched, fSched, bWantZIP, randomZIP, false, Zcoeff, Icoeff, Pcoeff);
 			PrintWriter pXY = new PrintWriter(fXY);
 			WriteJSONSymbolFile (pXY);
 			PrintWriter pDict = new PrintWriter(fDict);
@@ -1424,7 +1424,7 @@ public class CIMImporter extends Object {
 			LoadAllMaps();
 		}
 		CheckMaps();
-		WriteGLMFile (out, load_scale, bWantSched, fSched, bWantZIP, randomZIP, Zcoeff, Icoeff, Pcoeff);
+		WriteGLMFile (out, load_scale, bWantSched, fSched, bWantZIP, randomZIP, false, Zcoeff, Icoeff, Pcoeff);
 	}
 	
 	/**

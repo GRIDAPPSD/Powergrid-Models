@@ -1,10 +1,10 @@
 package gov.pnnl.goss.cim2glm.components;
 
-import java.sql.ResultSet;
-
 import gov.pnnl.goss.cim2glm.components.DistHouse.HouseCooling;
 import gov.pnnl.goss.cim2glm.components.DistHouse.HouseHeating;
 import gov.pnnl.goss.cim2glm.components.DistHouse.HouseThermalIntegrity;
+
+import org.apache.jena.query.*;
 
 public class DistThermostat extends DistComponent{
 	public static enum ThermostatControlMode{COOLING,HEATING};
