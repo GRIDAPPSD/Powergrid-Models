@@ -1,5 +1,8 @@
 package gov.pnnl.goss.cim2glm.components;
 
+import org.apache.jena.query.QuerySolution;
+import org.apache.jena.query.ResultSet;
+
 import gov.pnnl.goss.cim2glm.components.DistHouse.HouseCooling;
 import gov.pnnl.goss.cim2glm.components.DistHouse.HouseHeating;
 import gov.pnnl.goss.cim2glm.components.DistHouse.HouseThermalIntegrity;

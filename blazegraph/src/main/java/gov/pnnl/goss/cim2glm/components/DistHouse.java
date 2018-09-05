@@ -7,29 +7,24 @@ public class DistHouse extends DistComponent {
 	public static enum HouseThermalIntegrity{unknown,veryLittle,normal,aboveNormal,belowNormal,good,veryGood,little};
 	public static enum HouseHeating{none,gas,heatPump,resistance};
 	public static final String szQUERY = 
-	 	"SELECT ?name ?parent ?coolingSetpoint ?coolingSystem ?floorArea ?heatingSetpoint ?heatingSystem ?hvacPowerFactor ?numberOfStories ?thermalIntegrity ?id ?fdrid "+
-		"WHERE {"+
-	 	" ?s r:type c:EnergyConsumer."+
-		" ?s c:Equipment.EquipmentContainer ?fdr."+
-		" ?fdr c:IdentifiedObject.mRID ?fdrid."+
-	 	" ?s c:IdentifiedObject.name ?parent."+
-		" ?h r:type c:House."+
-	 	" ?h c:IdentifiedObject.name ?name."+
-		" ?h c:IdentifiedObject.mRID ?id."+
-	 	" OPTIONAL{?h c:House.coolingSetpoint ?coolingSetpoint.}"+
-	 	" ?h c:House.coolingSystem ?coolingSystemRaw."+
-	 	"   bind(strafter(str(?coolingSystemRaw),\\\"coolingSystem.\\\") as ?coolingSystem)"+
-	 	" ?h c:House.floorArea ?floorArea."+
-	 	" OPTIONAL{?h c:House.heatingSetpoint ?heatingSetpoint.}"+
-	 	" ?h c:House.heatingSystem ?heatingSystemRaw."+
-	 	"   bind(strafter(str(?heatingSystemRaw),\\\"heatingSystem.\\\") as ?heatingSystem)"+
-	 	" OPTIONAL{?h c:House.hvacPowerFactor ?hvacPowerFactor.}"+
-	 	" ?h c:House.numberOfStories ?numberOfStories."+
-	 	" ?h c:House.thermalIntegrity ?thermalIntegrityRaw."+
-	 	"   bind(strafter(str(?thermalIntegrityRaw),\\\"thermalIntegrity.\\\") as ?thermalIntegrity)"+
-	 	"} "+
-		"GROUP BY  ?name ?parent ?coolingSetpoint ?coolingSystem ?floorArea ?heatingSetpoint ?heatingSystem ?hvacPowerFactor ?numberOfStories ?thermalIntegrity ?id ?fdrid "+
-		"ORDER BY ?name";
+		"SELECT ?name ?parent ?coolingSetpoint ?coolingSystem ?floorArea ?heatingSetpoint ?heatingSystem ?hvacPowerFactor ?numberOfStories ?thermalIntegrity ?id ?fdrid WHERE { VALUES ?fdrid {\"_4F76A5F9-271D-9EB8-5E31-AA362D86F2C3\"}  \n" + 
+				"?h r:type c:House. " + 
+				"?h c:IdentifiedObject.name ?name. " + 
+				"?h c:IdentifiedObject.mRID ?id. " + 
+				"?h c:House.floorArea ?floorArea. " + 
+				"?h c:House.numberOfStories ?numberOfStories. " + 
+				"OPTIONAL{?h c:House.coolingSetpoint ?coolingSetpoint.} " + 
+				"OPTIONAL{?h c:House.heatingSetpoint ?heatingSetpoint.} " + 
+				"OPTIONAL{?h c:House.hvacPowerFactor ?hvacPowerFactor.} " + 
+				"?h c:House.coolingSystem ?coolingSystemRaw. " + 
+					"bind(strafter(str(?coolingSystemRaw),\"HouseCooling.\") as ?coolingSystem) " + 
+				"?h c:House.heatingSystem ?heatingSystemRaw. " + 
+					"bind(strafter(str(?heatingSystemRaw),\"HouseHeating.\") as ?heatingSystem) " + 
+				"?h c:House.thermalIntegrity ?thermalIntegrityRaw " + 
+					"bind(strafter(str(?thermalIntegrityRaw),\"HouseThermalIntegrity.\") as ?thermalIntegrity) " + 
+				"?h c:House.EnergyConsumer ?econ. " + 
+				"?econ c:IdentifiedObject.name ?parent. " +
+		"} ORDER BY ?name";
 	public String id;
 	public String name;
 	public String parent;
@@ -55,7 +50,11 @@ public class DistHouse extends DistComponent {
 			heatingSetpoint = Double.parseDouble(OptionalString(soln, "?heatingSetpoint", "-100.0"));
 			heatingSystem = HouseHeating.valueOf(soln.get("?heatingSystem").toString());
 			hvacPowerFactor = Double.parseDouble(OptionalString(soln, "?hvacPowerFactor", "1.0"));
-			numberOfStories = Integer.parseInt(soln.get("?numberOfStories").toString());
+			try {
+				numberOfStories = Integer.parseInt(soln.get("?numberOfStories").toString());
+			} catch (NumberFormatException e){ 
+				numberOfStories = (int)Double.parseDouble(soln.get("?numberOfStories").toString());
+			}
 			thermalIntegrity = HouseThermalIntegrity.valueOf(soln.get("?thermalIntegrity").toString());
 		}
 	}
