@@ -61,6 +61,8 @@ casefiles = [['IEEE13',66395.3],
              ['R2_12_47_2',57735.0],
              ['EPRI_DPV_J1',39837.2]]
 
+#casefiles = [['IEEE123',2401.8]]
+
 for c in casefiles:
     if sys.platform == 'win32':
         print('gridlabd -D WANT_VI_DUMP=1', c[0] + '_run.glm >' + c[0] + '.log 2>&1', file=bp)
@@ -87,11 +89,11 @@ for c in casefiles:
     print('#ifdef WANT_VI_DUMP', file=fp)
     print('object voltdump {', file=fp)
     print('  filename ' + c[0] + '_volt.csv;', file=fp)
-    print('  mode polar;', file=fp)
+    print('  mode POLAR;', file=fp)
     print('};', file=fp)
     print('object currdump {', file=fp)
     print('  filename ' + c[0] + '_curr.csv;', file=fp)
-    print('  mode polar;', file=fp)
+    print('  mode POLAR;', file=fp)
     print('};', file=fp)
     print('#endif', file=fp)
     fp.close()

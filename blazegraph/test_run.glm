@@ -19,7 +19,7 @@ module tape;
 //#include "test13assets_base.glm";
 
 #define VSOURCE=66395.3
-#include "swt_base.glm";
+#include "ieee13_base.glm";
 
 //#define VSOURCE=66395.3
 //#include "test8500_base.glm";
@@ -36,10 +36,10 @@ module tape;
 //#ifdef WANT_VI_DUMP
 object voltdump {
   filename test_volt.csv;
-  mode polar;
+  mode POLAR;
 };
 object currdump {
   filename test_curr.csv;
-  mode polar;
+  mode POLAR;
 };
 //#endif

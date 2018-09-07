@@ -124,15 +124,16 @@ public class DistStorage extends DistComponent {
 	}
 
 	public String GetGLM() {
-		String phs = GLMPhaseString (phases);
 		StringBuilder buf = new StringBuilder ("object inverter {\n");
 
 		buf.append ("  name \"inv_" + name + "\";\n");
 		buf.append ("  parent \"" + bus + "\";\n");
-		if (bDelta) {
-			buf.append ("  phases " + phs + "D;\n");
+		if (bDelta && !phases.contains("D")) {
+			buf.append ("  phases " + phases + "D;\n");
+		} else if (!phases.contains("S") && !phases.contains("N")) {
+			buf.append ("  phases " + phases + "N;\n");
 		} else {
-			buf.append ("  phases " + phs + "N;\n");
+			buf.append ("  phases " + phases + ";\n");
 		}
 		buf.append ("  generator_status ONLINE;\n");
 		buf.append ("  generator_mode CONSTANT_PQ;\n");

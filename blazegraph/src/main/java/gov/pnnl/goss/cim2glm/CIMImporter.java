@@ -1444,6 +1444,8 @@ public class CIMImporter extends Object {
 		if (fTarget.equals("glm")) {
 			LoadAllMaps();
 			CheckMaps();
+//			PrintOneMap (mapSolars, "** SOLAR PV SOURCES");
+//			PrintOneMap (mapStorages, "** STORAGE SOURCES");
 //			PrintAllMaps();
 			fDict = fRoot + "_dict.json";
 			fOut = fRoot + "_base.glm";

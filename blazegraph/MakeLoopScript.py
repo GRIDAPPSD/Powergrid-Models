@@ -107,6 +107,8 @@ casefiles = ['IEEE13',
              'R2_12_47_2',
              'EPRI_DPV_J1']
 
+# casefiles = ['EPRI_DPV_J1']
+
 arg = sys.argv[1]
 
 if arg == '-b':
