@@ -43,10 +43,8 @@ packageinfo crlf=input
 Makefile crlf=input
 README crlf=input
 LICENSE crlf=input
-
 # No EOL translation
 *.bat -crlf
-
 # Binary. No EOL translation, no diff
 *.ico binary
 *.jpeg binary
@@ -73,3 +71,6 @@ LICENSE crlf=input
 *.key binary
 *.numbers binary
 *.pages binary
+houses/eia_recs/codebook2015_public_v3.xlsx filter=lfs diff=lfs merge=lfs -text
+houses/eia_recs/recs2015_public_v3.csv filter=lfs diff=lfs merge=lfs -text
+houses/eia_recs/climate_map.gif filter=lfs diff=lfs merge=lfs -text
