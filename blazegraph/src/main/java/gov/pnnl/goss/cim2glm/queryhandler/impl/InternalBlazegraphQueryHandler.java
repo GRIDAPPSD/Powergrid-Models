@@ -1,10 +1,7 @@
 package gov.pnnl.goss.cim2glm.queryhandler.impl;
 
 import java.io.File;
-import java.util.Properties;
 
-import org.apache.jena.query.QueryExecutionFactory;
-import org.apache.jena.query.ResultSet;
 //import org.openrdf.query.MalformedQueryException;
 //import org.openrdf.query.QueryLanguage;
 //import org.openrdf.query.TupleQuery;
@@ -16,6 +13,7 @@ import org.apache.jena.query.ResultSet;
 //
 //import com.bigdata.rdf.sail.BigdataSail;
 //import com.bigdata.rdf.sail.BigdataSailRepository;
+import org.apache.jena.query.ResultSetCloseable;
 
 import gov.pnnl.goss.cim2glm.queryhandler.QueryHandler;
 
@@ -61,7 +59,7 @@ public class InternalBlazegraphQueryHandler implements QueryHandler{
 	}
 
 	@Override
-	public ResultSet query(String szQuery) {
+	public ResultSetCloseable query(String szQuery) {
 //		TupleQuery tupleQuery = con.prepareTupleQuery(QueryLanguage.SPARQL, szQuery);
 //		TupleQueryResult result = tupleQuery.evaluate();
 //		return result;
