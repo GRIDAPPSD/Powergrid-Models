@@ -32,7 +32,7 @@ public class HTTPBlazegraphQueryHandler implements QueryHandler {
 	}
 
 	@Override
-	public ResultSet query(String szQuery) { 
+	public ResultSetCloseable query(String szQuery) { 
 		String qPrefix = "PREFIX r: <" + DistComponent.nsRDF + "> PREFIX c: <" + DistComponent.nsCIM + "> PREFIX xsd:<" + DistComponent.nsXSD + "> ";
 		Query query;
 		if (use_mRID) { // try to insert a VALUES block for the feeder mRID of interest
