@@ -1,0 +1,6 @@
+*.class
+*.zip
+*.ldb
+~*.docx
+*.csv
+docs/

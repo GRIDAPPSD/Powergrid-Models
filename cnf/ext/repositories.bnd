@@ -1,0 +1,11 @@
+-plugin:\
+        aQute.bnd.deployer.repository.FixedIndexedRepo; name=GOSS Core;           locations=https://raw.githubusercontent.com/GridOptics/GOSS/master/cnf/releaserepo/index.xml,\
+	aQute.bnd.deployer.repository.FixedIndexedRepo; name=GOSS Dependencies;   locations=https://github.com/GridOPTICS/GOSS-Repository/raw/master/dependencies/index.xml.gz,\
+	aQute.bnd.deployer.repository.LocalIndexedRepo; name=Local;               local=${workspace}/cnf/Local;pretty=true,\
+	aQute.bnd.deployer.repository.FixedIndexedRepo; name=BND Hub;             locations=https://raw.githubusercontent.com/bndtools/bundle-hub/master/index.xml.gz,\
+	aQute.lib.deployer.FileRepo;                    name=Build;               location=${workspace}/cnf/buildrepo;latest=false
+	
+-releaserepo: Release
+
+
+	

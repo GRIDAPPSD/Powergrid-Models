@@ -1,0 +1,103 @@
+clock {
+	timezone EST+5EDT;
+	starttime '2009-07-21 00:00:00 EDT';
+	stoptime '2009-07-21 00:01:00 EDT';
+}
+
+#set relax_naming_rules=1;
+#set profiler=1;
+#set minimum_timestep=60;
+
+module powerflow {
+	solver_method NR;
+	line_capacitance TRUE;
+};
+module tape;
+//class player {
+//	double value;
+//}
+//object player {
+//	name zipload_schedule;
+//	file zipload_schedule.player;
+//	loop 0;
+//}
+
+#define VSOURCE=69715.065 // 66395.3 * 1.05
+
+#include "ieee8500_base.glm";
+
+//object recorder {
+//	parent line_hvmv_sub_hsb;
+//	property power_in;
+//	file source_power.csv;
+//	interval 60;
+//}
+
+//object recorder {
+//	parent nd_sx3217053c;
+//	property base_power_1,base_power_2;
+//	file base_power.csv;
+//	interval 60;
+//}
+
+object voltdump {
+  filename Voltage_8500.csv;
+  mode polar;
+}
+
+//object currdump {
+//  filename Current_8500.csv;
+//  mode polar;
+//}
+
+// for manually splicing a cap bank Q measurement
+//object recorder {
+//	parent mtr_capbank0;
+//	file cap0_output.csv;
+//	interval 1;
+//	limit 1;
+//  property measured_power_A,measured_power_B,measured_power_C;
+//};
+//object overhead_line {
+//  name "line_mtr_capbank0";
+//	phases ABC;
+//	from "nd_r42246";
+//	to "mtr_capbank0";
+//	length 139.267;
+//  configuration "lcon_3ph_h-2/0_acsr2/0_acsr2/0_acsr2_acsr_ABC";
+//}
+//object meter {
+//	 name "mtr_capbank0";
+//	 phases ABCN;
+//	 nominal_voltage 7199.56;
+//}
+
+object recorder {
+  parent reg_FEEDER_REG;
+  file vregr_output.csv;
+  interval 1;
+  limit 1;
+  property tap_A,tap_B,tap_C,power_in_A.real,power_in_A.imag,power_in_B.real,power_in_B.imag,power_in_C.real,power_in_C.imag,power_in.real,power_in.imag;
+};
+object recorder {
+  parent reg_VREG2;
+  file vreg2_output.csv;
+  interval 1;
+  limit 1;
+  property tap_A,tap_B,tap_C,power_in_A.real,power_in_A.imag,power_in_B.real,power_in_B.imag,power_in_C.real,power_in_C.imag,power_in.real,power_in.imag;
+};
+object recorder {
+  parent reg_VREG3;
+  file vreg3_output.csv;
+  interval 1;
+  limit 1;
+  property tap_A,tap_B,tap_C,power_in_A.real,power_in_A.imag,power_in_B.real,power_in_B.imag,power_in_C.real,power_in_C.imag,power_in.real,power_in.imag;
+};
+object recorder {
+  parent reg_VREG4;
+  file vreg4_output.csv;
+  interval 1;
+  limit 1;
+  property tap_A,tap_B,tap_C,power_in_A.real,power_in_A.imag,power_in_B.real,power_in_B.imag,power_in_C.real,power_in_C.imag,power_in.real,power_in.imag;
+};
+

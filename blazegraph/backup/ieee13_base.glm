@@ -1,0 +1,377 @@
+object regulator_configuration {
+  name "rcon_Reg";
+  connect_type WYE_WYE;
+  band_center 122.000000;
+  band_width 2.000000;
+  dwell_time 15.000000;
+  raise_taps 16;
+  lower_taps 16;
+  regulation 0.100000;
+  Type B;
+	Control MANUAL; // LINE_DROP_COMP;
+  current_transducer_ratio 700.000000;
+  power_transducer_ratio 20.000000;
+  compensator_r_setting_A 3.000000;
+  compensator_x_setting_A 9.000000;
+  tap_pos_A 10;
+  compensator_r_setting_B 3.000000;
+  compensator_x_setting_B 9.000000;
+  tap_pos_B 8;
+  compensator_r_setting_C 3.000000;
+  compensator_x_setting_C 9.000000;
+  tap_pos_C 11;
+}
+object regulator {
+  name "reg_Reg";
+  from "nd_650";
+  to "nd_rg60";
+  phases ABC;
+  configuration "rcon_Reg";
+}
+object line_configuration {
+  name "lcon_mtx605_C";
+  z33 1.32924+1.34754j;
+  c33 0.0000;
+}
+object line_configuration {
+  name "lcon_mtx606_ABC";
+  z11 0.791743+0.438364j;
+  c11 383.9495;
+  z12 0.283458-0.0184209j;
+  c12 0.0000;
+  z13 0.318485+0.0276846j;
+  c13 0.0000;
+  z21 0.318485+0.0276846j;
+  c21 0.0000;
+  z22 0.781670+0.396708j;
+  c22 383.9495;
+  z23 0.318485+0.0276846j;
+  c23 0.0000;
+  z31 0.283458-0.0184209j;
+  c31 0.0000;
+  z32 0.318485+0.0276846j;
+  c32 0.0000;
+  z33 0.791743+0.438364j;
+  c33 383.9495;
+}
+object line_configuration {
+  name "lcon_mtx603_BC";
+  z22 1.32384+1.35694j;
+  c22 0.0000;
+  z23 0.206606+0.459113j;
+  c23 0.0000;
+  z32 0.206606+0.459113j;
+  c32 0.0000;
+  z33 1.32944+1.34714j;
+  c33 0.0000;
+}
+object line_configuration {
+  name "lcon_mtx604_AC";
+  z11 1.32384+1.35694j;
+  c11 0.0000;
+  z13 0.206606+0.459113j;
+  c13 0.0000;
+  z31 0.206606+0.459113j;
+  c31 0.0000;
+  z33 1.32944+1.34714j;
+  c33 0.0000;
+}
+object line_configuration {
+  name "lcon_mtx607_A";
+  z11 1.34254+0.512414j;
+  c11 236.0009;
+}
+object line_configuration {
+  name "lcon_mtx601_ABC";
+  z11 0.346509+1.01793j;
+  c11 0.0000;
+  z12 0.158004+0.423612j;
+  c12 0.0000;
+  z13 0.156004+0.501714j;
+  c13 0.0000;
+  z21 0.153504+0.384911j;
+  c21 0.0000;
+  z22 0.337509+1.04783j;
+  c22 0.0000;
+  z23 0.156004+0.501714j;
+  c23 0.0000;
+  z31 0.158004+0.423612j;
+  c31 0.0000;
+  z32 0.156004+0.501714j;
+  c32 0.0000;
+  z33 0.341409+1.03483j;
+  c33 0.0000;
+}
+object line_configuration {
+  name "lcon_mtx602_ABC";
+  z11 0.752621+1.18143j;
+  c11 0.0000;
+  z12 0.156004+0.501714j;
+  c12 0.0000;
+  z13 0.158004+0.423612j;
+  c13 0.0000;
+  z21 0.153504+0.384911j;
+  c21 0.0000;
+  z22 0.747520+1.19833j;
+  c22 0.0000;
+  z23 0.158004+0.423612j;
+  c23 0.0000;
+  z31 0.156004+0.501714j;
+  c31 0.0000;
+  z32 0.158004+0.423612j;
+  c32 0.0000;
+  z33 0.743620+1.21123j;
+  c33 0.0000;
+}
+object capacitor {
+  name "cap_cap1";
+  parent "nd_675";
+  phases ABCN;
+  phases_connected ABCN;
+  cap_nominal_voltage 2401.78;
+  capacitor_A 200000.00;
+  switchA CLOSED;
+  capacitor_B 200000.00;
+  switchB CLOSED;
+  capacitor_C 200000.00;
+  switchC CLOSED;
+}
+object capacitor {
+  name "cap_cap2";
+  parent "nd_611";
+  phases CN;
+  phases_connected CN;
+  cap_nominal_voltage 2400.00;
+  capacitor_C 100000.00;
+  switchC CLOSED;
+}
+object overhead_line {
+  name "line_632670";
+  from "nd_670";
+  to "nd_632";
+  phases ABC;
+  length 667.0122;
+  configuration "lcon_mtx601_ABC";
+}
+object overhead_line {
+  name "line_671684";
+  from "nd_671";
+  to "nd_684";
+  phases AC;
+  length 300.0055;
+  configuration "lcon_mtx604_AC";
+}
+object overhead_line {
+  name "line_670671";
+  from "nd_670";
+  to "nd_671";
+  phases ABC;
+  length 1333.0244;
+  configuration "lcon_mtx601_ABC";
+}
+object overhead_line {
+  name "line_684652";
+  from "nd_652";
+  to "nd_684";
+  phases A;
+  length 800.0147;
+  configuration "lcon_mtx607_A";
+}
+object overhead_line {
+  name "line_650632";
+  from "nd_rg60";
+  to "nd_632";
+  phases ABC;
+  length 2000.0366;
+  configuration "lcon_mtx601_ABC";
+}
+object overhead_line {
+  name "line_692675";
+  from "nd_692";
+  to "nd_675";
+  phases ABC;
+  length 500.0092;
+  configuration "lcon_mtx606_ABC";
+}
+object overhead_line {
+  name "line_684611";
+  from "nd_611";
+  to "nd_684";
+  phases C;
+  length 300.0055;
+  configuration "lcon_mtx605_C";
+}
+object overhead_line {
+  name "line_632645";
+  from "nd_632";
+  to "nd_645";
+  phases BC;
+  length 500.0092;
+  configuration "lcon_mtx603_BC";
+}
+object overhead_line {
+  name "line_632633";
+  from "nd_632";
+  to "nd_633";
+  phases ABC;
+  length 500.0092;
+  configuration "lcon_mtx602_ABC";
+}
+object overhead_line {
+  name "line_645646";
+  from "nd_646";
+  to "nd_645";
+  phases BC;
+  length 300.0055;
+  configuration "lcon_mtx603_BC";
+}
+object overhead_line {
+  name "line_671680";
+  from "nd_680";
+  to "nd_671";
+  phases ABC;
+  length 1000.0183;
+  configuration "lcon_mtx601_ABC";
+}
+object switch {
+  name "swt_671692";
+  from "nd_692";
+  to "nd_671";
+  phases ABC;
+  status CLOSED;
+}
+object transformer_configuration {
+  name "xcon_sub";
+  connect_type DELTA_GWYE;
+  primary_voltage 66395.281;
+  secondary_voltage 2401.777;
+  power_rating 5000.000;
+  resistance 0.000010;
+  reactance 0.000080;
+}
+object transformer {
+  name "xf_sub";
+  from "nd_sourcebus";
+  to "nd_650";
+  phases ABC;
+  configuration "xcon_sub";
+  // vector group Dy1;
+}
+object transformer_configuration {
+  name "xcon_xfm1";
+  connect_type WYE_WYE;
+  primary_voltage 2401.777;
+  secondary_voltage 277.128;
+  power_rating 500.000;
+  resistance 0.011000;
+  reactance 0.020000;
+}
+object transformer {
+  name "xf_xfm1";
+  from "nd_633";
+  to "nd_634";
+  phases ABC;
+  configuration "xcon_xfm1";
+  // vector group Yy;
+}
+object load {
+  name "nd_670";
+  phases ABCN;
+  nominal_voltage 2401.78;
+  constant_power_A 17000.0+10000.0j;
+  constant_power_B 66000.0+38000.0j;
+  constant_power_C 117000+68000.0j;
+}
+object load {
+  name "nd_692";
+  phases ABCN;
+  nominal_voltage 2401.78;
+  constant_current_C 19.0567+92.7331j;
+}
+object load {
+  name "nd_671";
+  phases ABCN;
+  nominal_voltage 2401.78;
+  constant_power_A 385000+220000j;
+  constant_power_B 385000+220000j;
+  constant_power_C 385000+220000j;
+}
+object node {
+  name "nd_680";
+  phases ABCN;
+  nominal_voltage 2401.78;
+}
+object load {
+  name "nd_652";
+  phases AN;
+  nominal_voltage 2401.78;
+  constant_impedance_A 31.0501+20.8618j;
+}
+object load {
+  name "nd_675";
+  phases ABCN;
+  nominal_voltage 2401.78;
+  constant_power_A 485000+190000j;
+  constant_power_B 68000.0+60000.0j;
+  constant_power_C 290000+212000j;
+}
+object node {
+  name "nd_650";
+  phases ABCN;
+  nominal_voltage 2401.78;
+}
+object node {
+  name "nd_684";
+  phases ACN;
+  nominal_voltage 2401.78;
+}
+object load {
+  name "nd_634";
+  phases ABCN;
+  nominal_voltage 277.13;
+  constant_power_A 160000+110000j;
+  constant_power_B 120000+90000.0j;
+  constant_power_C 120000+90000.0j;
+}
+object load {
+  name "nd_645";
+  phases BCN;
+  nominal_voltage 2401.78;
+  constant_power_B 170000+125000j;
+}
+object substation {
+  name "nd_sourcebus";
+  bustype SWING;
+  phases ABCN;
+  nominal_voltage 66395.28;
+  base_power 12MVA;
+  power_convergence_value 100VA;
+  positive_sequence_voltage ${VSOURCE};
+}
+object load {
+  name "nd_646";
+  phases BCN;
+  nominal_voltage 2401.78;
+  constant_impedance_B 18.8664+10.8277j;
+}
+object node {
+  name "nd_632";
+  phases ABCN;
+  nominal_voltage 2401.78;
+}
+object load {
+  name "nd_611";
+  phases CN;
+  nominal_voltage 2401.78;
+  constant_current_C -6.54431+77.9524j;
+}
+object node {
+  name "nd_633";
+  phases ABCN;
+  nominal_voltage 2401.78;
+}
+object node {
+  name "nd_rg60";
+  phases ABCN;
+  nominal_voltage 2401.78;
+}

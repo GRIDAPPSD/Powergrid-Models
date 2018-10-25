@@ -1,0 +1,4 @@
+PowerTransformer PowerTransformerEnd s1 hvmv_sub 1 hvmv_sub_hsb A _B32F64E3-AAD3-FA3F-254B-CF74D12DA290 _ECDEEB50-1B94-9B13-A797-DED1326D80A5
+PowerTransformer PowerTransformerEnd s1 hvmv_sub 1 hvmv_sub_hsb B _B32F64E3-AAD3-FA3F-254B-CF74D12DA290 _ECDEEB50-1B94-9B13-A797-DED1326D80A5
+PowerTransformer PowerTransformerEnd s1 hvmv_sub 1 hvmv_sub_hsb C _B32F64E3-AAD3-FA3F-254B-CF74D12DA290 _ECDEEB50-1B94-9B13-A797-DED1326D80A5
+

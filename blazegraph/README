@@ -1,0 +1,22 @@
+https://wiki.blazegraph.com/wiki/index.php/NanoSparqlServer
+
+Using the default server configuration with altered port to run:
+java -server -Xmx4g -Djetty.port=19992 -jar blazegraph.jar
+
+Go to http://localhost:19992/blazegraph/ to get started
+
+1) Create the GridAPPS-D namespace with default parameters
+2) Upload ieee8500.xml as RDF data
+3) Try sample queries below
+
+Sample Queries
+==============
+
+select * where {?q1 ?q2 ?q3}
+
+select ?q1 where {?q1 rdf:type <http://iec.ch/TC57/2012/CIM-schema-cim17#ACLineSegment>}
+
+prefix cim: <http://iec.ch/TC57/2012/CIM-schema-cim17#>
+select ?s where {?s rdf:type cim:LinearShuntCompensator}
+
+see queries.txt in this directory for many more up-to-date examples.
