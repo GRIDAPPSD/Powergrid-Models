@@ -1,3 +1,4 @@
+rem set JAVA_HOME=c:\Program Files\Java\jdk1.8.0_192
 set JENA_HOME=c:\apache-jena-3.6.0
 set CLASSPATH=target/*;c:/apache-jena-3.6.0/lib/*;c:/commons-math3-3.6.1/*
 mvn clean install
