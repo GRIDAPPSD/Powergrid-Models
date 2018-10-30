@@ -1006,7 +1006,7 @@ public class CIMImporter extends Object {
 		for (HashMap.Entry<String,DistSolar> pair : mapSolars.entrySet()) {
 			DistSolar obj = pair.getValue();
 			GldNode nd = mapNodes.get (obj.bus);
-			nd.bInverters = true;
+			nd.bSolarInverters = true;
 			if (nd.nomvln < 0.0) {
 				if (obj.phases.equals("ABC") || obj.phases.equals("AB") || obj.phases.equals("AC") || obj.phases.equals("BC")) {
 					nd.nomvln = obj.ratedU / Math.sqrt(3.0);
@@ -1022,7 +1022,7 @@ public class CIMImporter extends Object {
 		for (HashMap.Entry<String,DistStorage> pair : mapStorages.entrySet()) {
 			DistStorage obj = pair.getValue();
 			GldNode nd = mapNodes.get (obj.bus);
-			nd.bInverters = true;
+			nd.bStorageInverters = true;
 			if (nd.nomvln < 0.0) {
 				if (obj.phases.equals("ABC") || obj.phases.equals("AB") || obj.phases.equals("AC") || obj.phases.equals("BC")) {
 					nd.nomvln = obj.ratedU / Math.sqrt(3.0);

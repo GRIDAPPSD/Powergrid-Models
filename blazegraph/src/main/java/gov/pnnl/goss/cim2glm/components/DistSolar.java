@@ -105,7 +105,7 @@ public class DistSolar extends DistComponent {
 		StringBuilder buf = new StringBuilder("object inverter {\n");
 
 		buf.append ("  name \"inv_" + name + "\";\n");
-		buf.append ("  parent \"" + bus + "\";\n");
+		buf.append ("  parent \"" + bus + "_pvmtr\";\n");
 		if (bDelta && !phases.contains("D")) {
 			buf.append ("  phases " + phases + "D;\n");
 		} else if (!phases.contains("S") && !phases.contains("N")) {

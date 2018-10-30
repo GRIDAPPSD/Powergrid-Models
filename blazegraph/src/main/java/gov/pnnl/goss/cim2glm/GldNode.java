@@ -39,6 +39,8 @@ public class GldNode {
 		return String.format("%6g", c.getReal()) + sgn + String.format("%6g", Math.abs(c.getImaginary())) + "j";
 	}
 
+	static final DecimalFormat df2 = new DecimalFormat("#0.00");
+
 	/** root name of the node or meter, will have `nd_` prepended */
 	public final String name;
 	/** name of the load, if any, will have `ld_` prepended */
@@ -87,8 +89,10 @@ public class GldNode {
 	public boolean bDelta;	
 	/** denotes the SWING bus, aka substation source bus */
 	public boolean bSwing;
-	/** signifies are inverters connected to this bus */
-	public boolean bInverters;
+	/** signifies there are solar PV inverters connected to this bus */
+	public boolean bSolarInverters;
+	/** signifies are battery inverters connected to this bus */
+	public boolean bStorageInverters;
 	/** signifies this bus is connected to a tertiary (or higher) transformer winding,
 	 *  which is not supported in GridLAB-D. */
 	public boolean bTertiaryWinding;
@@ -115,7 +119,8 @@ public class GldNode {
 		bDelta = false;
 		bSwing = false;
 		bSecondary = false;
-		bInverters = false;
+		bSolarInverters = false;
+		bStorageInverters = false;
 		bTertiaryWinding = false;
 	}
 
@@ -172,8 +177,6 @@ public class GldNode {
 	@return void */ 
 	public void AccumulateLoads (String ldname, String phs, double pL, double qL, double Pv, double Qv,
 															 double Pz, double Pi, double Pp, double Qz, double Qi, double Qp, boolean randomZIP) {
-		DecimalFormat df2 = new DecimalFormat("#0.00");
-
 		double fa = 0.0, fb = 0.0, fc = 0.0, denom = 0.0;
 		loadname = "ld_" + ldname;
 		if (phs.contains("A") || phs.contains("s")) {
@@ -376,9 +379,17 @@ public class GldNode {
 		return true;
 	}
 
+	private void AppendSubMeter (StringBuilder buf, String meter_class, String suffix) {
+		buf.append ("object " + meter_class + " {\n");
+		buf.append ("  name \"" + name + suffix + "\";\n");
+		buf.append ("  parent \"" + name + "\";\n");
+		buf.append ("  phases " + GetPhases() + ";\n");
+		buf.append ("  nominal_voltage " + df2.format(nomvln) + ";\n");
+		buf.append ("}\n");
+	}
+
 	public String GetGLM (double load_scale, boolean bWantSched, String fSched, boolean bWantZIP, boolean useHouses, double Zcoeff, double Icoeff, double Pcoeff) {
 		StringBuilder buf = new StringBuilder();
-		DecimalFormat df2 = new DecimalFormat("#0.00");
 
 		if (bTertiaryWinding) { // we have to skip it
 			return "";
@@ -394,24 +405,56 @@ public class GldNode {
 			buf.append ("  power_convergence_value 100VA;\n");
 			buf.append ("  positive_sequence_voltage ${VSOURCE};\n");
 			buf.append ("}\n");
-		} else if (HasLoad()) {
+		} else if (bSecondary) {
+			buf.append ("object triplex_node {\n");
+			buf.append ("  name \"" + name + "\";\n");
+			buf.append ("  phases " + GetPhases() + ";\n");
+			buf.append ("  nominal_voltage " + df2.format(nomvln) + ";\n");
+			buf.append ("}\n");
+			if (bSolarInverters) {
+				AppendSubMeter (buf, "triplex_meter", "_pvmtr");
+			}
+			if (bStorageInverters) {
+				AppendSubMeter (buf, "triplex_meter", "_stmtr");
+			}
+//			if (HasLoad()) {
+//				AppendSubMeter (buf, "triplex_meter", "_ldmtr");
+//			}
+		} else { // primary connected
+			buf.append ("object node {\n");
+			buf.append ("  name \"" + name + "\";\n");
+			buf.append ("  phases " + GetPhases() + ";\n");
+			buf.append ("  nominal_voltage " + df2.format(nomvln) + ";\n");
+			buf.append ("}\n");
+			if (bSolarInverters) {
+				AppendSubMeter (buf, "meter", "_pvmtr");
+			}
+			if (bStorageInverters) {
+				AppendSubMeter (buf, "meter", "_stmtr");
+			}
+//			if (HasLoad()) {
+//				AppendSubMeter (buf, "meter", "_ldmtr");
+//			}
+		}
+		if (!bSwing && HasLoad()) {
 			RescaleLoad(load_scale);
 			if (bWantZIP) {
 				ApplyZIP (Zcoeff, Icoeff, Pcoeff);
-			}
-			
+			}			
 			Complex va = new Complex (nomvln);
 			Complex vb = va.multiply (neg120);
 			Complex vc = va.multiply (pos120);
 			Complex amps;
 			Complex vmagsq = new Complex (nomvln * nomvln);
 			if (bSecondary) {
-				buf.append ("object triplex_meter {\n");
-				buf.append ("  name \"" + name + "\";\n");
-				buf.append ("  phases " + GetPhases() + ";\n");
-				buf.append ("  nominal_voltage " + df2.format(nomvln) + ";\n");
-				buf.append ("}\n");
-				if(!useHouses) {
+				if (useHouses) {  // houses will be grandchildren of this, but triplex loads and primary loads cannot be grandchildren
+					buf.append ("object triplex_meter {\n");
+					buf.append ("  name \"" + loadname + "_ldmtr\";\n");
+					buf.append ("  parent \"" + name + "\";\n");
+					buf.append ("  phases " + GetPhases() + ";\n");
+					buf.append ("  nominal_voltage " + df2.format(nomvln) + ";\n");
+					buf.append ("}\n");
+				} else {
 					buf.append ("object triplex_load {\n");
 					buf.append ("  name \"" + loadname + "\";\n");
 					buf.append ("  parent \"" + name + "\";\n");
@@ -486,11 +529,6 @@ public class GldNode {
 					buf.append ("}\n");
 				}
 			} else {
-				buf.append ("object meter {\n");
-				buf.append ("  name \"" + name + "\";\n");
-				buf.append ("  phases " + GetPhases() + ";\n");
-				buf.append ("  nominal_voltage " + df2.format(nomvln) + ";\n");
-				buf.append ("}\n");
 				buf.append ("object load {\n");
 				buf.append ("  name \"" + loadname + "\";\n");
 				buf.append ("  parent \"" + name + "\";\n");
@@ -537,24 +575,6 @@ public class GldNode {
 				}
 				buf.append ("}\n");
 			}
-		} else {
-			if (bInverters) {
-				if (bSecondary) {
-					buf.append ("object triplex_meter {\n");
-				} else {
-					buf.append ("object meter {\n");
-				}
-			} else {
-				if (bSecondary) {
-					buf.append ("object triplex_node {\n");
-				} else {
-					buf.append ("object node {\n");
-				}
-			}
-			buf.append ("  name \"" + name + "\";\n");
-			buf.append ("  phases " + GetPhases() + ";\n");
-			buf.append ("  nominal_voltage " + df2.format(nomvln) + ";\n");
-			buf.append ("}\n");
 		}
 		return buf.toString();
 	}

@@ -1,11 +1,34 @@
 package gov.pnnl.goss.cim2glm.components;
 
 import org.apache.jena.query.*;
+import java.util.EnumMap;
 
 public class DistHouse extends DistComponent {
 	public static enum HouseCooling{none,electric,heatPump};
-	public static enum HouseThermalIntegrity{unknown,veryLittle,normal,aboveNormal,belowNormal,good,veryGood,little};
 	public static enum HouseHeating{none,gas,heatPump,resistance};
+	public static enum HouseThermalIntegrity{unknown,veryLittle,normal,aboveNormal,belowNormal,good,veryGood,little};
+
+	public static EnumMap<HouseCooling, String> gldHouseCooling = new EnumMap<HouseCooling, String>(HouseCooling.class);
+	public static EnumMap<HouseHeating, String> gldHouseHeating = new EnumMap<HouseHeating, String>(HouseHeating.class);
+	public static EnumMap<HouseThermalIntegrity, String> gldHouseThermalIntegrity = new EnumMap<HouseThermalIntegrity, String>(HouseThermalIntegrity.class);
+	static {
+		gldHouseCooling.put (HouseCooling.none, "NONE");
+		gldHouseCooling.put (HouseCooling.electric, "ELECTRIC");
+		gldHouseCooling.put (HouseCooling.heatPump, "HEAT_PUMP");
+		gldHouseHeating.put (HouseHeating.none, "NONE");
+		gldHouseHeating.put (HouseHeating.gas, "GAS");
+		gldHouseHeating.put (HouseHeating.heatPump, "HEAT_PUMP");
+		gldHouseHeating.put (HouseHeating.resistance, "RESISTANCE");
+		gldHouseThermalIntegrity.put (HouseThermalIntegrity.unknown, "UNKNOWN");
+		gldHouseThermalIntegrity.put (HouseThermalIntegrity.veryLittle, "VERY_LITTLE");
+		gldHouseThermalIntegrity.put (HouseThermalIntegrity.normal, "NORMAL");
+		gldHouseThermalIntegrity.put (HouseThermalIntegrity.aboveNormal, "ABOVE_NORMAL");
+		gldHouseThermalIntegrity.put (HouseThermalIntegrity.belowNormal, "BELOW_NORMAL");
+		gldHouseThermalIntegrity.put (HouseThermalIntegrity.good, "GOOD");
+		gldHouseThermalIntegrity.put (HouseThermalIntegrity.veryGood, "VERY_GOOD");
+		gldHouseThermalIntegrity.put (HouseThermalIntegrity.little, "LITTLE");
+	}
+
 	public static final String szQUERY = 
 		"SELECT ?name ?parent ?coolingSetpoint ?coolingSystem ?floorArea ?heatingSetpoint ?heatingSystem ?hvacPowerFactor ?numberOfStories ?thermalIntegrity ?id ?fdrid WHERE { VALUES ?fdrid {\"_4F76A5F9-271D-9EB8-5E31-AA362D86F2C3\"}  \n" + 
 				"?h r:type c:House. " + 
@@ -37,7 +60,6 @@ public class DistHouse extends DistComponent {
 	public int numberOfStories;
 	public HouseThermalIntegrity thermalIntegrity;
 	
-	
 	public DistHouse (ResultSet result) {
 		if(result.hasNext()) {
 			QuerySolution soln = result.next();
@@ -59,25 +81,22 @@ public class DistHouse extends DistComponent {
 		}
 	}
 
-
 	@Override
 	public String DisplayString() {
 		StringBuilder buf = new StringBuilder ("");
 		buf.append (name + " @ " + parent);
-		buf.append (" cooling setpoint=" + df4.format(coolingSetpoint) + " cooling system=" + coolingSystem.toString());
-		buf.append (" floor area=" + df4.format(floorArea) + " heating setpoint=" + df4.format(heatingSetpoint));
-		buf.append(" heating system=" + heatingSystem.toString() + " hvac power factor=" + df4.format(hvacPowerFactor));
+		buf.append (" cooling setpoint=" + df3.format(coolingSetpoint) + " cooling system=" + coolingSystem.toString());
+		buf.append (" floor area=" + df2.format(floorArea) + " heating setpoint=" + df3.format(heatingSetpoint));
+		buf.append (" heating system=" + heatingSystem.toString() + " hvac power factor=" + df4.format(hvacPowerFactor));
 		buf.append (" number of stories=" + String.valueOf(numberOfStories));
-		buf.append(" thermal integrity=" + thermalIntegrity.toString());
+		buf.append (" thermal integrity=" + thermalIntegrity.toString());
 		return buf.toString();
 	}
-
 
 	@Override
 	public String GetKey() {
 		return name;
 	}
-
 
 	@Override
 	public String GetJSONEntry() {
@@ -86,27 +105,33 @@ public class DistHouse extends DistComponent {
 		buf.append (",\"mRID\":\"" + id +"\"");
 		buf.append ("}");
 		return buf.toString();
-	}
-	
+	}	
 	
 	public String GetGLM() {
+		// we must have heatingSetpoint < (coolingSetpoint - deadband) where deadband defaults to 2.0
+		double localHeatSet = heatingSetpoint;
 		StringBuilder buf = new StringBuilder("object house {\n");
 		buf.append("  name \"" + name + "\";\n");
-		buf.append("  parent \"" + parent + "\";\n");
-		if (!coolingSystem.equals(HouseCooling.none)) {
-			buf.append("  cooling_setpoint " + String.valueOf(coolingSetpoint) + "\";\n");
+		buf.append("  parent \"ld_" + parent + "_ldmtr\";\n");
+		buf.append("  floor_area " +  df2.format(floorArea) + ";\n");
+		buf.append("  number_of_stories " + String.valueOf(numberOfStories) + ";\n");
+		buf.append("  thermal_integrity_level " + gldHouseThermalIntegrity.get(thermalIntegrity) + ";\n");
+		buf.append("  cooling_system_type " + gldHouseCooling.get(coolingSystem) + ";\n");
+		 {
+			buf.append("  cooling_setpoint " + df3.format(coolingSetpoint) + ";\n");
+			if (localHeatSet > (coolingSetpoint - 2.1)) {
+				localHeatSet = coolingSetpoint - 2.1;
+			}
 		}
-		buf.append("  cooling_system_type " + coolingSystem.toString() + "\";\n");
-		buf.append("  floor_area " + String.valueOf(floorArea) + "\";\n");
+		buf.append("  heating_system_type " + gldHouseHeating.get(heatingSystem) + ";\n");
 		if (!heatingSystem.equals(HouseHeating.none)) {
-			buf.append("  heating_setpoint " + String.valueOf(heatingSetpoint) + "\";\n");
+			buf.append("  heating_setpoint " + df3.format(localHeatSet) + ";\n");
+		} else if (!coolingSystem.equals(HouseCooling.none)) {
+			buf.append("  heating_setpoint " + df3.format(localHeatSet) + "; // because GridLAB-D will override to RESISTANCE heating\n");
 		}
-		buf.append("  heating_system_type " + heatingSystem.toString() + "\";\n");
 		if (!heatingSystem.equals(HouseHeating.none) || !coolingSystem.equals(HouseCooling.none)) {
-			buf.append("  hvac_power_factor " + String.valueOf(hvacPowerFactor) + "\";\n");
+			buf.append("  hvac_power_factor " + df4.format(hvacPowerFactor) + ";\n");
 		}
-		buf.append("  number_of_stories " + String.valueOf(numberOfStories) + "\";\n");
-		buf.append("  thermal_integrity_level " + thermalIntegrity.toString() + "\";\n");
 		buf.append("}\n");
 		return buf.toString();
 	}

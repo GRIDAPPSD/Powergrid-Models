@@ -127,7 +127,7 @@ public class DistStorage extends DistComponent {
 		StringBuilder buf = new StringBuilder ("object inverter {\n");
 
 		buf.append ("  name \"inv_" + name + "\";\n");
-		buf.append ("  parent \"" + bus + "\";\n");
+		buf.append ("  parent \"" + bus + "_stmtr\";\n");
 		if (bDelta && !phases.contains("D")) {
 			buf.append ("  phases " + phases + "D;\n");
 		} else if (!phases.contains("S") && !phases.contains("N")) {
@@ -138,10 +138,10 @@ public class DistStorage extends DistComponent {
 		buf.append ("  generator_status ONLINE;\n");
 		buf.append ("  generator_mode CONSTANT_PQ;\n");
 		buf.append ("  inverter_type FOUR_QUADRANT;\n");
-		buf.append ("  four_quadrant_control_mode LOAD_FOLLOWING;\n");
+		buf.append ("  four_quadrant_control_mode CONSTANT_PQ; // LOAD_FOLLOWING;\n");
 		buf.append ("  charge_lockout_time 1;\n");
 		buf.append ("  discharge_lockout_time 1;\n");
-		buf.append ("  sense_object \"" + bus + "\";\n");
+		buf.append ("  sense_object \"" + bus + "_stmtr\";\n");
 		buf.append ("  charge_on_threshold " + df3.format (-0.02 * ratedS) + ";\n");
 		buf.append ("  charge_off_threshold " + df3.format (0.0 * ratedS) + ";\n");
 		buf.append ("  discharge_off_threshold " + df3.format (0.4 * ratedS) + ";\n");
