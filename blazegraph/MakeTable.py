@@ -61,13 +61,14 @@ else:
 #             ['EPRI_DPV_K1',39837.2],
 #             ['EPRI_DPV_M1',38682.5]]
 
-casefiles = [['ieee13',66395.3],
-             ['ieee13_assets',66395.3],
-             ['ieee8500',66395.3],
-             ['ieee123',2401.8],
-             ['r2_12_47_2',57735.0],
-             ['epri_dpv_j1',39837.2]]
+#casefiles = [['ieee13',66395.3],
+#             ['ieee13_assets',66395.3],
+#             ['ieee8500',66395.3],
+#             ['ieee123',2401.8],
+#             ['r2_12_47_2',57735.0],
+#             ['epri_dpv_j1',39837.2]]
 
+casefiles = ['R2_12_47_2']
 
 op = open ('table.txt', 'w')
 print ('Case,Solved,Ndev,Nbus,Nnode,Vmax,Vmin,Ptot,Qtot,Ploss,Qloss', file=op)

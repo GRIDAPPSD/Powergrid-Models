@@ -30,7 +30,7 @@ public class DistHouse extends DistComponent {
 	}
 
 	public static final String szQUERY = 
-		"SELECT ?name ?parent ?coolingSetpoint ?coolingSystem ?floorArea ?heatingSetpoint ?heatingSystem ?hvacPowerFactor ?numberOfStories ?thermalIntegrity ?id ?fdrid WHERE { VALUES ?fdrid {\"_4F76A5F9-271D-9EB8-5E31-AA362D86F2C3\"}  \n" + 
+		"SELECT ?name ?parent ?coolingSetpoint ?coolingSystem ?floorArea ?heatingSetpoint ?heatingSystem ?hvacPowerFactor ?numberOfStories ?thermalIntegrity ?id ?fdrid WHERE {" + 
 				"?h r:type c:House. " + 
 				"?h c:IdentifiedObject.name ?name. " + 
 				"?h c:IdentifiedObject.mRID ?id. " + 
@@ -47,6 +47,8 @@ public class DistHouse extends DistComponent {
 					"bind(strafter(str(?thermalIntegrityRaw),\"HouseThermalIntegrity.\") as ?thermalIntegrity) " + 
 				"?h c:House.EnergyConsumer ?econ. " + 
 				"?econ c:IdentifiedObject.name ?parent. " +
+				"?fdr c:IdentifiedObject.mRID ?fdrid. " +
+				"?econ c:Equipment.EquipmentContainer ?fdr. " +
 		"} ORDER BY ?name";
 	public String id;
 	public String name;

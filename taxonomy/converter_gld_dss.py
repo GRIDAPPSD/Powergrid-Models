@@ -943,12 +943,12 @@ for ifn in glob.glob("base_taxonomy/new*.glm"):
                 toks = re.split('[\+j]',row['power_12'])
                 P = float(toks[0])
                 Q = float(toks[1])
-                # Balanced 240-V load
+                # Balanced 240-V load - follow the pattern of IEEE 8500 example distributed with OpenDSS
                 loadf.write('new load.'+name+'_240v')
-                loadf.write(' phases=1')
+                loadf.write(' phases=2')
                 loadf.write(' bus1='+bus1+'.1.2')
-                loadf.write(' conn=delta')
-                loadf.write(' kv=0.240')
+                loadf.write(' conn=wye')
+                loadf.write(' kv=0.208')
                 loadf.write(' kw='+'{:.3f}'.format(P/1000))
                 loadf.write(' kvar='+'{:.3f}'.format(Q/1000))
                 loadf.write('\n')

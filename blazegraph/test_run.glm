@@ -20,8 +20,8 @@ object climate {
   interpolate QUADRATIC;
 };
 
-//#define VSOURCE=2401.8
-//#include "ieee123pv_base.glm";
+#define VSOURCE=2401.8
+#include "ieee123pv_base.glm";
 
 //#define VSOURCE=2401.8
 //#include "ieee123_base.glm";
@@ -44,8 +44,8 @@ object climate {
 //#define VSOURCE=57735.0
 //#include "taxR2_2_base.glm";
 
-#define VSOURCE=57735.0
-#include "taxR2_2house_base.glm";
+//#define VSOURCE=57735.0
+//#include "taxR2_2house_base.glm";
 
 // only WYE_WYE regulators work in NR, except for MANUAL control
 // the jumper within the open delta bank has to be manually removed before this runs under MANUAL control

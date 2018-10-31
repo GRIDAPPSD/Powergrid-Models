@@ -138,14 +138,6 @@ public class GldNode {
 			bSecondary = false;
 		}
 		phases = buf.toString();
-//		if (name.contains("_load_3")) {
-//			System.out.println ("_load_3 setting phases to " + phs);
-//			new Exception().printStackTrace();
-//		}
-//		if (name.contains("_tn_296")) {
-//			System.out.println ("_tn_296 setting phases to " + phs);
-//			new Exception().printStackTrace();
-//		}
 		return true;
 	}
 
@@ -269,7 +261,6 @@ public class GldNode {
 		qa_p += fa * qL * fqp;
 		qb_p += fb * qL * fqp;
 		qc_p += fc * qL * fqp;
-
 	}
 
 	/** reapportion loads according to constant power (Z/sum), constant current (I/sum) and constant power (P/sum)
@@ -357,7 +348,7 @@ public class GldNode {
 	}
 
 	public boolean CopyLoad (GldNode src) {
-		loadname = src.name;
+		loadname = src.loadname;
 		pa_z = src.pa_z;
 		pa_i = src.pa_i;
 		pa_p = src.pa_p;
@@ -417,9 +408,6 @@ public class GldNode {
 			if (bStorageInverters) {
 				AppendSubMeter (buf, "triplex_meter", "_stmtr");
 			}
-//			if (HasLoad()) {
-//				AppendSubMeter (buf, "triplex_meter", "_ldmtr");
-//			}
 		} else { // primary connected
 			buf.append ("object node {\n");
 			buf.append ("  name \"" + name + "\";\n");
@@ -432,9 +420,6 @@ public class GldNode {
 			if (bStorageInverters) {
 				AppendSubMeter (buf, "meter", "_stmtr");
 			}
-//			if (HasLoad()) {
-//				AppendSubMeter (buf, "meter", "_ldmtr");
-//			}
 		}
 		if (!bSwing && HasLoad()) {
 			RescaleLoad(load_scale);

@@ -100,14 +100,14 @@ else:
 #             'EPRI_DPV_K1',
 #             'EPRI_DPV_M1']
 
-casefiles = ['IEEE13',
-             'IEEE13_Assets',
-             'IEEE8500',
-             'IEEE123',
-             'R2_12_47_2',
-             'EPRI_DPV_J1']
+#casefiles = ['IEEE13',
+#             'IEEE13_Assets',
+#             'IEEE8500',
+#             'IEEE123',
+#             'R2_12_47_2',
+#             'EPRI_DPV_J1']
 
-# casefiles = ['EPRI_DPV_J1']
+casefiles = ['R2_12_47_2']
 
 arg = sys.argv[1]
 

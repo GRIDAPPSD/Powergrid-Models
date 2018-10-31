@@ -112,7 +112,10 @@ casefiles = [['R1-12.47-1',12470.0, 7200.0],
              ['R5-25.00-1',22900.0,13200.0],
              ['R5-35.00-1',34500.0,19920.0],
              ['GC-12.47-1',12470.0, 7200.0]]
+
+# this is for the GridAPPS-D taxonomy feeder; we can't use 208V for commercial loads
 #casefiles = [['R2-12.47-2',12470.0, 7200.0]]
+#max208kva = 0.0
 
 def is_node_class(s):
     if s == 'node':

@@ -463,6 +463,7 @@ public class CIMImporter extends Object {
 			DistHouse obj = new DistHouse (results);
 			mapHouses.put (obj.GetKey(), obj);
 		}
+		((ResultSetCloseable)results).close();
 	}
 
 	public void PrintOneMap(HashMap<String,? extends DistComponent> map, String label) {
@@ -978,10 +979,10 @@ public class CIMImporter extends Object {
 			if (obj.glm_phases.equals("S")) {  // TODO - we should be using a graph component like networkx (but for Java) to assign phasing
 				String phs1 = nd1.GetPhases();
 				String phs2 = nd2.GetPhases();
-				if (phs1.contains ("S")) {
+				if (phs1.length() > 1 && phs1.contains ("S")) {
 					obj.glm_phases = nd1.GetPhases();
 					nd2.ResetPhases (phs1);
-				} else if (phs2.contains ("S")) {
+				} else if (phs2.length() > 1 && phs2.contains ("S")) {
 					obj.glm_phases = nd2.GetPhases();
 					nd1.ResetPhases (phs2);
 				}
