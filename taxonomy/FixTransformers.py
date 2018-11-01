@@ -2,7 +2,9 @@ import sys;
 import re;
 import os.path;
 import networkx as nx;
-from math import sqrt; 
+from math import sqrt;
+import json;
+from csv import reader;
 
 glmpath = 'base_taxonomy/'
 
@@ -112,6 +114,9 @@ casefiles = [['R1-12.47-1',12470.0, 7200.0],
              ['R5-25.00-1',22900.0,13200.0],
              ['R5-35.00-1',34500.0,19920.0],
              ['GC-12.47-1',12470.0, 7200.0]]
+
+# this will be for the TESP communication system example
+#casefiles = [['R5-12.47-5',12470.0, 7200.0]]
 
 # this is for the GridAPPS-D taxonomy feeder; we can't use 208V for commercial loads
 #casefiles = [['R2-12.47-2',12470.0, 7200.0]]
@@ -487,6 +492,18 @@ for c in casefiles:
 
 #        log_model (model, h)
 
+        # update nodes with XY coordinates from the OpenDSS output
+        xyname = c[0].replace('-','_').replace('.','_')
+        xyp = open ('new_' + xyname + '/Buscoords.csv', 'r')
+        for row in reader(xyp):
+            busname, busx, busy = row
+            for t in ['node', 'meter', 'triplex_node', 'triplex_meter']:
+                if t in model:
+                    if busname in model[t]:
+                        model[t][busname]['x'] = busx
+                        model[t][busname]['y'] = busy
+        xyp.close()
+
         # construct a graph of the model, starting with known links
         G = nx.Graph()
         for t in model:
@@ -670,6 +687,13 @@ for c in casefiles:
         write_voltage_class (model, h, 'triplex_load', op, c[2], secnode)
 
         op.close()
+
+        # saving the graph to a JSON file; need to verify whether the component upsizings are included
+        json_fp = open ('new_' + c[0] + '.json', 'w')
+        json_data = nx.readwrite.json_graph.node_link_data(G)
+        json.dump (json_data, json_fp)
+        json_fp.close()
+
 
 
 
