@@ -1,7 +1,14 @@
-python InsertMeasurements.py ieee123pv_special.txt
-python InsertMeasurements.py ieee123pv_node_v.txt
-python InsertMeasurements.py ieee123pv_loads.txt
-python InsertMeasurements.py ieee123pv_lines_pq.txt
+python InsertMeasurements.py acep_psil_special.txt
+python InsertMeasurements.py acep_psil_lines_pq.txt
+python InsertMeasurements.py acep_psil_node_v.txt
+python InsertMeasurements.py acep_psil_loads.txt
+python InsertMeasurements.py acep_psil_xfmr_pq.txt
+python InsertMeasurements.py acep_psil_machines.txt
+
+#python InsertMeasurements.py ieee123pv_special.txt
+#python InsertMeasurements.py ieee123pv_node_v.txt
+#python InsertMeasurements.py ieee123pv_loads.txt
+#python InsertMeasurements.py ieee123pv_lines_pq.txt
 
 #python InsertMeasurements.py ieee8500_rc1.bak
 
