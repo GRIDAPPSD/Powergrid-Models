@@ -1,7 +1,7 @@
 clock {
   timezone EST+5EDT;
-  starttime '2000-01-01 0:00:00';
-  stoptime '2000-01-01 0:00:00';
+  starttime '2000-07-1 12:20:00';
+  stoptime '2000-07-1 12:20:00';
 };
 #set relax_naming_rules=1
 #set profiler=1
@@ -25,7 +25,6 @@ object climate {
 #define VSOURCE=277.13
 #include "acep_psil_base.glm";
 
-//#ifdef WANT_VI_DUMP
 object voltdump {
   filename test_volt.csv;
   mode POLAR;
@@ -34,4 +33,14 @@ object currdump {
   filename test_curr.csv;
   mode POLAR;
 };
-//#endif
+object recorder {
+//	parent battinv_stmtr;
+//	parent solar_pvmtr;
+	parent wind_dgmtr;
+//	parent dg_wind;
+//	interval 60.0;
+	file acep_meter.csv;
+	property measured_power;
+//	property power_out_A;
+};
+

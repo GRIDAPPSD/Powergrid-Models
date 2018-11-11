@@ -93,6 +93,8 @@ public class GldNode {
 	public boolean bSolarInverters;
 	/** signifies are battery inverters connected to this bus */
 	public boolean bStorageInverters;
+	/** signifies there are synchronous machines connected to this bus */
+	public boolean bSyncMachines;
 	/** signifies this bus is connected to a tertiary (or higher) transformer winding,
 	 *  which is not supported in GridLAB-D. */
 	public boolean bTertiaryWinding;
@@ -121,6 +123,7 @@ public class GldNode {
 		bSecondary = false;
 		bSolarInverters = false;
 		bStorageInverters = false;
+		bSyncMachines = false;
 		bTertiaryWinding = false;
 	}
 
@@ -408,6 +411,9 @@ public class GldNode {
 			if (bStorageInverters) {
 				AppendSubMeter (buf, "triplex_meter", "_stmtr");
 			}
+			if (bSyncMachines) {
+				AppendSubMeter (buf, "triplex_meter", "_dgmtr");
+			}
 		} else { // primary connected
 			buf.append ("object node {\n");
 			buf.append ("  name \"" + name + "\";\n");
@@ -419,6 +425,9 @@ public class GldNode {
 			}
 			if (bStorageInverters) {
 				AppendSubMeter (buf, "meter", "_stmtr");
+			}
+			if (bSyncMachines) {
+				AppendSubMeter (buf, "meter", "_dgmtr");
 			}
 		}
 		if (!bSwing && HasLoad()) {
