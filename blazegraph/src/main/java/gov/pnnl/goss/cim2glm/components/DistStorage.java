@@ -151,6 +151,8 @@ public class DistStorage extends DistComponent {
 		buf.append ("  rated_power " + df3.format (ratedS) + ";\n");
 		buf.append ("  max_charge_rate " + df3.format (ratedS) + ";\n");
 		buf.append ("  max_discharge_rate " + df3.format (ratedS) + ";\n");
+		buf.append ("  P_Out " + df3.format (p) + ";\n");
+		buf.append ("  Q_Out " + df3.format (q) + ";\n");
 		buf.append ("  object battery {\n");
 		buf.append ("    name \"bat_" + name + "\";\n");
 		buf.append ("    nominal_voltage 48;\n");
@@ -184,9 +186,9 @@ public class DistStorage extends DistComponent {
 
 		buf.append (" phases=" + Integer.toString(nphases) + " bus1=" + DSSShuntPhases (bus, phases, bDelta) + 
 								" conn=" + DSSConn(bDelta) + " kva=" + df3.format(kva) + " kv=" + df3.format(kv) +
-								" kwrated=" + df3.format(kva) + " kwhrated=" + df3.format(0.001 * ratedE) + 
+								" kwhrated=" + df3.format(0.001 * ratedE) + 
 								" kwhstored=" + df3.format(0.001 * storedE) + " state=" + DSSBatteryState(state) +
-								" vminpu=" + df4.format(1/maxIFault) + " LimitCurrent=yes");
+								" vminpu=" + df4.format(1/maxIFault) + " LimitCurrent=yes kw=" + df2.format(p/1000.0));
 		buf.append("\n");
 
 		return buf.toString();

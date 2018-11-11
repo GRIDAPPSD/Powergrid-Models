@@ -120,6 +120,8 @@ public class DistSolar extends DistComponent {
 		buf.append ("  power_factor 1.0;\n");
 		buf.append ("  V_base " + df3.format (ratedU) + ";\n");
 		buf.append ("  rated_power " + df3.format (ratedS) + ";\n");
+		buf.append ("  P_Out " + df3.format (p) + ";\n");
+		buf.append ("  Q_Out " + df3.format (q) + ";\n");
 		buf.append ("  object solar {\n");
 		buf.append ("    name \"pv_" + name + "\";\n");
 		buf.append ("    generator_mode SUPPLY_DRIVEN;\n");
