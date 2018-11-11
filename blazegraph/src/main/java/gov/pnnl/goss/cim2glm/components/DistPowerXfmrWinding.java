@@ -146,7 +146,12 @@ public class DistPowerXfmrWinding extends DistComponent {
 	public String GetGLM (DistPowerXfmrMesh mesh, DistPowerXfmrCore core) {
 		StringBuilder buf = new StringBuilder ("object transformer_configuration {\n"); 
 		buf.append ("  name \"xcon_" + name + "\";\n");
-		buf.append ("  connect_type " + GetGldTransformerConnection (conn, size) + ";\n");
+		String sConnect = GetGldTransformerConnection (conn, size);
+		if (sConnect.equals ("Y_D")) {
+			buf.append ("  connect_type WYE_WYE; // should be Y_D\n");
+		} else {
+			buf.append ("  connect_type " + sConnect + ";\n");
+		}
 		buf.append ("  primary_voltage " + df3.format (ratedU[0] / Math.sqrt(3.0)) + ";\n");
 		buf.append ("  secondary_voltage " + df3.format (ratedU[1] / Math.sqrt(3.0)) + ";\n");
 		buf.append ("  power_rating " + df3.format (ratedS[0] * 0.001) + ";\n");
