@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<repository increment="1541712003021" name="Release" xmlns="http://www.osgi.org/xmlns/repository/v1.0.0">
+<repository increment="1542056081759" name="Release" xmlns="http://www.osgi.org/xmlns/repository/v1.0.0">
   <resource>
     <capability namespace="osgi.identity">
       <attribute name="osgi.identity" value="blazegraph.cim2glm"/>
@@ -936,9 +936,9 @@
       <attribute name="version" type="Version" value="8.0.0"/>
     </capability>
     <capability namespace="osgi.content">
-      <attribute name="osgi.content" value="4dc4fcbac9ab58a81398cab0bf69474901910452a993a4cdf48bd58f42864a70"/>
+      <attribute name="osgi.content" value="6fc7183ab9a7d10c1c4e0c01bd849259cd32ace0338d47f7e0513e7f268371a1"/>
       <attribute name="url" value="blazegraph.cim2glm/blazegraph.cim2glm-8.0.0.jar"/>
-      <attribute name="size" type="Long" value="248713"/>
+      <attribute name="size" type="Long" value="254399"/>
       <attribute name="mime" value="application/vnd.osgi.bundle"/>
     </capability>
     <capability namespace="osgi.wiring.bundle">
@@ -951,20 +951,20 @@
     </capability>
     <capability namespace="osgi.wiring.package">
       <attribute name="osgi.wiring.package" value="gov.pnnl.goss.cim2glm.queryhandler"/>
-      <attribute name="version" type="Version" value="1.0.0"/>
+      <attribute name="version" type="Version" value="4.0.0"/>
       <attribute name="bundle-symbolic-name" value="blazegraph.cim2glm"/>
       <attribute name="bundle-version" type="Version" value="8.0.0"/>
       <directive name="uses" value="org.apache.jena.query"/>
     </capability>
     <capability namespace="osgi.wiring.package">
       <attribute name="osgi.wiring.package" value="gov.pnnl.goss.cim2glm"/>
-      <attribute name="version" type="Version" value="2.0.0"/>
+      <attribute name="version" type="Version" value="6.0.0"/>
       <attribute name="bundle-symbolic-name" value="blazegraph.cim2glm"/>
       <attribute name="bundle-version" type="Version" value="8.0.0"/>
       <directive name="uses" value="gov.pnnl.goss.cim2glm.queryhandler"/>
     </capability>
     <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(&amp;(osgi.wiring.package=gov.pnnl.goss.cim2glm.queryhandler)(version&gt;=1.0.0)(!(version&gt;=2.0.0)))"/>
+      <directive name="filter" value="(&amp;(osgi.wiring.package=gov.pnnl.goss.cim2glm.queryhandler)(version&gt;=4.0.0)(!(version&gt;=5.0.0)))"/>
     </requirement>
     <requirement namespace="osgi.wiring.package">
       <directive name="filter" value="(osgi.wiring.package=org.apache.commons.math3.complex)"/>
