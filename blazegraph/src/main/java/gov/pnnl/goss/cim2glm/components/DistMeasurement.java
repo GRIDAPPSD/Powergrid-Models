@@ -41,6 +41,7 @@ public class DistMeasurement extends DistComponent {
 	public String phases;
 	public String eqname;
 	public String eqtype;
+	public String simobj;
 
 	public DistMeasurement (ResultSet results) {
 		if (results.hasNext()) {
@@ -59,6 +60,40 @@ public class DistMeasurement extends DistComponent {
 //		System.out.println (DisplayString());
 	}
 
+	public void FindSimObject (String loadname, String busphases, boolean bStorage, boolean bSolar, boolean bSyncMachines) {
+		if (eqtype.equals ("LinearShuntCompensator")) {
+			simobj = "cap_" + eqname;
+		} else if (eqtype.equals ("PowerElectronicsConnection")) {
+			if (bStorage) {
+				simobj = bus + "_stmtr";
+			} else if (bSolar) {
+				simobj = bus + "_pvmtr";
+			} else {
+				simobj = "UKNOWN INVERTER";
+			}
+		} else if (eqtype.equals("ACLineSegment")) {
+			simobj = "line_" + eqname;
+		} else if (eqtype.equals ("PowerTransformer")) { // RatioTapChanger or PowerTransformer
+			if (measClass.equals("Discrete")) {
+				simobj = "reg_" + eqname;
+			} else {
+				simobj = "xf_" + eqname;
+			}
+		} else if (eqtype.equals("LoadBreakSwitch")) {
+			simobj = "swt_" + eqname;
+		} else if (eqtype.equals ("Recloser")) {
+			simobj = "swt_" + eqname;
+		} else if (eqtype.equals ("Breaker")) {
+			simobj = "swt_" + eqname;
+		} else if (eqtype.equals ("SynchronousMachine")) {
+			simobj = bus + "_dgmtr";
+		} else if (eqtype.equals ("EnergyConsumer")) {
+			simobj = loadname;
+		} else {
+			simobj = "UKNOWN";
+		}
+	}
+
 	public String GetJSONEntry () {
 		StringBuilder buf = new StringBuilder ();
 
@@ -72,6 +107,7 @@ public class DistMeasurement extends DistComponent {
 		buf.append (",\"ConductingEquipment_type\":\"" + eqtype + "\"");
 		buf.append (",\"ConductingEquipment_name\":\"" + eqname + "\"");
 		buf.append (",\"ConnectivityNode\":\"" + bus + "\"");
+		buf.append (",\"SimObject\":\"" + simobj + "\"");
 		buf.append ("}");
 		return buf.toString();
 	}

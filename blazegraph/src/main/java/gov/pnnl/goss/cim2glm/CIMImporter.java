@@ -1167,6 +1167,13 @@ public class CIMImporter extends Object {
 			}
 		}
 
+		// try to link all CIM measurements to the GridLAB-D objects
+		for (HashMap.Entry<String,DistMeasurement> pair : mapMeasurements.entrySet()) {
+			DistMeasurement obj = pair.getValue();
+			GldNode nd = mapNodes.get (obj.bus);
+			obj.FindSimObject (nd.loadname, nd.phases, nd.bStorageInverters, nd.bSolarInverters, nd.bSyncMachines);
+		}
+
 		out.close();
 	}
 	
