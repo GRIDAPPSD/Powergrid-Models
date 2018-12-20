@@ -302,6 +302,30 @@ for b in ret.bindings:
 	for phs in phases:
 		print ('EnergyConsumer',b['name'].value,bus,phs,b['eqid'].value,b['trmid'].value,file=op)
 
+####################### - Synchronous Machines
+op.close()
+op = open (froot + '_machines.txt', 'w')
+
+qstr = constants.prefix + """SELECT ?name ?bus ?eqid ?trmid WHERE {""" + fidselect + """
+ ?s r:type c:SynchronousMachine.
+ ?s c:IdentifiedObject.name ?name.
+ ?s c:IdentifiedObject.mRID ?eqid. 
+ ?t1 c:Terminal.ConductingEquipment ?s.
+ ?t1 c:IdentifiedObject.mRID ?trmid. 
+ ?t1 c:ACDCTerminal.sequenceNumber "1".
+ ?t1 c:Terminal.ConnectivityNode ?cn1. 
+ ?cn1 c:IdentifiedObject.name ?bus.
+ }
+ ORDER BY ?name
+"""
+sparql.setQuery(qstr)
+ret = sparql.query()
+for b in ret.bindings:
+	phases = FlatPhases ('ABC')
+	bus = b['bus'].value
+	for phs in phases:
+		print ('SynchronousMachine',b['name'].value,bus,phs,b['eqid'].value,b['trmid'].value,file=op)
+
 ####################### - PowerTransformer, no tanks
 op.close()
 op = open (froot + '_xfmr_pq.txt', 'w')

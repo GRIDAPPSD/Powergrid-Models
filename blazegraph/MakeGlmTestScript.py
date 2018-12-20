@@ -54,14 +54,14 @@ else:
 #             ['EPRI_DPV_K1',39837.2],
 #             ['EPRI_DPV_M1',38682.5]]
 
-casefiles = [['IEEE13',66395.3],
-             ['IEEE13_Assets',66395.3],
-             ['IEEE8500',66395.3],
-             ['IEEE123',2401.8],
-             ['R2_12_47_2',57735.0],
-             ['EPRI_DPV_J1',39837.2]]
+#casefiles = [['IEEE13',66395.3],
+#             ['IEEE13_Assets',66395.3],
+#             ['IEEE8500',66395.3],
+#             ['IEEE123',2401.8],
+#             ['R2_12_47_2',57735.0],
+#             ['EPRI_DPV_J1',39837.2]]
 
-#casefiles = [['IEEE123',2401.8]]
+casefiles = [['R2_12_47_2',57735.0]]
 
 for c in casefiles:
     if sys.platform == 'win32':

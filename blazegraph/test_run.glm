@@ -10,28 +10,48 @@ module powerflow {
   line_capacitance TRUE;
 };
 module generators;
+module residential;
+module climate;
 module tape;
 
+object climate {
+  name "RegionalWeather";
+  tmyfile "WA-Yakima.tmy2";
+  interpolate QUADRATIC;
+};
+
+#define VSOURCE=2401.8
+#include "ieee123pv_base.glm";
+
 //#define VSOURCE=2401.8
-//#include "test123_base.glm";
+//#include "ieee123_base.glm";
 
 //#define VSOURCE=66395.3
-//#include "test13assets_base.glm";
-
-#define VSOURCE=66395.3
-#include "ieee13_base.glm";
+//#include "ieee13assets_base.glm";
 
 //#define VSOURCE=66395.3
-//#include "test8500_base.glm";
+//#include "ieee13_base.glm";
+
+//#define VSOURCE=66395.3
+//#include "ieee8500_base.glm";
+
+//#define VSOURCE=66395.3
+//#include "ieee8500house_base.glm";
 
 //#define VSOURCE=39837.2
-//#include "testJ1_base.glm";
+//#include "epriJ1_base.glm";
 
 //#define VSOURCE=57735.0
-//#include "testR2_base.glm";
+//#include "taxR2_2_base.glm";
 
+//#define VSOURCE=57735.0
+//#include "taxR2_2house_base.glm";
+
+// only WYE_WYE regulators work in NR, except for MANUAL control
+// the jumper within the open delta bank has to be manually removed before this runs under MANUAL control
+// should also add a MANUAL position for tap c
 //#define VSOURCE=132790.6
-//#include "test37_base.glm";
+//#include "ieee37_base.glm";
 
 //#ifdef WANT_VI_DUMP
 object voltdump {

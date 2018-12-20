@@ -47,6 +47,7 @@ import gov.pnnl.goss.cim2glm.components.DistSolar;
 import gov.pnnl.goss.cim2glm.components.DistStorage;
 import gov.pnnl.goss.cim2glm.components.DistSubstation;
 import gov.pnnl.goss.cim2glm.components.DistSwitch;
+import gov.pnnl.goss.cim2glm.components.DistSyncMachine;
 import gov.pnnl.goss.cim2glm.components.DistTapeShieldCable;
 import gov.pnnl.goss.cim2glm.components.DistXfmrBank;
 import gov.pnnl.goss.cim2glm.components.DistXfmrCodeOCTest;
@@ -111,6 +112,7 @@ public class CIMImporter extends Object {
 	HashMap<String,DistSolar> mapSolars = new HashMap<>();
 	HashMap<String,DistStorage> mapStorages = new HashMap<>();
 	HashMap<String,DistSubstation> mapSubstations = new HashMap<>();
+	HashMap<String,DistSyncMachine> mapSyncMachines = new HashMap<>();
 	HashMap<String,DistTapeShieldCable> mapTSCables = new HashMap<>();
 	HashMap<String,DistXfmrCodeOCTest> mapCodeOCTests = new HashMap<>();
 	HashMap<String,DistXfmrCodeRating> mapCodeRatings = new HashMap<>();
@@ -463,6 +465,16 @@ public class CIMImporter extends Object {
 			DistHouse obj = new DistHouse (results);
 			mapHouses.put (obj.GetKey(), obj);
 		}
+		((ResultSetCloseable)results).close();
+	}
+
+	void LoadSyncMachines() {
+		ResultSet results = queryHandler.query (DistSyncMachine.szQUERY);
+		while (results.hasNext()) {
+			DistSyncMachine obj = new DistSyncMachine (results);
+			mapSyncMachines.put (obj.GetKey(), obj);
+		}
+		((ResultSetCloseable)results).close();
 	}
 
 	public void PrintOneMap(HashMap<String,? extends DistComponent> map, String label) {
@@ -508,6 +520,7 @@ public class CIMImporter extends Object {
 		PrintOneMap (mapBanks, "** XFMR BANKS");
 		PrintOneMap (mapTanks, "** XFMR TANKS");
 		PrintOneMap (mapHouses, "** HOUSES");
+		PrintOneMap (mapSyncMachines, "** SYNC MACHINES");
 	}
 
 	public void LoadAllMaps() {
@@ -546,6 +559,7 @@ public class CIMImporter extends Object {
 		LoadXfmrBanks();
 		LoadFeeders();
 		LoadHouses();
+		LoadSyncMachines();
 		allMapsLoaded = true;
 	}
 
@@ -561,9 +575,9 @@ public class CIMImporter extends Object {
 		if (nLinks < 1) {
 			throw new RuntimeException ("no lines, transformers or switches");
 		}
-		nNodes = mapLoads.size() + mapCapacitors.size() + mapSolars.size() + mapStorages.size();
+		nNodes = mapLoads.size() + mapCapacitors.size() + mapSolars.size() + mapStorages.size() + mapSyncMachines.size();
 		if (nNodes < 1) {
-			throw new RuntimeException ("no loads, capacitors, solar PV or batteries");
+			throw new RuntimeException ("no loads, capacitors, synchronous machines, solar PV or batteries");
 		}
 		return true;
 	}
@@ -614,6 +628,7 @@ public class CIMImporter extends Object {
 				out.println("\"regionID\":\"" + fdr.regionID + "\",");
 			}
 		}
+		WriteMapDictionary (mapSyncMachines, "synchronousmachines", false, out);
 		WriteMapDictionary (mapCapacitors, "capacitors", false, out);
 		WriteMapDictionary (mapRegulators, "regulators", false, out);
 		WriteMapDictionary (mapSolars, "solarpanels", false, out);
@@ -669,6 +684,7 @@ public class CIMImporter extends Object {
 		}
 
 		WriteMapSymbols (mapSubstations, "swing_nodes", false, out);
+		WriteMapSymbols (mapSyncMachines, "synchronousmachines", false, out);
 		WriteMapSymbols (mapCapacitors, "capacitors", false, out);
 		WriteMapSymbols (mapSolars, "solarpanels", false, out);
 		WriteMapSymbols (mapStorages, "batteries", false, out);
@@ -904,6 +920,13 @@ public class CIMImporter extends Object {
 			nd.nomvln = obj.basev / Math.sqrt(3.0);
 			nd.AddPhases (obj.phs);
 		}
+		for (HashMap.Entry<String,DistSyncMachine> pair : mapSyncMachines.entrySet()) {
+			DistSyncMachine obj = pair.getValue();
+			GldNode nd = mapNodes.get (obj.bus);
+			nd.bSyncMachines = true;
+			nd.nomvln = obj.ratedU / Math.sqrt(3.0);
+			nd.AddPhases (obj.phases);
+		}
 		for (HashMap.Entry<String, DistLinesInstanceZ> pair: mapLinesInstanceZ.entrySet()) {
 			DistLinesInstanceZ obj = pair.getValue();
 			GldNode nd1 = mapNodes.get (obj.bus1);
@@ -978,10 +1001,10 @@ public class CIMImporter extends Object {
 			if (obj.glm_phases.equals("S")) {  // TODO - we should be using a graph component like networkx (but for Java) to assign phasing
 				String phs1 = nd1.GetPhases();
 				String phs2 = nd2.GetPhases();
-				if (phs1.contains ("S")) {
+				if (phs1.length() > 1 && phs1.contains ("S")) {
 					obj.glm_phases = nd1.GetPhases();
 					nd2.ResetPhases (phs1);
-				} else if (phs2.contains ("S")) {
+				} else if (phs2.length() > 1 && phs2.contains ("S")) {
 					obj.glm_phases = nd2.GetPhases();
 					nd1.ResetPhases (phs2);
 				}
@@ -1006,7 +1029,7 @@ public class CIMImporter extends Object {
 		for (HashMap.Entry<String,DistSolar> pair : mapSolars.entrySet()) {
 			DistSolar obj = pair.getValue();
 			GldNode nd = mapNodes.get (obj.bus);
-			nd.bInverters = true;
+			nd.bSolarInverters = true;
 			if (nd.nomvln < 0.0) {
 				if (obj.phases.equals("ABC") || obj.phases.equals("AB") || obj.phases.equals("AC") || obj.phases.equals("BC")) {
 					nd.nomvln = obj.ratedU / Math.sqrt(3.0);
@@ -1022,7 +1045,7 @@ public class CIMImporter extends Object {
 		for (HashMap.Entry<String,DistStorage> pair : mapStorages.entrySet()) {
 			DistStorage obj = pair.getValue();
 			GldNode nd = mapNodes.get (obj.bus);
-			nd.bInverters = true;
+			nd.bStorageInverters = true;
 			if (nd.nomvln < 0.0) {
 				if (obj.phases.equals("ABC") || obj.phases.equals("AB") || obj.phases.equals("AC") || obj.phases.equals("BC")) {
 					nd.nomvln = obj.ratedU / Math.sqrt(3.0);
@@ -1091,6 +1114,9 @@ public class CIMImporter extends Object {
 		for (HashMap.Entry<String,DistStorage> pair : mapStorages.entrySet()) {
 			out.print (pair.getValue().GetGLM());
 		}
+		for (HashMap.Entry<String,DistSyncMachine> pair : mapSyncMachines.entrySet()) {
+			out.print (pair.getValue().GetGLM());
+		}
 		for (HashMap.Entry<String,DistLinesSpacingZ> pair : mapLinesSpacingZ.entrySet()) {
 			out.print (pair.getValue().GetGLM());
 		}
@@ -1141,6 +1167,13 @@ public class CIMImporter extends Object {
 			}
 		}
 
+		// try to link all CIM measurements to the GridLAB-D objects
+		for (HashMap.Entry<String,DistMeasurement> pair : mapMeasurements.entrySet()) {
+			DistMeasurement obj = pair.getValue();
+			GldNode nd = mapNodes.get (obj.bus);
+			obj.FindSimObject (nd.loadname, nd.phases, nd.bStorageInverters, nd.bSolarInverters, nd.bSyncMachines);
+		}
+
 		out.close();
 	}
 	
@@ -1161,6 +1194,15 @@ public class CIMImporter extends Object {
 					mapBusXY.put(bus, new Double[] {obj.x, obj.y});
 				} else if (obj.cname.equals("EnergySource")) {
 					bus = mapSubstations.get(obj.name).bus;
+					mapBusXY.put(bus, new Double[] {obj.x, obj.y});
+				} else if (obj.cname.equals("BatteryUnit")) {
+					bus = mapStorages.get(obj.name).bus;
+					mapBusXY.put(bus, new Double[] {obj.x, obj.y});
+				} else if (obj.cname.equals("PhotovoltaicUnit")) {
+					bus = mapSolars.get(obj.name).bus;
+					mapBusXY.put(bus, new Double[] {obj.x, obj.y});
+				} else if (obj.cname.equals("SynchronousMachine")) {
+					bus = mapSyncMachines.get(obj.name).bus;
 					mapBusXY.put(bus, new Double[] {obj.x, obj.y});
 				} else if (obj.cname.equals("PowerTransformer")) {
 					DistXfmrTank tnk = mapTanks.get(obj.name);
@@ -1319,6 +1361,11 @@ public class CIMImporter extends Object {
 		for (HashMap.Entry<String,DistStorage> pair : mapStorages.entrySet()) {
 			out.print (pair.getValue().GetDSS());
 			outID.println ("Storage." + pair.getValue().name + "\t" + GUIDfromCIMmRID (pair.getValue().id));
+		}
+		out.println();
+		for (HashMap.Entry<String,DistSyncMachine> pair : mapSyncMachines.entrySet()) {
+			out.print (pair.getValue().GetDSS());
+			outID.println ("Generator." + pair.getValue().name + "\t" + GUIDfromCIMmRID (pair.getValue().id));
 		}
 		out.println();
 		for (HashMap.Entry<String,DistLoad> pair : mapLoads.entrySet()) {

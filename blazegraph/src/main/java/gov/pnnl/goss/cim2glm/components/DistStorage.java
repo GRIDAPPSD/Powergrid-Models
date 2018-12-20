@@ -127,7 +127,7 @@ public class DistStorage extends DistComponent {
 		StringBuilder buf = new StringBuilder ("object inverter {\n");
 
 		buf.append ("  name \"inv_" + name + "\";\n");
-		buf.append ("  parent \"" + bus + "\";\n");
+		buf.append ("  parent \"" + bus + "_stmtr\";\n");
 		if (bDelta && !phases.contains("D")) {
 			buf.append ("  phases " + phases + "D;\n");
 		} else if (!phases.contains("S") && !phases.contains("N")) {
@@ -138,10 +138,10 @@ public class DistStorage extends DistComponent {
 		buf.append ("  generator_status ONLINE;\n");
 		buf.append ("  generator_mode CONSTANT_PQ;\n");
 		buf.append ("  inverter_type FOUR_QUADRANT;\n");
-		buf.append ("  four_quadrant_control_mode LOAD_FOLLOWING;\n");
+		buf.append ("  four_quadrant_control_mode CONSTANT_PQ; // LOAD_FOLLOWING;\n");
 		buf.append ("  charge_lockout_time 1;\n");
 		buf.append ("  discharge_lockout_time 1;\n");
-		buf.append ("  sense_object \"" + bus + "\";\n");
+		buf.append ("  sense_object \"" + bus + "_stmtr\";\n");
 		buf.append ("  charge_on_threshold " + df3.format (-0.02 * ratedS) + ";\n");
 		buf.append ("  charge_off_threshold " + df3.format (0.0 * ratedS) + ";\n");
 		buf.append ("  discharge_off_threshold " + df3.format (0.4 * ratedS) + ";\n");
@@ -151,6 +151,8 @@ public class DistStorage extends DistComponent {
 		buf.append ("  rated_power " + df3.format (ratedS) + ";\n");
 		buf.append ("  max_charge_rate " + df3.format (ratedS) + ";\n");
 		buf.append ("  max_discharge_rate " + df3.format (ratedS) + ";\n");
+		buf.append ("  P_Out " + df3.format (p) + ";\n");
+		buf.append ("  Q_Out " + df3.format (q) + ";\n");
 		buf.append ("  object battery {\n");
 		buf.append ("    name \"bat_" + name + "\";\n");
 		buf.append ("    nominal_voltage 48;\n");
@@ -184,9 +186,9 @@ public class DistStorage extends DistComponent {
 
 		buf.append (" phases=" + Integer.toString(nphases) + " bus1=" + DSSShuntPhases (bus, phases, bDelta) + 
 								" conn=" + DSSConn(bDelta) + " kva=" + df3.format(kva) + " kv=" + df3.format(kv) +
-								" kwrated=" + df3.format(kva) + " kwhrated=" + df3.format(0.001 * ratedE) + 
+								" kwhrated=" + df3.format(0.001 * ratedE) + 
 								" kwhstored=" + df3.format(0.001 * storedE) + " state=" + DSSBatteryState(state) +
-								" vminpu=" + df4.format(1/maxIFault) + " LimitCurrent=yes");
+								" vminpu=" + df4.format(1/maxIFault) + " LimitCurrent=yes kw=" + df2.format(p/1000.0));
 		buf.append("\n");
 
 		return buf.toString();

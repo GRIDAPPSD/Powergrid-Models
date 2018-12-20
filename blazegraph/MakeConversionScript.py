@@ -9,9 +9,10 @@ def append_cases(casefiles, dsspath, outpath, region, subregion, fp):
         print('solve', file=fp)
         print('cd', outpath, file=fp)
         print('export summary', c[1] + '.csv', file=fp)
-        print('export cdpsmcombined', 'file=' + c[1] + '.xml', 'geo=' + region, 'subgeo=' + subregion, file=fp)
+        print('export cdpsmcombined', 'file=' + c[1] + '.xml', 'geo=' + region, 'subgeo=' + subregion,
+							'fid='+c[2], 'sid='+c[3], 'sgrid='+c[4], 'rgnid='+c[5], file=fp)
 
-fp = open ("ConvertCDPSM.dss", "w")
+fp = open ('ConvertCDPSM.dss', 'w')
 
 if sys.platform == 'win32':
     outpath = 'c:/gridapps-d/powergrid-models/blazegraph/test/'
@@ -37,9 +38,9 @@ else:
     taxpath = srcpath + 'GRIDAPPSD/Powergrid-Models/taxonomy/'
     dpvpath = srcpath + 'epri_dpv/'
 
-casefiles = [['IEEE13_CDPSM', 'IEEE13'],
-             ['IEEE13_Assets', 'IEEE13_Assets']]
-append_cases(casefiles, cimpath, outpath, 'ieee', 'test', fp)
+#casefiles = [['IEEE13_CDPSM', 'IEEE13'],
+#             ['IEEE13_Assets', 'IEEE13_Assets']]
+#append_cases(casefiles, cimpath, outpath, 'ieee', 'test', fp)
 
 #casefiles = [['./8500-Node/Master', 'IEEE8500'],
 #            ['./34Bus/ieee34Mod2', 'IEEE34'],
@@ -52,9 +53,9 @@ append_cases(casefiles, cimpath, outpath, 'ieee', 'test', fp)
 #            ['./4Bus-YD-Bal/4Bus-YD-Bal', 'YD-bal'],
 #            ['./4Bus-YY-Bal/4Bus-YY-Bal', 'YY-bal'],
 #            ['./8500-Node/Master-unbal', 'IEEE8500u']]
-casefiles = [['./8500-Node/Master', 'IEEE8500'],
-            ['./123Bus/IEEE123Master', 'IEEE123']]
-append_cases(casefiles, ieeepath, outpath, 'ieee', 'large',  fp)
+#casefiles = [['./8500-Node/Master', 'IEEE8500'],
+#            ['./123Bus/IEEE123Master', 'IEEE123']]
+#append_cases(casefiles, ieeepath, outpath, 'ieee', 'large',  fp)
 
 #casefiles = [['./ckt5/Master_ckt5', 'EPRI5'],
 #             ['./ckt7/Master_ckt7', 'EPRI7'],
@@ -85,12 +86,13 @@ append_cases(casefiles, ieeepath, outpath, 'ieee', 'large',  fp)
 #             ['./new_R5_12_47_5/Master', 'R5_12_47_5'],
 #             ['./new_R5_25_00_1/Master', 'R5_25_00_1'],
 #             ['./new_R5_35_00_1/Master', 'R5_35_00_1']]
-casefiles = [['./new_R2_12_47_2/Master', 'R2_12_47_2']]
+# input_name, output_name, fid, sid, sgrid, rgnid
+casefiles = [['./new_R2_12_47_2/Master', 'R2_12_47_2', '9CE150A8-8CC5-A0F9-B67E-BBD8C79D3095', '933D85C1-BE1C-4C05-D4DD-4B41D941C52C', '656EE259-23FF-086E-1DC0-39CB9DC60A20', '79C9D814-3CE0-DC11-534D-BDA1AF949810']]
 append_cases(casefiles, taxpath, outpath, 'pnnl', 'taxonomy', fp)
 #
-casefiles = [['./J1/Master_noPV', 'EPRI_DPV_J1']]
+#casefiles = [['./J1/Master_noPV', 'EPRI_DPV_J1']]
 #             ['./K1/Master_NoPV', 'EPRI_DPV_K1'],
 #             ['./M1/master_NoPV', 'EPRI_DPV_M1']]
-append_cases(casefiles, dpvpath, outpath, 'epri', 'dpv', fp)
+#append_cases(casefiles, dpvpath, outpath, 'epri', 'dpv', fp)
 
 fp.close()

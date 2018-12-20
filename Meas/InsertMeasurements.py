@@ -68,6 +68,14 @@ for ln in lines:
 		id2 = uuid.uuid4()
 		InsertMeasurement ('Analog', id1, 'EnergyConsumer_' + toks[1], eqid, trmid, 'PNV', phases)
 		InsertMeasurement ('Analog', id2, 'EnergyConsumer_' + toks[1], eqid, trmid, 'VA', phases)
+	if toks[0] == 'SynchronousMachine':
+	  phases = toks[3]
+	  eqid = toks[4]
+	  trmid = toks[5]
+	  id1 = uuid.uuid4()
+	  id2 = uuid.uuid4()
+	  InsertMeasurement ('Analog', id1, 'SynchronousMachine_' + toks[1], eqid, trmid, 'PNV', phases)
+	  InsertMeasurement ('Analog', id2, 'SynchronousMachine_' + toks[1], eqid, trmid, 'VA', phases)
 	if toks[0] == 'PowerElectronicsConnection' and toks[1] == 'PhotovoltaicUnit':
 		phases = toks[5]
 		eqid = toks[6]

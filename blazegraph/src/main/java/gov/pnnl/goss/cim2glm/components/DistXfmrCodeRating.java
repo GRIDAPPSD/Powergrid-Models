@@ -180,7 +180,11 @@ public class DistXfmrCodeRating extends DistComponent {
 			buf.append ("  primary_voltage " + df3.format (ratedU[0] / Math.sqrt(3.0)) + ";\n");
 			buf.append ("  secondary_voltage " + df3.format (ratedU[1] / Math.sqrt(3.0)) + ";\n");
 		}
-		buf.append ("  connect_type " + sConnect + ";\n");
+		if (sConnect.equals ("Y_D")) {
+			buf.append("  connect_type WYE_WYE; // should be Y_D\n");
+		} else {
+			buf.append("  connect_type " + sConnect + ";\n");
+		}
 		if (sConnect.equals ("SINGLE_PHASE_CENTER_TAPPED")) {
 			String impedance = CFormat (new Complex (0.5 * rpu, 0.8 * xpu));
 			String impedance1 = CFormat (new Complex (rpu, 0.4 * xpu));

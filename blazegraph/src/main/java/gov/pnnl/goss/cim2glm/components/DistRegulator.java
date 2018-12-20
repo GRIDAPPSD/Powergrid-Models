@@ -367,10 +367,21 @@ public class DistRegulator extends DistComponent {
 	public String GetGLM (DistXfmrTank tank) {
 		StringBuilder buf = new StringBuilder ("object regulator_configuration {\n");
 		double dReg = 0.01 * 0.5 * incr[0] * (highStep[0] - lowStep[0]);
+		boolean bDeltaRegulator = false;
 
 		buf.append ("  name \"rcon_" + pname + "\";\n");
 		if (tank.vgrp.contains("D") || tank.vgrp.contains("d"))  {
-			buf.append ("  connect_type CLOSED_DELTA;\n");
+			bDeltaRegulator = true;
+			if (bankphases.equals ("ABBC")) {
+				buf.append("  connect_type WYE_WYE; // OPEN_DELTA_ABBC not supported for NR\n");
+			} else if (bankphases.equals ("CABA")) {
+				buf.append("  connect_type WYE_WYE; // OPEN_DELTA_CABA not supported for NR\n");
+			} else if (bankphases.equals ("BCAC")) {
+				buf.append("  connect_type WYE_WYE; // OPEN_DELTA_BCAC not supported for NR\n");
+			} else {
+				buf.append("  connect_type WYE_WYE; // CLOSED_DELTA not supported for NR\n");
+			}
+			bankphases = "ABC";
 		} else {
 			buf.append ("  connect_type WYE_WYE;\n");
 		}
@@ -391,7 +402,11 @@ public class DistRegulator extends DistComponent {
 		buf.append ("  // band_width " + df6.format(vbw[0]) + ";\n");
 		buf.append ("  // transducer ratios only apply to LINE_DROP_COMP mode\n");
 		buf.append ("  current_transducer_ratio " + df6.format(ctRatio[0]) + ";\n");
-		buf.append ("  power_transducer_ratio " + df6.format(ptRatio[0]) + ";\n");
+		if (bDeltaRegulator == true) {
+			buf.append("  power_transducer_ratio " + df6.format(ptRatio[0] / Math.sqrt(3.0)) + "; // adjusted for WYE_WYE instead of DELTA regulator connection\n");
+		} else {
+			buf.append("  power_transducer_ratio " + df6.format(ptRatio[0]) + ";\n");
+		}
 		buf.append ("  dwell_time " + df6.format(initDelay[0]) + ";\n");
 		buf.append ("  raise_taps " + Integer.toString(Math.abs (highStep[0] - neutralStep[0])) + ";\n");
 		buf.append ("  lower_taps " + Integer.toString(Math.abs (neutralStep[0] - lowStep[0])) + ";\n");
@@ -399,10 +414,10 @@ public class DistRegulator extends DistComponent {
 		buf.append ("  Type B;\n");
 		for (int i = 0; i < size; i++) {
 			int iTap = (int) Math.round((step[i] - 1.0) / incr[i] * 100.0);	// TODO - verify this should be an offset from neutralStep
-			buf.append ("  compensator_r_setting_" + phs[i] + " " + df6.format(fwdR[i]) + ";\n");
-			buf.append ("  compensator_x_setting_" + phs[i] + " " + df6.format(fwdX[i]) + ";\n");
+			buf.append ("  compensator_r_setting_" + phs[i].substring(0,1) + " " + df6.format(fwdR[i]) + ";\n");
+			buf.append ("  compensator_x_setting_" + phs[i].substring(0,1) + " " + df6.format(fwdX[i]) + ";\n");
 			buf.append ("  // comment out the manual tap setting if using automatic control\n");
-			buf.append ("  tap_pos_" + phs[i] + " " + Integer.toString(iTap) + ";\n");
+			buf.append ("  tap_pos_" + phs[i].substring(0,1) + " " + Integer.toString(iTap) + ";\n");
 		}
 		buf.append ("}\n");
 
