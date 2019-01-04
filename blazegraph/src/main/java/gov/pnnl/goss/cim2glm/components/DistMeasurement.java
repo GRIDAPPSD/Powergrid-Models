@@ -72,7 +72,11 @@ public class DistMeasurement extends DistComponent {
 				simobj = "UKNOWN INVERTER";
 			}
 		} else if (eqtype.equals("ACLineSegment")) {
-			simobj = "line_" + eqname;
+			if (phases.contains ("s")) {
+				simobj = "tpx_" + eqname;
+			} else {
+				simobj = "line_" + eqname;
+			}
 		} else if (eqtype.equals ("PowerTransformer")) { // RatioTapChanger or PowerTransformer
 			if (measClass.equals("Discrete")) {
 				simobj = "reg_" + eqname;
