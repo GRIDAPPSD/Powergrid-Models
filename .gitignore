@@ -4,3 +4,4 @@
 .metadata
 .recommenders/
 *.log
+/bin/
