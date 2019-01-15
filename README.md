@@ -105,6 +105,8 @@ Usage and options for ```java gov.pnnl.goss.cim2glm.CIMImporter [options] output
 * ```-z={0..1}          // constant Z portion (defaults to 0 for CIM-defined LoadResponseCharacteristic)```
 * ```-i={0..1}          // constant I portion (defaults to 0 for CIM-defined LoadResponseCharacteristic)```
 * ```-p={0..1}          // constant P portion (defaults to 0 for CIM-defined LoadResponseCharacteristic)```
+* ```-r={0..1}          // determine ZIP load fraction based on given xml file or randomized fractions```
+* ```-h={0..1}          // determine if house load objects should be added to supplement EnergyConsumers```
 * ```-u={http://localhost:9999/blazegraph/namespace/kb/sparql} // blazegraph uri (if connecting over HTTP); defaults to http://localhost:9999/blazegraph/namespace/kb/sparql```
 
 ## Circuit Validation
