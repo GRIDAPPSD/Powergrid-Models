@@ -1,0 +1,9 @@
+//
+clear
+cd c:/GRIDAPPS-D/Powergrid-Models/blazegraph/
+redirect ieee3sub_base.dss
+set maxiterations=20
+set controlmode=off
+solve
+export summary ieee3sub.csv
+
