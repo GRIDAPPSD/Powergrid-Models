@@ -1,179 +1,46 @@
-<?xml version="1.0" encoding="utf-8"?>
-<repository increment="1546549295605" name="Release" xmlns="http://www.osgi.org/xmlns/repository/v1.0.0">
+<?xml version='1.0' encoding='UTF-8'?>
+<repository xmlns="http://www.osgi.org/xmlns/repository/v1.0.0" name="Release" increment="1546560335000">
   <resource>
     <capability namespace="osgi.identity">
       <attribute name="osgi.identity" value="blazegraph.cim2glm"/>
       <attribute name="type" value="osgi.bundle"/>
-      <attribute name="version" type="Version" value="0.2.0"/>
-    </capability>
-    <capability namespace="osgi.content">
-      <attribute name="osgi.content" value="0891d4cd5e21980e3057a02461eeba16dd40484eaabea081dc6d13e42a5d3031"/>
-      <attribute name="url" value="blazegraph.cim2glm/blazegraph.cim2glm-0.2.0.jar"/>
-      <attribute name="size" type="Long" value="147701"/>
-      <attribute name="mime" value="application/vnd.osgi.bundle"/>
+      <attribute name="version" value="0.3.0" type="Version"/>
     </capability>
     <capability namespace="osgi.wiring.bundle">
+      <attribute name="bundle-version" value="0.3.0" type="Version"/>
       <attribute name="osgi.wiring.bundle" value="blazegraph.cim2glm"/>
-      <attribute name="bundle-version" type="Version" value="0.2.0"/>
     </capability>
     <capability namespace="osgi.wiring.host">
+      <attribute name="bundle-version" value="0.3.0" type="Version"/>
       <attribute name="osgi.wiring.host" value="blazegraph.cim2glm"/>
-      <attribute name="bundle-version" type="Version" value="0.2.0"/>
     </capability>
     <capability namespace="osgi.wiring.package">
-      <attribute name="osgi.wiring.package" value="gov.pnnl.goss.cim2glm.queryhandler"/>
-      <attribute name="version" type="Version" value="1.0.0"/>
-      <attribute name="bundle-symbolic-name" value="blazegraph.cim2glm"/>
-      <attribute name="bundle-version" type="Version" value="0.2.0"/>
       <directive name="uses" value="org.apache.jena.query"/>
-    </capability>
-    <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(&amp;(osgi.wiring.package=gov.pnnl.goss.cim2glm.queryhandler)(version&gt;=1.0.0)(!(version&gt;=2.0.0)))"/>
-    </requirement>
-    <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(osgi.wiring.package=org.apache.commons.math3.complex)"/>
-    </requirement>
-    <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(osgi.wiring.package=org.apache.jena.query)"/>
-    </requirement>
-    <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(osgi.wiring.package=org.apache.jena.rdf.model)"/>
-    </requirement>
-    <requirement namespace="osgi.ee">
-      <directive name="filter" value="(&amp;(osgi.ee=JavaSE)(version=1.8))"/>
-    </requirement>
-  </resource>
-  <resource>
-    <capability namespace="osgi.identity">
-      <attribute name="osgi.identity" value="blazegraph.cim2glm"/>
-      <attribute name="type" value="osgi.bundle"/>
-      <attribute name="version" type="Version" value="0.2.1"/>
-    </capability>
-    <capability namespace="osgi.content">
-      <attribute name="osgi.content" value="25f2d9a5f2575f9076718ac178c096e0b1998da31e1e0ed00ac3143ba34107e8"/>
-      <attribute name="url" value="blazegraph.cim2glm/blazegraph.cim2glm-0.2.1.jar"/>
-      <attribute name="size" type="Long" value="147704"/>
-      <attribute name="mime" value="application/vnd.osgi.bundle"/>
-    </capability>
-    <capability namespace="osgi.wiring.bundle">
-      <attribute name="osgi.wiring.bundle" value="blazegraph.cim2glm"/>
-      <attribute name="bundle-version" type="Version" value="0.2.1"/>
-    </capability>
-    <capability namespace="osgi.wiring.host">
-      <attribute name="osgi.wiring.host" value="blazegraph.cim2glm"/>
-      <attribute name="bundle-version" type="Version" value="0.2.1"/>
+      <attribute name="version" value="1.0.0" type="Version"/>
+      <attribute name="osgi.wiring.package" value="gov.pnnl.goss.cim2glm.queryhandler"/>
     </capability>
     <capability namespace="osgi.wiring.package">
-      <attribute name="osgi.wiring.package" value="gov.pnnl.goss.cim2glm.queryhandler"/>
-      <attribute name="version" type="Version" value="1.0.0"/>
-      <attribute name="bundle-symbolic-name" value="blazegraph.cim2glm"/>
-      <attribute name="bundle-version" type="Version" value="0.2.1"/>
-      <directive name="uses" value="org.apache.jena.query"/>
-    </capability>
-    <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(&amp;(osgi.wiring.package=gov.pnnl.goss.cim2glm.queryhandler)(version&gt;=1.0.0)(!(version&gt;=2.0.0)))"/>
-    </requirement>
-    <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(osgi.wiring.package=org.apache.commons.math3.complex)"/>
-    </requirement>
-    <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(osgi.wiring.package=org.apache.jena.query)"/>
-    </requirement>
-    <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(osgi.wiring.package=org.apache.jena.rdf.model)"/>
-    </requirement>
-    <requirement namespace="osgi.ee">
-      <directive name="filter" value="(&amp;(osgi.ee=JavaSE)(version=1.8))"/>
-    </requirement>
-  </resource>
-  <resource>
-    <capability namespace="osgi.identity">
-      <attribute name="osgi.identity" value="blazegraph.cim2glm"/>
-      <attribute name="type" value="osgi.bundle"/>
-      <attribute name="version" type="Version" value="0.2.2"/>
+      <directive name="uses" value="gov.pnnl.goss.cim2glm.queryhandler"/>
+      <attribute name="version" value="1.0.0" type="Version"/>
+      <attribute name="osgi.wiring.package" value="gov.pnnl.goss.cim2glm"/>
     </capability>
     <capability namespace="osgi.content">
-      <attribute name="osgi.content" value="d06413c4fa4971d34cdbbe4f0e1c4ef16d9337a65fb7b0a4b82628415803a91d"/>
-      <attribute name="url" value="blazegraph.cim2glm/blazegraph.cim2glm-0.2.2.jar"/>
-      <attribute name="size" type="Long" value="147672"/>
-      <attribute name="mime" value="application/vnd.osgi.bundle"/>
-    </capability>
-    <capability namespace="osgi.wiring.bundle">
-      <attribute name="osgi.wiring.bundle" value="blazegraph.cim2glm"/>
-      <attribute name="bundle-version" type="Version" value="0.2.2"/>
-    </capability>
-    <capability namespace="osgi.wiring.host">
-      <attribute name="osgi.wiring.host" value="blazegraph.cim2glm"/>
-      <attribute name="bundle-version" type="Version" value="0.2.2"/>
-    </capability>
-    <capability namespace="osgi.wiring.package">
-      <attribute name="osgi.wiring.package" value="gov.pnnl.goss.cim2glm.queryhandler"/>
-      <attribute name="version" type="Version" value="1.0.0"/>
-      <attribute name="bundle-symbolic-name" value="blazegraph.cim2glm"/>
-      <attribute name="bundle-version" type="Version" value="0.2.2"/>
-      <directive name="uses" value="org.apache.jena.query"/>
-    </capability>
-    <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(&amp;(osgi.wiring.package=gov.pnnl.goss.cim2glm.queryhandler)(version&gt;=1.0.0)(!(version&gt;=2.0.0)))"/>
-    </requirement>
-    <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(osgi.wiring.package=org.apache.commons.math3.complex)"/>
-    </requirement>
-    <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(osgi.wiring.package=org.apache.jena.query)"/>
-    </requirement>
-    <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(osgi.wiring.package=org.apache.jena.rdf.model)"/>
-    </requirement>
-    <requirement namespace="osgi.ee">
-      <directive name="filter" value="(&amp;(osgi.ee=JavaSE)(version=1.8))"/>
-    </requirement>
-  </resource>
-  <resource>
-    <capability namespace="osgi.identity">
-      <attribute name="osgi.identity" value="blazegraph.cim2glm"/>
-      <attribute name="type" value="osgi.bundle"/>
-      <attribute name="version" type="Version" value="0.3.0"/>
-    </capability>
-    <capability namespace="osgi.content">
-      <attribute name="osgi.content" value="b763fc699024d5798bbb42acf45eeda9117c25ab9839809a0f37ff80df2b8893"/>
+      <attribute name="size" value="147679" type="Long"/>
       <attribute name="url" value="blazegraph.cim2glm/blazegraph.cim2glm-0.3.0.jar"/>
-      <attribute name="size" type="Long" value="147679"/>
       <attribute name="mime" value="application/vnd.osgi.bundle"/>
-    </capability>
-    <capability namespace="osgi.wiring.bundle">
-      <attribute name="osgi.wiring.bundle" value="blazegraph.cim2glm"/>
-      <attribute name="bundle-version" type="Version" value="0.3.0"/>
-    </capability>
-    <capability namespace="osgi.wiring.host">
-      <attribute name="osgi.wiring.host" value="blazegraph.cim2glm"/>
-      <attribute name="bundle-version" type="Version" value="0.3.0"/>
-    </capability>
-    <capability namespace="osgi.wiring.package">
-      <attribute name="osgi.wiring.package" value="gov.pnnl.goss.cim2glm.queryhandler"/>
-      <attribute name="version" type="Version" value="1.0.0"/>
-      <attribute name="bundle-symbolic-name" value="blazegraph.cim2glm"/>
-      <attribute name="bundle-version" type="Version" value="0.3.0"/>
-      <directive name="uses" value="org.apache.jena.query"/>
-    </capability>
-    <capability namespace="osgi.wiring.package">
-      <attribute name="osgi.wiring.package" value="gov.pnnl.goss.cim2glm"/>
-      <attribute name="version" type="Version" value="1.0.0"/>
-      <attribute name="bundle-symbolic-name" value="blazegraph.cim2glm"/>
-      <attribute name="bundle-version" type="Version" value="0.3.0"/>
-      <directive name="uses" value="gov.pnnl.goss.cim2glm.queryhandler"/>
+      <attribute name="osgi.content" value="B763FC699024D5798BBB42ACF45EEDA9117C25AB9839809A0F37FF80DF2B8893"/>
     </capability>
     <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(&amp;(osgi.wiring.package=gov.pnnl.goss.cim2glm.queryhandler)(version&gt;=1.0.0)(!(version&gt;=2.0.0)))"/>
+      <directive name="filter" value="(&amp;(osgi.wiring.package=gov.pnnl.goss.cim2glm.queryhandler)(&amp;(version&gt;=1.0.0)(!(version&gt;=2.0.0))))"/>
     </requirement>
     <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(osgi.wiring.package=org.apache.commons.math3.complex)"/>
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.apache.commons.math3.complex))"/>
     </requirement>
     <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(osgi.wiring.package=org.apache.jena.query)"/>
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.apache.jena.query))"/>
     </requirement>
     <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(osgi.wiring.package=org.apache.jena.rdf.model)"/>
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.apache.jena.rdf.model))"/>
     </requirement>
     <requirement namespace="osgi.ee">
       <directive name="filter" value="(&amp;(osgi.ee=JavaSE)(version=1.8))"/>
@@ -183,497 +50,43 @@
     <capability namespace="osgi.identity">
       <attribute name="osgi.identity" value="blazegraph.cim2glm"/>
       <attribute name="type" value="osgi.bundle"/>
-      <attribute name="version" type="Version" value="1.0.1"/>
-    </capability>
-    <capability namespace="osgi.content">
-      <attribute name="osgi.content" value="0857bca02c786dee87d4b960219d4e4c0437e91eaf7ab87eddce1c25c98f3689"/>
-      <attribute name="url" value="blazegraph.cim2glm/blazegraph.cim2glm-1.0.1.jar"/>
-      <attribute name="size" type="Long" value="170507"/>
-      <attribute name="mime" value="application/vnd.osgi.bundle"/>
+      <attribute name="version" value="4.0.0" type="Version"/>
     </capability>
     <capability namespace="osgi.wiring.bundle">
+      <attribute name="bundle-version" value="4.0.0" type="Version"/>
       <attribute name="osgi.wiring.bundle" value="blazegraph.cim2glm"/>
-      <attribute name="bundle-version" type="Version" value="1.0.1"/>
     </capability>
     <capability namespace="osgi.wiring.host">
+      <attribute name="bundle-version" value="4.0.0" type="Version"/>
       <attribute name="osgi.wiring.host" value="blazegraph.cim2glm"/>
-      <attribute name="bundle-version" type="Version" value="1.0.1"/>
     </capability>
     <capability namespace="osgi.wiring.package">
-      <attribute name="osgi.wiring.package" value="gov.pnnl.goss.cim2glm.queryhandler"/>
-      <attribute name="version" type="Version" value="1.0.0"/>
-      <attribute name="bundle-symbolic-name" value="blazegraph.cim2glm"/>
-      <attribute name="bundle-version" type="Version" value="1.0.1"/>
       <directive name="uses" value="org.apache.jena.query"/>
+      <attribute name="version" value="1.0.0" type="Version"/>
+      <attribute name="osgi.wiring.package" value="gov.pnnl.goss.cim2glm.queryhandler"/>
     </capability>
     <capability namespace="osgi.wiring.package">
-      <attribute name="osgi.wiring.package" value="gov.pnnl.goss.cim2glm"/>
-      <attribute name="version" type="Version" value="2.0.0"/>
-      <attribute name="bundle-symbolic-name" value="blazegraph.cim2glm"/>
-      <attribute name="bundle-version" type="Version" value="1.0.1"/>
       <directive name="uses" value="gov.pnnl.goss.cim2glm.queryhandler"/>
-    </capability>
-    <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(&amp;(osgi.wiring.package=gov.pnnl.goss.cim2glm.queryhandler)(version&gt;=1.0.0)(!(version&gt;=2.0.0)))"/>
-    </requirement>
-    <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(osgi.wiring.package=org.apache.commons.math3.complex)"/>
-    </requirement>
-    <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(osgi.wiring.package=org.apache.jena.query)"/>
-    </requirement>
-    <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(osgi.wiring.package=org.apache.jena.rdf.model)"/>
-    </requirement>
-    <requirement namespace="osgi.ee">
-      <directive name="filter" value="(&amp;(osgi.ee=JavaSE)(version=1.8))"/>
-    </requirement>
-  </resource>
-  <resource>
-    <capability namespace="osgi.identity">
-      <attribute name="osgi.identity" value="blazegraph.cim2glm"/>
-      <attribute name="type" value="osgi.bundle"/>
-      <attribute name="version" type="Version" value="1.0.2"/>
+      <attribute name="version" value="1.2.0" type="Version"/>
+      <attribute name="osgi.wiring.package" value="gov.pnnl.goss.cim2glm"/>
     </capability>
     <capability namespace="osgi.content">
-      <attribute name="osgi.content" value="eb4e665d97d1d70546feb89ecefab10a11a8d11f74002296b54d95626bbfbcfe"/>
-      <attribute name="url" value="blazegraph.cim2glm/blazegraph.cim2glm-1.0.2.jar"/>
-      <attribute name="size" type="Long" value="170503"/>
-      <attribute name="mime" value="application/vnd.osgi.bundle"/>
-    </capability>
-    <capability namespace="osgi.wiring.bundle">
-      <attribute name="osgi.wiring.bundle" value="blazegraph.cim2glm"/>
-      <attribute name="bundle-version" type="Version" value="1.0.2"/>
-    </capability>
-    <capability namespace="osgi.wiring.host">
-      <attribute name="osgi.wiring.host" value="blazegraph.cim2glm"/>
-      <attribute name="bundle-version" type="Version" value="1.0.2"/>
-    </capability>
-    <capability namespace="osgi.wiring.package">
-      <attribute name="osgi.wiring.package" value="gov.pnnl.goss.cim2glm.queryhandler"/>
-      <attribute name="version" type="Version" value="1.0.0"/>
-      <attribute name="bundle-symbolic-name" value="blazegraph.cim2glm"/>
-      <attribute name="bundle-version" type="Version" value="1.0.2"/>
-      <directive name="uses" value="org.apache.jena.query"/>
-    </capability>
-    <capability namespace="osgi.wiring.package">
-      <attribute name="osgi.wiring.package" value="gov.pnnl.goss.cim2glm"/>
-      <attribute name="version" type="Version" value="1.0.0"/>
-      <attribute name="bundle-symbolic-name" value="blazegraph.cim2glm"/>
-      <attribute name="bundle-version" type="Version" value="1.0.2"/>
-      <directive name="uses" value="gov.pnnl.goss.cim2glm.queryhandler"/>
-    </capability>
-    <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(&amp;(osgi.wiring.package=gov.pnnl.goss.cim2glm.queryhandler)(version&gt;=1.0.0)(!(version&gt;=2.0.0)))"/>
-    </requirement>
-    <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(osgi.wiring.package=org.apache.commons.math3.complex)"/>
-    </requirement>
-    <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(osgi.wiring.package=org.apache.jena.query)"/>
-    </requirement>
-    <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(osgi.wiring.package=org.apache.jena.rdf.model)"/>
-    </requirement>
-    <requirement namespace="osgi.ee">
-      <directive name="filter" value="(&amp;(osgi.ee=JavaSE)(version=1.8))"/>
-    </requirement>
-  </resource>
-  <resource>
-    <capability namespace="osgi.identity">
-      <attribute name="osgi.identity" value="blazegraph.cim2glm"/>
-      <attribute name="type" value="osgi.bundle"/>
-      <attribute name="version" type="Version" value="1.1.0"/>
-    </capability>
-    <capability namespace="osgi.content">
-      <attribute name="osgi.content" value="4e83d272659c2aa12cc793916403739bf842c7de74ebeca7af2d3468f8b1ec75"/>
-      <attribute name="url" value="blazegraph.cim2glm/blazegraph.cim2glm-1.1.0.jar"/>
-      <attribute name="size" type="Long" value="170499"/>
-      <attribute name="mime" value="application/vnd.osgi.bundle"/>
-    </capability>
-    <capability namespace="osgi.wiring.bundle">
-      <attribute name="osgi.wiring.bundle" value="blazegraph.cim2glm"/>
-      <attribute name="bundle-version" type="Version" value="1.1.0"/>
-    </capability>
-    <capability namespace="osgi.wiring.host">
-      <attribute name="osgi.wiring.host" value="blazegraph.cim2glm"/>
-      <attribute name="bundle-version" type="Version" value="1.1.0"/>
-    </capability>
-    <capability namespace="osgi.wiring.package">
-      <attribute name="osgi.wiring.package" value="gov.pnnl.goss.cim2glm.queryhandler"/>
-      <attribute name="version" type="Version" value="1.0.0"/>
-      <attribute name="bundle-symbolic-name" value="blazegraph.cim2glm"/>
-      <attribute name="bundle-version" type="Version" value="1.1.0"/>
-      <directive name="uses" value="org.apache.jena.query"/>
-    </capability>
-    <capability namespace="osgi.wiring.package">
-      <attribute name="osgi.wiring.package" value="gov.pnnl.goss.cim2glm"/>
-      <attribute name="version" type="Version" value="2.0.0"/>
-      <attribute name="bundle-symbolic-name" value="blazegraph.cim2glm"/>
-      <attribute name="bundle-version" type="Version" value="1.1.0"/>
-      <directive name="uses" value="gov.pnnl.goss.cim2glm.queryhandler"/>
-    </capability>
-    <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(&amp;(osgi.wiring.package=gov.pnnl.goss.cim2glm.queryhandler)(version&gt;=1.0.0)(!(version&gt;=2.0.0)))"/>
-    </requirement>
-    <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(osgi.wiring.package=org.apache.commons.math3.complex)"/>
-    </requirement>
-    <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(osgi.wiring.package=org.apache.jena.query)"/>
-    </requirement>
-    <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(osgi.wiring.package=org.apache.jena.rdf.model)"/>
-    </requirement>
-    <requirement namespace="osgi.ee">
-      <directive name="filter" value="(&amp;(osgi.ee=JavaSE)(version=1.8))"/>
-    </requirement>
-  </resource>
-  <resource>
-    <capability namespace="osgi.identity">
-      <attribute name="osgi.identity" value="blazegraph.cim2glm"/>
-      <attribute name="type" value="osgi.bundle"/>
-      <attribute name="version" type="Version" value="2.0.0"/>
-    </capability>
-    <capability namespace="osgi.content">
-      <attribute name="osgi.content" value="a8a3fbcca6b671f4b95ab698372c40cb7774a1cecd26370fea0a6ef150fc44b0"/>
-      <attribute name="url" value="blazegraph.cim2glm/blazegraph.cim2glm-2.0.0.jar"/>
-      <attribute name="size" type="Long" value="214525"/>
-      <attribute name="mime" value="application/vnd.osgi.bundle"/>
-    </capability>
-    <capability namespace="osgi.wiring.bundle">
-      <attribute name="osgi.wiring.bundle" value="blazegraph.cim2glm"/>
-      <attribute name="bundle-version" type="Version" value="2.0.0"/>
-    </capability>
-    <capability namespace="osgi.wiring.host">
-      <attribute name="osgi.wiring.host" value="blazegraph.cim2glm"/>
-      <attribute name="bundle-version" type="Version" value="2.0.0"/>
-    </capability>
-    <capability namespace="osgi.wiring.package">
-      <attribute name="osgi.wiring.package" value="gov.pnnl.goss.cim2glm.queryhandler"/>
-      <attribute name="version" type="Version" value="1.0.0"/>
-      <attribute name="bundle-symbolic-name" value="blazegraph.cim2glm"/>
-      <attribute name="bundle-version" type="Version" value="2.0.0"/>
-      <directive name="uses" value="org.apache.jena.query"/>
-    </capability>
-    <capability namespace="osgi.wiring.package">
-      <attribute name="osgi.wiring.package" value="gov.pnnl.goss.cim2glm"/>
-      <attribute name="version" type="Version" value="1.1.0"/>
-      <attribute name="bundle-symbolic-name" value="blazegraph.cim2glm"/>
-      <attribute name="bundle-version" type="Version" value="2.0.0"/>
-      <directive name="uses" value="gov.pnnl.goss.cim2glm.queryhandler"/>
-    </capability>
-    <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(&amp;(osgi.wiring.package=gov.pnnl.goss.cim2glm.queryhandler)(version&gt;=1.0.0)(!(version&gt;=2.0.0)))"/>
-    </requirement>
-    <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(osgi.wiring.package=org.apache.commons.math3.complex)"/>
-    </requirement>
-    <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(osgi.wiring.package=org.apache.jena.query)"/>
-    </requirement>
-    <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(osgi.wiring.package=org.apache.jena.rdf.model)"/>
-    </requirement>
-    <requirement namespace="osgi.ee">
-      <directive name="filter" value="(&amp;(osgi.ee=JavaSE)(version=1.8))"/>
-    </requirement>
-  </resource>
-  <resource>
-    <capability namespace="osgi.identity">
-      <attribute name="osgi.identity" value="blazegraph.cim2glm"/>
-      <attribute name="type" value="osgi.bundle"/>
-      <attribute name="version" type="Version" value="2.0.1"/>
-    </capability>
-    <capability namespace="osgi.content">
-      <attribute name="osgi.content" value="105250f01e18868e16eeffb5e663bf5147e041e8dee9c277180b3d1c4ae24a86"/>
-      <attribute name="url" value="blazegraph.cim2glm/blazegraph.cim2glm-2.0.1.jar"/>
-      <attribute name="size" type="Long" value="214530"/>
-      <attribute name="mime" value="application/vnd.osgi.bundle"/>
-    </capability>
-    <capability namespace="osgi.wiring.bundle">
-      <attribute name="osgi.wiring.bundle" value="blazegraph.cim2glm"/>
-      <attribute name="bundle-version" type="Version" value="2.0.1"/>
-    </capability>
-    <capability namespace="osgi.wiring.host">
-      <attribute name="osgi.wiring.host" value="blazegraph.cim2glm"/>
-      <attribute name="bundle-version" type="Version" value="2.0.1"/>
-    </capability>
-    <capability namespace="osgi.wiring.package">
-      <attribute name="osgi.wiring.package" value="gov.pnnl.goss.cim2glm.queryhandler"/>
-      <attribute name="version" type="Version" value="2.0.0"/>
-      <attribute name="bundle-symbolic-name" value="blazegraph.cim2glm"/>
-      <attribute name="bundle-version" type="Version" value="2.0.1"/>
-      <directive name="uses" value="org.apache.jena.query"/>
-    </capability>
-    <capability namespace="osgi.wiring.package">
-      <attribute name="osgi.wiring.package" value="gov.pnnl.goss.cim2glm"/>
-      <attribute name="version" type="Version" value="3.0.0"/>
-      <attribute name="bundle-symbolic-name" value="blazegraph.cim2glm"/>
-      <attribute name="bundle-version" type="Version" value="2.0.1"/>
-      <directive name="uses" value="gov.pnnl.goss.cim2glm.queryhandler"/>
-    </capability>
-    <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(&amp;(osgi.wiring.package=gov.pnnl.goss.cim2glm.queryhandler)(version&gt;=2.0.0)(!(version&gt;=3.0.0)))"/>
-    </requirement>
-    <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(osgi.wiring.package=org.apache.commons.math3.complex)"/>
-    </requirement>
-    <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(osgi.wiring.package=org.apache.jena.query)"/>
-    </requirement>
-    <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(osgi.wiring.package=org.apache.jena.rdf.model)"/>
-    </requirement>
-    <requirement namespace="osgi.ee">
-      <directive name="filter" value="(&amp;(osgi.ee=JavaSE)(version=1.8))"/>
-    </requirement>
-  </resource>
-  <resource>
-    <capability namespace="osgi.identity">
-      <attribute name="osgi.identity" value="blazegraph.cim2glm"/>
-      <attribute name="type" value="osgi.bundle"/>
-      <attribute name="version" type="Version" value="3.0.0"/>
-    </capability>
-    <capability namespace="osgi.content">
-      <attribute name="osgi.content" value="6bc961d2a15ffe2ad2f7e73e651bfed03733b7b512089bdb17d20b2ae8f05b65"/>
-      <attribute name="url" value="blazegraph.cim2glm/blazegraph.cim2glm-3.0.0.jar"/>
-      <attribute name="size" type="Long" value="213892"/>
-      <attribute name="mime" value="application/vnd.osgi.bundle"/>
-    </capability>
-    <capability namespace="osgi.wiring.bundle">
-      <attribute name="osgi.wiring.bundle" value="blazegraph.cim2glm"/>
-      <attribute name="bundle-version" type="Version" value="3.0.0"/>
-    </capability>
-    <capability namespace="osgi.wiring.host">
-      <attribute name="osgi.wiring.host" value="blazegraph.cim2glm"/>
-      <attribute name="bundle-version" type="Version" value="3.0.0"/>
-    </capability>
-    <capability namespace="osgi.wiring.package">
-      <attribute name="osgi.wiring.package" value="gov.pnnl.goss.cim2glm.queryhandler"/>
-      <attribute name="version" type="Version" value="1.0.0"/>
-      <attribute name="bundle-symbolic-name" value="blazegraph.cim2glm"/>
-      <attribute name="bundle-version" type="Version" value="3.0.0"/>
-      <directive name="uses" value="org.apache.jena.query"/>
-    </capability>
-    <capability namespace="osgi.wiring.package">
-      <attribute name="osgi.wiring.package" value="gov.pnnl.goss.cim2glm"/>
-      <attribute name="version" type="Version" value="1.1.0"/>
-      <attribute name="bundle-symbolic-name" value="blazegraph.cim2glm"/>
-      <attribute name="bundle-version" type="Version" value="3.0.0"/>
-      <directive name="uses" value="gov.pnnl.goss.cim2glm.queryhandler"/>
-    </capability>
-    <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(&amp;(osgi.wiring.package=gov.pnnl.goss.cim2glm.queryhandler)(version&gt;=1.0.0)(!(version&gt;=2.0.0)))"/>
-    </requirement>
-    <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(osgi.wiring.package=org.apache.commons.math3.complex)"/>
-    </requirement>
-    <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(osgi.wiring.package=org.apache.jena.query)"/>
-    </requirement>
-    <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(osgi.wiring.package=org.apache.jena.rdf.model)"/>
-    </requirement>
-    <requirement namespace="osgi.ee">
-      <directive name="filter" value="(&amp;(osgi.ee=JavaSE)(version=1.8))"/>
-    </requirement>
-  </resource>
-  <resource>
-    <capability namespace="osgi.identity">
-      <attribute name="osgi.identity" value="blazegraph.cim2glm"/>
-      <attribute name="type" value="osgi.bundle"/>
-      <attribute name="version" type="Version" value="3.1.0"/>
-    </capability>
-    <capability namespace="osgi.content">
-      <attribute name="osgi.content" value="a0bdd282411d657e10a79273c07d19424213ecd22d61da7a01564a0ce3cbcb14"/>
-      <attribute name="url" value="blazegraph.cim2glm/blazegraph.cim2glm-3.1.0.jar"/>
-      <attribute name="size" type="Long" value="213194"/>
-      <attribute name="mime" value="application/vnd.osgi.bundle"/>
-    </capability>
-    <capability namespace="osgi.wiring.bundle">
-      <attribute name="osgi.wiring.bundle" value="blazegraph.cim2glm"/>
-      <attribute name="bundle-version" type="Version" value="3.1.0"/>
-    </capability>
-    <capability namespace="osgi.wiring.host">
-      <attribute name="osgi.wiring.host" value="blazegraph.cim2glm"/>
-      <attribute name="bundle-version" type="Version" value="3.1.0"/>
-    </capability>
-    <capability namespace="osgi.wiring.package">
-      <attribute name="osgi.wiring.package" value="gov.pnnl.goss.cim2glm.queryhandler"/>
-      <attribute name="version" type="Version" value="3.1.0"/>
-      <attribute name="bundle-symbolic-name" value="blazegraph.cim2glm"/>
-      <attribute name="bundle-version" type="Version" value="3.1.0"/>
-      <directive name="uses" value="org.apache.jena.query"/>
-    </capability>
-    <capability namespace="osgi.wiring.package">
-      <attribute name="osgi.wiring.package" value="gov.pnnl.goss.cim2glm"/>
-      <attribute name="version" type="Version" value="3.1.0"/>
-      <attribute name="bundle-symbolic-name" value="blazegraph.cim2glm"/>
-      <attribute name="bundle-version" type="Version" value="3.1.0"/>
-      <directive name="uses" value="gov.pnnl.goss.cim2glm.queryhandler"/>
-    </capability>
-    <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(osgi.wiring.package=gov.pnnl.goss.cim2glm.queryhandler)"/>
-    </requirement>
-    <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(osgi.wiring.package=org.apache.commons.math3.complex)"/>
-    </requirement>
-    <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(osgi.wiring.package=org.apache.jena.query)"/>
-    </requirement>
-    <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(osgi.wiring.package=org.apache.jena.rdf.model)"/>
-    </requirement>
-    <requirement namespace="osgi.ee">
-      <directive name="filter" value="(&amp;(osgi.ee=JavaSE)(version=1.8))"/>
-    </requirement>
-  </resource>
-  <resource>
-    <capability namespace="osgi.identity">
-      <attribute name="osgi.identity" value="blazegraph.cim2glm"/>
-      <attribute name="type" value="osgi.bundle"/>
-      <attribute name="version" type="Version" value="3.1.1"/>
-    </capability>
-    <capability namespace="osgi.content">
-      <attribute name="osgi.content" value="0c6ffb607d4f062bb7104cd3309b10d3161cf49c37b4cd28659aa2652df0b66c"/>
-      <attribute name="url" value="blazegraph.cim2glm/blazegraph.cim2glm-3.1.1.jar"/>
-      <attribute name="size" type="Long" value="219759"/>
-      <attribute name="mime" value="application/vnd.osgi.bundle"/>
-    </capability>
-    <capability namespace="osgi.wiring.bundle">
-      <attribute name="osgi.wiring.bundle" value="blazegraph.cim2glm"/>
-      <attribute name="bundle-version" type="Version" value="3.1.1"/>
-    </capability>
-    <capability namespace="osgi.wiring.host">
-      <attribute name="osgi.wiring.host" value="blazegraph.cim2glm"/>
-      <attribute name="bundle-version" type="Version" value="3.1.1"/>
-    </capability>
-    <capability namespace="osgi.wiring.package">
-      <attribute name="osgi.wiring.package" value="gov.pnnl.goss.cim2glm.queryhandler"/>
-      <attribute name="version" type="Version" value="1.0.0"/>
-      <attribute name="bundle-symbolic-name" value="blazegraph.cim2glm"/>
-      <attribute name="bundle-version" type="Version" value="3.1.1"/>
-      <directive name="uses" value="org.apache.jena.query"/>
-    </capability>
-    <capability namespace="osgi.wiring.package">
-      <attribute name="osgi.wiring.package" value="gov.pnnl.goss.cim2glm"/>
-      <attribute name="version" type="Version" value="1.2.0"/>
-      <attribute name="bundle-symbolic-name" value="blazegraph.cim2glm"/>
-      <attribute name="bundle-version" type="Version" value="3.1.1"/>
-      <directive name="uses" value="gov.pnnl.goss.cim2glm.queryhandler"/>
-    </capability>
-    <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(&amp;(osgi.wiring.package=gov.pnnl.goss.cim2glm.queryhandler)(version&gt;=1.0.0)(!(version&gt;=2.0.0)))"/>
-    </requirement>
-    <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(osgi.wiring.package=org.apache.commons.math3.complex)"/>
-    </requirement>
-    <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(osgi.wiring.package=org.apache.jena.query)"/>
-    </requirement>
-    <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(osgi.wiring.package=org.apache.jena.rdf.model)"/>
-    </requirement>
-    <requirement namespace="osgi.ee">
-      <directive name="filter" value="(&amp;(osgi.ee=JavaSE)(version=1.8))"/>
-    </requirement>
-  </resource>
-  <resource>
-    <capability namespace="osgi.identity">
-      <attribute name="osgi.identity" value="blazegraph.cim2glm"/>
-      <attribute name="type" value="osgi.bundle"/>
-      <attribute name="version" type="Version" value="3.1.2"/>
-    </capability>
-    <capability namespace="osgi.content">
-      <attribute name="osgi.content" value="b20eb234877188d3bb503a2dcd07bc127498e33055bdd29e88d644c186bdeb64"/>
-      <attribute name="url" value="blazegraph.cim2glm/blazegraph.cim2glm-3.1.2.jar"/>
-      <attribute name="size" type="Long" value="219828"/>
-      <attribute name="mime" value="application/vnd.osgi.bundle"/>
-    </capability>
-    <capability namespace="osgi.wiring.bundle">
-      <attribute name="osgi.wiring.bundle" value="blazegraph.cim2glm"/>
-      <attribute name="bundle-version" type="Version" value="3.1.2"/>
-    </capability>
-    <capability namespace="osgi.wiring.host">
-      <attribute name="osgi.wiring.host" value="blazegraph.cim2glm"/>
-      <attribute name="bundle-version" type="Version" value="3.1.2"/>
-    </capability>
-    <capability namespace="osgi.wiring.package">
-      <attribute name="osgi.wiring.package" value="gov.pnnl.goss.cim2glm.queryhandler"/>
-      <attribute name="version" type="Version" value="3.1.0"/>
-      <attribute name="bundle-symbolic-name" value="blazegraph.cim2glm"/>
-      <attribute name="bundle-version" type="Version" value="3.1.2"/>
-      <directive name="uses" value="org.apache.jena.query"/>
-    </capability>
-    <capability namespace="osgi.wiring.package">
-      <attribute name="osgi.wiring.package" value="gov.pnnl.goss.cim2glm"/>
-      <attribute name="version" type="Version" value="3.1.0"/>
-      <attribute name="bundle-symbolic-name" value="blazegraph.cim2glm"/>
-      <attribute name="bundle-version" type="Version" value="3.1.2"/>
-      <directive name="uses" value="gov.pnnl.goss.cim2glm.queryhandler"/>
-    </capability>
-    <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(&amp;(osgi.wiring.package=gov.pnnl.goss.cim2glm.queryhandler)(version&gt;=3.1.0)(!(version&gt;=4.0.0)))"/>
-    </requirement>
-    <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(osgi.wiring.package=org.apache.commons.math3.complex)"/>
-    </requirement>
-    <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(osgi.wiring.package=org.apache.jena.query)"/>
-    </requirement>
-    <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(osgi.wiring.package=org.apache.jena.rdf.model)"/>
-    </requirement>
-    <requirement namespace="osgi.ee">
-      <directive name="filter" value="(&amp;(osgi.ee=JavaSE)(version=1.8))"/>
-    </requirement>
-  </resource>
-  <resource>
-    <capability namespace="osgi.identity">
-      <attribute name="osgi.identity" value="blazegraph.cim2glm"/>
-      <attribute name="type" value="osgi.bundle"/>
-      <attribute name="version" type="Version" value="4.0.0"/>
-    </capability>
-    <capability namespace="osgi.content">
-      <attribute name="osgi.content" value="fb63e7adcd580a88e907bfc372d6ff9c16822cb8b2f13fc826152471fe0fd926"/>
+      <attribute name="size" value="220579" type="Long"/>
       <attribute name="url" value="blazegraph.cim2glm/blazegraph.cim2glm-4.0.0.jar"/>
-      <attribute name="size" type="Long" value="220579"/>
       <attribute name="mime" value="application/vnd.osgi.bundle"/>
-    </capability>
-    <capability namespace="osgi.wiring.bundle">
-      <attribute name="osgi.wiring.bundle" value="blazegraph.cim2glm"/>
-      <attribute name="bundle-version" type="Version" value="4.0.0"/>
-    </capability>
-    <capability namespace="osgi.wiring.host">
-      <attribute name="osgi.wiring.host" value="blazegraph.cim2glm"/>
-      <attribute name="bundle-version" type="Version" value="4.0.0"/>
-    </capability>
-    <capability namespace="osgi.wiring.package">
-      <attribute name="osgi.wiring.package" value="gov.pnnl.goss.cim2glm.queryhandler"/>
-      <attribute name="version" type="Version" value="1.0.0"/>
-      <attribute name="bundle-symbolic-name" value="blazegraph.cim2glm"/>
-      <attribute name="bundle-version" type="Version" value="4.0.0"/>
-      <directive name="uses" value="org.apache.jena.query"/>
-    </capability>
-    <capability namespace="osgi.wiring.package">
-      <attribute name="osgi.wiring.package" value="gov.pnnl.goss.cim2glm"/>
-      <attribute name="version" type="Version" value="1.2.0"/>
-      <attribute name="bundle-symbolic-name" value="blazegraph.cim2glm"/>
-      <attribute name="bundle-version" type="Version" value="4.0.0"/>
-      <directive name="uses" value="gov.pnnl.goss.cim2glm.queryhandler"/>
+      <attribute name="osgi.content" value="FB63E7ADCD580A88E907BFC372D6FF9C16822CB8B2F13FC826152471FE0FD926"/>
     </capability>
     <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(&amp;(osgi.wiring.package=gov.pnnl.goss.cim2glm.queryhandler)(version&gt;=1.0.0)(!(version&gt;=2.0.0)))"/>
+      <directive name="filter" value="(&amp;(osgi.wiring.package=gov.pnnl.goss.cim2glm.queryhandler)(&amp;(version&gt;=1.0.0)(!(version&gt;=2.0.0))))"/>
     </requirement>
     <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(osgi.wiring.package=org.apache.commons.math3.complex)"/>
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.apache.commons.math3.complex))"/>
     </requirement>
     <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(osgi.wiring.package=org.apache.jena.query)"/>
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.apache.jena.query))"/>
     </requirement>
     <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(osgi.wiring.package=org.apache.jena.rdf.model)"/>
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.apache.jena.rdf.model))"/>
     </requirement>
     <requirement namespace="osgi.ee">
       <directive name="filter" value="(&amp;(osgi.ee=JavaSE)(version=1.8))"/>
@@ -683,47 +96,43 @@
     <capability namespace="osgi.identity">
       <attribute name="osgi.identity" value="blazegraph.cim2glm"/>
       <attribute name="type" value="osgi.bundle"/>
-      <attribute name="version" type="Version" value="4.0.1"/>
-    </capability>
-    <capability namespace="osgi.content">
-      <attribute name="osgi.content" value="03bd007ee7950e05fe5e027cbf0e454dc972389c04f5ce00f77fb0c19fecdf7b"/>
-      <attribute name="url" value="blazegraph.cim2glm/blazegraph.cim2glm-4.0.1.jar"/>
-      <attribute name="size" type="Long" value="220516"/>
-      <attribute name="mime" value="application/vnd.osgi.bundle"/>
+      <attribute name="version" value="3.1.0" type="Version"/>
     </capability>
     <capability namespace="osgi.wiring.bundle">
+      <attribute name="bundle-version" value="3.1.0" type="Version"/>
       <attribute name="osgi.wiring.bundle" value="blazegraph.cim2glm"/>
-      <attribute name="bundle-version" type="Version" value="4.0.1"/>
     </capability>
     <capability namespace="osgi.wiring.host">
+      <attribute name="bundle-version" value="3.1.0" type="Version"/>
       <attribute name="osgi.wiring.host" value="blazegraph.cim2glm"/>
-      <attribute name="bundle-version" type="Version" value="4.0.1"/>
     </capability>
     <capability namespace="osgi.wiring.package">
-      <attribute name="osgi.wiring.package" value="gov.pnnl.goss.cim2glm.queryhandler"/>
-      <attribute name="version" type="Version" value="3.1.0"/>
-      <attribute name="bundle-symbolic-name" value="blazegraph.cim2glm"/>
-      <attribute name="bundle-version" type="Version" value="4.0.1"/>
       <directive name="uses" value="org.apache.jena.query"/>
+      <attribute name="version" value="3.1.0" type="Version"/>
+      <attribute name="osgi.wiring.package" value="gov.pnnl.goss.cim2glm.queryhandler"/>
     </capability>
     <capability namespace="osgi.wiring.package">
-      <attribute name="osgi.wiring.package" value="gov.pnnl.goss.cim2glm"/>
-      <attribute name="version" type="Version" value="4.0.0"/>
-      <attribute name="bundle-symbolic-name" value="blazegraph.cim2glm"/>
-      <attribute name="bundle-version" type="Version" value="4.0.1"/>
       <directive name="uses" value="gov.pnnl.goss.cim2glm.queryhandler"/>
+      <attribute name="version" value="3.1.0" type="Version"/>
+      <attribute name="osgi.wiring.package" value="gov.pnnl.goss.cim2glm"/>
+    </capability>
+    <capability namespace="osgi.content">
+      <attribute name="size" value="213194" type="Long"/>
+      <attribute name="url" value="blazegraph.cim2glm/blazegraph.cim2glm-3.1.0.jar"/>
+      <attribute name="mime" value="application/vnd.osgi.bundle"/>
+      <attribute name="osgi.content" value="A0BDD282411D657E10A79273C07D19424213ECD22D61DA7A01564A0CE3CBCB14"/>
     </capability>
     <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(&amp;(osgi.wiring.package=gov.pnnl.goss.cim2glm.queryhandler)(version&gt;=3.1.0)(!(version&gt;=4.0.0)))"/>
+      <directive name="filter" value="(&amp;(osgi.wiring.package=gov.pnnl.goss.cim2glm.queryhandler))"/>
     </requirement>
     <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(osgi.wiring.package=org.apache.commons.math3.complex)"/>
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.apache.commons.math3.complex))"/>
     </requirement>
     <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(osgi.wiring.package=org.apache.jena.query)"/>
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.apache.jena.query))"/>
     </requirement>
     <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(osgi.wiring.package=org.apache.jena.rdf.model)"/>
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.apache.jena.rdf.model))"/>
     </requirement>
     <requirement namespace="osgi.ee">
       <directive name="filter" value="(&amp;(osgi.ee=JavaSE)(version=1.8))"/>
@@ -733,47 +142,89 @@
     <capability namespace="osgi.identity">
       <attribute name="osgi.identity" value="blazegraph.cim2glm"/>
       <attribute name="type" value="osgi.bundle"/>
-      <attribute name="version" type="Version" value="5.0.0"/>
+      <attribute name="version" value="1.0.1" type="Version"/>
+    </capability>
+    <capability namespace="osgi.wiring.bundle">
+      <attribute name="bundle-version" value="1.0.1" type="Version"/>
+      <attribute name="osgi.wiring.bundle" value="blazegraph.cim2glm"/>
+    </capability>
+    <capability namespace="osgi.wiring.host">
+      <attribute name="bundle-version" value="1.0.1" type="Version"/>
+      <attribute name="osgi.wiring.host" value="blazegraph.cim2glm"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <directive name="uses" value="org.apache.jena.query"/>
+      <attribute name="version" value="1.0.0" type="Version"/>
+      <attribute name="osgi.wiring.package" value="gov.pnnl.goss.cim2glm.queryhandler"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <directive name="uses" value="gov.pnnl.goss.cim2glm.queryhandler"/>
+      <attribute name="version" value="2.0.0" type="Version"/>
+      <attribute name="osgi.wiring.package" value="gov.pnnl.goss.cim2glm"/>
     </capability>
     <capability namespace="osgi.content">
-      <attribute name="osgi.content" value="bce42029dfbd58a6e662137fdb10e350f02229011d5d92fcf126ae257ab0e455"/>
+      <attribute name="size" value="170507" type="Long"/>
+      <attribute name="url" value="blazegraph.cim2glm/blazegraph.cim2glm-1.0.1.jar"/>
+      <attribute name="mime" value="application/vnd.osgi.bundle"/>
+      <attribute name="osgi.content" value="0857BCA02C786DEE87D4B960219D4E4C0437E91EAF7AB87EDDCE1C25C98F3689"/>
+    </capability>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=gov.pnnl.goss.cim2glm.queryhandler)(&amp;(version&gt;=1.0.0)(!(version&gt;=2.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.apache.commons.math3.complex))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.apache.jena.query))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.apache.jena.rdf.model))"/>
+    </requirement>
+    <requirement namespace="osgi.ee">
+      <directive name="filter" value="(&amp;(osgi.ee=JavaSE)(version=1.8))"/>
+    </requirement>
+  </resource>
+  <resource>
+    <capability namespace="osgi.identity">
+      <attribute name="osgi.identity" value="blazegraph.cim2glm"/>
+      <attribute name="type" value="osgi.bundle"/>
+      <attribute name="version" value="5.0.0" type="Version"/>
+    </capability>
+    <capability namespace="osgi.wiring.bundle">
+      <attribute name="bundle-version" value="5.0.0" type="Version"/>
+      <attribute name="osgi.wiring.bundle" value="blazegraph.cim2glm"/>
+    </capability>
+    <capability namespace="osgi.wiring.host">
+      <attribute name="bundle-version" value="5.0.0" type="Version"/>
+      <attribute name="osgi.wiring.host" value="blazegraph.cim2glm"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <directive name="uses" value="org.apache.jena.query"/>
+      <attribute name="version" value="1.0.0" type="Version"/>
+      <attribute name="osgi.wiring.package" value="gov.pnnl.goss.cim2glm.queryhandler"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <directive name="uses" value="gov.pnnl.goss.cim2glm.queryhandler"/>
+      <attribute name="version" value="1.2.0" type="Version"/>
+      <attribute name="osgi.wiring.package" value="gov.pnnl.goss.cim2glm"/>
+    </capability>
+    <capability namespace="osgi.content">
+      <attribute name="size" value="228688" type="Long"/>
       <attribute name="url" value="blazegraph.cim2glm/blazegraph.cim2glm-5.0.0.jar"/>
-      <attribute name="size" type="Long" value="228688"/>
       <attribute name="mime" value="application/vnd.osgi.bundle"/>
-    </capability>
-    <capability namespace="osgi.wiring.bundle">
-      <attribute name="osgi.wiring.bundle" value="blazegraph.cim2glm"/>
-      <attribute name="bundle-version" type="Version" value="5.0.0"/>
-    </capability>
-    <capability namespace="osgi.wiring.host">
-      <attribute name="osgi.wiring.host" value="blazegraph.cim2glm"/>
-      <attribute name="bundle-version" type="Version" value="5.0.0"/>
-    </capability>
-    <capability namespace="osgi.wiring.package">
-      <attribute name="osgi.wiring.package" value="gov.pnnl.goss.cim2glm.queryhandler"/>
-      <attribute name="version" type="Version" value="1.0.0"/>
-      <attribute name="bundle-symbolic-name" value="blazegraph.cim2glm"/>
-      <attribute name="bundle-version" type="Version" value="5.0.0"/>
-      <directive name="uses" value="org.apache.jena.query"/>
-    </capability>
-    <capability namespace="osgi.wiring.package">
-      <attribute name="osgi.wiring.package" value="gov.pnnl.goss.cim2glm"/>
-      <attribute name="version" type="Version" value="1.2.0"/>
-      <attribute name="bundle-symbolic-name" value="blazegraph.cim2glm"/>
-      <attribute name="bundle-version" type="Version" value="5.0.0"/>
-      <directive name="uses" value="gov.pnnl.goss.cim2glm.queryhandler"/>
+      <attribute name="osgi.content" value="BCE42029DFBD58A6E662137FDB10E350F02229011D5D92FCF126AE257AB0E455"/>
     </capability>
     <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(&amp;(osgi.wiring.package=gov.pnnl.goss.cim2glm.queryhandler)(version&gt;=1.0.0)(!(version&gt;=2.0.0)))"/>
+      <directive name="filter" value="(&amp;(osgi.wiring.package=gov.pnnl.goss.cim2glm.queryhandler)(&amp;(version&gt;=1.0.0)(!(version&gt;=2.0.0))))"/>
     </requirement>
     <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(osgi.wiring.package=org.apache.commons.math3.complex)"/>
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.apache.commons.math3.complex))"/>
     </requirement>
     <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(osgi.wiring.package=org.apache.jena.query)"/>
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.apache.jena.query))"/>
     </requirement>
     <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(osgi.wiring.package=org.apache.jena.rdf.model)"/>
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.apache.jena.rdf.model))"/>
     </requirement>
     <requirement namespace="osgi.ee">
       <directive name="filter" value="(&amp;(osgi.ee=JavaSE)(version=1.8))"/>
@@ -783,47 +234,43 @@
     <capability namespace="osgi.identity">
       <attribute name="osgi.identity" value="blazegraph.cim2glm"/>
       <attribute name="type" value="osgi.bundle"/>
-      <attribute name="version" type="Version" value="6.0.0"/>
+      <attribute name="version" value="6.0.0" type="Version"/>
+    </capability>
+    <capability namespace="osgi.wiring.bundle">
+      <attribute name="bundle-version" value="6.0.0" type="Version"/>
+      <attribute name="osgi.wiring.bundle" value="blazegraph.cim2glm"/>
+    </capability>
+    <capability namespace="osgi.wiring.host">
+      <attribute name="bundle-version" value="6.0.0" type="Version"/>
+      <attribute name="osgi.wiring.host" value="blazegraph.cim2glm"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <directive name="uses" value="org.apache.jena.query"/>
+      <attribute name="version" value="3.1.0" type="Version"/>
+      <attribute name="osgi.wiring.package" value="gov.pnnl.goss.cim2glm.queryhandler"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <directive name="uses" value="gov.pnnl.goss.cim2glm.queryhandler"/>
+      <attribute name="version" value="5.0.0" type="Version"/>
+      <attribute name="osgi.wiring.package" value="gov.pnnl.goss.cim2glm"/>
     </capability>
     <capability namespace="osgi.content">
-      <attribute name="osgi.content" value="8a8687377f09e09d944012144a77a82e57335d17e22f27d6857388f95a88f0ff"/>
+      <attribute name="size" value="246629" type="Long"/>
       <attribute name="url" value="blazegraph.cim2glm/blazegraph.cim2glm-6.0.0.jar"/>
-      <attribute name="size" type="Long" value="246629"/>
       <attribute name="mime" value="application/vnd.osgi.bundle"/>
-    </capability>
-    <capability namespace="osgi.wiring.bundle">
-      <attribute name="osgi.wiring.bundle" value="blazegraph.cim2glm"/>
-      <attribute name="bundle-version" type="Version" value="6.0.0"/>
-    </capability>
-    <capability namespace="osgi.wiring.host">
-      <attribute name="osgi.wiring.host" value="blazegraph.cim2glm"/>
-      <attribute name="bundle-version" type="Version" value="6.0.0"/>
-    </capability>
-    <capability namespace="osgi.wiring.package">
-      <attribute name="osgi.wiring.package" value="gov.pnnl.goss.cim2glm.queryhandler"/>
-      <attribute name="version" type="Version" value="3.1.0"/>
-      <attribute name="bundle-symbolic-name" value="blazegraph.cim2glm"/>
-      <attribute name="bundle-version" type="Version" value="6.0.0"/>
-      <directive name="uses" value="org.apache.jena.query"/>
-    </capability>
-    <capability namespace="osgi.wiring.package">
-      <attribute name="osgi.wiring.package" value="gov.pnnl.goss.cim2glm"/>
-      <attribute name="version" type="Version" value="5.0.0"/>
-      <attribute name="bundle-symbolic-name" value="blazegraph.cim2glm"/>
-      <attribute name="bundle-version" type="Version" value="6.0.0"/>
-      <directive name="uses" value="gov.pnnl.goss.cim2glm.queryhandler"/>
+      <attribute name="osgi.content" value="8A8687377F09E09D944012144A77A82E57335D17E22F27D6857388F95A88F0FF"/>
     </capability>
     <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(&amp;(osgi.wiring.package=gov.pnnl.goss.cim2glm.queryhandler)(version&gt;=3.1.0)(!(version&gt;=4.0.0)))"/>
+      <directive name="filter" value="(&amp;(osgi.wiring.package=gov.pnnl.goss.cim2glm.queryhandler)(&amp;(version&gt;=3.1.0)(!(version&gt;=4.0.0))))"/>
     </requirement>
     <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(osgi.wiring.package=org.apache.commons.math3.complex)"/>
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.apache.commons.math3.complex))"/>
     </requirement>
     <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(osgi.wiring.package=org.apache.jena.query)"/>
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.apache.jena.query))"/>
     </requirement>
     <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(osgi.wiring.package=org.apache.jena.rdf.model)"/>
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.apache.jena.rdf.model))"/>
     </requirement>
     <requirement namespace="osgi.ee">
       <directive name="filter" value="(&amp;(osgi.ee=JavaSE)(version=1.8))"/>
@@ -833,47 +280,43 @@
     <capability namespace="osgi.identity">
       <attribute name="osgi.identity" value="blazegraph.cim2glm"/>
       <attribute name="type" value="osgi.bundle"/>
-      <attribute name="version" type="Version" value="7.0.0"/>
+      <attribute name="version" value="7.0.0" type="Version"/>
+    </capability>
+    <capability namespace="osgi.wiring.bundle">
+      <attribute name="bundle-version" value="7.0.0" type="Version"/>
+      <attribute name="osgi.wiring.bundle" value="blazegraph.cim2glm"/>
+    </capability>
+    <capability namespace="osgi.wiring.host">
+      <attribute name="bundle-version" value="7.0.0" type="Version"/>
+      <attribute name="osgi.wiring.host" value="blazegraph.cim2glm"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <directive name="uses" value="org.apache.jena.query"/>
+      <attribute name="version" value="1.0.0" type="Version"/>
+      <attribute name="osgi.wiring.package" value="gov.pnnl.goss.cim2glm.queryhandler"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <directive name="uses" value="gov.pnnl.goss.cim2glm.queryhandler"/>
+      <attribute name="version" value="2.0.0" type="Version"/>
+      <attribute name="osgi.wiring.package" value="gov.pnnl.goss.cim2glm"/>
     </capability>
     <capability namespace="osgi.content">
-      <attribute name="osgi.content" value="e1ef5cf44185d298d5ee5279863a0cd66ab92eba600a349cd05705605a5093bd"/>
+      <attribute name="size" value="246631" type="Long"/>
       <attribute name="url" value="blazegraph.cim2glm/blazegraph.cim2glm-7.0.0.jar"/>
-      <attribute name="size" type="Long" value="246631"/>
       <attribute name="mime" value="application/vnd.osgi.bundle"/>
-    </capability>
-    <capability namespace="osgi.wiring.bundle">
-      <attribute name="osgi.wiring.bundle" value="blazegraph.cim2glm"/>
-      <attribute name="bundle-version" type="Version" value="7.0.0"/>
-    </capability>
-    <capability namespace="osgi.wiring.host">
-      <attribute name="osgi.wiring.host" value="blazegraph.cim2glm"/>
-      <attribute name="bundle-version" type="Version" value="7.0.0"/>
-    </capability>
-    <capability namespace="osgi.wiring.package">
-      <attribute name="osgi.wiring.package" value="gov.pnnl.goss.cim2glm.queryhandler"/>
-      <attribute name="version" type="Version" value="1.0.0"/>
-      <attribute name="bundle-symbolic-name" value="blazegraph.cim2glm"/>
-      <attribute name="bundle-version" type="Version" value="7.0.0"/>
-      <directive name="uses" value="org.apache.jena.query"/>
-    </capability>
-    <capability namespace="osgi.wiring.package">
-      <attribute name="osgi.wiring.package" value="gov.pnnl.goss.cim2glm"/>
-      <attribute name="version" type="Version" value="2.0.0"/>
-      <attribute name="bundle-symbolic-name" value="blazegraph.cim2glm"/>
-      <attribute name="bundle-version" type="Version" value="7.0.0"/>
-      <directive name="uses" value="gov.pnnl.goss.cim2glm.queryhandler"/>
+      <attribute name="osgi.content" value="E1EF5CF44185D298D5EE5279863A0CD66AB92EBA600A349CD05705605A5093BD"/>
     </capability>
     <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(&amp;(osgi.wiring.package=gov.pnnl.goss.cim2glm.queryhandler)(version&gt;=1.0.0)(!(version&gt;=2.0.0)))"/>
+      <directive name="filter" value="(&amp;(osgi.wiring.package=gov.pnnl.goss.cim2glm.queryhandler)(&amp;(version&gt;=1.0.0)(!(version&gt;=2.0.0))))"/>
     </requirement>
     <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(osgi.wiring.package=org.apache.commons.math3.complex)"/>
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.apache.commons.math3.complex))"/>
     </requirement>
     <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(osgi.wiring.package=org.apache.jena.query)"/>
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.apache.jena.query))"/>
     </requirement>
     <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(osgi.wiring.package=org.apache.jena.rdf.model)"/>
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.apache.jena.rdf.model))"/>
     </requirement>
     <requirement namespace="osgi.ee">
       <directive name="filter" value="(&amp;(osgi.ee=JavaSE)(version=1.8))"/>
@@ -883,47 +326,38 @@
     <capability namespace="osgi.identity">
       <attribute name="osgi.identity" value="blazegraph.cim2glm"/>
       <attribute name="type" value="osgi.bundle"/>
-      <attribute name="version" type="Version" value="7.0.1"/>
-    </capability>
-    <capability namespace="osgi.content">
-      <attribute name="osgi.content" value="78bfb06dc9fe8874c6cd0b1adadff45ad35e848b9bedb6a956dfbc424daa465a"/>
-      <attribute name="url" value="blazegraph.cim2glm/blazegraph.cim2glm-7.0.1.jar"/>
-      <attribute name="size" type="Long" value="247310"/>
-      <attribute name="mime" value="application/vnd.osgi.bundle"/>
+      <attribute name="version" value="0.2.0" type="Version"/>
     </capability>
     <capability namespace="osgi.wiring.bundle">
+      <attribute name="bundle-version" value="0.2.0" type="Version"/>
       <attribute name="osgi.wiring.bundle" value="blazegraph.cim2glm"/>
-      <attribute name="bundle-version" type="Version" value="7.0.1"/>
     </capability>
     <capability namespace="osgi.wiring.host">
+      <attribute name="bundle-version" value="0.2.0" type="Version"/>
       <attribute name="osgi.wiring.host" value="blazegraph.cim2glm"/>
-      <attribute name="bundle-version" type="Version" value="7.0.1"/>
     </capability>
     <capability namespace="osgi.wiring.package">
-      <attribute name="osgi.wiring.package" value="gov.pnnl.goss.cim2glm.queryhandler"/>
-      <attribute name="version" type="Version" value="4.0.0"/>
-      <attribute name="bundle-symbolic-name" value="blazegraph.cim2glm"/>
-      <attribute name="bundle-version" type="Version" value="7.0.1"/>
       <directive name="uses" value="org.apache.jena.query"/>
+      <attribute name="version" value="1.0.0" type="Version"/>
+      <attribute name="osgi.wiring.package" value="gov.pnnl.goss.cim2glm.queryhandler"/>
     </capability>
-    <capability namespace="osgi.wiring.package">
-      <attribute name="osgi.wiring.package" value="gov.pnnl.goss.cim2glm"/>
-      <attribute name="version" type="Version" value="5.0.0"/>
-      <attribute name="bundle-symbolic-name" value="blazegraph.cim2glm"/>
-      <attribute name="bundle-version" type="Version" value="7.0.1"/>
-      <directive name="uses" value="gov.pnnl.goss.cim2glm.queryhandler"/>
+    <capability namespace="osgi.content">
+      <attribute name="size" value="147701" type="Long"/>
+      <attribute name="url" value="blazegraph.cim2glm/blazegraph.cim2glm-0.2.0.jar"/>
+      <attribute name="mime" value="application/vnd.osgi.bundle"/>
+      <attribute name="osgi.content" value="0891D4CD5E21980E3057A02461EEBA16DD40484EAABEA081DC6D13E42A5D3031"/>
     </capability>
     <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(&amp;(osgi.wiring.package=gov.pnnl.goss.cim2glm.queryhandler)(version&gt;=4.0.0)(!(version&gt;=5.0.0)))"/>
+      <directive name="filter" value="(&amp;(osgi.wiring.package=gov.pnnl.goss.cim2glm.queryhandler)(&amp;(version&gt;=1.0.0)(!(version&gt;=2.0.0))))"/>
     </requirement>
     <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(osgi.wiring.package=org.apache.commons.math3.complex)"/>
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.apache.commons.math3.complex))"/>
     </requirement>
     <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(osgi.wiring.package=org.apache.jena.query)"/>
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.apache.jena.query))"/>
     </requirement>
     <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(osgi.wiring.package=org.apache.jena.rdf.model)"/>
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.apache.jena.rdf.model))"/>
     </requirement>
     <requirement namespace="osgi.ee">
       <directive name="filter" value="(&amp;(osgi.ee=JavaSE)(version=1.8))"/>
@@ -933,47 +367,273 @@
     <capability namespace="osgi.identity">
       <attribute name="osgi.identity" value="blazegraph.cim2glm"/>
       <attribute name="type" value="osgi.bundle"/>
-      <attribute name="version" type="Version" value="8.0.0"/>
+      <attribute name="version" value="4.0.1" type="Version"/>
+    </capability>
+    <capability namespace="osgi.wiring.bundle">
+      <attribute name="bundle-version" value="4.0.1" type="Version"/>
+      <attribute name="osgi.wiring.bundle" value="blazegraph.cim2glm"/>
+    </capability>
+    <capability namespace="osgi.wiring.host">
+      <attribute name="bundle-version" value="4.0.1" type="Version"/>
+      <attribute name="osgi.wiring.host" value="blazegraph.cim2glm"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <directive name="uses" value="org.apache.jena.query"/>
+      <attribute name="version" value="3.1.0" type="Version"/>
+      <attribute name="osgi.wiring.package" value="gov.pnnl.goss.cim2glm.queryhandler"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <directive name="uses" value="gov.pnnl.goss.cim2glm.queryhandler"/>
+      <attribute name="version" value="4.0.0" type="Version"/>
+      <attribute name="osgi.wiring.package" value="gov.pnnl.goss.cim2glm"/>
     </capability>
     <capability namespace="osgi.content">
-      <attribute name="osgi.content" value="6fc7183ab9a7d10c1c4e0c01bd849259cd32ace0338d47f7e0513e7f268371a1"/>
+      <attribute name="size" value="220516" type="Long"/>
+      <attribute name="url" value="blazegraph.cim2glm/blazegraph.cim2glm-4.0.1.jar"/>
+      <attribute name="mime" value="application/vnd.osgi.bundle"/>
+      <attribute name="osgi.content" value="03BD007EE7950E05FE5E027CBF0E454DC972389C04F5CE00F77FB0C19FECDF7B"/>
+    </capability>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=gov.pnnl.goss.cim2glm.queryhandler)(&amp;(version&gt;=3.1.0)(!(version&gt;=4.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.apache.commons.math3.complex))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.apache.jena.query))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.apache.jena.rdf.model))"/>
+    </requirement>
+    <requirement namespace="osgi.ee">
+      <directive name="filter" value="(&amp;(osgi.ee=JavaSE)(version=1.8))"/>
+    </requirement>
+  </resource>
+  <resource>
+    <capability namespace="osgi.identity">
+      <attribute name="osgi.identity" value="blazegraph.cim2glm"/>
+      <attribute name="type" value="osgi.bundle"/>
+      <attribute name="version" value="3.0.0" type="Version"/>
+    </capability>
+    <capability namespace="osgi.wiring.bundle">
+      <attribute name="bundle-version" value="3.0.0" type="Version"/>
+      <attribute name="osgi.wiring.bundle" value="blazegraph.cim2glm"/>
+    </capability>
+    <capability namespace="osgi.wiring.host">
+      <attribute name="bundle-version" value="3.0.0" type="Version"/>
+      <attribute name="osgi.wiring.host" value="blazegraph.cim2glm"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <directive name="uses" value="org.apache.jena.query"/>
+      <attribute name="version" value="1.0.0" type="Version"/>
+      <attribute name="osgi.wiring.package" value="gov.pnnl.goss.cim2glm.queryhandler"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <directive name="uses" value="gov.pnnl.goss.cim2glm.queryhandler"/>
+      <attribute name="version" value="1.1.0" type="Version"/>
+      <attribute name="osgi.wiring.package" value="gov.pnnl.goss.cim2glm"/>
+    </capability>
+    <capability namespace="osgi.content">
+      <attribute name="size" value="213892" type="Long"/>
+      <attribute name="url" value="blazegraph.cim2glm/blazegraph.cim2glm-3.0.0.jar"/>
+      <attribute name="mime" value="application/vnd.osgi.bundle"/>
+      <attribute name="osgi.content" value="6BC961D2A15FFE2AD2F7E73E651BFED03733B7B512089BDB17D20B2AE8F05B65"/>
+    </capability>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=gov.pnnl.goss.cim2glm.queryhandler)(&amp;(version&gt;=1.0.0)(!(version&gt;=2.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.apache.commons.math3.complex))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.apache.jena.query))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.apache.jena.rdf.model))"/>
+    </requirement>
+    <requirement namespace="osgi.ee">
+      <directive name="filter" value="(&amp;(osgi.ee=JavaSE)(version=1.8))"/>
+    </requirement>
+  </resource>
+  <resource>
+    <capability namespace="osgi.identity">
+      <attribute name="osgi.identity" value="blazegraph.cim2glm"/>
+      <attribute name="type" value="osgi.bundle"/>
+      <attribute name="version" value="1.1.0" type="Version"/>
+    </capability>
+    <capability namespace="osgi.wiring.bundle">
+      <attribute name="bundle-version" value="1.1.0" type="Version"/>
+      <attribute name="osgi.wiring.bundle" value="blazegraph.cim2glm"/>
+    </capability>
+    <capability namespace="osgi.wiring.host">
+      <attribute name="bundle-version" value="1.1.0" type="Version"/>
+      <attribute name="osgi.wiring.host" value="blazegraph.cim2glm"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <directive name="uses" value="org.apache.jena.query"/>
+      <attribute name="version" value="1.0.0" type="Version"/>
+      <attribute name="osgi.wiring.package" value="gov.pnnl.goss.cim2glm.queryhandler"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <directive name="uses" value="gov.pnnl.goss.cim2glm.queryhandler"/>
+      <attribute name="version" value="2.0.0" type="Version"/>
+      <attribute name="osgi.wiring.package" value="gov.pnnl.goss.cim2glm"/>
+    </capability>
+    <capability namespace="osgi.content">
+      <attribute name="size" value="170499" type="Long"/>
+      <attribute name="url" value="blazegraph.cim2glm/blazegraph.cim2glm-1.1.0.jar"/>
+      <attribute name="mime" value="application/vnd.osgi.bundle"/>
+      <attribute name="osgi.content" value="4E83D272659C2AA12CC793916403739BF842C7DE74EBECA7AF2D3468F8B1EC75"/>
+    </capability>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=gov.pnnl.goss.cim2glm.queryhandler)(&amp;(version&gt;=1.0.0)(!(version&gt;=2.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.apache.commons.math3.complex))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.apache.jena.query))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.apache.jena.rdf.model))"/>
+    </requirement>
+    <requirement namespace="osgi.ee">
+      <directive name="filter" value="(&amp;(osgi.ee=JavaSE)(version=1.8))"/>
+    </requirement>
+  </resource>
+  <resource>
+    <capability namespace="osgi.identity">
+      <attribute name="osgi.identity" value="blazegraph.cim2glm"/>
+      <attribute name="type" value="osgi.bundle"/>
+      <attribute name="version" value="8.0.2" type="Version"/>
+    </capability>
+    <capability namespace="osgi.wiring.bundle">
+      <attribute name="bundle-version" value="8.0.2" type="Version"/>
+      <attribute name="osgi.wiring.bundle" value="blazegraph.cim2glm"/>
+    </capability>
+    <capability namespace="osgi.wiring.host">
+      <attribute name="bundle-version" value="8.0.2" type="Version"/>
+      <attribute name="osgi.wiring.host" value="blazegraph.cim2glm"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <directive name="uses" value="org.apache.jena.query"/>
+      <attribute name="version" value="4.0.0" type="Version"/>
+      <attribute name="osgi.wiring.package" value="gov.pnnl.goss.cim2glm.queryhandler"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <directive name="uses" value="gov.pnnl.goss.cim2glm.queryhandler"/>
+      <attribute name="version" value="6.0.0" type="Version"/>
+      <attribute name="osgi.wiring.package" value="gov.pnnl.goss.cim2glm"/>
+    </capability>
+    <capability namespace="osgi.content">
+      <attribute name="size" value="255794" type="Long"/>
+      <attribute name="url" value="blazegraph.cim2glm/blazegraph.cim2glm-8.0.2.jar"/>
+      <attribute name="mime" value="application/vnd.osgi.bundle"/>
+      <attribute name="osgi.content" value="87B94A92D04D8BBDF14FE74EC89DF8A8BDC5C001CB2B83DF5AB71FE4C4A279EB"/>
+    </capability>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=gov.pnnl.goss.cim2glm.queryhandler)(&amp;(version&gt;=4.0.0)(!(version&gt;=5.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.apache.commons.math3.complex))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.apache.jena.query))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.apache.jena.rdf.model))"/>
+    </requirement>
+    <requirement namespace="osgi.ee">
+      <directive name="filter" value="(&amp;(osgi.ee=JavaSE)(version=1.8))"/>
+    </requirement>
+  </resource>
+  <resource>
+    <capability namespace="osgi.identity">
+      <attribute name="osgi.identity" value="blazegraph.cim2glm"/>
+      <attribute name="type" value="osgi.bundle"/>
+      <attribute name="version" value="2.0.0" type="Version"/>
+    </capability>
+    <capability namespace="osgi.wiring.bundle">
+      <attribute name="bundle-version" value="2.0.0" type="Version"/>
+      <attribute name="osgi.wiring.bundle" value="blazegraph.cim2glm"/>
+    </capability>
+    <capability namespace="osgi.wiring.host">
+      <attribute name="bundle-version" value="2.0.0" type="Version"/>
+      <attribute name="osgi.wiring.host" value="blazegraph.cim2glm"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <directive name="uses" value="org.apache.jena.query"/>
+      <attribute name="version" value="1.0.0" type="Version"/>
+      <attribute name="osgi.wiring.package" value="gov.pnnl.goss.cim2glm.queryhandler"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <directive name="uses" value="gov.pnnl.goss.cim2glm.queryhandler"/>
+      <attribute name="version" value="1.1.0" type="Version"/>
+      <attribute name="osgi.wiring.package" value="gov.pnnl.goss.cim2glm"/>
+    </capability>
+    <capability namespace="osgi.content">
+      <attribute name="size" value="214525" type="Long"/>
+      <attribute name="url" value="blazegraph.cim2glm/blazegraph.cim2glm-2.0.0.jar"/>
+      <attribute name="mime" value="application/vnd.osgi.bundle"/>
+      <attribute name="osgi.content" value="A8A3FBCCA6B671F4B95AB698372C40CB7774A1CECD26370FEA0A6EF150FC44B0"/>
+    </capability>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=gov.pnnl.goss.cim2glm.queryhandler)(&amp;(version&gt;=1.0.0)(!(version&gt;=2.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.apache.commons.math3.complex))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.apache.jena.query))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.apache.jena.rdf.model))"/>
+    </requirement>
+    <requirement namespace="osgi.ee">
+      <directive name="filter" value="(&amp;(osgi.ee=JavaSE)(version=1.8))"/>
+    </requirement>
+  </resource>
+  <resource>
+    <capability namespace="osgi.identity">
+      <attribute name="osgi.identity" value="blazegraph.cim2glm"/>
+      <attribute name="type" value="osgi.bundle"/>
+      <attribute name="version" value="8.0.0" type="Version"/>
+    </capability>
+    <capability namespace="osgi.wiring.bundle">
+      <attribute name="bundle-version" value="8.0.0" type="Version"/>
+      <attribute name="osgi.wiring.bundle" value="blazegraph.cim2glm"/>
+    </capability>
+    <capability namespace="osgi.wiring.host">
+      <attribute name="bundle-version" value="8.0.0" type="Version"/>
+      <attribute name="osgi.wiring.host" value="blazegraph.cim2glm"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <directive name="uses" value="org.apache.jena.query"/>
+      <attribute name="version" value="4.0.0" type="Version"/>
+      <attribute name="osgi.wiring.package" value="gov.pnnl.goss.cim2glm.queryhandler"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <directive name="uses" value="gov.pnnl.goss.cim2glm.queryhandler"/>
+      <attribute name="version" value="6.0.0" type="Version"/>
+      <attribute name="osgi.wiring.package" value="gov.pnnl.goss.cim2glm"/>
+    </capability>
+    <capability namespace="osgi.content">
+      <attribute name="size" value="254399" type="Long"/>
       <attribute name="url" value="blazegraph.cim2glm/blazegraph.cim2glm-8.0.0.jar"/>
-      <attribute name="size" type="Long" value="254399"/>
       <attribute name="mime" value="application/vnd.osgi.bundle"/>
-    </capability>
-    <capability namespace="osgi.wiring.bundle">
-      <attribute name="osgi.wiring.bundle" value="blazegraph.cim2glm"/>
-      <attribute name="bundle-version" type="Version" value="8.0.0"/>
-    </capability>
-    <capability namespace="osgi.wiring.host">
-      <attribute name="osgi.wiring.host" value="blazegraph.cim2glm"/>
-      <attribute name="bundle-version" type="Version" value="8.0.0"/>
-    </capability>
-    <capability namespace="osgi.wiring.package">
-      <attribute name="osgi.wiring.package" value="gov.pnnl.goss.cim2glm.queryhandler"/>
-      <attribute name="version" type="Version" value="4.0.0"/>
-      <attribute name="bundle-symbolic-name" value="blazegraph.cim2glm"/>
-      <attribute name="bundle-version" type="Version" value="8.0.0"/>
-      <directive name="uses" value="org.apache.jena.query"/>
-    </capability>
-    <capability namespace="osgi.wiring.package">
-      <attribute name="osgi.wiring.package" value="gov.pnnl.goss.cim2glm"/>
-      <attribute name="version" type="Version" value="6.0.0"/>
-      <attribute name="bundle-symbolic-name" value="blazegraph.cim2glm"/>
-      <attribute name="bundle-version" type="Version" value="8.0.0"/>
-      <directive name="uses" value="gov.pnnl.goss.cim2glm.queryhandler"/>
+      <attribute name="osgi.content" value="6FC7183AB9A7D10C1C4E0C01BD849259CD32ACE0338D47F7E0513E7F268371A1"/>
     </capability>
     <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(&amp;(osgi.wiring.package=gov.pnnl.goss.cim2glm.queryhandler)(version&gt;=4.0.0)(!(version&gt;=5.0.0)))"/>
+      <directive name="filter" value="(&amp;(osgi.wiring.package=gov.pnnl.goss.cim2glm.queryhandler)(&amp;(version&gt;=4.0.0)(!(version&gt;=5.0.0))))"/>
     </requirement>
     <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(osgi.wiring.package=org.apache.commons.math3.complex)"/>
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.apache.commons.math3.complex))"/>
     </requirement>
     <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(osgi.wiring.package=org.apache.jena.query)"/>
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.apache.jena.query))"/>
     </requirement>
     <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(osgi.wiring.package=org.apache.jena.rdf.model)"/>
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.apache.jena.rdf.model))"/>
     </requirement>
     <requirement namespace="osgi.ee">
       <directive name="filter" value="(&amp;(osgi.ee=JavaSE)(version=1.8))"/>
@@ -983,47 +643,355 @@
     <capability namespace="osgi.identity">
       <attribute name="osgi.identity" value="blazegraph.cim2glm"/>
       <attribute name="type" value="osgi.bundle"/>
-      <attribute name="version" type="Version" value="8.0.1"/>
-    </capability>
-    <capability namespace="osgi.content">
-      <attribute name="osgi.content" value="d94b4bfd006df0be96a8a406a0ba45fb626db6fc735f2cc646fe172d1188e016"/>
-      <attribute name="url" value="blazegraph.cim2glm/blazegraph.cim2glm-8.0.1.jar"/>
-      <attribute name="size" type="Long" value="255592"/>
-      <attribute name="mime" value="application/vnd.osgi.bundle"/>
+      <attribute name="version" value="3.1.1" type="Version"/>
     </capability>
     <capability namespace="osgi.wiring.bundle">
+      <attribute name="bundle-version" value="3.1.1" type="Version"/>
       <attribute name="osgi.wiring.bundle" value="blazegraph.cim2glm"/>
-      <attribute name="bundle-version" type="Version" value="8.0.1"/>
     </capability>
     <capability namespace="osgi.wiring.host">
+      <attribute name="bundle-version" value="3.1.1" type="Version"/>
       <attribute name="osgi.wiring.host" value="blazegraph.cim2glm"/>
-      <attribute name="bundle-version" type="Version" value="8.0.1"/>
     </capability>
     <capability namespace="osgi.wiring.package">
-      <attribute name="osgi.wiring.package" value="gov.pnnl.goss.cim2glm.queryhandler"/>
-      <attribute name="version" type="Version" value="4.0.0"/>
-      <attribute name="bundle-symbolic-name" value="blazegraph.cim2glm"/>
-      <attribute name="bundle-version" type="Version" value="8.0.1"/>
       <directive name="uses" value="org.apache.jena.query"/>
+      <attribute name="version" value="1.0.0" type="Version"/>
+      <attribute name="osgi.wiring.package" value="gov.pnnl.goss.cim2glm.queryhandler"/>
     </capability>
     <capability namespace="osgi.wiring.package">
-      <attribute name="osgi.wiring.package" value="gov.pnnl.goss.cim2glm"/>
-      <attribute name="version" type="Version" value="6.0.0"/>
-      <attribute name="bundle-symbolic-name" value="blazegraph.cim2glm"/>
-      <attribute name="bundle-version" type="Version" value="8.0.1"/>
       <directive name="uses" value="gov.pnnl.goss.cim2glm.queryhandler"/>
+      <attribute name="version" value="1.2.0" type="Version"/>
+      <attribute name="osgi.wiring.package" value="gov.pnnl.goss.cim2glm"/>
+    </capability>
+    <capability namespace="osgi.content">
+      <attribute name="size" value="219759" type="Long"/>
+      <attribute name="url" value="blazegraph.cim2glm/blazegraph.cim2glm-3.1.1.jar"/>
+      <attribute name="mime" value="application/vnd.osgi.bundle"/>
+      <attribute name="osgi.content" value="0C6FFB607D4F062BB7104CD3309B10D3161CF49C37B4CD28659AA2652DF0B66C"/>
     </capability>
     <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(&amp;(osgi.wiring.package=gov.pnnl.goss.cim2glm.queryhandler)(version&gt;=4.0.0)(!(version&gt;=5.0.0)))"/>
+      <directive name="filter" value="(&amp;(osgi.wiring.package=gov.pnnl.goss.cim2glm.queryhandler)(&amp;(version&gt;=1.0.0)(!(version&gt;=2.0.0))))"/>
     </requirement>
     <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(osgi.wiring.package=org.apache.commons.math3.complex)"/>
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.apache.commons.math3.complex))"/>
     </requirement>
     <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(osgi.wiring.package=org.apache.jena.query)"/>
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.apache.jena.query))"/>
     </requirement>
     <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(osgi.wiring.package=org.apache.jena.rdf.model)"/>
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.apache.jena.rdf.model))"/>
+    </requirement>
+    <requirement namespace="osgi.ee">
+      <directive name="filter" value="(&amp;(osgi.ee=JavaSE)(version=1.8))"/>
+    </requirement>
+  </resource>
+  <resource>
+    <capability namespace="osgi.identity">
+      <attribute name="osgi.identity" value="blazegraph.cim2glm"/>
+      <attribute name="type" value="osgi.bundle"/>
+      <attribute name="version" value="0.2.2" type="Version"/>
+    </capability>
+    <capability namespace="osgi.wiring.bundle">
+      <attribute name="bundle-version" value="0.2.2" type="Version"/>
+      <attribute name="osgi.wiring.bundle" value="blazegraph.cim2glm"/>
+    </capability>
+    <capability namespace="osgi.wiring.host">
+      <attribute name="bundle-version" value="0.2.2" type="Version"/>
+      <attribute name="osgi.wiring.host" value="blazegraph.cim2glm"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <directive name="uses" value="org.apache.jena.query"/>
+      <attribute name="version" value="1.0.0" type="Version"/>
+      <attribute name="osgi.wiring.package" value="gov.pnnl.goss.cim2glm.queryhandler"/>
+    </capability>
+    <capability namespace="osgi.content">
+      <attribute name="size" value="147672" type="Long"/>
+      <attribute name="url" value="blazegraph.cim2glm/blazegraph.cim2glm-0.2.2.jar"/>
+      <attribute name="mime" value="application/vnd.osgi.bundle"/>
+      <attribute name="osgi.content" value="D06413C4FA4971D34CDBBE4F0E1C4EF16D9337A65FB7B0A4B82628415803A91D"/>
+    </capability>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=gov.pnnl.goss.cim2glm.queryhandler)(&amp;(version&gt;=1.0.0)(!(version&gt;=2.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.apache.commons.math3.complex))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.apache.jena.query))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.apache.jena.rdf.model))"/>
+    </requirement>
+    <requirement namespace="osgi.ee">
+      <directive name="filter" value="(&amp;(osgi.ee=JavaSE)(version=1.8))"/>
+    </requirement>
+  </resource>
+  <resource>
+    <capability namespace="osgi.identity">
+      <attribute name="osgi.identity" value="blazegraph.cim2glm"/>
+      <attribute name="type" value="osgi.bundle"/>
+      <attribute name="version" value="1.0.2" type="Version"/>
+    </capability>
+    <capability namespace="osgi.wiring.bundle">
+      <attribute name="bundle-version" value="1.0.2" type="Version"/>
+      <attribute name="osgi.wiring.bundle" value="blazegraph.cim2glm"/>
+    </capability>
+    <capability namespace="osgi.wiring.host">
+      <attribute name="bundle-version" value="1.0.2" type="Version"/>
+      <attribute name="osgi.wiring.host" value="blazegraph.cim2glm"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <directive name="uses" value="org.apache.jena.query"/>
+      <attribute name="version" value="1.0.0" type="Version"/>
+      <attribute name="osgi.wiring.package" value="gov.pnnl.goss.cim2glm.queryhandler"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <directive name="uses" value="gov.pnnl.goss.cim2glm.queryhandler"/>
+      <attribute name="version" value="1.0.0" type="Version"/>
+      <attribute name="osgi.wiring.package" value="gov.pnnl.goss.cim2glm"/>
+    </capability>
+    <capability namespace="osgi.content">
+      <attribute name="size" value="170503" type="Long"/>
+      <attribute name="url" value="blazegraph.cim2glm/blazegraph.cim2glm-1.0.2.jar"/>
+      <attribute name="mime" value="application/vnd.osgi.bundle"/>
+      <attribute name="osgi.content" value="EB4E665D97D1D70546FEB89ECEFAB10A11A8D11F74002296B54D95626BBFBCFE"/>
+    </capability>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=gov.pnnl.goss.cim2glm.queryhandler)(&amp;(version&gt;=1.0.0)(!(version&gt;=2.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.apache.commons.math3.complex))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.apache.jena.query))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.apache.jena.rdf.model))"/>
+    </requirement>
+    <requirement namespace="osgi.ee">
+      <directive name="filter" value="(&amp;(osgi.ee=JavaSE)(version=1.8))"/>
+    </requirement>
+  </resource>
+  <resource>
+    <capability namespace="osgi.identity">
+      <attribute name="osgi.identity" value="blazegraph.cim2glm"/>
+      <attribute name="type" value="osgi.bundle"/>
+      <attribute name="version" value="7.0.1" type="Version"/>
+    </capability>
+    <capability namespace="osgi.wiring.bundle">
+      <attribute name="bundle-version" value="7.0.1" type="Version"/>
+      <attribute name="osgi.wiring.bundle" value="blazegraph.cim2glm"/>
+    </capability>
+    <capability namespace="osgi.wiring.host">
+      <attribute name="bundle-version" value="7.0.1" type="Version"/>
+      <attribute name="osgi.wiring.host" value="blazegraph.cim2glm"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <directive name="uses" value="org.apache.jena.query"/>
+      <attribute name="version" value="4.0.0" type="Version"/>
+      <attribute name="osgi.wiring.package" value="gov.pnnl.goss.cim2glm.queryhandler"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <directive name="uses" value="gov.pnnl.goss.cim2glm.queryhandler"/>
+      <attribute name="version" value="5.0.0" type="Version"/>
+      <attribute name="osgi.wiring.package" value="gov.pnnl.goss.cim2glm"/>
+    </capability>
+    <capability namespace="osgi.content">
+      <attribute name="size" value="247310" type="Long"/>
+      <attribute name="url" value="blazegraph.cim2glm/blazegraph.cim2glm-7.0.1.jar"/>
+      <attribute name="mime" value="application/vnd.osgi.bundle"/>
+      <attribute name="osgi.content" value="78BFB06DC9FE8874C6CD0B1ADADFF45AD35E848B9BEDB6A956DFBC424DAA465A"/>
+    </capability>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=gov.pnnl.goss.cim2glm.queryhandler)(&amp;(version&gt;=4.0.0)(!(version&gt;=5.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.apache.commons.math3.complex))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.apache.jena.query))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.apache.jena.rdf.model))"/>
+    </requirement>
+    <requirement namespace="osgi.ee">
+      <directive name="filter" value="(&amp;(osgi.ee=JavaSE)(version=1.8))"/>
+    </requirement>
+  </resource>
+  <resource>
+    <capability namespace="osgi.identity">
+      <attribute name="osgi.identity" value="blazegraph.cim2glm"/>
+      <attribute name="type" value="osgi.bundle"/>
+      <attribute name="version" value="0.2.1" type="Version"/>
+    </capability>
+    <capability namespace="osgi.wiring.bundle">
+      <attribute name="bundle-version" value="0.2.1" type="Version"/>
+      <attribute name="osgi.wiring.bundle" value="blazegraph.cim2glm"/>
+    </capability>
+    <capability namespace="osgi.wiring.host">
+      <attribute name="bundle-version" value="0.2.1" type="Version"/>
+      <attribute name="osgi.wiring.host" value="blazegraph.cim2glm"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <directive name="uses" value="org.apache.jena.query"/>
+      <attribute name="version" value="1.0.0" type="Version"/>
+      <attribute name="osgi.wiring.package" value="gov.pnnl.goss.cim2glm.queryhandler"/>
+    </capability>
+    <capability namespace="osgi.content">
+      <attribute name="size" value="147704" type="Long"/>
+      <attribute name="url" value="blazegraph.cim2glm/blazegraph.cim2glm-0.2.1.jar"/>
+      <attribute name="mime" value="application/vnd.osgi.bundle"/>
+      <attribute name="osgi.content" value="25F2D9A5F2575F9076718AC178C096E0B1998DA31E1E0ED00AC3143BA34107E8"/>
+    </capability>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=gov.pnnl.goss.cim2glm.queryhandler)(&amp;(version&gt;=1.0.0)(!(version&gt;=2.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.apache.commons.math3.complex))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.apache.jena.query))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.apache.jena.rdf.model))"/>
+    </requirement>
+    <requirement namespace="osgi.ee">
+      <directive name="filter" value="(&amp;(osgi.ee=JavaSE)(version=1.8))"/>
+    </requirement>
+  </resource>
+  <resource>
+    <capability namespace="osgi.identity">
+      <attribute name="osgi.identity" value="blazegraph.cim2glm"/>
+      <attribute name="type" value="osgi.bundle"/>
+      <attribute name="version" value="3.1.2" type="Version"/>
+    </capability>
+    <capability namespace="osgi.wiring.bundle">
+      <attribute name="bundle-version" value="3.1.2" type="Version"/>
+      <attribute name="osgi.wiring.bundle" value="blazegraph.cim2glm"/>
+    </capability>
+    <capability namespace="osgi.wiring.host">
+      <attribute name="bundle-version" value="3.1.2" type="Version"/>
+      <attribute name="osgi.wiring.host" value="blazegraph.cim2glm"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <directive name="uses" value="org.apache.jena.query"/>
+      <attribute name="version" value="3.1.0" type="Version"/>
+      <attribute name="osgi.wiring.package" value="gov.pnnl.goss.cim2glm.queryhandler"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <directive name="uses" value="gov.pnnl.goss.cim2glm.queryhandler"/>
+      <attribute name="version" value="3.1.0" type="Version"/>
+      <attribute name="osgi.wiring.package" value="gov.pnnl.goss.cim2glm"/>
+    </capability>
+    <capability namespace="osgi.content">
+      <attribute name="size" value="219828" type="Long"/>
+      <attribute name="url" value="blazegraph.cim2glm/blazegraph.cim2glm-3.1.2.jar"/>
+      <attribute name="mime" value="application/vnd.osgi.bundle"/>
+      <attribute name="osgi.content" value="B20EB234877188D3BB503A2DCD07BC127498E33055BDD29E88D644C186BDEB64"/>
+    </capability>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=gov.pnnl.goss.cim2glm.queryhandler)(&amp;(version&gt;=3.1.0)(!(version&gt;=4.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.apache.commons.math3.complex))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.apache.jena.query))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.apache.jena.rdf.model))"/>
+    </requirement>
+    <requirement namespace="osgi.ee">
+      <directive name="filter" value="(&amp;(osgi.ee=JavaSE)(version=1.8))"/>
+    </requirement>
+  </resource>
+  <resource>
+    <capability namespace="osgi.identity">
+      <attribute name="osgi.identity" value="blazegraph.cim2glm"/>
+      <attribute name="type" value="osgi.bundle"/>
+      <attribute name="version" value="8.0.1" type="Version"/>
+    </capability>
+    <capability namespace="osgi.wiring.bundle">
+      <attribute name="bundle-version" value="8.0.1" type="Version"/>
+      <attribute name="osgi.wiring.bundle" value="blazegraph.cim2glm"/>
+    </capability>
+    <capability namespace="osgi.wiring.host">
+      <attribute name="bundle-version" value="8.0.1" type="Version"/>
+      <attribute name="osgi.wiring.host" value="blazegraph.cim2glm"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <directive name="uses" value="org.apache.jena.query"/>
+      <attribute name="version" value="4.0.0" type="Version"/>
+      <attribute name="osgi.wiring.package" value="gov.pnnl.goss.cim2glm.queryhandler"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <directive name="uses" value="gov.pnnl.goss.cim2glm.queryhandler"/>
+      <attribute name="version" value="6.0.0" type="Version"/>
+      <attribute name="osgi.wiring.package" value="gov.pnnl.goss.cim2glm"/>
+    </capability>
+    <capability namespace="osgi.content">
+      <attribute name="size" value="255814" type="Long"/>
+      <attribute name="url" value="blazegraph.cim2glm/blazegraph.cim2glm-8.0.1.jar"/>
+      <attribute name="mime" value="application/vnd.osgi.bundle"/>
+      <attribute name="osgi.content" value="982BB87D8B9EF98622B1161AE29886B748BB8EBE5C2EFB48BF1DD09CF92A0948"/>
+    </capability>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=gov.pnnl.goss.cim2glm.queryhandler)(&amp;(version&gt;=4.0.0)(!(version&gt;=5.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.apache.commons.math3.complex))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.apache.jena.query))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.apache.jena.rdf.model))"/>
+    </requirement>
+    <requirement namespace="osgi.ee">
+      <directive name="filter" value="(&amp;(osgi.ee=JavaSE)(version=1.8))"/>
+    </requirement>
+  </resource>
+  <resource>
+    <capability namespace="osgi.identity">
+      <attribute name="osgi.identity" value="blazegraph.cim2glm"/>
+      <attribute name="type" value="osgi.bundle"/>
+      <attribute name="version" value="2.0.1" type="Version"/>
+    </capability>
+    <capability namespace="osgi.wiring.bundle">
+      <attribute name="bundle-version" value="2.0.1" type="Version"/>
+      <attribute name="osgi.wiring.bundle" value="blazegraph.cim2glm"/>
+    </capability>
+    <capability namespace="osgi.wiring.host">
+      <attribute name="bundle-version" value="2.0.1" type="Version"/>
+      <attribute name="osgi.wiring.host" value="blazegraph.cim2glm"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <directive name="uses" value="org.apache.jena.query"/>
+      <attribute name="version" value="2.0.0" type="Version"/>
+      <attribute name="osgi.wiring.package" value="gov.pnnl.goss.cim2glm.queryhandler"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <directive name="uses" value="gov.pnnl.goss.cim2glm.queryhandler"/>
+      <attribute name="version" value="3.0.0" type="Version"/>
+      <attribute name="osgi.wiring.package" value="gov.pnnl.goss.cim2glm"/>
+    </capability>
+    <capability namespace="osgi.content">
+      <attribute name="size" value="214530" type="Long"/>
+      <attribute name="url" value="blazegraph.cim2glm/blazegraph.cim2glm-2.0.1.jar"/>
+      <attribute name="mime" value="application/vnd.osgi.bundle"/>
+      <attribute name="osgi.content" value="105250F01E18868E16EEFFB5E663BF5147E041E8DEE9C277180B3D1C4AE24A86"/>
+    </capability>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=gov.pnnl.goss.cim2glm.queryhandler)(&amp;(version&gt;=2.0.0)(!(version&gt;=3.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.apache.commons.math3.complex))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.apache.jena.query))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.apache.jena.rdf.model))"/>
     </requirement>
     <requirement namespace="osgi.ee">
       <directive name="filter" value="(&amp;(osgi.ee=JavaSE)(version=1.8))"/>
