@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<repository xmlns="http://www.osgi.org/xmlns/repository/v1.0.0" name="Release" increment="1546560335000">
+<repository xmlns="http://www.osgi.org/xmlns/repository/v1.0.0" name="Release" increment="1552938622000">
   <resource>
     <capability namespace="osgi.identity">
       <attribute name="osgi.identity" value="blazegraph.cim2glm"/>
@@ -930,10 +930,10 @@
       <attribute name="osgi.wiring.package" value="gov.pnnl.goss.cim2glm"/>
     </capability>
     <capability namespace="osgi.content">
-      <attribute name="size" value="255814" type="Long"/>
+      <attribute name="size" value="255592" type="Long"/>
       <attribute name="url" value="blazegraph.cim2glm/blazegraph.cim2glm-8.0.1.jar"/>
       <attribute name="mime" value="application/vnd.osgi.bundle"/>
-      <attribute name="osgi.content" value="982BB87D8B9EF98622B1161AE29886B748BB8EBE5C2EFB48BF1DD09CF92A0948"/>
+      <attribute name="osgi.content" value="D94B4BFD006DF0BE96A8A406A0BA45FB626DB6FC735F2CC646FE172D1188E016"/>
     </capability>
     <requirement namespace="osgi.wiring.package">
       <directive name="filter" value="(&amp;(osgi.wiring.package=gov.pnnl.goss.cim2glm.queryhandler)(&amp;(version&gt;=4.0.0)(!(version&gt;=5.0.0))))"/>
@@ -983,6 +983,52 @@
     </capability>
     <requirement namespace="osgi.wiring.package">
       <directive name="filter" value="(&amp;(osgi.wiring.package=gov.pnnl.goss.cim2glm.queryhandler)(&amp;(version&gt;=2.0.0)(!(version&gt;=3.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.apache.commons.math3.complex))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.apache.jena.query))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.apache.jena.rdf.model))"/>
+    </requirement>
+    <requirement namespace="osgi.ee">
+      <directive name="filter" value="(&amp;(osgi.ee=JavaSE)(version=1.8))"/>
+    </requirement>
+  </resource>
+  <resource>
+    <capability namespace="osgi.identity">
+      <attribute name="osgi.identity" value="blazegraph.cim2glm"/>
+      <attribute name="type" value="osgi.bundle"/>
+      <attribute name="version" value="8.0.3" type="Version"/>
+    </capability>
+    <capability namespace="osgi.wiring.bundle">
+      <attribute name="bundle-version" value="8.0.3" type="Version"/>
+      <attribute name="osgi.wiring.bundle" value="blazegraph.cim2glm"/>
+    </capability>
+    <capability namespace="osgi.wiring.host">
+      <attribute name="bundle-version" value="8.0.3" type="Version"/>
+      <attribute name="osgi.wiring.host" value="blazegraph.cim2glm"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <directive name="uses" value="org.apache.jena.query"/>
+      <attribute name="version" value="4.0.0" type="Version"/>
+      <attribute name="osgi.wiring.package" value="gov.pnnl.goss.cim2glm.queryhandler"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <directive name="uses" value="gov.pnnl.goss.cim2glm.queryhandler"/>
+      <attribute name="version" value="6.0.0" type="Version"/>
+      <attribute name="osgi.wiring.package" value="gov.pnnl.goss.cim2glm"/>
+    </capability>
+    <capability namespace="osgi.content">
+      <attribute name="size" value="255829" type="Long"/>
+      <attribute name="url" value="blazegraph.cim2glm/blazegraph.cim2glm-8.0.3.jar"/>
+      <attribute name="mime" value="application/vnd.osgi.bundle"/>
+      <attribute name="osgi.content" value="6DB15C76521D64F3A569F43F7AA3453F016B364345D8C82C767A4BD970978ED5"/>
+    </capability>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=gov.pnnl.goss.cim2glm.queryhandler)(&amp;(version&gt;=4.0.0)(!(version&gt;=5.0.0))))"/>
     </requirement>
     <requirement namespace="osgi.wiring.package">
       <directive name="filter" value="(&amp;(osgi.wiring.package=org.apache.commons.math3.complex))"/>
