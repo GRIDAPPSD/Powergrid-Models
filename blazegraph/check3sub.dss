@@ -2,7 +2,16 @@
 clear
 cd c:/GRIDAPPS-D/Powergrid-Models/blazegraph/
 redirect ieee3sub_base.dss
+
+close  line.sub1_sw 1
+close line.sub2_sw 1
+close  line.sub3_sw 1
+open Line.a8611_48332_sw
+open Line.2002200004991174_sw
+
 set maxiterations=20
+Set MaxControlIter=100
+set loadmult=0.8
 set controlmode=off
 solve
 export summary case2s.csv
