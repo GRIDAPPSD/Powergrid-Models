@@ -114,7 +114,7 @@ public class DistSolar extends DistComponent {
 			buf.append ("  phases " + phases + ";\n");
 		}
 		buf.append ("  generator_status ONLINE;\n");
-		buf.append ("  generator_mode CONSTANT_PQ;\n");
+		buf.append ("  four_quadrant_control_mode CONSTANT_PQ;\n");
 		buf.append ("  inverter_type FOUR_QUADRANT;\n");
 		buf.append ("  inverter_efficiency 1.0;\n");
 		buf.append ("  power_factor 1.0;\n");

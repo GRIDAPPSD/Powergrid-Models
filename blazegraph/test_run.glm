@@ -20,8 +20,11 @@ object climate {
   interpolate QUADRATIC;
 };
 
-#define VSOURCE=2401.8
-#include "ieee123pv_base.glm";
+//#define VSOURCE=2401.8
+//#include "ieee123pv_base.glm";
+
+#define VSOURCE=66395.3
+#include "ieee3sub_base.glm";
 
 //#define VSOURCE=2401.8
 //#include "ieee123_base.glm";

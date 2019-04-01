@@ -291,6 +291,10 @@ public class DistCapacitor extends DistComponent {
 			String dssClass = DSSClassPrefix(monclass);
 			double dOn = setpoint - 0.5 * deadband;
 			double dOff = setpoint + 0.5 * deadband;
+			if (mode.equals("reactivePower")) {
+				dOn /= 1000.0;
+				dOff /= 1000.0;
+			}
 			int nterm = 1;  // TODO: need to search for this
 			buf.append ("new CapControl." + name + " capacitor=" + name + " type=" + DSSCapMode(mode) + 
 									" on=" + df2.format(dOn) + " off=" + df2.format(dOff) + " delay=" + df2.format(delay) + 
