@@ -88,7 +88,7 @@ SELECT ?cimtype ?name ?bus1 ?bus2 ?id (group_concat(distinct ?phs;separator="") 
 GROUP BY ?cimtype ?name ?bus1 ?bus2 ?id
 ORDER BY ?cimtype ?name
 
-# cim17 - DistFuse, DistBreaker, DistRecloser, DistLoadBreakSwitch, DistSectionaliser (future)
+# cim100 - DistFuse, DistBreaker, DistRecloser, DistLoadBreakSwitch, DistSectionaliser (future)
 PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX c:  <http://iec.ch/TC57/CIM100#>
 SELECT ?name ?basev ?open ?continuous ?breaking ?fdrid (group_concat(distinct ?bus;separator="\n") as ?buses) (group_concat(distinct ?phs;separator="\n") as ?phases) WHERE {
@@ -450,7 +450,7 @@ SELECT ?name ?bus ?ratedS ?ratedU ?ipu ?p ?q ?fdrid (group_concat(distinct ?phs;
  ?pec c:PowerElectronicsConnection.PowerElectronicsUnit ?s.
 # feeder selection options - if all commented out, query matches all feeders
 #VALUES ?fdrid {"_C1C3E687-6FFD-C753-582B-632A27E28507"}  # 123 bus
-VALUES ?fdrid {"_49AD8E07-3BF9-A4E2-CB8F-C3722F837B62"}  # 13 bus
+#VALUES ?fdrid {"_49AD8E07-3BF9-A4E2-CB8F-C3722F837B62"}  # 13 bus
 #VALUES ?fdrid {"_5B816B93-7A5F-B64C-8460-47C17D6E4B0F"}  # 13 bus assets
 #VALUES ?fdrid {"_4F76A5F9-271D-9EB8-5E31-AA362D86F2C3"}  # 8500 node
 #VALUES ?fdrid {"_67AB291F-DCCD-31B7-B499-338206B9828F"}  # J1
@@ -481,7 +481,7 @@ SELECT ?name ?bus ?ratedS ?ratedU ?ipu ?ratedE ?storedE ?state ?p ?q ?id ?fdrid 
  ?pec c:PowerElectronicsConnection.PowerElectronicsUnit ?s.
 # feeder selection options - if all commented out, query matches all feeders
 #VALUES ?fdrid {"_C1C3E687-6FFD-C753-582B-632A27E28507"}  # 123 bus
-VALUES ?fdrid {"_49AD8E07-3BF9-A4E2-CB8F-C3722F837B62"}  # 13 bus
+#VALUES ?fdrid {"_49AD8E07-3BF9-A4E2-CB8F-C3722F837B62"}  # 13 bus
 #VALUES ?fdrid {"_5B816B93-7A5F-B64C-8460-47C17D6E4B0F"}  # 13 bus assets
 #VALUES ?fdrid {"_4F76A5F9-271D-9EB8-5E31-AA362D86F2C3"}  # 8500 node
 #VALUES ?fdrid {"_67AB291F-DCCD-31B7-B499-338206B9828F"}  # J1
@@ -1352,7 +1352,7 @@ ORDER BY ?name ?seq
 # line segments referencing wirespacing (deprecated, use next example)
 PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX c:  <http://iec.ch/TC57/CIM100#>
-SELECT ?name ?basev ?len ?spacing ?wname ?wclass ?fdrid (group_concat(distinct ?bus;separator="\n") as ?buses) (group_concat(distinct ?phs;separator="\n") as ?phases)  
+SELECT ?name ?basev ?len ?spacing ?fdrid (group_concat(distinct ?bus;separator="\n") as ?buses) (group_concat(distinct ?phs;separator="\n") as ?phases)  
 WHERE {
  ?s r:type c:ACLineSegment.
 # feeder selection options - if all commented out, query matches all feeders
@@ -1363,18 +1363,9 @@ WHERE {
  ?s c:ConductingEquipment.BaseVoltage ?bv.
  ?bv c:BaseVoltage.nominalVoltage ?basev.
  ?s c:Conductor.length ?len.
- ?asset c:Asset.PowerSystemResources ?s.
- ?asset c:Asset.AssetInfo ?inf.
+ ?s c:ACLineSegment.WireSpacingInfo ?inf.
  ?inf c:IdentifiedObject.name ?spacing.
  ?inf a c:WireSpacingInfo.
- OPTIONAL {
-   ?wasset c:Asset.PowerSystemResources ?s.
-   ?wasset c:Asset.AssetInfo ?winf.
-   ?winf c:WireInfo.radius ?rad.
-   ?winf c:IdentifiedObject.name ?wname.
-   ?winf a ?classraw.
-     bind(strafter(str(?classraw),"cim17#") as ?wclass)
- }
  ?t c:Terminal.ConductingEquipment ?s.
  ?t c:Terminal.ConnectivityNode ?cn. 
  ?cn c:IdentifiedObject.name ?bus
@@ -1382,19 +1373,19 @@ WHERE {
  ?acp c:ACLineSegmentPhase.phase ?phsraw.
    bind(strafter(str(?phsraw),"SinglePhaseKind.") as ?phs) }
 }
-GROUP BY ?name ?basev ?len ?spacing ?wname ?wclass ?fdrid
+GROUP BY ?name ?basev ?len ?spacing ?fdrid
 ORDER BY ?name
 
 # line segments with individual phase wire assignments, ordered by phase - DistLinesSpacingZ
 PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX c:  <http://iec.ch/TC57/CIM100#>
-SELECT ?name ?basev ?fdrid ?bus1 ?bus2 ?len ?spacing ?wname ?wclass
-  (group_concat(distinct ?phs;separator="\n") as ?phases) 
-  (group_concat(distinct ?phname;separator="\n") as ?phwires) 
-	 (group_concat(distinct ?phclass;separator="\n") as ?phclasses)
+SELECT ?name ?basev ?fdrid ?bus1 ?bus2 ?len ?spacing
+  (group_concat(?phs;separator="\n") as ?phases) 
+  (group_concat(?phname;separator="\n") as ?phwires) 
+  (group_concat(?phclass;separator="\n") as ?phclasses)
 WHERE {
-  SELECT ?name ?basev ?bus1 ?bus2 ?phs ?len ?spacing ?wname ?wclass ?phname ?phclass ?fdrid
-               WHERE {
+  SELECT ?name ?basev ?bus1 ?bus2 ?len ?spacing ?phs ?phname ?phclass ?fdrid
+    WHERE {
 # feeder selection options - if all commented out, query matches all feeders
 #VALUES ?fdrid {"_4F76A5F9-271D-9EB8-5E31-AA362D86F2C3"}  # 8500 node
  ?s r:type c:ACLineSegment.
@@ -1404,18 +1395,9 @@ WHERE {
  ?s c:ConductingEquipment.BaseVoltage ?bv.
  ?bv c:BaseVoltage.nominalVoltage ?basev.
  ?s c:Conductor.length ?len.
- ?asset c:Asset.PowerSystemResources ?s.
- ?asset c:Asset.AssetInfo ?inf.
+ ?s c:ACLineSegment.WireSpacingInfo ?inf.
  ?inf c:IdentifiedObject.name ?spacing.
  ?inf a c:WireSpacingInfo.
- OPTIONAL {
-   ?wasset c:Asset.PowerSystemResources ?s.
-   ?wasset c:Asset.AssetInfo ?winf.
-   ?winf c:WireInfo.radius ?rad.
-   ?winf c:IdentifiedObject.name ?wname.
-   ?winf a ?classraw.
-     bind(strafter(str(?classraw),"cim17#") as ?wclass)
- }
  ?t1 c:Terminal.ConductingEquipment ?s.
  ?t1 c:Terminal.ConnectivityNode ?cn1.
  ?t1 c:ACDCTerminal.sequenceNumber "1".
@@ -1424,22 +1406,16 @@ WHERE {
  ?t2 c:Terminal.ConnectivityNode ?cn2.
  ?t2 c:ACDCTerminal.sequenceNumber "2".
  ?cn2 c:IdentifiedObject.name ?bus2.
- OPTIONAL {
-   ?acp c:ACLineSegmentPhase.ACLineSegment ?s.
-   ?acp c:ACLineSegmentPhase.phase ?phsraw.
-     bind(strafter(str(?phsraw),"SinglePhaseKind.") as ?phs)
-   OPTIONAL {
-     ?phasset c:Asset.PowerSystemResources ?acp.
-     ?phasset c:Asset.AssetInfo ?phinf.
-     ?phinf c:WireInfo.radius ?phrad.
-     ?phinf c:IdentifiedObject.name ?phname.
-     ?phinf a ?phclassraw.
-       bind(strafter(str(?phclassraw),"cim17#") as ?phclass)
-     }
-   }
+ ?acp c:ACLineSegmentPhase.ACLineSegment ?s.
+ ?acp c:ACLineSegmentPhase.phase ?phsraw.
+   bind(strafter(str(?phsraw),"SinglePhaseKind.") as ?phs)
+ ?acp c:ACLineSegmentPhase.WireInfo ?phinf.
+ ?phinf c:IdentifiedObject.name ?phname.
+ ?phinf a ?phclassraw.
+   bind(strafter(str(?phclassraw),"CIM100#") as ?phclass)
  } ORDER BY ?name ?phs
 }
-GROUP BY ?name ?fdrid ?basev ?bus1 ?bus2 ?len ?spacing ?wname ?wclass
+GROUP BY ?name ?fdrid ?basev ?bus1 ?bus2 ?len ?spacing
 ORDER BY ?name
 
 # transformer banks containing tanks - DistXfmrBank
