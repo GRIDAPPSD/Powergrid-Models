@@ -1308,7 +1308,10 @@ public class CIMImporter extends Object {
 	protected void WriteDSSFile (PrintWriter out, PrintWriter outID, String fXY, String fID, double load_scale, boolean bWantZIP, 
 														double Zcoeff, double Icoeff, double Pcoeff)  {
 
-		outID.println ("clear");
+		
+		
+		
+		out.println ("clear");
 		
 		for (HashMap.Entry<String,DistSubstation> pair : mapSubstations.entrySet()) {
 			out.print (pair.getValue().GetDSS());
@@ -1472,8 +1475,13 @@ public class CIMImporter extends Object {
 
 //		buscoords model_busxy.dss
 //		guids model_guid.dss
-		out.println ("buscoords " + fXY);
-		out.println ("guids " + fID);
+				
+		//Only use local names for fXY and FID
+		File fXYFile = new File(fXY);
+		File fIDFile = new File(fID);
+				
+		out.println ("buscoords " + fXYFile.getName());
+		out.println ("guids " + fIDFile.getName());
 		
 		// runs a snapshot load flow at the nominal load
 		out.println ("// solve");
