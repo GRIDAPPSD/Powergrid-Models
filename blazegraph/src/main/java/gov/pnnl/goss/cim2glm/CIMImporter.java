@@ -1308,6 +1308,8 @@ public class CIMImporter extends Object {
 	protected void WriteDSSFile (PrintWriter out, PrintWriter outID, String fXY, String fID, double load_scale, boolean bWantZIP, 
 														double Zcoeff, double Icoeff, double Pcoeff)  {
 
+		outID.println ("clear");
+		
 		for (HashMap.Entry<String,DistSubstation> pair : mapSubstations.entrySet()) {
 			out.print (pair.getValue().GetDSS());
 			outID.println ("Circuit." + pair.getValue().name + "\t" + GUIDfromCIMmRID (pair.getValue().id));
@@ -1453,13 +1455,44 @@ public class CIMImporter extends Object {
 
 		out.println();
 		out.println ("calcv");
+		
+		// capture the time sequence of phase voltage and current magnitudes at the feeder head
+
+		out.println ("New Monitor.fdr element=line.sw1 mode=32 // mode=48 for sequence magnitudes ");
+
+		// import the "player file" and assign to all loads
+
+		// this is the player file, with header, first column, and semicolons removed
+		//new loadshape.player npts=1440 sinterval=60 mult=(file=ieeeziploadshape.dss) action=normalize
+		// this command works with the original player file, if the semocolons are removed from about line 1380 onward
+		out.println ("new loadshape.player npts=1440 sinterval=60 mult=(file=ieeezipload.player,col=2,header=yes) action=normalize");
+				out.println ("batchedit load..* duty=player daily=player");
+
+		// removed the local Docker paths, relying on cwd instead
+
+//		buscoords model_busxy.dss
+//		guids model_guid.dss
 		out.println ("buscoords " + fXY);
 		out.println ("guids " + fID);
+		
+		// runs a snapshot load flow at the nominal load
 		out.println ("// solve");
+		out.println("solve");
+
+		// exports the snapshot solution for verification, but not necessary within the platform
+		out.println ("// export summary");
+		out.println ("export summary base_summary.csv");
+		out.println ("export voltages base_voltages.csv");
+
+		// run a time-stepping simulation that will follow the player file
+
+		out.println ("solve mode=duty hour=0 stepsize=60 number=1440");
+		out.println ("export monitors fdr");
+
+		out.println ("// show voltages ln");
 
 		out.println();
-		out.println ("// export summary");
-		out.println ("// show voltages ln");
+		
 
 		out.close();
 		outID.close();
