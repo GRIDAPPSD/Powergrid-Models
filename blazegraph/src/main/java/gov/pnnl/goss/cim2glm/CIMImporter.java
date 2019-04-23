@@ -1461,7 +1461,7 @@ public class CIMImporter extends Object {
 		
 		// capture the time sequence of phase voltage and current magnitudes at the feeder head
 
-		out.println ("New Monitor.fdr element=line.sw1 mode=32 // mode=48 for sequence magnitudes ");
+//		out.println ("New Monitor.fdr element=line.sw1 mode=32 // mode=48 for sequence magnitudes ");
 
 		// import the "player file" and assign to all loads
 
@@ -1483,21 +1483,6 @@ public class CIMImporter extends Object {
 		out.println ("buscoords " + fXYFile.getName());
 		out.println ("guids " + fIDFile.getName());
 		
-		// runs a snapshot load flow at the nominal load
-		out.println ("// solve");
-		out.println("solve");
-
-		// exports the snapshot solution for verification, but not necessary within the platform
-		out.println ("// export summary");
-		out.println ("export summary base_summary.csv");
-		out.println ("export voltages base_voltages.csv");
-
-		// run a time-stepping simulation that will follow the player file
-
-		out.println ("solve mode=duty hour=0 stepsize=60 number=1440");
-		out.println ("export monitors fdr");
-
-		out.println ("// show voltages ln");
 
 		out.println();
 		
