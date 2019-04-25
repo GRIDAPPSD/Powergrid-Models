@@ -1308,6 +1308,11 @@ public class CIMImporter extends Object {
 	protected void WriteDSSFile (PrintWriter out, PrintWriter outID, String fXY, String fID, double load_scale, boolean bWantZIP, 
 														double Zcoeff, double Icoeff, double Pcoeff)  {
 
+		
+		
+		
+		out.println ("clear");
+		
 		for (HashMap.Entry<String,DistSubstation> pair : mapSubstations.entrySet()) {
 			out.print (pair.getValue().GetDSS());
 			outID.println ("Circuit." + pair.getValue().name + "\t" + GUIDfromCIMmRID (pair.getValue().id));
@@ -1453,13 +1458,34 @@ public class CIMImporter extends Object {
 
 		out.println();
 		out.println ("calcv");
-		out.println ("buscoords " + fXY);
-		out.println ("guids " + fID);
-		out.println ("// solve");
+		
+		// capture the time sequence of phase voltage and current magnitudes at the feeder head
+
+//		out.println ("New Monitor.fdr element=line.sw1 mode=32 // mode=48 for sequence magnitudes ");
+
+		// import the "player file" and assign to all loads
+
+		// this is the player file, with header, first column, and semicolons removed
+		//new loadshape.player npts=1440 sinterval=60 mult=(file=ieeeziploadshape.dss) action=normalize
+		// this command works with the original player file, if the semocolons are removed from about line 1380 onward
+		out.println ("new loadshape.player npts=1440 sinterval=60 mult=(file=ieeezipload.player,col=2,header=yes) action=normalize");
+				out.println ("batchedit load..* duty=player daily=player");
+
+		// removed the local Docker paths, relying on cwd instead
+
+//		buscoords model_busxy.dss
+//		guids model_guid.dss
+				
+		//Only use local names for fXY and FID
+		File fXYFile = new File(fXY);
+		File fIDFile = new File(fID);
+				
+		out.println ("buscoords " + fXYFile.getName());
+		out.println ("guids " + fIDFile.getName());
+		
 
 		out.println();
-		out.println ("// export summary");
-		out.println ("// show voltages ln");
+		
 
 		out.close();
 		outID.close();
