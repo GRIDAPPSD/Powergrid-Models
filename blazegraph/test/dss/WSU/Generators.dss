@@ -1,0 +1,6 @@
+! New Generators
+
+New Generator.SteamGen1 bus1=m1047CHP-3 kV=12.47 kW=3000 pf=1 Model=3 !Operating in PV mode
+!New Monitor.gen1 element=Generator.SteamGen1 1 mode=32
+
+New Generator.PVFarm1 bus1=m1047PV-3 kV=12.47 kW=500 pf=.9 Model=1 !Operating at fixed pf
