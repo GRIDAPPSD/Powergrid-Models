@@ -1,6 +1,6 @@
 package gov.pnnl.goss.cim2glm.components;
 //	----------------------------------------------------------
-//	Copyright (c) 2017, Battelle Memorial Institute
+//	Copyright (c) 2017-2019, Battelle Memorial Institute
 //	All rights reserved.
 //	----------------------------------------------------------
 
@@ -9,7 +9,7 @@ import org.apache.commons.math3.complex.Complex;
 
 public class DistPhaseMatrix extends DistComponent {
 	public static final String szQUERY = 
-		"SELECT DISTINCT ?name ?cnt ?seq ?r ?x ?b ?id WHERE {"+
+		"SELECT DISTINCT ?name ?cnt ?row ?col ?r ?x ?b ?id WHERE {"+
 		" ?eq r:type c:ACLineSegment."+
 		" ?eq c:Equipment.EquipmentContainer ?fdr."+
 		" ?fdr c:IdentifiedObject.mRID ?fdrid."+
@@ -19,11 +19,12 @@ public class DistPhaseMatrix extends DistComponent {
 		" ?s c:PerLengthPhaseImpedance.conductorCount ?cnt."+
 		" bind(strafter(str(?s),\"#\") as ?id)."+
 		" ?elm c:PhaseImpedanceData.PhaseImpedance ?s."+
-		" ?elm c:PhaseImpedanceData.sequenceNumber ?seq."+
+		" ?elm c:PhaseImpedanceData.row ?row."+
+		" ?elm c:PhaseImpedanceData.column ?col."+
 		" ?elm c:PhaseImpedanceData.r ?r."+
 		" ?elm c:PhaseImpedanceData.x ?x."+
 		" ?elm c:PhaseImpedanceData.b ?b"+
-		"} ORDER BY ?name ?seq";
+		"} ORDER BY ?name ?row ?col";
 
 	public String id;
 	public String name;
@@ -68,63 +69,25 @@ public class DistPhaseMatrix extends DistComponent {
 
 	private int size;
 
-	/** converts the [row,col] of nxn matrix into the sequence number for CIM PerLengthPhaseImpedanceData
+	/** converts the [row,col] of nxn matrix into the lower-triangular sequence number
 	(only valid for the lower triangle) *  
 	@param n 2x2 matrix order 
-	@param row first index of the element 
-	@param col second index 
-	@return sequence number */ 
-	public int GetMatSeq (int n, int row, int col) {
-		int seq = -1;
-		int i, j;
-		for (j = 0; j < col; j++) {
-			seq += (n - j);
+	@param row first index of the element, 1-based 
+	@param col second index, 1-based
+	@return sequence number, 0-based */ 
+	public int GetMatSeq (int row, int col) {
+		if (col > row) { /** transposition */
+			int val = row;
+			row = col;
+			col = val;
 		}
-		for (i = col; i <= row; i++) {
-			++seq;
-		}
-		return seq;
-	}
-
-	public int GetMatRow (int seq) {
-		int row = 1;
-		if (cnt == 2) {
-			if (seq == 2) row = 1;
-			if (seq == 3) row = 2;
-		}
-		if (cnt == 3) {
-			if (seq == 2) row = 1;
-			if (seq == 3) row = 1;
-			if (seq == 4) row = 2;
-			if (seq == 5) row = 2;
-			if (seq == 6) row = 3;
-		}
-		return row;
-	}
-
-	public int GetMatCol (int seq) {
-		int col = 1;
-		if (cnt == 2) {
-			if (seq == 2) col = 2;
-			if (seq == 3) col = 2;
-		}
-		if (cnt == 3) {
-			if (seq == 2) col = 2;
-			if (seq == 3) col = 3;
-			if (seq == 4) col = 2;
-			if (seq == 5) col = 3;
-			if (seq == 6) col = 3;
-		}
-		return col;
+		int n = row - 1;
+		int offset = n * (n + 1) / 2;
+		return offset + col - 1;
 	}
 
 	private int SetMatSize () {
-		size = 0;
-		for (int i = 0; i < cnt; i++) {
-			for (int j = i; j < cnt; j++) {
-				++size;
-			}
-		}
+		size = cnt * (cnt + 1) / 2;
 		return size;
 	}
 
@@ -132,7 +95,8 @@ public class DistPhaseMatrix extends DistComponent {
 		size = 0;
 		if (results.hasNext()) {
 			QuerySolution soln = results.next();
-			int seq = Integer.parseInt (soln.get("?seq").toString());
+			int row = Integer.parseInt (soln.get("?row").toString());
+			int col = Integer.parseInt (soln.get("?col").toString());
 			if (size == 0) {
 				name = SafeName (soln.get("?name").toString());
 				id = soln.get("?id").toString();
@@ -142,15 +106,18 @@ public class DistPhaseMatrix extends DistComponent {
 				x = new double[size];
 				b = new double[size];
 			}
-			r[seq-1] = Double.parseDouble (soln.get("?r").toString());
-			x[seq-1] = Double.parseDouble (soln.get("?x").toString());
-			b[seq-1] = Double.parseDouble (soln.get("?b").toString());
-			while (seq < size) {
+			int seq = GetMatSeq(row, col);
+			r[seq] = Double.parseDouble (soln.get("?r").toString());
+			x[seq] = Double.parseDouble (soln.get("?x").toString());
+			b[seq] = Double.parseDouble (soln.get("?b").toString());
+			while (seq < size - 1) {
 				soln = results.next();
-				seq = Integer.parseInt (soln.get("?seq").toString());
-				r[seq-1] = Double.parseDouble (soln.get("?r").toString());
-				x[seq-1] = Double.parseDouble (soln.get("?x").toString());
-				b[seq-1] = Double.parseDouble (soln.get("?b").toString());
+				row = Integer.parseInt (soln.get("?row").toString());
+				col = Integer.parseInt (soln.get("?col").toString());
+				seq = GetMatSeq(row, col);
+				r[seq] = Double.parseDouble (soln.get("?r").toString());
+				x[seq] = Double.parseDouble (soln.get("?x").toString());
+				b[seq] = Double.parseDouble (soln.get("?b").toString());
 			}
 		}
 	}
@@ -158,11 +125,13 @@ public class DistPhaseMatrix extends DistComponent {
 	public String DisplayString() {
 		StringBuilder buf = new StringBuilder ("");
 		buf.append (name + " " + Integer.toString(cnt));
-		for (int i = 0; i < size; i++) {
-			int seq = i+1;
-			buf.append ("\n  " + Integer.toString(seq) + 
-									" [" + Integer.toString(GetMatRow(seq)) + "," + Integer.toString(GetMatCol(seq)) +"]" +
-									" r=" + df4.format(r[i]) + " x=" + df4.format(x[i]) + " b=" + df4.format(b[i]));
+		for (int i = 1; i <= cnt; i++) {
+			for (int j = 1; j <= cnt; j++) {
+				int seq = GetMatSeq (i, j);
+				buf.append ("\n  " + Integer.toString(seq) + 
+									" [" + Integer.toString(i) + "," + Integer.toString(j) +"]" +
+									" r=" + df4.format(r[seq]) + " x=" + df4.format(x[seq]) + " b=" + df4.format(b[seq]));
+			}
 		}
 		return buf.toString();
 	}
@@ -177,7 +146,7 @@ public class DistPhaseMatrix extends DistComponent {
 		}
 		for (int i = 0; i < cnt; i++) {
 			for (int j = 0; j < cnt; j++) {
-				int seq = GetMatSeq (cnt, i, j);
+				int seq = GetMatSeq (i+1, j+1);
 				// want ohms/mile and nF/mile
 				String indices = Integer.toString(permidx[i]) + Integer.toString(permidx[j]) + " ";
 				buf.append ("  z" + indices + CFormat (new Complex(gMperMILE * r[seq], gMperMILE * x[seq])) + ";\n");
@@ -213,14 +182,14 @@ public class DistPhaseMatrix extends DistComponent {
 		StringBuilder xBuf = new StringBuilder (" xmatrix=[");
 		StringBuilder cBuf = new StringBuilder (" cmatrix=[");
 
-		for (int i = 0; i < cnt; i++) {  // lower triangular, go across the rows for OpenDSS
-			for (int j = 0; j <= i; j++) {
-				int seq = GetMatSeq (cnt, i, j);
+		for (int i = 1; i <= cnt; i++) {  // lower triangular, go across the rows for OpenDSS
+			for (int j = 1; j <= i; j++) {
+				int seq = GetMatSeq (i, j);
 				rBuf.append (String.format("%6g", r[seq] * gMperMILE) + " ");
 				xBuf.append (String.format("%6g", x[seq] * gMperMILE) + " ");
 				cBuf.append (String.format("%6g", b[seq] * gMperMILE * 1.0e9 / gOMEGA) + " ");
 			}
-			if ((i+1) < cnt) {
+			if (i < cnt) {
 				rBuf.append ("| ");
 				xBuf.append ("| ");
 				cBuf.append ("| ");

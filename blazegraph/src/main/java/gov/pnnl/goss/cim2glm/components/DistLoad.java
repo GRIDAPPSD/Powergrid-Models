@@ -17,8 +17,8 @@ public class DistLoad extends DistComponent {
 	 	" ?s c:IdentifiedObject.name ?name."+
 	   " ?s c:ConductingEquipment.BaseVoltage ?bv."+
 	   " ?bv c:BaseVoltage.nominalVoltage ?basev."+
-	 	" ?s c:EnergyConsumer.pfixed ?p."+
-	 	" ?s c:EnergyConsumer.qfixed ?q."+
+	 	" ?s c:EnergyConsumer.p ?p."+
+	 	" ?s c:EnergyConsumer.q ?q."+
 	 	" ?s c:EnergyConsumer.phaseConnection ?connraw."+
 	 	" 			bind(strafter(str(?connraw),\"PhaseShuntConnectionKind.\") as ?conn)"+
 	 	" ?s c:EnergyConsumer.LoadResponse ?lr."+
