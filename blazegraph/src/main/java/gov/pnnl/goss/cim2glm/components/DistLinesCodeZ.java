@@ -57,12 +57,16 @@ public class DistLinesCodeZ extends DistLineSegment {
 			len = Double.parseDouble (soln.get("?len").toString());
 			lname = soln.get("?lname").toString();
 			int nphs = map.get (name);
-			StringBuilder buf = new StringBuilder (soln.get("?phs").toString());
-			for (int i = 1; i < nphs; i++) {
-				soln = results.next();
-				buf.append (soln.get("?phs").toString());
+			if (nphs > 0) {
+				StringBuilder buf = new StringBuilder(soln.get("?phs").toString());
+				for (int i = 1; i < nphs; i++) {
+					soln = results.next();
+					buf.append (soln.get("?phs").toString());
+				}
+				phases = buf.toString();
+			} else {
+				phases = "ABC";
 			}
-			phases = buf.toString();
 		}		
 	}
 
