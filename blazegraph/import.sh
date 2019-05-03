@@ -5,15 +5,15 @@ java -classpath "target/*:/Users/mcde601/src/apache-jena-3.6.0/lib/*:/Users/mcde
 
 # CIM100 testing
 java -classpath "target/*:/Users/mcde601/src/apache-jena-3.6.0/lib/*:/Users/mcde601/src/commons-math3-3.6.1/*" gov.pnnl.goss.cim2glm.CIMImporter \
-   -s=_E0172D35-7A23-1CE5-9883-1A65D4409E2B -o=glm -l=1.0 -i=1 ieee13
+   -s=_49AD8E07-3BF9-A4E2-CB8F-C3722F837B62 -o=glm -l=1.0 -i=1 ieee13
 java -classpath "target/*:/Users/mcde601/src/apache-jena-3.6.0/lib/*:/Users/mcde601/src/commons-math3-3.6.1/*" gov.pnnl.goss.cim2glm.CIMImporter \
-   -s=_E0172D35-7A23-1CE5-9883-1A65D4409E2B -o=dss ieee13
+   -s=_49AD8E07-3BF9-A4E2-CB8F-C3722F837B62 -o=dss ieee13
 #java -classpath "target/*:/Users/mcde601/src/apache-jena-3.6.0/lib/*:/Users/mcde601/src/commons-math3-3.6.1/*" gov.pnnl.goss.cim2glm.CIMImporter \
-#   -s=_E0172D35-7A23-1CE5-9883-1A65D4409E2B -o=dss -n=ieeezipload ieee13play
+#   -s=_49AD8E07-3BF9-A4E2-CB8F-C3722F837B62 -o=dss -n=ieeezipload ieee13play
 java -classpath "target/*:/Users/mcde601/src/apache-jena-3.6.0/lib/*:/Users/mcde601/src/commons-math3-3.6.1/*" gov.pnnl.goss.cim2glm.CIMImporter \
-   -s=_803ED06B-9DC7-630C-E538-D6DBBFDE022D -o=glm -l=1.0 -i=1 ieee13assets
+   -s=_5B816B93-7A5F-B64C-8460-47C17D6E4B0F -o=glm -l=1.0 -i=1 ieee13assets
 java -classpath "target/*:/Users/mcde601/src/apache-jena-3.6.0/lib/*:/Users/mcde601/src/commons-math3-3.6.1/*" gov.pnnl.goss.cim2glm.CIMImporter \
-   -s=_803ED06B-9DC7-630C-E538-D6DBBFDE022D -o=dss ieee13assets
+   -s=_5B816B93-7A5F-B64C-8460-47C17D6E4B0F -o=dss ieee13assets
 
 # circuits used in GridAPPS-D
 
