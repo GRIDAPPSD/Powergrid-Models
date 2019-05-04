@@ -14,8 +14,11 @@ casefiles = ['ACEP_PSIL',
              'IEEE8500_3subs',
              'R2_12_47_2']
 
+casefiles = ['IEEE13']
+
 dir1 = './test/'
 dir2 = './dss/'
+dir3 = './glm/'
 
 def dss_phase(col):
     if col==1:
@@ -24,6 +27,68 @@ def dss_phase(col):
         return '_B'
     else:
         return '_C'
+
+# heuristically estimate a base voltage from a set of common values, assuming
+#  that a normal per-unit voltage should be 0.9 to 1.1, and 120.0 is the default base
+basevoltages = [480.0 / math.sqrt(3.0),
+                4160.0 / math.sqrt(3.0),
+                115000.0 / math.sqrt(3.0)]
+
+def glmVpu(v, bases=basevoltages):
+    vpu = v / 120.0
+    if vpu < 1.1:
+        return vpu
+    for vbase in bases:
+        vpu = v / vbase
+        if vpu < 1.1:
+            return vpu
+    return 0.0 # indicates a problem
+
+def load_glm_voltages(fname):
+    fd = open (fname, 'r')
+    rd = csv.reader (fd, delimiter=',')
+    next (rd)
+    next (rd)
+    vglm = {}
+    buses = []
+    for row in rd:
+        bus = row[0]
+        buses.append (bus)
+        maga = float(row[1])
+        if maga > 0.0:
+            vglm[bus+'_A'] = glmVpu (maga)
+        magb = float(row[3])
+        if magb > 0.0:
+            vglm[bus+'_B'] = glmVpu (magb)
+        magc = float(row[5])
+        if magc > 0.0:
+            vglm[bus+'_C'] = glmVpu (magc)
+    fd.close()
+    return buses, vglm
+    
+def load_glm_currents(fname):
+    fd = open (fname, 'r')
+    rd = csv.reader (fd, delimiter=',')
+    next (rd)
+    iglm = {}
+    links = []
+    #link_name,currA_mag,currA_angle,currB_mag,currB_angle,currC_mag,currC_angle
+    for row in rd:
+        link = row[0]
+        if link.startswith('line_'):
+            links.append(link)
+            link = link[len('line_'):].lower()
+            maga = float(row[1])
+            if maga > 0.001:
+                iglm[link+'_A'] = maga
+            magb = float(row[3])
+            if magb > 0.001:
+                iglm[link+'_B'] = magb
+            magc = float(row[5])
+            if magc > 0.001:
+                iglm[link+'_C'] = magc
+    fd.close()
+    return links, iglm
 
 def load_currents(fname):
     fd = open (fname, 'r')
@@ -120,7 +185,7 @@ def load_summary(fname):
     fd.close()
     return summ
 
-def write_comparisons(path1, path2, rootname):
+def write_comparisons(path1, path2, path3, rootname):
     v1 = load_voltages (path1 + rootname + '_v.csv')
     v2 = load_voltages (path2 + rootname + '_v.csv')
     t1 = load_taps (path1 + rootname + '_t.csv')
@@ -129,6 +194,13 @@ def write_comparisons(path1, path2, rootname):
     i2 = load_currents (path2 + rootname + '_i.csv')
     s1 = load_summary (path1 + rootname + '_s.csv')
     s2 = load_summary (path2 + rootname + '_s.csv')
+
+    gldbus, gldv = load_glm_voltages (path3 + rootname + '_volt.csv')
+    gldlink, gldi = load_glm_currents (path3 + rootname + '_curr.csv')
+
+#    print (gldbus)
+    print (gldlink)
+    print (gldi)
 
     flog = open (path2 + rootname + '_Summary.log', 'w')
     print ('Quantity  Case1   Case2', file=flog)
@@ -155,16 +227,30 @@ def write_comparisons(path1, path2, rootname):
         if bus in v2:
             vdiff [bus] = abs(v1[bus] - v2[bus])
     sorted_vdiff = sorted(vdiff.items(), key=operator.itemgetter(1))
-    fcsv = open (path2 + rootname + '_Compare_Voltages.csv', 'w')
-    print ('bus_phs,v1,v2,vdiff', file=fcsv)
+    fcsv = open (path2 + rootname + '_Compare_Voltages_DSS.csv', 'w')
+    print ('bus_phs,vbase,vdss,vdiff', file=fcsv)
     for row in sorted_vdiff:
         if row[1] < 0.8:
             bus = row[0]
             print (bus, '{:.5f}'.format(v1[bus]), '{:.5f}'.format(v2[bus]), 
                      '{:.5f}'.format(row[1]), sep=',', file=fcsv)
     fcsv.close()
+    # bus naming convention will be "bus name"_A, _B, or _C
+    vdiff = {}
+    for bus in v1:
+        if bus in gldv:
+            vdiff [bus] = abs(v1[bus] - gldv[bus])
+    sorted_vdiff = sorted(vdiff.items(), key=operator.itemgetter(1))
+    fcsv = open (path2 + rootname + '_Compare_Voltages_GLM.csv', 'w')
+    print ('bus_phs,vbase,vglm,vdiff', file=fcsv)
+    for row in sorted_vdiff:
+        if row[1] < 0.8:
+            bus = row[0]
+            print (bus, '{:.5f}'.format(v1[bus]), '{:.5f}'.format(gldv[bus]), 
+                     '{:.5f}'.format(row[1]), sep=',', file=fcsv)
+    fcsv.close()
 
-    ftxt = open (path2 + rootname + '_Missing_Nodes.txt', 'w')
+    ftxt = open (path2 + rootname + '_Missing_Nodes_DSS.txt', 'w')
     nmissing_1 = 0
     nmissing_2 = 0
     for bus in v1:
@@ -179,20 +265,34 @@ def write_comparisons(path1, path2, rootname):
     print (len(v2), 'Case 2 nodes,', nmissing_1, 'not in Case 1', file=ftxt)
     ftxt.close()
 
-    # branch (link) naming convention will be "class.instance".1, .2 or .3
+    # branch (link) naming convention will be "class.instance".1, .2 or .3 for OpenDSS
     idiff = {}
     for link in i1:
         if link in i2:
             idiff [link] = abs(i1[link] - i2[link])
     sorted_idiff = sorted(idiff.items(), key=operator.itemgetter(1))
-    fcsv = open (path2 + rootname + '_Compare_Currents.csv', 'w')
-    print ('link.phs,i1,i2,idiff', file=fcsv)
+    fcsv = open (path2 + rootname + '_Compare_Currents_DSS.csv', 'w')
+    print ('class.name.phs,ibase,idss,idiff', file=fcsv)
     for row in sorted_idiff:
         link = row[0]
         print (link, '{:.3f}'.format(i1[link]), '{:.3f}'.format(i2[link]), 
                 '{:.3f}'.format(row[1]), sep=',', file=fcsv)
     fcsv.close()
-    ftxt = open (path2 + rootname + '_Missing_Links.txt', 'w')
+    # branch (link) naming convention will be "class.instance".1, .2 or .3 for GridLAB-D
+    idiff = {}
+    for link in i1:
+        if link in gldi:
+            idiff [link] = abs(i1[link] - gldi[link])
+    sorted_idiff = sorted(idiff.items(), key=operator.itemgetter(1))
+    fcsv = open (path2 + rootname + '_Compare_Currents_GLM.csv', 'w')
+    print ('class.name.phs,ibase,idss,idiff', file=fcsv)
+    for row in sorted_idiff:
+        link = row[0]
+        print (link, '{:.3f}'.format(i1[link]), '{:.3f}'.format(gldi[link]), 
+                '{:.3f}'.format(row[1]), sep=',', file=fcsv)
+    fcsv.close()
+
+    ftxt = open (path2 + rootname + '_Missing_Links_DSS.txt', 'w')
     nmissing_1 = 0
     nmissing_2 = 0
     for link in i1:
@@ -209,5 +309,5 @@ def write_comparisons(path1, path2, rootname):
 
 if __name__ == "__main__":
     for c in casefiles:
-        write_comparisons (dir1, dir2, c)
+        write_comparisons (dir1, dir2, dir3, c)
 
