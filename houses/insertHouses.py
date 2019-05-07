@@ -158,8 +158,8 @@ def getEnergyConsumers(sparql, fdrid):
             "?s c:IdentifiedObject.mRID ?mrid. "
             "?s c:ConductingEquipment.BaseVoltage ?bv. "
             "?bv c:BaseVoltage.nominalVoltage ?basev. "
-            "?s c:EnergyConsumer.pfixed ?p."
-            "?s c:EnergyConsumer.qfixed ?q."
+            "?s c:EnergyConsumer.p ?p."
+            "?s c:EnergyConsumer.q ?q."
             "?s c:EnergyConsumer.phaseConnection ?connraw. "
             'bind(strafter(str(?connraw),"PhaseShuntConnectionKind.") as ?conn) '
             "OPTIONAL {{ "
@@ -253,7 +253,7 @@ def insertHouse(sparql, ecName, ecID, houseNum, houseData):
         # Enumerations are handled differently
         try:
             # Enumerations are handled differently
-            valStr = constants.cim17 + ENUM[name] + '.' + str(value) + '>. ' 
+            valStr = constants.cim100 + ENUM[name] + '.' + str(value) + '>. ' 
         except KeyError:
             # Non-enumeration
             valStr = '\"' + str(value) + '\". '
