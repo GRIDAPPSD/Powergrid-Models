@@ -933,13 +933,6 @@ public class CIMImporter extends Object {
 			nd.nomvln = obj.basev / Math.sqrt(3.0);
 			nd.AddPhases (obj.phs);
 		}
-		for (HashMap.Entry<String,DistSyncMachine> pair : mapSyncMachines.entrySet()) {
-			DistSyncMachine obj = pair.getValue();
-			GldNode nd = mapNodes.get (obj.bus);
-			nd.bSyncMachines = true;
-			nd.nomvln = obj.ratedU / Math.sqrt(3.0);
-			nd.AddPhases (obj.phases);
-		}
 		for (HashMap.Entry<String, DistLinesInstanceZ> pair: mapLinesInstanceZ.entrySet()) {
 			DistLinesInstanceZ obj = pair.getValue();
 			GldNode nd1 = mapNodes.get (obj.bus1);
@@ -1059,6 +1052,22 @@ public class CIMImporter extends Object {
 			DistStorage obj = pair.getValue();
 			GldNode nd = mapNodes.get (obj.bus);
 			nd.bStorageInverters = true;
+			if (nd.nomvln < 0.0) {
+				if (obj.phases.equals("ABC") || obj.phases.equals("AB") || obj.phases.equals("AC") || obj.phases.equals("BC")) {
+					nd.nomvln = obj.ratedU / Math.sqrt(3.0);
+				} else {
+					nd.nomvln = obj.ratedU;
+				}
+			}
+			nd.AddPhases (obj.phases);
+			if (nd.bSecondary) {
+				obj.phases = nd.GetPhases();
+			}
+		}
+		for (HashMap.Entry<String,DistSyncMachine> pair : mapSyncMachines.entrySet()) { // TODO: GridLAB-D doesn't actually support 1-phase generators
+			DistSyncMachine obj = pair.getValue();
+			GldNode nd = mapNodes.get (obj.bus);
+			nd.bSyncMachines = true;
 			if (nd.nomvln < 0.0) {
 				if (obj.phases.equals("ABC") || obj.phases.equals("AB") || obj.phases.equals("AC") || obj.phases.equals("BC")) {
 					nd.nomvln = obj.ratedU / Math.sqrt(3.0);

@@ -14,7 +14,7 @@ WHERE {
 # SynchronousMachine - DistSyncMachine
 PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX c:  <http://iec.ch/TC57/CIM100#>
-SELECT ?name ?bus ?ratedS ?ratedU ?p ?q ?id ?fdrid WHERE {
+SELECT ?name ?bus (group_concat(distinct ?phs;separator="\n") as ?phases) ?ratedS ?ratedU ?p ?q ?id ?fdrid WHERE {
  ?s r:type c:SynchronousMachine.
  ?s c:IdentifiedObject.name ?name.
  ?s c:Equipment.EquipmentContainer ?fdr.
@@ -24,6 +24,9 @@ SELECT ?name ?bus ?ratedS ?ratedU ?p ?q ?id ?fdrid WHERE {
  ?s c:SynchronousMachine.p ?p.
  ?s c:SynchronousMachine.q ?q. 
  bind(strafter(str(?s),"#_") as ?id).
+ OPTIONAL {?smp c:SynchronousMachinePhase.SynchronousMachine ?s.
+ ?smp c:SynchronousMachinePhase.phase ?phsraw.
+   bind(strafter(str(?phsraw),"SinglePhaseKind.") as ?phs) }
  ?t c:Terminal.ConductingEquipment ?s.
  ?t c:Terminal.ConnectivityNode ?cn. 
  ?cn c:IdentifiedObject.name ?bus
