@@ -76,15 +76,14 @@ New Line.LN2001201_sw        bus1=M2001201.3          bus2=D2001201_INT.3      s
 New Line.LN2001301_sw        bus1=M2001301.1          bus2=D2001301_INT.1      switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001 phases=1    !New 1-ph switch
 New Line.V7995_48332_sw      bus1=D5837361-8_INT      bus2=E182745             switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001 !upgraded to 3-ph switch
 
-
-!New Line.LN0138609_sw        bus1=M1089112            bus2=D6138609-1_INT     switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001  !New 1-ph switch
 New Line.TSW10691069_sw      bus1=M1069230            bus2=M1069300            switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001             !New 3-ph tie switch
 
 ! Disable all tie switches for radial configuration
-!New Line.TSW568613_sw        bus1=L2692000.1          bus2=L2841000.1          switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001 phases=1   !New 1-ph tie switch
-!New Line.TSW30473047_sw      bus1=L3047059            bus2=L3047060            switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001    !New 3-ph tie switch
-!New Line.TSW10891089_sw      bus1=L2990827            bus2=L2990828            switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001                               !New 3-ph switch
-!New Line.TSW320328_sw        bus1=D6320328-1_INT.3    bus2=L2879062.3          switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001 phases=1  !New 1-ph switch
+New Line.TSW568613_sw        bus1=L2692000.1          bus2=L2841000_OPEN.1          switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001 phases=1   !New 1-ph tie switch
+New Line.TSW30473047_sw      bus1=L3047059            bus2=L3047060_OPEN            switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001    !New 3-ph tie switch
+New Line.TSW10891089_sw      bus1=L2990827            bus2=L2990828_OPEN            switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001                               !New 3-ph switch
+New Line.TSW320328_sw        bus1=D6320328-1_INT.3    bus2=L2879062_OPEN.3          switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001 phases=1  !New 1-ph switch
+New Line.LN0138609_sw        bus1=M1089112            bus2=D6138609-1_INT_OPEN     switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001  !New 1-ph switch
 
 
 ! The following switches are not needed in the circuit...
