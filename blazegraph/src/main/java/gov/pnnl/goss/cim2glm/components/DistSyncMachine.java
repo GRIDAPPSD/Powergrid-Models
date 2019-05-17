@@ -8,7 +8,7 @@ import org.apache.jena.query.*;
 import java.util.HashMap;
 
 public class DistSyncMachine extends DistComponent {
-    public static final String szQUERY = "SELECT ?name ?bus (group_concat(distinct ?phs;separator=\"\\n\") as ?phases) ?ratedS ?ratedU ?p ?q ?id ?fdrid WHERE {"+
+    public static final String szQUERY = "SELECT ?name ?bus ?ratedS ?ratedU ?p ?q ?id ?fdrid WHERE {"+
 			 " ?s c:Equipment.EquipmentContainer ?fdr."+
 			 " ?fdr c:IdentifiedObject.mRID ?fdrid."+
        " ?s r:type c:SynchronousMachine."+
@@ -18,20 +18,15 @@ public class DistSyncMachine extends DistComponent {
 			 " ?s c:SynchronousMachine.p ?p."+
 			 " ?s c:SynchronousMachine.q ?q."+
 			 " bind(strafter(str(?s),\"#\") as ?id)."+
-			 " OPTIONAL {?smp c:SynchronousMachinePhase.SynchronousMachine ?s."+
-			 "  ?smp c:SynchronousMachinePhase.phase ?phsraw."+
-				" bind(strafter(str(?phsraw),\"SinglePhaseKind.\") as ?phs) }"+
        " ?t c:Terminal.ConductingEquipment ?s."+
        " ?t c:Terminal.ConnectivityNode ?cn."+ 
        " ?cn c:IdentifiedObject.name ?bus" + 
-       "} " +
-       "GROUP by ?name ?bus ?ratedS ?ratedU ?p ?q ?id ?fdrid " +
-       "ORDER by ?name";
+       "}";
 
 	public String id;
 	public String name;
 	public String bus;
-	public String phases;
+	public String phases; // always ABC for now
 	public double ratedS;
 	public double ratedU;
 	public double p;
@@ -58,8 +53,7 @@ public class DistSyncMachine extends DistComponent {
 			name = SafeName (soln.get("?name").toString());
 			id = soln.get("?id").toString();
 			bus = SafeName (soln.get("?bus").toString());
-			phases = OptionalString (soln, "?phases", "ABC");
-			phases = phases.replace ('\n', ':');
+			phases = "ABC";
 			p = Double.parseDouble (soln.get("?p").toString());
 			q = Double.parseDouble (soln.get("?q").toString());
 			ratedU = Double.parseDouble (soln.get("?ratedU").toString());
@@ -95,35 +89,19 @@ public class DistSyncMachine extends DistComponent {
 
 		buf.append ("  name \"dg_" + name + "\";\n");
 		buf.append ("  parent \"" + bus + "_dgmtr\";\n");
-		String Sphase;
-		if (phases.contains ("S")) {
-			buf.append("  phases " + phases + ";\n");
-			if (q < 0.0) {
-				Sphase = df2.format(p) + "-" + df2.format(-q) + "j";
-			} else {
-				Sphase = df2.format(p) + "+" + df2.format(q) + "j";
-			}
-			if (phases.contains("A")) {
-				buf.append ("  power_out_A " + Sphase + ";\n");
-			} else if (phases.contains("B")) {
-				buf.append ("  power_out_B " + Sphase + ";\n");
-			} else {
-				buf.append ("  power_out_C " + Sphase + ";\n");
-			}
-		} else {
-			buf.append("  phases " + phases + "N;\n");
-			if (q < 0.0) {
-				Sphase = df2.format(p/3.0) + "-" + df2.format(-q/3.0) + "j";
-			} else {
-				Sphase = df2.format(p/3.0) + "+" + df2.format(q/3.0) + "j";
-			}
-			buf.append ("  power_out_A " + Sphase + ";\n");
-			buf.append ("  power_out_B " + Sphase + ";\n");
-			buf.append ("  power_out_C " + Sphase + ";\n");
-		}
+		buf.append ("  phases " + phases + "N;\n");
 		buf.append ("  Gen_type CONSTANT_PQ;\n");
 		buf.append ("  Rated_V " + df2.format(ratedU) + ";\n");
 		buf.append ("  Rated_VA " + df2.format(ratedS) + ";\n");
+		String Sphase;
+		if (q < 0.0) {
+			Sphase = df2.format(p/3.0) + "-" + df2.format(-q/3.0) + "j";
+		} else {
+			Sphase = df2.format(p/3.0) + "+" + df2.format(q/3.0) + "j";
+		}
+		buf.append ("  power_out_A " + Sphase + ";\n");
+		buf.append ("  power_out_B " + Sphase + ";\n");
+		buf.append ("  power_out_C " + Sphase + ";\n");
 		buf.append ("}\n");
 
 		return buf.toString();

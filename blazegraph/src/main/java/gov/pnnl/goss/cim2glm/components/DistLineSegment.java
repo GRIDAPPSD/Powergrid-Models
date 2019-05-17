@@ -8,18 +8,6 @@ import java.io.*;
 import java.util.HashMap;
 
 public abstract class DistLineSegment extends DistComponent {
-	public static final String szCountQUERY =
-		"SELECT ?key (count(?phs) as ?count) WHERE {"+
-		" SELECT DISTINCT ?key ?phs WHERE {"+
-		" ?fdr c:IdentifiedObject.mRID ?fdrid."+
-		" ?s c:Equipment.EquipmentContainer ?fdr."+
-		" ?s r:type c:ACLineSegment."+
-		" ?s c:IdentifiedObject.name ?key."+
-		" OPTIONAL {?acp c:ACLineSegmentPhase.ACLineSegment ?s."+
-		" ?acp c:ACLineSegmentPhase.phase ?phsraw."+
-		" bind(strafter(str(?phsraw),\"SinglePhaseKind.\") as ?phs)}"+
-		"}} GROUP BY ?key ORDER BY ?key";
-
 	public String id;
 	public String name;
 	public String bus1;

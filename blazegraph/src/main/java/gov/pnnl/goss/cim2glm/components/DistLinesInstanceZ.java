@@ -6,7 +6,6 @@ package gov.pnnl.goss.cim2glm.components;
 
 import org.apache.jena.query.*;
 import org.apache.commons.math3.complex.Complex;
-import java.util.HashMap;
 
 public class DistLinesInstanceZ extends DistLineSegment {
 	public static final String szQUERY = 
@@ -53,7 +52,7 @@ public class DistLinesInstanceZ extends DistLineSegment {
 		return buf.toString();
 	}
 
-	public DistLinesInstanceZ (ResultSet results, HashMap<String,Integer> map) {
+	public DistLinesInstanceZ (ResultSet results) {
 		if (results.hasNext()) {
 			QuerySolution soln = results.next();
 			name = SafeName (soln.get("?name").toString());

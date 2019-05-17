@@ -5,7 +5,7 @@ sys.path.append("..")
 from Meas import constants
 
 if len(sys.argv) < 2:
-	print ('usage: python3 DropHouses.py feeder_id')
+	print ('usage: python DropHouses.py feeder_id')
 	print (' (Blazegraph server must already be started)')
 	exit()
 

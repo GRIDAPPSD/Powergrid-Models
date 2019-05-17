@@ -14,12 +14,12 @@ public class DistCoordinates extends DistComponent {
 		" ?eq c:PowerSystemResource.Location ?loc."+
 		" { ?eq c:IdentifiedObject.name ?name."+
     "   ?eq a ?classraw."+
-    "   bind(strafter(str(?classraw),\"CIM100#\") as ?class)}"+
+    "   bind(strafter(str(?classraw),\"cim17#\") as ?class)}"+
     "  UNION"+
     " { ?eq c:PowerElectronicsConnection.PowerElectronicsUnit ?unit."+
 		"   ?unit c:IdentifiedObject.name ?name."+
     "   ?unit a ?classraw."+
-    "   bind(strafter(str(?classraw),\"CIM100#\") as ?class)}"+
+    "   bind(strafter(str(?classraw),\"cim17#\") as ?class)}"+
 		" ?pt c:PositionPoint.Location ?loc."+
 		" ?pt c:PositionPoint.xPosition ?x."+
 		" ?pt c:PositionPoint.yPosition ?y."+
