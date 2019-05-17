@@ -71,7 +71,7 @@ public class DistRegulator extends DistComponent {
 	public String bankphases;
 
 	// GridLAB-D only supports different bank parameters for tap (step), R and X
-	public double[] step;
+	public int[] step;
 	public double[] fwdR;
 	public double[] fwdX;
 	// GridLAB-D codes phs variations into certain attribute labels
@@ -189,7 +189,7 @@ public class DistRegulator extends DistComponent {
 		AddJSONBooleanArray (buf, "RegulatingControl.enabled", ctl_enabled);
 		AddJSONBooleanArray (buf, "RegulatingControl.discrete", discrete); 
 		AddJSONStringArray (buf, "RegulatingControl.mode", ctlmode);
-		AddJSONDoubleArray (buf, "step", step);
+		AddJSONIntegerArray (buf, "step", step);
 		AddJSONDoubleArray (buf, "targetValue", vset);
 		AddJSONDoubleArray (buf, "targetDeadband", vbw);
 		AddJSONDoubleArray (buf, "limitVoltage", vlim);
@@ -243,7 +243,7 @@ public class DistRegulator extends DistComponent {
 		vlim = new double[size];
 		vset = new double[size];
 		vbw = new double[size];
-		step = new double[size];
+		step = new int[size];
 		fwdR = new double[size];
 		fwdX = new double[size];
 		revR = new double[size];
@@ -279,7 +279,7 @@ public class DistRegulator extends DistComponent {
 				ctl_enabled[i] = Boolean.parseBoolean (soln.get("?ctl_enabled").toString());
 				incr[i] = Double.parseDouble (soln.get("?incr").toString());
 				neutralU[i] = Double.parseDouble (soln.get("?neutralU").toString());
-				step[i] = Double.parseDouble (soln.get("?step").toString());
+				step[i] = Integer.parseInt (soln.get("?step").toString());
 				initDelay[i] = Double.parseDouble (soln.get("?initDelay").toString());
 				subDelay[i] = Double.parseDouble (soln.get("?subDelay").toString());
 				vlim[i] = Double.parseDouble (soln.get("?vlim").toString());
@@ -325,7 +325,7 @@ public class DistRegulator extends DistComponent {
 			buf.append (" neutralStep=" + Integer.toString(neutralStep[i]));
 			buf.append (" normalStep=" + Integer.toString(normalStep[i]));
 			buf.append (" neutralU=" + df4.format(neutralU[i]));
-			buf.append (" step=" + df4.format(step[i]));
+			buf.append (" step=" + Integer.toString(step[i]));
 			buf.append (" incr=" + df4.format(incr[i]));
 			buf.append (" initDelay=" + df4.format(initDelay[i]));
 			buf.append (" subDelay=" + df4.format(subDelay[i]));
@@ -413,11 +413,11 @@ public class DistRegulator extends DistComponent {
 		buf.append ("  regulation " + df6.format(dReg) + ";\n");
 		buf.append ("  Type B;\n");
 		for (int i = 0; i < size; i++) {
-			int iTap = (int) Math.round((step[i] - 1.0) / incr[i] * 100.0);	// TODO - verify this should be an offset from neutralStep
+//			int iTap = (int) Math.round((step[i] - 1.0) / incr[i] * 100.0);	// TODO - verify this should be an offset from neutralStep
 			buf.append ("  compensator_r_setting_" + phs[i].substring(0,1) + " " + df6.format(fwdR[i]) + ";\n");
 			buf.append ("  compensator_x_setting_" + phs[i].substring(0,1) + " " + df6.format(fwdX[i]) + ";\n");
 			buf.append ("  // comment out the manual tap setting if using automatic control\n");
-			buf.append ("  tap_pos_" + phs[i].substring(0,1) + " " + Integer.toString(iTap) + ";\n");
+			buf.append ("  tap_pos_" + phs[i].substring(0,1) + " " + Integer.toString(step[i]) + ";\n");
 		}
 		buf.append ("}\n");
 
@@ -445,9 +445,11 @@ public class DistRegulator extends DistComponent {
 			buf.append(" vreg=" + df2.format(vset[i]) + " band=" + df2.format(vbw[i]) + " ptratio=" + df2.format(ptRatio[i]) +
 								 " ctprim=" + df2.format(ctRating[i]) + " r=" + df2.format(fwdR[i]) +
 								 " x=" + df2.format(fwdX[i]) + " revr=" + df2.format(revR[i]) + " revx=" + df2.format(revX[i]) +
-								 " delay=" + df2.format(initDelay[i]) + " tapdelay=" + df2.format(subDelay[i]) + " vlimit=" + df2.format(vlim[i]));
+								 " delay=" + df2.format(initDelay[i]) + " tapdelay=" + df2.format(subDelay[i]) + " vlimit=" + df2.format(vlim[i]) +
+								 " TapNum=" + Integer.toString(step[i]));
 			// ptphase, enabled
-			buf.append ("\nedit transformer." + xfName + " wdg=" + Integer.toString(wnum[i]) + " tap=" + df6.format(step[i]));
+			double turnsRatio = 1.0 + 0.01 * step[i] * incr[i];
+			buf.append ("\nedit transformer." + xfName + " wdg=" + Integer.toString(wnum[i]) + " tap=" + df6.format(turnsRatio));
 			buf.append("\n");
 		}
 

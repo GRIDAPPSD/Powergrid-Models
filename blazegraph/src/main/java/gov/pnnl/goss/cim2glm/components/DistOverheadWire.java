@@ -12,15 +12,11 @@ public class DistOverheadWire extends DistWire {
 		" ?eq r:type c:ACLineSegment."+
 		" ?eq c:Equipment.EquipmentContainer ?fdr."+
 		" ?fdr c:IdentifiedObject.mRID ?fdrid."+
-		" { ?asset c:Asset.PowerSystemResources ?eq."+
-		"   ?asset c:Asset.AssetInfo ?w.}"+
-		" UNION"+
-		" { ?acp c:ACLineSegmentPhase.ACLineSegment ?eq."+
-		"   ?phasset c:Asset.PowerSystemResources ?acp."+
-		"   ?phasset c:Asset.AssetInfo ?w.}"+
+		" ?acp c:ACLineSegmentPhase.ACLineSegment ?eq."+
+		" ?acp c:ACLineSegmentPhase.WireInfo ?w."+
 		" ?w r:type c:OverheadWireInfo."+
 		" ?w c:IdentifiedObject.name ?name."+
-		" bind(strafter(str(?w),\"#\") as ?id)."+
+		"   bind(strafter(str(?w),\"#\") as ?id)."+
 		" ?w c:WireInfo.radius ?rad."+
 		" ?w c:WireInfo.gmr ?gmr."+
 		" OPTIONAL {?w c:WireInfo.rDC20 ?rdc.}"+

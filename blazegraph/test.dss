@@ -1,0 +1,16 @@
+//
+clear
+cd /Users/mcde601/src/GRIDAPPSD/Powergrid-Models/blazegraph/
+redirect ieee13_base.dss
+set maxiterations=20
+set controlmode=off
+solve
+export summary IEEE13.csv
+//
+clear
+cd /Users/mcde601/src/GRIDAPPSD/Powergrid-Models/blazegraph/
+redirect ieee13assets_base.dss
+set maxiterations=20
+set controlmode=off
+solve
+export summary IEEE13_Assets.csv

@@ -83,6 +83,8 @@ public class CIMImporter extends Object {
 	HashMap<String,Integer> mapCountCodeSCTest = new HashMap<>();
 	HashMap<String,Integer> mapCountTank = new HashMap<>();
 	HashMap<String,Integer> mapCountBank = new HashMap<>();
+	HashMap<String,Integer> mapCountLinePhases = new HashMap<>();
+	HashMap<String,Integer> mapCountSpacingXY = new HashMap<>();
 
 	HashMap<String,DistBaseVoltage> mapBaseVoltages = new HashMap<>();
 	HashMap<String,DistBreaker> mapBreakers = new HashMap<>();
@@ -142,6 +144,9 @@ public class CIMImporter extends Object {
 		LoadOneCountMap (DistPowerXfmrWinding.szCountQUERY, mapCountWinding);
 		LoadOneCountMap (DistXfmrCodeRating.szCountQUERY, mapCountCodeRating);
 		LoadOneCountMap (DistXfmrCodeSCTest.szCountQUERY, mapCountCodeSCTest);
+		LoadOneCountMap (DistLineSegment.szCountQUERY, mapCountLinePhases);
+		LoadOneCountMap (DistLineSpacing.szCountQUERY, mapCountSpacingXY);
+//		PrintOneCountMap (mapCountSpacingXY, "Line Spacing Position Counts");
 	}
 
 	void LoadBaseVoltages() {
@@ -300,7 +305,7 @@ public class CIMImporter extends Object {
 	void LoadLineSpacings() {
 		ResultSet results = queryHandler.query (DistLineSpacing.szQUERY);
 		while (results.hasNext()) {
-			DistLineSpacing obj = new DistLineSpacing (results);
+			DistLineSpacing obj = new DistLineSpacing (results, mapCountSpacingXY);
 			mapSpacings.put (obj.GetKey(), obj);
 		}
 		((ResultSetCloseable)results).close();
@@ -381,7 +386,7 @@ public class CIMImporter extends Object {
 	void LoadLinesInstanceZ() {
 		ResultSet results = queryHandler.query (DistLinesInstanceZ.szQUERY);
 		while (results.hasNext()) {
-			DistLinesInstanceZ obj = new DistLinesInstanceZ (results);
+			DistLinesInstanceZ obj = new DistLinesInstanceZ (results, mapCountLinePhases);
 			mapLinesInstanceZ.put (obj.GetKey(), obj);
 		}
 		((ResultSetCloseable)results).close();
@@ -390,7 +395,7 @@ public class CIMImporter extends Object {
 	void LoadLinesCodeZ() {
 		ResultSet results = queryHandler.query (DistLinesCodeZ.szQUERY);
 		while (results.hasNext()) {
-			DistLinesCodeZ obj = new DistLinesCodeZ (results);
+			DistLinesCodeZ obj = new DistLinesCodeZ (results, mapCountLinePhases);
 			mapLinesCodeZ.put (obj.GetKey(), obj);
 		}
 		((ResultSetCloseable)results).close();
@@ -399,7 +404,7 @@ public class CIMImporter extends Object {
 	void LoadLinesSpacingZ() {
 		ResultSet results = queryHandler.query (DistLinesSpacingZ.szQUERY);
 		while (results.hasNext()) {
-			DistLinesSpacingZ obj = new DistLinesSpacingZ (results);
+			DistLinesSpacingZ obj = new DistLinesSpacingZ (results, mapCountLinePhases);
 			mapLinesSpacingZ.put (obj.GetKey(), obj);
 		}
 		((ResultSetCloseable)results).close();
@@ -482,6 +487,14 @@ public class CIMImporter extends Object {
 		SortedSet<String> keys = new TreeSet<String>(map.keySet());
 		for (String key : keys) {
 			System.out.println (map.get(key).DisplayString());
+		}
+	}
+
+	public void PrintOneCountMap(HashMap<String,Integer> map, String label) {
+		System.out.println(label);
+		SortedSet<String> keys = new TreeSet<String>(map.keySet());
+		for (String key : keys) {
+			System.out.println (key + ":" + Integer.toString (map.get(key)));
 		}
 	}
 
@@ -795,7 +808,7 @@ public class CIMImporter extends Object {
 			}
 			if (ln.wire_phases[i].equals ("N")) {
 				if (bCable) {
-					match_N = GldLineConfig.GetMatchWire(ln.wire_classes[0], ln.wire_names[0]); // we can't use any bare wires in GLD cables
+					match_N = GldLineConfig.GetMatchWire(ln.wire_classes[0], ln.wire_names[0]); // TODO: can we now use bare neutral wires in GLD cables
 				} else {
 					match_N = GldLineConfig.GetMatchWire(ln.wire_classes[i], ln.wire_names[i]);
 				}
@@ -920,13 +933,6 @@ public class CIMImporter extends Object {
 			nd.nomvln = obj.basev / Math.sqrt(3.0);
 			nd.AddPhases (obj.phs);
 		}
-		for (HashMap.Entry<String,DistSyncMachine> pair : mapSyncMachines.entrySet()) {
-			DistSyncMachine obj = pair.getValue();
-			GldNode nd = mapNodes.get (obj.bus);
-			nd.bSyncMachines = true;
-			nd.nomvln = obj.ratedU / Math.sqrt(3.0);
-			nd.AddPhases (obj.phases);
-		}
 		for (HashMap.Entry<String, DistLinesInstanceZ> pair: mapLinesInstanceZ.entrySet()) {
 			DistLinesInstanceZ obj = pair.getValue();
 			GldNode nd1 = mapNodes.get (obj.bus1);
@@ -985,7 +991,7 @@ public class CIMImporter extends Object {
 			obj.glm_config = GetGLMLineConfiguration (obj);
 			DistLineSpacing spc = mapSpacings.get (obj.spacing);
 			if (spc != null) {
-				spc.MarkGLMPermutationsUsed(obj.phases);
+				spc.MarkPermutationsUsed(obj.phases);
 			}
 			GldNode nd1 = mapNodes.get (obj.bus1);
 			nd1.nomvln = obj.basev / Math.sqrt(3.0);
@@ -1046,6 +1052,22 @@ public class CIMImporter extends Object {
 			DistStorage obj = pair.getValue();
 			GldNode nd = mapNodes.get (obj.bus);
 			nd.bStorageInverters = true;
+			if (nd.nomvln < 0.0) {
+				if (obj.phases.equals("ABC") || obj.phases.equals("AB") || obj.phases.equals("AC") || obj.phases.equals("BC")) {
+					nd.nomvln = obj.ratedU / Math.sqrt(3.0);
+				} else {
+					nd.nomvln = obj.ratedU;
+				}
+			}
+			nd.AddPhases (obj.phases);
+			if (nd.bSecondary) {
+				obj.phases = nd.GetPhases();
+			}
+		}
+		for (HashMap.Entry<String,DistSyncMachine> pair : mapSyncMachines.entrySet()) { // TODO: GridLAB-D doesn't actually support 1-phase generators
+			DistSyncMachine obj = pair.getValue();
+			GldNode nd = mapNodes.get (obj.bus);
+			nd.bSyncMachines = true;
 			if (nd.nomvln < 0.0) {
 				if (obj.phases.equals("ABC") || obj.phases.equals("AB") || obj.phases.equals("AC") || obj.phases.equals("BC")) {
 					nd.nomvln = obj.ratedU / Math.sqrt(3.0);
@@ -1305,9 +1327,10 @@ public class CIMImporter extends Object {
 		return id;
 	}
 
-	protected void WriteDSSFile (PrintWriter out, PrintWriter outID, String fXY, String fID, double load_scale, boolean bWantZIP, 
-														double Zcoeff, double Icoeff, double Pcoeff)  {
-
+	protected void WriteDSSFile (PrintWriter out, PrintWriter outID, String fXY, String fID, double load_scale, 
+															 boolean bWantSched, String fSched, boolean bWantZIP, double Zcoeff, double Icoeff, double Pcoeff)  {
+		out.println ("clear");
+		
 		for (HashMap.Entry<String,DistSubstation> pair : mapSubstations.entrySet()) {
 			out.print (pair.getValue().GetDSS());
 			outID.println ("Circuit." + pair.getValue().name + "\t" + GUIDfromCIMmRID (pair.getValue().id));
@@ -1329,6 +1352,14 @@ public class CIMImporter extends Object {
 			outID.println ("TSData." + pair.getValue().name + "\t" + GUIDfromCIMmRID (pair.getValue().id));
 		}
 		out.println();
+		// DistLineSpacing can be transposed, so mark the permutations (i.e. transpositions) actually neede
+		for (HashMap.Entry<String,DistLinesSpacingZ> pair : mapLinesSpacingZ.entrySet()) {
+			DistLinesSpacingZ obj = pair.getValue();
+			DistLineSpacing spc = mapSpacings.get (obj.spacing);
+			if (spc != null) {
+				spc.MarkPermutationsUsed(obj.phases);
+			}
+		}
 		for (HashMap.Entry<String,DistLineSpacing> pair : mapSpacings.entrySet()) {
 			out.print (pair.getValue().GetDSS());
 			outID.println ("LineSpacing." + pair.getValue().name + "\t" + GUIDfromCIMmRID (pair.getValue().id));
@@ -1453,13 +1484,36 @@ public class CIMImporter extends Object {
 
 		out.println();
 		out.println ("calcv");
-		out.println ("buscoords " + fXY);
-		out.println ("guids " + fID);
-		out.println ("// solve");
+		
+		// capture the time sequence of phase voltage and current magnitudes at the feeder head
+
+//		out.println ("New Monitor.fdr element=line.sw1 mode=32 // mode=48 for sequence magnitudes ");
+
+		// import the "player file" and assign to all loads
+
+		// this is the player file, with header, first column, and semicolons removed
+		//new loadshape.player npts=1440 sinterval=60 mult=(file=ieeeziploadshape.dss) action=normalize
+		// this command works with the original player file, if the semicolons are removed from about line 1380 onward
+		if (bWantSched) {
+			out.println("new loadshape.player npts=1440 sinterval=60 mult=(file=" + fSched + ".player,col=2,header=yes) action=normalize");
+			out.println ("batchedit load..* duty=player daily=player");
+		}
+
+		// removed the local Docker paths, relying on cwd instead
+
+//		buscoords model_busxy.dss
+//		guids model_guid.dss
+				
+		//Only use local names for fXY and FID
+		File fXYFile = new File(fXY);
+		File fIDFile = new File(fID);
+				
+		out.println ("buscoords " + fXYFile.getName());
+		out.println ("guids " + fIDFile.getName());
+		
 
 		out.println();
-		out.println ("// export summary");
-		out.println ("// show voltages ln");
+		
 
 		out.close();
 		outID.close();
@@ -1510,9 +1564,9 @@ public class CIMImporter extends Object {
 		if (fTarget.equals("glm")) {
 			LoadAllMaps();
 			CheckMaps();
-//			PrintOneMap (mapSolars, "** SOLAR PV SOURCES");
-//			PrintOneMap (mapStorages, "** STORAGE SOURCES");
 //			PrintAllMaps();
+//			PrintOneMap (mapSpacings, "** LINE SPACINGS");
+//			PrintOneMap (mapLinesSpacingZ, "** LINES REFERENCING SPACINGS");
 			fDict = fRoot + "_dict.json";
 			fOut = fRoot + "_base.glm";
 			fXY = fRoot + "_symbols.json";
@@ -1531,7 +1585,7 @@ public class CIMImporter extends Object {
 			fID = fRoot + "_guid.dss";
 			PrintWriter pOut = new PrintWriter(fOut);
 			PrintWriter pID = new PrintWriter(fID);
-			WriteDSSFile (pOut, pID, fXY, fID, load_scale, bWantZIP, Zcoeff, Icoeff, Pcoeff);
+			WriteDSSFile (pOut, pID, fXY, fID, load_scale, bWantSched, fSched, bWantZIP, Zcoeff, Icoeff, Pcoeff);
 			PrintWriter pXY = new PrintWriter(fXY);
 			WriteDSSCoordinates (pXY);
 			PrintWriter pSym = new PrintWriter (fRoot + "_symbols.json");
@@ -1613,14 +1667,15 @@ public class CIMImporter extends Object {
 	 * @param Icoeff
 	 * @param Pcoeff
 	 */
-	public void generateDSSFile(QueryHandler queryHandler, PrintWriter out, PrintWriter outID, String fXY, String fID, double load_scale, boolean bWantZIP, 
-														double Zcoeff, double Icoeff, double Pcoeff){
+	public void generateDSSFile(QueryHandler queryHandler, PrintWriter out, PrintWriter outID, String fXY, String fID, 
+															double load_scale, boolean bWantSched, String fSched, boolean bWantZIP, 
+															double Zcoeff, double Icoeff, double Pcoeff){
 		this.queryHandler = queryHandler;
 		if(!allMapsLoaded){
 			LoadAllMaps();
 		}
 		CheckMaps();
-		WriteDSSFile(out, outID, fXY, fID, load_scale, bWantZIP, Zcoeff, Icoeff, Pcoeff);
+		WriteDSSFile(out, outID, fXY, fID, load_scale, bWantSched, fSched, bWantZIP, Zcoeff, Icoeff, Pcoeff);
 	}
 	
 	/**
@@ -1664,7 +1719,7 @@ public class CIMImporter extends Object {
 			System.out.println ("       -o={glm|dss|idx}   // output format; defaults to glm");
 			System.out.println ("       -l={0..1}          // load scaling factor; defaults to 1");
 			System.out.println ("       -f={50|60}         // system frequency; defaults to 60");
-			System.out.println ("       -n={schedule_name} // root filename for scheduled ZIP loads (defaults to none), valid only for -o=glm");
+			System.out.println ("       -n={schedule_name} // root filename for scheduled ZIP loads (defaults to none)");
 			System.out.println ("       -z={0..1}          // constant Z portion (defaults to 0 for CIM-defined LoadResponseCharacteristic)");
 			System.out.println ("       -i={0..1}          // constant I portion (defaults to 0 for CIM-defined LoadResponseCharacteristic)");
 			System.out.println ("       -p={0..1}          // constant P portion (defaults to 0 for CIM-defined LoadResponseCharacteristic)");

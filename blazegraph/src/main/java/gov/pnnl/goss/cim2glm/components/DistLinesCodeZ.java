@@ -5,10 +5,11 @@ package gov.pnnl.goss.cim2glm.components;
 //	----------------------------------------------------------
 
 import org.apache.jena.query.*;
+import java.util.HashMap;
 
 public class DistLinesCodeZ extends DistLineSegment {
 	public static final String szQUERY =
-		"SELECT ?name ?id ?basev ?bus1 ?bus2 (group_concat(distinct ?phs;separator=\"\\n\") as ?phases) ?len ?lname ?fdrid WHERE {"+
+		"SELECT ?name ?id ?basev ?bus1 ?bus2 ?len ?lname ?fdrid ?seq ?phs WHERE {"+
 		" ?s r:type c:ACLineSegment."+
 		" ?s c:Equipment.EquipmentContainer ?fdr."+
 		" ?fdr c:IdentifiedObject.mRID ?fdrid."+
@@ -28,11 +29,11 @@ public class DistLinesCodeZ extends DistLineSegment {
 		" ?cn2 c:IdentifiedObject.name ?bus2."+
 		" bind(strafter(str(?s),\"#\") as ?id)."+
 		" OPTIONAL {?acp c:ACLineSegmentPhase.ACLineSegment ?s."+
+		" ?acp c:ACLineSegmentPhase.sequenceNumber ?seq."+
 		" ?acp c:ACLineSegmentPhase.phase ?phsraw."+
 		"   bind(strafter(str(?phsraw),\"SinglePhaseKind.\") as ?phs) }"+
 		"}"+
-		" GROUP BY ?name ?bus1 ?bus2 ?id ?len ?lname ?basev ?fdrid"+
-		" ORDER BY ?name";
+		" ORDER BY ?name ?seq ?phs";
 
 	public String lname;
 
@@ -45,18 +46,27 @@ public class DistLinesCodeZ extends DistLineSegment {
 		return buf.toString();
 	}
 
-	public DistLinesCodeZ (ResultSet results) {
+	public DistLinesCodeZ (ResultSet results, HashMap<String,Integer> map) {
 		if (results.hasNext()) {
 			QuerySolution soln = results.next();
 			name = SafeName (soln.get("?name").toString());
 			id = soln.get("?id").toString();
 			bus1 = SafeName (soln.get("?bus1").toString()); 
-			bus2 = SafeName (soln.get("?bus2").toString()); 
-			phases = OptionalString (soln, "?phases", "ABC");
-			phases = phases.replace ('\n', ':');
+			bus2 = SafeName (soln.get("?bus2").toString());
 			basev = Double.parseDouble (soln.get("?basev").toString());
 			len = Double.parseDouble (soln.get("?len").toString());
 			lname = soln.get("?lname").toString();
+			int nphs = map.get (name);
+			if (nphs > 0) {
+				StringBuilder buf = new StringBuilder(soln.get("?phs").toString());
+				for (int i = 1; i < nphs; i++) {
+					soln = results.next();
+					buf.append (soln.get("?phs").toString());
+				}
+				phases = buf.toString();
+			} else {
+				phases = "ABC";
+			}
 		}		
 	}
 

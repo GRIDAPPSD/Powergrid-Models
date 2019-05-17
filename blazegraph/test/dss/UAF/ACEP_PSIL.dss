@@ -27,12 +27,12 @@ set voltagebases=[0.480 0.318 0.208]
 
 CalcV
 Buscoords PSIL_Buscoords.dat
-solve
+//solve
 
-export summary ACEP_PSIL.csv
-show voltages ln
-show powers
+//export summary ACEP_PSIL.csv
+//show voltages ln
+//show powers
 //plot circuit quantity=powers
-export cdpsmcombined file=ACEP_PSIL.xml fid=77966920-E1EC-EE8A-23EE-4EFD23B205BD sub=UAF sid=22B12048-23DF-007B-9291-826A16DBCB21 subgeo=Fairbanks sgrid=2F8FC9BF-FF32-A197-D541-0A2529D04DF7 geo=Alaska rgnid=96465E7A-6EC3-ECCA-BC27-31B53F05C96E
-quit
+//export cdpsmcombined file=ACEP_PSIL.xml fid=77966920-E1EC-EE8A-23EE-4EFD23B205BD sub=UAF sid=22B12048-23DF-007B-9291-826A16DBCB21 subgeo=Fairbanks sgrid=2F8FC9BF-FF32-A197-D541-0A2529D04DF7 geo=Alaska rgnid=96465E7A-6EC3-ECCA-BC27-31B53F05C96E
+//quit
 
