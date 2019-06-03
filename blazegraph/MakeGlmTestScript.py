@@ -61,7 +61,16 @@ else:
 #             ['R2_12_47_2',57735.0],
 #             ['EPRI_DPV_J1',39837.2]]
 
-casefiles = [['R2_12_47_2',57735.0]]
+casefiles = [['R2_12_47_2',57735.0],
+             ['EPRI_DPV_J1',39837.2],
+             ['IEEE13',66395.3],
+             ['IEEE13_Assets',66395.3],
+             ['IEEE8500',66395.3],
+             ['IEEE8500_3subs',66395.3],
+             ['IEEE37',132790.6],
+             ['IEEE123',2401.8],
+             ['IEEE123_PV',2401.8],
+             ['ACEP_PSIL',277.13]]
 
 for c in casefiles:
     if sys.platform == 'win32':

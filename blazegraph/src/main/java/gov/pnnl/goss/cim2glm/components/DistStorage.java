@@ -126,7 +126,7 @@ public class DistStorage extends DistComponent {
 	public String GetGLM() {
 		StringBuilder buf = new StringBuilder ("object inverter {\n");
 
-		buf.append ("  name \"inv_" + name + "\";\n");
+		buf.append ("  name \"inv_bat_" + name + "\";\n");
 		buf.append ("  parent \"" + bus + "_stmtr\";\n");
 		if (bDelta && !phases.contains("D")) {
 			buf.append ("  phases " + phases + "D;\n");

@@ -14,12 +14,8 @@ public class DistTapeShieldCable extends DistCable {
 		" ?eq r:type c:ACLineSegment."+
 		" ?eq c:Equipment.EquipmentContainer ?fdr."+
 		" ?fdr c:IdentifiedObject.mRID ?fdrid."+
-		" { ?asset c:Asset.PowerSystemResources ?eq."+
-		"   ?asset c:Asset.AssetInfo ?w.}"+
-		" UNION"+
-		" { ?acp c:ACLineSegmentPhase.ACLineSegment ?eq."+
-		"   ?phasset c:Asset.PowerSystemResources ?acp."+
-		"   ?phasset c:Asset.AssetInfo ?w.}"+
+		" ?acp c:ACLineSegmentPhase.ACLineSegment ?eq."+
+		" ?acp c:ACLineSegmentPhase.WireInfo ?w."+
 		" ?w r:type c:TapeShieldCableInfo."+
 		" ?w c:IdentifiedObject.name ?name."+
 		" bind(strafter(str(?w),\"#\") as ?id)."+

@@ -9,7 +9,10 @@ def append_dss_case(casefiles, dsspath, fp):
         print('set maxiterations=20', file=fp)
         print('set controlmode=off', file=fp)
         print('solve', file=fp)
-        print('export summary', c + '.csv', file=fp)
+        print('export summary ', c + '_s.csv', file=fp)
+        print('export voltages', c + '_v.csv', file=fp)
+        print('export currents', c + '_i.csv', file=fp)
+        print('export taps    ', c + '_t.csv', file=fp)
 
 def append_xml_case(casefiles, xmlpath, dsspath, glmpath, fp):
     for c in casefiles:
@@ -107,7 +110,16 @@ else:
 #             'R2_12_47_2',
 #             'EPRI_DPV_J1']
 
-casefiles = ['R2_12_47_2']
+casefiles = ['ACEP_PSIL',
+             'EPRI_DPV_J1',
+             'IEEE123',
+             'IEEE123_PV',
+             'IEEE13',
+             'IEEE13_Assets',
+             'IEEE37',
+             'IEEE8500',
+             'IEEE8500_3subs',
+             'R2_12_47_2']
 
 arg = sys.argv[1]
 
