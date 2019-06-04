@@ -2322,7 +2322,7 @@
   <cim:IdentifiedObject.name>fuse1</cim:IdentifiedObject.name>
   <cim:Equipment.EquipmentContainer rdf:resource="#_49AD8E07-3BF9-A4E2-CB8F-C3722F837B62"/>
   <cim:ConductingEquipment.BaseVoltage rdf:resource="#_25F95856-86CD-6679-5E89-016AA9D5B59A"/>
-  <cim:Switch.ratedCurrent>65</cim:Switch.ratedCurrent>
+  <cim:Switch.ratedCurrent>100</cim:Switch.ratedCurrent>
   <cim:Switch.normalOpen>false</cim:Switch.normalOpen>
   <cim:Switch.open>false</cim:Switch.open>
   <cim:Switch.retained>true</cim:Switch.retained>
