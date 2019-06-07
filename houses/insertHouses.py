@@ -283,7 +283,7 @@ if __name__ == "__main__":
     # Also grab the region qualifier.
     parser.add_argument("region", help=("Climate region the feeder "
                                         "exists in. Valid options "
-                                        "are r1, r2, r3, r4, or r5."))
+                                        "are 1, 2, 3, 4, or 5."))
     
     # Get args
     args = parser.parse_args()
