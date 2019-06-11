@@ -4,6 +4,8 @@ import math
 import sys
 import os
 
+# Do all of the name-matching in upper case!!
+
 # 208/120 is always used as a candidate base voltage
 casefiles = [{'root':'ACEP_PSIL',      'bases':[314.0,480.0]},
              {'root':'EPRI_DPV_J1',    'bases':[416.0,12470.0,69000.0]},
@@ -16,7 +18,7 @@ casefiles = [{'root':'ACEP_PSIL',      'bases':[314.0,480.0]},
              {'root':'IEEE8500_3subs', 'bases':[12480.0,69000.0,115000.0]},
              {'root':'R2_12_47_2',     'bases':[480.0,12470.0,100000.0]}]
 
-# casefiles = [{'root':'IEEE13','bases':[480.0,4160.0,115000.0]}]
+# casefiles = [{'root':'EPRI_DPV_J1',    'bases':[416.0,12470.0,69000.0]}]
 
 dir1 = './test/'
 dir2 = './dss/'
@@ -53,7 +55,7 @@ def load_glm_voltages(fname, voltagebases):
     next (rd)
     next (rd)
     for row in rd:
-        bus = row[0]
+        bus = row[0].upper()
         buses.append (bus)
         maga = float(row[1])
         if maga > 0.0:
@@ -77,8 +79,8 @@ def load_glm_currents(fname):
     next (rd)
     #link_name,currA_mag,currA_angle,currB_mag,currB_angle,currC_mag,currC_angle
     for row in rd:
-        link = row[0]
-        if link.startswith ('line_') or link.startswith ('reg_') or link.startswith ('swt_') or link.startswith ('xf_'):
+        link = row[0].upper()
+        if link.startswith ('LINE_') or link.startswith ('REG_') or link.startswith ('SWT_') or link.startswith ('XF_'):
             links.append(link)
             maga = float(row[1])
             if maga > 0.001:
@@ -102,7 +104,7 @@ def load_currents(fname):
     itol = 1.0e-8  # if this is too high, the comparison may think a conductive branch is missing
     #Element, I1_1, Ang1_1, I1_2, Ang1_2, I1_3, Ang1_3, I1_4, Ang1_4, Iresid1, AngResid1, I2_1, Ang2_1, I2_2, Ang2_2, I2_3, Ang2_3, I2_4, Ang2_4, Iresid2, AngResid2
     for row in rd:
-        link = row[0].strip('\"')
+        link = row[0].strip('\"').upper()
         i1 = float(row[1])
         i2 = float(row[3])
         i3 = float(row[5])
@@ -128,7 +130,7 @@ def load_voltages(fname):
     next (rd)
     #Bus, BasekV, Node1, Magnitude1, Angle1, pu1, Node2, Magnitude2, Angle2, pu2, Node3, Magnitude3, Angle3, pu3
     for row in rd:
-        bus = row[0].strip('\"')
+        bus = row[0].strip('\"').upper()
         if len(bus) > 0:
             vpu1 = float(row[5])
             vpu2 = float(row[9])
@@ -154,7 +156,7 @@ def load_taps(fname):
     next (rd)
     # Name, Tap, Min, Max, Step, Position
     for row in rd:
-        bus = row[0].strip('\"')
+        bus = row[0].strip('\"').upper()
         if len(bus) > 0:
             vtap[bus] = int (row[5])
     fd.close()
@@ -209,6 +211,8 @@ def write_comparisons(path1, path2, path3, rootname, voltagebases):
     gldlink, gldi = load_glm_currents (path3 + rootname + '_curr.csv')
 
 #    print (gldbus)
+#    print (gldv)
+#    print (v1)
 #    print (gldlink)
 #    print (gldi)
 #    print (i1)
@@ -298,14 +302,14 @@ def write_comparisons(path1, path2, path3, rootname, voltagebases):
     for link in gldlink:
         dsslink = ''
         nextdssphase = 1
-        if link.startswith('line_'):
-            dsslink = 'Line.' + link[len('line_'):].lower() + '.'
-        elif link.startswith('xf_'):
-            dsslink = 'Transformer.' + link[len('xf_'):].lower() + '.'
-        elif link.startswith('swt_'):
-            dsslink = 'Line.' + link[len('swt_'):].lower() + '.'
-        elif link.startswith('reg_'):
-            dsslink = 'Transformer.' + link[len('reg_'):].lower() + '.'
+        if link.startswith('LINE_'):
+            dsslink = 'LINE.' + link[len('LINE_'):].upper() + '.'
+        elif link.startswith('XF_'):
+            dsslink = 'TRANSFORMER.' + link[len('XF_'):].upper() + '.'
+        elif link.startswith('SWT_'):
+            dsslink = 'LINE.' + link[len('SWT_'):].upper() + '.'
+        elif link.startswith('REG_'):
+            dsslink = 'TRANSFORMER.' + link[len('REG_'):].upper() + '.'
         for phs in ['_A', '_B', '_C']:
             gldtarget = link + phs
             if gldtarget in gldi:
