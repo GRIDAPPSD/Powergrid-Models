@@ -69,15 +69,17 @@ def main(fdrid, region, loglevel='INFO', logfile=None, seed=None):
     # residential energy consumer loads.
     ec, no_houses, magS = getEnergyConsumers(sparql=sparql, fdrid=fdrid)
 
-    LOG.info('Total res. load apparent power magnitude: '
-             + '{} MVA'.format(magS/10e06))
+    LOG.info('Total 120/240V split phase residential load apparent power '
+             'magnitude: {:.2f} MVA'.format(magS/10e06))
+    LOG.info('Total EnergyConsumers: {}'.format(ec.shape[0]))
     
     # Alert user about loads which will not be converted.
-    LOG.info('The following details loads, keyed by voltage level, which will'
-             '\n\tNOT have houses/buildings added '
-             'to them because they are not at the correct voltage\n\tlevel '
-             'and/or are not split phase:\n{}'.format(json.dumps(no_houses,
-                                                                 indent=2)))
+    if len(no_houses) > 0:
+        LOG.info('The following details loads, keyed by voltage level, which '
+                 'will\n\tNOT have houses/buildings added to them '
+                 'because they are not at the correct voltage\n\tlevel '
+                 'and/or are not split phase:\n{}'.format(
+                    json.dumps(no_houses, indent=2)))
 
     # If 'ec' is empty, exit the program.
     if ec.shape[0] < 1:
