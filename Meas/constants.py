@@ -23,6 +23,7 @@ blazegraph_url = "http://localhost:9999/blazegraph/namespace/kb/sparql"
 #******************************************************************************
 # Prefix for blazegraph queries; canonical version is now CIM100
 
+
 cim100 = '<http://iec.ch/TC57/CIM100#'
 # Prefix for all queries.
 prefix = """PREFIX r: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
