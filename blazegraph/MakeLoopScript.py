@@ -109,6 +109,8 @@ else:
 
 casefiles = ['R2_12_47_2']
 
+#casefiles = ['IEEE8500_3subs']
+
 arg = sys.argv[1]
 
 if arg == '-b':

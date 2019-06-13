@@ -63,6 +63,8 @@ else:
 
 casefiles = [['R2_12_47_2',57735.0]]
 
+# casefiles = [['IEEE8500_3subs',66395.3]]
+
 for c in casefiles:
     if sys.platform == 'win32':
         print('gridlabd -D WANT_VI_DUMP=1', c[0] + '_run.glm >' + c[0] + '.log 2>&1', file=bp)

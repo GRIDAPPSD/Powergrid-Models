@@ -1189,6 +1189,7 @@ for ifn in glob.glob("base_taxonomy/new*.glm"):
     # kvbases.update([100.00])
     sourcef.write('new line.trunk bus1=sourcebus bus2=rootbus phases=3 switch=yes\n')
     sourcef.write('new energymeter.feeder element=line.trunk terminal=1\n')
+    feederhead = '' # starting bus as defined by PNNL
     for t in model:
         if t == 'node' or\
                 t == 'meter' or\
@@ -1200,6 +1201,7 @@ for ifn in glob.glob("base_taxonomy/new*.glm"):
                 if 'bustype' in model[t][o]:
                     if model[t][o]['bustype'] == 'SWING':
                         # Connect gld swing bus to the source bus
+                        feederhead = str(o)
                         sourcef.write('new transformer.source_'+str(o))
                         sourcef.write(' phases='+str(count_ph(row['phases'])))
                         sourcef.write(' %noloadloss=0.0001')
@@ -1213,7 +1215,7 @@ for ifn in glob.glob("base_taxonomy/new*.glm"):
                             '{:.3f}'.format(float(model[t][o]['nominal_voltage'])/1000*1.73205))
                         kvbases.update([round(float(\
                             model[t][o]['nominal_voltage'])/1000*1.73205,2)])
-                        sourcef.write(' bus='+str(o))
+                        sourcef.write(' bus='+feederhead)
                         sourcef.write('\n')
     sourcef.close()
     
@@ -1257,6 +1259,10 @@ for ifn in glob.glob("base_taxonomy/new*.glm"):
                     if nde in coordh:
                         coordf.write(node+','+coordh[nde]['x']+\
                                           ','+coordh[nde]['y']+'\n')
+                        if node == feederhead:
+                            yhead = float (coordh[nde]['y'])
+                            coordf.write('rootbus,'+coordh[nde]['x']+',{:.2f}\n'.format(yhead-1))
+                            coordf.write('sourcebus,'+coordh[nde]['x']+',{:.2f}\n'.format(yhead-2))
                     else:
                         print('No coordinates for '+node)
     # coordf.close()
