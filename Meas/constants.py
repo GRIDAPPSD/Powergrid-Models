@@ -23,8 +23,15 @@ blazegraph_url = "http://localhost:9999/blazegraph/namespace/kb/sparql"
 #******************************************************************************
 # Prefix for blazegraph queries.
 
-# cim17 is used in InsertMeasurements.py. Notice the lack of "greater than" at
-# the end.
+cim100 = '<http://iec.ch/TC57/CIM100#'
+# Prefix for all queries.
+prefix = """PREFIX r: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX c: {cimURL}>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+""".format(cimURL=cim100)
+
+# cim17 is used in InsertMeasurements.py prior to summer 2019. 
+# Notice the lack of "greater than" at the end.
 cim17 = '<http://iec.ch/TC57/2012/CIM-schema-cim17#'
 # Prefix for all queries.
 prefix = """PREFIX r: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
