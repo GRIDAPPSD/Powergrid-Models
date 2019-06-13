@@ -14,7 +14,6 @@ import logging
 import sys
 import math
 from uuid import uuid4
-import json
 
 # Installed packages:
 import numpy as np
@@ -67,28 +66,15 @@ def main(fdrid, region, loglevel='INFO', logfile=None, seed=None):
     
     # Get the EnergyConsumers, commercial loads, and total magnitude of 
     # residential energy consumer loads.
-    ec, no_houses, magS = getEnergyConsumers(sparql=sparql, fdrid=fdrid)
-
-    LOG.info('Total 120/240V split phase residential load apparent power '
-             'magnitude: {:.2f} MVA'.format(magS/10e06))
-    LOG.info('Total EnergyConsumers: {}'.format(ec.shape[0]))
+    ec, comm, magS = getEnergyConsumers(sparql=sparql, fdrid=fdrid)
+    LOG.info('Total res. load apparent power magnitude: '
+             + '{} MVA'.format(magS/10e06))
     
     # Alert user about loads which will not be converted.
-    if len(no_houses) > 0:
-        LOG.info('The following details loads, keyed by voltage level, which '
-                 'will\n\tNOT have houses/buildings added to them '
-                 'because they are not at the correct voltage\n\tlevel '
-                 'and/or are not split phase:\n{}'.format(
-                    json.dumps(no_houses, indent=2)))
-
-    # If 'ec' is empty, exit the program.
-    if ec.shape[0] < 1:
-        LOG.error('There are no 120/240V split-phase loads present in '
-                  'the given model,\n\t'
-                  'so no houses will be added.\n\t'
-                  'Exiting...')
-        sys.exit(1)
-
+    LOG.info(('There are {} {}V loads totalling {} VA which will not have '
+              'houses/buildings added.').format(comm['num'], COMMERCIAL_V,
+                                                abs(comm['power'])))
+    
     # Initialize a "createHouses" object
     obj = createHouses(region=region, log=LOG, seed=seed)
     
@@ -121,8 +107,7 @@ def main(fdrid, region, loglevel='INFO', logfile=None, seed=None):
     LOG.info('All houses inserted into database.')
     
     print('hooray')
-
-
+    
 def setupLog(logger, loglevel, logfile):
     """Helper function to setup the module's log.
     """
@@ -145,8 +130,7 @@ def setupLog(logger, loglevel, logfile):
     
     # add handler
     logger.addHandler(h)
-
-
+    
 def getEnergyConsumers(sparql, fdrid):
     """Method to get nominal voltages from each 'EnergyConsumer.'
     
@@ -197,9 +181,9 @@ def getEnergyConsumers(sparql, fdrid):
     
     # Initialize output
     ec = pd.DataFrame(columns=['p', 'q', 'magS', 'mrid'])
-    no_houses = {}
+    comm = {'power': 0+0*1j, 'num': 0}
     totalRes = 0+0*1j
-
+    
     # Loop over the return
     for el in ret.bindings:
         # grab variables
@@ -209,36 +193,28 @@ def getEnergyConsumers(sparql, fdrid):
         mrid = el['mrid'].value
         p = float(el['p'].value)
         q = float(el['q'].value)
-
-        # At this time, we're only adding houses to split-phase
-        # loads. In the future we will likely want to support
-        # three-phase loads.
-        if v == TRIPLEX_V and (('s1' in phs) or ('s2' in phs)):
-            # Triplex (split-phase) load.
+        
+        if v == TRIPLEX_V and ('s1' in phs or 's2' in phs):
+            # Triplex (split-phase) load. 
             ec.loc[name, ['p', 'q', 'magS', 'mrid']] = \
                 [p, q, math.sqrt((p**2 + q**2)), mrid]
 
             # Increment counter of total residential power
             totalRes += p + 1j*q
             
+        elif v == COMMERCIAL_V:
+            # Track commercial/industrial loads
+            comm['power'] += p + q*1j
+            comm['num'] += 1
         else:
-            # Track other voltages/phasing
-            try:
-                # Attempt to increment the count for this voltage level.
-                no_houses[v]['num'] += 1
-            except KeyError:
-                # Initialize a dictionary for this voltage level.
-                no_houses[v] = {'power': p + q*1j, 'num': 1}
-            else:
-                # Increment the total power for this voltage.
-                no_houses[v]['power'] += p + q*1j
-
-    # Update all the 'power' fields in no_houses to be strings.
-    # This is a cheap hack to ensure it's json serializable.
-    for sub_dict in no_houses.values():
-        sub_dict['power'] = '{:.2f} VA'.format(abs(sub_dict['power']))
+            raise UserWarning(\
+                ('Unexpected load from blazegraph: '
+                '  name: {}\n  voltage: {}\n  phases: {}'.format(name, v,
+                                                                 phs)
+                 )
+                              )
         
-    return ec, no_houses, abs(totalRes)
+    return ec, comm, abs(totalRes)
 
 def insertHouse(sparql, ecName, ecID, houseNum, houseData):
     """Insert a single house into the CIM triplestore.
@@ -307,7 +283,7 @@ if __name__ == "__main__":
     # Also grab the region qualifier.
     parser.add_argument("region", help=("Climate region the feeder "
                                         "exists in. Valid options "
-                                        "are 1, 2, 3, 4, or 5."))
+                                        "are r1, r2, r3, r4, or r5."))
     
     # Get args
     args = parser.parse_args()

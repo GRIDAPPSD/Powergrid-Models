@@ -2,7 +2,6 @@ package gov.pnnl.goss.cim2glm.queryhandler.impl;
 
 import java.io.File;
 
-import org.apache.jena.query.ResultSet;
 //import org.openrdf.query.MalformedQueryException;
 //import org.openrdf.query.QueryLanguage;
 //import org.openrdf.query.TupleQuery;
@@ -61,12 +60,6 @@ public class InternalBlazegraphQueryHandler implements QueryHandler{
 
 	@Override
 	public ResultSetCloseable query(String szQuery) {
-//		TupleQuery tupleQuery = con.prepareTupleQuery(QueryLanguage.SPARQL, szQuery);
-//		TupleQueryResult result = tupleQuery.evaluate();
-//		return result;
-		return null;
-	}
-	public ResultSet construct(String szQuery) {
 //		TupleQuery tupleQuery = con.prepareTupleQuery(QueryLanguage.SPARQL, szQuery);
 //		TupleQueryResult result = tupleQuery.evaluate();
 //		return result;
