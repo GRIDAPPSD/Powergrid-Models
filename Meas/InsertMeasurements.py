@@ -29,7 +29,7 @@ def InsertMeasurement (meascls, measid, eqname, eqid, trmid, meastype, phases):
 	ln3 = resource + ' c:IdentifiedObject.name \"' + str(eqname) + '\". '
 	ln4 = resource + ' c:Measurement.PowerSystemResource ' + equipment + '. '
 	ln5 = resource + ' c:Measurement.Terminal ' + terminal + '. '
-	ln6 = (resource + ' c:Measurement.phases ' + constants.cim100
+	ln6 = (resource + ' c:Measurement.phases ' + constants.cim17
 		+ 'PhaseCode.' + phases + '>. ')
 	ln7 = resource + ' c:Measurement.measurementType \"' + meastype + '\"'
 	qstr = (constants.prefix + 'INSERT DATA { ' + ln1 + ln2 + ln3 + ln4 +
