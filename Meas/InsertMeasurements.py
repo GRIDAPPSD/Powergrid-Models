@@ -110,6 +110,9 @@ for ln in lines:
 		eqid = toks[6]
 		if '1' in what:
 			trmid = toks[7]
+			if toks[0] != 'ACLineSegment' and what == 'i1':
+				id1 = uuid.uuid4()
+				InsertMeasurement ('Discrete', id1, toks[0] + '_' + toks[2] + '_State', eqid, trmid, 'Pos', phases)
 		else:
 			trmid = toks[8]
 		id1 = uuid.uuid4()

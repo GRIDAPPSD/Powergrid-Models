@@ -177,7 +177,7 @@ DELETE {
 PREFIX r: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX c: <http://iec.ch/TC57/CIM100#>
 SELECT ?class ?type ?name ?bus ?phases ?eqtype ?eqname ?eqid ?trmid ?id WHERE {
- VALUES ?fdrid {"_C1C3E687-6FFD-C753-582B-632A27E28507"}
+# VALUES ?fdrid {"_C1C3E687-6FFD-C753-582B-632A27E28507"}
  ?eq c:Equipment.EquipmentContainer ?fdr.
  ?fdr c:IdentifiedObject.mRID ?fdrid. 
 { ?s r:type c:Discrete. bind ("Discrete" as ?class)}
@@ -216,14 +216,19 @@ INSERT DATA {
 PREFIX r: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX c: <http://iec.ch/TC57/CIM100#>
 SELECT ?name ?phases ?type ?eqid ?trmid ?id WHERE {
-  ?s r:type c:Analog .
+{ ?s r:type c:Discrete. bind ("Discrete" as ?class)}
+  UNION
+{ ?s r:type c:Analog. bind ("Analog" as ?class)}
 	?s c:IdentifiedObject.name ?name .
 	?s c:IdentifiedObject.mRID ?id .
-	?s c:Measurement.PowerSystemResource ?eqid .
-	?s c:Measurement.Terminal ?trmid .
+	?s c:Measurement.PowerSystemResource ?eq .
+    ?eq c:IdentifiedObject.mRID ?eqid .
+	?s c:Measurement.Terminal ?trm .
+    ?trm c:IdentifiedObject.mRID ?trmid .
 	?s c:Measurement.measurementType ?type .
-	?s c:Measurement.phases ?phases .
-}
+  {?s c:Measurement.phases ?phsraw.
+   bind(strafter(str(?phsraw),"PhaseCode.") as ?phases)}
+} ORDER BY ?name ?type ?phases
 
 # list measurement points for PowerTransformer with tanks
 PREFIX r: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
@@ -393,6 +398,23 @@ SELECT ?feeder ?name WHERE {
  ?fdr c:IdentifiedObject.name ?feeder.
 }
 ORDER by ?feeder ?name
+
+# list all the connectivity node base voltages by feeder, for visualization
+PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX c:  <http://iec.ch/TC57/CIM100#>
+SELECT DISTINCT ?feeder ?busname ?nomv WHERE {
+# VALUES ?fdrid {"_49AD8E07-3BF9-A4E2-CB8F-C3722F837B62"}  # 13 bus
+ ?fdr c:IdentifiedObject.mRID ?fdrid.
+ ?bus c:ConnectivityNode.ConnectivityNodeContainer ?fdr.
+ ?bus r:type c:ConnectivityNode.
+ ?bus c:IdentifiedObject.name ?busname.
+ ?fdr c:IdentifiedObject.name ?feeder.
+ ?trm c:Terminal.ConnectivityNode ?bus.
+ ?trm c:Terminal.ConductingEquipment ?ce.
+ ?ce  c:ConductingEquipment.BaseVoltage ?bv.
+ ?bv  c:BaseVoltage.nominalVoltage ?nomv.
+}
+ORDER by ?feeder ?busname ?nomv
 
 # list all the equipment by feeder and type
 PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
