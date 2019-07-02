@@ -16,5 +16,17 @@ New Capacitor.CAPBank0C  Bus1=R42246.3  kv=7.2  kvar=400  phases=1 conn=wye
 ! This is a 3-phase capacitor bank
 New Capacitor.CAPBank3  Bus1=R18242  kv=12.47112  kvar=900  conn=wye
 
+Capacitor.CAPBank2A.States = 0
+Capacitor.CAPBank2B.States = 0
+Capacitor.CAPBank2C.States = 0
 
+Capacitor.CAPBank1A.States = 0
+Capacitor.CAPBank1B.States = 0
+Capacitor.CAPBank1C.States = 0
+
+Capacitor.CAPBank0A.States = 0
+Capacitor.CAPBank0B.States = 0
+Capacitor.CAPBank0C.States = 0
+
+Capacitor.CAPBank3.States = 0
 

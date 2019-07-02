@@ -18,7 +18,7 @@ Redirect  Transformers.dss
 Redirect  LoadXfmrs.dss    ! Load Transformers
 Redirect  Triplex_Lines.dss
 Redirect  UnbalancedLoads.dss
-!Redirect  Capacitors.dss
+Redirect  Capacitors.dss
 !Redirect  CapControls.dss
 Redirect  Regulators.dss
 
