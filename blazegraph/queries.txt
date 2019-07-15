@@ -11,6 +11,27 @@ WHERE {
   ?s a ?class .
 }
 
+# list all the connectivity nodes by feeder, with voltage limits
+PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX c:  <http://iec.ch/TC57/CIM100#>
+SELECT ?feeder ?bus ?val ?dur ?dir WHERE {
+# VALUES ?fdrid {"_49AD8E07-3BF9-A4E2-CB8F-C3722F837B62"}  # 13 bus
+ ?fdr c:IdentifiedObject.mRID ?fdrid.
+ ?s c:ConnectivityNode.ConnectivityNodeContainer ?fdr.
+ ?s r:type c:ConnectivityNode.
+ ?s c:IdentifiedObject.name ?bus.
+ ?fdr c:IdentifiedObject.name ?feeder.
+ ?s c:ConnectivityNode.OperationalLimitSet ?ols.
+ ?vlim c:OperationalLimit.OperationalLimitSet ?ols.
+ ?vlim r:type c:VoltageLimit.
+ ?vlim c:OperationalLimit.OperationalLimitType ?olt.
+ ?olt c:OperationalLimitType.acceptableDuration ?dur.
+ ?olt c:OperationalLimitType.direction ?rawdir.
+  bind(strafter(str(?rawdir),"OperationalLimitDirectionKind.") as ?dir)
+ ?vlim c:VoltageLimit.value ?val.
+}
+ORDER by ?feeder ?bus ?val
+
 # SynchronousMachine - DistSyncMachine
 PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX c:  <http://iec.ch/TC57/CIM100#>
