@@ -25,9 +25,9 @@ New Transformer.FEEDER_REG1B phases=1  windings=2  buses=(regxfmr_HVMV11sub1_LSB
 New Transformer.FEEDER_REG1C phases=1  windings=2  buses=(regxfmr_HVMV11sub1_LSB.3,  HVMV11sub1_LSB.3)  conns=(wye, wye)  kvs=(7.2, 7.2)  kvas=(27500, 27500)  xhl=0.1 %loadloss=.001 wdg=2 Maxtap=1.1 Mintap=0.9 ppm=0
 
 ! Voltage regulator controls
-New RegControl.FEEDER_REG1A transformer=FEEDER_REG1A  winding=2 vreg=126.5  ptratio=60 band=2 
-New RegControl.FEEDER_REG1B transformer=FEEDER_REG1B  winding=2 vreg=126.5  ptratio=60 band=2 
-New RegControl.FEEDER_REG1C transformer=FEEDER_REG1C  winding=2 vreg=126.5  ptratio=60 band=2 
+New RegControl.FEEDER_REG1A transformer=FEEDER_REG1A  winding=2 vreg=123  ptratio=60 band=2 
+New RegControl.FEEDER_REG1B transformer=FEEDER_REG1B  winding=2 vreg=123  ptratio=60 band=2 
+New RegControl.FEEDER_REG1C transformer=FEEDER_REG1C  winding=2 vreg=123  ptratio=60 band=2 
 
 ! HV/MV Substation connected Delta/grounded-wye
 New Transformer.HVMV69_11Sub2  phases=3  windings=2  buses=(HVMV69sub2_HSB, regxfmr_HVMV11sub2_LSB.1.2.3.0)  
@@ -44,9 +44,9 @@ New Transformer.FEEDER_REG2B phases=1  windings=2  buses=(regxfmr_HVMV11sub2_LSB
 New Transformer.FEEDER_REG2C phases=1  windings=2  buses=(regxfmr_HVMV11sub2_LSB.3,  HVMV11sub2_LSB.3)  conns=(wye, wye)  kvs=(7.2, 7.2)  kvas=(27500, 27500)  xhl=0.1 %loadloss=.001 wdg=2 Maxtap=1.1 Mintap=0.9 ppm=0
 
 ! Voltage regulator controls
-New RegControl.FEEDER_REG2A transformer=FEEDER_REG2A  winding=2 vreg=126.5  ptratio=60 band=2 
-New RegControl.FEEDER_REG2B transformer=FEEDER_REG2B  winding=2 vreg=126.5  ptratio=60 band=2 
-New RegControl.FEEDER_REG2C transformer=FEEDER_REG2C  winding=2 vreg=126.5  ptratio=60 band=2 
+New RegControl.FEEDER_REG2A transformer=FEEDER_REG2A  winding=2 vreg=123  ptratio=60 band=2 
+New RegControl.FEEDER_REG2B transformer=FEEDER_REG2B  winding=2 vreg=123  ptratio=60 band=2 
+New RegControl.FEEDER_REG2C transformer=FEEDER_REG2C  winding=2 vreg=123  ptratio=60 band=2 
 
 ! HV/MV Substation connected Delta/grounded-wye
 New Transformer.HVMV69_11Sub3  phases=3  windings=2  buses=(HVMV69sub3_HSB, regxfmr_HVMV11sub3_LSB.1.2.3.0)  
@@ -63,6 +63,6 @@ New Transformer.FEEDER_REG3B phases=1  windings=2  buses=(regxfmr_HVMV11sub3_LSB
 New Transformer.FEEDER_REG3C phases=1  windings=2  buses=(regxfmr_HVMV11sub3_LSB.3,  HVMV11sub3_LSB.3)  conns=(wye, wye)  kvs=(7.2, 7.2)  kvas=(27500, 27500)  xhl=0.1 %loadloss=.001 wdg=2 Maxtap=1.1 Mintap=0.9 ppm=0
 
 ! Voltage regulator controls
-New RegControl.FEEDER_REG3A transformer=FEEDER_REG3A  winding=2 vreg=126.5  ptratio=60 band=2 
-New RegControl.FEEDER_REG3B transformer=FEEDER_REG3B  winding=2 vreg=126.5  ptratio=60 band=2 
-New RegControl.FEEDER_REG3C transformer=FEEDER_REG3C  winding=2 vreg=126.5  ptratio=60 band=2 
+New RegControl.FEEDER_REG3A transformer=FEEDER_REG3A  winding=2 vreg=123  ptratio=60 band=2 
+New RegControl.FEEDER_REG3B transformer=FEEDER_REG3B  winding=2 vreg=123  ptratio=60 band=2 
+New RegControl.FEEDER_REG3C transformer=FEEDER_REG3C  winding=2 vreg=123  ptratio=60 band=2 
