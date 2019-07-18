@@ -1,0 +1,21 @@
+!Initial convergence tests on 8500 node model
+
+Compile Master-unbal-new.dss
+
+
+set MarkPVSystems=true PVMarkerCode=18
+set Markswitches=true SwitchMarkerCode=9
+set MarkRegulators=true RegMarkerCode=15
+set MarkCapacitors=true CapMarkerCode=38
+set MarkStorage=true StoreMarkerCode=36
+
+
+
+
+
+
+
+solve
+Plot daisy Power Max=1000 dots=n labels=n 1ph=3
+plot profile ph=all
+

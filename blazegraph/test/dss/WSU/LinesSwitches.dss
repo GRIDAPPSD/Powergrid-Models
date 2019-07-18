@@ -9,15 +9,21 @@ New Line.HVMV_Sub_connector  bus1=HVMV11sub1_LSB      bus2=HVMV_Sub1_48332     l
 New Line.LN5710794-3         bus1=HVMV_Sub1_48332     bus2=D5710794-3_INT      length=0.019436038 units=km Linecode=3PH_H-397_ACSR397_ACSR397_ACSR397_ACSR normamps=450 emergamps=600  
 New Line.HVMV69S1B2_sw       bus1=D5710794-3_INT      bus2=E192860             switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001               ! Renamed switch
 
-
 New Line.HVMV69S1B3_sw       bus1=HVMV69sub1_LSB2     bus2=HVMV69S1S2_1        switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001              !New 3-ph switch
-New Line.HVMV69S1S2-1        bus1=HVMV69S1S2_1        bus2=HVMV69S1S2_2        length=1.5         units=km Linecode=3ph_V69_397_acsr397_acsr397 normamps=450 emergamps=600  !New sub-transmission line
-New Line.HVMV69S1S2-2        bus1=HVMV69S1S2_2        bus2=HVMV69S1S2_3        length=3.0         units=km Linecode=3ph_V69_397_acsr397_acsr397 normamps=450 emergamps=600  !New sub-transmission line
-New Line.HVMV69S1S2-3        bus1=HVMV69S1S2_3        bus2=HVMV69S1S2_4        length=6.0         units=km Linecode=3ph_V69_397_acsr397_acsr397 normamps=450 emergamps=600  !New sub-transmission line
-New Line.HVMV69S2B1_sw       bus1=HVMV69S1S2_4        bus2=HVMV69sub2_HSB      switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001              !New 3-ph switch
-New Line.HVMV69S2B2_sw       bus1=HVMV11sub2_LSB      bus2=L2763153            switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001              !New 3-ph switch
+New Line.HVMV69S1S2-1        bus1=HVMV69S1S2_1        bus2=HVMV69S1S2_2        length=1.0        units=km Linecode=3ph_V69_397_acsr397_acsr397 normamps=450 emergamps=600  !New sub-transmission line
+New Line.HVMV69S1S2-2        bus1=HVMV69S1S2_2        bus2=HVMV69S1S2_3        length=0.75        units=km Linecode=3ph_V69_397_acsr397_acsr397 normamps=450 emergamps=600  !New sub-transmission line
+New Line.HVMV69S1S2-3        bus1=HVMV69S1S2_3        bus2=HVMV69S1S2_4        length=0.75        units=km Linecode=3ph_V69_397_acsr397_acsr397 normamps=450 emergamps=600  !New sub-transmission line
+New Line.HVMV69S1S2-4        bus1=HVMV69S1S2_4        bus2=HVMV69S1S2_5        length=2.0         units=km Linecode=3ph_V69_397_acsr397_acsr397 normamps=450 emergamps=600  !New sub-transmission line
+New Line.HVMV69S1S2-5        bus1=HVMV69S1S2_5        bus2=HVMV69S1S2_6        length=2.0         units=km Linecode=3ph_V69_397_acsr397_acsr397 normamps=450 emergamps=600  !New sub-transmission line
+New Line.HVMV69S1S2-6        bus1=HVMV69S1S2_6        bus2=HVMV69S1S2_7        length=2.0         units=km Linecode=3ph_V69_397_acsr397_acsr397 normamps=450 emergamps=600  !New sub-transmission line
+New Line.HVMV69S1S2-7        bus1=HVMV69S1S2_7        bus2=HVMV69S1S2_8        length=1.0         units=km Linecode=3ph_V69_397_acsr397_acsr397 normamps=450 emergamps=600  !New sub-transmission line
+New Line.HVMV69S1S2-8        bus1=HVMV69S1S2_8        bus2=HVMV69S1S2_9        length=1.0         units=km Linecode=3ph_V69_397_acsr397_acsr397 normamps=450 emergamps=600  !New sub-transmission line
+New Line.HVMV69S1S2-9        bus1=HVMV69S1S2_9        bus2=HVMV69S1S2_10       length=1.0         units=km Linecode=3ph_V69_397_acsr397_acsr397 normamps=450 emergamps=600  !New sub-transmission line
+New Line.HVMV69S1S2-10       bus1=HVMV69S1S2_10       bus2=HVMV69sub2_LNB      switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001              !New 3-ph switch
+New Line.HVMV69S2B1_sw       bus1=HVMV69sub2_LNB      bus2=HVMV69sub2_HSB      switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001              !New 3-ph switch
+New Line.HVMV69S2B2_sw       bus1=HVMV11sub2_LSB      bus2=m1047300            switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001              !New 3-ph switch
 
-New Line.HVMV69S2B3_sw       bus1=HVMV69S1S2_4        bus2=HVMV69S2S3_1        switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001              !New 3-ph switch
+New Line.HVMV69S2B3_sw       bus1=HVMV69Sub2_LNB      bus2=HVMV69S2S3_1        switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001              !New 3-ph switch
 New Line.HVMV69S2S3-1        bus1=HVMV69S2S3_1        bus2=HVMV69S2S3_2        length=4.5         units=km Linecode=3ph_V69_397_acsr397_acsr397 normamps=450 emergamps=600  !New sub-transmission line
 New Line.HVMV69S3B1_sw       bus1=HVMV69S2S3_2        bus2=HVMV69sub3_HSB      switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001              !New 3-ph switch
 New Line.HVMV69S3B2_sw       bus1=HVMV11sub3_LSB      bus2=e203026             switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001              !New 3-ph switch
@@ -146,7 +152,8 @@ New Line.LN5593234-1         bus1=M1089115            bus2=M1089112            l
 New Line.LN5835143-1         bus1=M1089118            bus2=M1089115            length=0.16170829  units=km Linecode=3PH_H-397_ACSR397_ACSR397_ACSR2/0_ACSR normamps=450 emergamps=600 !Upgraded from 3PH_H-4_ACSR4_ACSR4_ACSR4_WPAL normamps=90 emergamps=130         
 New Line.LN5683823-1         bus1=M1089119            bus2=M1089118            length=0.078884003 units=km Linecode=3PH_H-397_ACSR397_ACSR397_ACSR2/0_ACSR normamps=450 emergamps=600 !Upgraded from 3PH_H-4_ACSR4_ACSR4_ACSR4_WPAL normamps=90 emergamps=130         
 New Line.LN5472360-1         bus1=M1089120            bus2=M1089119            length=0.057934318 units=km Linecode=3PH_H-397_ACSR397_ACSR397_ACSR2/0_ACSR normamps=450 emergamps=600 !Upgraded from 3PH_H-4_ACSR4_ACSR4_ACSR4_WPAL normamps=90 emergamps=130         
-New Line.LN5502532-1         bus1=190-7361            bus2=M1089120            length=0.005820451 units=km Linecode=3PH_H-397_ACSR397_ACSR397_ACSR2/0_ACSR normamps=450 emergamps=600 !Upgraded from 3PH_H-4_ACSR4_ACSR4_ACSR4_WPAL normamps=90 emergamps=130         
+New Line.LN5472335-1         bus1=D5472350-1_INT      bus2=m1089120            switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001                                 !New 3-ph switch
+New Line.LN5502532-1         bus1=190-7361            bus2=D5472350-1_INT      length=0.005820451 units=km Linecode=3PH_H-397_ACSR397_ACSR397_ACSR2/0_ACSR normamps=450 emergamps=600 !Upgraded from 3PH_H-4_ACSR4_ACSR4_ACSR4_WPAL normamps=90 emergamps=130         
 New Line.LN6138608-2         bus1=Q14404              bus2=regxfmr_190-7361    length=0.004597065 units=km Linecode=3PH_H-397_ACSR397_ACSR397_ACSR2/0_ACSR normamps=450 emergamps=600 !Upgraded from 3PH_H-4_ACSR4_ACSR4_ACSR4_WPAL normamps=90 emergamps=130         
 New Line.LN4586093_sw        bus1=D6138608-3_INT      bus2=Q14404              switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001
 New Line.LN6138608-3         bus1=L3029502            bus2=D6138608-3_INT      length=0.085516894 units=km Linecode=3PH_H-397_ACSR397_ACSR397_ACSR2/0_ACSR normamps=450 emergamps=600 !Upgraded from 3PH_H-4_ACSR4_ACSR4_ACSR4_WPAL
@@ -217,13 +224,15 @@ New Line.LN5956467-1         bus1=M1069202            bus2=L2879073            l
 New Line.LN5835140-1         bus1=L2879073            bus2=M1069205            length=0.062527943 units=km Linecode=3PH_H-2/0_ACSR2/0_ACSR2/0_ACSR2_ACSR normamps=225 emergamps=300 !upgraded from 1PH-xx4_WPAL4_WPAL normamps=90 emergamps=130              
 New Line.LN5472358-1         bus1=M1069205            bus2=M1069208            length=0.036301599 units=km Linecode=3PH_H-2/0_ACSR2/0_ACSR2/0_ACSR2_ACSR normamps=225 emergamps=300 !upgraded from 1PH-xx4_ACSR4_ACSR normamps=90 emergamps=130               
 New Line.LN5593233-1         bus1=M1069208            bus2=M1069213            length=0.1415619   units=km Linecode=3PH_H-2/0_ACSR2/0_ACSR2/0_ACSR2_ACSR normamps=225 emergamps=300 !upgraded from 1PH-xx4_ACSR4_ACSR normamps=90 emergamps=130               
+New Line.LN6259999-1         bus1=M1069213            bus2=M1069215            length=0.157329854 units=km Linecode=3PH_H-2/0_ACSR2/0_ACSR2/0_ACSR2_ACSR normamps=225 emergamps=300 !upgraded from 1PH-xx4_ACSR4_ACSR normamps=90 emergamps=130 !New 3-ph line
+New Line.DG1069MT1_sw        bus1=M1069DER480-1       bus2=M1069-MT1           switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001                               !New 3-ph disconnect switch
 New Line.LN6259993-1         bus1=M1069213            bus2=M1069217            length=0.096557637 units=km Linecode=3PH_H-2/0_ACSR2/0_ACSR2/0_ACSR2_ACSR normamps=225 emergamps=300 !upgraded from 1PH-xx4_ACSR4_ACSR normamps=90 emergamps=130               
 New Line.LN6411376-1         bus1=M1069217            bus2=L2841626            length=0.004068265 units=km Linecode=3PH_H-2/0_ACSR2/0_ACSR2/0_ACSR2_ACSR normamps=225 emergamps=300 !upgraded from 1PH-xx4_ACSR4_ACSR normamps=90 emergamps=130               
 New Line.LN6260019-1         bus1=L2841626            bus2=L3235266            length=0.093547793 units=km Linecode=3PH_H-2/0_ACSR2/0_ACSR2/0_ACSR2_ACSR normamps=225 emergamps=300 !upgraded from 1PH-xx4_ACSR4_ACSR normamps=90 emergamps=130               
 New Line.LN6046144-1         bus1=L3235266            bus2=L2801950            length=0.079408777 units=km Linecode=3PH_H-2/0_ACSR2/0_ACSR2/0_ACSR2_ACSR normamps=225 emergamps=300 !upgraded from 1PH-xx4_ACSR4_ACSR normamps=90 emergamps=130               
 New Line.LN6137087-1         bus1=L2801950            bus2=M1069224            length=0.032899004 units=km Linecode=3PH_H-2/0_ACSR2/0_ACSR2/0_ACSR2_ACSR normamps=225 emergamps=300 !upgraded from 1PH-xx4_ACSR1/0_TPX                        
 New Line.LN6137088-1         bus1=M1069224            bus2=M1069230            length=0.232744548 units=km Linecode=3PH_H-2/0_ACSR2/0_ACSR2/0_ACSR2_ACSR normamps=225 emergamps=300
-New Line.TSW10691069_sw      bus1=M1069230            bus2=M1069300            switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001             !New 3-ph tie switch
+New Line.TSW10691069_sw      bus1=M1069230            bus2=M1069300            switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001                               !New 3-ph tie switch
 New Line.LN5637600-1         bus1=M1069300            bus2=M1069310            length=0.235837957 units=km Linecode=3PH_H-2/0_ACSR2/0_ACSR2/0_ACSR2_ACSR normamps=225 emergamps=300
 New Line.LN5486729-1         bus1=M1069311            bus2=M1069310            length=0.000560638 units=km Linecode=3PH_H-2/0_ACSR2/0_ACSR2/0_ACSR2_ACSR normamps=225 emergamps=300    
 New Line.LN5965099-2         bus1=L3159448            bus2=M1069311            length=0.002488518 units=km Linecode=3PH_H-2/0_ACSR2/0_ACSR2/0_ACSR2_ACSR normamps=225 emergamps=300    
@@ -291,10 +300,12 @@ New Line.LN5742811-1         bus1=M1047507            bus2=L2820531            l
 
 
 ! S3 upgraded conductor path to S1 from node m1026907 to m1047521
-New Line.LN0350537_sw        bus1=D6350537-1_INT      bus2=M1026907            switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001              !New 3-ph switch
-New Line.LN6350537-1         bus1=M1026905            bus2=D6350537-1_INT      length=0.12617881  units=km Linecode=3PH_H-2/0_ACSR2/0_ACSR2/0_ACSR2_ACSR normamps=225 emergamps=300    
+New Line.LN6350537-1         bus1=M1026905            bus2=M1026907            length=0.12617881  units=km Linecode=3PH_H-2/0_ACSR2/0_ACSR2/0_ACSR2_ACSR normamps=225 emergamps=300    
 New Line.LN5985039-1         bus1=M1026902            bus2=M1026905            length=0.099398669 units=km Linecode=3PH_H-2/0_ACSR2/0_ACSR2/0_ACSR2_ACSR normamps=225 emergamps=300    
 New Line.LN5686079-1         bus1=P827525             bus2=M1026902            length=0.09909393  units=km Linecode=3PH_H-2/0_ACSR2/0_ACSR2/0_ACSR2_ACSR normamps=225 emergamps=300    
+New Line.LN5000CHP-1         bus1=P827525             bus2=M1026CHP-1          length=0.125972451 units=km Linecode=3PH_H-2/0_ACSR2/0_ACSR2/0_ACSR2_ACSR normamps=225 emergamps=300   !New 3-ph line
+New Line.LN5001CHP_sw        bus1=M1026CHP-1          bus2=M1026CHP-2          switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001              !New 3-ph switch
+New Line.LN5002CHP-1         bus1=M1026CHP-2          bus2=M1026CHP-3          length=0.124498034 units=km Linecode=3PH_H-2/0_ACSR2/0_ACSR2/0_ACSR2_ACSR normamps=225 emergamps=300   !New 3-ph line
 New Line.LN6201697-1         bus1=M1026896            bus2=P827525             length=0.014425495 units=km Linecode=3PH_H-2/0_ACSR2/0_ACSR2/0_ACSR2_ACSR normamps=225 emergamps=300    
 New Line.LN5526906-1         bus1=L3120484            bus2=M1026896            length=0.10349147  units=km Linecode=3PH_H-2/0_ACSR2/0_ACSR2/0_ACSR2_ACSR normamps=225 emergamps=300    
 New Line.LN5526906-2         bus1=M1026886            bus2=L3120484            length=0.001817619 units=km Linecode=3PH_H-2/0_ACSR2/0_ACSR2/0_ACSR2_ACSR normamps=225 emergamps=300    
@@ -318,9 +329,6 @@ New Line.LN5502528-1         bus1=M1026830            bus2=L2879070            l
 New Line.LN5532748-6         bus1=M3763619            bus2=M1026830            length=0.042081798 units=km Linecode=3PH_H-2/0_ACSR2/0_ACSR2/0_ACSR2_ACSR normamps=225 emergamps=300    
 New Line.LN5532748-5         bus1=M1047592            bus2=M3763619            length=0.040091287 units=km Linecode=3PH_H-2/0_ACSR2/0_ACSR2/0_ACSR2_ACSR normamps=225 emergamps=300    
 New Line.LN5619489-1         bus1=M1047577            bus2=M1047592            length=0.10300613  units=km Linecode=3PH_H-2/0_ACSR2/0_ACSR2/0_ACSR2_ACSR normamps=225 emergamps=300    
-New Line.LN5000CHP-1         bus1=M1047577            bus2=M1047CHP-1          length=0.125972451 units=km Linecode=3PH_H-2/0_ACSR2/0_ACSR2/0_ACSR2_ACSR normamps=225 emergamps=300   !New 3-ph line
-New Line.LN5001CHP_sw        bus1=M1047CHP-1          bus2=M1047CHP-2          switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001              !New 3-ph switch
-New Line.LN5002CHP-1         bus1=M1047CHP-2          bus2=M1047CHP-3          length=0.124498034 units=km Linecode=3PH_H-2/0_ACSR2/0_ACSR2/0_ACSR2_ACSR normamps=225 emergamps=300   !New 3-ph line
 New Line.LN6163390-1         bus1=L3103822            bus2=M1047577            length=0.11707709  units=km Linecode=3PH_H-2/0_ACSR2/0_ACSR2/0_ACSR2_ACSR normamps=225 emergamps=300    
 New Line.LN6350544-3         bus1=N1136669            bus2=L3103822            length=0.060571448 units=km Linecode=3PH_H-2/0_ACSR2/0_ACSR2/0_ACSR2_ACSR normamps=225 emergamps=300    
 New Line.LN6350544-2         bus1=M1047552            bus2=N1136669            length=0.028659335 units=km Linecode=3PH_H-2/0_ACSR2/0_ACSR2/0_ACSR2_ACSR normamps=225 emergamps=300    
@@ -351,7 +359,9 @@ New Line.LN5804800-1         bus1=M1047568            bus2=M1047558            l
 New Line.LN5860423-4         bus1=Q14733              bus2=M1047568            length=0.014963062 units=km Linecode=3PH_H-2/0_ACSR2/0_ACSR2/0_ACSR2_ACSR normamps=225 emergamps=300    
 New Line.LN4641075_sw        bus1=D5860423-3_INT      bus2=Q14733              switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001
 New Line.LN5860423-3         bus1=190-8593            bus2=D5860423-3_INT      length=0.008028039 units=km Linecode=3PH_H-2/0_ACSR2/0_ACSR2/0_ACSR2_ACSR normamps=225 emergamps=300    
-New Line.LN5860423-1         bus1=L2841632            bus2=regxfmr_190-8593    length=0.025125717 units=km Linecode=3PH_H-2/0_ACSR2/0_ACSR2/0_ACSR2_ACSR normamps=225 emergamps=300    
+New Line.LN5860423-2         bus1=M1047575            bus2=regxfmr_190-8593    length=0.008893423 units=km Linecode=3PH_H-2/0_ACSR2/0_ACSR2/0_ACSR2_ACSR normamps=225 emergamps=300 !new 3-ph line
+New Line.LN4651075_sw        bus1=D5860450-1_INT      bus2=M1047575            switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001                               !new 3-ph switch
+New Line.LN5860423-1         bus1=L2841632            bus2=D5860450-1_INT      length=0.025125717 units=km Linecode=3PH_H-2/0_ACSR2/0_ACSR2/0_ACSR2_ACSR normamps=225 emergamps=300    
 New Line.LN6380817-1         bus1=M1047574            bus2=L2841632            length=0.012023726 units=km Linecode=3PH_H-2/0_ACSR2/0_ACSR2/0_ACSR2_ACSR normamps=225 emergamps=300    
 New Line.LN5623416-1         bus1=M1069500            bus2=M1047574            length=0.20998779  units=km Linecode=3PH_H-2/0_ACSR2/0_ACSR2/0_ACSR2_ACSR normamps=225 emergamps=300    
 New Line.LN6290230-1         bus1=M1069504            bus2=M1069500            length=0.10669417  units=km Linecode=3PH_H-2/0_ACSR2/0_ACSR2/0_ACSR2_ACSR normamps=225 emergamps=300    
@@ -389,6 +399,8 @@ New Line.LN6047557-3         bus1=N1134475            bus2=M1069497            l
 New Line.LN6047557-2         bus1=M1069496            bus2=N1134475            length=0.059547747 units=km Linecode=3PH_H-397_ACSR397_ACSR397_ACSR2/0_ACSR normamps=450 emergamps=600 
 New Line.LN6108125-2         bus1=N1134474            bus2=M1069496            length=0.056804141 units=km Linecode=3PH_H-397_ACSR397_ACSR397_ACSR2/0_ACSR normamps=450 emergamps=600 
 New Line.LN6108125-3         bus1=M1089215            bus2=N1134474            length=0.045665453 units=km Linecode=3PH_H-397_ACSR397_ACSR397_ACSR2/0_ACSR normamps=450 emergamps=600 
+New Line.LN6108125-4         bus1=M1089215            bus2=M1089220            length=0.088347937 units=km Linecode=3PH_H-2/0_ACSR2/0_ACSR2/0_ACSR2_ACSR normamps=225 emergamps=300   !New 3-ph line
+New Line.DG1089DIES_sw       bus1=M1089DER480-2       bus2=M1089-DIES1         switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001                                 !New 3-ph disconnect switch
 New Line.LN5527264-7         bus1=N1144663            bus2=M1089215            length=0.025465502 units=km Linecode=3PH_H-397_ACSR397_ACSR397_ACSR2/0_ACSR normamps=450 emergamps=600 
 New Line.LN5527264-8         bus1=L3231255            bus2=N1144663            length=0.025723178 units=km Linecode=3PH_H-397_ACSR397_ACSR397_ACSR2/0_ACSR normamps=450 emergamps=600 
 New Line.LN5769126-1         bus1=L3118855            bus2=L3231255            length=0.050485134 units=km Linecode=3PH_H-397_ACSR397_ACSR397_ACSR2/0_ACSR normamps=450 emergamps=600 
@@ -410,7 +422,9 @@ New Line.LN5473349-1         bus1=M1108529            bus2=M1108532            l
 New Line.LN5587291-4         bus1=Q14734              bus2=M1108529            length=0.055482462 units=km Linecode=3PH_H-397_ACSR397_ACSR397_ACSR2/0_ACSR normamps=450 emergamps=600 
 New Line.2002200004641085_sw bus1=D5587291-3_INT      bus2=Q14734              switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001
 New Line.LN5587291-3         bus1=190-8581            bus2=D5587291-3_INT      length=0.008351653 units=km Linecode=3PH_H-397_ACSR397_ACSR397_ACSR2/0_ACSR normamps=450 emergamps=600 
-New Line.LN5587291-1         bus1=L2692633            bus2=regxfmr_190-8581    length=0.039970119 units=km Linecode=3PH_H-397_ACSR397_ACSR397_ACSR2/0_ACSR normamps=450 emergamps=600 
+New Line.LN5587295-1         bus1=L2692635            bus2=regxfmr_190-8581    length=0.008438790 units=km Linecode=3PH_H-397_ACSR397_ACSR397_ACSR2/0_ACSR normamps=450 emergamps=600 !New 3-ph line
+New Line.LN5587300-1         bus1=D5578300-1_INT      bus2=L2692635            switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001                                 !New 3-ph switch
+New Line.LN5587291-1         bus1=L2692633            bus2=D5578300-1_INT      length=0.039970119 units=km Linecode=3PH_H-397_ACSR397_ACSR397_ACSR2/0_ACSR normamps=450 emergamps=600 
 New Line.LN5684836-1         bus1=L2674027            bus2=L2692633            length=0.067881777 units=km Linecode=3PH_H-397_ACSR397_ACSR397_ACSR2/0_ACSR normamps=450 emergamps=600 
 New Line.LN5805728-1         bus1=L3179646            bus2=L2674027            length=0.077364815 units=km Linecode=3PH_H-397_ACSR397_ACSR397_ACSR2/0_ACSR normamps=450 emergamps=600 
 New Line.LN5594212-1         bus1=L2955047            bus2=L3179646            length=0.047652144 units=km Linecode=3PH_H-397_ACSR397_ACSR397_ACSR2/0_ACSR normamps=450 emergamps=600 
@@ -438,8 +452,7 @@ New Line.L5437_48332_sw      bus1=D5535139-1_INT      bus2=E183473             s
 New Line.LN5535139-1         bus1=M1125997            bus2=D5535139-1_INT      length=0.003340893 units=km Linecode=3PH_H-397_ACSR397_ACSR397_ACSR2/0_ACSR normamps=450 emergamps=600 
 New Line.LN5775438-1         bus1=M1125994            bus2=M1125997            length=0.10646896  units=km Linecode=3PH_H-397_ACSR397_ACSR397_ACSR2/0_ACSR normamps=450 emergamps=600 
 New Line.LN6170256-1         bus1=L3067478            bus2=M1125994            length=0.1046688   units=km Linecode=3PH_H-397_ACSR397_ACSR397_ACSR2/0_ACSR normamps=450 emergamps=600 
-New Line.LN06534433_sw       bus1=M1125990            bus2=D5654433-1_INT      switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001              !New 3-ph switch
-New Line.LN5654433-1         bus1=D5654433-1_INT      bus2=L3067478            length=0.063672552 units=km Linecode=3PH_H-397_ACSR397_ACSR397_ACSR2/0_ACSR normamps=450 emergamps=600 
+New Line.LN06534433_sw       bus1=M1125990            bus2=L3067478            length=0.063672552 units=km Linecode=3PH_H-397_ACSR397_ACSR397_ACSR2/0_ACSR normamps=450 emergamps=600 
 New Line.LN5807070-1         bus1=M1125989            bus2=M1125990            length=0.004902735 units=km Linecode=3PH_H-397_ACSR397_ACSR397_ACSR2/0_ACSR normamps=450 emergamps=600 
 New Line.LN6413700-1         bus1=M1125987            bus2=M1125989            length=0.067439688 units=km Linecode=3PH_H-397_ACSR397_ACSR397_ACSR2/0_ACSR normamps=450 emergamps=600 
 New Line.LN5745257-1         bus1=M1125976            bus2=M1125987            length=0.1729248   units=km Linecode=3PH_H-397_ACSR397_ACSR397_ACSR2/0_ACSR normamps=450 emergamps=600 
@@ -593,12 +606,21 @@ New Line.LN6318768-1         bus1=L2989566            bus2=M1108378            l
 New Line.LN6077443-1         bus1=M1108378            bus2=M1108379            length=0.010598569 units=km Linecode=3PH_H-2/0_ACSR2/0_ACSR2/0_ACSR2_ACSR normamps=225 emergamps=300 !Upgraded from 3PH_H-4_WPAL4_WPAL4_WPAL4_WPAL normamps=90 emergamps=130        
 New Line.LN6411005-1         bus1=M1108379            bus2=M1108380            length=0.040149925 units=km Linecode=3PH_H-2/0_ACSR2/0_ACSR2/0_ACSR2_ACSR normamps=225 emergamps=300 !Upgraded from 3PH_H-4_WPAL4_WPAL4_WPAL4_WPAL normamps=90 emergamps=130        
 New Line.LN6411005-2         bus1=M1108380            bus2=L2898495            length=0.08550545  units=km Linecode=3PH_H-2/0_ACSR2/0_ACSR2/0_ACSR2_ACSR normamps=225 emergamps=300 !Upgraded from 3PH_H-4_WPAL4_WPAL4_WPAL4_WPAL normamps=90 emergamps=130        
+New Line.LN6411010-1         bus1=L2898495            bus2=M1108400            length=0.138479238 units=km Linecode=3PH_H-2/0_ACSR2/0_ACSR2/0_ACSR2_ACSR normamps=225 emergamps=300 !New 3-ph line
+New Line.LN6422011-1         bus1=M1108400            bus2=M1108401            length=0.229743283 units=km Linecode=3PH_H-2/0_ACSR2/0_ACSR2/0_ACSR2_ACSR normamps=225 emergamps=300 !New 3-ph line
+New Line.LN6422012-1         bus1=M1108401            bus2=M1108402            length=0.132489732 units=km Linecode=3PH_H-2/0_ACSR2/0_ACSR2/0_ACSR2_ACSR normamps=225 emergamps=300 !New 3-ph line
+New Line.LN6422013-1         bus1=M1108402            bus2=M1108403            length=0.059347198 units=km Linecode=3PH_H-2/0_ACSR2/0_ACSR2/0_ACSR2_ACSR normamps=225 emergamps=300 !New 3-ph line
+New Line.LN6422014-1         bus1=M1108400            bus2=M1108404            length=0.083747982 units=km Linecode=3PH_H-2/0_ACSR2/0_ACSR2/0_ACSR2_ACSR normamps=225 emergamps=300 !New 3-ph line
+New Line.LN6422015-1         bus1=M1108402            bus2=M1108405            length=0.128974733 units=km Linecode=3PH_H-2/0_ACSR2/0_ACSR2/0_ACSR2_ACSR normamps=225 emergamps=300 !New 3-ph line
+New Line.LN6422016-1         bus1=M1108403            bus2=M1108406            length=0.323897345 units=km Linecode=3PH_H-2/0_ACSR2/0_ACSR2/0_ACSR2_ACSR normamps=225 emergamps=300 !New 3-ph line
+New Line.LN6422017-1         bus1=M1108403.2          bus2=M1108407.2          length=0.147928723 units=km Linecode=1P_1/0_AXNJ_DB normamps=200 emergamps=250                       !New 1-ph line
 New Line.LN6409778-1         bus1=L2898495            bus2=L2952003            length=0.14066211  units=km Linecode=3PH_H-2/0_ACSR2/0_ACSR2/0_ACSR2_ACSR normamps=225 emergamps=300 !Upgraded from 3PH_H-4_WPAL4_WPAL4_WPAL4_ACSR normamps=90 emergamps=130         
 New Line.LN5561437-1         bus1=L2952003            bus2=M1108381            length=0.10724762  units=km Linecode=3PH_H-2/0_ACSR2/0_ACSR2/0_ACSR2_ACSR normamps=225 emergamps=300 !Upgraded from 3PH_H-4_WPAL4_WPAL4_WPAL4_ACSR normamps=90 emergamps=130         
 New Line.LN6350574-1         bus1=M1108381            bus2=L3254237            length=0.075954944 units=km Linecode=3PH_H-2/0_ACSR2/0_ACSR2/0_ACSR2_ACSR normamps=225 emergamps=300 !Upgraded from 3PH_H-4_ACSR2_ACSR2_ACSR4_ACSR
 New Line.LN6425615-1         bus1=L3254237            bus2=M1108387            length=0.14020837  units=km Linecode=3PH_H-2/0_ACSR2/0_ACSR2/0_ACSR2_ACSR normamps=225 emergamps=300 !Upgraded from 3PH_H-2_ACSR2_ACSR2_ACSR2_ACSR
 New Line.LN5728479-1         bus1=M1108387            bus2=M1108398            length=0.030480145 units=km Linecode=3PH_H-2/0_ACSR2/0_ACSR2/0_ACSR2_ACSR normamps=225 emergamps=300 !Upgraded from 3PH_H-2_ACSR2_ACSR2_ACSR2_ACSR normamps=100 emergamps=175         
 New Line.LN6061815-1         bus1=M1108398            bus2=M1108395            length=0.068025827 units=km Linecode=3PH_H-2/0_ACSR2/0_ACSR2/0_ACSR2_ACSR normamps=225 emergamps=300 !Upgraded from 3PH_H-4_ACSR4_ACSR4_ACSR4_ACSR normamps=90 emergamps=130         
+New Line.LN6061820-1         bus1=M1108395.2          bus2=M1108410.2          length=0.184832764 units=km Linecode=1P_1/0_AXNJ_DB normamps=200 emergamps=250                       !New 1-ph line
 New Line.LN6274208-1         bus1=M1108395            bus2=L2896685            length=0.094743382 units=km Linecode=3PH_H-2/0_ACSR2/0_ACSR2/0_ACSR2_ACSR normamps=225 emergamps=300 !Upgraded from 3PH_H-4_ACSR4_ACSR4_ACSR4_ACSR normamps=90 emergamps=130         
 New Line.LN6274208-2         bus1=L2896685            bus2=M1089185            length=0.024030357 units=km Linecode=3PH_H-2/0_ACSR2/0_ACSR2/0_ACSR2_ACSR normamps=225 emergamps=300 !Upgraded from 3PH_H-4_ACSR4_ACSR4_ACSR4_ACSR
 New Line.LN81098881-1        bus1=M1089185            bus2=P850083             length=0.00721822  units=km Linecode=3PH_H-2/0_ACSR2/0_ACSR2/0_ACSR2_ACSR normamps=225 emergamps=300 !Upgraded from 3P_1/0_AXNJ_DB normamps=200 emergamps=250 
@@ -609,9 +631,12 @@ New Line.LN8979258-1         bus1=L2990826            bus2=L2990827            l
 New Line.TSW10891089_sw      bus1=L2990827            bus2=L2990828            switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001                               !New 3-ph switch
 New Line.LN8979259-1         bus1=L2990828            bus2=L2841619            length=0.213587093 units=km Linecode=3PH_H-2/0_ACSR2/0_ACSR2/0_ACSR2_ACSR normamps=225 emergamps=300 !New 3-ph line
 New Line.LN5593219-1         bus1=M1089189            bus2=L2841619            length=0.079354415 units=km Linecode=3PH_H-2/0_ACSR2/0_ACSR2/0_ACSR2_ACSR normamps=225 emergamps=300 !Upgraded from 1PH-xx4_WPAL4_WPAL
-New Line.LN6229790-1         bus1=M1089188            bus2=M1089189            length=0.06631841  units=km Linecode=3PH_H-2/0_ACSR2/0_ACSR2/0_ACSR2_ACSR normamps=225 emergamps=300 !Upgraded from 1PH-xx4_WPAL4_WPAL 
-New Line.LN6380807-1         bus1=L2822863            bus2=M1089188            length=0.44506052  units=km Linecode=3PH_H-2/0_ACSR2/0_ACSR2/0_ACSR2_ACSR normamps=225 emergamps=300 !Upgraded from 1PH-xx4_WPAL4_WPAL normamps=90 emergamps=130              
-New Line.LN5865230-1         bus1=M1089177            bus2=L2822863            length=0.1338843   units=km Linecode=3PH_H-2/0_ACSR2/0_ACSR2/0_ACSR2_ACSR normamps=225 emergamps=300 !Upgraded from 1PH-xx4_WPAL4_WPAL normamps=90 emergamps=130              
+New Line.LN6229790-1         bus1=M1089188            bus2=M1089189            length=0.066318413 units=km Linecode=3PH_H-2/0_ACSR2/0_ACSR2/0_ACSR2_ACSR normamps=225 emergamps=300 !Upgraded from 1PH-xx4_WPAL4_WPAL 
+New Line.LN6301089-1         bus1=M1089187            bus2=M1089188            length=0.193804572 units=km Linecode=3PH_H-2/0_ACSR2/0_ACSR2/0_ACSR2_ACSR normamps=225 emergamps=300 !New 3-ph line
+New Line.LN6311089-1         bus1=M1089187            bus2=M1089186            length=0.054938793 units=km Linecode=3PH_H-2/0_ACSR2/0_ACSR2/0_ACSR2_ACSR normamps=225 emergamps=300 !New 3-ph line
+New Line.DG1089LNG_sw        bus1=M1089DER480-1       bus2=M1089-LNG1          switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001                               !New 3-ph switch
+New Line.LN6380807-1         bus1=L2822863            bus2=M1089187            length=0.334280956 units=km Linecode=3PH_H-2/0_ACSR2/0_ACSR2/0_ACSR2_ACSR normamps=225 emergamps=300 !Upgraded from 1PH-xx4_WPAL4_WPAL normamps=90 emergamps=130              
+New Line.LN5865230-1         bus1=M1089177            bus2=L2822863            length=0.133884398 units=km Linecode=3PH_H-2/0_ACSR2/0_ACSR2/0_ACSR2_ACSR normamps=225 emergamps=300 !Upgraded from 1PH-xx4_WPAL4_WPAL normamps=90 emergamps=130              
 New Line.LN5806917-1         bus1=E182723             bus2=M1089177            length=0.049250637 units=km Linecode=3PH_H-2/0_ACSR2/0_ACSR2/0_ACSR2_ACSR normamps=225 emergamps=300 !Upgraded from 1PH-xx4_WPAL4_WPAL normamps=90 emergamps=130              
 New Line.A333_48332_sw       bus1=D5746546-1_INT      bus2=E182723             switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001
 New Line.LN5746546-1         bus1=L2935551            bus2=D5746546-1_INT      length=0.032040317 units=km Linecode=3PH_H-2/0_ACSR2/0_ACSR2/0_ACSR2_ACSR normamps=225 emergamps=300 !Upgraded from 1PH-xx4_WPAL4_WPAL normamps=90 emergamps=130
@@ -671,7 +696,8 @@ New Line.LN5533797-1         bus1=M1209776            bus2=M1209775            l
 New Line.LN6078775-1         bus1=M1209775            bus2=M1209774            length=0.16207054  units=km Linecode=3PH_H-397_ACSR397_ACSR397_ACSR2/0_ACSR normamps=450 emergamps=600 
 New Line.LN6381858-1         bus1=M1209774            bus2=L3123509            length=0.062531399 units=km Linecode=3PH_H-397_ACSR397_ACSR397_ACSR2/0_ACSR normamps=450 emergamps=600 
 New Line.LN6078776-1         bus1=L3123509            bus2=M1209772            length=0.091160506 units=km Linecode=3PH_H-397_ACSR397_ACSR397_ACSR2/0_ACSR normamps=450 emergamps=600 
-New Line.LN5542283-1         bus1=M1209772            bus2=E192258             length=0.17433574  units=km Linecode=3PH_H-397_ACSR397_ACSR397_ACSR2/0_ACSR normamps=450 emergamps=600 
+New Line.LN5542283-1         bus1=M1209772            bus2=E192258             length=0.17433574  units=km Linecode=3PH_H-397_ACSR397_ACSR397_ACSR2/0_ACSR normamps=450 emergamps=600
+New Line.DG1209DIES_sw       bus1=M1209DER480-1       bus2=M1209-DIES1         switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001              !New 3-ph switch 
 
 
 ! 3-ph lateral from S3-S1 trunk from node M1047548
@@ -731,12 +757,14 @@ New Line.LN6290240-2         bus1=N1136363            bus2=R18245              l
 New Line.LN6231998-1         bus1=R18245              bus2=E182746             length=0.032052645 units=km Linecode=3PH_H-397_ACSR397_ACSR397_ACSR2/0_ACSR normamps=450 emergamps=600 
 
 ! Other small 3-ph laterals
-New Line.LN0504876_sw        bus1=M1142818            bus2=D5504876-1_INT      switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001              !New 3-ph switch
+New Line.LN0504876_sw        bus1=M1142818            bus2=D5504876-1_INT      switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001                        !New 3-ph switch
 New Line.LN5504876-1         bus1=D5504876-1_INT      bus2=P829965             length=0.06747348  units=km Linecode=3PH_H-4_ACSR4_ACSR4_ACSR4_WPAL normamps=90 emergamps=130         
 New Line.LN5928744-1         bus1=P829965             bus2=L2936271            length=0.027920017 units=km Linecode=3PH_H-4_ACSR4_ACSR4_ACSR4_WPAL normamps=90 emergamps=130         
 New Line.LN5927423-1         bus1=L2936271            bus2=M1142815            length=0.13955636  units=km Linecode=3PH_H-4_ACSR4_ACSR4_ACSR4_WPAL normamps=90 emergamps=130         
 New Line.LN5684911-1         bus1=M1142815            bus2=M1142814            length=0.14742893  units=km Linecode=3PH_H-4_ACSR4_ACSR4_ACSR4_ACSR normamps=90 emergamps=130          
-New Line.LN5957494-1         bus1=M1142814            bus2=M1142810            length=0.30092212  units=km Linecode=3PH_H-4_ACSR4_ACSR4_ACSR4_ACSR normamps=90 emergamps=130  
+New Line.LN5957494-1         bus1=M1142814            bus2=M1142810            length=0.30092212  units=km Linecode=3PH_H-4_ACSR4_ACSR4_ACSR4_ACSR normamps=90 emergamps=130 
+New Line.LN5957500-1         bus1=M1142814            bus2=M1142813            length=0.06328095  units=km Linecode=3PH_H-4_ACSR4_ACSR4_ACSR4_ACSR normamps=90 emergamps=130 !New 3-ph line
+New Line.DG1142LNG_sw        bus1=M1142DER480-1       bus2=M1142-LNG1          switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001                        !New 3-ph switch
 
 New Line.LN5621864-1         bus1=M1125987            bus2=P901945             length=0.004817317 units=km Linecode=3PH_H-4_WPAL4_WPAL4_WPAL4_WPAL normamps=90 emergamps=130        
 New Line.LN6228311-1         bus1=P901945             bus2=M1125988            length=0.00577516  units=km Linecode=3PH_H-4_WPAL4_WPAL4_WPAL4_WPAL normamps=90 emergamps=130        
@@ -878,7 +906,7 @@ New Line.LN8979358-2         bus1=L2803194.3          bus2=L3047073.3          l
 New Line.LN8979358-3         bus1=L3047073.3          bus2=M1069250.3          length=0.21254262  units=km Linecode=1P_1/0_AXNJ_DB normamps=200 emergamps=250 
 New Line.LN8979371-1         bus1=M1069250.3          bus2=L2690868.3          length=0.020555058 units=km Linecode=1P_1/0_AXNJ_DB normamps=200 emergamps=250                          
 New Line.LN8979371-2         bus1=L2690868.3          bus2=228-979371-2_INT.3  length=0.01146058  units=km Linecode=1P_1/0_AXNJ_DB normamps=200 emergamps=250 
-New Line.WF586_48332_sw      bus1=228-979371-2_INT.3  bus2=193-48013.3         switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001 phases=1
+!New Line.WF586_48332_sw      bus1=228-979371-2_INT.3  bus2=193-48013.3         switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001 phases=1 !switch disabled, A-phase to C-phase
 
 
 !2-ph loop from node M1108378 to M1108380
@@ -894,7 +922,7 @@ New Line.LN81048106-3        bus1=L2990098.1          bus2=M1108462.1          l
 New Line.LN81048108-1        bus1=M1108462.1          bus2=L3027671.1          length=0.11898371  units=km Linecode=1P_1/0_AXNJ_DB normamps=200 emergamps=250 
 New Line.LN81048108-2        bus1=L3027671.1          bus2=M1108423.1          length=0.13373712  units=km Linecode=1P_1/0_AXNJ_DB normamps=200 emergamps=250
 New Line.LN81048093-1        bus1=M1108393.1          bus2=193-51796.1         length=0.001797129 units=km Linecode=1P_1/0_AXNJ_DB normamps=200 emergamps=250                          
-New Line.WD701_48332_sw      bus1=228-1048090-1_INT.2 bus2=193-51796.2         switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001 phases=1
+!New Line.WD701_48332_sw     bus1=228-1048090-1_INT.2 bus2=193-51796.2         switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001 phases=1 !switch disabled, A-phase to B-phase
 New Line.LN81048090-1        bus1=M1108433.2          bus2=228-1048090-1_INT.2 length=0.13353714  units=km Linecode=1P_1/0_AXNJ_DB normamps=200 emergamps=250 
 New Line.LN81048109-2        bus1=L3102286.2          bus2=M1108433.2          length=0.039047848 units=km Linecode=1P_1/0_AXNJ_DB normamps=200 emergamps=250                          
 New Line.LN81048109-1        bus1=M1108464.2          bus2=L3102286.2          length=0.10745557  units=km Linecode=1P_1/0_AXNJ_DB normamps=200 emergamps=250                
@@ -2817,3 +2845,15 @@ New Line.LN2001312-1         bus1=M2001311.1          bus2=M2001312.1          l
 New Line.LN2001313-1         bus1=M2001312.1          bus2=M2001313.1          length=0.048230984 units=km Linecode=1PH-x2_ACSRx2_ACSR normamps=100 emergamps=175 !New 1-ph Line
 New Line.LN2001314-1         bus1=M2001313.1          bus2=M2001314.1          length=0.048230984 units=km Linecode=1PH-x2_ACSRx2_ACSR normamps=100 emergamps=175 !New 1-ph Line
 New Line.LN2001315-1         bus1=M2001314.1          bus2=M2001315.1          length=0.048230984 units=km Linecode=1PH-x2_ACSRx2_ACSR normamps=100 emergamps=175 !New 1-ph Line
+
+New Line.LN2001DER-1         bus1=M2001DER480-1       bus2=M2001DER-1          length=0.0500 units=km Linecode=3PH_H-397_ACSR397_ACSR397_ACSR397_ACSR normamps=450 emergamps=600 !New 3-ph line
+New Line.LN2001MT1_SW        bus1=M2001DER-1          bus2=m2001-MT1           switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001                            !New 3-ph switch
+New Line.LN2001DER-2         bus1=M2001DER480-1       bus2=M2001DER-2          length=0.0500 units=km Linecode=3PH_H-397_ACSR397_ACSR397_ACSR397_ACSR normamps=450 emergamps=600 !New 3-ph line
+New Line.LN2001MT2_SW        bus1=M2001DER-2          bus2=m2001-MT2           switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001                            !New 3-ph switch
+New Line.LN2001DER-3         bus1=M2001DER480-1       bus2=M2001DER-3          length=0.0500 units=km Linecode=3PH_H-397_ACSR397_ACSR397_ACSR397_ACSR normamps=450 emergamps=600 !New 3-ph line
+New Line.LN2001MT3_SW        bus1=M2001DER-3          bus2=m2001-MT3           switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001                            !New 3-ph switch
+New Line.LN2001DER-4         bus1=M2001DER480-2       bus2=M2001DER-4          length=0.0500 units=km Linecode=3PH_H-397_ACSR397_ACSR397_ACSR397_ACSR normamps=450 emergamps=600 !New 3-ph line
+New Line.LN2001ESS1_SW       bus1=M2001DER-4          bus2=m2001-ESS1          switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001                            !New 3-ph switch
+New Line.LN2001DER-5         bus1=M2001DER480-2       bus2=M2001DER-5          length=0.0500 units=km Linecode=3PH_H-397_ACSR397_ACSR397_ACSR397_ACSR normamps=450 emergamps=600 !New 3-ph line
+New Line.LN2001ESS2_SW       bus1=M2001DER-5          bus2=m2001-ESS2          switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001                            !New 3-ph switch
+

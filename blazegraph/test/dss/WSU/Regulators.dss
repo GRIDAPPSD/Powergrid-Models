@@ -35,18 +35,7 @@ New RegControl.VREG4_A transformer=VREG4_A  winding=2 vreg=125  ptratio=60 band=
 New RegControl.VREG4_B transformer=VREG4_B  winding=2 vreg=125  ptratio=60 band=2  reversible=yes revvreg=125 revband=2
 New RegControl.VREG4_C transformer=VREG4_C  winding=2 vreg=125  ptratio=60 band=2  reversible=yes revvreg=125 revband=2
 
-! Force all regulator to take default tap position
-
-Transformer.VREG2_A.wdg=2 Tap=(0.00625 0 * 1 +) 
-Transformer.VREG2_B.wdg=2 Tap=(0.00625 0 * 1 +) 
-Transformer.VREG2_C.wdg=2 Tap=(0.00625 0 * 1 +) 
-Transformer.VREG3_A.wdg=2 Tap=(0.00625 0 * 1 +) 
-Transformer.VREG3_B.wdg=2 Tap=(0.00625 0 * 1 +) 
-Transformer.VREG3_C.wdg=2 Tap=(0.00625 0 * 1 +) 
-Transformer.VREG4_A.wdg=2 Tap=(0.00625 0 * 1 +) 
-Transformer.VREG4_B.wdg=2 Tap=(0.00625 0 * 1 +) 
-Transformer.VREG4_C.wdg=2 Tap=(0.00625 0 * 1 +) 
 
 
 
-!batchedit regcontrol..* enable=no
+
