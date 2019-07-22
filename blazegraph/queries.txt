@@ -32,6 +32,28 @@ SELECT ?feeder ?bus ?val ?dur ?dir WHERE {
 }
 ORDER by ?feeder ?bus ?val
 
+# list all the CurrentLimits by feeder
+PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX c:  <http://iec.ch/TC57/CIM100#>
+SELECT ?eqtype ?eqname ?val ?dur ?dir WHERE {
+# VALUES ?fdrid {"_49AD8E07-3BF9-A4E2-CB8F-C3722F837B62"}  # 13 bus
+ ?fdr c:IdentifiedObject.mRID ?fdrid.
+ ?eq c:Equipment.EquipmentContainer ?fdr.
+ ?eq c:IdentifiedObject.name ?eqname.
+ ?eq r:type ?rawtype.
+  bind(strafter(str(?rawtype),"#") as ?eqtype)
+ ?t c:Terminal.ConductingEquipment ?eq.
+ ?t c:ACDCTerminal.OperationalLimitSet ?ols.
+ ?clim c:OperationalLimit.OperationalLimitSet ?ols.
+ ?clim r:type c:CurrentLimit.
+ ?clim c:OperationalLimit.OperationalLimitType ?olt.
+ ?olt c:OperationalLimitType.acceptableDuration ?dur.
+ ?olt c:OperationalLimitType.direction ?rawdir.
+  bind(strafter(str(?rawdir),"OperationalLimitDirectionKind.") as ?dir)
+ ?clim c:CurrentLimit.value ?val.
+}
+ORDER by ?eqtype ?eqname ?val ?dur
+
 # SynchronousMachine - DistSyncMachine
 PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX c:  <http://iec.ch/TC57/CIM100#>
