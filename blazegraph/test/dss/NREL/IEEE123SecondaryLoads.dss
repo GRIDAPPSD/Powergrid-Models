@@ -11,15 +11,10 @@
 ! The primary winding is connected 7200V line-to-neutral on one of the phases.
 ! The secondary windings are consistently connected 1.0 and 0.2 respectively to get the polarity correct.
 
-New XfmrCode.CT5   phases=1 windings=3 kvs=[2.4 0.12 0.12] kVAs=[  5.0   5.0   5.0] %imag=0.5 %Rs=[0.6 1.2 1.2] %noloadloss=.2 Xhl=2.04  Xht=2.04  Xlt=1.36
-New XfmrCode.CT10  phases=1 windings=3 kvs=[2.4 0.12 0.12] kVAs=[ 10.0  10.0  10.0] %imag=0.5 %Rs=[0.6 1.2 1.2] %noloadloss=.2 Xhl=2.04  Xht=2.04  Xlt=1.36
-New XfmrCode.CT15  phases=1 windings=3 kvs=[2.4 0.12 0.12] kVAs=[ 15.0  15.0  15.0] %imag=0.5 %Rs=[0.6 1.2 1.2] %noloadloss=.2 Xhl=2.04  Xht=2.04  Xlt=1.36
 New XfmrCode.CT25  phases=1 windings=3 kvs=[2.4 0.12 0.12] kVAs=[ 25.0  25.0  25.0] %imag=0.5 %Rs=[0.6 1.2 1.2] %noloadloss=.2 Xhl=2.04  Xht=2.04  Xlt=1.36
-New XfmrCode.CT37  phases=1 windings=3 kvs=[2.4 0.12 0.12] kVAs=[ 37.5  37.5  37.5] %imag=0.5 %Rs=[0.6 1.2 1.2] %noloadloss=.2 Xhl=2.04  Xht=2.04  Xlt=1.36
 New XfmrCode.CT50  phases=1 windings=3 kvs=[2.4 0.12 0.12] kVAs=[ 50.0  50.0  50.0] %imag=0.5 %Rs=[0.6 1.2 1.2] %noloadloss=.2 Xhl=2.04  Xht=2.04  Xlt=1.36
-New XfmrCode.CT75  phases=1 windings=3 kvs=[2.4 0.12 0.12] kVAs=[ 75.0  75.0  75.0] %imag=0.5 %Rs=[0.6 1.2 1.2] %noloadloss=.2 Xhl=2.04  Xht=2.04  Xlt=1.36
 New XfmrCode.CT100 phases=1 windings=3 kvs=[2.4 0.12 0.12] kVAs=[100.0 100.0 100.0] %imag=0.5 %Rs=[0.6 1.2 1.2] %noloadloss=.2 Xhl=2.04  Xht=2.04  Xlt=1.36
-New XfmrCode.CT250 phases=1 windings=3 kvs=[2.4 0.12 0.12] kVAs=[250.0 250.0 250.0] %imag=0.5 %Rs=[0.6 1.2 1.2] %noloadloss=.2 Xhl=2.04  Xht=2.04  Xlt=1.36
+
 
 !  Loads are defined as two 120V loads connected line to neutral
 !  For phases>1, OpenDSS Load model assumes that a 2-phase load is 2 phases of a 3-phase system 
@@ -35,87 +30,329 @@ New XfmrCode.CT250 phases=1 windings=3 kvs=[2.4 0.12 0.12] kVAs=[250.0 250.0 250
 
 // replace each original primary load with a transformer plus triplex load like this...
 //New Load.S1a   Bus1=1.1    Phases=1 Conn=Wye   Model=1 kV=2.4   kW=40.0  kvar=20.0
-New Transformer.XF1a  XfmrCode=CT50 buses=[1.1 s1.1.0 s1.0.2]
-New Load.S1a          Bus1=s1.1.2   Phases=2 Conn=Wye   Model=1 kV=0.208   kW=40.0  kvar=20.0  
+New Transformer.XFS1a  XfmrCode=CT50 buses=[1.1 s1a.1.0 s1a.0.2]
+New Load.S1a          Bus1=s1a.1.2   Phases=2 Conn=Wye   Model=1 kV=0.208   kW=40.0  kvar=20.0  
   
-New Load.S2b   Bus1=2.2    Phases=1 Conn=Wye   Model=1 kV=2.4   kW=20.0  kvar=10.0  
-New Load.S4c   Bus1=4.3    Phases=1 Conn=Wye   Model=1 kV=2.4   kW=40.0  kvar=20.0  
-New Load.S5c   Bus1=5.3    Phases=1 Conn=Wye   Model=5 kV=2.4   kW=20.0  kvar=10.0  
-New Load.S6c   Bus1=6.3    Phases=1 Conn=Wye   Model=2 kV=2.4   kW=40.0  kvar=20.0  
-New Load.S7a   Bus1=7.1    Phases=1 Conn=Wye   Model=1 kV=2.4   kW=20.0  kvar=10.0  
-New Load.S9a   Bus1=9.1    Phases=1 Conn=Wye   Model=1 kV=2.4   kW=40.0  kvar=20.0  
-New Load.S10a  Bus1=10.1   Phases=1 Conn=Wye   Model=5 kV=2.4   kW=20.0  kvar=10.0  
-New Load.S11a  Bus1=11.1   Phases=1 Conn=Wye   Model=2 kV=2.4   kW=40.0  kvar=20.0  
-New Load.S12b  Bus1=12.2   Phases=1 Conn=Wye   Model=1 kV=2.4   kW=20.0  kvar=10.0  
-New Load.S16c  Bus1=16.3   Phases=1 Conn=Wye   Model=1 kV=2.4   kW=40.0  kvar=20.0  
-New Load.S17c  Bus1=17.3   Phases=1 Conn=Wye   Model=1 kV=2.4   kW=20.0  kvar=10.0  
-New Load.S19a  Bus1=19.1   Phases=1 Conn=Wye   Model=1 kV=2.4   kW=40.0  kvar=20.0  
-New Load.S20a  Bus1=20.1   Phases=1 Conn=Wye   Model=5 kV=2.4   kW=40.0  kvar=20.0  
-New Load.S22b  Bus1=22.2   Phases=1 Conn=Wye   Model=2 kV=2.4   kW=40.0  kvar=20.0  
-New Load.S24c  Bus1=24.3   Phases=1 Conn=Wye   Model=1 kV=2.4   kW=40.0  kvar=20.0  
-New Load.S28a  Bus1=28.1   Phases=1 Conn=Wye   Model=5 kV=2.4   kW=40.0  kvar=20.0  
-New Load.S29a  Bus1=29.1   Phases=1 Conn=Wye   Model=2 kV=2.4   kW=40.0  kvar=20.0  
-New Load.S30c  Bus1=30.3   Phases=1 Conn=Wye   Model=1 kV=2.4   kW=40.0  kvar=20.0  
-New Load.S31c  Bus1=31.3   Phases=1 Conn=Wye   Model=1 kV=2.4   kW=20.0  kvar=10.0  
-New Load.S32c  Bus1=32.3   Phases=1 Conn=Wye   Model=1 kV=2.4   kW=20.0  kvar=10.0  
-New Load.S33a  Bus1=33.1   Phases=1 Conn=Wye   Model=5 kV=2.4   kW=40.0  kvar=20.0  
-New Load.S34c  Bus1=34.3   Phases=1 Conn=Wye   Model=2 kV=2.4   kW=40.0  kvar=20.0  
-New Load.S37a  Bus1=37.1   Phases=1 Conn=Wye   Model=2 kV=2.4   kW=40.0  kvar=20.0  
-New Load.S38b  Bus1=38.2   Phases=1 Conn=Wye   Model=5 kV=2.4   kW=20.0  kvar=10.0  
-New Load.S39b  Bus1=39.2   Phases=1 Conn=Wye   Model=1 kV=2.4   kW=20.0  kvar=10.0  
-New Load.S41c  Bus1=41.3   Phases=1 Conn=Wye   Model=1 kV=2.4   kW=20.0  kvar=10.0  
-New Load.S42a  Bus1=42.1   Phases=1 Conn=Wye   Model=1 kV=2.4   kW=20.0  kvar=10.0  
-New Load.S43b  Bus1=43.2   Phases=1 Conn=Wye   Model=2 kV=2.4   kW=40.0  kvar=20.0  
-New Load.S45a  Bus1=45.1   Phases=1 Conn=Wye   Model=5 kV=2.4   kW=20.0  kvar=10.0  
-New Load.S46a  Bus1=46.1   Phases=1 Conn=Wye   Model=1 kV=2.4   kW=20.0  kvar=10.0  
-New Load.S49a  Bus1=49.1   Phases=1 Conn=Wye   Model=1 kV=2.4   kW=35.0  kvar=25.0  
-New Load.S49b  Bus1=49.2   Phases=1 Conn=Wye   Model=1 kV=2.4   kW=70.0  kvar=50.0  
-New Load.S49c  Bus1=49.3   Phases=1 Conn=Wye   Model=1 kV=2.4   kW=35.0  kvar=20.0  ! used to be 25 in on-line document
-New Load.S50c  Bus1=50.3   Phases=1 Conn=Wye   Model=1 kV=2.4   kW=40.0  kvar=20.0  
-New Load.S51a  Bus1=51.1   Phases=1 Conn=Wye   Model=1 kV=2.4   kW=20.0  kvar=10.0  
-New Load.S52a  Bus1=52.1   Phases=1 Conn=Wye   Model=1 kV=2.4   kW=40.0  kvar=20.0  
-New Load.S53a  Bus1=53.1   Phases=1 Conn=Wye   Model=1 kV=2.4   kW=40.0  kvar=20.0  
-New Load.S55a  Bus1=55.1   Phases=1 Conn=Wye   Model=2 kV=2.4   kW=20.0  kvar=10.0  
-New Load.S56b  Bus1=56.2   Phases=1 Conn=Wye   Model=1 kV=2.4   kW=20.0  kvar=10.0  
-New Load.S58b  Bus1=58.2   Phases=1 Conn=Wye   Model=5 kV=2.4   kW=20.0  kvar=10.0  
-New Load.S59b  Bus1=59.2   Phases=1 Conn=Wye   Model=1 kV=2.4   kW=20.0  kvar=10.0  
-New Load.S60a  Bus1=60.1   Phases=1 Conn=Wye   Model=1 kV=2.4   kW=20.0  kvar=10.0  
-New Load.S62c  Bus1=62.3   Phases=1 Conn=Wye   Model=2 kV=2.4   kW=40.0  kvar=20.0  
-New Load.S63a  Bus1=63.1   Phases=1 Conn=Wye   Model=1 kV=2.4   kW=40.0  kvar=20.0  
-New Load.S64b  Bus1=64.2   Phases=1 Conn=Wye   Model=5 kV=2.4   kW=75.0  kvar=35.0  
-New Load.S66c  Bus1=66.3   Phases=1 Conn=Wye   Model=1 kV=2.4   kW=75.0  kvar=35.0  
-New Load.S68a  Bus1=68.1   Phases=1 Conn=Wye   Model=1 kV=2.4   kW=20.0  kvar=10.0  
-New Load.S69a  Bus1=69.1   Phases=1 Conn=Wye   Model=1 kV=2.4   kW=40.0  kvar=20.0  
-New Load.S70a  Bus1=70.1   Phases=1 Conn=Wye   Model=1 kV=2.4   kW=20.0  kvar=10.0  
-New Load.S71a  Bus1=71.1   Phases=1 Conn=Wye   Model=1 kV=2.4   kW=40.0  kvar=20.0  
-New Load.S73c  Bus1=73.3   Phases=1 Conn=Wye   Model=1 kV=2.4   kW=40.0  kvar=20.0  
-New Load.S74c  Bus1=74.3   Phases=1 Conn=Wye   Model=2 kV=2.4   kW=40.0  kvar=20.0  
-New Load.S75c  Bus1=75.3   Phases=1 Conn=Wye   Model=1 kV=2.4   kW=40.0  kvar=20.0  
-New Load.S77b  Bus1=77.2   Phases=1 Conn=Wye   Model=1 kV=2.4   kW=40.0  kvar=20.0  
-New Load.S79a  Bus1=79.1   Phases=1 Conn=Wye   Model=2 kV=2.4   kW=40.0  kvar=20.0  
-New Load.S80b  Bus1=80.2   Phases=1 Conn=Wye   Model=1 kV=2.4   kW=40.0  kvar=20.0  
-New Load.S82a  Bus1=82.1   Phases=1 Conn=Wye   Model=1 kV=2.4   kW=40.0  kvar=20.0  
-New Load.S83c  Bus1=83.3   Phases=1 Conn=Wye   Model=1 kV=2.4   kW=20.0  kvar=10.0  
-New Load.S84c  Bus1=84.3   Phases=1 Conn=Wye   Model=1 kV=2.4   kW=20.0  kvar=10.0  
-New Load.S85c  Bus1=85.3   Phases=1 Conn=Wye   Model=1 kV=2.4   kW=40.0  kvar=20.0  
-New Load.S86b  Bus1=86.2   Phases=1 Conn=Wye   Model=1 kV=2.4   kW=20.0  kvar=10.0  
-New Load.S87b  Bus1=87.2   Phases=1 Conn=Wye   Model=1 kV=2.4   kW=40.0  kvar=20.0  
-New Load.S88a  Bus1=88.1   Phases=1 Conn=Wye   Model=1 kV=2.4   kW=40.0  kvar=20.0  
-New Load.S90b  Bus1=90.2   Phases=1 Conn=Wye   Model=5 kV=2.4   kW=40.0  kvar=20.0  
-New Load.S92c  Bus1=92.3   Phases=1 Conn=Wye   Model=1 kV=2.4   kW=40.0  kvar=20.0  
-New Load.S94a  Bus1=94.1   Phases=1 Conn=Wye   Model=1 kV=2.4   kW=40.0  kvar=20.0  
-New Load.S95b  Bus1=95.2   Phases=1 Conn=Wye   Model=1 kV=2.4   kW=20.0  kvar=10.0  
-New Load.S96b  Bus1=96.2   Phases=1 Conn=Wye   Model=1 kV=2.4   kW=20.0  kvar=10.0  
-New Load.S98a  Bus1=98.1   Phases=1 Conn=Wye   Model=1 kV=2.4   kW=40.0  kvar=20.0  
-New Load.S99b  Bus1=99.2   Phases=1 Conn=Wye   Model=1 kV=2.4   kW=40.0  kvar=20.0  
-New Load.S100c Bus1=100.3  Phases=1 Conn=Wye   Model=2 kV=2.4   kW=40.0  kvar=20.0  
-New Load.S102c Bus1=102.3  Phases=1 Conn=Wye   Model=1 kV=2.4   kW=20.0  kvar=10.0  
-New Load.S103c Bus1=103.3  Phases=1 Conn=Wye   Model=1 kV=2.4   kW=40.0  kvar=20.0  
-New Load.S104c Bus1=104.3  Phases=1 Conn=Wye   Model=1 kV=2.4   kW=40.0  kvar=20.0  
-New Load.S106b Bus1=106.2  Phases=1 Conn=Wye   Model=1 kV=2.4   kW=40.0  kvar=20.0  
-New Load.S107b Bus1=107.2  Phases=1 Conn=Wye   Model=1 kV=2.4   kW=40.0  kvar=20.0  
-New Load.S109a Bus1=109.1  Phases=1 Conn=Wye   Model=1 kV=2.4   kW=40.0  kvar=20.0  
-New Load.S111a Bus1=111.1  Phases=1 Conn=Wye   Model=1 kV=2.4   kW=20.0  kvar=10.0  
-New Load.S112a Bus1=112.1  Phases=1 Conn=Wye   Model=5 kV=2.4   kW=20.0  kvar=10.0  
-New Load.S113a Bus1=113.1  Phases=1 Conn=Wye   Model=2 kV=2.4   kW=40.0  kvar=20.0  
-New Load.S114a Bus1=114.1  Phases=1 Conn=Wye   Model=1 kV=2.4   kW=20.0  kvar=10.0  
+//New Load.S2b   Bus1=2.2    Phases=1 Conn=Wye   Model=1 kV=2.4   kW=20.0  kvar=10.0  
+New Transformer.XFS2b  XfmrCode=CT25 buses=[2.2 s2b.1.0 s2b.0.2]
+New Load.S2b         Bus1=s2b.1.2   Phases=2 Conn=Wye   Model=1 kV=0.208   kW=20.0  kvar=10.0
+
+//New Load.S4c   Bus1=4.3    Phases=1 Conn=Wye   Model=1 kV=2.4   kW=40.0  kvar=20.0  
+New Transformer.XFS4c  XfmrCode=CT50 buses=[4.3 s4c.1.0 s4c.0.2]
+New Load.S4c          Bus1=s4c.1.2   Phases=2 Conn=Wye   Model=1 kV=0.208   kW=40.0  kvar=20.0
+
+//New Load.S5c   Bus1=5.3    Phases=1 Conn=Wye   Model=5 kV=2.4   kW=20.0  kvar=10.0  
+New Transformer.XFS5c  XfmrCode=CT25 buses=[5.3 s5c.1.0 s5c.0.2]
+New Load.S5c          Bus1=s5c.1.2   Phases=2 Conn=Wye   Model=5 kV=0.208   kW=20.0  kvar=10.0
+
+//New Load.S6c   Bus1=6.3    Phases=1 Conn=Wye   Model=2 kV=2.4   kW=40.0  kvar=20.0  
+New Transformer.XFS6c  XfmrCode=CT50 buses=[6.3 s6c.1.0 s6c.0.2]
+New Load.S6c          Bus1=s6c.1.2   Phases=2 Conn=Wye   Model=2 kV=0.208   kW=40.0  kvar=20.0
+
+//New Load.S7a   Bus1=7.1    Phases=1 Conn=Wye   Model=1 kV=2.4   kW=20.0  kvar=10.0  
+New Transformer.XFS7a  XfmrCode=CT25 buses=[7.1 s7a.1.0 s7a.0.2]
+New Load.S7a          Bus1=s7a.1.2   Phases=2 Conn=Wye   Model=1 kV=0.208   kW=20.0  kvar=10.0
+
+//New Load.S9a   Bus1=9.1    Phases=1 Conn=Wye   Model=1 kV=2.4   kW=40.0  kvar=20.0  
+New Transformer.XFS9a  XfmrCode=CT50 buses=[9.1 s9a.1.0 s9a.0.2]
+New Load.S9a          Bus1=s9a.1.2   Phases=2 Conn=Wye   Model=1 kV=0.208   kW=40.0  kvar=20.0
+
+//New Load.S10a  Bus1=10.1   Phases=1 Conn=Wye   Model=5 kV=2.4   kW=20.0  kvar=10.0  
+New Transformer.XFS10a  XfmrCode=CT25 buses=[10.1 s10a.1.0 s10a.0.2]
+New Load.S10a          Bus1=s10a.1.2   Phases=2 Conn=Wye   Model=5 kV=0.208   kW=20.0  kvar=10.0
+
+//New Load.S11a  Bus1=11.1   Phases=1 Conn=Wye   Model=2 kV=2.4   kW=40.0  kvar=20.0  
+New Transformer.XFS11a  XfmrCode=CT50 buses=[11.1 s11a.1.0 s11a.0.2]
+New Load.S11a          Bus1=s11a.1.2   Phases=2 Conn=Wye   Model=2 kV=0.208   kW=40.0  kvar=20.0
+
+//New Load.S12b  Bus1=12.2   Phases=1 Conn=Wye   Model=1 kV=2.4   kW=20.0  kvar=10.0  
+New Transformer.XFS12b  XfmrCode=CT25 buses=[12.2 s12b.1.0 s12b.0.2]
+New Load.S12b          Bus1=s12b.1.2   Phases=2 Conn=Wye   Model=1 kV=0.208   kW=20.0  kvar=10.0
+
+//New Load.S16c  Bus1=16.3   Phases=1 Conn=Wye   Model=1 kV=2.4   kW=40.0  kvar=20.0  
+New Transformer.XFS16c  XfmrCode=CT50 buses=[16.3 s16c.1.0 s16c.0.2]
+New Load.S16c          Bus1=s16c.1.2   Phases=2 Conn=Wye   Model=1 kV=0.208   kW=40.0  kvar=20.0
+
+//New Load.S17c  Bus1=17.3   Phases=1 Conn=Wye   Model=1 kV=2.4   kW=20.0  kvar=10.0  
+New Transformer.XFS17c  XfmrCode=CT25 buses=[17.3 s17c.1.0 s17c.0.2]
+New Load.S17c          Bus1=s17c.1.2   Phases=2 Conn=Wye   Model=1 kV=0.208   kW=20.0  kvar=10.0
+
+//New Load.S19a  Bus1=19.1   Phases=1 Conn=Wye   Model=1 kV=2.4   kW=40.0  kvar=20.0  
+New Transformer.XFS19a  XfmrCode=CT50 buses=[19.1 s19a.1.0 s19a.0.2]
+New Load.S19a          Bus1=s19a.1.2   Phases=2 Conn=Wye   Model=1 kV=0.208   kW=40.0  kvar=20.0
+
+//New Load.S20a  Bus1=20.1   Phases=1 Conn=Wye   Model=5 kV=2.4   kW=40.0  kvar=20.0  
+New Transformer.XFS20a  XfmrCode=CT50 buses=[20.1 s20a.1.0 s20a.0.2]
+New Load.S20a          Bus1=s20a.1.2   Phases=2 Conn=Wye   Model=5 kV=0.208   kW=40.0  kvar=20.0
+
+//New Load.S22b  Bus1=22.2   Phases=1 Conn=Wye   Model=2 kV=2.4   kW=40.0  kvar=20.0  
+New Transformer.XFS22b  XfmrCode=CT50 buses=[22.2 s22b.1.0 s22b.0.2]
+New Load.S22b          Bus1=s22b.1.2   Phases=2 Conn=Wye   Model=2 kV=0.208   kW=40.0  kvar=20.0
+
+//New Load.S24c  Bus1=24.3   Phases=1 Conn=Wye   Model=1 kV=2.4   kW=40.0  kvar=20.0  
+New Transformer.XFS24c  XfmrCode=CT50 buses=[24.3 s24c.1.0 s24c.0.2]
+New Load.S24c          Bus1=s24c.1.2   Phases=2 Conn=Wye   Model=1 kV=0.208   kW=40.0  kvar=20.0
+
+//New Load.S28a  Bus1=28.1   Phases=1 Conn=Wye   Model=5 kV=2.4   kW=40.0  kvar=20.0  
+New Transformer.XFS28a  XfmrCode=CT50 buses=[28.1 s28a.1.0 s28a.0.2]
+New Load.S28a          Bus1=s28a.1.2   Phases=2 Conn=Wye   Model=5 kV=0.208   kW=40.0  kvar=20.0
+
+//New Load.S29a  Bus1=29.1   Phases=1 Conn=Wye   Model=2 kV=2.4   kW=40.0  kvar=20.0  
+New Transformer.XFS29a  XfmrCode=CT50 buses=[29.1 s29a.1.0 s29a.0.2]
+New Load.S29a          Bus1=s29a.1.2   Phases=2 Conn=Wye   Model=2 kV=0.208   kW=40.0  kvar=20.0
+
+//New Load.S30c  Bus1=30.3   Phases=1 Conn=Wye   Model=1 kV=2.4   kW=40.0  kvar=20.0  
+New Transformer.XFS30c  XfmrCode=CT50 buses=[30.3 s30c.1.0 s30c.0.2]
+New Load.S30c          Bus1=s30c.1.2   Phases=2 Conn=Wye   Model=1 kV=0.208   kW=40.0  kvar=20.0
+
+//New Load.S31c  Bus1=31.3   Phases=1 Conn=Wye   Model=1 kV=2.4   kW=20.0  kvar=10.0  
+New Transformer.XFS31c  XfmrCode=CT25 buses=[31.3 s31c.1.0 s31c.0.2]
+New Load.S31c          Bus1=s31c.1.2   Phases=2 Conn=Wye   Model=1 kV=0.208   kW=20.0  kvar=10.0
+
+//New Load.S32c  Bus1=32.3   Phases=1 Conn=Wye   Model=1 kV=2.4   kW=20.0  kvar=10.0  
+New Transformer.XFS32c  XfmrCode=CT25 buses=[32.3 s32c.1.0 s32c.0.2]
+New Load.S32c          Bus1=s32c.1.2   Phases=2 Conn=Wye   Model=1 kV=0.208   kW=20.0  kvar=10.0
+
+//New Load.S33a  Bus1=33.1   Phases=1 Conn=Wye   Model=5 kV=2.4   kW=40.0  kvar=20.0  
+New Transformer.XFS33a  XfmrCode=CT50 buses=[33.1 s33a.1.0 s33a.0.2]
+New Load.S33a          Bus1=s33a.1.2   Phases=2 Conn=Wye   Model=5 kV=0.208   kW=40.0  kvar=20.0
+
+//New Load.S34c  Bus1=34.3   Phases=1 Conn=Wye   Model=2 kV=2.4   kW=40.0  kvar=20.0  
+New Transformer.XFS34c  XfmrCode=CT50 buses=[34.3 s34c.1.0 s34c.0.2]
+New Load.S34c          Bus1=s34c.1.2   Phases=2 Conn=Wye   Model=2 kV=0.208   kW=40.0  kvar=20.0
+
+//New Load.S37a  Bus1=37.1   Phases=1 Conn=Wye   Model=2 kV=2.4   kW=40.0  kvar=20.0  
+New Transformer.XFS37a  XfmrCode=CT50 buses=[37.1 s37a.1.0 s37a.0.2]
+New Load.S37a         Bus1=s37a.1.2   Phases=2 Conn=Wye   Model=2 kV=0.208   kW=40.0  kvar=20.0
+
+//New Load.S38b  Bus1=38.2   Phases=1 Conn=Wye   Model=5 kV=2.4   kW=20.0  kvar=10.0  
+New Transformer.XFS38b  XfmrCode=CT25 buses=[38.2 s38b.1.0 s38b.0.2]
+New Load.S38b          Bus1=s38b.1.2   Phases=2 Conn=Wye   Model=5 kV=0.208   kW=20.0  kvar=10.0
+
+//ew Load.S39b  Bus1=39.2   Phases=1 Conn=Wye   Model=1 kV=2.4   kW=20.0  kvar=10.0  
+New Transformer.XFS39b  XfmrCode=CT25 buses=[39.2 s39b.1.0 s39b.0.2]
+New Load.S39b          Bus1=s39b.1.2   Phases=2 Conn=Wye   Model=1 kV=0.208   kW=20.0  kvar=10.0
+
+//New Load.S41c  Bus1=41.3   Phases=1 Conn=Wye   Model=1 kV=2.4   kW=20.0  kvar=10.0  
+New Transformer.XFS41c  XfmrCode=CT25 buses=[41.3 s41c.1.0 s41c.0.2]
+New Load.S41c          Bus1=s41c.1.2   Phases=2 Conn=Wye   Model=1 kV=0.208   kW=20.0  kvar=10.0
+
+//New Load.S42a  Bus1=42.1   Phases=1 Conn=Wye   Model=1 kV=2.4   kW=20.0  kvar=10.0  
+New Transformer.XFS42a  XfmrCode=CT25 buses=[42.1 s42a.1.0 s42a.0.2]
+New Load.S42a          Bus1=s42a.1.2   Phases=2 Conn=Wye   Model=1 kV=0.208   kW=20.0  kvar=10.0
+
+//New Load.S43b  Bus1=43.2   Phases=1 Conn=Wye   Model=2 kV=2.4   kW=40.0  kvar=20.0  
+New Transformer.XFS43b  XfmrCode=CT50 buses=[43.2 s43b.1.0 s43b.0.2]
+New Load.S43b         Bus1=s43b.1.2   Phases=2 Conn=Wye   Model=2 kV=0.208   kW=40.0  kvar=20.0
+
+//New Load.S45a  Bus1=45.1   Phases=1 Conn=Wye   Model=5 kV=2.4   kW=20.0  kvar=10.0  
+New Transformer.XFS45a  XfmrCode=CT25 buses=[45.1 s45a.1.0 s45a.0.2]
+New Load.S45a          Bus1=s45a.1.2   Phases=2 Conn=Wye   Model=5 kV=0.208   kW=20.0  kvar=10.0
+
+//New Load.S46a  Bus1=46.1   Phases=1 Conn=Wye   Model=1 kV=2.4   kW=20.0  kvar=10.0  
+New Transformer.XFS46a  XfmrCode=CT25 buses=[46.1 s46a.1.0 s46a.0.2]
+New Load.S46a          Bus1=s46a.1.2   Phases=2 Conn=Wye   Model=1 kV=0.208   kW=20.0  kvar=10.0
+
+//New Load.S49a  Bus1=49.1   Phases=1 Conn=Wye   Model=1 kV=2.4   kW=35.0  kvar=25.0  
+New Transformer.XFS49a  XfmrCode=CT50 buses=[49.1 s49a.1.0 s49a.0.2]
+New Load.S49a          Bus1=s49a.1.2   Phases=2 Conn=Wye   Model=1 kV=0.208   kW=35.0  kvar=25.0
+
+//New Load.S49b  Bus1=49.2   Phases=1 Conn=Wye   Model=1 kV=2.4   kW=70.0  kvar=50.0  
+New Transformer.XFS49b  XfmrCode=CT100 buses=[49.2 s49b.1.0 s49b.0.2]
+New Load.S49b          Bus1=s49b.1.2   Phases=2 Conn=Wye   Model=1 kV=0.208   kW=70.0  kvar=50.0
+
+//New Load.S49c  Bus1=49.3   Phases=1 Conn=Wye   Model=1 kV=2.4   kW=35.0  kvar=20.0  ! used to be 25 in on-line document
+New Transformer.XFS49c  XfmrCode=CT50 buses=[49.3 s49c.1.0 s49c.0.2]
+New Load.S49c          Bus1=s49c.1.2   Phases=2 Conn=Wye   Model=1 kV=0.208   kW=35.0  kvar=20.0
+
+//New Load.S50c  Bus1=50.3   Phases=1 Conn=Wye   Model=1 kV=2.4   kW=40.0  kvar=20.0  
+New Transformer.XFS50c  XfmrCode=CT50 buses=[50.3 s50c.1.0 s50c.0.2]
+New Load.S50c         Bus1=s50c.1.2   Phases=2 Conn=Wye   Model=1 kV=0.208   kW=40.0  kvar=20.0
+
+//New Load.S51a  Bus1=51.1   Phases=1 Conn=Wye   Model=1 kV=2.4   kW=20.0  kvar=10.0  
+New Transformer.XFS51a  XfmrCode=CT25 buses=[51.1 s51a.1.0 s51a.0.2]
+New Load.S51a          Bus1=s51a.1.2   Phases=2 Conn=Wye   Model=1 kV=0.208   kW=20.0  kvar=10.0
+
+//New Load.S52a  Bus1=52.1   Phases=1 Conn=Wye   Model=1 kV=2.4   kW=40.0  kvar=20.0  
+New Transformer.XFS52a  XfmrCode=CT50 buses=[52.1 s52a.1.0 s52a.0.2]
+New Load.S52a         Bus1=s52a.1.2   Phases=2 Conn=Wye   Model=1 kV=0.208   kW=40.0  kvar=20.0
+
+//New Load.S53a  Bus1=53.1   Phases=1 Conn=Wye   Model=1 kV=2.4   kW=40.0  kvar=20.0  
+New Transformer.XFS53a  XfmrCode=CT50 buses=[53.1 s53a.1.0 s53a.0.2]
+New Load.S53a         Bus1=s53a.1.2   Phases=2 Conn=Wye   Model=1 kV=0.208   kW=40.0  kvar=20.0
+
+//New Load.S55a  Bus1=55.1   Phases=1 Conn=Wye   Model=2 kV=2.4   kW=20.0  kvar=10.0  
+New Transformer.XFS55a  XfmrCode=CT25 buses=[55.1 s55a.1.0 s55a.0.2]
+New Load.S55a         Bus1=s55a.1.2   Phases=2 Conn=Wye   Model=2 kV=0.208   kW=20.0  kvar=10.0
+
+//New Load.S56b  Bus1=56.2   Phases=1 Conn=Wye   Model=1 kV=2.4   kW=20.0  kvar=10.0  
+New Transformer.XFS56b  XfmrCode=CT25 buses=[56.2 s56b.1.0 s56b.0.2]
+New Load.S56b         Bus1=s56b.1.2   Phases=2 Conn=Wye   Model=1 kV=0.208   kW=20.0  kvar=10.0
+
+//New Load.S58b  Bus1=58.2   Phases=1 Conn=Wye   Model=5 kV=2.4   kW=20.0  kvar=10.0  
+New Transformer.XFS58b  XfmrCode=CT25 buses=[58.2 s58b.1.0 s58b.0.2]
+New Load.S58b         Bus1=s58b.1.2   Phases=2 Conn=Wye   Model=5 kV=0.208   kW=20.0  kvar=10.0
+
+//New Load.S59b  Bus1=59.2   Phases=1 Conn=Wye   Model=1 kV=2.4   kW=20.0  kvar=10.0  
+New Transformer.XFS59b  XfmrCode=CT25 buses=[59.2 s59b.1.0 s59b.0.2]
+New Load.S59b         Bus1=s59b.1.2   Phases=2 Conn=Wye   Model=1 kV=0.208   kW=20.0  kvar=10.0
+
+//New Load.S60a  Bus1=60.1   Phases=1 Conn=Wye   Model=1 kV=2.4   kW=20.0  kvar=10.0  
+New Transformer.XFS60a  XfmrCode=CT25 buses=[60.1 s60a.1.0 s60a.0.2]
+New Load.S60a         Bus1=s60a.1.2   Phases=2 Conn=Wye   Model=1 kV=0.208   kW=20.0  kvar=10.0
+
+//New Load.S62c  Bus1=62.3   Phases=1 Conn=Wye   Model=2 kV=2.4   kW=40.0  kvar=20.0  
+New Transformer.XFS62c  XfmrCode=CT50 buses=[62.3 s62c.1.0 s62c.0.2]
+New Load.S62c         Bus1=s62c.1.2   Phases=2 Conn=Wye   Model=2 kV=0.208   kW=40.0  kvar=20.0
+
+//New Load.S63a  Bus1=63.1   Phases=1 Conn=Wye   Model=1 kV=2.4   kW=40.0  kvar=20.0  
+New Transformer.XFS63a  XfmrCode=CT50 buses=[63.1 s63a.1.0 s63a.0.2]
+New Load.S63a         Bus1=s63a.1.2   Phases=2 Conn=Wye   Model=1 kV=0.208   kW=40.0  kvar=20.0
+
+//New Load.S64b  Bus1=64.2   Phases=1 Conn=Wye   Model=5 kV=2.4   kW=75.0  kvar=35.0  
+New Transformer.XFS64b  XfmrCode=CT100 buses=[64.2 s64b.1.0 s64b.0.2]
+New Load.S64b          Bus1=s64b.1.2   Phases=2 Conn=Wye   Model=5 kV=0.208   kW=75.0  kvar=35.0
+
+//New Load.S66c  Bus1=66.3   Phases=1 Conn=Wye   Model=1 kV=2.4   kW=75.0  kvar=35.0  
+New Transformer.XFS66c  XfmrCode=CT100 buses=[66.3 s66c.1.0 s66c.0.2]
+New Load.S66c          Bus1=s66c.1.2   Phases=2 Conn=Wye   Model=1 kV=0.208   kW=75.0  kvar=35.0
+
+//New Load.S68a  Bus1=68.1   Phases=1 Conn=Wye   Model=1 kV=2.4   kW=20.0  kvar=10.0  
+New Transformer.XFS68a  XfmrCode=CT25 buses=[68.1 s68a.1.0 s68a.0.2]
+New Load.S68a         Bus1=s68a.1.2   Phases=2 Conn=Wye   Model=1 kV=0.208   kW=20.0  kvar=10.0
+
+//New Load.S69a  Bus1=69.1   Phases=1 Conn=Wye   Model=1 kV=2.4   kW=40.0  kvar=20.0  
+New Transformer.XFS69a  XfmrCode=CT50 buses=[69.1 s69a.1.0 s69a.0.2]
+New Load.S69a         Bus1=s69a.1.2   Phases=2 Conn=Wye   Model=1 kV=0.208   kW=40.0  kvar=20.0
+
+//New Load.S70a  Bus1=70.1   Phases=1 Conn=Wye   Model=1 kV=2.4   kW=20.0  kvar=10.0  
+New Transformer.XFS70a  XfmrCode=CT25 buses=[70.1 s70a.1.0 s70a.0.2]
+New Load.S70a         Bus1=s70a.1.2   Phases=2 Conn=Wye   Model=1 kV=0.208   kW=20.0  kvar=10.0
+
+//New Load.S71a  Bus1=71.1   Phases=1 Conn=Wye   Model=1 kV=2.4   kW=40.0  kvar=20.0  
+New Transformer.XFS71a  XfmrCode=CT50 buses=[71.1 s71a.1.0 s71a.0.2]
+New Load.S71a         Bus1=s71a.1.2   Phases=2 Conn=Wye   Model=1 kV=0.208   kW=40.0  kvar=20.0
+
+//New Load.S73c  Bus1=73.3   Phases=1 Conn=Wye   Model=1 kV=2.4   kW=40.0  kvar=20.0  
+New Transformer.XFS73c  XfmrCode=CT50 buses=[73.3 s73c.1.0 s73c.0.2]
+New Load.S73c         Bus1=s73c.1.2   Phases=2 Conn=Wye   Model=1 kV=0.208   kW=40.0  kvar=20.0
+
+//New Load.S74c  Bus1=74.3   Phases=1 Conn=Wye   Model=2 kV=2.4   kW=40.0  kvar=20.0  
+New Transformer.XFS74c  XfmrCode=CT50 buses=[74.3 s74c.1.0 s74c.0.2]
+New Load.S74c         Bus1=s74c.1.2   Phases=2 Conn=Wye   Model=2 kV=0.208   kW=40.0  kvar=20.0
+
+//New Load.S75c  Bus1=75.3   Phases=1 Conn=Wye   Model=1 kV=2.4   kW=40.0  kvar=20.0  
+New Transformer.XFS75c  XfmrCode=CT50 buses=[75.3 s75c.1.0 s75c.0.2]
+New Load.S75c         Bus1=s75c.1.2   Phases=2 Conn=Wye   Model=1 kV=0.208   kW=40.0  kvar=20.0
+
+//New Load.S77b  Bus1=77.2   Phases=1 Conn=Wye   Model=1 kV=2.4   kW=40.0  kvar=20.0  
+New Transformer.XFS77b  XfmrCode=CT50 buses=[77.2 s77b.1.0 s77b.0.2]
+New Load.S77b         Bus1=s77b.1.2   Phases=2 Conn=Wye   Model=1 kV=0.208   kW=40.0  kvar=20.0
+
+//New Load.S79a  Bus1=79.1   Phases=1 Conn=Wye   Model=2 kV=2.4   kW=40.0  kvar=20.0  
+New Transformer.XFS79a  XfmrCode=CT50 buses=[79.1 s79a.1.0 s79a.0.2]
+New Load.S79a         Bus1=s79a.1.2   Phases=2 Conn=Wye   Model=2 kV=0.208   kW=40.0  kvar=20.0
+
+//New Load.S80b  Bus1=80.2   Phases=1 Conn=Wye   Model=1 kV=2.4   kW=40.0  kvar=20.0  
+New Transformer.XFS80b  XfmrCode=CT50 buses=[80.2 s80b.1.0 s80b.0.2]
+New Load.S80b         Bus1=s80b.1.2   Phases=2 Conn=Wye   Model=1 kV=0.208   kW=40.0  kvar=20.0
+
+//New Load.S82a  Bus1=82.1   Phases=1 Conn=Wye   Model=1 kV=2.4   kW=40.0  kvar=20.0  
+New Transformer.XFS82a  XfmrCode=CT50 buses=[82.1 s82a.1.0 s82a.0.2]
+New Load.S82a         Bus1=s82a.1.2   Phases=2 Conn=Wye   Model=1 kV=0.208   kW=40.0  kvar=20.0
+
+//New Load.S83c  Bus1=83.3   Phases=1 Conn=Wye   Model=1 kV=2.4   kW=20.0  kvar=10.0  
+New Transformer.XFS83c  XfmrCode=CT25 buses=[83.3 s83c.1.0 s83c.0.2]
+New Load.S83c         Bus1=s83c.1.2   Phases=2 Conn=Wye   Model=1 kV=0.208   kW=20.0  kvar=10.0
+
+//New Load.S84c  Bus1=84.3   Phases=1 Conn=Wye   Model=1 kV=2.4   kW=20.0  kvar=10.0  
+New Transformer.XFS84c  XfmrCode=CT25 buses=[84.3 s84c.1.0 s84c.0.2]
+New Load.S84c         Bus1=s84c.1.2   Phases=2 Conn=Wye   Model=1 kV=0.208   kW=20.0  kvar=10.0
+
+//New Load.S85c  Bus1=85.3   Phases=1 Conn=Wye   Model=1 kV=2.4   kW=40.0  kvar=20.0  
+New Transformer.XFS85c  XfmrCode=CT50 buses=[85.3 s85c.1.0 s85c.0.2]
+New Load.S85c         Bus1=s85c.1.2   Phases=2 Conn=Wye   Model=1 kV=0.208   kW=40.0  kvar=20.0
+
+//New Load.S86b  Bus1=86.2   Phases=1 Conn=Wye   Model=1 kV=2.4   kW=20.0  kvar=10.0  
+New Transformer.XFS86b  XfmrCode=CT25 buses=[86.2 s86b.1.0 s86b.0.2]
+New Load.S86b         Bus1=s86b.1.2   Phases=2 Conn=Wye   Model=1 kV=0.208   kW=20.0  kvar=10.0
+
+//New Load.S87b  Bus1=87.2   Phases=1 Conn=Wye   Model=1 kV=2.4   kW=40.0  kvar=20.0  
+New Transformer.XFS87b  XfmrCode=CT50 buses=[87.2 s87b.1.0 s87b.0.2]
+New Load.S87b         Bus1=s87b.1.2   Phases=2 Conn=Wye   Model=1 kV=0.208   kW=40.0  kvar=20.0
+
+//New Load.S88a  Bus1=88.1   Phases=1 Conn=Wye   Model=1 kV=2.4   kW=40.0  kvar=20.0  
+New Transformer.XFS88a  XfmrCode=CT50 buses=[88.1 s88a.1.0 s88a.0.2]
+New Load.S88a         Bus1=s88a.1.2   Phases=2 Conn=Wye   Model=1 kV=0.208   kW=40.0  kvar=20.0
+
+//New Load.S90b  Bus1=90.2   Phases=1 Conn=Wye   Model=5 kV=2.4   kW=40.0  kvar=20.0  
+New Transformer.XFS90b  XfmrCode=CT50 buses=[90.2 s90b.1.0 s90b.0.2]
+New Load.S90b         Bus1=s90b.1.2   Phases=2 Conn=Wye   Model=5 kV=0.208   kW=40.0  kvar=20.0
+
+//New Load.S92c  Bus1=92.3   Phases=1 Conn=Wye   Model=1 kV=2.4   kW=40.0  kvar=20.0  
+New Transformer.XFS92c  XfmrCode=CT50 buses=[92.3 s92c.1.0 s92c.0.2]
+New Load.S92c         Bus1=s92c.1.2   Phases=2 Conn=Wye   Model=1 kV=0.208   kW=40.0  kvar=20.0
+
+//New Load.S94a  Bus1=94.1   Phases=1 Conn=Wye   Model=1 kV=2.4   kW=40.0  kvar=20.0  
+New Transformer.XFS94a  XfmrCode=CT50 buses=[94.1 s94a.1.0 s94a.0.2]
+New Load.S94a         Bus1=s94a.1.2   Phases=2 Conn=Wye   Model=1 kV=0.208   kW=40.0  kvar=20.0
+
+//New Load.S95b  Bus1=95.2   Phases=1 Conn=Wye   Model=1 kV=2.4   kW=20.0  kvar=10.0  
+New Transformer.XFS95b  XfmrCode=CT25 buses=[95.2 s95b.1.0 s95b.0.2]
+New Load.S95b         Bus1=s95b.1.2   Phases=2 Conn=Wye   Model=1 kV=0.208   kW=20.0  kvar=10.0
+
+//New Load.S96b  Bus1=96.2   Phases=1 Conn=Wye   Model=1 kV=2.4   kW=20.0  kvar=10.0  
+New Transformer.XFS96b  XfmrCode=CT25 buses=[96.2 s96b.1.0 s96b.0.2]
+New Load.S96b         Bus1=s96b.1.2   Phases=2 Conn=Wye   Model=1 kV=0.208   kW=20.0  kvar=10.0
+
+//New Load.S98a  Bus1=98.1   Phases=1 Conn=Wye   Model=1 kV=2.4   kW=40.0  kvar=20.0  
+New Transformer.XFS98a  XfmrCode=CT50 buses=[98.1 s98a.1.0 s98a.0.2]
+New Load.S98a         Bus1=s98a.1.2   Phases=2 Conn=Wye   Model=1 kV=0.208   kW=40.0  kvar=20.0
+
+//New Load.S99b  Bus1=99.2   Phases=1 Conn=Wye   Model=1 kV=2.4   kW=40.0  kvar=20.0  
+New Transformer.XFS99b  XfmrCode=CT50 buses=[99.2 s99b.1.0 s99b.0.2]
+New Load.S99b         Bus1=s99b.1.2   Phases=2 Conn=Wye   Model=1 kV=0.208   kW=40.0  kvar=20.0
+
+//New Load.S100c Bus1=100.3  Phases=1 Conn=Wye   Model=2 kV=2.4   kW=40.0  kvar=20.0  
+New Transformer.XFS100c  XfmrCode=CT50 buses=[100.3 s100c.1.0 s100c.0.2]
+New Load.S100c         Bus1=s100c.1.2   Phases=2 Conn=Wye   Model=2 kV=0.208   kW=40.0  kvar=20.0
+
+//New Load.S102c Bus1=102.3  Phases=1 Conn=Wye   Model=1 kV=2.4   kW=20.0  kvar=10.0  
+New Transformer.XFS102c  XfmrCode=CT25 buses=[102.3 s102c.1.0 s102c.0.2]
+New Load.S102c         Bus1=s102c.1.2   Phases=2 Conn=Wye   Model=1 kV=0.208   kW=20.0  kvar=10.0
+
+//New Load.S103c Bus1=103.3  Phases=1 Conn=Wye   Model=1 kV=2.4   kW=40.0  kvar=20.0  
+New Transformer.XFS103c  XfmrCode=CT50 buses=[103.3 s103c.1.0 s103c.0.2]
+New Load.S103c         Bus1=s103c.1.2   Phases=2 Conn=Wye   Model=1 kV=0.208   kW=40.0  kvar=20.0
+
+//New Load.S104c Bus1=104.3  Phases=1 Conn=Wye   Model=1 kV=2.4   kW=40.0  kvar=20.0  
+New Transformer.XFS104c  XfmrCode=CT50 buses=[104.3 s104c.1.0 s104c.0.2]
+New Load.S104c         Bus1=s104c.1.2   Phases=2 Conn=Wye   Model=1 kV=0.208   kW=40.0  kvar=20.0
+
+//New Load.S106b Bus1=106.2  Phases=1 Conn=Wye   Model=1 kV=2.4   kW=40.0  kvar=20.0  
+New Transformer.XFS106b  XfmrCode=CT50 buses=[106.2 s106b.1.0 s106b.0.2]
+New Load.S106b         Bus1=s106b.1.2   Phases=2 Conn=Wye   Model=1 kV=0.208   kW=40.0  kvar=20.0
+
+//New Load.S107b Bus1=107.2  Phases=1 Conn=Wye   Model=1 kV=2.4   kW=40.0  kvar=20.0  
+New Transformer.XFS107b  XfmrCode=CT50 buses=[107.2 s107b.1.0 s107b.0.2]
+New Load.S107b         Bus1=s107b.1.2   Phases=2 Conn=Wye   Model=1 kV=0.208   kW=40.0  kvar=20.0
+
+//New Load.S109a Bus1=109.1  Phases=1 Conn=Wye   Model=1 kV=2.4   kW=40.0  kvar=20.0  
+New Transformer.XFS109a  XfmrCode=CT50 buses=[109.1 s109a.1.0 s109a.0.2]
+New Load.S109a         Bus1=s109a.1.2   Phases=2 Conn=Wye   Model=1 kV=0.208   kW=40.0  kvar=20.0
+
+//New Load.S111a Bus1=111.1  Phases=1 Conn=Wye   Model=1 kV=2.4   kW=20.0  kvar=10.0  
+New Transformer.XFS111a  XfmrCode=CT25 buses=[111.1 s111a.1.0 s111a.0.2]
+New Load.S111a         Bus1=s111a.1.2   Phases=2 Conn=Wye   Model=1 kV=0.208   kW=20.0  kvar=10.0
+
+//New Load.S112a Bus1=112.1  Phases=1 Conn=Wye   Model=5 kV=2.4   kW=20.0  kvar=10.0  
+New Transformer.XFS112a  XfmrCode=CT25 buses=[112.1 s112a.1.0 s112a.0.2]
+New Load.S112a         Bus1=s112a.1.2   Phases=2 Conn=Wye   Model=5 kV=0.208   kW=20.0  kvar=10.0
+
+//New Load.S113a Bus1=113.1  Phases=1 Conn=Wye   Model=2 kV=2.4   kW=40.0  kvar=20.0  
+New Transformer.XFS113a  XfmrCode=CT50 buses=[113.1 s113a.1.0 s113a.0.2]
+New Load.S113a         Bus1=s113a.1.2   Phases=2 Conn=Wye   Model=2 kV=0.208   kW=40.0  kvar=20.0
+
+//New Load.S114a Bus1=114.1  Phases=1 Conn=Wye   Model=1 kV=2.4   kW=20.0  kvar=10.0  
+New Transformer.XFS114a  XfmrCode=CT25 buses=[114.1 s114a.1.0 s114a.0.2]
+New Load.S114a         Bus1=s114a.1.2   Phases=2 Conn=Wye   Model=1 kV=0.208   kW=20.0  kvar=10.0
