@@ -8,7 +8,7 @@
 
 ! Definitions of the 1-phase "center tapped" 120/240V service transformers.
 ! These transformers are defined as 3-winding transformers (as they are in reality)
-! The primary winding is connected 7200V line-to-neutral on one of the phases.
+! The primary winding is connected 2400V line-to-neutral on one of the phases.
 ! The secondary windings are consistently connected 1.0 and 0.2 respectively to get the polarity correct.
 
 New XfmrCode.CT25  phases=1 windings=3 kvs=[2.4 0.12 0.12] kVAs=[ 25.0  25.0  25.0] %imag=0.5 %Rs=[0.6 1.2 1.2] %noloadloss=.2 Xhl=2.04  Xht=2.04  Xlt=1.36
