@@ -1,0 +1,12 @@
+{
+    "xmlfilename": "Nantucket_Upgrades_2019_PNNL",
+    "RootName": "Nantucket",
+    "LoadScale": 1.0,
+    "UserDefinedBaseVoltage": 13.2,
+    "TransmissionBaseVoltage": 46.0,
+    "SecondaryBaseVoltage": 4.16,
+    "CYMESectionUnit": "m",
+    "CYMELineCodeUnit": "km",
+    "DSSSectionUnit": "mi",
+    "OwnerIDs": ["101L1","101L2","101L3","101L4","101L5","101L6","101L7","101L8"]
+}
