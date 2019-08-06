@@ -1,7 +1,7 @@
 {
-    "xmlfilename": "Nantucket_Upgrades_2019_PNNL",
-    "RootName": "Nantucket",
-	  "SubName": "Candle_Street",
+    "xmlfilename": "Titanium_Klingon",
+    "RootName": "Titanium_Klingon",
+	  "SubName": "Titanium",
     "LoadScale": 1.0,
     "UserDefinedBaseVoltage": 13.2,
     "TransmissionBaseVoltage": 46.0,
@@ -10,5 +10,5 @@
     "CYMESectionUnit": "m",
     "CYMELineCodeUnit": "km",
     "DSSSectionUnit": "mi",
-    "OwnerIDs": ["101L1","101L2","101L3","101L4","101L5","101L6","101L7","101L8"]
+    "OwnerIDs": ["TITANIUM_12KV"]
 }
