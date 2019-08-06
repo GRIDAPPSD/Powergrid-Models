@@ -88,7 +88,7 @@ def CollectLoadPQ (child):
     return [PA*LoadScale,QA*LoadScale,PB*LoadScale,QB*LoadScale,PC*LoadScale,QC*LoadScale]
 
 def CreateWireData(f,Name,row):
-    if row[0] <= 0:
+    if row[0] <= 0.00001 or row[2] <= 0.00001:
         f.write('// ')
     f.write('new wiredata.' + Name)
     f.write(' rac=' + '{0:.5f}'.format(row[0]))
@@ -211,16 +211,14 @@ def CreateByPhase(f,Name,row):
     f.write(' bus1=' + row[0] + phs)
     f.write(' bus2=' + row[1] + phs)
     f.write(' phases=' + str(nphs))
-    f.write(' spacing=' + row[4])
+    if nphs < 3 and row[4] == 'OH_DEFAULT':
+        f.write(' spacing=' + row[4] + str(nphs))
+    else:
+        f.write(' spacing=' + row[4])
     f.write(' wires=[')
-    if WireA != 'OH_NONE':
-        f.write(WireA + ' ')
-    if WireB != 'OH_NONE':
-        f.write(WireB + ' ')
-    if WireC != 'OH_NONE':
-        f.write(WireC + ' ')
-    if WireN != 'OH_NONE':
-        f.write(WireN + ' ')
+    for wire in row[5:9]: # wireA through wireN
+        if wire!= 'OH_NONE':
+            f.write(wire + ' ')
     f.write(']')
     f.write(' length=' + '{0:.3f}'.format(row[3]))
     f.write(' units=' + CYMESectionUnit + '\n')
@@ -351,6 +349,40 @@ def DeltaPhaseToWyePhase (phs):
     elif phs == '.2.3':
         return '.2'
     return '.3'
+
+# TransformerPhaseTable[DeviceNumber] = [XfmrFromNode,XfmrToNode,Phase,XfmrCode1,XfmrCode2,XfmrCode3,enabled]
+# XfmrConfigTable[EquipmentID] = [phases,kva,kv1,kv2,conn1,conn2,xhl,pctll,pctimag,pctnll]
+def WriteOneTransformerPhase(f,Name,bus1,bus2,cfg,enabled):
+    kva = cfg[1]
+    kv1 = cfg[2]
+    kv2 = cfg[3]
+    f.write('new transformer.' + Name)
+    f.write(' buses=(' + bus1 + ',' + bus2 + ')')
+    f.write(' phases=1 windings=2')
+    f.write(' kva=' + "{0:.2f}".format(kva))
+    f.write(' kvs=[' + "{0:.3f}".format(kv1) + ' ' + "{0:.3f}".format(kv2)+']\n')
+    f.write('~ conns=[wye wye]')
+    f.write(' xhl=' + "{0:.3f}".format(cfg[6]))
+    f.write(' %loadloss=' + "{0:.4f}".format(cfg[7]))
+    f.write(' %imag=' + "{0:.4f}".format(cfg[8]))
+    f.write(' %noloadloss=' + "{0:.4f}".format(cfg[9]) + '\n')
+    f.write(' enabled=' + enabled + '\n')
+    return
+
+def CreateTransformerPhase(f,Name,row,cfgtable):
+    bus1 = row[0]
+    bus2 = row[1]
+    XfmrCode1 = row[3]
+    XfmrCode2 = row[4]
+    XfmrCode3 = row[5]
+    enabled = row[6]
+    if XfmrCode1 is not None:
+        WriteOneTransformerPhase (f, Name+'A', bus1+'.1', bus2+'.1', cfgtable[XfmrCode1], enabled)
+    if XfmrCode2 is not None:
+        WriteOneTransformerPhase (f, Name+'B', bus1+'.2', bus2+'.2', cfgtable[XfmrCode2], enabled)
+    if XfmrCode3 is not None:
+        WriteOneTransformerPhase (f, Name+'C', bus1+'.3', bus2+'.3', cfgtable[XfmrCode3], enabled)
+    return
 
 # TransformerTable[DeviceNumber] = [XfmrFromNode,XfmrToNode,Phase,XfmrCode,tap1,tap2,enabled]
 # XfmrConfigTable[EquipmentID] = [phases,kva,kv1,kv2,conn1,conn2,xhl,pctll,pctimag,pctnll]
@@ -556,8 +588,12 @@ def BuildCatalog(root):
     print ('Parsing the feeder model...')
     for ConductorDB in root.findall('./Equipments/Equipments/EquipmentDBs/ConductorDB'):
         EquipmentID = 'OH_'+ConductorDB.find('EquipmentID').text.translate(dsstab)
-        FirstResistance = float(ConductorDB.find('FirstResistance').text)    # ohm/km; v7.2 is ResistanceAC1
-        SecondResistance = float(ConductorDB.find('SecondResistance').text)  # ohm/km; v7.2 is ResistanceAC2
+        if CYMEVersion <= 7.1:
+            FirstResistance = float(ConductorDB.find('FirstResistance').text)    # ohm/km
+            SecondResistance = float(ConductorDB.find('SecondResistance').text)  # ohm/km
+        else:
+            FirstResistance = float(ConductorDB.find('ResistanceAC1').text)  
+            SecondResistance = float(ConductorDB.find('ResistanceAC2').text) 
         GMR = float(ConductorDB.find('GMR').text)                            # cm
         OutsideDiameter = float(ConductorDB.find('OutsideDiameter').text)    # cm
         NominalRating = float(ConductorDB.find('NominalRating').text)
@@ -723,7 +759,10 @@ def BuildCatalog(root):
         kvln = float(RegDB.find('RatedKVLN').text)
         boost = float(RegDB.find('MaximumBoost').text)
         buck = float(RegDB.find('MaximumBuck').text)
-        bw = float(RegDB.find('BandWidth').text)
+        if CYMEVersion < 8.1:
+            bw = float(RegDB.find('BandWidth').text)
+        else:
+            bw = float(RegDB.find('ForwardBandwidth').text)
         ct = float(RegDB.find('CTPrimaryRating').text)
         pt = float(RegDB.find('PTRatio').text)
         taps = float(RegDB.find('NumberOfTaps').text)
@@ -796,11 +835,13 @@ def WriteFeeder(root, OwnerID, networkfilename, loadfilename):
     SwitchTable = {}
     ShuntCapTable = {}
     TransformerTable = {}
+    TransformerPhaseTable = {}
     RegulatorTable = {}
     RecloserTable = {}
     FuseTable = {}
     SwtControlTable = {}
     DGTable = {}
+    AllDeviceTypes = set()
 
     # Extract info for sources and create a dictionary - TODO, handling substations vs. Feeders
     SourceTable = {}
@@ -841,6 +882,8 @@ def WriteFeeder(root, OwnerID, networkfilename, loadfilename):
         LineToNode = ToNodeID
         SwtFromNode = FromNodeID
         SwtToNode = ToNodeID
+        XfmrFromNode = FromNodeID
+        XfmrToNode = ToNodeID
         Phase = Section.find('Phase').text
         SectionID = Section.find('SectionID').text.translate(dsstab)
         for Devices in Section.findall('Devices'):
@@ -852,6 +895,7 @@ def WriteFeeder(root, OwnerID, networkfilename, loadfilename):
             SectionXfmr = 'No' 
             for child in Devices:
                 DeviceType = child.tag
+                AllDeviceTypes.add (DeviceType)
                 if DeviceType in ('OverheadLine', 'OverheadByPhase', 'Underground'):
                     SectionLine = 'Yes'
                 if DeviceType in ('Transformer', 'Regulator'):
@@ -866,10 +910,11 @@ def WriteFeeder(root, OwnerID, networkfilename, loadfilename):
             # if we have two series devices in a section, insert a midpoint node and its coordinates
             for child in Devices:
                 DeviceType = child.tag
+                AllDeviceTypes.add (DeviceType)
                 DeviceNumber = child.find('DeviceNumber').text.translate(dsstab)
                 if DeviceType in ('Transformer', 'Regulator') and (SectionLine == 'Yes'):
                     MidNodeID = SectionID + '-xf'
-#                    print('Xfmr/Reg and Line on', SectionID, 'inserting', MidNodeID)
+                    print('Xfmr/Reg and Line on', SectionID, 'inserting', MidNodeID)
                     if MidNodeID in NodeXYTable:
                         print ('WARNING: inserting duplicate mid-section node: ' + MidNodeID)
                     x1 = float(NodeXYTable[FromNodeID][0])
@@ -917,6 +962,7 @@ def WriteFeeder(root, OwnerID, networkfilename, loadfilename):
             # if Section status is Closed --> account for all OH or UG lines on this section if length>0, ignore the Closed switch
             for child in Devices:
                 DeviceType = child.tag
+                AllDeviceTypes.add (DeviceType)
                 DeviceNumber = child.find('DeviceNumber').text.translate(dsstab)
                 if SectionStatus == 'Closed':
                     if DeviceType == 'OverheadLine':
@@ -1029,6 +1075,18 @@ def WriteFeeder(root, OwnerID, networkfilename, loadfilename):
                         tap2 = 0.01 * float(child.find('SecondaryTapSettingPercent').text)
                         enabled = Connected(child)
                         TransformerTable[DeviceNumber] = [XfmrFromNode,XfmrToNode,Phase,XfmrCode,tap1,tap2,enabled]
+                    elif DeviceType == 'TransformerByPhase':
+                        XfmrCode1 = child.find('PhaseTransformerID1').text
+                        if XfmrCode1 is not None:
+                            XfmrCode1 = XfmrCode1.translate(dsstab)
+                        XfmrCode2 = child.find('PhaseTransformerID2').text
+                        if XfmrCode2 is not None:
+                            XfmrCode2 = XfmrCode2.translate(dsstab)
+                        XfmrCode3 = child.find('PhaseTransformerID3').text
+                        if XfmrCode3 is not None:
+                            XfmrCode3 = XfmrCode3.translate(dsstab)
+                        enabled = Connected(child)
+                        TransformerPhaseTable[DeviceNumber] = [XfmrFromNode,XfmrToNode,Phase,XfmrCode1,XfmrCode2,XfmrCode3,enabled]
                     elif DeviceType == 'Regulator':
                         RegCode = child.find('DeviceID').text.translate(dsstab)
                         phs = child.find('ControlStatus').text
@@ -1132,6 +1190,7 @@ def WriteFeeder(root, OwnerID, networkfilename, loadfilename):
             # Now go through all the loads on this section
             for child in Devices:
                 DeviceType = child.tag
+                AllDeviceTypes.add (DeviceType)
                 DeviceNumber = child.find('DeviceNumber').text
                 if DeviceType == 'SpotLoad':
                     if child.find('Location').text == 'To':
@@ -1145,6 +1204,7 @@ def WriteFeeder(root, OwnerID, networkfilename, loadfilename):
                     Sload = CollectLoadPQ(child)
                     LoadTable[DeviceNumber] = [LoadNodeID,Phase,UserDefinedBaseVoltage,Sload,2]
 
+    print (AllDeviceTypes)
     #add Loads to Buses
     floads=open(loadfilename,'w')
     PLoadTotal = 0
@@ -1155,7 +1215,7 @@ def WriteFeeder(root, OwnerID, networkfilename, loadfilename):
         PLoadTotal = PLoadTotal + LoadVector[0] + LoadVector[2] + LoadVector[4]
         QLoadTotal = QLoadTotal + LoadVector[1] + LoadVector[3] + LoadVector[5]
     floads.write('\n')
-    floads.write('Total Load = ' + str(PLoadTotal) + ' +j ' + str(QLoadTotal) + '\n')
+    floads.write('Total Load = ' + '{:.2f}'.format(PLoadTotal) + ' +j ' + '{:.2f}'.format(QLoadTotal) + '\n')
     floads.close()
 
     #create the network of lines, transformers, regulators, capacitor banks and switches
@@ -1181,6 +1241,10 @@ def WriteFeeder(root, OwnerID, networkfilename, loadfilename):
     for key in TransformerTable:
         cfg = XfmrConfigTable[TransformerTable[key][3]]
         CreateTransformer(fnetwork,key,TransformerTable[key],cfg)
+    fnetwork.write('\n')
+
+    for key in TransformerPhaseTable:
+        CreateTransformerPhase(fnetwork,key,TransformerPhaseTable[key],XfmrConfigTable)
     fnetwork.write('\n')
 
     for key in SwtControlTable:
@@ -1209,17 +1273,19 @@ def WriteFeeder(root, OwnerID, networkfilename, loadfilename):
     fnetwork.close()
 
 def ConvertSXST(cfg):
-    global xmlfilename, RootName, LoadScale, UserDefinedBaseVoltage
-    global TransmissionBaseVoltage, SecondaryBaseVoltage, CYMESectionUnit
+    global xmlfilename, RootName, SubName, LoadScale, UserDefinedBaseVoltage
+    global TransmissionBaseVoltage, SecondaryBaseVoltage1, SecondaryBaseVoltage2
     global CYMELineCodeUnit, DSSSectionUnit, OwnerIDs, CYMEtoDSSSection
-    global CYMEtoDSSLineCode, Zbase, TotalP, TotalQ
+    global CYMEtoDSSLineCode, Zbase, TotalP, TotalQ, CYMESectionUnit, CYMEVersion
 
     xmlfilename = cfg['xmlfilename']
     RootName = cfg['RootName']
+    SubName = cfg['SubName']
     LoadScale = cfg['LoadScale']
     UserDefinedBaseVoltage = cfg['UserDefinedBaseVoltage']
     TransmissionBaseVoltage = cfg['TransmissionBaseVoltage']
-    SecondaryBaseVoltage = cfg['SecondaryBaseVoltage']
+    SecondaryBaseVoltage1 = cfg['SecondaryBaseVoltage1']
+    SecondaryBaseVoltage2 = cfg['SecondaryBaseVoltage2']
     CYMESectionUnit = cfg['CYMESectionUnit']
     CYMELineCodeUnit = cfg['CYMELineCodeUnit']
     DSSSectionUnit = cfg['DSSSectionUnit']
@@ -1235,6 +1301,8 @@ def ConvertSXST(cfg):
     print ('Reading the network data from CYME xml...')
     tree = ET.parse(xmlfilename + '.sxst')
     root = tree.getroot()
+    CYMEVersion = float (root.find('Version').text)
+    print ('Version {:.2f}'.format(CYMEVersion))
 
     print ('Writing to DSS files...')
     masterfilename = RootName + '_master.dss'
@@ -1242,7 +1310,7 @@ def ConvertSXST(cfg):
     xyfilename = RootName + '_xy.dat'
     fmaster=open(masterfilename,'w')
     fmaster.write('clear\n')
-    fmaster.write('redirect Candle_Street.sub\n')
+    fmaster.write('redirect ' + SubName + '.sub\n')
 #for key,row in SourceTable.items():
 #    fmaster.write("new circuit." + xmlfilename)
 #    fmaster.write(' bus1=' + row[7])
@@ -1263,10 +1331,11 @@ def ConvertSXST(cfg):
         fmaster.write('redirect ' + networkfilename + '\n')
         fmaster.write('redirect ' + loadfilename + '\n')
         WriteFeeder (root, OwnerID, networkfilename, loadfilename)
-    fmaster.write('redirect Nantucket.edits\n')
+    fmaster.write('redirect ' + RootName + '.edits\n')
     fmaster.write('Set VoltageBases = [' + str(TransmissionBaseVoltage) + ',' + str(UserDefinedBaseVoltage) + 
-                  ',' + str(SecondaryBaseVoltage) + ']\n')
+                  ',' + str(SecondaryBaseVoltage1) + ',' + str(SecondaryBaseVoltage2) + ']\n')
     fmaster.write('CalcVoltageBases\n')
+    fmaster.write('SetLoadAndGenKv\n')
     fmaster.write('buscoords ' + xyfilename + '\n')
     WriteCoordinates (xyfilename)
     WriteCatalog (catalogfilename)

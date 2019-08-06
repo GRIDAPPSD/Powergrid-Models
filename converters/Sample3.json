@@ -1,0 +1,14 @@
+{
+  "xmlfilename": "RIV",
+  "RootName": "RIV209",
+  "SubName": "RIV",
+  "LoadScale": 1.0,
+  "UserDefinedBaseVoltage": 12.47,
+  "TransmissionBaseVoltage": 46.0,
+  "SecondaryBaseVoltage1": 0.480,
+  "SecondaryBaseVoltage2": 0.208,
+  "CYMESectionUnit": "m",
+  "CYMELineCodeUnit": "km",
+  "DSSSectionUnit": "mi",
+  "OwnerIDs": ["RIV209"]
+}
