@@ -6,10 +6,53 @@ com.bigdata.rwstore.RWStore.readBlobsAsync=false
 DROP ALL
 
 # enumerates all classes found; see appendix of Learning SPARQL for more useful cookbook recipes
-SELECT DISTINCT ?class
+SELECT ?class (COUNT(?class) as ?cnt)
 WHERE {
   ?s a ?class .
+} group by ?class order by ?class
+
+# list all the connectivity nodes by feeder, with voltage limits
+PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX c:  <http://iec.ch/TC57/CIM100#>
+SELECT ?feeder ?bus ?val ?dur ?dir WHERE {
+# VALUES ?fdrid {"_49AD8E07-3BF9-A4E2-CB8F-C3722F837B62"}  # 13 bus
+ ?fdr c:IdentifiedObject.mRID ?fdrid.
+ ?s c:ConnectivityNode.ConnectivityNodeContainer ?fdr.
+ ?s r:type c:ConnectivityNode.
+ ?s c:IdentifiedObject.name ?bus.
+ ?fdr c:IdentifiedObject.name ?feeder.
+ ?s c:ConnectivityNode.OperationalLimitSet ?ols.
+ ?vlim c:OperationalLimit.OperationalLimitSet ?ols.
+ ?vlim r:type c:VoltageLimit.
+ ?vlim c:OperationalLimit.OperationalLimitType ?olt.
+ ?olt c:OperationalLimitType.acceptableDuration ?dur.
+ ?olt c:OperationalLimitType.direction ?rawdir.
+  bind(strafter(str(?rawdir),"OperationalLimitDirectionKind.") as ?dir)
+ ?vlim c:VoltageLimit.value ?val.
 }
+ORDER by ?feeder ?bus ?val
+
+# list all the CurrentLimits by feeder
+PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX c:  <http://iec.ch/TC57/CIM100#>
+SELECT ?eqtype ?eqname ?val ?dur ?dir WHERE {
+# VALUES ?fdrid {"_49AD8E07-3BF9-A4E2-CB8F-C3722F837B62"}  # 13 bus
+ ?fdr c:IdentifiedObject.mRID ?fdrid.
+ ?eq c:Equipment.EquipmentContainer ?fdr.
+ ?eq c:IdentifiedObject.name ?eqname.
+ ?eq r:type ?rawtype.
+  bind(strafter(str(?rawtype),"#") as ?eqtype)
+ ?t c:Terminal.ConductingEquipment ?eq.
+ ?t c:ACDCTerminal.OperationalLimitSet ?ols.
+ ?clim c:OperationalLimit.OperationalLimitSet ?ols.
+ ?clim r:type c:CurrentLimit.
+ ?clim c:OperationalLimit.OperationalLimitType ?olt.
+ ?olt c:OperationalLimitType.acceptableDuration ?dur.
+ ?olt c:OperationalLimitType.direction ?rawdir.
+  bind(strafter(str(?rawdir),"OperationalLimitDirectionKind.") as ?dir)
+ ?clim c:CurrentLimit.value ?val.
+}
+ORDER by ?eqtype ?eqname ?val ?dur
 
 # SynchronousMachine - DistSyncMachine
 PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
@@ -39,8 +82,9 @@ PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX c:  <http://iec.ch/TC57/CIM100#>
 SELECT ?fdrname ?name ?parent ?coolingSetpoint ?coolingSystem ?floorArea ?heatingSetpoint ?heatingSystem ?hvacPowerFactor ?numberOfStories ?thermalIntegrity ?id ?fdrid 
 WHERE { 
-#	VALUES ?fdrid {"_9CE150A8-8CC5-A0F9-B67E-BBD8C79D3095"}
-#	VALUES ?fdrid {"_4F76A5F9-271D-9EB8-5E31-AA362D86F2C3"}
+#	VALUES ?fdrid {"_9CE150A8-8CC5-A0F9-B67E-BBD8C79D3095"}  # R2 12.47 3
+#	VALUES ?fdrid {"_4F76A5F9-271D-9EB8-5E31-AA362D86F2C3"}  # 8500-node
+VALUES ?fdrid {"_E407CBB6-8C8D-9BC9-589C-AB83FBF0826D"}  # 123 PV/Triplex
    ?h r:type c:House.
    ?h c:IdentifiedObject.name ?name.
    ?h c:IdentifiedObject.mRID ?id.
@@ -177,7 +221,7 @@ DELETE {
 PREFIX r: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX c: <http://iec.ch/TC57/CIM100#>
 SELECT ?class ?type ?name ?bus ?phases ?eqtype ?eqname ?eqid ?trmid ?id WHERE {
- VALUES ?fdrid {"_C1C3E687-6FFD-C753-582B-632A27E28507"}
+# VALUES ?fdrid {"_C1C3E687-6FFD-C753-582B-632A27E28507"}
  ?eq c:Equipment.EquipmentContainer ?fdr.
  ?fdr c:IdentifiedObject.mRID ?fdrid. 
 { ?s r:type c:Discrete. bind ("Discrete" as ?class)}
@@ -216,14 +260,19 @@ INSERT DATA {
 PREFIX r: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX c: <http://iec.ch/TC57/CIM100#>
 SELECT ?name ?phases ?type ?eqid ?trmid ?id WHERE {
-  ?s r:type c:Analog .
+{ ?s r:type c:Discrete. bind ("Discrete" as ?class)}
+  UNION
+{ ?s r:type c:Analog. bind ("Analog" as ?class)}
 	?s c:IdentifiedObject.name ?name .
 	?s c:IdentifiedObject.mRID ?id .
-	?s c:Measurement.PowerSystemResource ?eqid .
-	?s c:Measurement.Terminal ?trmid .
+	?s c:Measurement.PowerSystemResource ?eq .
+    ?eq c:IdentifiedObject.mRID ?eqid .
+	?s c:Measurement.Terminal ?trm .
+    ?trm c:IdentifiedObject.mRID ?trmid .
 	?s c:Measurement.measurementType ?type .
-	?s c:Measurement.phases ?phases .
-}
+  {?s c:Measurement.phases ?phsraw.
+   bind(strafter(str(?phsraw),"PhaseCode.") as ?phases)}
+} ORDER BY ?name ?type ?phases
 
 # list measurement points for PowerTransformer with tanks
 PREFIX r: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
@@ -393,6 +442,23 @@ SELECT ?feeder ?name WHERE {
  ?fdr c:IdentifiedObject.name ?feeder.
 }
 ORDER by ?feeder ?name
+
+# list all the connectivity node base voltages by feeder, for visualization
+PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX c:  <http://iec.ch/TC57/CIM100#>
+SELECT DISTINCT ?feeder ?busname ?nomv WHERE {
+# VALUES ?fdrid {"_49AD8E07-3BF9-A4E2-CB8F-C3722F837B62"}  # 13 bus
+ ?fdr c:IdentifiedObject.mRID ?fdrid.
+ ?bus c:ConnectivityNode.ConnectivityNodeContainer ?fdr.
+ ?bus r:type c:ConnectivityNode.
+ ?bus c:IdentifiedObject.name ?busname.
+ ?fdr c:IdentifiedObject.name ?feeder.
+ ?trm c:Terminal.ConnectivityNode ?bus.
+ ?trm c:Terminal.ConductingEquipment ?ce.
+ ?ce  c:ConductingEquipment.BaseVoltage ?bv.
+ ?bv  c:BaseVoltage.nominalVoltage ?nomv.
+}
+ORDER by ?feeder ?busname ?nomv
 
 # list all the equipment by feeder and type
 PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
@@ -947,10 +1013,12 @@ SELECT ?pname ?tname ?xfmrcode ?vgrp ?enum ?bus ?basev ?phs ?grounded ?rground ?
 # feeder selection options - if all commented out, query matches all feeders
 #VALUES ?fdrid {"_C1C3E687-6FFD-C753-582B-632A27E28507"}  # 123 bus
 #VALUES ?fdrid {"_49AD8E07-3BF9-A4E2-CB8F-C3722F837B62"}  # 13 bus
-VALUES ?fdrid {"_5B816B93-7A5F-B64C-8460-47C17D6E4B0F"}  # 13 bus assets
+#VALUES ?fdrid {"_5B816B93-7A5F-B64C-8460-47C17D6E4B0F"}  # 13 bus assets
 #VALUES ?fdrid {"_4F76A5F9-271D-9EB8-5E31-AA362D86F2C3"}  # 8500 node
 #VALUES ?fdrid {"_67AB291F-DCCD-31B7-B499-338206B9828F"}  # J1
 #VALUES ?fdrid {"_9CE150A8-8CC5-A0F9-B67E-BBD8C79D3095"}  # R2 12.47 3
+VALUES ?fdrid {"_E407CBB6-8C8D-9BC9-589C-AB83FBF0826D"}  # 123 PV/Triplex
+#VALUES ?fdrid {"_AAE94E4A-2465-6F5E-37B1-3E72183A4E44"}  # 9500 node
  ?p c:Equipment.EquipmentContainer ?fdr.
  ?fdr c:IdentifiedObject.mRID ?fdrid.
  ?p c:IdentifiedObject.name ?pname.

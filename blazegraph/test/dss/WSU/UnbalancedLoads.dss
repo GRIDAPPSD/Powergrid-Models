@@ -2358,6 +2358,19 @@ New Load.2224490448C0a phases=1 Bus1=SX3778577C.1 kV=.120 Status=variable Model=
 New Load.2224490448C0b phases=1 Bus1=SX3778577C.2 kV=.120 Status=variable Model=1 Conn=wye kW= 6.75881605625153     pf = 0.97 Vminpu = 0.88 
 New Load.2224500658A0a phases=1 Bus1=SX3784018A.1 kV=.120 Status=variable Model=1 Conn=wye kW= 0.546303835511208    pf = 0.97 Vminpu = 0.88 
 New Load.2224500658A0b phases=1 Bus1=SX3784018A.2 kV=.120 Status=variable Model=1 Conn=wye kW= 3.00369616448879     pf = 0.97 Vminpu = 0.88 
+New Load.2221108403A0a phases=1 Bus1=SX1108403A.1 kV=.120 Status=variable Model=1 Conn=wye kW= 28.9838572983329     pf = 0.97 Vminpu = 0.88
+New Load.2221108403B0a phases=1 Bus1=SX1108403B.1 kV=.120 Status=variable Model=1 Conn=wye kW= 23.3278347452893     pf = 0.97 Vminpu = 0.88
+New Load.2221108403C0a phases=1 Bus1=SX1108403C.1 kV=.120 Status=variable Model=1 Conn=wye kW= 21.3497598372442     pf = 0.97 Vminpu = 0.88
+New Load.2221108404A0a phases=1 Bus1=SX1108404A.1 kV=.120 Status=variable Model=1 Conn=wye kW= 35.9748912749128     pf = 0.97 Vminpu = 0.88
+New Load.2221108404B0a phases=1 Bus1=SX1108404B.1 kV=.120 Status=variable Model=1 Conn=wye kW= 39.2746296483264     pf = 0.97 Vminpu = 0.88
+New Load.2221108404C0a phases=1 Bus1=SX1108404C.1 kV=.120 Status=variable Model=1 Conn=wye kW= 31.9375987492748     pf = 0.97 Vminpu = 0.88
+New Load.2221108405A0a phases=1 Bus1=SX1108405A.1 kV=.120 Status=variable Model=1 Conn=wye kW= 24.8329874927289     pf = 0.97 Vminpu = 0.88
+New Load.2221108405B0a phases=1 Bus1=SX1108405B.1 kV=.120 Status=variable Model=1 Conn=wye kW= 28.3874479274956     pf = 0.97 Vminpu = 0.88
+New Load.2221108405C0a phases=1 Bus1=SX1108405C.1 kV=.120 Status=variable Model=1 Conn=wye kW= 27.8720742647274     pf = 0.97 Vminpu = 0.88
+New Load.2221108406A0a phases=1 Bus1=SX1108406A.1 kV=.120 Status=variable Model=1 Conn=wye kW= 19.9847298743482     pf = 0.97 Vminpu = 0.88
+New Load.2221108406B0a phases=1 Bus1=SX1108406B.1 kV=.120 Status=variable Model=1 Conn=wye kW= 22.4779274975337     pf = 0.97 Vminpu = 0.88
+New Load.2221108407B0a phases=1 Bus1=SX1108407B.1 kV=.120 Status=variable Model=1 Conn=wye kW= 41.8472843792233     pf = 0.97 Vminpu = 0.88
+New Load.2226061820B0a phases=1 Bus1=SX1108410B.1 kV=.120 Status=variable Model=1 Conn=wye kW= 61.3287642634872     pf = 0.97 Vminpu = 0.88
 
 
 !New Loads for S2 New Neighborhood, assuming large homes with air conditioning, swimming pools, costco-size fridges, etc

@@ -215,7 +215,7 @@ Redirect Loadshape.dss
 ! We will let the DSS compute the voltage bases by doing a zero-load power flow.
 ! There are only two voltage bases in the problem: 4160V and 480V. These must be expressed in kV
 
-Set VoltageBases = [4.16, 0.48]    ! ARRAY OF VOLTAGES IN KV
+Set VoltageBases = [4.16, 0.48, 0.208]    ! ARRAY OF VOLTAGES IN KV
 CalcVoltageBases  ! PERFORMS ZERO LOAD POWER FLOW TO ESTIMATE VOLTAGE BASES
 
 Set MaxControlIter=30

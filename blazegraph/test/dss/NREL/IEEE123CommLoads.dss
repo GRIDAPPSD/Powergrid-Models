@@ -1,0 +1,14 @@
+!
+! LOAD DEFINITIONS
+!
+! These loads will not be converted to secondary service.
+
+New Load.S35a  Bus1=35.1.2 Phases=1 Conn=Delta Model=1 kV=4.160 kW=40.0  kvar=20.0  
+New Load.S47   Bus1=47     Phases=3 Conn=Wye   Model=5 kV=4.160 kW=105.0 kvar=75.0  
+New Load.S48   Bus1=48     Phases=3 Conn=Wye   Model=2 kV=4.160 kW=210.0 kVAR=150.0 
+New Load.S65a  Bus1=65.1.2 Phases=1 Conn=Delta Model=2 kV=4.160 kW=35.0  kvar=25.0  
+New Load.S65b  Bus1=65.2.3 Phases=1 Conn=Delta Model=2 kV=4.160 kW=35.0  kvar=25.0  
+New Load.S65c  Bus1=65.3.1 Phases=1 Conn=Delta Model=2 kV=4.160 kW=70.0  kvar=50.0  
+New Load.S76a  Bus1=76.1.2 Phases=1 Conn=Delta Model=5 kV=4.160 kW=105.0 kvar=80.0  
+New Load.S76b  Bus1=76.2.3 Phases=1 Conn=Delta Model=5 kV=4.160 kW=70.0  kvar=50.0  
+New Load.S76c  Bus1=76.3.1 Phases=1 Conn=Delta Model=5 kV=4.160 kW=70.0  kvar=50.0    

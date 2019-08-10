@@ -1,12 +1,16 @@
 compile IEEE123Master_fixedVR.dss
 solve
 redirect capacitor.dss
-redirect IEEE123Loads.dss
+redirect IEEE123CommLoads.dss       // 3-phase and 1-phase delta loads, always use this
+// use one but not both of the following
+redirect IEEE123PrimaryLoads.dss    // 1-phase wye loads on the primary
+//redirect IEEE123SecondaryLoads.dss  // 1-phase wye loads converted to secondary service
 redirect pvsystems_high_pvs.dss
 
+calcvoltagebases
 set maxiterations=20
 solve
 
 export summary ieee123_pv_CIM.csv
-export cdpsmcombined file=ieee123_pv_CIM.xml fid=E407CBB6-8C8D-9BC9-589C-AB83FBF0826D sub=ieee123_Substation sid=1BC1F4C0-4060-8913-B36B-A473AEE5D38B subgeo=large sgrid=B6CEC5E5-D2FB-0AC0-803C-0A6FB3D0C864 geo=ieee rgnid=73C512BD-7249-4F50-50DA-D93849B89C43
+export cim100 file=ieee123_pv_CIM.xml fid=E407CBB6-8C8D-9BC9-589C-AB83FBF0826D sub=ieee123_Substation sid=1BC1F4C0-4060-8913-B36B-A473AEE5D38B subgeo=large sgrid=B6CEC5E5-D2FB-0AC0-803C-0A6FB3D0C864 geo=ieee rgnid=73C512BD-7249-4F50-50DA-D93849B89C43
 quit
