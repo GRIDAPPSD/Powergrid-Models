@@ -481,15 +481,32 @@ def CreateRegulator(f,Name,row):
     f.write('\n')
     return
 
+#[DeviceNumber,End,DeviceID,switch,enabled,amps,curve,SectionID,SwtFromNode,SwtToNode,Phase]
 def CreateFuse(f,Name,row):
-    f.write("new fuse." + Name)
-#    f.write(" monitoredobj=line." + row[0])  # worked for SCE
-    f.write(" monitoredobj=line." + row[7])
+    nphs = ParseNPhases(row[10])
+    phs = ParseTerminals(row[10])
+    f.write('new line.' + Name)
+    f.write(' bus1=' + row[8] + phs)
+    f.write(' bus2=' + row[9] + phs)
+    f.write(' phases=' + str(nphs))
+    f.write(' switch=yes')
+    f.write(' // ' + row[4] + '\n')
+    f.write('new fuse.' + Name)
+    f.write(" monitoredobj=line." + Name) # row[7])
     f.write(" monitoredterm=" + str(row[1]))
     f.write(" ratedcurrent=" + str(row[5]))
     f.write(" fusecurve=" + row[6])
     f.write(" // " + row[2] + "\n")
     return
+# this is for a fuse within a line section
+#    f.write("new fuse." + Name)
+##    f.write(" monitoredobj=line." + row[0])  # worked for SCE
+#    f.write(" monitoredobj=line." + row[7])
+#    f.write(" monitoredterm=" + str(row[1]))
+#    f.write(" ratedcurrent=" + str(row[5]))
+#    f.write(" fusecurve=" + row[6])
+#    f.write(" // " + row[2] + "\n")
+#    return
 
 def CreateSwtControl(f,Name,row):
     f.write("// new swtcontrol." + Name)
@@ -1049,7 +1066,10 @@ def WriteFeeder(root, OwnerID, networkfilename, loadfilename):
                         curve = FuseConfigTable[DeviceID][1]
                         if SectionID == DeviceNumber:
                             DeviceNumber = 'Fuse_' + SectionID
-                        FuseTable[DeviceNumber] = [DeviceNumber,End,DeviceID,switch,enabled,amps,curve,SectionID]
+#                        FuseTable[DeviceNumber] = [DeviceNumber,End,DeviceID,switch,enabled,amps,curve,SectionID]
+                        # this version is for a section with only a fuse; need to write a line impedance
+                        FuseTable[DeviceNumber] = [DeviceNumber,End,DeviceID,switch,enabled,amps,curve,SectionID,
+                                                   SwtFromNode,SwtToNode,Phase]
 #                        print ('Fuse', FuseTable[DeviceNumber])
                     elif DeviceType == 'Breaker': # in SCE circuit, the breaker is in-line with a line segment
                         if child.find('Location').text == 'To':
