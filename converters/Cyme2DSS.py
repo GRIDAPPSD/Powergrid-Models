@@ -42,6 +42,9 @@ BESSTable = {}
 # coordinate table is also global, because feeder segments may insert midpoints
 NodeXYTable = {}
 
+# source table is global so it can be written near the top of the master DSS file
+SourceTable = {}
+
 def Connected (child):
     s = child.find('ConnectionStatus').text 
     if s == 'Connected':
@@ -864,7 +867,6 @@ def WriteFeeder(root, OwnerID, networkfilename, loadfilename):
     AllDeviceTypes = set()
 
     # Extract info for sources and create a dictionary - TODO, handling substations vs. Feeders
-    SourceTable = {}
     #xstr = './Networks/Network/Topos/Topo/Sources/Source'
     xstr = ".//*[NetworkID='" + OwnerID + "']/Sources/Source"
     print(xstr)
@@ -1337,17 +1339,18 @@ def ConvertSXST(cfg):
     fmaster=open(masterfilename,'w')
     fmaster.write('clear\n')
     fmaster.write('redirect ' + SubName + '.sub\n')
-#for key,row in SourceTable.items():
-#    fmaster.write("new circuit." + xmlfilename)
-#    fmaster.write(' bus1=' + row[7])
-#    fmaster.write(' basekv=' + str(row[0]))
-#    fmaster.write(' pu=' + str(row[1]))
-#    fmaster.write(' ang=' + str(row[2]))
-#    fmaster.write(' r1=' + str(row[3]))
-#    fmaster.write(' x1=' + str(row[4]))
-#    fmaster.write(' r0=' + str(row[5]))
-#    fmaster.write(' x0=' + str(row[6]))
-#    fmaster.write(' // ' + key + '\n')
+    for key,row in SourceTable.items():
+        fmaster.write('// use this source impedance as the starting point for {:s}.sub\n'.format(SubName))
+        fmaster.write('// new circuit.' + RootName)
+        fmaster.write(' bus1=' + row[7])
+        fmaster.write(' basekv=' + str(row[0]))
+        fmaster.write(' pu=' + str(row[1]))
+        fmaster.write(' ang=' + str(row[2]))
+        fmaster.write(' r1=' + str(row[3]))
+        fmaster.write(' x1=' + str(row[4]))
+        fmaster.write(' r0=' + str(row[5]))
+        fmaster.write(' x0=' + str(row[6]))
+        fmaster.write(' // ' + key + '\n')
     fmaster.write('redirect ' + catalogfilename + '\n')
     BuildCatalog (root)
     BuildInitialCoordinates (root)
