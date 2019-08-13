@@ -3,7 +3,10 @@
 This converter has been tested on a sample of electric utility feeder models in 
 versions 7.1, 7.2 and 8.1 of CYMDIST. Inputs are a self-contained study (SXST) file
 from CYMDIST, and a JSON configuration file created by the user as described below.
-You also have to manually create the substation source model for OpenDSS.
+You also have to manually create the substation source model for OpenDSS, in part
+because this converter has not been tested with models from the CYMDIST substation
+add-on module. For SXST files without this add-on, a commented version of the new
+circuit definition will be written to the master OpenDSS model file.
 
 To execute the conversion script on Windows:
 
