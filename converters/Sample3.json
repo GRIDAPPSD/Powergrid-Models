@@ -12,6 +12,6 @@
   "CoordYmax": 300000.0,
   "CYMESectionUnit": "m",
   "CYMELineCodeUnit": "km",
-  "DSSSectionUnit": "mi",
+  "DSSSectionUnit": "kft",
   "OwnerIDs": ["RIV209"]
 }

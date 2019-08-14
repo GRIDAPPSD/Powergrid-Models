@@ -223,8 +223,8 @@ def CreateByPhase(f,Name,row):
         if wire!= 'OH_NONE':
             f.write(wire + ' ')
     f.write(']')
-    f.write(' length=' + '{0:.3f}'.format(row[3]))
-    f.write(' units=' + CYMESectionUnit + '\n')
+    f.write(' length=' + '{0:.6f}'.format(CYMEtoDSSSection * row[3]))
+    f.write(' units=' + DSSSectionUnit + '\n')
 
 # LineConfigTable[EquipmentID] = [nphases,r1,x1,r0,x0,b1,b0,NominalRating,use]
 # OHLineTable[SectionID] = [LineFromNode,LineToNode,Phase,DeviceLength,LineConfig]
@@ -1319,8 +1319,25 @@ def ConvertSXST(cfg):
     DSSSectionUnit = cfg['DSSSectionUnit']
     OwnerIDs = cfg['OwnerIDs']
 
-    CYMEtoDSSSection = 1.0 / 1609.344 # 3280.84 ft/km, 1000.0 m/km, 0.621371192 mi/km
-    CYMEtoDSSLineCode = 1.0 / 0.621371192
+    if CYMESectionUnit != 'm' or CYMELineCodeUnit != 'km':
+        print ('WARNING: CYMDIST line section lengths should be m, line code lengths should be km')
+    # 3280.84 ft/km, 1000.0 m/km, 0.621371192 mi/km
+    if DSSSectionUnit == 'mi':
+        CYMEtoDSSSection = 1.0 / 1609.344      # miles per meter
+        CYMEtoDSSLineCode = 1.0 / 0.621371192  # km per mile
+    elif DSSSectionUnit == 'kft':
+        CYMEtoDSSSection = 0.00328084          # kft per meter
+        CYMEtoDSSLineCode = 1.0 / 3.28084      # km per kft
+    elif DSSSectionUnit == 'ft':
+        CYMEtoDSSSection = 3.2809              # ft per meter
+        CYMEtoDSSLineCode = 1.0 / 3280.84      # km per ft
+    elif DSSSectionUnit == 'm':
+        CYMEtoDSSSection = 1.0                 # m per meter
+        CYMEtoDSSLineCode = 1.0 / 1000.0       # km per m
+    else:
+        print ('WARNING: the DSSSection unit should not be "{:s}"'.format(DSSSectionUnit))
+        CYMEtoDSSSection = 1.0
+        CYMEtoDSSLineCode = 1.0
     Zbase = DefaultBaseVoltage * DefaultBaseVoltage / 100.0
     TotalP = 0.0
     TotalQ = 0.0

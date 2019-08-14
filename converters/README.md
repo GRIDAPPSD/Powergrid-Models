@@ -31,7 +31,7 @@ The JSON configuration file attributes are:
 - *CoordYmax*; maximum Y coordinate value for circuit plots in OpenDSS, used to exclude outliers
 - *CYMESectionUnit*; unit for section lengths in CYMDIST, only "m" has been tested
 - *CYMELineCodeUnit*; unit for section lengths in CYMDIST, only "km" has been tested
-- *DSSSectionUnit*;  unit for line section lengths in OpenDSS, only "mi" has been tested
+- *DSSSectionUnit*;  unit for line section lengths in OpenDSS; only "ft", "kft", "mi" and "m" have been tested
 - *OwnerIDs*; array of one or more OwnerID values, i.e., feeders, to convert from the SXST file
 
 The output model files for OpenDSS are:
