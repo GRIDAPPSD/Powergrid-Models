@@ -12,6 +12,6 @@
   "CoordYmax": 300000.0,
   "CYMESectionUnit": "m",
   "CYMELineCodeUnit": "km",
-  "DSSSectionUnit": "mi",
+  "DSSSectionUnit": "m",
   "OwnerIDs": ["SHE215"]
 }

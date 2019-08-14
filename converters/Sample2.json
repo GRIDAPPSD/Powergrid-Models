@@ -12,6 +12,6 @@
   "CoordYmax": 1400000.0,
   "CYMESectionUnit": "m",
   "CYMELineCodeUnit": "km",
-  "DSSSectionUnit": "mi",
+  "DSSSectionUnit": "ft",
   "OwnerIDs": ["TITANIUM_12KV"]
 }
