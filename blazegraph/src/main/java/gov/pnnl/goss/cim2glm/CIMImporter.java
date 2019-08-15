@@ -14,6 +14,8 @@ import java.util.List;
 
 import org.apache.jena.query.*;
 
+import gov.pnnl.goss.cim2glm.CIMWriter;
+
 import gov.pnnl.goss.cim2glm.components.DistBaseVoltage;
 import gov.pnnl.goss.cim2glm.components.DistBreaker;
 import gov.pnnl.goss.cim2glm.components.DistCapacitor;
@@ -1596,11 +1598,15 @@ public class CIMImporter extends Object {
 			fOut = fRoot + "_feeder_index.json";
 			PrintWriter pOut = new PrintWriter(fOut);
 			WriteIndexFile (pOut);
+		} else if (fTarget.equals("cim")) {
+			LoadAllMaps();
+			CheckMaps();
+			fOut = fRoot + ".xml";
+			PrintWriter pOut = new PrintWriter(fOut);
+			new CIMWriter().WriteCIMFile (this, pOut);
 		}
 	}
-	
-	
-	
+		
 	/**
 	 * 
 	 * @param queryHandler
@@ -1716,7 +1722,7 @@ public class CIMImporter extends Object {
 		if (args.length < 1) {
 			System.out.println ("Usage: java CIMImporter [options] output_root");
 			System.out.println ("       -s={mRID}          // select one feeder by CIM mRID; selects all feeders if not specified");
-			System.out.println ("       -o={glm|dss|idx}   // output format; defaults to glm");
+			System.out.println ("       -o={glm|dss|idx|cim} // output format; defaults to glm");
 			System.out.println ("       -l={0..1}          // load scaling factor; defaults to 1");
 			System.out.println ("       -f={50|60}         // system frequency; defaults to 60");
 			System.out.println ("       -n={schedule_name} // root filename for scheduled ZIP loads (defaults to none)");
@@ -1787,6 +1793,8 @@ public class CIMImporter extends Object {
 				} else if (fTarget.equals("dss")) {
 					fRoot = args[i];
 				} else if (fTarget.equals("idx")) {
+					fRoot = args[i];
+				} else if (fTarget.equals("cim")) {
 					fRoot = args[i];
 				} else {
 					System.out.println ("Unknown target type " + fTarget);
