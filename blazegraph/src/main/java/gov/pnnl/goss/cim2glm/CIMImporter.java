@@ -1,6 +1,6 @@
 package gov.pnnl.goss.cim2glm;
 //      		----------------------------------------------------------
-//      		Copyright (c) 2017, Battelle Memorial Institute
+//      		Copyright (c) 2017-2019, Battelle Memorial Institute
 //      		All rights reserved.
 //      		----------------------------------------------------------
 
@@ -1603,7 +1603,7 @@ public class CIMImporter extends Object {
 			CheckMaps();
 			fOut = fRoot + ".xml";
 			PrintWriter pOut = new PrintWriter(fOut);
-			new CIMWriter().WriteCIMFile (this, pOut);
+			new CIMWriter().WriteCIMFile (this, queryHandler, pOut);
 		}
 	}
 		
