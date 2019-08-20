@@ -1,6 +1,6 @@
 package gov.pnnl.goss.cim2glm.components;
 //	----------------------------------------------------------
-//	Copyright (c) 2017, Battelle Memorial Institute
+//	Copyright (c) 2017-2019, Battelle Memorial Institute
 //	All rights reserved.
 //	----------------------------------------------------------
 
@@ -9,7 +9,7 @@ import java.util.HashMap;
 
 public class DistLinesSpacingZ extends DistLineSegment {
 	public static final String szQUERY =
-		"SELECT ?name ?id ?basev ?bus1 ?bus2 ?fdrid ?len ?spacing ?phs ?phname ?phclass"+
+		"SELECT ?name ?id ?basev ?bus1 ?bus2 ?fdrid ?len ?spacing ?spcid ?phs ?phname ?phclass"+
 		" WHERE {"+
 		" ?s r:type c:ACLineSegment."+
 		" ?s c:Equipment.EquipmentContainer ?fdr."+
@@ -20,6 +20,7 @@ public class DistLinesSpacingZ extends DistLineSegment {
 		" ?bv c:BaseVoltage.nominalVoltage ?basev."+
 		" ?s c:Conductor.length ?len."+
 		" ?s c:ACLineSegment.WireSpacingInfo ?inf."+
+		"   bind(strafter(str(?inf),\"#\") as ?spcid)."+
 		" ?inf c:IdentifiedObject.name ?spacing."+
 		" ?t1 c:Terminal.ConductingEquipment ?s."+
 		" ?t1 c:Terminal.ConnectivityNode ?cn1."+
@@ -40,6 +41,7 @@ public class DistLinesSpacingZ extends DistLineSegment {
 		" ORDER BY ?id ?name ?phs";
 
 	public String spacing;
+	public String spcid;
 	public int nwires;
 	public String[] wire_phases;
 	public String[] wire_names;
@@ -66,6 +68,7 @@ public class DistLinesSpacingZ extends DistLineSegment {
 			len = Double.parseDouble (soln.get("?len").toString());
 			basev = Double.parseDouble (soln.get("?basev").toString());
 			spacing = soln.get("?spacing").toString();
+			spcid = soln.get("?spcid").toString();
 			nwires = map.get (name);
 			wire_phases = new String[nwires];
 			wire_names = new String[nwires];

@@ -8,7 +8,7 @@ import org.apache.jena.query.*;
 
 public class DistLoad extends DistComponent {
 	public static final String szQUERY = 
-	 	"SELECT ?name ?bus ?basev ?p ?q ?conn ?pz ?qz ?pi ?qi ?pp ?qp ?pe ?qe ?id ?fdrid "+
+	 	"SELECT ?name ?bus ?basev ?p ?q ?cnt ?conn ?pz ?qz ?pi ?qi ?pp ?qp ?pe ?qe ?id ?fdrid "+
 		"(group_concat(distinct ?phs;separator=\"\\n\") as ?phases) "+
 		"WHERE {"+
 	 	" ?s r:type c:EnergyConsumer."+
@@ -19,6 +19,7 @@ public class DistLoad extends DistComponent {
 	   " ?bv c:BaseVoltage.nominalVoltage ?basev."+
 	 	" ?s c:EnergyConsumer.p ?p."+
 	 	" ?s c:EnergyConsumer.q ?q."+
+		" ?s c:EnergyConsumer.customerCount ?cnt."+
 	 	" ?s c:EnergyConsumer.phaseConnection ?connraw."+
 	 	" 			bind(strafter(str(?connraw),\"PhaseShuntConnectionKind.\") as ?conn)"+
 	 	" ?s c:EnergyConsumer.LoadResponse ?lr."+
@@ -38,7 +39,7 @@ public class DistLoad extends DistComponent {
 	 	" ?t c:Terminal.ConnectivityNode ?cn."+
 	 	" ?cn c:IdentifiedObject.name ?bus"+
 	 	"} "+
-		"GROUP BY ?name ?bus ?basev ?p ?q ?conn ?pz ?qz ?pi ?qi ?pp ?qp ?pe ?qe ?id ?fdrid "+
+		"GROUP BY ?name ?bus ?basev ?p ?q ?cnt ?conn ?pz ?qz ?pi ?qi ?pp ?qp ?pe ?qe ?id ?fdrid "+
 		"ORDER BY ?name";
 
 	public String id;
@@ -57,6 +58,7 @@ public class DistLoad extends DistComponent {
 	public double qp;
 	public double pe;
 	public double qe;
+	public int cnt;
 
 	private int dss_load_model;
 	private boolean bDelta;
@@ -90,6 +92,7 @@ public class DistLoad extends DistComponent {
 			qp = Double.parseDouble (soln.get("?qp").toString());
 			pe = Double.parseDouble (soln.get("?pe").toString());
 			qe = Double.parseDouble (soln.get("?qe").toString());
+			cnt = OptionalInt (soln, "?cnt", 1);
 		}		
 		dss_load_model = 8;
 //		System.out.println (DisplayString());

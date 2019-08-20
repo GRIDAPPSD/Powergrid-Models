@@ -1,6 +1,6 @@
 package gov.pnnl.goss.cim2glm.components;
 //	----------------------------------------------------------
-//	Copyright (c) 2017, Battelle Memorial Institute
+//	Copyright (c) 2017-2019, Battelle Memorial Institute
 //	All rights reserved.
 //	----------------------------------------------------------
 
@@ -9,7 +9,7 @@ import java.util.HashMap;
 
 public class DistLinesCodeZ extends DistLineSegment {
 	public static final String szQUERY =
-		"SELECT ?name ?id ?basev ?bus1 ?bus2 ?len ?lname ?fdrid ?seq ?phs WHERE {"+
+		"SELECT ?name ?id ?basev ?bus1 ?bus2 ?len ?lname ?codeid ?fdrid ?seq ?phs WHERE {"+
 		" ?s r:type c:ACLineSegment."+
 		" ?s c:Equipment.EquipmentContainer ?fdr."+
 		" ?fdr c:IdentifiedObject.mRID ?fdrid."+
@@ -19,6 +19,7 @@ public class DistLinesCodeZ extends DistLineSegment {
 		" ?s c:Conductor.length ?len."+
 		" ?s c:ACLineSegment.PerLengthImpedance ?lcode."+
 		" ?lcode c:IdentifiedObject.name ?lname."+
+		" bind(strafter(str(?lcode),\"#\") as ?codeid)."+
 		" ?t1 c:Terminal.ConductingEquipment ?s."+
 		" ?t1 c:Terminal.ConnectivityNode ?cn1."+
 		" ?t1 c:ACDCTerminal.sequenceNumber \"1\"."+
@@ -36,6 +37,7 @@ public class DistLinesCodeZ extends DistLineSegment {
 		" ORDER BY ?name ?seq ?phs";
 
 	public String lname;
+	public String codeid;
 
 	public String GetJSONEntry () {
 		StringBuilder buf = new StringBuilder ();
@@ -56,6 +58,7 @@ public class DistLinesCodeZ extends DistLineSegment {
 			basev = Double.parseDouble (soln.get("?basev").toString());
 			len = Double.parseDouble (soln.get("?len").toString());
 			lname = soln.get("?lname").toString();
+			codeid = soln.get("?codeid").toString();
 			int nphs = map.get (name);
 			if (nphs > 0) {
 				StringBuilder buf = new StringBuilder(soln.get("?phs").toString());
