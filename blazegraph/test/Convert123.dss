@@ -9,6 +9,7 @@ redirect IEEE123CommLoads.dss       // 3-phase and 1-phase delta loads, always u
 redirect IEEE123SecondaryLoads.dss  // 1-phase wye loads converted to secondary service
 redirect pvsystems_high_pvs.dss
 calcvoltagebases
+buscoords Buscoords.dat
 set maxiterations=20
 solve
 cd /Users/mcde601/src/GRIDAPPSD/Powergrid-Models/blazegraph/test/
