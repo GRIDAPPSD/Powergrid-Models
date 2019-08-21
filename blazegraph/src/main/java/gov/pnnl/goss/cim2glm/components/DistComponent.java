@@ -388,7 +388,7 @@ public abstract class DistComponent {
  	public abstract String GetKey();
 	public abstract String GetJSONEntry();
 
-	public String GetJSONSymbols (HashMap<String,DistCoordinates> map, HashMap<String,DistXfmrTank> mapTank) {
+	public String GetJSONSymbols (HashMap<String,DistCoordinates> map) {
 		return "";
 	}
 }
