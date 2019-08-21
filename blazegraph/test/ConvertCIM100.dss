@@ -82,6 +82,7 @@ redirect IEEE123SecondaryLoads.dss
 redirect pvsystems_high_pvs.dss
 set maxiterations=20
 calcvoltagebases
+buscoords Buscoords.dat
 solve
 cd /Users/mcde601/src/GRIDAPPSD/Powergrid-Models/blazegraph/test/
 export summary  IEEE123_PV_s.csv
