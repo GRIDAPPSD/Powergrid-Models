@@ -659,13 +659,34 @@ public class CIMImporter extends Object {
 		out.close();
 	}
 
-	public void WriteMapSymbols (HashMap<String,? extends DistComponent> map, String label, boolean bLast, PrintWriter out) {
+	public void WriteMapSymbols (HashMap<String,? extends DistComponent> map, String label, 
+															 boolean bLast, PrintWriter out) {
 		int count = 1, last = map.size();
 		out.println ("\"" + label + "\":[");
 
 		SortedSet<String> keys = new TreeSet<String>(map.keySet());
 		for (String key : keys) {
-			out.print (map.get(key).GetJSONSymbols (mapCoordinates, mapTanks));
+			out.print(map.get(key).GetJSONSymbols(mapCoordinates));
+			if (count++ < last) {
+				out.println (",");
+			} else {
+				out.println ("");
+			}
+		}
+		if (bLast) {
+			out.println("]");
+		} else {
+			out.println("],");
+		}
+	}
+
+	public void WriteRegulatorMapSymbols (boolean bLast, PrintWriter out) {
+		int count = 1, last = mapRegulators.size();
+		out.println ("\"regulators\":[");
+
+		for (HashMap.Entry<String,DistRegulator> pair : mapRegulators.entrySet()) {
+			DistRegulator reg = pair.getValue();
+			out.print(reg.GetJSONSymbols(mapCoordinates, mapTanks, mapXfmrWindings));
 			if (count++ < last) {
 				out.println (",");
 			} else {
@@ -708,7 +729,7 @@ public class CIMImporter extends Object {
 		count = 1;
 		last = mapLinesCodeZ.size() + mapLinesInstanceZ.size() + mapLinesSpacingZ.size();
 		for (HashMap.Entry<String,DistLinesCodeZ> pair : mapLinesCodeZ.entrySet()) {
-			out.print (pair.getValue().GetJSONSymbols(mapCoordinates, mapTanks));
+			out.print (pair.getValue().GetJSONSymbols(mapCoordinates));
 			if (count++ < last) {
 				out.println (",");
 			} else {
@@ -716,7 +737,7 @@ public class CIMImporter extends Object {
 			}
 		}
 		for (HashMap.Entry<String,DistLinesInstanceZ> pair : mapLinesInstanceZ.entrySet()) {
-			out.print (pair.getValue().GetJSONSymbols(mapCoordinates, mapTanks));
+			out.print (pair.getValue().GetJSONSymbols(mapCoordinates));
 			if (count++ < last) {
 				out.println (",");
 			} else {
@@ -724,7 +745,7 @@ public class CIMImporter extends Object {
 			}
 		}
 		for (HashMap.Entry<String,DistLinesSpacingZ> pair : mapLinesSpacingZ.entrySet()) {
-			out.print (pair.getValue().GetJSONSymbols(mapCoordinates, mapTanks));
+			out.print (pair.getValue().GetJSONSymbols(mapCoordinates));
 			if (count++ < last) {
 				out.println (",");
 			} else {
@@ -749,7 +770,7 @@ public class CIMImporter extends Object {
 			}
 		}
 		for (HashMap.Entry<String,DistPowerXfmrWinding> pair : mapXfmrWindings.entrySet()) {
-			out.print (pair.getValue().GetJSONSymbols(mapCoordinates, mapTanks));
+			out.print (pair.getValue().GetJSONSymbols(mapCoordinates));
 			if (count++ < last) {
 				out.println (",");
 			} else {
@@ -759,7 +780,7 @@ public class CIMImporter extends Object {
 		for (HashMap.Entry<String,DistXfmrTank> pair : mapTanks.entrySet()) {
 			DistXfmrTank obj = pair.getValue();
 			if (obj.glmUsed) {
-				out.print(obj.GetJSONSymbols(mapCoordinates, mapTanks));
+				out.print(obj.GetJSONSymbols(mapCoordinates));
 				if (count++ < last) {
 					out.println (",");
 				} else {
@@ -769,7 +790,7 @@ public class CIMImporter extends Object {
 		}
 		out.println("],");
 
-		WriteMapSymbols (mapRegulators, "regulators", true, out);
+		WriteRegulatorMapSymbols (true, out);
 
 		out.println("}]}");
 		out.close();
@@ -1084,16 +1105,22 @@ public class CIMImporter extends Object {
 		}
 		for (HashMap.Entry<String,DistRegulator> pair : mapRegulators.entrySet()) {
 			DistRegulator reg = pair.getValue();
-			DistXfmrTank tank = mapTanks.get (reg.tname[0]); // TODO: revisit if GridLAB-D can model un-banked regulator tanks
-			DistXfmrCodeRating code = mapCodeRatings.get (tank.tankinfo);
-			out.print (reg.GetGLM (tank));
-			code.glmUsed = false;
-			tank.glmUsed = false;
-			for (int i = 1; i < reg.size; i++) {
-				tank = mapTanks.get (reg.tname[i]);
-				code = mapCodeRatings.get (tank.tankinfo);
+			if (reg.hasTanks) {
+				DistXfmrTank tank = mapTanks.get(reg.tname[0]); // TODO: revisit if GridLAB-D can model un-banked regulator tanks
+				DistXfmrCodeRating code = mapCodeRatings.get (tank.tankinfo);
+				out.print (reg.GetTankedGLM (tank));
 				code.glmUsed = false;
 				tank.glmUsed = false;
+				for (int i = 1; i < reg.size; i++) {
+					tank = mapTanks.get (reg.tname[i]);
+					code = mapCodeRatings.get (tank.tankinfo);
+					code.glmUsed = false;
+					tank.glmUsed = false;
+				}
+			} else {
+				DistPowerXfmrWinding xfmr = mapXfmrWindings.get(reg.pname);
+				out.print (reg.GetGangedGLM (xfmr));
+				xfmr.glmUsed = false;
 			}
 		}
 
@@ -1168,9 +1195,11 @@ public class CIMImporter extends Object {
 		}
 		for (HashMap.Entry<String,DistPowerXfmrWinding> pair : mapXfmrWindings.entrySet()) {
 			DistPowerXfmrWinding obj = pair.getValue();
-			DistPowerXfmrMesh mesh = mapXfmrMeshes.get (obj.name);
-			DistPowerXfmrCore core = mapXfmrCores.get (obj.name);
-			out.print (pair.getValue().GetGLM(mesh, core));
+			if (obj.glmUsed) {
+				DistPowerXfmrMesh mesh = mapXfmrMeshes.get(obj.name);
+				DistPowerXfmrCore core = mapXfmrCores.get (obj.name);
+				out.print (pair.getValue().GetGLM(mesh, core));
+			}
 		}
 		for (HashMap.Entry<String,DistXfmrTank> pair : mapTanks.entrySet()) {
 			DistXfmrTank obj = pair.getValue();

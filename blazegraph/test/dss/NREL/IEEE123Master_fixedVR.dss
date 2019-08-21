@@ -209,6 +209,13 @@ Redirect IEEE123Regulators.DSS
 //Redirect IEEE123Loads.DSS
 Redirect Loadshape.dss
 
+redirect IEEE123CommLoads.dss       // 3-phase and 1-phase delta loads, always use this
+// use one but not both of the following
+//redirect IEEE123PrimaryLoads.dss    // 1-phase wye loads on the primary
+redirect IEEE123SecondaryLoads.dss  // 1-phase wye loads converted to secondary service
+
+redirect pvsystems_high_pvs.dss
+
 ! All devices in the test feeder are now defined.
 !
 ! Many of the voltages are reported in per unit, so it is important to establish the base voltages at each bus so

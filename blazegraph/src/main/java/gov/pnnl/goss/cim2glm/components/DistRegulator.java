@@ -23,13 +23,15 @@ public class DistRegulator extends DistComponent {
 		" ?rtc c:IdentifiedObject.name ?rname."+
 		" ?rtc c:RatioTapChanger.TransformerEnd ?end."+
 		" ?end c:TransformerEnd.endNumber ?wnum."+
-		" OPTIONAL {?end c:TransformerTankEnd.phases ?phsraw."+
+		"	{?end c:PowerTransformerEnd.PowerTransformer ?pxf.}"+
+		"  UNION"+
+		" {?end c:TransformerTankEnd.TransformerTank ?tank."+
+		"  ?tank c:IdentifiedObject.name ?tname."+
+		"  OPTIONAL {?end c:TransformerTankEnd.phases ?phsraw."+
 		"  bind(strafter(str(?phsraw),\"PhaseCode.\") as ?phs)}"+
-		" ?end c:TransformerTankEnd.TransformerTank ?tank."+
-		" ?tank c:TransformerTank.PowerTransformer ?pxf."+
+		"  ?tank c:TransformerTank.PowerTransformer ?pxf.}"+
 		" ?pxf c:IdentifiedObject.name ?pname."+
 		" ?pxf c:IdentifiedObject.mRID ?pxfid."+
-		" ?tank c:IdentifiedObject.name ?tname."+
 		" ?rtc c:RatioTapChanger.stepVoltageIncrement ?incr."+
 		" ?rtc c:RatioTapChanger.tculControlMode ?moderaw."+
 		"  bind(strafter(str(?moderaw),\"TransformerControlMode.\") as ?mode)"+
@@ -69,6 +71,8 @@ public class DistRegulator extends DistComponent {
 
 	public String pname;
 	public String bankphases;
+
+	public boolean hasTanks;
 
 	// GridLAB-D only supports different bank parameters for tap (step), R and X
 	public int[] step;
@@ -210,6 +214,7 @@ public class DistRegulator extends DistComponent {
 
 	private void SetSize (QueryHandler queryHandler) {
 		size = 1;
+		hasTanks = false;
 		String szCount = "SELECT (count (?tank) as ?count) WHERE {"+
 			" ?tank c:TransformerTank.PowerTransformer ?pxf."+
 			" ?pxf c:IdentifiedObject.mRID \"" + pxfid + "\"."+
@@ -217,7 +222,11 @@ public class DistRegulator extends DistComponent {
 		ResultSet results = queryHandler.query (szCount);
 		if (results.hasNext()) {
 			QuerySolution soln = results.next();
-			size = soln.getLiteral("?count").getInt();
+			int nTanks = soln.getLiteral("?count").getInt();
+			if (nTanks > 0) {
+				hasTanks = true;
+				size = nTanks;
+			}
 		}
 		phs = new String[size];
 		rname = new String[size];
@@ -262,8 +271,13 @@ public class DistRegulator extends DistComponent {
 			for (int i = 0; i < size; i++) {
 				id[i] = soln.get("?id").toString();
 				rname[i] = SafeName (soln.get("?rname").toString());
-				tname[i] = SafeName (soln.get("?tname").toString());
-				phs[i] = soln.get("?phs").toString();
+				if (hasTanks) {
+					tname[i] = SafeName(soln.get("?tname").toString());
+					phs[i] = soln.get("?phs").toString();
+				} else {
+					tname[i] = "";
+					phs[i] = "ABC";
+				}
 				monphs[i] = soln.get("?monphs").toString();
 				mode[i] = soln.get("?mode").toString();
 				ctlmode[i] = soln.get("?ctlmode").toString();
@@ -343,12 +357,21 @@ public class DistRegulator extends DistComponent {
 		return buf.toString();
 	}
 
-	public String GetJSONSymbols(HashMap<String,DistCoordinates> map, HashMap<String,DistXfmrTank> mapTank) {
+	public String GetJSONSymbols(HashMap<String,DistCoordinates> map, 
+															 HashMap<String,DistXfmrTank> mapTank,
+															 HashMap<String,DistPowerXfmrWinding> mapXfmr) {
 		DistCoordinates pt1 = map.get("PowerTransformer:" + pname + ":1");
 		DistCoordinates pt2 = map.get("PowerTransformer:" + pname + ":2");
-		DistXfmrTank xfmr = mapTank.get(tname[0]);
-		String bus1 = xfmr.bus[0];
-		String bus2 = xfmr.bus[1];
+		String bus1, bus2;
+		if (hasTanks) {
+			DistXfmrTank tank = mapTank.get(tname[0]);
+			bus1 = tank.bus[0];
+			bus2 = tank.bus[1];
+		} else {
+			DistPowerXfmrWinding xfmr = mapXfmr.get(pname);
+			bus1 = xfmr.bus[0];
+			bus2 = xfmr.bus[1];
+		}
 
 		StringBuilder buf = new StringBuilder ();
 
@@ -364,13 +387,21 @@ public class DistRegulator extends DistComponent {
 		return buf.toString();
 	}
 
-	public String GetGLM (DistXfmrTank tank) {
+	public String GetGangedGLM (DistPowerXfmrWinding xfmr) {
+		return GetCommonGLM ("Yy", xfmr.bus[0], xfmr.bus[1]);
+	}
+
+	public String GetTankedGLM (DistXfmrTank tank) {
+		return GetCommonGLM (tank.vgrp, tank.bus[0], tank.bus[1]);
+	}
+
+	private String GetCommonGLM (String vgrp, String bus1, String bus2) {
 		StringBuilder buf = new StringBuilder ("object regulator_configuration {\n");
 		double dReg = 0.01 * 0.5 * incr[0] * (highStep[0] - lowStep[0]);
 		boolean bDeltaRegulator = false;
 
 		buf.append ("  name \"rcon_" + pname + "\";\n");
-		if (tank.vgrp.contains("D") || tank.vgrp.contains("d"))  {
+		if (vgrp.contains("D") || vgrp.contains("d"))  {
 			bDeltaRegulator = true;
 			if (bankphases.equals ("ABBC")) {
 				buf.append("  connect_type WYE_WYE; // OPEN_DELTA_ABBC not supported for NR\n");
@@ -412,19 +443,32 @@ public class DistRegulator extends DistComponent {
 		buf.append ("  lower_taps " + Integer.toString(Math.abs (neutralStep[0] - lowStep[0])) + ";\n");
 		buf.append ("  regulation " + df6.format(dReg) + ";\n");
 		buf.append ("  Type B;\n");
-		for (int i = 0; i < size; i++) {
-//			int iTap = (int) Math.round((step[i] - 1.0) / incr[i] * 100.0);	// TODO - verify this should be an offset from neutralStep
-			buf.append ("  compensator_r_setting_" + phs[i].substring(0,1) + " " + df6.format(fwdR[i]) + ";\n");
-			buf.append ("  compensator_x_setting_" + phs[i].substring(0,1) + " " + df6.format(fwdX[i]) + ";\n");
-			buf.append ("  // comment out the manual tap setting if using automatic control\n");
-			buf.append ("  tap_pos_" + phs[i].substring(0,1) + " " + Integer.toString(step[i]) + ";\n");
+		if (hasTanks) {
+			for (int i = 0; i < size; i++) {
+	//			int iTap = (int) Math.round((step[i] - 1.0) / incr[i] * 100.0);	// TODO - verify this should be an offset from neutralStep
+				buf.append ("  compensator_r_setting_" + phs[i].substring(0,1) + " " + df6.format(fwdR[i]) + ";\n");
+				buf.append ("  compensator_x_setting_" + phs[i].substring(0,1) + " " + df6.format(fwdX[i]) + ";\n");
+				buf.append ("  // comment out the manual tap setting if using automatic control\n");
+				buf.append ("  tap_pos_" + phs[i].substring(0,1) + " " + Integer.toString(step[i]) + ";\n");
+			}
+		} else {
+			buf.append ("  compensator_r_setting_A " + df6.format(fwdR[0]) + ";\n");
+			buf.append ("  compensator_r_setting_B " + df6.format(fwdR[0]) + ";\n");
+			buf.append ("  compensator_r_setting_C " + df6.format(fwdR[0]) + ";\n");
+			buf.append ("  compensator_x_setting_A " + df6.format(fwdX[0]) + ";\n");
+			buf.append ("  compensator_x_setting_B " + df6.format(fwdX[0]) + ";\n");
+			buf.append ("  compensator_x_setting_C " + df6.format(fwdX[0]) + ";\n");
+			buf.append ("  // comment out the manual tap settings if using automatic control\n");
+			buf.append ("  tap_pos_A " + Integer.toString(step[0]) + ";\n");
+			buf.append ("  tap_pos_B " + Integer.toString(step[0]) + ";\n");
+			buf.append ("  tap_pos_C " + Integer.toString(step[0]) + ";\n");
 		}
 		buf.append ("}\n");
 
 		buf.append ("object regulator {\n");
 		buf.append ("  name \"reg_" + pname + "\";\n");
-		buf.append ("  from \"" + tank.bus[0] + "\";\n");
-		buf.append ("  to \"" + tank.bus[1] + "\";\n");
+		buf.append ("  from \"" + bus1 + "\";\n");
+		buf.append ("  to \"" + bus2 + "\";\n");
 		buf.append ("  phases " + bankphases + ";\n");
 		buf.append ("  configuration \"rcon_" + pname + "\";\n");
 		buf.append ("}\n");
@@ -438,8 +482,10 @@ public class DistRegulator extends DistComponent {
 		for (int i = 0; i < size; i++) {
 			if (size > 1) {
 				xfName = tname[i];
+			} else if (hasTanks) {
+				xfName = tname[i];
 			} else {
-				xfName = tname[i]; // pname;
+				xfName = pname;
 			}
 			buf.append("new RegControl." + rname[i] + " transformer=" + xfName + " winding=" + Integer.toString(wnum[i]));
 			buf.append(" vreg=" + df2.format(vset[i]) + " band=" + df2.format(vbw[i]) + " ptratio=" + df2.format(ptRatio[i]) +

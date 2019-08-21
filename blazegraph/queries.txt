@@ -1223,32 +1223,28 @@ VALUES ?fdrid {"_67AB291F-DCCD-31B7-B499-338206B9828F"}  # J1
 GROUP BY ?key
 ORDER BY ?key
 
-# voltage regulators (attached to transformer tank ends; still need power transformer ends) - DistRegulator
+# voltage regulators - DistRegulator
 PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX c:  <http://iec.ch/TC57/CIM100#>
 SELECT ?rname ?pname ?tname ?wnum ?phs ?incr ?mode ?enabled ?highStep ?lowStep ?neutralStep ?normalStep ?neutralU 
  ?step ?initDelay ?subDelay ?ltc ?vlim 
-	?vset ?vbw ?ldc ?fwdR ?fwdX ?revR ?revX ?discrete ?ctl_enabled ?ctlmode ?monphs ?ctRating ?ctRatio ?ptRatio ?id ?fdrid
+	?vset ?vbw ?ldc ?fwdR ?fwdX ?revR ?revX ?discrete ?ctl_enabled ?ctlmode ?monphs ?ctRating ?ctRatio ?ptRatio ?fdrid
 WHERE {
-# feeder selection options - if all commented out, query matches all feeders
-#VALUES ?fdrid {"_C1C3E687-6FFD-C753-582B-632A27E28507"}  # 123 bus
-#VALUES ?fdrid {"_49AD8E07-3BF9-A4E2-CB8F-C3722F837B62"}  # 13 bus
-#VALUES ?fdrid {"_5B816B93-7A5F-B64C-8460-47C17D6E4B0F"}  # 13 bus assets
-VALUES ?fdrid {"_4F76A5F9-271D-9EB8-5E31-AA362D86F2C3"}  # 8500 node
-#VALUES ?fdrid {"_67AB291F-DCCD-31B7-B499-338206B9828F"}  # J1
-#VALUES ?fdrid {"_9CE150A8-8CC5-A0F9-B67E-BBD8C79D3095"}  # R2 12.47 3
+VALUES ?fdrid {"_E407CBB6-8C8D-9BC9-589C-AB83FBF0826D"}  # 123 PV
  ?pxf c:Equipment.EquipmentContainer ?fdr.
  ?fdr c:IdentifiedObject.mRID ?fdrid.
  ?rtc r:type c:RatioTapChanger.
  ?rtc c:IdentifiedObject.name ?rname.
  ?rtc c:RatioTapChanger.TransformerEnd ?end.
  ?end c:TransformerEnd.endNumber ?wnum.
+{?end c:PowerTransformerEnd.PowerTransformer ?pxf.}
+  UNION
+{?end c:TransformerTankEnd.TransformerTank ?tank.
+ ?tank c:IdentifiedObject.name ?tname.
  OPTIONAL {?end c:TransformerTankEnd.phases ?phsraw.
   bind(strafter(str(?phsraw),"PhaseCode.") as ?phs)}
- ?end c:TransformerTankEnd.TransformerTank ?tank.
- ?tank c:TransformerTank.PowerTransformer ?pxf.
+ ?tank c:TransformerTank.PowerTransformer ?pxf.}
  ?pxf c:IdentifiedObject.name ?pname.
- ?tank c:IdentifiedObject.name ?tname.
  ?rtc c:RatioTapChanger.stepVoltageIncrement ?incr.
  ?rtc c:RatioTapChanger.tculControlMode ?moderaw.
   bind(strafter(str(?moderaw),"TransformerControlMode.") as ?mode)

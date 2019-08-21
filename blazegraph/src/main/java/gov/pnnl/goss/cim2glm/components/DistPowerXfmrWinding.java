@@ -60,6 +60,8 @@ public class DistPowerXfmrWinding extends DistComponent {
 	public double[] xg;
 	public int size;
 
+	public boolean glmUsed;
+
 	public String GetJSONEntry () {
 		StringBuilder buf = new StringBuilder ();
 
@@ -92,6 +94,7 @@ public class DistPowerXfmrWinding extends DistComponent {
 			id = soln.get("?id").toString();
 			vgrp = soln.get("?vgrp").toString();
 			SetSize (map.get(pname));
+			glmUsed = true;
 			for (int i = 0; i < size; i++) {
 				bus[i] = SafeName (soln.get("?bus").toString());
 				basev[i] = Double.parseDouble (soln.get("?basev").toString());
@@ -122,7 +125,7 @@ public class DistPowerXfmrWinding extends DistComponent {
 		return buf.toString();
 	}
 
-	public String GetJSONSymbols(HashMap<String,DistCoordinates> map, HashMap<String,DistXfmrTank> mapTank) {
+	public String GetJSONSymbols(HashMap<String,DistCoordinates> map) {
 		DistCoordinates pt1 = map.get("PowerTransformer:" + name + ":1");
 		DistCoordinates pt2 = map.get("PowerTransformer:" + name + ":2");
 		String bus1 = bus[0];
