@@ -11,6 +11,19 @@ WHERE {
   ?s a ?class .
 } group by ?class order by ?class
 
+# navigate from TransformerEnd to TransformerEndInfo for CIMWriter
+PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX c:  <http://iec.ch/TC57/CIM100#>
+SELECT ?tname ?ename ?seq ?tid ?eid WHERE {
+ ?e c:TransformerEndInfo.TransformerTankInfo ?t.
+ ?t c:IdentifiedObject.name ?tname.
+ ?t c:IdentifiedObject.mRID ?tid.
+ ?e c:IdentifiedObject.name ?ename.
+ ?e c:IdentifiedObject.mRID ?eid.
+ ?e c:TransformerEndInfo.endNumber ?seq.
+}
+ORDER BY ?tname ?ename ?seq
+
 # list all the connectivity nodes by feeder for CIMWriter
 PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX c:  <http://iec.ch/TC57/CIM100#>
@@ -927,7 +940,7 @@ ORDER BY ?name
 # transformer codes; winding ratings actually used - DistXfmrCodeRating
 PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX c:  <http://iec.ch/TC57/CIM100#>
-SELECT DISTINCT ?pname ?tname ?enum ?ratedS ?ratedU ?conn ?ang ?res WHERE {
+SELECT DISTINCT ?pname ?tname ?enum ?ratedS ?ratedU ?conn ?ang ?res ?id ?eid ?ename WHERE {
 # feeder selection options - if all commented out, query matches all feeders
 #VALUES ?fdrid {"_C1C3E687-6FFD-C753-582B-632A27E28507"}  # 123 bus
 #VALUES ?fdrid {"_49AD8E07-3BF9-A4E2-CB8F-C3722F837B62"}  # 13 bus
@@ -944,7 +957,10 @@ VALUES ?fdrid {"_4F76A5F9-271D-9EB8-5E31-AA362D86F2C3"}  # 8500 node
  ?p c:IdentifiedObject.name ?pname.
  ?t c:TransformerTankInfo.PowerTransformerInfo ?p.
  ?t c:IdentifiedObject.name ?tname.
+ ?t c:IdentifiedObject.mRID ?id.
  ?e c:TransformerEndInfo.TransformerTankInfo ?t.
+ ?e c:IdentifiedObject.mRID ?eid.
+ ?e c:IdentifiedObject.name ?ename.
  ?e c:TransformerEndInfo.endNumber ?enum.
  ?e c:TransformerEndInfo.ratedS ?ratedS.
  ?e c:TransformerEndInfo.ratedU ?ratedU.

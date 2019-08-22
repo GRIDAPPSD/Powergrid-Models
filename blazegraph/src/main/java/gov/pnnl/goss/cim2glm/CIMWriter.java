@@ -65,7 +65,8 @@ import gov.pnnl.goss.cim2glm.queryhandler.impl.HTTPBlazegraphQueryHandler;
 public class CIMWriter extends Object {
 	QueryHandler queryHandler;
 
-	HashMap<String,String> mapLocations = new HashMap<>();  // TODO: don't write duplicate locations
+	HashMap<String,String> mapLocations = new HashMap<>();
+	HashMap<String,List<String>> mapWindings = new HashMap<>();
 	HashSet<String> setLocations = new HashSet<>();
 
 	private static final String xnsCIM = "http://iec.ch/TC57/2009/CIM-schema-cim14#";
@@ -118,6 +119,16 @@ public class CIMWriter extends Object {
 		" bind(strafter(str(?p),\"#\") as ?id)."+
 		"} ORDER by ?locid ?seq";
 
+	private static final String szXFINF =
+		"SELECT ?tname ?ename ?seq ?tid ?eid WHERE {"+
+		" ?e c:TransformerEndInfo.TransformerTankInfo ?t."+
+		" ?t c:IdentifiedObject.name ?tname."+
+		" ?t c:IdentifiedObject.mRID ?tid."+
+		" ?e c:IdentifiedObject.name ?ename."+
+		" ?e c:IdentifiedObject.mRID ?eid."+
+		" ?e c:TransformerEndInfo.endNumber ?seq."+
+		"} ORDER BY ?tname ?ename ?seq";
+
 	private String fdrID;
 
 	private void StartInstance (String root, String id, PrintWriter out) {
@@ -153,6 +164,12 @@ public class CIMWriter extends Object {
 		out.println (String.format("  <cim:%s rdf:resource=\"#%s\"/>", key, val, key));
 	}
 
+	private void WindingConnectionEnum (String conn, PrintWriter out) {
+		out.println (
+				String.format("  <cim:WindingInfo.connectionKind rdf:resource=\"%sWindingConnection.%s\"/>", 
+											xnsCIM, conn));
+	}
+
 	private void PhasesEnum (String phs, PrintWriter out) {
 		String val;
 		if (phs.contains("s1")) {
@@ -167,6 +184,28 @@ public class CIMWriter extends Object {
 			val = phs;
 		}
 		out.println(String.format("  <cim:ConductingEquipment.phases rdf:resource=\"%sPhaseCode.%s\"/>", xnsCIM, val));
+	}
+
+	private void LoadTransformerInfo (PrintWriter out) {
+		ResultSet results = queryHandler.query (szXFINF);
+		String lastName = "";
+		while (results.hasNext()) {
+			QuerySolution soln = results.next();
+			String tname = DistComponent.SafeName (soln.get("?tname").toString());
+			String tid = soln.get("?tid").toString();
+			String ename = DistComponent.SafeName (soln.get("?ename").toString());
+			String eid = soln.get("?eid").toString();
+			if (!tname.equals(lastName)) {
+				StartInstance("TransformerInfo", tid, out);
+				StringNode ("IdentifiedObject.mRID", tid, out);
+				StringNode ("IdentifiedObject.name", tname, out);
+				EndInstance ("TransformerInfo", out);
+				mapWindings.put(tid, new ArrayList<String>());
+				lastName = tname;
+			}
+			mapWindings.get(tid).add(eid);
+		}
+		((ResultSetCloseable)results).close();
 	}
 
 	private void LoadConnectivityNodes (PrintWriter out) {
@@ -382,6 +421,9 @@ public class CIMWriter extends Object {
 				EndInstance ("EnergyConsumer", out);
 			}
 
+			LoadTransformerInfo (out);
+
+			HashMap<String,String> mapBanks = new HashMap<>();
 			String secXfid = "_" + UUID.randomUUID().toString().toUpperCase();
 			PSRType (secXfid, "SplitSecondary", out);
 			String miscXfid = "_" + UUID.randomUUID().toString().toUpperCase();
@@ -400,6 +442,7 @@ public class CIMWriter extends Object {
 					RefNode("PowerSystemResource.PSRType", miscXfid, out);
 				}
 				EndInstance ("TransformerBank", out);
+				mapBanks.put (obj.pname, obj.pid);
 			}
 			for (HashMap.Entry<String,DistXfmrTank> pair : mdl.mapTanks.entrySet()) {
 				DistXfmrTank obj = pair.getValue();
@@ -408,14 +451,46 @@ public class CIMWriter extends Object {
 				StringNode ("IdentifiedObject.name", obj.tname, out);
 				RefNode ("Equipment.EquipmentContainer", fdrID, out);
 				RefNode ("PowerSystemResource.GeoLocation", mapLocations.get (obj.id), out);
-				RefNode ("DistributionTransformer.TransformerBank", obj.tname, out);
-				RefNode ("DistributionTransformer.TransformerInfo", obj.tankinfo, out);
+				RefNode ("DistributionTransformer.TransformerBank", mapBanks.get (obj.pname), out);
+				RefNode ("DistributionTransformer.TransformerInfo", obj.infoid, out);
 				EndInstance ("DistributionTransformer", out);
+				for (int i =0; i < obj.size; i++) {
+					StartInstance ("DistributionTransformerWinding", obj.eid[i], out);
+					StringNode ("IdentifiedObject.mRID", obj.eid[i], out);
+					StringNode ("IdentifiedObject.name", obj.ename[i], out);
+					RefNode ("Equipment.EquipmentContainer", fdrID, out);
+					RefNode("DistributionTransformerWinding.WindingInfo", 
+									mapWindings.get(obj.infoid).get(i), out); 
+					PhasesEnum (obj.phs[i], out);
+					BoolNode ("DistributionTransformerWinding.grounded", obj.grounded[i], out);
+					DoubleNode ("DistributionTransformerWinding.rground", obj.rg[i], out);
+					DoubleNode ("DistributionTransformerWinding.xground", obj.xg[i], out);
+					RefNode ("DistributionTransformerWinding.DistributionTransformer", obj.id, out);
+					RefNode ("PowerSystemResource.GeoLocation", mapLocations.get (obj.id), out);
+					EndInstance ("DistributionTransformerWinding", out);
+				}
+			}
+			for (HashMap.Entry<String,DistXfmrCodeRating> pair : mdl.mapCodeRatings.entrySet()) {
+				DistXfmrCodeRating obj = pair.getValue();
+				for (int i = 0; i < obj.size; i++) {
+					StartInstance("WindingInfo", obj.eid[i], out);
+					StringNode ("IdentifiedObject.mRID", obj.eid[i], out);
+					StringNode ("IdentifiedObject.name", obj.ename[i], out);
+					IntegerNode ("WindingInfo.sequenceNumber", obj.wdg[i], out);
+					WindingConnectionEnum (obj.conn[i], out);
+					IntegerNode ("WindingInfo.phaseAngle", obj.ang[i], out);
+					DoubleNode ("WindingInfo.ratedS", obj.ratedS[i], out);
+					DoubleNode ("WindingInfo.ratedU", obj.ratedU[i], out);
+					DoubleNode ("WindingInfo.r", obj.r[i], out);
+					RefNode ("WindingInfo.TransformerInfo", obj.id, out);
+					EndInstance ("WindingInfo", out);
+				}
 			}
 		}
 
 		mapLocations.clear();
 		setLocations.clear();
+		mapWindings.clear();
 
 		out.println ("</rdf:RDF>");
 		out.close ();
