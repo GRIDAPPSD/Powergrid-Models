@@ -40,7 +40,7 @@ ORDER by ?name
 # list all the terminals by feeder for CIMWriter
 PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX c:  <http://iec.ch/TC57/CIM100#>
-SELECT ?eqname ?seq ?eqid ?tid ?cnid WHERE {
+SELECT ?eqclass ?eqname ?seq ?eqid ?tid ?cnid WHERE {
  VALUES ?fdrid {"_E407CBB6-8C8D-9BC9-589C-AB83FBF0826D"}  # 123 bus with PV
  ?fdr c:IdentifiedObject.mRID ?fdrid.
  ?eq c:Equipment.EquipmentContainer ?fdr.
@@ -51,8 +51,30 @@ SELECT ?eqname ?seq ?eqid ?tid ?cnid WHERE {
  bind(strafter(str(?t),"#") as ?tid).
  bind(strafter(str(?cn),"#") as ?cnid).
  ?eq c:IdentifiedObject.name ?eqname.
+ ?eq a ?classraw.
+ bind(strafter(str(?classraw),"CIM100#") as ?eqclass)
 }
-ORDER by ?eqname ?seq
+ORDER by ?eqclass ?eqname ?seq
+
+# list all the terminals connected to a TransformerEnd for CIMWriter
+PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX c:  <http://iec.ch/TC57/CIM100#>
+SELECT ?endclass ?endid ?tid WHERE {
+ VALUES ?fdrid {"_E407CBB6-8C8D-9BC9-589C-AB83FBF0826D"}  # 123 bus with PV
+ ?fdr c:IdentifiedObject.mRID ?fdrid.
+ {?pxf c:Equipment.EquipmentContainer ?fdr.
+  ?end c:PowerTransformerEnd.PowerTransformer ?pxf.}
+  UNION
+ {?tank c:Equipment.EquipmentContainer ?fdr.
+  ?end c:TransformerTankEnd.TransformerTank ?tank.}
+ ?end c:TransformerEnd.Terminal ?t.
+ ?t c:ACDCTerminal.sequenceNumber ?seq.
+ bind(strafter(str(?end),"#") as ?endid).
+ bind(strafter(str(?t),"#") as ?tid).
+ ?end a ?classraw.
+ bind(strafter(str(?classraw),"CIM100#") as ?endclass)
+}
+ORDER by ?endclass ?endid
 
 # list all the locations by feeder for CIMWriter
 PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
