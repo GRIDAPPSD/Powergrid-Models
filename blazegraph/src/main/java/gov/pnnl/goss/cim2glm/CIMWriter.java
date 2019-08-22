@@ -170,6 +170,28 @@ public class CIMWriter extends Object {
 											xnsCIM, conn));
 	}
 
+	private void XfWindingConnectionEnum (String conn, PrintWriter out) {
+		out.println (
+				String.format("  <cim:TransformerWinding.connectionType rdf:resource=\"%sWindingConnection.%s\"/>", 
+											xnsCIM, conn));
+	}
+
+	private void XfWindingTypeEnum (int endNumber, PrintWriter out) {
+		String val;
+		if (endNumber == 1) {
+			val = "primary";
+		} else if (endNumber == 2) {
+			val = "secondary";
+		} else if (endNumber == 3) {
+			val = "tertiary";
+		} else {
+			val = "quaternary";
+		}
+		out.println(
+				String.format("  <cim:TransformerWinding.connectionType rdf:resource=\"%sWindingType.%s\"/>", 
+											xnsCIM, val));
+	}
+
 	private void PhasesEnum (String phs, PrintWriter out) {
 		String val;
 		if (phs.contains("s1")) {
@@ -484,6 +506,36 @@ public class CIMWriter extends Object {
 					DoubleNode ("WindingInfo.r", obj.r[i], out);
 					RefNode ("WindingInfo.TransformerInfo", obj.id, out);
 					EndInstance ("WindingInfo", out);
+				}
+			}
+			for (HashMap.Entry<String,DistPowerXfmrWinding> pair : mdl.mapXfmrWindings.entrySet()) {
+				DistPowerXfmrWinding obj = pair.getValue();
+				StartInstance ("PowerTransformer", obj.id, out);
+				StringNode ("IdentifiedObject.mRID", obj.id, out);
+				StringNode ("IdentifiedObject.name", obj.name, out);
+				RefNode ("Equipment.EquipmentContainer", fdrID, out);
+				RefNode ("PowerSystemResource.GeoLocation", mapLocations.get (obj.id), out);
+				EndInstance ("PowerTransformer", out);
+				for (int i =0; i < obj.size; i++) {
+					StartInstance ("TransformerWinding", obj.eid[i], out);
+					StringNode ("IdentifiedObject.mRID", obj.eid[i], out);
+					StringNode ("IdentifiedObject.name", obj.ename[i], out);
+					RefNode ("Equipment.EquipmentContainer", fdrID, out);
+					DoubleNode ("TransformerWinding.ratedS", obj.ratedS[i], out);
+					DoubleNode ("TransformerWinding.ratedU", obj.ratedU[i], out);
+					XfWindingConnectionEnum (obj.conn[i], out);
+					XfWindingTypeEnum (obj.wdg[i], out);
+					if (obj.wdg[i] == 1) {
+						DistPowerXfmrMesh mesh = mdl.mapXfmrMeshes.get (obj.name);
+						DoubleNode ("TransformerWinding.r", mesh.r[0], out);
+						DoubleNode ("TransformerWinding.x", mesh.x[0], out);
+					}
+					BoolNode("TransformerWinding.grounded", obj.grounded[i], out);
+					DoubleNode ("TransformerWinding.rground", obj.rg[i], out);
+					DoubleNode ("TransformerWinding.xground", obj.xg[i], out);
+					RefNode ("TransformerWinding.PowerTransformer", obj.id, out);
+					RefNode ("PowerSystemResource.GeoLocation", mapLocations.get (obj.id), out);
+					EndInstance ("TransformerWinding", out);
 				}
 			}
 		}
