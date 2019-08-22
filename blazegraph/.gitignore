@@ -25,4 +25,6 @@ convert_xml.bat
 convert_xml.sh
 ConvertCDPSM.dss
 table.txt
+*.7z
+*.zip
 

@@ -121,9 +121,9 @@ casefiles = ['ACEP_PSIL',
              'IEEE8500_3subs',
              'R2_12_47_2']
 
-casefiles = ['IEEE8500_3subs']
+#casefiles = ['IEEE8500_3subs']
 
-casefiles = ['IEEE123_PV']
+#casefiles = ['IEEE123_PV']
 
 arg = sys.argv[1]
 
