@@ -82,7 +82,7 @@ public class CIMWriter extends Object {
 		"} ORDER by ?name";
 
 	private static final String szTRM = 
-		"SELECT ?name ?seq ?eqid ?tid ?cnid WHERE {"+
+		"SELECT ?eqclass ?eqname ?seq ?name ?eqid ?tid ?cnid WHERE {"+
 		" ?fdr c:IdentifiedObject.mRID ?fdrid."+
 		" ?eq c:Equipment.EquipmentContainer ?fdr."+
 		" ?t c:Terminal.ConductingEquipment ?eq."+
@@ -92,7 +92,26 @@ public class CIMWriter extends Object {
 		" bind(strafter(str(?t),\"#\") as ?tid)."+
 		" bind(strafter(str(?cn),\"#\") as ?cnid)."+
 		" ?t c:IdentifiedObject.name ?name."+
-		"} ORDER by ?name ?seq";
+		" ?eq c:IdentifiedObject.name ?eqname."+
+		" ?eq a ?classraw."+
+		" bind(strafter(str(?classraw),\"CIM100#\") as ?eqclass)"+
+		"} ORDER by ?eqclass ?eqname ?seq";
+
+	private static final String szEND = 
+		"SELECT ?endclass ?endid ?tid WHERE {"+
+		" ?fdr c:IdentifiedObject.mRID ?fdrid."+
+		" {?pxf c:Equipment.EquipmentContainer ?fdr."+
+		"  ?end c:PowerTransformerEnd.PowerTransformer ?pxf.}"+
+		" UNION"+
+		" {?tank c:Equipment.EquipmentContainer ?fdr."+
+		"  ?end c:TransformerTankEnd.TransformerTank ?tank.}"+
+		" ?end c:TransformerEnd.Terminal ?t."+
+		" ?t c:ACDCTerminal.sequenceNumber ?seq."+
+		" bind(strafter(str(?end),\"#\") as ?endid)."+
+		" bind(strafter(str(?t),\"#\") as ?tid)."+
+		" ?end a ?classraw."+
+		" bind(strafter(str(?classraw),\"CIM100#\") as ?endclass)"+
+	  "} ORDER by ?endclass ?endid";
 
 	// TODO: this only gets locations for conducting equipment, not other types of PSR
 	private static final String szLOC =
@@ -245,6 +264,16 @@ public class CIMWriter extends Object {
 	}
 
 	private void LoadTerminals (PrintWriter out) {
+		HashMap<String,String> mapEnds = new HashMap<>();
+		ResultSet resEnds = queryHandler.query (szEND);
+		while (resEnds.hasNext()) {
+			QuerySolution soln = resEnds.next();
+			String endid = soln.get("?endid").toString();
+			String tid = soln.get("?tid").toString();
+			mapEnds.put (tid, endid);
+		}
+		((ResultSetCloseable)resEnds).close();
+
 		ResultSet results = queryHandler.query (szTRM);
 		while (results.hasNext()) {
 			QuerySolution soln = results.next();
@@ -252,14 +281,20 @@ public class CIMWriter extends Object {
 			String id = soln.get("?tid").toString();
 			String eqid = soln.get("?eqid").toString();
 			String cnid = soln.get("?cnid").toString();
+			String eqclass = soln.get("?eqclass").toString();
 			int seq = Integer.parseInt (soln.get("?seq").toString());
 			StartInstance ("Terminal", id, out);
 			StringNode ("IdentifiedObject.mRID", id, out);
 			StringNode ("IdentifiedObject.name", name, out);
-			RefNode ("Terminal.ConductingEquipment", eqid, out);
-			RefNode ("Terminal.ConnectivityNode", cnid, out);
-			IntegerNode ("Terminal.sequenceNumber", seq, out); // after CIM14, it's ACDCTerminal.sequenceNumber
 			StringNode ("Terminal.connected", "true", out);
+			RefNode ("Terminal.ConnectivityNode", cnid, out);
+			if (eqclass.equals("PowerTransformer")) {
+				RefNode("Terminal.ConductingEquipment", mapEnds.get(id), out);
+				IntegerNode ("Terminal.sequenceNumber", 1, out);
+			} else {
+				RefNode("Terminal.ConductingEquipment", eqid, out);
+				IntegerNode ("Terminal.sequenceNumber", seq, out); // after CIM14, it's ACDCTerminal.sequenceNumber
+			}
 			EndInstance ("Terminal", out);
 		}
 		((ResultSetCloseable)results).close();
@@ -380,6 +415,23 @@ public class CIMWriter extends Object {
 			LoadLocations (out);  // we need a lookup map of these before writing out ConductingEquipment
 			LoadPositionPoints (out);
 
+			for (HashMap.Entry<String,DistSubstation> pair : mdl.mapSubstations.entrySet()) {
+				DistSubstation obj = pair.getValue();
+				StartInstance ("EnergySource", obj.id, out);
+				StringNode ("IdentifiedObject.mRID", obj.id, out);
+				StringNode ("IdentifiedObject.name", obj.name, out);
+				RefNode ("Equipment.EquipmentContainer", fdrID, out);
+				RefNode ("PowerSystemResource.GeoLocation", mapLocations.get (obj.id), out);
+//				DoubleNode ("EnergySource.baseVoltage", obj.basev, out);
+				DoubleNode ("EnergySource.nominalVoltage", obj.nomv, out);
+				DoubleNode ("EnergySource.voltageMagnitude", obj.vmag, out);
+				DoubleNode ("EnergySource.voltageAngle", obj.vang, out);
+				DoubleNode ("EnergySource.r", obj.r1, out);
+				DoubleNode ("EnergySource.x", obj.x1, out);
+				DoubleNode ("EnergySource.r0", obj.r0, out);
+				DoubleNode ("EnergySource.x0", obj.x0, out);
+				EndInstance ("EnergySource", out);
+			}
 			// For Survalent, we are writing line codes and spacings as named PSRTypes, 
 			//   i.e., not with the actual data
 			// If we later write the line code and spacing data, then we should NOT write
