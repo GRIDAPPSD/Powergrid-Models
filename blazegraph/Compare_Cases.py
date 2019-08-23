@@ -178,7 +178,6 @@ def load_summary(fname):
     rd = csv.reader (fd, delimiter=',', skipinitialspace=True)
     next (rd)
     for row in rd:
-        print (fname, row)
         summ['Status'] = row[2]
         summ['Mode'] = row[3]
         summ['Number'] = row[4]

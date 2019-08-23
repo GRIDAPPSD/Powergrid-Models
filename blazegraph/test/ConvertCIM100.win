@@ -76,12 +76,6 @@ export cim100 file=EPRI_DPV_J1.xml sub=J1 subgeo=DPV geo=EPRI fid=67AB291F-DCCD-
 //
 cd c:/gridapps-d/Powergrid-Models/blazegraph/test/dss/NREL
 redirect IEEE123Master_fixedVR.dss
-solve
-redirect capacitor.dss
-redirect IEEE123Loads.dss
-redirect pvsystems_high_pvs.dss
-set maxiterations=20
-solve
 cd c:/gridapps-d/Powergrid-Models/blazegraph/test/
 export summary  IEEE123_PV_s.csv
 export voltages IEEE123_PV_v.csv
