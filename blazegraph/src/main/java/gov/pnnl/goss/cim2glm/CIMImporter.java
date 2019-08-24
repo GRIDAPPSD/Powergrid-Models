@@ -15,6 +15,7 @@ import java.util.List;
 import org.apache.jena.query.*;
 
 import gov.pnnl.goss.cim2glm.CIMWriter;
+import gov.pnnl.goss.cim2glm.OperationalLimits;
 
 import gov.pnnl.goss.cim2glm.components.DistBaseVoltage;
 import gov.pnnl.goss.cim2glm.components.DistBreaker;
@@ -575,6 +576,7 @@ public class CIMImporter extends Object {
 		LoadFeeders();
 		LoadHouses();
 		LoadSyncMachines();
+		new OperationalLimits().BuildLimitMaps (this, queryHandler);
 		allMapsLoaded = true;
 	}
 
