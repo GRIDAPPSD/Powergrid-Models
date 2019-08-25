@@ -8,6 +8,7 @@ gridlabd.xml
 maps.txt
 *base.glm
 *symbols.json
+*limits.json
 *base.dss
 *busxy.dss
 *guid.dss

@@ -125,6 +125,7 @@ public class DistLinesSpacingZ extends DistLineSegment {
 		buf.append (" phases=" + Integer.toString(DSSPhaseCount(phases, false)) + 
 								" bus1=" + DSSBusPhases(bus1, phases) + " bus2=" + DSSBusPhases (bus2, phases) + 
 								" length=" + df1.format(len * gFTperM) + " spacing=" + spacing + "_" + phases + " units=ft\n");
+		AppendDSSRatings (buf, normalCurrentLimit, emergencyCurrentLimit);
 		if (wire_classes[0].equals("OverheadWireInfo")) {
 			buf.append ("~ wires=[");
 		} else if (wire_classes[0].equals("ConcentricNeutralCableInfo")) {

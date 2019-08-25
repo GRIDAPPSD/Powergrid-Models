@@ -28,6 +28,9 @@ public abstract class DistLineSegment extends DistComponent {
 	public double len;
 	public double basev;
 
+	public double normalCurrentLimit = 0.0;
+	public double emergencyCurrentLimit = 0.0;
+
 	protected boolean bTriplex;
 	protected boolean bCable;
 	protected String glm_phases;
@@ -61,6 +64,7 @@ public abstract class DistLineSegment extends DistComponent {
 		glm_phases = phs.toString();
 		buf.append ("  phases " + glm_phases + ";\n");
 		buf.append ("  length " + df4.format(len * gFTperM) + ";\n");
+		AppendGLMRatings (buf, glm_phases, normalCurrentLimit, emergencyCurrentLimit);
 		if (bSpacing) {
 			buf.append("  configuration \"" + config_root + "\";\n");
 		} else if (bTriplex) {

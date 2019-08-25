@@ -26,6 +26,7 @@ public class DistSectionaliser extends DistSwitch {
 		} else {
 			buf.append ("  status CLOSED;\n");
 		}
+		AppendGLMRatings (buf, glm_phases, normalCurrentLimit, emergencyCurrentLimit);
 		buf.append("}\n");
 		return buf.toString();
 	}

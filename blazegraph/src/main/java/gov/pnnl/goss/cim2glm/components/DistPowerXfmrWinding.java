@@ -64,6 +64,9 @@ public class DistPowerXfmrWinding extends DistComponent {
 	public double[] xg;
 	public int size;
 
+	public double normalCurrentLimit = 0.0;
+	public double emergencyCurrentLimit = 0.0;
+
 	public boolean glmUsed;
 
 	public String GetJSONEntry () {
@@ -204,6 +207,7 @@ public class DistPowerXfmrWinding extends DistComponent {
 		buf.append ("  to \"" + bus[1] + "\";\n");
 		buf.append ("  phases ABC;\n");
 		buf.append ("  configuration \"xcon_" + name + "\";\n");
+		AppendGLMRatings (buf, "ABC", normalCurrentLimit, emergencyCurrentLimit);
 		buf.append ("  // vector group " + vgrp + ";\n");
 		buf.append("}\n");
 
@@ -261,6 +265,7 @@ public class DistPowerXfmrWinding extends DistComponent {
 		buf.append(" %imag=" + df3.format(core.b * zbase * 100.0) + " %noloadloss=" + df3.format(core.b * zbase * 100.0) + "\n");
 
 		// winding ratings
+		AppendDSSRatings (buf, normalCurrentLimit, emergencyCurrentLimit);
 		for (i = 0; i < size; i++) {
 			if (conn[i].contains("D")) {
 				bDelta = true;

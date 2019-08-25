@@ -66,6 +66,9 @@ public class DistXfmrTank extends DistComponent {
 	public int[] wdg;
 	public boolean[] grounded;
 
+	public double normalCurrentLimit = 0.0;
+	public double emergencyCurrentLimit = 0.0;
+
 	public boolean glmUsed;
 
 	public int size;
@@ -167,6 +170,7 @@ public class DistXfmrTank extends DistComponent {
 			buf.append("  phases " + phs[0] + ";\n");
 		}
 		buf.append ("  configuration \"xcon_" + tankinfo + "\";\n");
+		AppendGLMRatings (buf, phs[0], normalCurrentLimit, emergencyCurrentLimit);
 		buf.append ("  // vector group " + vgrp + ";\n");
 		buf.append("}\n");
 		return buf.toString();
@@ -176,6 +180,7 @@ public class DistXfmrTank extends DistComponent {
 		StringBuilder buf = new StringBuilder ("new Transformer." + tname + " bank=" + pname + " xfmrcode=" + tankinfo + "\n");
 
 		// winding ratings
+		AppendDSSRatings (buf, normalCurrentLimit, emergencyCurrentLimit);
 		for (int i = 0; i < size; i++) {
 			buf.append("~ wdg=" + Integer.toString(i + 1) + " bus=" + DSSXfmrBusPhases (bus[i], phs[i]) + "\n");
 		}

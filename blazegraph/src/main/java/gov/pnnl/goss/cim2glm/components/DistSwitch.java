@@ -47,6 +47,9 @@ public abstract class DistSwitch extends DistComponent {
 	public double rated;
 	public double breaking;
 
+	public double normalCurrentLimit = 0.0;
+	public double emergencyCurrentLimit = 0.0;
+
 	public String glm_phases;
 
 	public abstract String CIMClass();
@@ -115,6 +118,7 @@ public abstract class DistSwitch extends DistComponent {
 		} else {
 			buf.append ("  status CLOSED;\n");
 		}
+		AppendGLMRatings (buf, glm_phases, normalCurrentLimit, emergencyCurrentLimit);
 		buf.append("}\n");
 		return buf.toString();
 	}
@@ -148,6 +152,7 @@ public abstract class DistSwitch extends DistComponent {
 		buf.append (" phases=" + Integer.toString(DSSPhaseCount(phases, false)) + 
 								" bus1=" + DSSBusPhases(bus1, phases) + " bus2=" + DSSBusPhases (bus2, phases) + 
 								" switch=y // CIM " + CIMClass() + "\n");
+		AppendDSSRatings (buf, normalCurrentLimit, emergencyCurrentLimit);
 		if (open) {
 			buf.append ("  open Line." + name + " 1\n");
 		} else {
