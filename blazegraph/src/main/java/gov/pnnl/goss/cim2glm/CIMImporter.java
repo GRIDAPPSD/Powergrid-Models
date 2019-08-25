@@ -76,6 +76,7 @@ import gov.pnnl.goss.cim2glm.queryhandler.impl.HTTPBlazegraphQueryHandler;
 
 public class CIMImporter extends Object {
 	QueryHandler queryHandler;
+	OperationalLimits oLimits;
 	
 	HashMap<String,GldNode> mapNodes = new HashMap<>();
 	HashMap<String,GldLineConfig> mapLineConfigs = new HashMap<>();
@@ -576,7 +577,8 @@ public class CIMImporter extends Object {
 		LoadFeeders();
 		LoadHouses();
 		LoadSyncMachines();
-		new OperationalLimits().BuildLimitMaps (this, queryHandler);
+		oLimits = new OperationalLimits();
+		oLimits.BuildLimitMaps (this, queryHandler);
 		allMapsLoaded = true;
 	}
 
@@ -628,6 +630,18 @@ public class CIMImporter extends Object {
 		} else {
 			out.println("],");
 		}
+	}
+
+	public void WriteLimitsFile (PrintWriter out) {
+		out.println("{\"limits\":{");
+		out.println("\"voltages\":[");
+		oLimits.VoltageMapToJSON (out);
+		out.println("],");
+		out.println("\"currents\":[");
+		oLimits.CurrentMapToJSON (out);
+		out.println("]");
+		out.println("}}");
+		out.close();
 	}
 
 	public void WriteDictionaryFile (PrintWriter out, int maxMeasurements) {
@@ -1609,6 +1623,8 @@ public class CIMImporter extends Object {
 			WriteJSONSymbolFile (pXY);
 			PrintWriter pDict = new PrintWriter(fDict);
 			WriteDictionaryFile (pDict, maxMeasurements);
+			PrintWriter pLimits = new PrintWriter(fRoot + "_limits.json");
+			WriteLimitsFile (pLimits);
 		} else if (fTarget.equals("dss")) {
 			LoadAllMaps();
 			CheckMaps();
@@ -1625,6 +1641,8 @@ public class CIMImporter extends Object {
 			WriteJSONSymbolFile (pSym);
 			PrintWriter pDict = new PrintWriter(fDict);
 			WriteDictionaryFile (pDict, maxMeasurements);
+			PrintWriter pLimits = new PrintWriter(fRoot + "_limits.json");
+			WriteLimitsFile (pLimits);
 		}	else if (fTarget.equals("idx")) {
 			fOut = fRoot + "_feeder_index.json";
 			PrintWriter pOut = new PrintWriter(fOut);
