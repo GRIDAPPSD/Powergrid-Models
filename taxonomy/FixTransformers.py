@@ -493,16 +493,17 @@ for c in casefiles:
 #        log_model (model, h)
 
         # update nodes with XY coordinates from the OpenDSS output
-        xyname = c[0].replace('-','_').replace('.','_')
-        xyp = open ('new_' + xyname + '/Buscoords.csv', 'r')
-        for row in reader(xyp):
-            busname, busx, busy = row
-            for t in ['node', 'meter', 'triplex_node', 'triplex_meter']:
-                if t in model:
-                    if busname in model[t]:
-                        model[t][busname]['x'] = busx
-                        model[t][busname]['y'] = busy
-        xyp.close()
+        xyname = 'new_' + c[0].replace('-','_').replace('.','_') + '/Buscoords.csv'
+        if os.path.exists (xyname):
+            xyp = open (xyname, 'r')
+            for row in reader(xyp):
+                busname, busx, busy = row
+                for t in ['node', 'meter', 'triplex_node', 'triplex_meter']:
+                    if t in model:
+                        if busname in model[t]:
+                            model[t][busname]['x'] = busx
+                            model[t][busname]['y'] = busy
+            xyp.close()
 
         # construct a graph of the model, starting with known links
         G = nx.Graph()
