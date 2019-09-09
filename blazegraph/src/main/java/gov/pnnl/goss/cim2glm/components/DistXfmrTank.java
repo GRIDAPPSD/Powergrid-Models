@@ -9,7 +9,7 @@ import java.util.HashMap;
 
 public class DistXfmrTank extends DistComponent {
 	public static final String szQUERY =
-		"SELECT ?pname ?tname ?xfmrcode ?vgrp ?enum ?bus ?basev ?phs ?grounded ?rground ?xground ?id ?fdrid WHERE {"+
+		"SELECT ?pname ?tname ?xfmrcode ?vgrp ?enum ?bus ?basev ?phs ?grounded ?rground ?xground ?id ?infoid ?fdrid ?ename ?eid WHERE {"+
 		" ?p r:type c:PowerTransformer."+
 		" ?p c:Equipment.EquipmentContainer ?fdr."+
 		" ?fdr c:IdentifiedObject.mRID ?fdrid."+
@@ -20,11 +20,14 @@ public class DistXfmrTank extends DistComponent {
 		" ?asset c:Asset.PowerSystemResources ?t."+
 		" ?asset c:Asset.AssetInfo ?inf."+
 		" ?inf c:IdentifiedObject.name ?xfmrcode."+
+		" ?inf c:IdentifiedObject.mRID ?infoid."+
 		" ?end c:TransformerTankEnd.TransformerTank ?t."+
 		" ?end c:TransformerTankEnd.phases ?phsraw."+
 		"  bind(strafter(str(?phsraw),\"PhaseCode.\") as ?phs)"+
 		" ?end c:TransformerEnd.endNumber ?enum."+
 		" ?end c:TransformerEnd.grounded ?grounded."+
+		" ?end c:IdentifiedObject.name ?ename."+
+		" ?end c:IdentifiedObject.mRID ?eid."+
 		" OPTIONAL {?end c:TransformerEnd.rground ?rground.}"+
 		" OPTIONAL {?end c:TransformerEnd.xground ?xground.}"+
 		" ?end c:TransformerEnd.Terminal ?trm."+
@@ -52,8 +55,11 @@ public class DistXfmrTank extends DistComponent {
 	public String vgrp;
 	public String tname;
 	public String tankinfo;
+	public String infoid;
 	public String[] bus;
 	public String[] phs;
+	public String[] ename;
+	public String[] eid;
 	public double[] basev;
 	public double[] rg;
 	public double[] xg;
@@ -77,6 +83,8 @@ public class DistXfmrTank extends DistComponent {
 		size = val;
 		bus = new String[size];
 		phs = new String[size];
+		ename = new String[size];
+		eid = new String[size];
 		wdg = new int[size];
 		grounded = new boolean[size];
 		basev = new double[size];
@@ -89,12 +97,15 @@ public class DistXfmrTank extends DistComponent {
 			QuerySolution soln = results.next();
 			pname = SafeName (soln.get("?pname").toString());
 			id = soln.get("?id").toString();
+			infoid = soln.get("?infoid").toString();
 			vgrp = soln.get("?vgrp").toString();
 			tname = SafeName (soln.get("?tname").toString());
 			tankinfo = SafeName (soln.get("?xfmrcode").toString());
 			SetSize (map.get(tname));
 			glmUsed = true;
 			for (int i = 0; i < size; i++) {
+				eid[i] = soln.get("?eid").toString();
+				ename[i] = SafeName (soln.get("?ename").toString());
 				bus[i] = SafeName (soln.get("?bus").toString());
 				basev[i] = Double.parseDouble (soln.get("?basev").toString());
 				phs[i] = soln.get("?phs").toString();
@@ -119,7 +130,7 @@ public class DistXfmrTank extends DistComponent {
 		return buf.toString();
 	}
 
-	public String GetJSONSymbols(HashMap<String,DistCoordinates> map, HashMap<String,DistXfmrTank> mapTank) {
+	public String GetJSONSymbols(HashMap<String,DistCoordinates> map) {
 		DistCoordinates pt1 = map.get("PowerTransformer:" + pname + ":1");
 		DistCoordinates pt2 = map.get("PowerTransformer:" + pname + ":2");
 		String bus1 = bus[0];

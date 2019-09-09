@@ -10,7 +10,7 @@ import org.apache.commons.math3.complex.Complex;
 
 public class DistXfmrCodeRating extends DistComponent {
 	public static final String szQUERY = 
-		"SELECT DISTINCT ?pname ?tname ?enum ?ratedS ?ratedU ?conn ?ang ?res ?id WHERE {"+
+		"SELECT DISTINCT ?pname ?tname ?enum ?ratedS ?ratedU ?conn ?ang ?res ?id ?eid ?ename WHERE {"+
 		" ?fdr c:IdentifiedObject.mRID ?fdrid."+
 		" ?xft c:TransformerTank.PowerTransformer ?eq."+
 		" ?eq c:Equipment.EquipmentContainer ?fdr."+
@@ -19,8 +19,10 @@ public class DistXfmrCodeRating extends DistComponent {
 		" ?p r:type c:PowerTransformerInfo."+
 		" ?t c:TransformerTankInfo.PowerTransformerInfo ?p."+
 		" ?e c:TransformerEndInfo.TransformerTankInfo ?t."+
+		" ?e c:IdentifiedObject.mRID ?eid."+
 		" ?p c:IdentifiedObject.name ?pname."+
 		" ?t c:IdentifiedObject.name ?tname."+
+		"	?e c:IdentifiedObject.name ?ename."+
 		" bind(strafter(str(?t),\"#\") as ?id)."+
 		" ?e c:TransformerEndInfo.endNumber ?enum."+
 		" ?e c:TransformerEndInfo.ratedS ?ratedS."+
@@ -50,6 +52,8 @@ public class DistXfmrCodeRating extends DistComponent {
 	public String pname;
 	public String tname;
 	public String id;
+	public String[] eid;
+	public String[] ename;
 	public int[] wdg;
 	public String[] conn;
 	public int[] ang;
@@ -71,6 +75,8 @@ public class DistXfmrCodeRating extends DistComponent {
 
 	private void SetSize (int val) {
 		size = val;
+		eid = new String[size];
+		ename = new String[size];
 		wdg = new int[size];
 		conn = new String[size];
 		ang = new int[size];
@@ -89,6 +95,8 @@ public class DistXfmrCodeRating extends DistComponent {
 			id = soln.get("?id").toString();
 			SetSize (map.get(tname));
 			for (int i = 0; i < size; i++) {
+				eid[i] = soln.get("?eid").toString();
+				ename[i] = SafeName (soln.get("?ename").toString());
 				wdg[i] = Integer.parseInt (soln.get("?enum").toString());
 				conn[i] = soln.get("?conn").toString();
 				ang[i] = Integer.parseInt (soln.get("?ang").toString());

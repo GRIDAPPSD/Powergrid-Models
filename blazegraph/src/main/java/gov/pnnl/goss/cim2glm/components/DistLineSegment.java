@@ -71,7 +71,7 @@ public abstract class DistLineSegment extends DistComponent {
 		buf.append ("}\n");
 	}
 
-	public String GetJSONSymbols(HashMap<String,DistCoordinates> map, HashMap<String,DistXfmrTank> mapTank) {
+	public String GetJSONSymbols(HashMap<String,DistCoordinates> map) {
 		DistCoordinates pt1 = map.get("ACLineSegment:" + name + ":1");
 		DistCoordinates pt2 = map.get("ACLineSegment:" + name + ":2");
 		StringBuilder lbl_phs = new StringBuilder ();

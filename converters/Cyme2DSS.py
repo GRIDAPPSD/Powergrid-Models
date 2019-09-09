@@ -42,6 +42,9 @@ BESSTable = {}
 # coordinate table is also global, because feeder segments may insert midpoints
 NodeXYTable = {}
 
+# source table is global so it can be written near the top of the master DSS file
+SourceTable = {}
+
 def Connected (child):
     s = child.find('ConnectionStatus').text 
     if s == 'Connected':
@@ -220,8 +223,8 @@ def CreateByPhase(f,Name,row):
         if wire!= 'OH_NONE':
             f.write(wire + ' ')
     f.write(']')
-    f.write(' length=' + '{0:.3f}'.format(row[3]))
-    f.write(' units=' + CYMESectionUnit + '\n')
+    f.write(' length=' + '{0:.6f}'.format(CYMEtoDSSSection * row[3]))
+    f.write(' units=' + DSSSectionUnit + '\n')
 
 # LineConfigTable[EquipmentID] = [nphases,r1,x1,r0,x0,b1,b0,NominalRating,use]
 # OHLineTable[SectionID] = [LineFromNode,LineToNode,Phase,DeviceLength,LineConfig]
@@ -481,15 +484,32 @@ def CreateRegulator(f,Name,row):
     f.write('\n')
     return
 
+#[DeviceNumber,End,DeviceID,switch,enabled,amps,curve,SectionID,SwtFromNode,SwtToNode,Phase]
 def CreateFuse(f,Name,row):
-    f.write("new fuse." + Name)
-#    f.write(" monitoredobj=line." + row[0])  # worked for SCE
-    f.write(" monitoredobj=line." + row[7])
+    nphs = ParseNPhases(row[10])
+    phs = ParseTerminals(row[10])
+    f.write('new line.' + Name)
+    f.write(' bus1=' + row[8] + phs)
+    f.write(' bus2=' + row[9] + phs)
+    f.write(' phases=' + str(nphs))
+    f.write(' switch=yes')
+    f.write(' // ' + row[4] + '\n')
+    f.write('new fuse.' + Name)
+    f.write(" monitoredobj=line." + Name) # row[7])
     f.write(" monitoredterm=" + str(row[1]))
     f.write(" ratedcurrent=" + str(row[5]))
     f.write(" fusecurve=" + row[6])
     f.write(" // " + row[2] + "\n")
     return
+# this is for a fuse within a line section
+#    f.write("new fuse." + Name)
+##    f.write(" monitoredobj=line." + row[0])  # worked for SCE
+#    f.write(" monitoredobj=line." + row[7])
+#    f.write(" monitoredterm=" + str(row[1]))
+#    f.write(" ratedcurrent=" + str(row[5]))
+#    f.write(" fusecurve=" + row[6])
+#    f.write(" // " + row[2] + "\n")
+#    return
 
 def CreateSwtControl(f,Name,row):
     f.write("// new swtcontrol." + Name)
@@ -504,7 +524,7 @@ def CreateSwtControl(f,Name,row):
 def CreateGenerator(f,Name,row):
     nphs = ParseNPhases(row[1])
     phs = ParseTerminals(row[1])
-    kv = UserDefinedBaseVoltage
+    kv = DefaultBaseVoltage
     if nphs < 3:
         kv /= math.sqrt(3.0)
 #    f.write('new pvsystem.' + Name)
@@ -525,7 +545,7 @@ def WriteOneLoad (f, Name, Bus, P, Q, kV, cls, conn):
     TotalQ += Q
     f.write('new load.' + Name)
     f.write(' bus1=' + Bus)
-    f.write(' phases=1 model=1 conn=' + conn) # 1 = PQ, 2 = Z
+    f.write(' phases=1 model={:1} conn={:s}'.format (LoadModel, conn)) # 1 = PQ, 2 = Z
     f.write(' kv=' + "{0:.3f}".format(kV))
     f.write(' kw=' + "{0:.3f}".format(P))
     f.write(' kvar=' + "{0:.3f}".format(Q))
@@ -540,14 +560,14 @@ def WriteBalancedLoad (f, Name, Bus, P, Q, kV, cls, conn):
         TotalQ += Q
         f.write('new load.' + Name)
         f.write(' bus1=' + Bus)
-        f.write(' phases=3 model=1 conn=' + conn) # 1 = PQ, 2 = Z
+        f.write(' phases=3 model={:1} conn={:s}'.format (LoadModel, conn)) # 1 = PQ, 2 = Z
         f.write(' kv=' + "{0:.3f}".format(kV))
         f.write(' kw=' + "{0:.3f}".format(P))
         f.write(' kvar=' + "{0:.3f}".format(Q))
         f.write(' class=' + str(cls) + '\n')
     return
 
-# LoadTable[DeviceNumber] = [LoadNodeID,Phase,UserDefinedBaseVoltage,Sload,class]
+# LoadTable[DeviceNumber] = [LoadNodeID,Phase,DefaultBaseVoltage,Sload,class]
 # Sload = [pa,qa,pb,qb,pc,qc]
 # write them all as single-phase line-to-neutral
 def CreateLoad(f,Name,row):
@@ -564,7 +584,7 @@ def CreateLoad(f,Name,row):
     if (len(phs) == 2 and 1 == 2): # single-phase delta connection, bypass for SCE (TODO)
         Pa += Pb + Pc
         Qa += Qb + Qc
-        kv = UserDefinedBaseVoltage
+        kv = DefaultBaseVoltage
         if phs == 'AB':
             WriteOneLoad (f, Name + '_ab', bus + '.1.2', Pa, Qa, kv, cls, 'delta')
         elif phs == 'BC':
@@ -572,7 +592,7 @@ def CreateLoad(f,Name,row):
         else:
             WriteOneLoad (f, Name + '_ac', bus + '.1.3', Pa, Qa, kv, cls, 'delta')
     elif (len(phs) == 3): # for SCE, we "know" the load is balanced, but wye or delta?
-        WriteBalancedLoad (f, Name, bus, Pa+Pb+Pc, Qa+Qb+Qc, UserDefinedBaseVoltage, cls, 'wye')
+        WriteBalancedLoad (f, Name, bus, Pa+Pb+Pc, Qa+Qb+Qc, DefaultBaseVoltage, cls, 'wye')
     else:  # wye connection, written independently
         kv /= math.sqrt(3.0)
         if ((Pa != 0) or (Qa != 0)) and (phs.find('A') >= 0):
@@ -823,7 +843,10 @@ def BuildInitialCoordinates(root):
 def WriteCoordinates(filename):
     fxy=open(filename,'w')
     for key,row in NodeXYTable.items():
-        fxy.write(key + ',' + row[0] + ',' + row[1] + '\n')
+        x=float(row[0])
+        y=float(row[1])
+        if x <= CoordXmax and x >= CoordXmin and y <= CoordYmax and y >= CoordYmin:
+            fxy.write(key + ',' + '{:.6f}'.format(x) + ',' + '{:.6f}'.format(y) + '\n')
     fxy.close()
 
 def WriteFeeder(root, OwnerID, networkfilename, loadfilename):
@@ -844,7 +867,6 @@ def WriteFeeder(root, OwnerID, networkfilename, loadfilename):
     AllDeviceTypes = set()
 
     # Extract info for sources and create a dictionary - TODO, handling substations vs. Feeders
-    SourceTable = {}
     #xstr = './Networks/Network/Topos/Topo/Sources/Source'
     xstr = ".//*[NetworkID='" + OwnerID + "']/Sources/Source"
     print(xstr)
@@ -858,7 +880,7 @@ def WriteFeeder(root, OwnerID, networkfilename, loadfilename):
                     for EquivalentSource in ESModel.findall('EquivalentSource'):
                         SourceBaseVoltage = float(EquivalentSource.find('KVLL').text)
                         ActualVoltage = float(EquivalentSource.find('OperatingVoltage1').text)*math.sqrt(3.0)
-                        pu = round (ActualVoltage / UserDefinedBaseVoltage, 4)
+                        pu = round (ActualVoltage / DefaultBaseVoltage, 4)
                         ang = float(EquivalentSource.find('OperatingAngle1').text)
                         r1 = float(EquivalentSource.find('PositiveSequenceResistance').text)
                         x1 = float(EquivalentSource.find('PositiveSequenceReactance').text)
@@ -1049,7 +1071,10 @@ def WriteFeeder(root, OwnerID, networkfilename, loadfilename):
                         curve = FuseConfigTable[DeviceID][1]
                         if SectionID == DeviceNumber:
                             DeviceNumber = 'Fuse_' + SectionID
-                        FuseTable[DeviceNumber] = [DeviceNumber,End,DeviceID,switch,enabled,amps,curve,SectionID]
+#                        FuseTable[DeviceNumber] = [DeviceNumber,End,DeviceID,switch,enabled,amps,curve,SectionID]
+                        # this version is for a section with only a fuse; need to write a line impedance
+                        FuseTable[DeviceNumber] = [DeviceNumber,End,DeviceID,switch,enabled,amps,curve,SectionID,
+                                                   SwtFromNode,SwtToNode,Phase]
 #                        print ('Fuse', FuseTable[DeviceNumber])
                     elif DeviceType == 'Breaker': # in SCE circuit, the breaker is in-line with a line segment
                         if child.find('Location').text == 'To':
@@ -1198,11 +1223,11 @@ def WriteFeeder(root, OwnerID, networkfilename, loadfilename):
                     else:
                         LoadNodeID = FromNodeID
                     Sload = CollectLoadPQ(child)
-                    LoadTable[DeviceNumber] = [LoadNodeID,Phase,UserDefinedBaseVoltage,Sload,1]
+                    LoadTable[DeviceNumber] = [LoadNodeID,Phase,DefaultBaseVoltage,Sload,1]
                 elif DeviceType == 'DistributedLoad':
                     LoadNodeID = ToNodeID #TODO - split the load?
                     Sload = CollectLoadPQ(child)
-                    LoadTable[DeviceNumber] = [LoadNodeID,Phase,UserDefinedBaseVoltage,Sload,2]
+                    LoadTable[DeviceNumber] = [LoadNodeID,Phase,DefaultBaseVoltage,Sload,2]
 
     print (AllDeviceTypes)
     #add Loads to Buses
@@ -1273,8 +1298,8 @@ def WriteFeeder(root, OwnerID, networkfilename, loadfilename):
     fnetwork.close()
 
 def ConvertSXST(cfg):
-    global xmlfilename, RootName, SubName, LoadScale, UserDefinedBaseVoltage
-    global TransmissionBaseVoltage, SecondaryBaseVoltage1, SecondaryBaseVoltage2
+    global xmlfilename, RootName, SubName, LoadScale, LoadModel, DefaultBaseVoltage
+    global BaseVoltages, CoordXmin, CoordXmax, CoordYmin, CoordYmax
     global CYMELineCodeUnit, DSSSectionUnit, OwnerIDs, CYMEtoDSSSection
     global CYMEtoDSSLineCode, Zbase, TotalP, TotalQ, CYMESectionUnit, CYMEVersion
 
@@ -1282,18 +1307,38 @@ def ConvertSXST(cfg):
     RootName = cfg['RootName']
     SubName = cfg['SubName']
     LoadScale = cfg['LoadScale']
-    UserDefinedBaseVoltage = cfg['UserDefinedBaseVoltage']
-    TransmissionBaseVoltage = cfg['TransmissionBaseVoltage']
-    SecondaryBaseVoltage1 = cfg['SecondaryBaseVoltage1']
-    SecondaryBaseVoltage2 = cfg['SecondaryBaseVoltage2']
+    LoadModel = cfg['LoadModel']
+    DefaultBaseVoltage = cfg['DefaultBaseVoltage']
+    BaseVoltages = cfg['BaseVoltages']
+    CoordXmin = cfg['CoordXmin']
+    CoordXmax = cfg['CoordXmax']
+    CoordYmin = cfg['CoordYmin']
+    CoordYmax = cfg['CoordYmax']
     CYMESectionUnit = cfg['CYMESectionUnit']
     CYMELineCodeUnit = cfg['CYMELineCodeUnit']
     DSSSectionUnit = cfg['DSSSectionUnit']
     OwnerIDs = cfg['OwnerIDs']
 
-    CYMEtoDSSSection = 1.0 / 1609.344 # 3280.84 ft/km, 1000.0 m/km, 0.621371192 mi/km
-    CYMEtoDSSLineCode = 1.0 / 0.621371192
-    Zbase = UserDefinedBaseVoltage * UserDefinedBaseVoltage / 100.0
+    if CYMESectionUnit != 'm' or CYMELineCodeUnit != 'km':
+        print ('WARNING: CYMDIST line section lengths should be m, line code lengths should be km')
+    # 3280.84 ft/km, 1000.0 m/km, 0.621371192 mi/km
+    if DSSSectionUnit == 'mi':
+        CYMEtoDSSSection = 1.0 / 1609.344      # miles per meter
+        CYMEtoDSSLineCode = 1.0 / 0.621371192  # km per mile
+    elif DSSSectionUnit == 'kft':
+        CYMEtoDSSSection = 0.00328084          # kft per meter
+        CYMEtoDSSLineCode = 1.0 / 3.28084      # km per kft
+    elif DSSSectionUnit == 'ft':
+        CYMEtoDSSSection = 3.2809              # ft per meter
+        CYMEtoDSSLineCode = 1.0 / 3280.84      # km per ft
+    elif DSSSectionUnit == 'm':
+        CYMEtoDSSSection = 1.0                 # m per meter
+        CYMEtoDSSLineCode = 1.0 / 1000.0       # km per m
+    else:
+        print ('WARNING: the DSSSection unit should not be "{:s}"'.format(DSSSectionUnit))
+        CYMEtoDSSSection = 1.0
+        CYMEtoDSSLineCode = 1.0
+    Zbase = DefaultBaseVoltage * DefaultBaseVoltage / 100.0
     TotalP = 0.0
     TotalQ = 0.0
 
@@ -1311,17 +1356,18 @@ def ConvertSXST(cfg):
     fmaster=open(masterfilename,'w')
     fmaster.write('clear\n')
     fmaster.write('redirect ' + SubName + '.sub\n')
-#for key,row in SourceTable.items():
-#    fmaster.write("new circuit." + xmlfilename)
-#    fmaster.write(' bus1=' + row[7])
-#    fmaster.write(' basekv=' + str(row[0]))
-#    fmaster.write(' pu=' + str(row[1]))
-#    fmaster.write(' ang=' + str(row[2]))
-#    fmaster.write(' r1=' + str(row[3]))
-#    fmaster.write(' x1=' + str(row[4]))
-#    fmaster.write(' r0=' + str(row[5]))
-#    fmaster.write(' x0=' + str(row[6]))
-#    fmaster.write(' // ' + key + '\n')
+    for key,row in SourceTable.items():
+        fmaster.write('// use this source impedance as the starting point for {:s}.sub\n'.format(SubName))
+        fmaster.write('// new circuit.' + RootName)
+        fmaster.write(' bus1=' + row[7])
+        fmaster.write(' basekv=' + str(row[0]))
+        fmaster.write(' pu=' + str(row[1]))
+        fmaster.write(' ang=' + str(row[2]))
+        fmaster.write(' r1=' + str(row[3]))
+        fmaster.write(' x1=' + str(row[4]))
+        fmaster.write(' r0=' + str(row[5]))
+        fmaster.write(' x0=' + str(row[6]))
+        fmaster.write(' // ' + key + '\n')
     fmaster.write('redirect ' + catalogfilename + '\n')
     BuildCatalog (root)
     BuildInitialCoordinates (root)
@@ -1332,8 +1378,7 @@ def ConvertSXST(cfg):
         fmaster.write('redirect ' + loadfilename + '\n')
         WriteFeeder (root, OwnerID, networkfilename, loadfilename)
     fmaster.write('redirect ' + RootName + '.edits\n')
-    fmaster.write('Set VoltageBases = [' + str(TransmissionBaseVoltage) + ',' + str(UserDefinedBaseVoltage) + 
-                  ',' + str(SecondaryBaseVoltage1) + ',' + str(SecondaryBaseVoltage2) + ']\n')
+    fmaster.write('Set VoltageBases = ' + str(BaseVoltages) + '\n')
     fmaster.write('CalcVoltageBases\n')
     fmaster.write('SetLoadAndGenKv\n')
     fmaster.write('buscoords ' + xyfilename + '\n')

@@ -9,11 +9,12 @@ import java.util.HashMap;
 
 public class DistXfmrBank extends DistComponent {
 	public static final String szQUERY =
-		"SELECT ?pname ?vgrp ?tname ?fdrid WHERE {"+
+		"SELECT ?pname ?id ?vgrp ?tname ?fdrid WHERE {"+
 		" ?p r:type c:PowerTransformer."+
 		" ?p c:Equipment.EquipmentContainer ?fdr."+
 		" ?fdr c:IdentifiedObject.mRID ?fdrid."+
 		" ?p c:IdentifiedObject.name ?pname."+
+		" ?p c:IdentifiedObject.mRID ?id."+
 		" ?p c:PowerTransformer.vectorGroup ?vgrp."+
 		" ?t c:TransformerTank.PowerTransformer ?p."+
 		" ?t c:IdentifiedObject.name ?tname"+
@@ -27,6 +28,7 @@ public class DistXfmrBank extends DistComponent {
 		" ?pxf c:IdentifiedObject.name ?key"+
 		"} GROUP BY ?key ORDER BY ?key";
 
+	public String pid;
 	public String pname;
 	public String vgrp;
 	public String[] tname;
@@ -50,6 +52,7 @@ public class DistXfmrBank extends DistComponent {
 		if (results.hasNext()) {
 			QuerySolution soln = results.next();
 			pname = SafeName (soln.get("?pname").toString());
+			pid = soln.get("?id").toString();
 			vgrp = soln.get("?vgrp").toString();
 			SetSize (map.get(pname));
 			for (int i = 0; i < size; i++) {

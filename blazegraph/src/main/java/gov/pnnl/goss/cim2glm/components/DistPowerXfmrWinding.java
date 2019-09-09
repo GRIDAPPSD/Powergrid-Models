@@ -9,7 +9,7 @@ import java.util.HashMap;
 
 public class DistPowerXfmrWinding extends DistComponent {
 	public static final String szQUERY = 
-		"SELECT ?pname ?vgrp ?enum ?bus ?basev ?conn ?ratedS ?ratedU ?r ?ang ?grounded ?rground ?xground ?id ?fdrid WHERE {"+
+		"SELECT ?pname ?vgrp ?enum ?bus ?basev ?conn ?ratedS ?ratedU ?r ?ang ?grounded ?rground ?xground ?id ?fdrid ?ename ?eid WHERE {"+
 		" ?p r:type c:PowerTransformer."+
 		" ?p c:Equipment.EquipmentContainer ?fdr."+
 		" ?fdr c:IdentifiedObject.mRID ?fdrid."+
@@ -22,6 +22,8 @@ public class DistPowerXfmrWinding extends DistComponent {
 		" ?end c:PowerTransformerEnd.ratedU ?ratedU."+
 		" ?end c:PowerTransformerEnd.r ?r."+
 		" ?end c:PowerTransformerEnd.phaseAngleClock ?ang."+
+		" ?end c:IdentifiedObject.name ?ename."+
+		" ?end c:IdentifiedObject.mRID ?eid."+
 		" ?end c:PowerTransformerEnd.connectionKind ?connraw."+  
 		"  bind(strafter(str(?connraw),\"WindingConnection.\") as ?conn)"+
 		" ?end c:TransformerEnd.grounded ?grounded."+
@@ -47,6 +49,8 @@ public class DistPowerXfmrWinding extends DistComponent {
 	public String name;
 	public String id;
 	public String vgrp;
+	public String[] ename;
+	public String[] eid;
 	public String[] bus;
 	public String[] conn;
 	public double[] basev;
@@ -59,6 +63,8 @@ public class DistPowerXfmrWinding extends DistComponent {
 	public double[] rg;
 	public double[] xg;
 	public int size;
+
+	public boolean glmUsed;
 
 	public String GetJSONEntry () {
 		StringBuilder buf = new StringBuilder ();
@@ -73,6 +79,8 @@ public class DistPowerXfmrWinding extends DistComponent {
 		size = val;
 		bus = new String[size];
 		conn = new String[size];
+		ename = new String[size];
+		eid = new String[size];
 		basev = new double[size];
 		ratedU = new double[size];
 		ratedS = new double[size];
@@ -92,7 +100,10 @@ public class DistPowerXfmrWinding extends DistComponent {
 			id = soln.get("?id").toString();
 			vgrp = soln.get("?vgrp").toString();
 			SetSize (map.get(pname));
+			glmUsed = true;
 			for (int i = 0; i < size; i++) {
+				eid[i] = soln.get("?eid").toString();
+				ename[i] = SafeName (soln.get("?ename").toString());
 				bus[i] = SafeName (soln.get("?bus").toString());
 				basev[i] = Double.parseDouble (soln.get("?basev").toString());
 				conn[i] = soln.get("?conn").toString();
@@ -122,7 +133,7 @@ public class DistPowerXfmrWinding extends DistComponent {
 		return buf.toString();
 	}
 
-	public String GetJSONSymbols(HashMap<String,DistCoordinates> map, HashMap<String,DistXfmrTank> mapTank) {
+	public String GetJSONSymbols(HashMap<String,DistCoordinates> map) {
 		DistCoordinates pt1 = map.get("PowerTransformer:" + name + ":1");
 		DistCoordinates pt2 = map.get("PowerTransformer:" + name + ":2");
 		String bus1 = bus[0];

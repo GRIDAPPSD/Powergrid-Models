@@ -75,7 +75,7 @@ public class DistSyncMachine extends DistComponent {
 		return buf.toString();
 	}
 
-	public String GetJSONSymbols(HashMap<String,DistCoordinates> map, HashMap<String,DistXfmrTank> mapTank) {
+	public String GetJSONSymbols(HashMap<String,DistCoordinates> map) {
 		DistCoordinates pt = map.get("SynchronousMachine:" + name + ":1");
 
 		StringBuilder buf = new StringBuilder ();
