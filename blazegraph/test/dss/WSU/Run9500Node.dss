@@ -10,10 +10,40 @@ set MarkCapacitors=true CapMarkerCode=38
 set MarkStorage=true StoreMarkerCode=36
 
 
+! Making two new Vsource for converging the islands
+
+new Vsource.DER1 phases=3 bus1=m1089-DIES1 basekv=0.48 angle=0 pu=1 mvasc3=0.2 mvasc1=0.2
+new Vsource.DER2 phases=3 bus1=m1209-DIES1 basekv=0.48 angle=0 pu=1 mvasc3=0.2 mvasc1=0.2
 
 
+! The following two switches demonstrate two islands being solved using two Vsource which are actually Diesel Generators
+
+!open LINE.2002200004641085_SW
+!solve
+!open LINE.LN0504019_SW
 
 
+! Open DG switches
+
+open Line.DG1089LNG_sw
+open Line.DG1209DIES_sw  
+open Line.DG1089DIES_sw
+solve
+open Line.DG1142LNG_sw
+open Line.LN2001MT2_SW
+open Line.LN2001MT3_SW
+
+
+! Making radial configuration by opening several Line switches
+solve
+open Line.LN0653457_sw
+open Line.V7173_48332_sw
+open Line.TSW803273_sw
+open Line.A333_48332_sw
+solve
+open Line.TSW320328_sw
+open Line.A8645_48332_sw
+open Line.TSW568613_sw
 
 solve
 Plot daisy Power Max=1000 dots=n labels=n 1ph=3
