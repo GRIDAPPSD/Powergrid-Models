@@ -1,21 +1,34 @@
-!Initial convergence tests on 8500 node model
-
 Compile Master-unbal-new.dss
 
+! Generator Configuration
+! CHP ON at 30! capacity, Solar ON at 90! capacity
+Generator.SteamGen1.kw=1000
+Generator.PVFarm1.kw=450
+Generator.MicroTurb-1.kw=50
+Generator.MicroTurb-2.enabled=0
+Generator.MicroTurb-3.enabled=0
+Generator.MicroTurb-4.kw=100
+Generator.Diesel620.enabled=0
+Generator.Diesel590.enabled=0
+Generator.LNGEngine100.enabled=0
+Generator.LNGEngine1800.enabled=0
+
+! Set normal feeder configuration
+open LINE.LN0653457_SW
+open LINE.V7173_48332_SW
+open LINE.TSW803273_SW 
+open LINE.A333_48332_SW 
+solve
+open LINE.TSW320328_SW  
+open LINE.A8645_48332_SW
+open LINE.TSW568613_SW
+solve
 
 set MarkPVSystems=true PVMarkerCode=18
 set Markswitches=true SwitchMarkerCode=9
-set MarkRegulators=true RegMarkerCode=15
+set MarkRegulators=true RegMarkerCode=15         
 set MarkCapacitors=true CapMarkerCode=38
 set MarkStorage=true StoreMarkerCode=36
+set MarkTransformers=true TransmarkerCode=14
 
-
-
-
-
-
-
-solve
 Plot daisy Power Max=1000 dots=n labels=n 1ph=3
-plot profile ph=all
-
