@@ -1,6 +1,6 @@
 //
 cd /Users/mcde601/src/GRIDAPPSD/Powergrid-Models/blazegraph/test/dss/WSU
-redirect Master-unbal-new.dss
+redirect Master-bal-new.dss
 solve
 cd /Users/mcde601/src/GRIDAPPSD/Powergrid-Models/blazegraph/test/
 export summary  IEEE8500_3subs_s.csv

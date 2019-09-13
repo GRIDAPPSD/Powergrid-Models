@@ -94,7 +94,7 @@ export taps     ACEP_PSIL_t.csv
 export cim100 file=ACEP_PSIL.xml sub=UAF subgeo=Fairbanks geo=Alaska fid=77966920-E1EC-EE8A-23EE-4EFD23B205BD sid=22B12048-23DF-007B-9291-826A16DBCB21 sgrid=2F8FC9BF-FF32-A197-D541-0A2529D04DF7 rgnid=96465E7A-6EC3-ECCA-BC27-31B53F05C96E
 //
 cd c:/gridapps-d/Powergrid-Models/blazegraph/test/dss/WSU
-redirect Master-unbal-new.dss
+redirect Master-bal-new.dss
 solve
 cd c:/gridapps-d/Powergrid-Models/blazegraph/test/
 export summary  IEEE8500_3subs_s.csv

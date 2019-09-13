@@ -8,7 +8,11 @@ know the feeder mRID.
 
 Example files include:
 
-* _test.sh_ inserts houses on two feeders, first the 8500-node in region 3, and second the taxonomy feeder in region 2
+* _test.sh_ inserts houses on four feeders
+    * the 8500-node in region 3
+    * the 9500-node in region 3
+    * the taxonomy feeder in region 2
+    * the 123-bus feeder with PV in region 5
 * _drop_all.sh_ removes houses on feeders that were populated by _test.sh_
 
 # insertHouses.py
