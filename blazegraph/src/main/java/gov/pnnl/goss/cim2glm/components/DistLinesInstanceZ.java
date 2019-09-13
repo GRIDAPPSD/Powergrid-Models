@@ -120,8 +120,9 @@ public class DistLinesInstanceZ extends DistLineSegment {
 
 		buf.append (" phases=" + Integer.toString(DSSPhaseCount(phases, false)) + 
 								" bus1=" + DSSBusPhases(bus1, phases) + " bus2=" + DSSBusPhases (bus2, phases) + 
-								" length=" + df1.format(len * gFTperM) + " units=ft" +
-								" r1=" + df6.format(r1) + " x1=" + df6.format(x1) + " c1=" + df6.format(1.0e9 * b1 / gOMEGA) + 
+								" length=" + df1.format(len * gFTperM) + " units=ft\n");
+		AppendDSSRatings (buf, normalCurrentLimit, emergencyCurrentLimit);
+		buf.append ("~ r1=" + df6.format(r1) + " x1=" + df6.format(x1) + " c1=" + df6.format(1.0e9 * b1 / gOMEGA) + 
 								" r0=" + df6.format(r0) + " x0=" + df6.format(x0) + " c0=" + df6.format(1.0e9 * b0 / gOMEGA) + "\n");
 
 		return buf.toString();

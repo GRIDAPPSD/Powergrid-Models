@@ -129,11 +129,11 @@ public class DistStorage extends DistComponent {
 		buf.append ("  name \"inv_bat_" + name + "\";\n");
 		buf.append ("  parent \"" + bus + "_stmtr\";\n");
 		if (bDelta && !phases.contains("D")) {
-			buf.append ("  phases " + phases + "D;\n");
+			buf.append ("  phases " + phases.replace (":", "") + "D;\n");
 		} else if (!phases.contains("S") && !phases.contains("N")) {
-			buf.append ("  phases " + phases + "N;\n");
+			buf.append ("  phases " + phases.replace (":", "") + "N;\n");
 		} else {
-			buf.append ("  phases " + phases + ";\n");
+			buf.append ("  phases " + phases.replace (":", "") + ";\n");
 		}
 		buf.append ("  generator_status ONLINE;\n");
 		buf.append ("  generator_mode CONSTANT_PQ;\n");

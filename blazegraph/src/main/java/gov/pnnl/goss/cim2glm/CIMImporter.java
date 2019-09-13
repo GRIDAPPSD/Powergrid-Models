@@ -15,6 +15,7 @@ import java.util.List;
 import org.apache.jena.query.*;
 
 import gov.pnnl.goss.cim2glm.CIMWriter;
+import gov.pnnl.goss.cim2glm.OperationalLimits;
 
 import gov.pnnl.goss.cim2glm.components.DistBaseVoltage;
 import gov.pnnl.goss.cim2glm.components.DistBreaker;
@@ -75,6 +76,7 @@ import gov.pnnl.goss.cim2glm.queryhandler.impl.HTTPBlazegraphQueryHandler;
 
 public class CIMImporter extends Object {
 	QueryHandler queryHandler;
+	OperationalLimits oLimits;
 	
 	HashMap<String,GldNode> mapNodes = new HashMap<>();
 	HashMap<String,GldLineConfig> mapLineConfigs = new HashMap<>();
@@ -575,6 +577,8 @@ public class CIMImporter extends Object {
 		LoadFeeders();
 		LoadHouses();
 		LoadSyncMachines();
+		oLimits = new OperationalLimits();
+		oLimits.BuildLimitMaps (this, queryHandler);
 		allMapsLoaded = true;
 	}
 
@@ -597,6 +601,69 @@ public class CIMImporter extends Object {
 		return true;
 	}
 
+	public boolean ApplyCurrentLimits() {
+		// apply available current limits to a polymorphic map of line segments
+		HashMap<String,DistLineSegment> mapSegments = new HashMap<>();
+		mapSegments.putAll (mapLinesInstanceZ);
+		mapSegments.putAll (mapLinesCodeZ);
+		mapSegments.putAll (mapLinesSpacingZ);
+		for (HashMap.Entry<String,DistLineSegment> pair : mapSegments.entrySet()) {
+			DistLineSegment obj = pair.getValue();
+			if (oLimits.mapCurrentLimits.containsKey (obj.id)) {
+				double[] vals = oLimits.mapCurrentLimits.get(obj.id);
+				obj.normalCurrentLimit = vals[0];
+				obj.emergencyCurrentLimit = vals[1];
+			}
+		}
+
+		// ... to a polymorphic map of switches  (TODO: we make the same map in writing a GLM)
+		HashMap<String,DistSwitch> mapSwitches = new HashMap<>();
+		mapSwitches.putAll (mapLoadBreakSwitches);
+		mapSwitches.putAll (mapFuses);
+		mapSwitches.putAll (mapBreakers);
+		mapSwitches.putAll (mapReclosers);
+		mapSwitches.putAll (mapSectionalisers);
+		mapSwitches.putAll (mapDisconnectors);
+		for (HashMap.Entry<String,DistSwitch> pair : mapSwitches.entrySet()) {
+			DistSwitch obj = pair.getValue();
+			if (oLimits.mapCurrentLimits.containsKey (obj.id)) {
+				double[] vals = oLimits.mapCurrentLimits.get(obj.id);
+				obj.normalCurrentLimit = vals[0];
+				obj.emergencyCurrentLimit = vals[1];
+			}
+		}
+
+		// to transformers and tanks
+		for (HashMap.Entry<String,DistPowerXfmrWinding> pair : mapXfmrWindings.entrySet()) {
+			DistPowerXfmrWinding obj = pair.getValue();
+			if (oLimits.mapCurrentLimits.containsKey (obj.id)) {
+				double[] vals = oLimits.mapCurrentLimits.get(obj.id);
+				obj.normalCurrentLimit = vals[0];
+				obj.emergencyCurrentLimit = vals[1];
+			}
+		}
+		for (HashMap.Entry<String,DistXfmrTank> pair : mapTanks.entrySet()) {
+			DistXfmrTank obj = pair.getValue();
+			if (oLimits.mapCurrentLimits.containsKey (obj.id)) {
+				double[] vals = oLimits.mapCurrentLimits.get(obj.id);
+				obj.normalCurrentLimit = vals[0];
+				obj.emergencyCurrentLimit = vals[1];
+			}
+		}
+
+		// to regulators, for GridLAB-D (ratings for OpenDSS regulators are already on the transformer)
+		// TODO: we can also use the CT primary ratings if pxfid fails to work in some cases
+		for (HashMap.Entry<String,DistRegulator> pair : mapRegulators.entrySet()) {
+			DistRegulator obj = pair.getValue();
+			if (oLimits.mapCurrentLimits.containsKey (obj.pxfid)) {
+				double[] vals = oLimits.mapCurrentLimits.get(obj.pxfid);
+				obj.normalCurrentLimit = vals[0];
+				obj.emergencyCurrentLimit = vals[1];
+			}
+		}
+
+		return true;
+	}
 	
 	public void WriteMapDictionary (HashMap<String,? extends DistComponent> map, String label, boolean bLast, PrintWriter out){
 		WriteMapDictionary(map, label, bLast, out, -1);
@@ -626,6 +693,18 @@ public class CIMImporter extends Object {
 		} else {
 			out.println("],");
 		}
+	}
+
+	public void WriteLimitsFile (PrintWriter out) {
+		out.println("{\"limits\":{");
+		out.println("\"voltages\":[");
+		oLimits.VoltageMapToJSON (out);
+		out.println("],");
+		out.println("\"currents\":[");
+		oLimits.CurrentMapToJSON (out);
+		out.println("]");
+		out.println("}}");
+		out.close();
 	}
 
 	public void WriteDictionaryFile (PrintWriter out, int maxMeasurements) {
@@ -1595,6 +1674,7 @@ public class CIMImporter extends Object {
 		if (fTarget.equals("glm")) {
 			LoadAllMaps();
 			CheckMaps();
+			ApplyCurrentLimits();
 //			PrintAllMaps();
 //			PrintOneMap (mapSpacings, "** LINE SPACINGS");
 //			PrintOneMap (mapLinesSpacingZ, "** LINES REFERENCING SPACINGS");
@@ -1607,9 +1687,12 @@ public class CIMImporter extends Object {
 			WriteJSONSymbolFile (pXY);
 			PrintWriter pDict = new PrintWriter(fDict);
 			WriteDictionaryFile (pDict, maxMeasurements);
+			PrintWriter pLimits = new PrintWriter(fRoot + "_limits.json");
+			WriteLimitsFile (pLimits);
 		} else if (fTarget.equals("dss")) {
 			LoadAllMaps();
 			CheckMaps();
+			ApplyCurrentLimits();
 			fDict = fRoot + "_dict.json";
 			fOut = fRoot + "_base.dss";
 			fXY = fRoot + "_busxy.dss";
@@ -1623,6 +1706,8 @@ public class CIMImporter extends Object {
 			WriteJSONSymbolFile (pSym);
 			PrintWriter pDict = new PrintWriter(fDict);
 			WriteDictionaryFile (pDict, maxMeasurements);
+			PrintWriter pLimits = new PrintWriter(fRoot + "_limits.json");
+			WriteLimitsFile (pLimits);
 		}	else if (fTarget.equals("idx")) {
 			fOut = fRoot + "_feeder_index.json";
 			PrintWriter pOut = new PrintWriter(fOut);
@@ -1654,6 +1739,7 @@ public class CIMImporter extends Object {
 			LoadAllMaps();
 		}
 		CheckMaps();
+		ApplyCurrentLimits();
 		WriteGLMFile (out, load_scale, bWantSched, fSched, bWantZIP, randomZIP, useHouses, Zcoeff, Icoeff, Pcoeff);
 	}
 	
@@ -1710,6 +1796,7 @@ public class CIMImporter extends Object {
 			LoadAllMaps();
 		}
 		CheckMaps();
+		ApplyCurrentLimits();
 		WriteDSSFile(out, outID, fXY, fID, load_scale, bWantSched, fSched, bWantZIP, Zcoeff, Icoeff, Pcoeff);
 	}
 	

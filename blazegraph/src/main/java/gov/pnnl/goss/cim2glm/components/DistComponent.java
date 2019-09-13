@@ -384,6 +384,36 @@ public abstract class DistComponent {
 		return "** Unsupported **";  // TODO - this could be solvable as UNKNOWN in some cases
 	}
 
+	protected void AppendGLMRatings (StringBuilder buf, String phs, double normAmps, double emergAmps) {
+		String[] phases = {"A", "B", "C"};
+		if (normAmps > 0.0) {
+			String sNorm = df2.format (normAmps);
+			for (String p: phases) {
+				if (phs.contains(p)) {
+					buf.append ("  continuous_rating_" + p + " " + sNorm + ";\n");
+				}
+			}
+		}
+		if (emergAmps > 0.0) {
+			String sEmerg = df2.format (emergAmps);
+			for (String p: phases) {
+				if (phs.contains(p)) {
+					buf.append ("  emergency_rating_" + p + " " + sEmerg + ";\n");
+				}
+			}
+		}
+	}
+
+	protected void AppendDSSRatings (StringBuilder buf, double normAmps, double emergAmps) {
+		if (normAmps > 0.0) {
+			buf.append ("~ normamps=" + df2.format (normAmps));
+			if (emergAmps > 0.0) {
+				buf.append (" emergamps=" + df2.format (emergAmps));
+			}
+			buf.append ("\n");
+		}
+	}
+
  	public abstract String DisplayString();
  	public abstract String GetKey();
 	public abstract String GetJSONEntry();
