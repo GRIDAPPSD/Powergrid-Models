@@ -180,10 +180,10 @@ public class CIMImporter extends Object {
 		((ResultSetCloseable)results).close();
 	}
 
-	void LoadMeasurements() {
+	void LoadMeasurements(boolean useHouses) {
 		ResultSet results = queryHandler.query (DistMeasurement.szQUERY);
 		while (results.hasNext()) {
-			DistMeasurement obj = new DistMeasurement (results);
+			DistMeasurement obj = new DistMeasurement (results, useHouses);
 			mapMeasurements.put (obj.GetKey(), obj);
 		}
 		((ResultSetCloseable)results).close();
@@ -539,8 +539,13 @@ public class CIMImporter extends Object {
 		PrintOneMap (mapHouses, "** HOUSES");
 		PrintOneMap (mapSyncMachines, "** SYNC MACHINES");
 	}
-
+	
 	public void LoadAllMaps() {
+		boolean useHouses = false;
+		LoadAllMaps(useHouses);
+	}
+
+	public void LoadAllMaps(boolean useHouses) {
 		LoadCountMaps();
 		LoadBaseVoltages();
 		LoadBreakers();
@@ -555,7 +560,7 @@ public class CIMImporter extends Object {
 		LoadLinesSpacingZ();
 		LoadLoadBreakSwitches();
 		LoadLoads();
-		LoadMeasurements();
+		LoadMeasurements(useHouses);
 		LoadOverheadWires();
 		LoadPhaseMatrices();
 		LoadPowerXfmrCore();
@@ -1672,7 +1677,7 @@ public class CIMImporter extends Object {
 		String fOut, fXY, fID, fDict;		
 
 		if (fTarget.equals("glm")) {
-			LoadAllMaps();
+			LoadAllMaps(useHouses);
 			CheckMaps();
 			ApplyCurrentLimits();
 //			PrintAllMaps();
@@ -1758,18 +1763,18 @@ public class CIMImporter extends Object {
 	}
 	
 	
-	public void generateDictionaryFile(QueryHandler queryHandler, PrintWriter out){
-		generateDictionaryFile(queryHandler, out, -1);
+	public void generateDictionaryFile(QueryHandler queryHandler, PrintWriter out, boolean useHouses){
+		generateDictionaryFile(queryHandler, out, -1, useHouses);
 	}
 	/**
 	 * 
 	 * @param queryHandler
 	 * @param out
 	 */
-	public void generateDictionaryFile(QueryHandler queryHandler, PrintWriter out, int maxMeasurements){
+	public void generateDictionaryFile(QueryHandler queryHandler, PrintWriter out, int maxMeasurements, boolean useHouses){
 		this.queryHandler = queryHandler;
 		if(!allMapsLoaded){
-			LoadAllMaps();
+			LoadAllMaps(useHouses);
 		}
 		CheckMaps();
 		WriteDictionaryFile(out, maxMeasurements);
