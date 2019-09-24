@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="src" path="blazegraph/src/main/java"/>
+	<classpathentry kind="src" path="CIM/cim-parser/src/main/java"/>
+	<classpathentry kind="lib" path=".gradle-wrapper/gradle-wrapper.jar"/>
+	<classpathentry kind="lib" path="cnf/plugins/biz.aQute.repository/biz.aQute.repository.jar"/>
+	<classpathentry kind="lib" path="cnf/plugins/org.apache.felix.dependencymanager.annotation-3.2.0.jar"/>
+	<classpathentry kind="lib" path="cnf/release/blazegraph.cim2glm/blazegraph.cim2glm-0.2.0.jar"/>
+	<classpathentry kind="lib" path="cnf/release/blazegraph.cim2glm/blazegraph.cim2glm-0.2.1.jar"/>
+	<classpathentry kind="lib" path="cnf/release/blazegraph.cim2glm/blazegraph.cim2glm-0.2.2.jar"/>
+	<classpathentry kind="lib" path="cnf/release/blazegraph.cim2glm/blazegraph.cim2glm-0.3.0.jar"/>
+	<classpathentry kind="lib" path="cnf/release/blazegraph.cim2glm/blazegraph.cim2glm-1.0.1.jar"/>
+	<classpathentry kind="lib" path="cnf/release/blazegraph.cim2glm/blazegraph.cim2glm-1.0.2.jar"/>
+	<classpathentry kind="lib" path="cnf/release/blazegraph.cim2glm/blazegraph.cim2glm-1.1.0.jar"/>
+	<classpathentry kind="lib" path="cnf/release/blazegraph.cim2glm/blazegraph.cim2glm-2.0.0.jar"/>
+	<classpathentry kind="lib" path="cnf/release/blazegraph.cim2glm/blazegraph.cim2glm-2.0.1.jar"/>
+	<classpathentry kind="lib" path="cnf/release/blazegraph.cim2glm/blazegraph.cim2glm-3.0.0.jar"/>
+	<classpathentry kind="lib" path="cnf/release/blazegraph.cim2glm/blazegraph.cim2glm-3.1.0.jar"/>
+	<classpathentry kind="lib" path="cnf/release/blazegraph.cim2glm/blazegraph.cim2glm-3.1.1.jar"/>
+	<classpathentry kind="lib" path="cnf/release/blazegraph.cim2glm/blazegraph.cim2glm-3.1.2.jar"/>
+	<classpathentry kind="lib" path="cnf/release/blazegraph.cim2glm/blazegraph.cim2glm-4.0.0.jar"/>
+	<classpathentry kind="lib" path="cnf/release/blazegraph.cim2glm/blazegraph.cim2glm-4.0.1.jar"/>
+	<classpathentry kind="lib" path="cnf/release/blazegraph.cim2glm/blazegraph.cim2glm-5.0.0.jar"/>
+	<classpathentry kind="lib" path="cnf/release/blazegraph.cim2glm/blazegraph.cim2glm-6.0.0.jar"/>
+	<classpathentry kind="lib" path="cnf/release/blazegraph.cim2glm/blazegraph.cim2glm-7.0.0.jar"/>
+	<classpathentry kind="lib" path="cnf/release/blazegraph.cim2glm/blazegraph.cim2glm-7.0.1.jar"/>
+	<classpathentry kind="lib" path="cnf/release/blazegraph.cim2glm/blazegraph.cim2glm-8.0.0.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
