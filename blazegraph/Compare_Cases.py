@@ -18,9 +18,9 @@ casefiles = [{'root':'ACEP_PSIL',      'bases':[314.0,480.0]},
              {'root':'IEEE8500_3subs', 'bases':[12480.0,69000.0,115000.0]},
              {'root':'R2_12_47_2',     'bases':[480.0,12470.0,100000.0]}]
 
-casefiles = [{'root':'IEEE8500_3subs', 'bases':[12480.0,69000.0,115000.0]}]
+#casefiles = [{'root':'IEEE8500_3subs', 'bases':[12480.0,69000.0,115000.0]}]
 
-casefiles = [{'root':'IEEE123_PV',     'bases':[4160.0]}]
+#casefiles = [{'root':'IEEE123_PV',     'bases':[4160.0]}]
 
 dir1 = './test/'
 dir2 = './dss/'

@@ -91,13 +91,16 @@ public class DistSyncMachine extends DistComponent {
 	}
 
 	public String GetGLM() {
+//		if (!phases.contains("ABC")) {
+//			return "";
+//		}
 		StringBuilder buf = new StringBuilder ("object diesel_dg {\n");
 
 		buf.append ("  name \"dg_" + name + "\";\n");
 		buf.append ("  parent \"" + bus + "_dgmtr\";\n");
 		String Sphase;
 		if (phases.contains ("S")) {
-			buf.append("  phases " + phases + ";\n");
+			buf.append("  phases " + phases.replace (":", "") + ";\n");
 			if (q < 0.0) {
 				Sphase = df2.format(p) + "-" + df2.format(-q) + "j";
 			} else {
@@ -111,7 +114,7 @@ public class DistSyncMachine extends DistComponent {
 				buf.append ("  power_out_C " + Sphase + ";\n");
 			}
 		} else {
-			buf.append("  phases " + phases + "N;\n");
+			buf.append("  phases " + phases.replace (":", "") + "N;\n");
 			if (q < 0.0) {
 				Sphase = df2.format(p/3.0) + "-" + df2.format(-q/3.0) + "j";
 			} else {

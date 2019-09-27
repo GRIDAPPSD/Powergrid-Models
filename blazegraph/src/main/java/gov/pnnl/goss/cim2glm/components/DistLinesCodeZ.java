@@ -99,6 +99,7 @@ public class DistLinesCodeZ extends DistLineSegment {
 		buf.append (" phases=" + Integer.toString(DSSPhaseCount(phases, false)) + 
 								" bus1=" + DSSBusPhases(bus1, phases) + " bus2=" + DSSBusPhases (bus2, phases) + 
 								" length=" + df3.format(len * gFTperM) + " linecode=" + lname + " units=ft\n");
+		AppendDSSRatings (buf, normalCurrentLimit, emergencyCurrentLimit);
 
 		return buf.toString();
 	}

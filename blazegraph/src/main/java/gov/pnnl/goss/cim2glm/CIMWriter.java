@@ -149,13 +149,20 @@ public class CIMWriter extends Object {
 		"} ORDER BY ?tname ?ename ?seq";
 
 	private String fdrID;
+	private String rgnID;
+	private String subrgnID;
+	private String subID;
+
+	static String ShortenUUID (String uuid) {
+		return uuid.substring(1).replace ("-", "");
+	}
 
 	private void StartInstance (String root, String id, PrintWriter out) {
 		out.println (String.format("<cim:%s rdf:ID=\"%s\">", root, id));
 	}
 
 	private void StartFreeInstance (String root, PrintWriter out) {
-		String id = "_" + UUID.randomUUID().toString().toUpperCase();
+		String id = ShortenUUID ("_" + UUID.randomUUID().toString().toUpperCase());
 		StartInstance (root, id, out);
 	}
 
@@ -233,9 +240,9 @@ public class CIMWriter extends Object {
 		while (results.hasNext()) {
 			QuerySolution soln = results.next();
 			String tname = DistComponent.SafeName (soln.get("?tname").toString());
-			String tid = soln.get("?tid").toString();
+			String tid = ShortenUUID (soln.get("?tid").toString());
 			String ename = DistComponent.SafeName (soln.get("?ename").toString());
-			String eid = soln.get("?eid").toString();
+			String eid = ShortenUUID (soln.get("?eid").toString());
 			if (!tname.equals(lastName)) {
 				StartInstance("TransformerInfo", tid, out);
 				StringNode ("IdentifiedObject.mRID", tid, out);
@@ -254,7 +261,7 @@ public class CIMWriter extends Object {
 		while (results.hasNext()) {
 			QuerySolution soln = results.next();
 			String name = DistComponent.SafeName (soln.get("?name").toString());
-			String id = soln.get("?id").toString();
+			String id = ShortenUUID (soln.get("?id").toString());
 			StartInstance ("ConnectivityNode", id, out);
 			StringNode ("IdentifiedObject.mRID", id, out);
 			StringNode ("IdentifiedObject.name", name, out);
@@ -268,8 +275,8 @@ public class CIMWriter extends Object {
 		ResultSet resEnds = queryHandler.query (szEND);
 		while (resEnds.hasNext()) {
 			QuerySolution soln = resEnds.next();
-			String endid = soln.get("?endid").toString();
-			String tid = soln.get("?tid").toString();
+			String endid = ShortenUUID (soln.get("?endid").toString());
+			String tid = ShortenUUID (soln.get("?tid").toString());
 			mapEnds.put (tid, endid);
 		}
 		((ResultSetCloseable)resEnds).close();
@@ -278,9 +285,9 @@ public class CIMWriter extends Object {
 		while (results.hasNext()) {
 			QuerySolution soln = results.next();
 			String name = DistComponent.SafeName (soln.get("?name").toString());
-			String id = soln.get("?tid").toString();
-			String eqid = soln.get("?eqid").toString();
-			String cnid = soln.get("?cnid").toString();
+			String id = ShortenUUID (soln.get("?tid").toString());
+			String eqid = ShortenUUID (soln.get("?eqid").toString());
+			String cnid = ShortenUUID (soln.get("?cnid").toString());
 			String eqclass = soln.get("?eqclass").toString();
 			int seq = Integer.parseInt (soln.get("?seq").toString());
 			StartInstance ("Terminal", id, out);
@@ -305,8 +312,8 @@ public class CIMWriter extends Object {
 		while (results.hasNext()) {
 			QuerySolution soln = results.next();
 			String name = DistComponent.SafeName (soln.get("?name").toString());
-			String id = soln.get("?locid").toString();
-			String eqid = soln.get("?eqid").toString();
+			String id = ShortenUUID (soln.get("?locid").toString());
+			String eqid = ShortenUUID (soln.get("?eqid").toString());
 			if (setLocations.contains (id) == false) {
 				StartInstance("GeoLocation", id, out);
 				StringNode ("IdentifiedObject.mRID", id, out);
@@ -323,8 +330,8 @@ public class CIMWriter extends Object {
 		ResultSet results = queryHandler.query (szPOS);
 		while (results.hasNext()) {
 			QuerySolution soln = results.next();
-			String id = soln.get("?id").toString();
-			String locid = soln.get("?locid").toString();
+			String id = ShortenUUID (soln.get("?id").toString());
+			String locid = ShortenUUID (soln.get("?locid").toString());
 			int seq = Integer.parseInt (soln.get("?seq").toString());
 			double x = Double.parseDouble (soln.get("?x").toString());
 			double y = Double.parseDouble (soln.get("?y").toString());
@@ -339,23 +346,25 @@ public class CIMWriter extends Object {
 	}
 
 	private void DistributionLineSegment (DistLineSegment obj, String psrtype, PrintWriter out) {
-		StartInstance ("DistributionLineSegment", obj.id, out);
-		StringNode ("IdentifiedObject.mRID", obj.id, out);
+		String objID = ShortenUUID (obj.id);
+		StartInstance ("DistributionLineSegment", objID, out);
+		StringNode ("IdentifiedObject.mRID", objID, out);
 		StringNode ("IdentifiedObject.name", obj.name, out);
 		DoubleNode ("Conductor.length", obj.len, out);
 		RefNode ("Equipment.EquipmentContainer", fdrID, out);
 		RefNode ("PowerSystemResource.PSRType", psrtype, out);
-		RefNode ("PowerSystemResource.GeoLocation", mapLocations.get (obj.id), out);
+		RefNode ("PowerSystemResource.GeoLocation", mapLocations.get (objID), out);
 		PhasesEnum (obj.phases, out);
 		EndInstance ("DistributionLineSegment", out);
 	}
 
 	private void StartSwitch (String className, DistSwitch obj, PrintWriter out) {
-		StartInstance (className, obj.id, out);
-		StringNode ("IdentifiedObject.mRID", obj.id, out);
+		String objID = ShortenUUID (obj.id);
+		StartInstance (className, objID, out);
+		StringNode ("IdentifiedObject.mRID", objID, out);
 		StringNode ("IdentifiedObject.name", obj.name, out);
 		RefNode ("Equipment.EquipmentContainer", fdrID, out);
-		RefNode ("PowerSystemResource.GeoLocation", mapLocations.get (obj.id), out);
+		RefNode ("PowerSystemResource.GeoLocation", mapLocations.get (objID), out);
 		BoolNode ("Switch.normalOpen", obj.open, out);
 		PhasesEnum (obj.phases, out);
 	}
@@ -368,6 +377,7 @@ public class CIMWriter extends Object {
 
 	public void WriteCIMFile (CIMImporter mdl, QueryHandler qH, PrintWriter out)  {
 		queryHandler = qH;
+		String objID, eID, infID;
 
 		out.println ("<?xml version=\"1.0\" encoding=\"utf-8\"?>");
 		out.println ("<!-- un-comment this line to enable validation");
@@ -383,23 +393,26 @@ public class CIMWriter extends Object {
 
 		for (HashMap.Entry<String,DistFeeder> fdrPair : mdl.mapFeeders.entrySet()) {
 			DistFeeder fdr = fdrPair.getValue();
-			fdrID = fdr.feederID;
+			fdrID = ShortenUUID (fdr.feederID);
+			rgnID = ShortenUUID (fdr.regionID);
+			subrgnID = ShortenUUID (fdr.subregionID);
+			subID = ShortenUUID (fdr.substationID);
 
-			StartInstance ("GeographicalRegion", fdr.regionID, out);
-			StringNode ("IdentifiedObject.mRID", fdr.regionID, out);
+			StartInstance ("GeographicalRegion", rgnID, out);
+			StringNode ("IdentifiedObject.mRID", rgnID, out);
 			StringNode ("IdentifiedObject.name", fdr.regionName, out);
 			StringNode ("IdentifiedObject.description", "Top-level region", out);
 			EndInstance ("GeographicalRegion", out);
 
-			StartInstance ("SubGeographicalRegion", fdr.subregionID, out);
-			StringNode ("IdentifiedObject.mRID", fdr.subregionID, out);
+			StartInstance ("SubGeographicalRegion", subrgnID, out);
+			StringNode ("IdentifiedObject.mRID", subrgnID, out);
 			StringNode ("IdentifiedObject.name", fdr.subregionName, out);
 			StringNode ("IdentifiedObject.description", "Lower-level region", out);
-			RefNode ("SubGeographicalRegion.Region", fdr.regionID, out);
+			RefNode ("SubGeographicalRegion.Region", rgnID, out);
 			EndInstance ("SubGeographicalRegion", out);
 
-			StartInstance ("Substation", fdr.substationID, out);  // needs GeoLocation
-			StringNode ("IdentifiedObject.mRID", fdr.substationID, out);
+			StartInstance ("Substation", subID, out);  // needs GeoLocation
+			StringNode ("IdentifiedObject.mRID", subID, out);
 			StringNode ("IdentifiedObject.name", fdr.substationName, out);
 			EndInstance ("Substation", out);
 
@@ -407,7 +420,7 @@ public class CIMWriter extends Object {
 			StringNode ("IdentifiedObject.mRID", fdrID, out);
 			StringNode ("IdentifiedObject.name", fdr.feederName, out);
 			StringNode ("IdentifiedObject.description", "Feeder equipment container", out);
-			RefNode ("Line.Region", fdr.subregionID, out);
+			RefNode ("Line.Region", subrgnID, out);
 			EndInstance ("Line", out);
 
 			LoadConnectivityNodes (out);
@@ -417,11 +430,12 @@ public class CIMWriter extends Object {
 
 			for (HashMap.Entry<String,DistSubstation> pair : mdl.mapSubstations.entrySet()) {
 				DistSubstation obj = pair.getValue();
-				StartInstance ("EnergySource", obj.id, out);
-				StringNode ("IdentifiedObject.mRID", obj.id, out);
+				objID = ShortenUUID (obj.id);
+				StartInstance ("EnergySource", objID, out);
+				StringNode ("IdentifiedObject.mRID", objID, out);
 				StringNode ("IdentifiedObject.name", obj.name, out);
 				RefNode ("Equipment.EquipmentContainer", fdrID, out);
-				RefNode ("PowerSystemResource.GeoLocation", mapLocations.get (obj.id), out);
+				RefNode ("PowerSystemResource.GeoLocation", mapLocations.get (objID), out);
 //				DoubleNode ("EnergySource.baseVoltage", obj.basev, out);
 				DoubleNode ("EnergySource.nominalVoltage", obj.nomv, out);
 				DoubleNode ("EnergySource.voltageMagnitude", obj.vmag, out);
@@ -438,22 +452,22 @@ public class CIMWriter extends Object {
 			//   PSRTypes that re-use the same UUIDs
 			for (HashMap.Entry<String,DistLineSpacing> pair : mdl.mapSpacings.entrySet()) {
 				DistLineSpacing obj = pair.getValue();
-				PSRType (obj.id, "Spacing:" + obj.name, out);
+				PSRType (ShortenUUID (obj.id), "Spacing:" + obj.name, out);
 			}
 			for (HashMap.Entry<String,DistPhaseMatrix> pair : mdl.mapPhaseMatrices.entrySet()) {
 				DistPhaseMatrix obj = pair.getValue();
-				PSRType (obj.id, "PhaseZ:" + obj.name, out);
+				PSRType (ShortenUUID (obj.id), "PhaseZ:" + obj.name, out);
 			}
 			for (HashMap.Entry<String,DistSequenceMatrix> pair : mdl.mapSequenceMatrices.entrySet()) {
 				DistSequenceMatrix obj = pair.getValue();
-				PSRType (obj.id, "SequenceZ:" + obj.name, out);
+				PSRType (ShortenUUID (obj.id), "SequenceZ:" + obj.name, out);
 			}
-			String instZid = "_" + UUID.randomUUID().toString().toUpperCase();
+			String instZid = ShortenUUID ("_" + UUID.randomUUID().toString().toUpperCase());
 			PSRType (instZid, "InstanceZ", out);
 
 			for (HashMap.Entry<String,DistLinesSpacingZ> pair : mdl.mapLinesSpacingZ.entrySet()) {
 				DistLinesSpacingZ obj = pair.getValue();
-				DistributionLineSegment (obj, obj.spcid, out);
+				DistributionLineSegment (obj, ShortenUUID (obj.spcid), out);
 			}
 			for (HashMap.Entry<String,DistLinesInstanceZ> pair : mdl.mapLinesInstanceZ.entrySet()) {
 				DistLinesInstanceZ obj = pair.getValue();
@@ -461,7 +475,7 @@ public class CIMWriter extends Object {
 			}
 			for (HashMap.Entry<String,DistLinesCodeZ> pair : mdl.mapLinesCodeZ.entrySet()) {
 				DistLinesCodeZ obj = pair.getValue();
-				DistributionLineSegment (obj, obj.codeid, out);
+				DistributionLineSegment (obj, ShortenUUID (obj.codeid), out);
 			}
 			for (HashMap.Entry<String,DistFuse> pair : mdl.mapFuses.entrySet()) {
 				DistFuse obj = pair.getValue();
@@ -482,11 +496,12 @@ public class CIMWriter extends Object {
 			}
 			for (HashMap.Entry<String,DistLoad> pair : mdl.mapLoads.entrySet()) {
 				DistLoad obj = pair.getValue();
-				StartInstance ("EnergyConsumer", obj.id, out);
-				StringNode ("IdentifiedObject.mRID", obj.id, out);
+				objID = ShortenUUID (obj.id);
+				StartInstance ("EnergyConsumer", objID, out);
+				StringNode ("IdentifiedObject.mRID", objID, out);
 				StringNode ("IdentifiedObject.name", obj.name, out);
 				RefNode ("Equipment.EquipmentContainer", fdrID, out);
-				RefNode ("PowerSystemResource.GeoLocation", mapLocations.get (obj.id), out);
+				RefNode ("PowerSystemResource.GeoLocation", mapLocations.get (objID), out);
 				String phs = obj.phases.replace (":", ""); 
 				PhasesEnum (phs, out);
 				DoubleNode ("EnergyConsumer.pfixed", 1000.0 * obj.p, out);
@@ -498,17 +513,18 @@ public class CIMWriter extends Object {
 			LoadTransformerInfo (out);
 
 			HashMap<String,String> mapBanks = new HashMap<>();
-			String secXfid = "_" + UUID.randomUUID().toString().toUpperCase();
+			String secXfid = ShortenUUID ("_" + UUID.randomUUID().toString().toUpperCase());
 			PSRType (secXfid, "SplitSecondary", out);
-			String miscXfid = "_" + UUID.randomUUID().toString().toUpperCase();
+			String miscXfid = ShortenUUID ("_" + UUID.randomUUID().toString().toUpperCase());
 			PSRType (miscXfid, "OtherTransformer", out);
 			for (HashMap.Entry<String,DistXfmrBank> pair : mdl.mapBanks.entrySet()) {
 				DistXfmrBank obj = pair.getValue();
-				StartInstance ("TransformerBank", obj.pid, out);
-				StringNode ("IdentifiedObject.mRID", obj.pid, out);
+				objID = ShortenUUID (obj.pid);
+				StartInstance ("TransformerBank", objID, out);
+				StringNode ("IdentifiedObject.mRID", objID, out);
 				StringNode ("IdentifiedObject.name", obj.pname, out);
 				RefNode ("Equipment.EquipmentContainer", fdrID, out);
-				RefNode ("PowerSystemResource.GeoLocation", mapLocations.get (obj.pid), out);
+				RefNode ("PowerSystemResource.GeoLocation", mapLocations.get (objID), out);
 				StringNode ("TransformerBank.vectorGroup", obj.vgrp, out);
 				if (obj.vgrp.contains ("Iii")) {
 					RefNode("PowerSystemResource.PSRType", secXfid, out);
@@ -516,39 +532,44 @@ public class CIMWriter extends Object {
 					RefNode("PowerSystemResource.PSRType", miscXfid, out);
 				}
 				EndInstance ("TransformerBank", out);
-				mapBanks.put (obj.pname, obj.pid);
+				mapBanks.put (obj.pname, objID);
 			}
 			for (HashMap.Entry<String,DistXfmrTank> pair : mdl.mapTanks.entrySet()) {
 				DistXfmrTank obj = pair.getValue();
-				StartInstance ("DistributionTransformer", obj.id, out);
-				StringNode ("IdentifiedObject.mRID", obj.id, out);
+				objID = ShortenUUID (obj.id);
+				infID = ShortenUUID (obj.infoid);
+				StartInstance ("DistributionTransformer", objID, out);
+				StringNode ("IdentifiedObject.mRID", objID, out);
 				StringNode ("IdentifiedObject.name", obj.tname, out);
 				RefNode ("Equipment.EquipmentContainer", fdrID, out);
-				RefNode ("PowerSystemResource.GeoLocation", mapLocations.get (obj.id), out);
+				RefNode ("PowerSystemResource.GeoLocation", mapLocations.get (objID), out);
 				RefNode ("DistributionTransformer.TransformerBank", mapBanks.get (obj.pname), out);
-				RefNode ("DistributionTransformer.TransformerInfo", obj.infoid, out);
+				RefNode ("DistributionTransformer.TransformerInfo", infID, out);
 				EndInstance ("DistributionTransformer", out);
 				for (int i =0; i < obj.size; i++) {
-					StartInstance ("DistributionTransformerWinding", obj.eid[i], out);
-					StringNode ("IdentifiedObject.mRID", obj.eid[i], out);
+					eID = ShortenUUID (obj.eid[i]);
+					StartInstance ("DistributionTransformerWinding", eID, out);
+					StringNode ("IdentifiedObject.mRID", eID, out);
 					StringNode ("IdentifiedObject.name", obj.ename[i], out);
 					RefNode ("Equipment.EquipmentContainer", fdrID, out);
 					RefNode("DistributionTransformerWinding.WindingInfo", 
-									mapWindings.get(obj.infoid).get(i), out); 
+									mapWindings.get(infID).get(i), out); 
 					PhasesEnum (obj.phs[i], out);
 					BoolNode ("DistributionTransformerWinding.grounded", obj.grounded[i], out);
 					DoubleNode ("DistributionTransformerWinding.rground", obj.rg[i], out);
 					DoubleNode ("DistributionTransformerWinding.xground", obj.xg[i], out);
-					RefNode ("DistributionTransformerWinding.DistributionTransformer", obj.id, out);
-					RefNode ("PowerSystemResource.GeoLocation", mapLocations.get (obj.id), out);
+					RefNode ("DistributionTransformerWinding.DistributionTransformer", objID, out);
+					RefNode ("PowerSystemResource.GeoLocation", mapLocations.get (objID), out);
 					EndInstance ("DistributionTransformerWinding", out);
 				}
 			}
 			for (HashMap.Entry<String,DistXfmrCodeRating> pair : mdl.mapCodeRatings.entrySet()) {
 				DistXfmrCodeRating obj = pair.getValue();
+				objID = ShortenUUID (obj.id);
 				for (int i = 0; i < obj.size; i++) {
-					StartInstance("WindingInfo", obj.eid[i], out);
-					StringNode ("IdentifiedObject.mRID", obj.eid[i], out);
+					eID = ShortenUUID (obj.eid[i]);
+					StartInstance("WindingInfo", eID, out);
+					StringNode ("IdentifiedObject.mRID", eID, out);
 					StringNode ("IdentifiedObject.name", obj.ename[i], out);
 					IntegerNode ("WindingInfo.sequenceNumber", obj.wdg[i], out);
 					WindingConnectionEnum (obj.conn[i], out);
@@ -556,21 +577,23 @@ public class CIMWriter extends Object {
 					DoubleNode ("WindingInfo.ratedS", obj.ratedS[i], out);
 					DoubleNode ("WindingInfo.ratedU", obj.ratedU[i], out);
 					DoubleNode ("WindingInfo.r", obj.r[i], out);
-					RefNode ("WindingInfo.TransformerInfo", obj.id, out);
+					RefNode ("WindingInfo.TransformerInfo", objID, out);
 					EndInstance ("WindingInfo", out);
 				}
 			}
 			for (HashMap.Entry<String,DistPowerXfmrWinding> pair : mdl.mapXfmrWindings.entrySet()) {
 				DistPowerXfmrWinding obj = pair.getValue();
-				StartInstance ("PowerTransformer", obj.id, out);
-				StringNode ("IdentifiedObject.mRID", obj.id, out);
+				objID = ShortenUUID (obj.id);
+				StartInstance ("PowerTransformer", objID, out);
+				StringNode ("IdentifiedObject.mRID", objID, out);
 				StringNode ("IdentifiedObject.name", obj.name, out);
 				RefNode ("Equipment.EquipmentContainer", fdrID, out);
-				RefNode ("PowerSystemResource.GeoLocation", mapLocations.get (obj.id), out);
+				RefNode ("PowerSystemResource.GeoLocation", mapLocations.get (objID), out);
 				EndInstance ("PowerTransformer", out);
 				for (int i =0; i < obj.size; i++) {
-					StartInstance ("TransformerWinding", obj.eid[i], out);
-					StringNode ("IdentifiedObject.mRID", obj.eid[i], out);
+					eID = ShortenUUID (obj.eid[i]);
+					StartInstance ("TransformerWinding", eID, out);
+					StringNode ("IdentifiedObject.mRID", eID, out);
 					StringNode ("IdentifiedObject.name", obj.ename[i], out);
 					RefNode ("Equipment.EquipmentContainer", fdrID, out);
 					DoubleNode ("TransformerWinding.ratedS", obj.ratedS[i], out);
@@ -585,8 +608,8 @@ public class CIMWriter extends Object {
 					BoolNode("TransformerWinding.grounded", obj.grounded[i], out);
 					DoubleNode ("TransformerWinding.rground", obj.rg[i], out);
 					DoubleNode ("TransformerWinding.xground", obj.xg[i], out);
-					RefNode ("TransformerWinding.PowerTransformer", obj.id, out);
-					RefNode ("PowerSystemResource.GeoLocation", mapLocations.get (obj.id), out);
+					RefNode ("TransformerWinding.PowerTransformer", objID, out);
+					RefNode ("PowerSystemResource.GeoLocation", mapLocations.get (objID), out);
 					EndInstance ("TransformerWinding", out);
 				}
 			}

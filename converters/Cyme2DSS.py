@@ -527,14 +527,14 @@ def CreateGenerator(f,Name,row):
     kv = DefaultBaseVoltage
     if nphs < 3:
         kv /= math.sqrt(3.0)
-#    f.write('new pvsystem.' + Name)
-    f.write('new generator.' + Name)
+    f.write('new pvsystem.' + Name)
+#    f.write('new generator.' + Name)
     f.write(' phases=' + str(nphs))
     f.write(' bus1=' + row[0] + phs)
     f.write(' conn=wye kv=' + '{0:.3f}'.format(kv))
-#    f.write(' pmpp=' + '{0:.2f}'.format(row[2]))
+    f.write(' pmpp=' + '{0:.2f}'.format(row[2]))
     f.write(' kva=' + '{0:.2f}'.format(row[4]))
-    f.write(' kw=' + '{0:.2f}'.format(row[2]))
+#    f.write(' kw=' + '{0:.2f}'.format(row[2]))
     f.write(' pf=' + '{0:.4f}'.format(row[3]) + '\n')
     return
 

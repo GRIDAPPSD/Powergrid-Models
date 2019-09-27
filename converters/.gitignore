@@ -1,3 +1,8 @@
 *.dss
 *.dat
 *.sxst
+*.sub
+*.edits
+*.dsscmd
+*.dsslib
+*.zip

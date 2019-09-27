@@ -6,7 +6,7 @@ def append_dss_case(casefiles, dsspath, fp):
         print('clear', file=fp)
         print('cd', dsspath, file=fp)
         print('redirect', c + '_base.dss', file=fp)
-        print('set maxiterations=20', file=fp)
+        print('set maxiterations=80', file=fp)
         print('set controlmode=off', file=fp)
         print('solve', file=fp)
         print('export summary ', c + '_s.csv', file=fp)
@@ -121,9 +121,9 @@ casefiles = ['ACEP_PSIL',
              'IEEE8500_3subs',
              'R2_12_47_2']
 
-casefiles = ['IEEE8500_3subs']
+#casefiles = ['IEEE8500_3subs']
 
-casefiles = ['IEEE123_PV']
+#casefiles = ['IEEE123_PV']
 
 arg = sys.argv[1]
 

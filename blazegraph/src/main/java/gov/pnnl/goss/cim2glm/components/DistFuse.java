@@ -32,6 +32,7 @@ public class DistFuse extends DistSwitch {
 			buf.append ("  status CLOSED;\n");
 		}
 		buf.append ("  mean_replacement_time 3600;\n");
+		AppendGLMRatings (buf, glm_phases, normalCurrentLimit, emergencyCurrentLimit);
 		buf.append("}\n");
 		return buf.toString();
 	}

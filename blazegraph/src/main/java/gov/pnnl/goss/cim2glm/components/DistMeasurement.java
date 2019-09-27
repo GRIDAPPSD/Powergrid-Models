@@ -42,8 +42,9 @@ public class DistMeasurement extends DistComponent {
 	public String eqname;
 	public String eqtype;
 	public String simobj;
+	public boolean useHouses;
 
-	public DistMeasurement (ResultSet results) {
+	public DistMeasurement (ResultSet results, boolean useHouses) {
 		if (results.hasNext()) {
 			QuerySolution soln = results.next();
 			name = SafeName (soln.get("?name").toString());
@@ -56,7 +57,8 @@ public class DistMeasurement extends DistComponent {
 			trmid = soln.get("?trmid").toString();
 			bus = SafeName (soln.get("?bus").toString());
 			phases = OptionalString (soln, "?phases", "ABC");
-		}		
+		}
+		this.useHouses = useHouses;
 //		System.out.println (DisplayString());
 	}
 
@@ -111,7 +113,11 @@ public class DistMeasurement extends DistComponent {
 		buf.append (",\"ConductingEquipment_type\":\"" + eqtype + "\"");
 		buf.append (",\"ConductingEquipment_name\":\"" + eqname + "\"");
 		buf.append (",\"ConnectivityNode\":\"" + bus + "\"");
-		buf.append (",\"SimObject\":\"" + simobj + "\"");
+		if (useHouses && eqtype.equals ("EnergyConsumer")) {
+			buf.append (",\"SimObject\":\"" + simobj + "_ldmtr\"");
+		} else {
+			buf.append (",\"SimObject\":\"" + simobj + "\"");
+		}
 		buf.append ("}");
 		return buf.toString();
 	}

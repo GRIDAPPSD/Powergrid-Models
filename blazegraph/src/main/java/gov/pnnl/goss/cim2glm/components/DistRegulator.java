@@ -112,7 +112,10 @@ public class DistRegulator extends DistComponent {
 
 	public int size;
 
-	private String pxfid;
+	public double normalCurrentLimit = 0.0;
+	public double emergencyCurrentLimit = 0.0;
+
+	public String pxfid;
 
 	private void AddJSONDoubleArray (StringBuilder buf, String tag, double[] vals) {
 		buf.append (",\"" + tag + "\":[");
@@ -471,6 +474,7 @@ public class DistRegulator extends DistComponent {
 		buf.append ("  to \"" + bus2 + "\";\n");
 		buf.append ("  phases " + bankphases + ";\n");
 		buf.append ("  configuration \"rcon_" + pname + "\";\n");
+		AppendGLMRatings (buf, bankphases, normalCurrentLimit, emergencyCurrentLimit);
 		buf.append ("}\n");
 		return buf.toString();
 	}
