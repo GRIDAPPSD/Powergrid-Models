@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.List;
+import java.util.Random;
 
 import org.apache.jena.query.*;
 
@@ -1294,8 +1295,11 @@ public class CIMImporter extends Object {
 		
 		// GLM houses
 		if (useHouses) {
+			Random r = new Random();
+			r.setSeed(10);
 			for (HashMap.Entry<String, DistHouse> pair : mapHouses.entrySet()) {
-				out.print((pair.getValue().GetGLM()));
+				int seed = r.nextInt();
+				out.print((pair.getValue().GetGLM(r)));
 			}
 		}
 

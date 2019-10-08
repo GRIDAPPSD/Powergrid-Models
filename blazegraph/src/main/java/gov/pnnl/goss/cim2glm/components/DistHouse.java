@@ -1,8 +1,10 @@
 package gov.pnnl.goss.cim2glm.components;
 
-import org.apache.jena.query.*;
 import java.util.EnumMap;
-import java.math;
+import java.util.Random;
+
+import org.apache.jena.query.QuerySolution;
+import org.apache.jena.query.ResultSet;
 
 public class DistHouse extends DistComponent {
 	public static enum HouseCooling{none,electric,heatPump};
@@ -110,13 +112,13 @@ public class DistHouse extends DistComponent {
 		return buf.toString();
 	}	
 	
-	public String GetGLM() {
+	public String GetGLM(Random r) {
 		// we must have heatingSetpoint < (coolingSetpoint - deadband) where deadband defaults to 2.0
 		double localHeatSet = heatingSetpoint;
-		double skew_value = 2700.0 * Math.random();
+		double skew_value = 2700.0 * r.nextDouble();
 		double scalar1 = 324.9 * Math.pow(floorArea, 0.442) / 8907.0;
-		double scalar2 = 0.8 + 0.4 * Math.random();
-		double scalar3 = 0.8 + 0.4 * Math.random();
+		double scalar2 = 0.8 + 0.4 * r.nextDouble();
+		double scalar3 = 0.8 + 0.4 * r.nextDouble();
 		double resp_scalar = scalar1 * scalar2;
 		double unresp_scalar = scalar1 * scalar3;
 		double[] techdata = {0.9,1.0,0.9,1.0,0.0,1.0,0.0};
