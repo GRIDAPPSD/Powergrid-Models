@@ -119,7 +119,7 @@ public class DistHouse extends DistComponent {
 		double scalar3 = 0.8 + 0.4 * Math.random();
 		double resp_scalar = scalar1 * scalar2;
 		double unresp_scalar = scalar1 * scalar3;
-		double[] techdata = {0.9,1.0,1.0,1.0,0.2,0.4,0.4};
+		double[] techdata = {0.9,1.0,0.9,1.0,0.0,1.0,0.0};
 		StringBuilder buf = new StringBuilder("object house {\n");
 		buf.append("  name \"" + name + "\";\n");
 		buf.append("  parent \"ld_" + parent + "_ldmtr\";\n");
