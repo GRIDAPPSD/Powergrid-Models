@@ -13,7 +13,7 @@ Redirect  TriplexLineCodes.dss
 
 Redirect  LinesSwitches.dss
 Redirect  Transformers.dss
-Redirect  LoadXfmrs.dss
+Redirect  LoadXfmrCodes.dss
 Redirect  TriplexLines.dss
 Redirect  Loads.dss
 Redirect  Capacitors.dss
@@ -29,7 +29,7 @@ Redirect  PV_NN_100_DSSPV.dss
 Set voltagebases=[115, 69, 12.47,  0.480, 0.208] 
 Calcvoltagebases     ! This also establishes the bus list
 
-! Load in bus coordintes now that bus list is established
+! Load in bus coordinates now that bus list is established
 !Buscoords  BusCoords.dss
 LatLongCoords LatLongCoords.dss
 
