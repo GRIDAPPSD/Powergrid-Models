@@ -1,7 +1,10 @@
 package gov.pnnl.goss.cim2glm.components;
 
-import org.apache.jena.query.*;
 import java.util.EnumMap;
+import java.util.Random;
+
+import org.apache.jena.query.QuerySolution;
+import org.apache.jena.query.ResultSet;
 
 public class DistHouse extends DistComponent {
 	public static enum HouseCooling{none,electric,heatPump};
@@ -109,9 +112,16 @@ public class DistHouse extends DistComponent {
 		return buf.toString();
 	}	
 	
-	public String GetGLM() {
+	public String GetGLM(Random r) {
 		// we must have heatingSetpoint < (coolingSetpoint - deadband) where deadband defaults to 2.0
 		double localHeatSet = heatingSetpoint;
+		double skew_value = 2700.0 * r.nextDouble();
+		double scalar1 = 324.9 * Math.pow(floorArea, 0.442) / 8907.0;
+		double scalar2 = 0.8 + 0.4 * r.nextDouble();
+		double scalar3 = 0.8 + 0.4 * r.nextDouble();
+		double resp_scalar = scalar1 * scalar2;
+		double unresp_scalar = scalar1 * scalar3;
+		double[] techdata = {0.9,1.0,0.9,1.0,0.0,1.0,0.0};
 		StringBuilder buf = new StringBuilder("object house {\n");
 		buf.append("  name \"" + name + "\";\n");
 		buf.append("  parent \"ld_" + parent + "_ldmtr\";\n");
@@ -134,6 +144,28 @@ public class DistHouse extends DistComponent {
 		if (!heatingSystem.equals(HouseHeating.none) || !coolingSystem.equals(HouseCooling.none)) {
 			buf.append("  hvac_power_factor " + df4.format(hvacPowerFactor) + ";\n");
 		}
+		buf.append("  object ZIPload { // responsive\n");
+		buf.append("    schedule_skew " + df2.format(skew_value) + ";\n");
+		buf.append("    base_power responsive_loads*" + df2.format(resp_scalar) + ";\n");
+		buf.append("    heatgain_fraction " + df2.format(techdata[0]) + ";\n");
+		buf.append("    impedance_pf " + df2.format(techdata[1]) + ";\n");
+		buf.append("    current_pf " + df2.format(techdata[2]) + ";\n");
+		buf.append("    power_pf " + df2.format(techdata[3]) + ";\n");
+		buf.append("    impedance_fraction " + df2.format(techdata[4]) + ";\n");
+		buf.append("    current_fraction " + df2.format(techdata[5]) + ";\n");
+		buf.append("    power_fraction " + df2.format(techdata[6]) + ";\n");
+		buf.append("  };\n");
+		buf.append("  object ZIPload { // unresponsive\n");
+		buf.append("    schedule_skew " + df2.format(skew_value) + ";\n");
+		buf.append("    base_power unresponsive_loads*" + df2.format(unresp_scalar) + ";\n");
+		buf.append("    heatgain_fraction " + df2.format(techdata[0]) + ";\n");
+		buf.append("    impedance_pf " + df2.format(techdata[1]) + ";\n");
+		buf.append("    current_pf " + df2.format(techdata[2]) + ";\n");
+		buf.append("    power_pf " + df2.format(techdata[3]) + ";\n");
+		buf.append("    impedance_fraction " + df2.format(techdata[4]) + ";\n");
+		buf.append("    current_fraction " + df2.format(techdata[5]) + ";\n");
+		buf.append("    power_fraction " + df2.format(techdata[6]) + ";\n");
+		buf.append("  };\n");
 		buf.append("}\n");
 		return buf.toString();
 	}
