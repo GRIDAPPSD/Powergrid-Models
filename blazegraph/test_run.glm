@@ -13,6 +13,12 @@ module generators;
 module residential;
 module climate;
 module tape;
+module residential {
+  implicit_enduses NONE;
+}
+
+//#include "support/water_and_setpoint_schedule_v3.glm"
+#include "support/appliance_schedules.glm"
 
 object climate {
   name "RegionalWeather";
