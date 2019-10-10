@@ -1,0 +1,63 @@
+schedule FIXED_PRICE{
+	//Winter
+	*  * * 10-5 * 0.1199101; 
+	
+	//Summer
+	*  * * 6-9 * 0.1273101; 
+}
+
+schedule FIXED_TIER1{
+	//Winter
+	*  * * 10-5 * 0.0887096; 
+	
+	//Summer
+	*  * * 6-9 * 0.1273101; 
+}
+
+schedule FIXED_TIER2{
+	//Winter
+	*  * * 10-5 * 0.0882496; 
+	
+	//Summer
+	*  * * 6-9 * 0.1268501; 
+}
+
+schedule FIXED_TIER3{
+	//Winter
+	*  * * 10-5 * 0.0876896; 
+	
+	//Summer
+	*  * * 6-9 * 0.1262901; 
+}
+
+schedule RTP_BASE_PRICE {
+	//Winter
+	*  * * 10-5 * 0.0723767; 
+	
+	//Summer
+	*  * * 6-9 * 0.0723767; 
+}
+
+schedule RTP_TIER1{
+	//Winter
+	*  * * 10-5 * 0.0411762; 
+	
+	//Summer
+	*  * * 6-9 * 0.0723767; 
+}
+
+schedule RTP_TIER2{
+	//Winter
+	*  * * 10-5 * 0.0407162; 
+	
+	//Summer
+	*  * * 6-9 * 0.0719167; 
+}
+
+schedule RTP_TIER3{
+	//Winter
+	*  * * 10-5 * 0.0401562; 
+	
+	//Summer
+	*  * * 6-9 * 0.0713567; 
+}
