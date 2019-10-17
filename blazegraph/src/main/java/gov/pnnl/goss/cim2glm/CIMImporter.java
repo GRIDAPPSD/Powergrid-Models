@@ -1621,14 +1621,14 @@ public class CIMImporter extends Object {
 		// removed the local Docker paths, relying on cwd instead
 
 //		buscoords model_busxy.dss
-//		guids model_guid.dss
+//		uuids model_guid.dss
 				
 		//Only use local names for fXY and FID
 		File fXYFile = new File(fXY);
 		File fIDFile = new File(fID);
 				
 		out.println ("buscoords " + fXYFile.getName());
-		out.println ("guids " + fIDFile.getName());
+		out.println ("uuids " + fIDFile.getName());
 		
 
 		out.println();
