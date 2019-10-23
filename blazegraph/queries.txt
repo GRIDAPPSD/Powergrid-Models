@@ -1642,3 +1642,72 @@ VALUES ?fdrid {"_5B816B93-7A5F-B64C-8460-47C17D6E4B0F"}  # 13 bus assets
 GROUP BY ?key
 ORDER BY ?key
 
+# Get all inverters (PowerElectronicsConnection)
+# NOTE: For whatever reason, "inverterMode," "maxQ," and "minQ" are
+# not included for the 9500 node model, and have thus been moved
+# into an OPTIONAL block.
+#
+# NOTE: Naming conventions: "inverter_" is associated with the
+# "Wires::PowerElectronicsConnection" object, and "phase_" is
+# associated with the "Wires::PowerElectronicsConnectionPhase"
+# object. Documentation:
+# https://gridappsd.readthedocs.io/en/latest/developer_resources/index.html#cim-documentation
+PREFIX r: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX c: <http://iec.ch/TC57/CIM100#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+SELECT ?inverter_mrid ?inverter_name ?inverter_mode ?inverter_max_q ?inverter_min_q ?inverter_p ?inverter_q ?inverter_rated_s ?inverter_rated_u ?phase_mrid ?phase_name ?phase_p ?phase_q (group_concat(distinct ?phs;separator="\n") as ?phases) 
+WHERE {
+# Update for your feeder, or remove for all feeders.
+VALUES ?feeder_mrid {"_AAE94E4A-2465-6F5E-37B1-3E72183A4E44"}
+?s r:type c:PowerElectronicsConnection.
+?s c:Equipment.EquipmentContainer ?fdr.
+?fdr c:IdentifiedObject.mRID ?feeder_mrid.
+?s c:IdentifiedObject.mRID ?inverter_mrid.
+?s c:IdentifiedObject.name ?inverter_name.
+?s c:PowerElectronicsConnection.p ?inverter_p.
+?s c:PowerElectronicsConnection.q ?inverter_q.
+?s c:PowerElectronicsConnection.ratedS ?inverter_rated_s.
+?s c:PowerElectronicsConnection.ratedU ?inverter_rated_u.
+OPTIONAL {
+?s c:PowerElectronicsConnection.inverterMode ?inverter_mode.
+?s c:PowerElectronicsConnection.maxQ ?inverter_max_q.
+?s c:PowerElectronicsConnection.minQ ?inverter_min_q.
+}
+OPTIONAL {
+?pecp c:PowerElectronicsConnectionPhase.PowerElectronicsConnection ?s.
+?pecp c:IdentifiedObject.mRID ?phase_mrid.
+?pecp c:IdentifiedObject.name ?phase_name.
+?pecp c:PowerElectronicsConnectionPhase.p ?phase_p.
+?pecp c:PowerElectronicsConnectionPhase.q ?phase_q.
+?pecp c:PowerElectronicsConnectionPhase.phase
+?phsraw bind(strafter(str(?phsraw),"SinglePhaseKind.") as ?phs)
+}
+}
+GROUP BY ?inverter_mrid ?inverter_name ?inverter_rated_s ?inverter_rated_u ?inverter_p ?inverter_q ?phase_mrid ?phase_name ?phase_p ?phase_q ?inverter_mode ?inverter_max_q ?inverter_min_q
+ORDER BY ?inverter_mrid
+
+# Get all measurements associated with inverters (PowerElectronicsConnection)
+# NOTE: It would appear that the measurements for inverters are
+# associated with PowerElectronicsConnection objects and NOT
+# PowerElectronicsConnectionPhase objects. You can prove this by
+# replacing PowerElectronicsConnection with
+# PowerElectronicsConnectionPhase below.
+PREFIX r: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX c: <http://iec.ch/TC57/CIM100#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+SELECT ?inverter_mrid ?meas_mrid ?phase
+WHERE {
+  # Update for your feeder, or remove for all feeders.
+  VALUES ?feeder_mrid {"_AAE94E4A-2465-6F5E-37B1-3E72183A4E44"}
+  ?s r:type ?type.
+  ?s c:IdentifiedObject.mRID ?meas_mrid.
+  ?s c:Measurement.PowerSystemResource ?eq.
+  ?s c:Measurement.Terminal ?trm.
+  ?s c:Measurement.phases ?phsraw.
+  {bind(strafter(str(?phsraw),"PhaseCode.") as ?phase)} .
+  ?eq c:IdentifiedObject.mRID ?inverter_mrid.
+  ?eq r:type c:PowerElectronicsConnection.
+  ?eq c:Equipment.EquipmentContainer ?fdr.
+  ?fdr c:IdentifiedObject.mRID ?feeder_mrid.
+}
+ORDER BY ?inverter_mrid
