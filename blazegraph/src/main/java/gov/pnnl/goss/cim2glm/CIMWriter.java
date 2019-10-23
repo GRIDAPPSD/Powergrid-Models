@@ -214,7 +214,7 @@ public class CIMWriter extends Object {
 			val = "quaternary";
 		}
 		out.println(
-				String.format("  <cim:TransformerWinding.connectionType rdf:resource=\"%sWindingType.%s\"/>", 
+				String.format("  <cim:TransformerWinding.windingType rdf:resource=\"%sWindingType.%s\"/>", 
 											xnsCIM, val));
 	}
 

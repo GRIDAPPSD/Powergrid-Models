@@ -135,7 +135,8 @@ public class DistSyncMachine extends DistComponent {
 	public String GetDSS() {
 		StringBuilder buf = new StringBuilder ("new Generator." + name);
 		buf.append (" phases=" + Integer.toString(DSSPhaseCount(phases, false)) + " bus1=" + DSSShuntPhases (bus, phases, false) + 
-								 " model=1 kv=" + df2.format(0.001*ratedU) + " kw=" + df2.format(0.001*p) + " kvar=" + df2.format(0.001*q));
+								" model=1 kv=" + df2.format(0.001*ratedU) + " kva=" + df2.format(0.001*ratedS) + 
+								" kw=" + df2.format(0.001*p) + " kvar=" + df2.format(0.001*q));
 		buf.append("\n");
 		return buf.toString();
 	}

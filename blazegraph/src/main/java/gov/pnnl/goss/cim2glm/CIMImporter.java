@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.List;
+import java.util.Random;
 
 import org.apache.jena.query.*;
 
@@ -1299,8 +1300,11 @@ public class CIMImporter extends Object {
 		
 		// GLM houses
 		if (useHouses) {
+			Random r = new Random();
+			r.setSeed(10);
 			for (HashMap.Entry<String, DistHouse> pair : mapHouses.entrySet()) {
-				out.print((pair.getValue().GetGLM()));
+				int seed = r.nextInt();
+				out.print((pair.getValue().GetGLM(r)));
 			}
 		}
 
@@ -1617,14 +1621,14 @@ public class CIMImporter extends Object {
 		// removed the local Docker paths, relying on cwd instead
 
 //		buscoords model_busxy.dss
-//		guids model_guid.dss
+//		uuids model_guid.dss
 				
 		//Only use local names for fXY and FID
 		File fXYFile = new File(fXY);
 		File fIDFile = new File(fID);
 				
 		out.println ("buscoords " + fXYFile.getName());
-		out.println ("guids " + fIDFile.getName());
+		out.println ("uuids " + fIDFile.getName());
 		
 
 		out.println();
