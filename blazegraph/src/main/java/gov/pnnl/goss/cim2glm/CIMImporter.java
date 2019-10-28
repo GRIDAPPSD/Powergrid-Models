@@ -1294,8 +1294,25 @@ public class CIMImporter extends Object {
 		}
 
 		// GLM nodes and loads
+		boolean bWroteEventgen = false;
 		for (HashMap.Entry<String,GldNode> pair : mapNodes.entrySet()) {
+			GldNode nd = pair.getValue();
 			out.print (pair.getValue().GetGLM (load_scale, bWantSched, fSched, bWantZIP, useHouses, Zcoeff, Icoeff, Pcoeff));
+			if (!bWroteEventgen && nd.bSwingPQ) {
+				bWroteEventgen = true;
+				out.print ("object fault_check {\n");
+				out.print ("	name base_fault_check_object;\n");
+				out.print ("	check_mode ONCHANGE;\n");
+				out.print ("	strictly_radial false;\n");
+				out.print ("	eventgen_object testgendev;\n");
+				out.print ("	grid_association true;\n");
+				out.print ("}\n");
+				out.print ("object eventgen {\n");
+				out.print ("	name testgendev;\n");
+				out.print ("	fault_type \"DLG-X\";\n");
+				out.print ("	manual_outages \"" + nd.name + ",2100-01-01 00:00:05,2100-01-01 00:00:30\";\n");
+				out.print ("}\n");
+			}
 		}
 		
 		// GLM houses
