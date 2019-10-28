@@ -11,6 +11,54 @@ WHERE {
   ?s a ?class .
 } group by ?class order by ?class
 
+
+#############################
+
+# list all the connectivity node base voltages by feeder, for sensor service
+PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX c:  <http://iec.ch/TC57/CIM100#>
+SELECT DISTINCT ?feeder ?busname ?cnid ?nomv WHERE {
+# VALUES ?fdrid {"_49AD8E07-3BF9-A4E2-CB8F-C3722F837B62"}  # 13 bus
+ ?fdr c:IdentifiedObject.mRID ?fdrid.
+ ?bus c:ConnectivityNode.ConnectivityNodeContainer ?fdr.
+ ?bus r:type c:ConnectivityNode.
+ ?bus c:IdentifiedObject.name ?busname.
+ ?bus c:IdentifiedObject.mRID ?cnid.
+ ?fdr c:IdentifiedObject.name ?feeder.
+ ?trm c:Terminal.ConnectivityNode ?bus.
+ ?trm c:Terminal.ConductingEquipment ?ce.
+ ?ce  c:ConductingEquipment.BaseVoltage ?bv.
+ ?bv  c:BaseVoltage.nominalVoltage ?nomv.
+}
+ORDER by ?feeder ?busname ?nomv
+
+# list all the CurrentLimits for sensor service nominal values
+PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX c:  <http://iec.ch/TC57/CIM100#>
+SELECT ?eqtype ?eqname ?eqid ?val ?cn1id WHERE {
+ VALUES ?dur {"5E9"}
+ VALUES ?seq {"1"}
+ ?fdr c:IdentifiedObject.mRID ?fdrid.
+ ?eq c:Equipment.EquipmentContainer ?fdr.
+ ?eq c:IdentifiedObject.name ?eqname.
+ ?eq c:IdentifiedObject.mRID ?eqid.
+ ?eq r:type ?rawtype.
+  bind(strafter(str(?rawtype),"#") as ?eqtype)
+ ?t c:Terminal.ConductingEquipment ?eq.
+ ?t c:ACDCTerminal.OperationalLimitSet ?ols.
+ ?t c:ACDCTerminal.sequenceNumber ?seq.
+ ?t c:Terminal.ConnectivityNode ?cn1.
+ ?cn1 c:IdentifiedObject.mRID ?cn1id.
+ ?clim c:OperationalLimit.OperationalLimitSet ?ols.
+ ?clim r:type c:CurrentLimit.
+ ?clim c:OperationalLimit.OperationalLimitType ?olt.
+ ?olt c:OperationalLimitType.acceptableDuration ?dur.
+ ?clim c:CurrentLimit.value ?val.
+}
+ORDER by ?eqtype ?eqname ?eqid ?val
+
+#############################
+
 # navigate from TransformerEnd to TransformerEndInfo for CIMWriter
 PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX c:  <http://iec.ch/TC57/CIM100#>
