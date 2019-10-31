@@ -955,7 +955,8 @@ public class CIMImporter extends Object {
 	}
 	
 	protected void WriteGLMFile (PrintWriter out, double load_scale, boolean bWantSched, String fSched, 
-																	 boolean bWantZIP, boolean randomZIP, boolean useHouses, double Zcoeff, double Icoeff, double Pcoeff) {
+															boolean bWantZIP, boolean randomZIP, boolean useHouses, double Zcoeff, 
+															double Icoeff, double Pcoeff, boolean bHaveEventGen) {
 
 		// build a polymorphic map of switches
 		HashMap<String,DistSwitch> mapSwitches = new HashMap<>();
@@ -1294,12 +1295,13 @@ public class CIMImporter extends Object {
 		}
 
 		// GLM nodes and loads
-		boolean bWroteEventgen = false;
+		boolean bWroteEventGen = bHaveEventGen;
 		for (HashMap.Entry<String,GldNode> pair : mapNodes.entrySet()) {
 			GldNode nd = pair.getValue();
 			out.print (pair.getValue().GetGLM (load_scale, bWantSched, fSched, bWantZIP, useHouses, Zcoeff, Icoeff, Pcoeff));
-			if (!bWroteEventgen && nd.bSwingPQ) {
-				bWroteEventgen = true;
+			if (!bWroteEventGen && nd.bSwingPQ) {
+				// we can't have two fault_check objects, and there may already be one for external event scripting
+				bWroteEventGen = true;
 				out.print ("object fault_check {\n");
 				out.print ("	name base_fault_check_object;\n");
 				out.print ("	check_mode ONCHANGE;\n");
@@ -1675,8 +1677,11 @@ public class CIMImporter extends Object {
 		out.close();
 	}
 
-	public void start(QueryHandler queryHandler, String fTarget, String fRoot, String fSched, double load_scale, boolean bWantSched, boolean bWantZIP, boolean randomZIP, boolean useHouses, double Zcoeff, double Icoeff, double Pcoeff) throws FileNotFoundException{
-		start(queryHandler, fTarget, fRoot, fSched, load_scale, bWantSched, bWantZIP, randomZIP, useHouses, Zcoeff, Icoeff, Pcoeff, -1);
+	public void start(QueryHandler queryHandler, String fTarget, String fRoot, String fSched, double load_scale, 
+										boolean bWantSched, boolean bWantZIP, boolean randomZIP, boolean useHouses, double Zcoeff, 
+										double Icoeff, double Pcoeff, boolean bHaveEventGen) throws FileNotFoundException{
+		start(queryHandler, fTarget, fRoot, fSched, load_scale, bWantSched, bWantZIP, randomZIP, useHouses, 
+					Zcoeff, Icoeff, Pcoeff, -1, bHaveEventGen);
 	}
 	
 	
@@ -1693,7 +1698,10 @@ public class CIMImporter extends Object {
 	 * @param fXY
 	 * @throws FileNotFoundException
 	 */
-	public void start(QueryHandler queryHandler, String fTarget, String fRoot, String fSched, double load_scale, boolean bWantSched, boolean bWantZIP, boolean randomZIP, boolean useHouses, double Zcoeff, double Icoeff, double Pcoeff, int maxMeasurements) throws FileNotFoundException{
+	public void start(QueryHandler queryHandler, String fTarget, String fRoot, String fSched, 
+										double load_scale, boolean bWantSched, boolean bWantZIP, boolean randomZIP, 
+										boolean useHouses, double Zcoeff, double Icoeff, double Pcoeff, 
+										int maxMeasurements, boolean bHaveEventGen) throws FileNotFoundException{
 		this.queryHandler = queryHandler;
 		String fOut, fXY, fID, fDict;		
 
@@ -1708,7 +1716,7 @@ public class CIMImporter extends Object {
 			fOut = fRoot + "_base.glm";
 			fXY = fRoot + "_symbols.json";
 			PrintWriter pOut = new PrintWriter(fOut);
-			WriteGLMFile(pOut, load_scale, bWantSched, fSched, bWantZIP, randomZIP, useHouses, Zcoeff, Icoeff, Pcoeff);
+			WriteGLMFile(pOut, load_scale, bWantSched, fSched, bWantZIP, randomZIP, useHouses, Zcoeff, Icoeff, Pcoeff, bHaveEventGen);
 			PrintWriter pXY = new PrintWriter(fXY);
 			WriteJSONSymbolFile (pXY);
 			PrintWriter pDict = new PrintWriter(fDict);
@@ -1759,14 +1767,17 @@ public class CIMImporter extends Object {
 	 * @param Icoeff
 	 * @param Pcoeff
 	 */
-	public void generateGLMFile(QueryHandler queryHandler, PrintWriter out, String fSched, double load_scale, boolean bWantSched, boolean bWantZIP, boolean randomZIP, boolean useHouses, double Zcoeff, double Icoeff, double Pcoeff) {
+	public void generateGLMFile(QueryHandler queryHandler, PrintWriter out, String fSched, 
+															double load_scale, boolean bWantSched, boolean bWantZIP, 
+															boolean randomZIP, boolean useHouses, double Zcoeff, 
+															double Icoeff, double Pcoeff, boolean bHaveEventGen) {
 		this.queryHandler = queryHandler;
 		if(!allMapsLoaded){
 			LoadAllMaps();
 		}
 		CheckMaps();
 		ApplyCurrentLimits();
-		WriteGLMFile (out, load_scale, bWantSched, fSched, bWantZIP, randomZIP, useHouses, Zcoeff, Icoeff, Pcoeff);
+		WriteGLMFile (out, load_scale, bWantSched, fSched, bWantZIP, randomZIP, useHouses, Zcoeff, Icoeff, Pcoeff, bHaveEventGen);
 	}
 	
 	/**
@@ -1856,6 +1867,7 @@ public class CIMImporter extends Object {
 		String fRoot = "";
 		double freq = 60.0, load_scale = 1.0;
 		boolean bWantSched = false, bWantZIP = false, bSelectFeeder = false, randomZIP = false, useHouses = false;
+		boolean bHaveEventGen = false;
 		String fSched = "";
 		String fTarget = "dss";
 		String feeder_mRID = "";
@@ -1873,6 +1885,7 @@ public class CIMImporter extends Object {
 			System.out.println ("       -p={0..1}          // constant P portion (defaults to 0 for CIM-defined LoadResponseCharacteristic)");
 			System.out.println ("       -r={0, 1}          // determine ZIP load fraction based on given xml file or randomized fractions");
 			System.out.println ("       -h={0, 1}          // determine if house load objects should be added to the model or not");
+			System.out.println ("       -x={0, 1}          // indicate whether for glm, the model will be called with a fault_check already created");
 			System.out.println ("       -u={http://localhost:9999/blazegraph/namespace/kb/sparql} // blazegraph uri (if connecting over HTTP); defaults to http://localhost:9999/blazegraph/namespace/kb/sparql");
 
 			System.out.println ("Example 1: java CIMImporter -l=1 -i=1 -n=zipload_schedule ieee8500");
@@ -1923,6 +1936,8 @@ public class CIMImporter extends Object {
 					randomZIP = true;
 				} else if (opt == 'h' && Integer.parseInt(optVal) == 1) {
 					useHouses = true;
+				} else if (opt == 'x' && Integer.parseInt(optVal) == 1) {
+					bHaveEventGen = true;
 				} else if (opt == 's') {
 					feeder_mRID = optVal;
 					bSelectFeeder = true;
@@ -1953,7 +1968,8 @@ public class CIMImporter extends Object {
 //				System.out.println ("Selecting only feeder " + feeder_mRID);
 			}
 			new CIMImporter().start(qh, fTarget, fRoot, fSched, load_scale,
-															bWantSched, bWantZIP, randomZIP, useHouses, Zcoeff, Icoeff, Pcoeff);
+															bWantSched, bWantZIP, randomZIP, useHouses, 
+															Zcoeff, Icoeff, Pcoeff, bHaveEventGen);
 		} catch (RuntimeException e) {
 			System.out.println ("Can not produce a model: " + e.getMessage());
 			e.printStackTrace();
