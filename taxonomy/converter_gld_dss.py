@@ -161,6 +161,10 @@ def obj(parent,model,line,itr,oidh,octr):
 
 def process_one_model(inf, modeldir, dotfile, vbase_str):
 
+    toks = vbase_str.split(',')
+    srcekv = float(toks[0])
+    print ('voltage bases are {:s} and source voltage is {:.2f}'.format (vbase_str, srcekv))
+
     #-----------------------
     # Pull Model Into Memory
     #-----------------------
@@ -542,14 +546,11 @@ def process_one_model(inf, modeldir, dotfile, vbase_str):
                         rmat += ' ]'
                         xmat += ' ]'
                 # OpenDSS reduces the last conductor by default
-                kron = 'yes' if neutflag else 'no'
-                lcodef.write('new linecode.' + name             +\
-                        ' nphases='+str(condqty)                    +\
-                        ' neutral='+str(condqty)                    +\
-                        '\n~ rmatrix=' + rmat                       +\
-                        '\n~ xmatrix=' + xmat                       +\
-                        '\n~ units=mi kron=' + kron                 +\
-                        '\n')
+                print ('new linecode.{:s} nphases={:d} units=mi'.format (name, condqty), file=lcodef)
+                if neutflag:
+                    print ('~ neutral={:d} kron=yes'.format(condqty), file=lcodef)
+                print ('~ rmatrix={:s}'.format (rmat), file=lcodef)
+                print ('~ xmatrix={:s}'.format (xmat), file=lcodef)
             else: # if we didn't find any conductors, look for the matrix elements
                 if 'z11' in row:
                     phases += 1
@@ -621,12 +622,11 @@ def process_one_model(inf, modeldir, dotfile, vbase_str):
                         rmat += ']'
                         xmat += ']'
                         cmat += ']'
-                lcodef.write('new linecode.' + str(code) +\
-                        ' nphases='+str(phases)          +\
-                        ' neutral=0 kron=no units=mi'    +\
-                        '\n~ rmatrix=' + rmat            +\
-                        '\n~ xmatrix=' + xmat            +\
-                        '\n~ cmatrix=' + cmat            +\
+                lcodef.write('new linecode.' + str(code)      +\
+                        ' nphases='+str(phases) + ' units=mi' +\
+                        '\n~ rmatrix=' + rmat                 +\
+                        '\n~ xmatrix=' + xmat                 +\
+                        '\n~ cmatrix=' + cmat                 +\
                         '\n')
         lcodef.close()
     
@@ -763,19 +763,16 @@ def process_one_model(inf, modeldir, dotfile, vbase_str):
             # OpenDSS reduces the last conductor by default
             if neutflag:
                 tpxcodef.write('new linecode.' + name    +\
-                        ' nphases=3'                     +\
-                        ' neutral=3'                     +\
+                        ' nphases=3 units=mi'            +\
+                        ' neutral=3 kron=yes'            +\
                         '\n~ rmatrix=' + rmat            +\
                         '\n~ xmatrix=' + xmat            +\
-                        '\n~ units=mi kron=yes'          +\
                         '\n')
             else:
                 tpxcodef.write('new linecode.' + name    +\
-                        ' nphases=2'                     +\
-                        ' neutral=0'                     +\
+                        ' nphases=2 units=mi'            +\
                         '\n~ rmatrix=' + rmat            +\
                         '\n~ xmatrix=' + xmat            +\
-                        '\n~ units=mi kron=no'          +\
                         '\n')
         tpxcodef.close()
     
@@ -823,6 +820,11 @@ def process_one_model(inf, modeldir, dotfile, vbase_str):
             if 'powerC_rating' in row:
                 if float(row['powerC_rating']) > 0.0:
                     phct +=1
+            if phct == 0 and 'power_rating' in row:
+                if row['connect_type'] == 'SINGLE_PHASE_CENTER_TAPPED':
+                    phct = 1
+                else:
+                    phct = 3
             kvastr = ' kva='+str(row['power_rating'])
             xff.write('new xfmrcode.xfcode_'+str(xfcode))
             if row['connect_type'] == 'SINGLE_PHASE_CENTER_TAPPED':
@@ -837,7 +839,8 @@ def process_one_model(inf, modeldir, dotfile, vbase_str):
             if 'shunt_reactance' in row:
                 imag_pct = '{:.3f}'.format(1/float(row['shunt_reactance'])*100)
                 xff.write(' %imag='+imag_pct)
-            xff.write('\n\t~')
+            if ('shunt_resistance' in row) or ('shunt_reactance' in row):
+                xff.write('\n\t~')
             # Implementation depends on the connection type
             if row['connect_type'] == 'SINGLE_PHASE_CENTER_TAPPED':
                 if 'impedance' in row:
@@ -1305,9 +1308,7 @@ def process_one_model(inf, modeldir, dotfile, vbase_str):
 
     # SUBSTATION
     sourcef = open(modeldir+'/VSource.dss','w')
-    sourcef.write('new circuit.sourceckt '+\
-            'bus1=sourcebus phases=3 MVAsc3=50000 basekv=100\n')
-    # kvbases.update([100.00])
+    sourcef.write('new circuit.sourceckt bus1=sourcebus phases=3 MVAsc3=50000 basekv={:.2f}\n'.format(srcekv))
     sourcef.write('new line.trunk bus1=sourcebus bus2=rootbus phases=3 switch=yes\n')
     sourcef.write('new energymeter.feeder element=line.trunk terminal=1\n')
     feederhead = '' # starting bus as defined by PNNL
@@ -1331,7 +1332,7 @@ def process_one_model(inf, modeldir, dotfile, vbase_str):
                         sourcef.write(' %loadloss=0.0001')
                         sourcef.write(' xhl=0.0001')
                         sourcef.write(' windings=2')
-                        sourcef.write(' wdg=1 kva=100000 kv=100')
+                        sourcef.write(' wdg=1 kva=100000 kv={:.2f}'.format(srcekv))
                         sourcef.write(' bus=rootbus')
                         sourcef.write(' wdg=2 kva=100000 kv='+\
                             '{:.3f}'.format(float(model[t][o]['nominal_voltage'])/1000*1.73205))
@@ -1402,7 +1403,7 @@ def process_one_model(inf, modeldir, dotfile, vbase_str):
     masterf.write('redirect VSource.dss\n')
     for f in redirects:
         masterf.write('redirect '+f+'\n')
-    # Voltage bases should be built dynamicly
+    # Voltage bases should be built dynamically
     masterf.write('set voltagebases="{:s}"\n'.format(vbase_str))
     # ctr = 0
     # for kvbase in kvbases:
@@ -1412,7 +1413,26 @@ def process_one_model(inf, modeldir, dotfile, vbase_str):
         # masterf.write(',' if ctr < len(# kvbases) else '"\n')
     masterf.write('calcv\n')
     masterf.write('buscoords Buscoords.csv\n')
-
+    print ('batchedit load..* model=5 // 1=P, 2=Z, 5=I', file=masterf)
+    print ('AddBusMarker Bus={:s} code=34 color=Green size=5'.format (feederhead), file=masterf)
+    print ('set markcapacitors=yes', file=masterf)
+    print ('set capmarkercode=38', file=masterf)
+    print ('set capmarkersize=1', file=masterf)
+    print ('set markfuses=no', file=masterf)
+    print ('set fusemarkercode=12', file=masterf)
+    print ('set markreclosers=yes', file=masterf)
+    print ('set reclosermarkercode=26', file=masterf)
+    print ('set reclosermarkersize=2', file=masterf)
+    print ('set markregulators=yes', file=masterf)
+    print ('set regmarkercode=34', file=masterf)
+    print ('set regmarkersize=1', file=masterf)
+    print ('set markswitches=no', file=masterf)
+    print ('set switchmarkercode=12', file=masterf)
+    print ('set marktransformers=no', file=masterf)
+    print ('set transmarkercode=25', file=masterf)
+    print ('set transmarkersize=1', file=masterf)
+    print ('set DaisySize=1.0', file=masterf)
+    masterf.close()
 
 # ----------------------------------
 # Process all of the taxonomy models
