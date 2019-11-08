@@ -6,7 +6,6 @@ package gov.pnnl.goss.cim2glm;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -58,6 +57,7 @@ import gov.pnnl.goss.cim2glm.components.DistXfmrCodeOCTest;
 import gov.pnnl.goss.cim2glm.components.DistXfmrCodeRating;
 import gov.pnnl.goss.cim2glm.components.DistXfmrCodeSCTest;
 import gov.pnnl.goss.cim2glm.components.DistXfmrTank;
+import gov.pnnl.goss.cim2glm.components.ModelState;
 import gov.pnnl.goss.cim2glm.queryhandler.QueryHandler;
 import gov.pnnl.goss.cim2glm.queryhandler.impl.HTTPBlazegraphQueryHandler;
 
@@ -1679,9 +1679,9 @@ public class CIMImporter extends Object {
 
 	public void start(QueryHandler queryHandler, String fTarget, String fRoot, String fSched, double load_scale, 
 										boolean bWantSched, boolean bWantZIP, boolean randomZIP, boolean useHouses, double Zcoeff, 
-										double Icoeff, double Pcoeff, boolean bHaveEventGen) throws FileNotFoundException{
+										double Icoeff, double Pcoeff, boolean bHaveEventGen, ModelState ms) throws FileNotFoundException{
 		start(queryHandler, fTarget, fRoot, fSched, load_scale, bWantSched, bWantZIP, randomZIP, useHouses, 
-					Zcoeff, Icoeff, Pcoeff, -1, bHaveEventGen);
+					Zcoeff, Icoeff, Pcoeff, -1, bHaveEventGen, ms);
 	}
 	
 	
@@ -1701,13 +1701,14 @@ public class CIMImporter extends Object {
 	public void start(QueryHandler queryHandler, String fTarget, String fRoot, String fSched, 
 										double load_scale, boolean bWantSched, boolean bWantZIP, boolean randomZIP, 
 										boolean useHouses, double Zcoeff, double Icoeff, double Pcoeff, 
-										int maxMeasurements, boolean bHaveEventGen) throws FileNotFoundException{
+										int maxMeasurements, boolean bHaveEventGen, ModelState ms) throws FileNotFoundException{
 		this.queryHandler = queryHandler;
 		String fOut, fXY, fID, fDict;		
 
 		if (fTarget.equals("glm")) {
 			LoadAllMaps(useHouses);
 			CheckMaps();
+			UpdateModelState(ms);
 			ApplyCurrentLimits();
 //			PrintAllMaps();
 //			PrintOneMap (mapSpacings, "** LINE SPACINGS");
@@ -1726,7 +1727,9 @@ public class CIMImporter extends Object {
 		} else if (fTarget.equals("dss")) {
 			LoadAllMaps();
 			CheckMaps();
+			UpdateModelState(ms);
 			ApplyCurrentLimits();
+			
 			fDict = fRoot + "_dict.json";
 			fOut = fRoot + "_base.dss";
 			fXY = fRoot + "_busxy.dss";
@@ -1755,6 +1758,82 @@ public class CIMImporter extends Object {
 		}
 	}
 		
+	
+	protected void UpdateModelState(ModelState ms){
+		List<DistSyncMachine> machinesToUpdate = ms.getSynchronousmachines();
+		List<DistSwitch> switchesToUpdate = ms.getSwitches();
+//		System.out.println("Generators");
+//		for(String key: mapSyncMachines.keySet()){
+//			DistSyncMachine gen = mapSyncMachines.get(key);
+//			System.out.println(key+"  "+gen.p+"  "+gen.q);
+//		}
+		
+		for(DistSyncMachine machine: machinesToUpdate){
+			DistSyncMachine toUpdate = mapSyncMachines.get(machine.name);
+			if(toUpdate!=null){
+				toUpdate.p = machine.p;
+				toUpdate.q = machine.q;
+			}
+		}
+		
+		HashMap<String,DistSwitch> mapSwitches = new HashMap<>();
+		mapSwitches.putAll (mapLoadBreakSwitches);
+		mapSwitches.putAll (mapFuses);
+		mapSwitches.putAll (mapBreakers);
+		mapSwitches.putAll (mapReclosers);
+		mapSwitches.putAll (mapSectionalisers);
+		mapSwitches.putAll (mapDisconnectors);
+		
+		for(DistSwitch s: switchesToUpdate){
+			DistSwitch toUpdate = mapLoadBreakSwitches.get(s.name);
+			if(toUpdate!=null){
+				toUpdate.open = s.open;
+			}
+			mapLoadBreakSwitches.put(s.name, (DistLoadBreakSwitch) toUpdate);
+		}
+		for(DistSwitch s: switchesToUpdate){
+			DistSwitch toUpdate = mapFuses.get(s.name);
+			if(toUpdate!=null){
+				toUpdate.open = s.open;
+			}
+			mapFuses.put(s.name, (DistFuse)toUpdate);
+		}
+		for(DistSwitch s: switchesToUpdate){
+			DistSwitch toUpdate = mapBreakers.get(s.name);
+			if(toUpdate!=null){
+				toUpdate.open = s.open;
+			}
+			mapBreakers.put(s.name, (DistBreaker) toUpdate);
+		}
+		for(DistSwitch s: switchesToUpdate){
+			DistSwitch toUpdate = mapReclosers.get(s.name);
+			if(toUpdate!=null){
+				toUpdate.open = s.open;
+			}
+			mapReclosers.put(s.name, (DistRecloser) toUpdate);
+		}
+		for(DistSwitch s: switchesToUpdate){
+			DistSwitch toUpdate = mapSectionalisers.get(s.name);
+			if(toUpdate!=null){
+				toUpdate.open = s.open;
+			}
+			mapSectionalisers.put(s.name, (DistSectionaliser) toUpdate);
+		}
+		for(DistSwitch s: switchesToUpdate){
+			DistSwitch toUpdate = mapDisconnectors.get(s.name);
+			if(toUpdate!=null){
+				toUpdate.open = s.open;
+			}
+			mapDisconnectors.put(s.name,  (DistDisconnector) toUpdate);
+		}
+		
+//		System.out.println("Switches");
+//		for(String key: mapSwitches.keySet()){
+//			DistSwitch gen = mapSwitches.get(key);
+//			System.out.println(key+"  "+gen.open);
+//		}
+		
+	}
 	/**
 	 * 
 	 * @param queryHandler
@@ -1795,20 +1874,21 @@ public class CIMImporter extends Object {
 	}
 	
 	
-	public void generateDictionaryFile(QueryHandler queryHandler, PrintWriter out, boolean useHouses){
-		generateDictionaryFile(queryHandler, out, -1, useHouses);
+	public void generateDictionaryFile(QueryHandler queryHandler, PrintWriter out, boolean useHouses, ModelState modelState){
+		generateDictionaryFile(queryHandler, out, -1, useHouses,modelState);
 	}
 	/**
 	 * 
 	 * @param queryHandler
 	 * @param out
 	 */
-	public void generateDictionaryFile(QueryHandler queryHandler, PrintWriter out, int maxMeasurements, boolean useHouses){
+	public void generateDictionaryFile(QueryHandler queryHandler, PrintWriter out, int maxMeasurements, boolean useHouses,ModelState ms){
 		this.queryHandler = queryHandler;
 		if(!allMapsLoaded){
 			LoadAllMaps(useHouses);
 		}
 		CheckMaps();
+		UpdateModelState(ms);
 		WriteDictionaryFile(out, maxMeasurements);
 	}
 	
@@ -1967,9 +2047,18 @@ public class CIMImporter extends Object {
 				qh.addFeederSelection (feeder_mRID);
 //				System.out.println ("Selecting only feeder " + feeder_mRID);
 			}
+			
+			List<DistSyncMachine> machinesToUpdate = new ArrayList<>();
+			machinesToUpdate.add(new DistSyncMachine("diesel590", 1000.000, 140.000));
+			machinesToUpdate.add(new DistSyncMachine("diesel620", 150.000, 500.000));
+			List<DistSwitch> switchesToUpdate = new ArrayList<>();
+//			switchesToUpdate.add(new DistSwitch("2002200004641085_sw",true));
+			
+			ModelState ms = new ModelState();
+			
 			new CIMImporter().start(qh, fTarget, fRoot, fSched, load_scale,
 															bWantSched, bWantZIP, randomZIP, useHouses, 
-															Zcoeff, Icoeff, Pcoeff, bHaveEventGen);
+															Zcoeff, Icoeff, Pcoeff, bHaveEventGen, ms);
 		} catch (RuntimeException e) {
 			System.out.println ("Can not produce a model: " + e.getMessage());
 			e.printStackTrace();

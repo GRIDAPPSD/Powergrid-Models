@@ -98,6 +98,11 @@ public abstract class DistSwitch extends DistComponent {
 			}
 		}		
 	}
+	
+	public DistSwitch (String name, boolean open) {
+		this.name = SafeName (name);
+		this.open = open;
+	}
 
 	public String DisplayString() {
 		StringBuilder buf = new StringBuilder ("");
