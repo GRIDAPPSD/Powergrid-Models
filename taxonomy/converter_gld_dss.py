@@ -522,7 +522,7 @@ def process_one_model(inf, modeldir, dotfile, vbase_str):
                             rprim[ii].append(rterm)
                             if Dij[ii][jj] == 0:
                                 print('ERROR: line configuration '+code+' has zero distance')
-                                xprim[ii].append(icoef*(math.log(1/Dij[ii][jj])+iterm))
+                            xprim[ii].append(icoef*(math.log(1/Dij[ii][jj])+iterm))
                 # Write the line codes
                 name = str(code)
                 condqty = len(rprim)
@@ -1317,6 +1317,7 @@ def process_one_model(inf, modeldir, dotfile, vbase_str):
                 t == 'capacitor' or\
                 t == 'load' or\
                 t == 'triplex_meter' or\
+                t == 'substation' or\
                 t == 'triplex_node':
             for o in model[t]:
                 if 'bustype' in model[t][o]:
@@ -1324,7 +1325,7 @@ def process_one_model(inf, modeldir, dotfile, vbase_str):
                         # Connect gld swing bus to the source bus
                         feederhead = str(o)
                         sourcef.write('new transformer.source_'+str(o))
-                        sourcef.write(' phases='+str(count_ph(row['phases'])))
+                        sourcef.write(' phases=3')
                         sourcef.write(' %noloadloss=0.0001')
                         sourcef.write(' %imag=0.0001')
                         sourcef.write(' %loadloss=0.0001')
