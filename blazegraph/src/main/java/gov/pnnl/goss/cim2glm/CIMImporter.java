@@ -2054,7 +2054,7 @@ public class CIMImporter extends Object {
 			List<DistSwitch> switchesToUpdate = new ArrayList<>();
 //			switchesToUpdate.add(new DistSwitch("2002200004641085_sw",true));
 			
-			ModelState ms = new ModelState();
+			ModelState ms = new ModelState(machinesToUpdate, switchesToUpdate);
 			
 			new CIMImporter().start(qh, fTarget, fRoot, fSched, load_scale,
 															bWantSched, bWantZIP, randomZIP, useHouses, 
