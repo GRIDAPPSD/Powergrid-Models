@@ -119,7 +119,8 @@ casefiles = ['ACEP_PSIL',
              'IEEE37',
              'IEEE8500',
              'IEEE8500_3subs',
-             'R2_12_47_2']
+             'R2_12_47_2',
+             'Transactive']
 
 #casefiles = ['IEEE8500_3subs']
 

@@ -11,6 +11,7 @@ casefiles = [{'root':'ACEP_PSIL',      'bases':[314.0,480.0]},
              {'root':'EPRI_DPV_J1',    'bases':[416.0,12470.0,69000.0]},
              {'root':'IEEE123',        'bases':[480.0,4160.0]},
              {'root':'IEEE123_PV',     'bases':[4160.0]},
+             {'root':'Transactive',    'bases':[4160.0]},
              {'root':'IEEE13',         'bases':[480.0,4160.0,13200.0,115000.0]},
              {'root':'IEEE13_Assets',  'bases':[480.0,4160.0,115000.0]},
              {'root':'IEEE37',         'bases':[480.0,4800.0,230000.0]},
@@ -21,6 +22,8 @@ casefiles = [{'root':'ACEP_PSIL',      'bases':[314.0,480.0]},
 #casefiles = [{'root':'IEEE8500_3subs', 'bases':[12480.0,69000.0,115000.0]}]
 
 #casefiles = [{'root':'IEEE123_PV',     'bases':[4160.0]}]
+
+#casefiles = [{'root':'Transactive',     'bases':[4160.0]}]
 
 dir1 = './test/'
 dir2 = './dss/'
