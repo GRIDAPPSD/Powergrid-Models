@@ -1783,50 +1783,59 @@ public class CIMImporter extends Object {
 		mapSwitches.putAll (mapReclosers);
 		mapSwitches.putAll (mapSectionalisers);
 		mapSwitches.putAll (mapDisconnectors);
+		mapSwitches.putAll (mapJumpers);
+		mapSwitches.putAll (mapGroundDisconnectors);
 		
-		for(DistSwitch s: switchesToUpdate){
-			DistSwitch toUpdate = mapLoadBreakSwitches.get(s.name);
+		for(DistSwitch sw: switchesToUpdate){
+			DistSwitch toUpdate = mapSwitches.get(sw.name);
 			if(toUpdate!=null){
-				toUpdate.open = s.open;
+				toUpdate.open = sw.open;
 			}
-			mapLoadBreakSwitches.put(s.name, (DistLoadBreakSwitch) toUpdate);
-		}
-		for(DistSwitch s: switchesToUpdate){
-			DistSwitch toUpdate = mapFuses.get(s.name);
-			if(toUpdate!=null){
-				toUpdate.open = s.open;
-			}
-			mapFuses.put(s.name, (DistFuse)toUpdate);
-		}
-		for(DistSwitch s: switchesToUpdate){
-			DistSwitch toUpdate = mapBreakers.get(s.name);
-			if(toUpdate!=null){
-				toUpdate.open = s.open;
-			}
-			mapBreakers.put(s.name, (DistBreaker) toUpdate);
-		}
-		for(DistSwitch s: switchesToUpdate){
-			DistSwitch toUpdate = mapReclosers.get(s.name);
-			if(toUpdate!=null){
-				toUpdate.open = s.open;
-			}
-			mapReclosers.put(s.name, (DistRecloser) toUpdate);
-		}
-		for(DistSwitch s: switchesToUpdate){
-			DistSwitch toUpdate = mapSectionalisers.get(s.name);
-			if(toUpdate!=null){
-				toUpdate.open = s.open;
-			}
-			mapSectionalisers.put(s.name, (DistSectionaliser) toUpdate);
-		}
-		for(DistSwitch s: switchesToUpdate){
-			DistSwitch toUpdate = mapDisconnectors.get(s.name);
-			if(toUpdate!=null){
-				toUpdate.open = s.open;
-			}
-			mapDisconnectors.put(s.name,  (DistDisconnector) toUpdate);
 		}
 		
+//		for(DistSwitch s: switchesToUpdate){
+//			DistSwitch toUpdate = mapLoadBreakSwitches.get(s.name);
+//			if(toUpdate!=null){
+//				toUpdate.open = s.open;
+//			}
+//			//mapLoadBreakSwitches.put(s.name, (DistLoadBreakSwitch) toUpdate);
+//		}
+//		for(DistSwitch s: switchesToUpdate){
+//			DistSwitch toUpdate = mapFuses.get(s.name);
+//			if(toUpdate!=null){
+//				toUpdate.open = s.open;
+//			}
+//			//mapFuses.put(s.name, (DistFuse)toUpdate);
+//		}
+//		for(DistSwitch s: switchesToUpdate){
+//			DistSwitch toUpdate = mapBreakers.get(s.name);
+//			if(toUpdate!=null){
+//				toUpdate.open = s.open;
+//			}
+//			//mapBreakers.put(s.name, (DistBreaker) toUpdate);
+//		}
+//		for(DistSwitch s: switchesToUpdate){
+//			DistSwitch toUpdate = mapReclosers.get(s.name);
+//			if(toUpdate!=null){
+//				toUpdate.open = s.open;
+//			}
+//			//mapReclosers.put(s.name, (DistRecloser) toUpdate);
+//		}
+//		for(DistSwitch s: switchesToUpdate){
+//			DistSwitch toUpdate = mapSectionalisers.get(s.name);
+//			if(toUpdate!=null){
+//				toUpdate.open = s.open;
+//			}
+//			//mapSectionalisers.put(s.name, (DistSectionaliser) toUpdate);
+//		}
+//		for(DistSwitch s: switchesToUpdate){
+//			DistSwitch toUpdate = mapDisconnectors.get(s.name);
+//			if(toUpdate!=null){
+//				toUpdate.open = s.open;
+//			}
+//			//mapDisconnectors.put(s.name,  (DistDisconnector) toUpdate);
+//		}
+//		
 //		System.out.println("Switches");
 //		for(String key: mapSwitches.keySet()){
 //			DistSwitch gen = mapSwitches.get(key);
@@ -2052,7 +2061,12 @@ public class CIMImporter extends Object {
 			machinesToUpdate.add(new DistSyncMachine("diesel590", 1000.000, 140.000));
 			machinesToUpdate.add(new DistSyncMachine("diesel620", 150.000, 500.000));
 			List<DistSwitch> switchesToUpdate = new ArrayList<>();
-//			switchesToUpdate.add(new DistSwitch("2002200004641085_sw",true));
+//			switchesToUpdate.add(new DistSwitch("2002200004641085_sw",true));//2002200004641085_sw, "normalOpen":false
+//			switchesToUpdate.add(new DistSwitch("2002200004868472_sw",true));//2002200004641085_sw, "normalOpen":false
+//			switchesToUpdate.add(new DistSwitch("2002200004991174_sw",true));//2002200004641085_sw, "normalOpen":false
+			switchesToUpdate.add(new DistSwitch("g9343_48332_sw",true));
+			
+			
 			
 			ModelState ms = new ModelState(machinesToUpdate, switchesToUpdate);
 			
