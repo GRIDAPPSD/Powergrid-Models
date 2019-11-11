@@ -231,7 +231,8 @@ SELECT ?fdrname ?name ?parent ?coolingSetpoint ?coolingSystem ?floorArea ?heatin
 WHERE { 
 #	VALUES ?fdrid {"_9CE150A8-8CC5-A0F9-B67E-BBD8C79D3095"}  # R2 12.47 3
 #	VALUES ?fdrid {"_4F76A5F9-271D-9EB8-5E31-AA362D86F2C3"}  # 8500-node
-VALUES ?fdrid {"_E407CBB6-8C8D-9BC9-589C-AB83FBF0826D"}  # 123 PV/Triplex
+# VALUES ?fdrid {"_E407CBB6-8C8D-9BC9-589C-AB83FBF0826D"}  # 123 PV/Triplex
+   VALUES ?fdrid {"_503D6E20-F499-4CC7-8051-971E23D0BF79"}  # 123 Transactive
    ?h r:type c:House.
    ?h c:IdentifiedObject.name ?name.
    ?h c:IdentifiedObject.mRID ?id.

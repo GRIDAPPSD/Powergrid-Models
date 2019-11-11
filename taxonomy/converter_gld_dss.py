@@ -1,5 +1,26 @@
 """
 """
+
+import re
+import glob
+import os
+import math
+import sys
+
+SQRT3 = math.sqrt(3.0)
+
+def parse_impedance(str):
+    toks = re.split('[\+\-j]',str)
+    toks = [t for t in toks if t]
+    r = float(toks[0])
+    x = float(toks[1])
+    if str.startswith('-'):
+        r *= -1.0
+    if '-' in str[2:]:
+        x *= -1.0
+#    print (str, toks, r, x)
+    return r, x
+
 def parse_kvar(str):
     toks = str.split()
     val = float(toks[0])
@@ -138,42 +159,11 @@ def obj(parent,model,line,itr,oidh,octr):
     # Return the 
     return line,octr
 
-# ------------------
-# Process each model
-#-------------------
-import re
-import glob
-import os
-import math
-import sys
+def process_one_model(inf, modeldir, dotfile, vbase_str):
 
-SQRT3 = math.sqrt(3.0)
-
-for ifn in glob.glob("base_taxonomy/new*.glm"):
-    wd = os.getcwd()
-    if sys.platform == 'win32':
-        m = re.match(r'base_taxonomy\\(.+).glm',ifn)
-    else:
-        m = re.match(r'base_taxonomy/(.+).glm',ifn)
-    if m:
-        modelname = re.sub('[-\.]','_',m.group(1))
-    else:
-        modelname = 'default'
-    if 'GC-12.47-1' in ifn:
-        taxname = 'GC-12.47-1'
-    else:
-        taxname = 'default'
-    n = re.search(r'(R\d-\d\d\.\d\d-\d).glm',ifn)
-    if n:
-        taxname = n.group(1)
-    print("Processing "+taxname+"... "+ifn)
-    inf = open(ifn,'r')
-    if sys.platform == 'win32':
-        modeldir = wd + '\\' + modelname
-    else:
-        modeldir = wd + '/' + modelname
-    if modelname not in glob.glob('*'):
-        os.system('mkdir '+modeldir)
+    toks = vbase_str.split(',')
+    srcekv = float(toks[0])
+    print ('voltage bases are {:s} and source voltage is {:.2f}'.format (vbase_str, srcekv))
 
     #-----------------------
     # Pull Model Into Memory
@@ -222,7 +212,7 @@ for ifn in glob.glob("base_taxonomy/new*.glm"):
                     if re.search('}',line):
                         # End of the clock definition
                         oend = 1
-        # Look for module defintions
+        # Look for module definitions
         m_mtype = re.search('module\s+(\w+)\s*([;{])',line,re.IGNORECASE)
         if (m_mtype):
             # Module found: look for parameters
@@ -322,7 +312,11 @@ for ifn in glob.glob("base_taxonomy/new*.glm"):
             bus1 = str(cap)                         # (always?) decended from a node
             phsfx = get_phsfx(row['phases'])        # DSS phase suffix
             phqty = str(count_ph(row['phases']))    # 
-            kvLN = float(row['nominal_voltage'])/1000.0; # node voltage is LN
+            if 'cap_nominal_voltage' in row:
+                kvln_tok = 'cap_nominal_voltage'
+            else:
+                kvln_tok = 'nominal_voltage'
+            kvLN = float(row[kvln_tok])/1000.0; # node voltage is LN
             kvbases.update([round(kvLN*SQRT3,2)])
             kv = '{:.3f}'.format(kvLN if phqty == '1' else kvLN*SQRT3)
             kvar = 0
@@ -342,6 +336,8 @@ for ifn in glob.glob("base_taxonomy/new*.glm"):
                 ' conn=wye'                             +\
                 '\n')
             # Second, write to the cap control file
+            if 'control' not in row:
+                continue
             if row['control'] == 'VOLT':
                 capctrlf.write('new capcontrol.' + name + '_ctrl ' +\
                     'capacitor=' + name + ' ')
@@ -401,7 +397,7 @@ for ifn in glob.glob("base_taxonomy/new*.glm"):
     iterm = math.log(100/60)/2 + 7.6786
 
 
-    # LINE CODES
+    # LINE CODES (two variants, one with spacings and conductors, the other with impedances)
     if 'line_configuration' in model:
         redirects.append('LineCodes.dss')
         wirehash = {}
@@ -409,7 +405,8 @@ for ifn in glob.glob("base_taxonomy/new*.glm"):
             wirehash.update(model['overhead_line_conductor'])
         if 'underground_line_conductor' in model:
             wirehash.update(model['underground_line_conductor'])
-        spacehash = model['line_spacing']
+        if 'line_spacing' in model:
+            spacehash = model['line_spacing']
         lcodef = open(modeldir+'/LineCodes.dss','w')
         lcodef.write('! Linecodes\n')
         for code in model['line_configuration']:
@@ -513,51 +510,124 @@ for ifn in glob.glob("base_taxonomy/new*.glm"):
                     Dij[idx].append(D if D > 0 else 0.001)
                 Dij[idx].append(0)
                 idx += 1
-            
-            
-            # Calculate the primitive impedance matrix
-            rprim = []
-            xprim = []
-            for ii in range(0,idx):
-                rprim.append([])
-                xprim.append([])
-                for jj in range(0,idx):
-                    if ii == jj:
-                        rprim[ii].append(ri[ii]+rterm)
-                        xprim[ii].append(icoef*(math.log(1/GMR[ii])+iterm))
+                        
+            # Calculate the primitive impedance matrix from conductor data (assumes idx still good)
+            if phases > 0:
+                rprim = []
+                xprim = []
+                for ii in range(0,idx):
+                    rprim.append([])
+                    xprim.append([])
+                    for jj in range(0,idx):
+                        if ii == jj:
+                            rprim[ii].append(ri[ii]+rterm)
+                            xprim[ii].append(icoef*(math.log(1/GMR[ii])+iterm))
+                        else:
+                            rprim[ii].append(rterm)
+                            if Dij[ii][jj] == 0:
+                                print('ERROR: line configuration '+code+' has zero distance')
+                            xprim[ii].append(icoef*(math.log(1/Dij[ii][jj])+iterm))
+                # Write the line codes
+                name = str(code)
+                condqty = len(rprim)
+                rmat = '[ '
+                xmat = '[ '
+                for ii in range(0,len(rprim)):
+                    for jj in range(0,ii+1):
+                        rmat += '{:.6f}'.format(rprim[ii][jj])
+                        xmat += '{:.6f}'.format(xprim[ii][jj])
+                        if jj < ii:
+                            rmat += ' '
+                            xmat += ' '
+                    if ii < (len(rprim)-1):
+                        rmat += ' | '
+                        xmat += ' | '
                     else:
-                        rprim[ii].append(rterm)
-                        if Dij[ii][jj] == 0:
-                            print('ERROR: line configuration '+code+' has zero distance')
-                        xprim[ii].append(icoef*(math.log(1/Dij[ii][jj])+iterm))
-            
-            # Write the line codes
-            name = str(code)
-            condqty = len(rprim)
-            rmat = '[ '
-            xmat = '[ '
-            for ii in range(0,len(rprim)):
-                for jj in range(0,ii+1):
-                    rmat += '{:.6f}'.format(rprim[ii][jj])
-                    xmat += '{:.6f}'.format(xprim[ii][jj])
-                    if jj < ii:
-                        rmat += ' '
-                        xmat += ' '
-                if ii < (len(rprim)-1):
-                    rmat += ' | '
-                    xmat += ' | '
-                else:
-                    rmat += ' ]'
-                    xmat += ' ]'
-            # OpenDSS reduces the last conductor by default
-            kron = 'yes' if neutflag else 'no'
-            lcodef.write('new linecode.' + name             +\
-                    ' nphases='+str(condqty)                    +\
-                    ' neutral='+str(condqty)                    +\
-                    '\n~ rmatrix=' + rmat                       +\
-                    '\n~ xmatrix=' + xmat                       +\
-                    '\n~ units=mi kron=' + kron                 +\
-                    '\n')
+                        rmat += ' ]'
+                        xmat += ' ]'
+                # OpenDSS reduces the last conductor by default
+                print ('new linecode.{:s} nphases={:d} units=mi'.format (name, condqty), file=lcodef)
+                if neutflag:
+                    print ('~ neutral={:d} kron=yes'.format(condqty), file=lcodef)
+                print ('~ rmatrix={:s}'.format (rmat), file=lcodef)
+                print ('~ xmatrix={:s}'.format (xmat), file=lcodef)
+            else: # if we didn't find any conductors, look for the matrix elements
+                if 'z11' in row:
+                    phases += 1
+                if 'z22' in row:
+                    phases += 1
+                if 'z33' in row:
+                    phases += 1
+                rfull = [[0 for i in range(phases)] for j in range(phases)]
+                xfull = [[0 for i in range(phases)] for j in range(phases)]
+                cfull = [[0 for i in range(phases)] for j in range(phases)]
+                i = 0
+                if 'z11' in row:
+                    rfull[i][i], xfull[i][i] = parse_impedance (row['z11'])
+                    if 'c11' in row:
+                        cfull[i][i] = float(row['c11'])
+                    i += 1
+                if 'z22' in row:
+                    rfull[i][i], xfull[i][i] = parse_impedance (row['z22'])
+                    if 'c22' in row:
+                        cfull[i][i] = float(row['c22'])
+                    j = i-1
+                    if 'z12' in row:
+                        rfull[j][i], xfull[j][i] = parse_impedance (row['z12'])
+                        rfull[i][j] = rfull[j][i]
+                        xfull[i][j] = xfull[j][i]
+                    if 'c12' in row:
+                        cfull[j][i] = float(row['c12'])
+                        cfull[i][j] = cfull[j][i]
+                    i += 1
+                if 'z33' in row:
+                    rfull[i][i], xfull[i][i] = parse_impedance (row['z33'])
+                    if 'c33' in row:
+                        cfull[i][i] = float(row['c33'])
+                    ## fill in the diagonals
+                    j = i-1
+                    if 'c23' in row:
+                        cfull[j][i] = float(row['c23'])
+                        cfull[i][j] = cfull[j][i]
+                    if 'z23' in row:
+                        rfull[j][i], xfull[j][i] = parse_impedance (row['z23'])
+                        rfull[i][j] = rfull[j][i]
+                        xfull[i][j] = xfull[j][i]
+                        j -= 1
+                    if 'z13' in row:
+                        rfull[j][i], xfull[j][i] = parse_impedance (row['z13'])
+                        rfull[i][j] = rfull[j][i]
+                        xfull[i][j] = xfull[j][i]
+                    if 'c13' in row:
+                        cfull[j][i] = float(row['c13'])
+                        cfull[i][j] = cfull[j][i]
+                # write this line code in triangular form
+                rmat = '['
+                xmat = '['
+                cmat = '['
+                for ii in range(phases):
+                    for jj in range(ii+1):
+                        rmat += '{:.6f}'.format(rfull[ii][jj])
+                        xmat += '{:.6f}'.format(xfull[ii][jj])
+                        cmat += '{:.6f}'.format(cfull[ii][jj])
+                        if jj < ii:
+                            rmat += ' '
+                            xmat += ' '
+                            cmat += ' '
+                    if ii < (phases-1):
+                        rmat += ' | '
+                        xmat += ' | '
+                        cmat += ' | '
+                    else:
+                        rmat += ']'
+                        xmat += ']'
+                        cmat += ']'
+                lcodef.write('new linecode.' + str(code)      +\
+                        ' nphases='+str(phases) + ' units=mi' +\
+                        '\n~ rmatrix=' + rmat                 +\
+                        '\n~ xmatrix=' + xmat                 +\
+                        '\n~ cmatrix=' + cmat                 +\
+                        '\n')
         lcodef.close()
     
     # OVERHEAD LINES
@@ -610,57 +680,68 @@ for ifn in glob.glob("base_taxonomy/new*.glm"):
         ugf.close()
     
     
-    # TRIPLEX LINES
+    # TRIPLEX LINES (two variants, one with spacing/conductor, other with impedances)
     # triplex_line_conductor: wire - resistance and gmr defined
     # triplex_line: linecode - distances defined as follows:
     #   distances = 2*diameter/2 + 2*insulation_thickness
     #   number and type of conductors is fixed
     if 'triplex_line_configuration' in model:
         redirects.append('TpxLineCodes.dss')
-        wirehash = model['triplex_line_conductor']
+        if 'triplex_line_conductor' in model:
+            wirehash = model['triplex_line_conductor']
         tpxcodef = open(modeldir+'/TpxLineCodes.dss','w')
         tpxcodef.write('! Triplex linecodes\n')
         for code in model['triplex_line_configuration']:
             row = model['triplex_line_configuration'][code]
-            # Populate the following list vectors for existing phases
-            ri = []
-            GMR = []
-            Dij = []
-            # Phase 1
-            ri.append(float(wirehash[h[row['conductor_1']]]['resistance']))
-            GMR.append(float(wirehash[h[row['conductor_1']]]['geometric_mean_radius']))
-            Dij.append([])
-            Dij[0].append(0)
-            Dij[0].append(float(row['diameter'])+2*float(row['insulation_thickness']))
-            Dij[0].append(float(row['diameter'])+2*float(row['insulation_thickness']))
-            # Phase 2
-            ri.append(float(wirehash[h[row['conductor_2']]]['resistance']))
-            GMR.append(float(wirehash[h[row['conductor_2']]]['geometric_mean_radius']))
-            Dij.append([])
-            Dij[1].append(float(row['diameter'])+2*float(row['insulation_thickness']))
-            Dij[1].append(0)
-            Dij[1].append(float(row['diameter'])+2*float(row['insulation_thickness']))
-            # Phase N
-            ri.append(float(wirehash[h[row['conductor_N']]]['resistance']))
-            GMR.append(float(wirehash[h[row['conductor_N']]]['geometric_mean_radius']))
-            Dij.append([])
-            Dij[2].append(float(row['diameter'])+2*float(row['insulation_thickness']))
-            Dij[2].append(float(row['diameter'])+2*float(row['insulation_thickness']))
-            Dij[2].append(0)
+            neutflag = False
+            if 'z11' in row:
+                r11, x11 = parse_impedance(row['z11'])
+                r12, x12 = parse_impedance(row['z12'])
+                r21, x21 = parse_impedance(row['z21'])
+                r22, x22 = parse_impedance(row['z22'])
+                rprim = [[r11, r12],[r21, r22]]
+                xprim = [[x11, x12],[x21, x22]]
+            else:
+                # Populate the following list vectors for existing phases
+                ri = []
+                GMR = []
+                Dij = []
+                # Phase 1
+                ri.append(float(wirehash[h[row['conductor_1']]]['resistance']))
+                GMR.append(float(wirehash[h[row['conductor_1']]]['geometric_mean_radius']))
+                Dij.append([])
+                Dij[0].append(0)
+                Dij[0].append(float(row['diameter'])+2*float(row['insulation_thickness']))
+                Dij[0].append(float(row['diameter'])+2*float(row['insulation_thickness']))
+                # Phase 2
+                ri.append(float(wirehash[h[row['conductor_2']]]['resistance']))
+                GMR.append(float(wirehash[h[row['conductor_2']]]['geometric_mean_radius']))
+                Dij.append([])
+                Dij[1].append(float(row['diameter'])+2*float(row['insulation_thickness']))
+                Dij[1].append(0)
+                Dij[1].append(float(row['diameter'])+2*float(row['insulation_thickness']))
+                # Phase N
+                ri.append(float(wirehash[h[row['conductor_N']]]['resistance']))
+                GMR.append(float(wirehash[h[row['conductor_N']]]['geometric_mean_radius']))
+                Dij.append([])
+                Dij[2].append(float(row['diameter'])+2*float(row['insulation_thickness']))
+                Dij[2].append(float(row['diameter'])+2*float(row['insulation_thickness']))
+                Dij[2].append(0)
+                neutflag = True
             
-            # Calculate the primitive impedance matrix
-            rprim = []
-            xprim = []
-            for ii in range(0,3):
-                rprim.append([])
-                xprim.append([])
-                for jj in range(0,3):
-                    if ii == jj:
-                        rprim[ii].append(ri[ii]+rterm)
-                        xprim[ii].append(icoef*(math.log(1/GMR[ii])+iterm))
-                    else:
-                        rprim[ii].append(rterm)
-                        xprim[ii].append(icoef*(math.log(1/Dij[ii][jj])+iterm))
+                # Calculate the primitive impedance matrix
+                rprim = []
+                xprim = []
+                for ii in range(0,3):
+                    rprim.append([])
+                    xprim.append([])
+                    for jj in range(0,3):
+                        if ii == jj:
+                            rprim[ii].append(ri[ii]+rterm)
+                            xprim[ii].append(icoef*(math.log(1/GMR[ii])+iterm))
+                        else:
+                            rprim[ii].append(rterm)
+                            xprim[ii].append(icoef*(math.log(1/Dij[ii][jj])+iterm))
             
             # Write the triplex line codes
             name = code
@@ -680,14 +761,19 @@ for ifn in glob.glob("base_taxonomy/new*.glm"):
                     rmat += ' ]'
                     xmat += ' ]'
             # OpenDSS reduces the last conductor by default
-            kron = 'yes' if neutflag else 'no'
-            tpxcodef.write('new linecode.' + name               +\
-                    ' nphases=3'                                +\
-                    ' neutral=3'                                +\
-                    '\n~ rmatrix=' + rmat                       +\
-                    '\n~ xmatrix=' + xmat                       +\
-                    '\n~ units=mi kron=' + kron                 +\
-                    '\n')
+            if neutflag:
+                tpxcodef.write('new linecode.' + name    +\
+                        ' nphases=3 units=mi'            +\
+                        ' neutral=3 kron=yes'            +\
+                        '\n~ rmatrix=' + rmat            +\
+                        '\n~ xmatrix=' + xmat            +\
+                        '\n')
+            else:
+                tpxcodef.write('new linecode.' + name    +\
+                        ' nphases=2 units=mi'            +\
+                        '\n~ rmatrix=' + rmat            +\
+                        '\n~ xmatrix=' + xmat            +\
+                        '\n')
         tpxcodef.close()
     
     
@@ -734,6 +820,11 @@ for ifn in glob.glob("base_taxonomy/new*.glm"):
             if 'powerC_rating' in row:
                 if float(row['powerC_rating']) > 0.0:
                     phct +=1
+            if phct == 0 and 'power_rating' in row:
+                if row['connect_type'] == 'SINGLE_PHASE_CENTER_TAPPED':
+                    phct = 1
+                else:
+                    phct = 3
             kvastr = ' kva='+str(row['power_rating'])
             xff.write('new xfmrcode.xfcode_'+str(xfcode))
             if row['connect_type'] == 'SINGLE_PHASE_CENTER_TAPPED':
@@ -748,29 +839,48 @@ for ifn in glob.glob("base_taxonomy/new*.glm"):
             if 'shunt_reactance' in row:
                 imag_pct = '{:.3f}'.format(1/float(row['shunt_reactance'])*100)
                 xff.write(' %imag='+imag_pct)
-            xff.write('\n\t~')
+            if ('shunt_resistance' in row) or ('shunt_reactance' in row):
+                xff.write('\n\t~')
             # Implementation depends on the connection type
             if row['connect_type'] == 'SINGLE_PHASE_CENTER_TAPPED':
-                # Reactance and Resistance definitions
-                xgld = 100.0 * float(row['reactance'])
-                if ('reactance1' in row) and ('reactance2' in row):
-                    xgld1 = 100.0 * float(row['reactance1'])
-                    xgld2 = 100.0 * float(row['reactance2'])
-                    xhl = xgld + xgld1
-                    xht = xgld + xgld2
-                    xlt = xgld1 + xgld2
-                else: # GLD file contains the star-equivalent reactances
-                    xhl = 1.2 * xgld
-                    xht = 1.2 * xgld
-                    xlt = 0.8 * xgld
-                rwdg1 = 100.0 * float(row['resistance'])
-                if ('resistance1' in row) and ('resistance2' in row):
-                    rwdg2 = 100.0 * float(row['resistance1'])
-                    rwdg3 = 100.0 * float(row['resistance2'])
-                else: # GLD file contains the winding resistances
-                    rwdg2 = rwdg1
-                    rwdg3 = rwdg1
-                    rwdg1 *= 0.5
+                if 'impedance' in row:
+                    rwdg1, xgld = parse_impedance (row['impedance'])
+                    if ('impedance1' in row) and ('imedance2' in row):
+                        r1, x1 = parse_impedance (row['impedance1'])
+                        r2, x2 = parse_impedance (row['impedance2'])
+                        xhl = 100.0 * (xgld + x1)
+                        xht = 100.0 * (xgld + x2)
+                        xll = 100.0 * (x1 + x2)
+                        rwdg1 *= 100.0
+                        rwdg2 = 100.0 * r1
+                        rwdg3 = 100.0 * r2
+                    else:
+                        xhl = 1.2 * 100.0 * xgld
+                        xht = xhl
+                        xlt = xhl * 0.8 / 1.2
+                        rwdg1 *= 100.0 * 0.5
+                        rwdg2 = 2 * rwdg1
+                        rwdg3 = rwdg2
+                else: # separate Reactance and Resistance definitions
+                    xgld = 100.0 * float(row['reactance'])
+                    if ('reactance1' in row) and ('reactance2' in row):
+                        xgld1 = 100.0 * float(row['reactance1'])
+                        xgld2 = 100.0 * float(row['reactance2'])
+                        xhl = xgld + xgld1
+                        xht = xgld + xgld2
+                        xlt = xgld1 + xgld2
+                    else: # GLD file contains the star-equivalent reactances
+                        xhl = 1.2 * xgld
+                        xht = 1.2 * xgld
+                        xlt = 0.8 * xgld
+                    rwdg1 = 100.0 * float(row['resistance'])
+                    if ('resistance1' in row) and ('resistance2' in row):
+                        rwdg2 = 100.0 * float(row['resistance1'])
+                        rwdg3 = 100.0 * float(row['resistance2'])
+                    else: # GLD file contains the winding resistances
+                        rwdg2 = rwdg1
+                        rwdg3 = rwdg1
+                        rwdg1 *= 0.5
                 # write the parsed short-circuit reactance data
                 xff.write(' xhl='+'{:.3f}'.format(xhl))
                 xff.write(' xht='+'{:.3f}'.format(xht))
@@ -1028,7 +1138,7 @@ for ifn in glob.glob("base_taxonomy/new*.glm"):
             if row['status'] == 'OPEN':
                 fusef.write(' enabled=false')
             fusef.write('\n');
-    fusef.close()
+        fusef.close()
 
 
     
@@ -1048,13 +1158,27 @@ for ifn in glob.glob("base_taxonomy/new*.glm"):
             phsfx = get_phsfx(row['phases'])
             phqty = str(count_ph(row['phases']))
             numtaps = str(float(row['raise_taps'])+float(row['lower_taps']))
-            vbase = str(row['band_center'])
-            kvbase = str(float(row['band_center'])/1000)
-            vband = str(row['band_width'])
+            if 'band_center' in row:
+                vbase = str(row['band_center'])
+            else:
+                vbase = '120'
+            kvbase = str(float(vbase)/1000)
+            if 'band_width' in row:
+                vband = str(row['band_width'])
+            else:
+                vband = '2'
             maxtap = str(1+float(row['regulation']))
             mintap = str(1-float(row['regulation']))
-            delay = str(row['time_delay'])
-            ptratio = '1'
+            if 'time_delay' in row:
+                delay = str(row['time_delay'])
+            else:
+                delay = '30'
+            if 'power_transducer_ratio' in row:
+                ptratio = str(row['power_transducer_ratio'])
+                if 'band_center' not in row:
+                    kvbase = str(float(ptratio)*120/1000)
+            else:
+                ptratio = '1'
             regnum = regnum + 1
             regbank = str(regnum)
             if 'A' in row['phases']:
@@ -1184,9 +1308,7 @@ for ifn in glob.glob("base_taxonomy/new*.glm"):
 
     # SUBSTATION
     sourcef = open(modeldir+'/VSource.dss','w')
-    sourcef.write('new circuit.sourceckt '+\
-            'bus1=sourcebus phases=3 MVAsc3=50000 basekv=100\n')
-    # kvbases.update([100.00])
+    sourcef.write('new circuit.sourceckt bus1=sourcebus phases=3 MVAsc3=50000 basekv={:.2f}\n'.format(srcekv))
     sourcef.write('new line.trunk bus1=sourcebus bus2=rootbus phases=3 switch=yes\n')
     sourcef.write('new energymeter.feeder element=line.trunk terminal=1\n')
     feederhead = '' # starting bus as defined by PNNL
@@ -1196,6 +1318,7 @@ for ifn in glob.glob("base_taxonomy/new*.glm"):
                 t == 'capacitor' or\
                 t == 'load' or\
                 t == 'triplex_meter' or\
+                t == 'substation' or\
                 t == 'triplex_node':
             for o in model[t]:
                 if 'bustype' in model[t][o]:
@@ -1203,13 +1326,13 @@ for ifn in glob.glob("base_taxonomy/new*.glm"):
                         # Connect gld swing bus to the source bus
                         feederhead = str(o)
                         sourcef.write('new transformer.source_'+str(o))
-                        sourcef.write(' phases='+str(count_ph(row['phases'])))
+                        sourcef.write(' phases=3')
                         sourcef.write(' %noloadloss=0.0001')
                         sourcef.write(' %imag=0.0001')
                         sourcef.write(' %loadloss=0.0001')
                         sourcef.write(' xhl=0.0001')
                         sourcef.write(' windings=2')
-                        sourcef.write(' wdg=1 kva=100000 kv=100')
+                        sourcef.write(' wdg=1 kva=100000 kv={:.2f}'.format(srcekv))
                         sourcef.write(' bus=rootbus')
                         sourcef.write(' wdg=2 kva=100000 kv='+\
                             '{:.3f}'.format(float(model[t][o]['nominal_voltage'])/1000*1.73205))
@@ -1223,32 +1346,33 @@ for ifn in glob.glob("base_taxonomy/new*.glm"):
     
     # COORDINATES
     # coordinates from visualizations by Michael A. Cohen
-    vf = open(wd+'/visualizations/'+taxname+'.dot')
     coordh = {}
-    line = vf.readline()
-    while line is not '':
-        m = re.search(r'^\s*(\S+)\s+\[',line)
-        if m:
-            # Found an object
-            o = m.group(1)
-            coordh[o] = {}
-            coordh[o]['x'] = None
-            coordh[o]['y'] = None
-            # look for coordinates
-            while not re.search(']',line):
-                line = vf.readline()
-                n = re.search(r'pos\s*=\s*"\s*(\d+\.?\d*)\s*,\s*(\d+\.?\d*)\s*"',line)
-                if n:
-                    # print('\tx is '+n.group(1))
-                    # print('\ty is '+n.group(2))
-                    coordh[o]['x'] = n.group(1)
-                    coordh[o]['y'] = n.group(2)
-            if coordh[o]['x'] is None or coordh[o]['y'] is None:
-                # object had no coordinates or coordinates were invalid
-                # print('No valid coordinates for '+o)
-                del coordh[o]
+    if len(dotfile) > 0:
+        vf = open(dotfile)
         line = vf.readline()
-    vf.close()
+        while line is not '':
+            m = re.search(r'^\s*(\S+)\s+\[',line)
+            if m:
+                # Found an object
+                o = m.group(1)
+                coordh[o] = {}
+                coordh[o]['x'] = None
+                coordh[o]['y'] = None
+                # look for coordinates
+                while not re.search(']',line):
+                    line = vf.readline()
+                    n = re.search(r'pos\s*=\s*"\s*(\d+\.?\d*)\s*,\s*(\d+\.?\d*)\s*"',line)
+                    if n:
+                        # print('\tx is '+n.group(1))
+                        # print('\ty is '+n.group(2))
+                        coordh[o]['x'] = n.group(1)
+                        coordh[o]['y'] = n.group(2)
+                if coordh[o]['x'] is None or coordh[o]['y'] is None:
+                    # object had no coordinates or coordinates were invalid
+                    # print('No valid coordinates for '+o)
+                    del coordh[o]
+            line = vf.readline()
+        vf.close()
     coordf = open(modeldir+'/Buscoords.csv','w')
     for t in {'node','meter','capacitor','load','triplex_meter','triplex_node'}:
         if t in model:
@@ -1257,15 +1381,19 @@ for ifn in glob.glob("base_taxonomy/new*.glm"):
                 if m:
                     nde = m.group(1)+m.group(2)
                     if nde in coordh:
-                        coordf.write(node+','+coordh[nde]['x']+\
-                                          ','+coordh[nde]['y']+'\n')
-                        if node == feederhead:
-                            yhead = float (coordh[nde]['y'])
-                            coordf.write('rootbus,'+coordh[nde]['x']+',{:.2f}\n'.format(yhead-1))
-                            coordf.write('sourcebus,'+coordh[nde]['x']+',{:.2f}\n'.format(yhead-2))
+                        xde = coordh[nde]['x']
+                        yde = coordh[nde]['y']
+                        yhead = float(yde)
                     else:
-                        print('No coordinates for '+node)
-    # coordf.close()
+                        xde = '0'
+                        yde = '0'
+#                        print('No coordinates for '+node)
+                    coordf.write(node+','+xde+','+yde+'\n')
+                    if node == feederhead:
+                        yhead = float (yde)
+                        coordf.write('rootbus,'+xde+',{:.2f}\n'.format(yhead-1))
+                        coordf.write('sourcebus,'+xde+',{:.2f}\n'.format(yhead-2))
+    coordf.close()
     
     # -----------------------------------------------------------------------------
     # Master File
@@ -1275,9 +1403,8 @@ for ifn in glob.glob("base_taxonomy/new*.glm"):
     masterf.write('redirect VSource.dss\n')
     for f in redirects:
         masterf.write('redirect '+f+'\n')
-    # Voltage bases should be built dynamicly
-    masterf.write('set voltagebases="')
-    masterf.write('100,34.5,24.9,22.9,13.8,12.47,0.48,0.208"\n')
+    # Voltage bases should be built dynamically
+    masterf.write('set voltagebases="{:s}"\n'.format(vbase_str))
     # ctr = 0
     # for kvbase in kvbases:
         # ctr += 1
@@ -1286,7 +1413,74 @@ for ifn in glob.glob("base_taxonomy/new*.glm"):
         # masterf.write(',' if ctr < len(# kvbases) else '"\n')
     masterf.write('calcv\n')
     masterf.write('buscoords Buscoords.csv\n')
+    print ('batchedit load..* model=5 // 1=P, 2=Z, 5=I', file=masterf)
+    print ('AddBusMarker Bus={:s} code=34 color=Green size=5'.format (feederhead), file=masterf)
+    print ('set markcapacitors=yes', file=masterf)
+    print ('set capmarkercode=38', file=masterf)
+    print ('set capmarkersize=1', file=masterf)
+    print ('set markfuses=no', file=masterf)
+    print ('set fusemarkercode=12', file=masterf)
+    print ('set markreclosers=yes', file=masterf)
+    print ('set reclosermarkercode=26', file=masterf)
+    print ('set reclosermarkersize=2', file=masterf)
+    print ('set markregulators=yes', file=masterf)
+    print ('set regmarkercode=34', file=masterf)
+    print ('set regmarkersize=1', file=masterf)
+    print ('set markswitches=no', file=masterf)
+    print ('set switchmarkercode=12', file=masterf)
+    print ('set marktransformers=no', file=masterf)
+    print ('set transmarkercode=25', file=masterf)
+    print ('set transmarkersize=1', file=masterf)
+    print ('set DaisySize=1.0', file=masterf)
+    masterf.close()
 
+# ----------------------------------
+# Process all of the taxonomy models
+#-----------------------------------
+
+def process_taxonomy():
+    vbase_str = '100,34.5,24.9,22.9,13.8,12.47,0.48,0.208'
+    for ifn in glob.glob("base_taxonomy/new*.glm"):
+        wd = os.getcwd()
+        if sys.platform == 'win32':
+            m = re.match(r'base_taxonomy\\(.+).glm',ifn)
+        else:
+            m = re.match(r'base_taxonomy/(.+).glm',ifn)
+        if m:
+            modelname = re.sub('[-\.]','_',m.group(1))
+        else:
+            modelname = 'default'
+        if 'GC-12.47-1' in ifn:
+            taxname = 'GC-12.47-1'
+        else:
+            taxname = 'default'
+        n = re.search(r'(R\d-\d\d\.\d\d-\d).glm',ifn)
+        if n:
+            taxname = n.group(1)
+        print("Processing "+taxname+"... "+ifn)
+        inf = open(ifn,'r')
+        if sys.platform == 'win32':
+            modeldir = wd + '\\' + modelname
+        else:
+            modeldir = wd + '/' + modelname
+        if modelname not in glob.glob('*'):
+            os.system('mkdir '+modeldir)
+
+        dotfile = wd+'/visualizations/'+taxname+'.dot'
+        process_one_model (inf, modeldir, dotfile, vbase_str)
+
+if __name__ == '__main__':
+    if len(sys.argv) > 1:
+        fname = sys.argv[1]
+        fp = open(fname, 'r')
+        if len(sys.argv) > 2:
+            vbase_str = sys.argv[2].strip('"')
+        else:
+            vbase_str = '12.47,0.48,0.208'
+        process_one_model (fp, '.', '', vbase_str)
+        fp.close()
+    else:
+        process_taxonomy()
 
 
 
