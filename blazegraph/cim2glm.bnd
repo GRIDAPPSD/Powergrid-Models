@@ -1,7 +1,8 @@
-Bundle-Version: 16.0.0
+Bundle-Version: 16.1.0
 Private-Package: \
 	gov.pnnl.goss.cim2glm.components,\
 	gov.pnnl.goss.cim2glm.queryhandler.impl
 Export-Package: \
 	gov.pnnl.goss.cim2glm.queryhandler,\
-	gov.pnnl.goss.cim2glm
+	gov.pnnl.goss.cim2glm,\
+	gov.pnnl.goss.cim2glm.dto
