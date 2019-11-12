@@ -17,10 +17,14 @@ public class SyncMachine {
 		this.q = q;
 	}
 
-
-/**
+	public SyncMachine() {
+		name = null;
+		p = 0;
+		q = 0;
+	}
+	/**
 	 * convert a CIM name to simulator name, replacing unallowed characters
-	 * 
+	 *
 	 * @param arg
 	 *            the root bus or component name, aka CIM name
 	 * @return the compatible name for GridLAB-D or OpenDSS

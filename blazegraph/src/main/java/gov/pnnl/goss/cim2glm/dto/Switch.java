@@ -12,10 +12,10 @@ public class Switch {
 	public boolean open;
 
 
-	public String CIMClass() {
-		return null;
+	public Switch() {
+		this.name = null;
+		this.open = false;
 	}
-
 
 	public Switch (String name, boolean open) {
 		this.name = SafeName (name);
@@ -24,7 +24,7 @@ public class Switch {
 
 	/**
 	 * convert a CIM name to simulator name, replacing unallowed characters
-	 * 
+	 *
 	 * @param arg
 	 *            the root bus or component name, aka CIM name
 	 * @return the compatible name for GridLAB-D or OpenDSS
