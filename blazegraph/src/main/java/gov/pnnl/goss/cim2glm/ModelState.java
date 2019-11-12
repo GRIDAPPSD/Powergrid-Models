@@ -1,7 +1,10 @@
-package gov.pnnl.goss.cim2glm.components;
+package gov.pnnl.goss.cim2glm;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import gov.pnnl.goss.cim2glm.components.DistSwitch;
+import gov.pnnl.goss.cim2glm.components.DistSyncMachine;
 
 public class ModelState {
 	List<DistSyncMachine> synchronousmachines = new ArrayList<DistSyncMachine>();

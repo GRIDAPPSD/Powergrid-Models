@@ -57,7 +57,6 @@ import gov.pnnl.goss.cim2glm.components.DistXfmrCodeOCTest;
 import gov.pnnl.goss.cim2glm.components.DistXfmrCodeRating;
 import gov.pnnl.goss.cim2glm.components.DistXfmrCodeSCTest;
 import gov.pnnl.goss.cim2glm.components.DistXfmrTank;
-import gov.pnnl.goss.cim2glm.components.ModelState;
 import gov.pnnl.goss.cim2glm.queryhandler.QueryHandler;
 import gov.pnnl.goss.cim2glm.queryhandler.impl.HTTPBlazegraphQueryHandler;
 
