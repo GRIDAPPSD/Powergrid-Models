@@ -4,19 +4,19 @@ package gov.pnnl.goss.cim2glm;
 //      		All rights reserved.
 //      		----------------------------------------------------------
 
-import java.io.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.SortedSet;
-import java.util.TreeSet;
 import java.util.List;
 import java.util.Random;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
-import org.apache.jena.query.*;
-
-import gov.pnnl.goss.cim2glm.CIMWriter;
-import gov.pnnl.goss.cim2glm.OperationalLimits;
+import org.apache.jena.query.QuerySolution;
+import org.apache.jena.query.ResultSet;
+import org.apache.jena.query.ResultSetCloseable;
 
 import gov.pnnl.goss.cim2glm.components.DistBaseVoltage;
 import gov.pnnl.goss.cim2glm.components.DistBreaker;
@@ -58,27 +58,30 @@ import gov.pnnl.goss.cim2glm.components.DistXfmrCodeOCTest;
 import gov.pnnl.goss.cim2glm.components.DistXfmrCodeRating;
 import gov.pnnl.goss.cim2glm.components.DistXfmrCodeSCTest;
 import gov.pnnl.goss.cim2glm.components.DistXfmrTank;
+import gov.pnnl.goss.cim2glm.dto.ModelState;
+import gov.pnnl.goss.cim2glm.dto.Switch;
+import gov.pnnl.goss.cim2glm.dto.SyncMachine;
 import gov.pnnl.goss.cim2glm.queryhandler.QueryHandler;
 import gov.pnnl.goss.cim2glm.queryhandler.impl.HTTPBlazegraphQueryHandler;
 
 /**
- * <p>This class builds a GridLAB-D or OpenDSS model by running 
- * SQARQL queries against Blazegraph 
- * triple-store</p> 
- *      
- * <p>Invoke as a console-mode program</p> 
- *      
- * @see CIMImporter#main 
- *      
- * @author Tom McDermott 
- * @version 1.0 
- *      
+ * <p>This class builds a GridLAB-D or OpenDSS model by running
+ * SQARQL queries against Blazegraph
+ * triple-store</p>
+ *
+ * <p>Invoke as a console-mode program</p>
+ *
+ * @see CIMImporter#main
+ *
+ * @author Tom McDermott
+ * @version 1.0
+ *
  */
 
 public class CIMImporter extends Object {
 	QueryHandler queryHandler;
 	OperationalLimits oLimits;
-	
+
 	HashMap<String,GldNode> mapNodes = new HashMap<>();
 	HashMap<String,GldLineConfig> mapLineConfigs = new HashMap<>();
 
@@ -128,7 +131,7 @@ public class CIMImporter extends Object {
 	HashMap<String,DistXfmrBank> mapBanks = new HashMap<>();
 	HashMap<String,DistMeasurement> mapMeasurements = new HashMap<>();
 	HashMap<String,DistHouse> mapHouses = new HashMap<>();
-	
+
 	boolean allMapsLoaded = false;
 
 	void LoadOneCountMap (String szQuery, HashMap<String,Integer> map) {
@@ -151,7 +154,7 @@ public class CIMImporter extends Object {
 		LoadOneCountMap (DistXfmrCodeSCTest.szCountQUERY, mapCountCodeSCTest);
 		LoadOneCountMap (DistLineSegment.szCountQUERY, mapCountLinePhases);
 		LoadOneCountMap (DistLineSpacing.szCountQUERY, mapCountSpacingXY);
-//		PrintOneCountMap (mapCountSpacingXY, "Line Spacing Position Counts");
+		//		PrintOneCountMap (mapCountSpacingXY, "Line Spacing Position Counts");
 	}
 
 	void LoadBaseVoltages() {
@@ -415,7 +418,7 @@ public class CIMImporter extends Object {
 		((ResultSetCloseable)results).close();
 	}
 
-	void LoadRegulators() { 
+	void LoadRegulators() {
 		ResultSet results = queryHandler.query (DistRegulator.szQUERY);
 		while (results.hasNext()) {
 			DistRegulator obj = new DistRegulator (results, queryHandler);
@@ -446,7 +449,7 @@ public class CIMImporter extends Object {
 		ResultSet results = queryHandler.query (DistPowerXfmrWinding.szQUERY);
 		while (results.hasNext()) {
 			DistPowerXfmrWinding obj = new DistPowerXfmrWinding (results, mapCountWinding);
-			mapXfmrWindings.put (obj.GetKey(), obj); 
+			mapXfmrWindings.put (obj.GetKey(), obj);
 		}
 		((ResultSetCloseable)results).close();
 	}
@@ -468,7 +471,7 @@ public class CIMImporter extends Object {
 		}
 		((ResultSetCloseable)results).close();
 	}
-	
+
 	void LoadHouses() {
 		ResultSet results = queryHandler.query (DistHouse.szQUERY);
 		while (results.hasNext()) {
@@ -540,7 +543,7 @@ public class CIMImporter extends Object {
 		PrintOneMap (mapHouses, "** HOUSES");
 		PrintOneMap (mapSyncMachines, "** SYNC MACHINES");
 	}
-	
+
 	public void LoadAllMaps() {
 		boolean useHouses = false;
 		LoadAllMaps(useHouses);
@@ -595,8 +598,8 @@ public class CIMImporter extends Object {
 			throw new RuntimeException ("no substation source");
 		}
 		nLinks = mapLoadBreakSwitches.size() + mapLinesCodeZ.size() + mapLinesSpacingZ.size() + mapLinesInstanceZ.size() +
-			mapXfmrWindings.size() + mapTanks.size() + mapFuses.size() + mapDisconnectors.size() + mapBreakers.size() +
-			mapReclosers.size() + mapSectionalisers.size(); // standalone regulators not allowed in CIM
+				mapXfmrWindings.size() + mapTanks.size() + mapFuses.size() + mapDisconnectors.size() + mapBreakers.size() +
+				mapReclosers.size() + mapSectionalisers.size(); // standalone regulators not allowed in CIM
 		if (nLinks < 1) {
 			throw new RuntimeException ("no lines, transformers or switches");
 		}
@@ -670,7 +673,7 @@ public class CIMImporter extends Object {
 
 		return true;
 	}
-	
+
 	public void WriteMapDictionary (HashMap<String,? extends DistComponent> map, String label, boolean bLast, PrintWriter out){
 		WriteMapDictionary(map, label, bLast, out, -1);
 	}
@@ -744,8 +747,8 @@ public class CIMImporter extends Object {
 		out.close();
 	}
 
-	public void WriteMapSymbols (HashMap<String,? extends DistComponent> map, String label, 
-															 boolean bLast, PrintWriter out) {
+	public void WriteMapSymbols (HashMap<String,? extends DistComponent> map, String label,
+			boolean bLast, PrintWriter out) {
 		int count = 1, last = map.size();
 		out.println ("\"" + label + "\":[");
 
@@ -786,7 +789,7 @@ public class CIMImporter extends Object {
 	}
 
 	public void WriteJSONSymbolFile (PrintWriter out)  {
-		
+
 		int count, last;
 
 		out.println("{\"feeders\":[");
@@ -953,10 +956,10 @@ public class CIMImporter extends Object {
 		mapLineConfigs.put (config_name, cfg);
 		return config_name;
 	}
-	
-	protected void WriteGLMFile (PrintWriter out, double load_scale, boolean bWantSched, String fSched, 
-															boolean bWantZIP, boolean randomZIP, boolean useHouses, double Zcoeff, 
-															double Icoeff, double Pcoeff, boolean bHaveEventGen) {
+
+	protected void WriteGLMFile (PrintWriter out, double load_scale, boolean bWantSched, String fSched,
+			boolean bWantZIP, boolean randomZIP, boolean useHouses, double Zcoeff,
+			double Icoeff, double Pcoeff, boolean bHaveEventGen) {
 
 		// build a polymorphic map of switches
 		HashMap<String,DistSwitch> mapSwitches = new HashMap<>();
@@ -970,12 +973,12 @@ public class CIMImporter extends Object {
 		// preparatory steps to build the list of nodes
 		ResultSet results = queryHandler.query (
 				"SELECT ?name WHERE {"+
-				" ?fdr c:IdentifiedObject.mRID ?fdrid."+
-				" ?s c:ConnectivityNode.ConnectivityNodeContainer ?fdr."+
-				" ?s r:type c:ConnectivityNode."+
-				" ?s c:IdentifiedObject.name ?name."+
-		//		" ?fdr c:IdentifiedObject.name ?feeder."+
-			  "} ORDER by ?name");
+						" ?fdr c:IdentifiedObject.mRID ?fdrid."+
+						" ?s c:ConnectivityNode.ConnectivityNodeContainer ?fdr."+
+						" ?s r:type c:ConnectivityNode."+
+						" ?s c:IdentifiedObject.name ?name."+
+						//		" ?fdr c:IdentifiedObject.name ?feeder."+
+				"} ORDER by ?name");
 		while (results.hasNext()) {
 			QuerySolution soln = results.next();
 			String bus = DistComponent.SafeName (soln.get ("?name").toString());
@@ -1059,7 +1062,7 @@ public class CIMImporter extends Object {
 			} else {
 				DistSequenceMatrix zseq = mapSequenceMatrices.get (obj.lname);
 				if (zseq != null) {
-//					System.out.println ("Sequence Z " + zseq.name + " using " + obj.phases + " for " + obj.name);
+					//					System.out.println ("Sequence Z " + zseq.name + " using " + obj.phases + " for " + obj.name);
 				}
 			}
 			GldNode nd1 = mapNodes.get (obj.bus1);
@@ -1316,7 +1319,7 @@ public class CIMImporter extends Object {
 				out.print ("}\n");
 			}
 		}
-		
+
 		// GLM houses
 		if (useHouses) {
 			Random r = new Random();
@@ -1336,7 +1339,7 @@ public class CIMImporter extends Object {
 
 		out.close();
 	}
-	
+
 	protected void WriteDSSCoordinates (PrintWriter out)  {
 		String bus;
 		DistCoordinates pt1, pt2;
@@ -1387,7 +1390,7 @@ public class CIMImporter extends Object {
 			pt2 = mapCoordinates.get("ACLineSegment:" + obj.name + ":2");
 			mapBusXY.put (obj.bus1, new Double [] {pt1.x, pt1.y});
 			mapBusXY.put (obj.bus2, new Double [] {pt2.x, pt2.y});
-//			setSegXY.add(new DSSSegmentXY (obj.bus1, pt1.x, pt1.y, obj.bus2, pt2.x, pt2.y));
+			//			setSegXY.add(new DSSSegmentXY (obj.bus1, pt1.x, pt1.y, obj.bus2, pt2.x, pt2.y));
 		}
 		for (HashMap.Entry<String,DistLinesInstanceZ> pair : mapLinesInstanceZ.entrySet()) {
 			DistLineSegment obj = pair.getValue();
@@ -1465,10 +1468,10 @@ public class CIMImporter extends Object {
 		return id;
 	}
 
-	protected void WriteDSSFile (PrintWriter out, PrintWriter outID, String fXY, String fID, double load_scale, 
-															 boolean bWantSched, String fSched, boolean bWantZIP, double Zcoeff, double Icoeff, double Pcoeff)  {
+	protected void WriteDSSFile (PrintWriter out, PrintWriter outID, String fXY, String fID, double load_scale,
+			boolean bWantSched, String fSched, boolean bWantZIP, double Zcoeff, double Icoeff, double Pcoeff)  {
 		out.println ("clear");
-		
+
 		for (HashMap.Entry<String,DistSubstation> pair : mapSubstations.entrySet()) {
 			out.print (pair.getValue().GetDSS());
 			outID.println ("Circuit." + pair.getValue().name + "\t" + GUIDfromCIMmRID (pair.getValue().id));
@@ -1622,10 +1625,10 @@ public class CIMImporter extends Object {
 
 		out.println();
 		out.println ("calcv");
-		
+
 		// capture the time sequence of phase voltage and current magnitudes at the feeder head
 
-//		out.println ("New Monitor.fdr element=line.sw1 mode=32 // mode=48 for sequence magnitudes ");
+		//		out.println ("New Monitor.fdr element=line.sw1 mode=32 // mode=48 for sequence magnitudes ");
 
 		// import the "player file" and assign to all loads
 
@@ -1639,24 +1642,24 @@ public class CIMImporter extends Object {
 
 		// removed the local Docker paths, relying on cwd instead
 
-//		buscoords model_busxy.dss
-//		uuids model_guid.dss
-				
+		//		buscoords model_busxy.dss
+		//		uuids model_guid.dss
+
 		//Only use local names for fXY and FID
 		File fXYFile = new File(fXY);
 		File fIDFile = new File(fID);
-				
+
 		out.println ("buscoords " + fXYFile.getName());
 		out.println ("uuids " + fIDFile.getName());
-		
+
 
 		out.println();
-		
+
 
 		out.close();
 		outID.close();
 	}
-	
+
 	protected void WriteIndexFile (PrintWriter out)  {
 		LoadFeeders ();
 		PrintOneMap (mapFeeders, "*** FEEDERS ***");
@@ -1677,16 +1680,16 @@ public class CIMImporter extends Object {
 		out.close();
 	}
 
-	public void start(QueryHandler queryHandler, String fTarget, String fRoot, String fSched, double load_scale, 
-										boolean bWantSched, boolean bWantZIP, boolean randomZIP, boolean useHouses, double Zcoeff, 
-										double Icoeff, double Pcoeff, boolean bHaveEventGen) throws FileNotFoundException{
-		start(queryHandler, fTarget, fRoot, fSched, load_scale, bWantSched, bWantZIP, randomZIP, useHouses, 
-					Zcoeff, Icoeff, Pcoeff, -1, bHaveEventGen);
+	public void start(QueryHandler queryHandler, String fTarget, String fRoot, String fSched, double load_scale,
+			boolean bWantSched, boolean bWantZIP, boolean randomZIP, boolean useHouses, double Zcoeff,
+			double Icoeff, double Pcoeff, boolean bHaveEventGen, ModelState ms) throws FileNotFoundException{
+		start(queryHandler, fTarget, fRoot, fSched, load_scale, bWantSched, bWantZIP, randomZIP, useHouses,
+				Zcoeff, Icoeff, Pcoeff, -1, bHaveEventGen, ms);
 	}
-	
-	
+
+
 	/**
-	 * 
+	 *
 	 * @param fOut
 	 * @param fSched
 	 * @param load_scale
@@ -1698,20 +1701,21 @@ public class CIMImporter extends Object {
 	 * @param fXY
 	 * @throws FileNotFoundException
 	 */
-	public void start(QueryHandler queryHandler, String fTarget, String fRoot, String fSched, 
-										double load_scale, boolean bWantSched, boolean bWantZIP, boolean randomZIP, 
-										boolean useHouses, double Zcoeff, double Icoeff, double Pcoeff, 
-										int maxMeasurements, boolean bHaveEventGen) throws FileNotFoundException{
+	public void start(QueryHandler queryHandler, String fTarget, String fRoot, String fSched,
+			double load_scale, boolean bWantSched, boolean bWantZIP, boolean randomZIP,
+			boolean useHouses, double Zcoeff, double Icoeff, double Pcoeff,
+			int maxMeasurements, boolean bHaveEventGen, ModelState ms) throws FileNotFoundException{
 		this.queryHandler = queryHandler;
-		String fOut, fXY, fID, fDict;		
+		String fOut, fXY, fID, fDict;
 
 		if (fTarget.equals("glm")) {
 			LoadAllMaps(useHouses);
 			CheckMaps();
+			UpdateModelState(ms);
 			ApplyCurrentLimits();
-//			PrintAllMaps();
-//			PrintOneMap (mapSpacings, "** LINE SPACINGS");
-//			PrintOneMap (mapLinesSpacingZ, "** LINES REFERENCING SPACINGS");
+			//			PrintAllMaps();
+			//			PrintOneMap (mapSpacings, "** LINE SPACINGS");
+			//			PrintOneMap (mapLinesSpacingZ, "** LINES REFERENCING SPACINGS");
 			fDict = fRoot + "_dict.json";
 			fOut = fRoot + "_base.glm";
 			fXY = fRoot + "_symbols.json";
@@ -1726,7 +1730,9 @@ public class CIMImporter extends Object {
 		} else if (fTarget.equals("dss")) {
 			LoadAllMaps();
 			CheckMaps();
+			UpdateModelState(ms);
 			ApplyCurrentLimits();
+
 			fDict = fRoot + "_dict.json";
 			fOut = fRoot + "_base.dss";
 			fXY = fRoot + "_busxy.dss";
@@ -1754,9 +1760,94 @@ public class CIMImporter extends Object {
 			new CIMWriter().WriteCIMFile (this, queryHandler, pOut);
 		}
 	}
-		
+
+
+	protected void UpdateModelState(ModelState ms){
+		List<SyncMachine> machinesToUpdate = ms.getSynchronousmachines();
+		List<Switch> switchesToUpdate = ms.getSwitches();
+		//		System.out.println("Generators");
+		//		for(String key: mapSyncMachines.keySet()){
+		//			DistSyncMachine gen = mapSyncMachines.get(key);
+		//			System.out.println(key+"  "+gen.p+"  "+gen.q);
+		//		}
+
+		for (SyncMachine machine : machinesToUpdate) {
+			DistSyncMachine toUpdate = mapSyncMachines.get(machine.name);
+			if(toUpdate!=null){
+				toUpdate.p = machine.p;
+				toUpdate.q = machine.q;
+			}
+		}
+
+		HashMap<String,DistSwitch> mapSwitches = new HashMap<>();
+		mapSwitches.putAll (mapLoadBreakSwitches);
+		mapSwitches.putAll (mapFuses);
+		mapSwitches.putAll (mapBreakers);
+		mapSwitches.putAll (mapReclosers);
+		mapSwitches.putAll (mapSectionalisers);
+		mapSwitches.putAll (mapDisconnectors);
+		mapSwitches.putAll (mapJumpers);
+		mapSwitches.putAll (mapGroundDisconnectors);
+
+		for (Switch sw : switchesToUpdate) {
+			DistSwitch toUpdate = mapSwitches.get(sw.name);
+			if(toUpdate!=null){
+				toUpdate.open = sw.open;
+			}
+		}
+
+		//		for(DistSwitch s: switchesToUpdate){
+		//			DistSwitch toUpdate = mapLoadBreakSwitches.get(s.name);
+		//			if(toUpdate!=null){
+		//				toUpdate.open = s.open;
+		//			}
+		//			//mapLoadBreakSwitches.put(s.name, (DistLoadBreakSwitch) toUpdate);
+		//		}
+		//		for(DistSwitch s: switchesToUpdate){
+		//			DistSwitch toUpdate = mapFuses.get(s.name);
+		//			if(toUpdate!=null){
+		//				toUpdate.open = s.open;
+		//			}
+		//			//mapFuses.put(s.name, (DistFuse)toUpdate);
+		//		}
+		//		for(DistSwitch s: switchesToUpdate){
+		//			DistSwitch toUpdate = mapBreakers.get(s.name);
+		//			if(toUpdate!=null){
+		//				toUpdate.open = s.open;
+		//			}
+		//			//mapBreakers.put(s.name, (DistBreaker) toUpdate);
+		//		}
+		//		for(DistSwitch s: switchesToUpdate){
+		//			DistSwitch toUpdate = mapReclosers.get(s.name);
+		//			if(toUpdate!=null){
+		//				toUpdate.open = s.open;
+		//			}
+		//			//mapReclosers.put(s.name, (DistRecloser) toUpdate);
+		//		}
+		//		for(DistSwitch s: switchesToUpdate){
+		//			DistSwitch toUpdate = mapSectionalisers.get(s.name);
+		//			if(toUpdate!=null){
+		//				toUpdate.open = s.open;
+		//			}
+		//			//mapSectionalisers.put(s.name, (DistSectionaliser) toUpdate);
+		//		}
+		//		for(DistSwitch s: switchesToUpdate){
+		//			DistSwitch toUpdate = mapDisconnectors.get(s.name);
+		//			if(toUpdate!=null){
+		//				toUpdate.open = s.open;
+		//			}
+		//			//mapDisconnectors.put(s.name,  (DistDisconnector) toUpdate);
+		//		}
+		//
+		//		System.out.println("Switches");
+		//		for(String key: mapSwitches.keySet()){
+		//			DistSwitch gen = mapSwitches.get(key);
+		//			System.out.println(key+"  "+gen.open);
+		//		}
+
+	}
 	/**
-	 * 
+	 *
 	 * @param queryHandler
 	 * @param out
 	 * @param fSched
@@ -1767,10 +1858,10 @@ public class CIMImporter extends Object {
 	 * @param Icoeff
 	 * @param Pcoeff
 	 */
-	public void generateGLMFile(QueryHandler queryHandler, PrintWriter out, String fSched, 
-															double load_scale, boolean bWantSched, boolean bWantZIP, 
-															boolean randomZIP, boolean useHouses, double Zcoeff, 
-															double Icoeff, double Pcoeff, boolean bHaveEventGen) {
+	public void generateGLMFile(QueryHandler queryHandler, PrintWriter out, String fSched,
+			double load_scale, boolean bWantSched, boolean bWantZIP,
+			boolean randomZIP, boolean useHouses, double Zcoeff,
+			double Icoeff, double Pcoeff, boolean bHaveEventGen) {
 		this.queryHandler = queryHandler;
 		if(!allMapsLoaded){
 			LoadAllMaps();
@@ -1779,9 +1870,9 @@ public class CIMImporter extends Object {
 		ApplyCurrentLimits();
 		WriteGLMFile (out, load_scale, bWantSched, fSched, bWantZIP, randomZIP, useHouses, Zcoeff, Icoeff, Pcoeff, bHaveEventGen);
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * @param queryHandler
 	 * @param out
 	 */
@@ -1793,27 +1884,28 @@ public class CIMImporter extends Object {
 		CheckMaps();
 		WriteJSONSymbolFile(out);
 	}
-	
-	
-	public void generateDictionaryFile(QueryHandler queryHandler, PrintWriter out, boolean useHouses){
-		generateDictionaryFile(queryHandler, out, -1, useHouses);
+
+
+	public void generateDictionaryFile(QueryHandler queryHandler, PrintWriter out, boolean useHouses, ModelState modelState){
+		generateDictionaryFile(queryHandler, out, -1, useHouses,modelState);
 	}
 	/**
-	 * 
+	 *
 	 * @param queryHandler
 	 * @param out
 	 */
-	public void generateDictionaryFile(QueryHandler queryHandler, PrintWriter out, int maxMeasurements, boolean useHouses){
+	public void generateDictionaryFile(QueryHandler queryHandler, PrintWriter out, int maxMeasurements, boolean useHouses,ModelState ms){
 		this.queryHandler = queryHandler;
 		if(!allMapsLoaded){
 			LoadAllMaps(useHouses);
 		}
 		CheckMaps();
+		UpdateModelState(ms);
 		WriteDictionaryFile(out, maxMeasurements);
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * @param queryHandler
 	 * @param out
 	 * @param outID
@@ -1825,9 +1917,9 @@ public class CIMImporter extends Object {
 	 * @param Icoeff
 	 * @param Pcoeff
 	 */
-	public void generateDSSFile(QueryHandler queryHandler, PrintWriter out, PrintWriter outID, String fXY, String fID, 
-															double load_scale, boolean bWantSched, String fSched, boolean bWantZIP, 
-															double Zcoeff, double Icoeff, double Pcoeff){
+	public void generateDSSFile(QueryHandler queryHandler, PrintWriter out, PrintWriter outID, String fXY, String fID,
+			double load_scale, boolean bWantSched, String fSched, boolean bWantZIP,
+			double Zcoeff, double Icoeff, double Pcoeff){
 		this.queryHandler = queryHandler;
 		if(!allMapsLoaded){
 			LoadAllMaps();
@@ -1836,9 +1928,9 @@ public class CIMImporter extends Object {
 		ApplyCurrentLimits();
 		WriteDSSFile(out, outID, fXY, fID, load_scale, bWantSched, fSched, bWantZIP, Zcoeff, Icoeff, Pcoeff);
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * @param queryHandler
 	 * @param out
 	 */
@@ -1848,21 +1940,21 @@ public class CIMImporter extends Object {
 			LoadAllMaps();
 		}
 		CheckMaps();
-		
+
 		WriteDSSCoordinates(out);
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * @param queryHandler
 	 * @param out
 	 */
 	public void generateFeederIndexFile(QueryHandler queryHandler, PrintWriter out){
 		this.queryHandler = queryHandler;
-		
+
 		WriteIndexFile(out);
 	}
-	
+
 	public static void main (String args[]) throws FileNotFoundException {
 		String fRoot = "";
 		double freq = 60.0, load_scale = 1.0;
@@ -1960,21 +2052,35 @@ public class CIMImporter extends Object {
 			}
 			++i;
 		}
-		
+
 		try {
 			HTTPBlazegraphQueryHandler qh = new HTTPBlazegraphQueryHandler(blazegraphURI);
 			if (bSelectFeeder) {
 				qh.addFeederSelection (feeder_mRID);
-//				System.out.println ("Selecting only feeder " + feeder_mRID);
+				//				System.out.println ("Selecting only feeder " + feeder_mRID);
 			}
+
+			List<SyncMachine> machinesToUpdate = new ArrayList<>();
+			machinesToUpdate.add(new SyncMachine("diesel590", 1000.000, 140.000));
+			machinesToUpdate.add(new SyncMachine("diesel620", 150.000, 500.000));
+			List<Switch> switchesToUpdate = new ArrayList<>();
+			//			switchesToUpdate.add(new DistSwitch("2002200004641085_sw",true));//2002200004641085_sw, "normalOpen":false
+			//			switchesToUpdate.add(new DistSwitch("2002200004868472_sw",true));//2002200004641085_sw, "normalOpen":false
+			//			switchesToUpdate.add(new DistSwitch("2002200004991174_sw",true));//2002200004641085_sw, "normalOpen":false
+			switchesToUpdate.add(new Switch("g9343_48332_sw", true));
+
+
+
+			ModelState ms = new ModelState(machinesToUpdate, switchesToUpdate);
+
 			new CIMImporter().start(qh, fTarget, fRoot, fSched, load_scale,
-															bWantSched, bWantZIP, randomZIP, useHouses, 
-															Zcoeff, Icoeff, Pcoeff, bHaveEventGen);
+					bWantSched, bWantZIP, randomZIP, useHouses,
+					Zcoeff, Icoeff, Pcoeff, bHaveEventGen, ms);
 		} catch (RuntimeException e) {
 			System.out.println ("Can not produce a model: " + e.getMessage());
 			e.printStackTrace();
 		}
-		
+
 	}
 }
 

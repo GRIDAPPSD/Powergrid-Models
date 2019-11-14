@@ -7,7 +7,7 @@ package gov.pnnl.goss.cim2glm.components;
 import org.apache.jena.query.*;
 import java.util.HashMap;
 
-public abstract class DistSwitch extends DistComponent {
+public class DistSwitch extends DistComponent {
 
 	protected static final String szSELECT = 
 		"SELECT ?name ?id ?bus1 ?bus2 ?basev ?rated ?breaking (group_concat(distinct ?phs;separator=\"\\n\") as ?phases) ?open ?fdrid WHERE {";
@@ -52,7 +52,9 @@ public abstract class DistSwitch extends DistComponent {
 
 	public String glm_phases;
 
-	public abstract String CIMClass();
+	public String CIMClass() {
+		return null;
+	}
 
 	public String GetJSONEntry () {
 		StringBuilder buf = new StringBuilder ();
@@ -97,6 +99,11 @@ public abstract class DistSwitch extends DistComponent {
 				glm_phases = glm_phs.toString();
 			}
 		}		
+	}
+	
+	public DistSwitch (String name, boolean open) {
+		this.name = SafeName (name);
+		this.open = open;
 	}
 
 	public String DisplayString() {
