@@ -11,7 +11,7 @@ import gov.pnnl.goss.cim2glm.queryhandler.QueryHandler;
 import java.util.HashMap;
 
 public class DistRegulator extends DistComponent {
-	public static final String szQUERY =
+	public static final String szQUERYprefix =
 		"SELECT ?rname ?pname ?tname ?wnum ?phs ?incr ?mode ?enabled ?highStep ?lowStep ?neutralStep"+
 		" ?normalStep ?neutralU ?step ?initDelay ?subDelay ?ltc ?vlim"+
 		" ?vset ?vbw ?ldc ?fwdR ?fwdX ?revR ?revX ?discrete ?ctl_enabled ?ctlmode"+
@@ -22,14 +22,16 @@ public class DistRegulator extends DistComponent {
 		" ?rtc r:type c:RatioTapChanger."+
 		" ?rtc c:IdentifiedObject.name ?rname."+
 		" ?rtc c:RatioTapChanger.TransformerEnd ?end."+
-		" ?end c:TransformerEnd.endNumber ?wnum."+
-		"	{?end c:PowerTransformerEnd.PowerTransformer ?pxf.}"+
-		"  UNION"+
-		" {?end c:TransformerTankEnd.TransformerTank ?tank."+
-		"  ?tank c:IdentifiedObject.name ?tname."+
+		" ?end c:TransformerEnd.endNumber ?wnum.";
+	public static final String szQUERYbanked =
+		"	?end c:PowerTransformerEnd.PowerTransformer ?pxf.";
+	public static final String szQUERYtanked =
+		" ?end c:TransformerTankEnd.TransformerTank ?tank."+
+		" ?tank c:IdentifiedObject.name ?tname."+
 		"  OPTIONAL {?end c:TransformerTankEnd.phases ?phsraw."+
 		"  bind(strafter(str(?phsraw),\"PhaseCode.\") as ?phs)}"+
-		"  ?tank c:TransformerTank.PowerTransformer ?pxf.}"+
+		" ?tank c:TransformerTank.PowerTransformer ?pxf.";
+	public static final String szQUERYsuffix =
 		" ?pxf c:IdentifiedObject.name ?pname."+
 		" ?pxf c:IdentifiedObject.mRID ?pxfid."+
 		" ?rtc c:RatioTapChanger.stepVoltageIncrement ?incr."+
@@ -222,7 +224,7 @@ public class DistRegulator extends DistComponent {
 			" ?tank c:TransformerTank.PowerTransformer ?pxf."+
 			" ?pxf c:IdentifiedObject.mRID \"" + pxfid + "\"."+
 			"}";
-		ResultSet results = queryHandler.query (szCount);
+		ResultSet results = queryHandler.query (szCount, "XF count for regulator sizing");
 		if (results.hasNext()) {
 			QuerySolution soln = results.next();
 			int nTanks = soln.getLiteral("?count").getInt();
