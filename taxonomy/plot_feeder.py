@@ -15,6 +15,7 @@ if __name__ == '__main__':
 
 	# extract the XY coordinates available for plotting
 	xy = {}
+	lblNode = {}
 	plotnodes = set()
 	for n in G.nodes():
 		ndata = G.nodes()[n]['ndata']
@@ -23,6 +24,7 @@ if __name__ == '__main__':
 			busy = float(ndata['y'])
 			xy[n] = [busx, busy]
 			plotnodes.add(n)
+			lblNode[n] = n[11:] # skip the first 11 characters, e.g., R5-12-47-5_
 
 	# only plot the edges that have XY coordinates at both ends
 	plotedges = set()
@@ -37,6 +39,7 @@ if __name__ == '__main__':
 
 	nx.draw_networkx_nodes (G, xy, nodelist=list(plotnodes), node_size=1, node_color='r')
 	nx.draw_networkx_edges (G, xy, edgelist=list(plotedges), edge_color='b')
+#	nx.draw_networkx_labels (G, xy, lblNode, font_size=6, font_color='k')
 	plt.title ('Layout of Feeder Power Components for ' + feedername)
 	plt.xlabel ('X coordinate [?]')
 	plt.ylabel ('Y coordinate [?]')
