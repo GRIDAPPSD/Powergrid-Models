@@ -1732,7 +1732,6 @@ public class CIMImporter extends Object {
 			CheckMaps();
 			UpdateModelState(ms);
 			ApplyCurrentLimits();
-
 			fDict = fRoot + "_dict.json";
 			fOut = fRoot + "_base.dss";
 			fXY = fRoot + "_busxy.dss";
@@ -1748,6 +1747,28 @@ public class CIMImporter extends Object {
 			WriteDictionaryFile (pDict, maxMeasurements);
 			PrintWriter pLimits = new PrintWriter(fRoot + "_limits.json");
 			WriteLimitsFile (pLimits);
+		} else if (fTarget.equals("both")) {
+			LoadAllMaps(useHouses);
+			CheckMaps();
+//			UpdateModelState(ms);
+			ApplyCurrentLimits();
+			// write GridLAB-D and the dictionaries first
+			PrintWriter pGld = new PrintWriter(fRoot + "_base.glm");
+			WriteGLMFile(pGld, load_scale, bWantSched, fSched, bWantZIP, randomZIP, useHouses, Zcoeff, Icoeff, Pcoeff, bHaveEventGen);
+			PrintWriter pSym = new PrintWriter(fRoot + "_symbols.json");
+			WriteJSONSymbolFile (pSym);
+			PrintWriter pDict = new PrintWriter(fRoot + "_dict.json");
+			WriteDictionaryFile (pDict, maxMeasurements);
+			PrintWriter pLimits = new PrintWriter(fRoot + "_limits.json");
+			WriteLimitsFile (pLimits);
+			// write OpenDSS
+			fXY = fRoot + "_busxy.dss";
+			fID = fRoot + "_guid.dss";
+			PrintWriter pDss = new PrintWriter(fRoot + "_base.dss");
+			PrintWriter pID = new PrintWriter(fID);
+			WriteDSSFile (pDss, pID, fXY, fID, load_scale, bWantSched, fSched, bWantZIP, Zcoeff, Icoeff, Pcoeff);
+			PrintWriter pXY = new PrintWriter(fXY);
+			WriteDSSCoordinates (pXY);
 		}	else if (fTarget.equals("idx")) {
 			fOut = fRoot + "_feeder_index.json";
 			PrintWriter pOut = new PrintWriter(fOut);
@@ -1968,7 +1989,7 @@ public class CIMImporter extends Object {
 		if (args.length < 1) {
 			System.out.println ("Usage: java CIMImporter [options] output_root");
 			System.out.println ("       -s={mRID}          // select one feeder by CIM mRID; selects all feeders if not specified");
-			System.out.println ("       -o={glm|dss|idx|cim} // output format; defaults to glm");
+			System.out.println ("       -o={glm|dss|both|idx|cim} // output format; defaults to glm");
 			System.out.println ("       -l={0..1}          // load scaling factor; defaults to 1");
 			System.out.println ("       -f={50|60}         // system frequency; defaults to 60");
 			System.out.println ("       -n={schedule_name} // root filename for scheduled ZIP loads (defaults to none)");
@@ -2044,6 +2065,8 @@ public class CIMImporter extends Object {
 				} else if (fTarget.equals("idx")) {
 					fRoot = args[i];
 				} else if (fTarget.equals("cim")) {
+					fRoot = args[i];
+				} else if (fTarget.equals("both")) {
 					fRoot = args[i];
 				} else {
 					System.out.println ("Unknown target type " + fTarget);
