@@ -36,7 +36,7 @@ object climate {
 
 #define VSOURCE=66395.3
 //#include "evalHouse_base.glm";
-ls #include "eval_base.glm";
+#include "eval_base.glm";
 //#include "ieee3sub_base.glm";
 
 //#define VSOURCE=2401.8
