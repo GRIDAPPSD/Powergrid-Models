@@ -1750,7 +1750,7 @@ public class CIMImporter extends Object {
 		} else if (fTarget.equals("both")) {
 			LoadAllMaps(useHouses);
 			CheckMaps();
-//			UpdateModelState(ms);
+			UpdateModelState(ms);
 			ApplyCurrentLimits();
 			// write GridLAB-D and the dictionaries first
 			PrintWriter pGld = new PrintWriter(fRoot + "_base.glm");
@@ -2084,16 +2084,13 @@ public class CIMImporter extends Object {
 			}
 
 			List<SyncMachine> machinesToUpdate = new ArrayList<>();
-			machinesToUpdate.add(new SyncMachine("diesel590", 1000.000, 140.000));
-			machinesToUpdate.add(new SyncMachine("diesel620", 150.000, 500.000));
 			List<Switch> switchesToUpdate = new ArrayList<>();
-			//			switchesToUpdate.add(new DistSwitch("2002200004641085_sw",true));//2002200004641085_sw, "normalOpen":false
-			//			switchesToUpdate.add(new DistSwitch("2002200004868472_sw",true));//2002200004641085_sw, "normalOpen":false
-			//			switchesToUpdate.add(new DistSwitch("2002200004991174_sw",true));//2002200004641085_sw, "normalOpen":false
-			switchesToUpdate.add(new Switch("g9343_48332_sw", true));
-
-
-
+//			switchesToUpdate.add(new DistSwitch("2002200004641085_sw",true));//2002200004641085_sw, "normalOpen":false
+//			switchesToUpdate.add(new DistSwitch("2002200004868472_sw",true));//2002200004641085_sw, "normalOpen":false
+//			switchesToUpdate.add(new DistSwitch("2002200004991174_sw",true));//2002200004641085_sw, "normalOpen":false
+//			machinesToUpdate.add(new SyncMachine("diesel590", 1000.000, 140.000));
+//			machinesToUpdate.add(new SyncMachine("diesel620", 150.000, 500.000));
+//			switchesToUpdate.add(new Switch("g9343_48332_sw", true));
 			ModelState ms = new ModelState(machinesToUpdate, switchesToUpdate);
 
 			new CIMImporter().start(qh, fTarget, fRoot, fSched, load_scale,
