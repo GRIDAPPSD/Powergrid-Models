@@ -425,7 +425,7 @@ public class CIMImporter extends Object {
 			mapRegulators.put (obj.GetKey(), obj);
 		}
 		((ResultSetCloseable)results).close();
-		System.out.format ("%d Banked Regulators\n", mapRegulators.size());
+//		System.out.format ("%d Banked Regulators\n", mapRegulators.size());
 
 		results = queryHandler.query (DistRegulator.szQUERYprefix + DistRegulator.szQUERYtanked + DistRegulator.szQUERYsuffix, "regulators (tanked)");
 		while (results.hasNext()) {
@@ -433,7 +433,7 @@ public class CIMImporter extends Object {
 			mapRegulators.put (obj.GetKey(), obj);
 		}
 		((ResultSetCloseable)results).close();
-		System.out.format ("%d Banked plus By-phase Regulators\n", mapRegulators.size());
+//		System.out.format ("%d Banked plus By-phase Regulators\n", mapRegulators.size());
 	}
 
 	void LoadXfmrTanks() {
