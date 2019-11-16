@@ -26,7 +26,9 @@ The original taxonomy feeders have been updated as follows:
 * choose fuse current limits from standard fuse, recloser and breaker sizes 
 * add margin to fuse current limits so they don't blow during steady state. _Note: This had to be redone because the new load voltage levels increased many of the component currents._
 * assign capacitor nominal voltages based on the nominal primary voltage
-* incorporate the [xy coordinates](http://emac.berkeley.edu/gridlabd/taxonomy_graphs/) from Michael A. Cohen _Note: The xy coordinates are used in GridAPPS-D, CIM and OpenDSS, but not standalone GridLAB-D_
+* incorporate the [xy coordinates](http://emac.berkeley.edu/gridlabd/taxonomy_graphs/) from Michael A. Cohen 
+  - Note: The xy coordinates are used in GridAPPS-D, CIM and OpenDSS, but not standalone GridLAB-D
+  - As of November 2019, the above link may be inactive, but the coordinates have been stored on this repository. Also, see https://digitalassets.lib.berkeley.edu/etd/ucb/text/Cohen_berkeley_0028E_15996.pdf for Cohen's thesis.
 * remove assertion statements
 
 The solution results change, so GridLAB-D regression tests
@@ -86,6 +88,8 @@ Helper scripts on Windows:
 * _import.bat_ will run the Java importer against the triple-store. Within this file:
   * the ```-o=dss``` option creates an OpenDSS model from CIM
   * the ```-o=glm``` option creates a GridLAB-D model from CIM 
+	* the ```-o=both``` option creates both OpenDSS and GridLAB-D models from CIM 
+	* the ```-o=idx``` option creates a JSON index of all Feeders in the triple-store. Use this to obtain valid mRID values for the -s option
 
 Helper scripts for Linux/Mac OS X:
 
@@ -93,12 +97,15 @@ Helper scripts for Linux/Mac OS X:
 * _import.sh_ will compile and run the Java importer against the triple-store. Within this file:
   * the ```-o=dss``` option creates an OpenDSS model from CIM
   * the ```-o=glm``` option creates a GridLAB-D model from CIM 
+	* the ```-o=both``` option creates both OpenDSS and GridLAB-D models from CIM 
   * the ```-o=idx``` option creates a JSON index of all Feeders in the triple-store. Use this to obtain valid mRID values for the -s option
+
+If you will need both OpenDSS and GridLAB-D files, the ```-o=both``` option is much more efficient than generating them individually, because over 90% of the execution time is taken up with SPARQL queries that are common to both.
 
 Usage and options for ```java gov.pnnl.goss.cim2glm.CIMImporter [options] output_root```
 
 * ```-s={mRID}          // select one feeder by CIM mRID; selects all feeders if not specified```
-* ```-o={glm|dss|idx}   // output format; defaults to glm```
+* ```-o={glm|dss|both|idx|cim}   // output format; defaults to glm; currently cim supports only CIM14```
 * ```-l={0..1}          // load scaling factor; defaults to 1```
 * ```-f={50|60}         // system frequency; defaults to 60```                                                 
 * ```-n={schedule_name} // root filename for scheduled ZIP loads (defaults to none), valid only for -o=glm```      
@@ -107,13 +114,78 @@ Usage and options for ```java gov.pnnl.goss.cim2glm.CIMImporter [options] output
 * ```-p={0..1}          // constant P portion (defaults to 0 for CIM-defined LoadResponseCharacteristic)```
 * ```-r={0..1}          // determine ZIP load fraction based on given xml file or randomized fractions```
 * ```-h={0..1}          // determine if house load objects should be added to supplement EnergyConsumers```
+* ```-x={0, 1}          // indicate whether for glm, the model will be called with a fault_check already created```
+* ```-t={0, 1}          // request timing of top-level methods and SPARQL queries, requires -o=both for methods```
 * ```-u={http://localhost:9999/blazegraph/namespace/kb/sparql} // blazegraph uri (if connecting over HTTP); defaults to http://localhost:9999/blazegraph/namespace/kb/sparql```
 
-## Circuit Validation
+## GridAPPS-D Feeder Models
+
+Eleven feeder models are tested routinely for use in GridAPPS-D, summarized in the table below:
+
+|Name|Features|Houses|Buses|Nodes|Branches|Load|Origin|mRID|
+|----|--------|------|-----|-----|--------|----|------|----|
+|ACEP_PSIL|Lab microgrid with PV, wind and diesel|No|8|24|13|0.28|UAF|77966920-E1EC-EE8A-23EE-4EFD23B205BD|
+|EPRI_DPV_J1|11 PV installations|No|3434|4245|4901|9.69|EPRI DPV|67AB291F-DCCD-31B7-B499-338206B9828F|
+|IEEE13|Added CIM sampler|No|22|57|51|3.44|IEEE (mod)|49AD8E07-3BF9-A4E2-CB8F-C3722F837B62|
+|IEEE13_Assets|Uses line spacings and wires|No|16|41|40|3.58|IEEE (mod)|5B816B93-7A5F-B64C-8460-47C17D6E4B0F|
+|IEEE37|Delta system|No|39|117|73|2.59|IEEE|49003F52-A359-C2EA-10C4-F4ED3FD368CC|
+|IEEE123|Includes switches for reconfiguration|No|130|274|237|3.62|IEEE|C1C3E687-6FFD-C753-582B-632A27E28507|
+|IEEE123_PV|Added PV|Yes|214|442|334|0.27|IEEE/NREL|E407CBB6-8C8D-9BC9-589C-AB83FBF0826D|
+|IEEE8500|Large model, balanced secondary loads|Yes|4876|8531|6103|11.98|IEEE|4F76A5F9-271D-9EB8-5E31-AA362D86F2C3|
+|IEEE8500_3subs|Added 3 sources and DER|Yes|5294|9499|6823|9.14|IEEE/Incsys/WSU|AAE94E4A-2465-6F5E-37B1-3E72183A4E44|
+|R2_12_47_2|Secondary loads|Yes|853|1631|1086|6.26|PNNL|9CE150A8-8CC5-A0F9-B67E-BBD8C79D3095|
+|Transactive|Added secondary loads to IEEE123|Yes|1516|3051|2812|3.92|IEEE (mod)|503D6E20-F499-4CC7-8051-971E23D0BF79|
+
+Notes:
+
+1. Some of the earlier feeder mRIDs don't comply with RFC 4122, but have been retained for backward compatibility
+2. The "CIM Sampler" version of the IEEE 13-bus model added a single recloser, fuse, center-tap transformer, PV and battery for the purpose of CIM conversion testing
+3. All models originated with an OpenDSS version, except for Transactive, which originated from a hand-edited GridLAB-D model, then converted to OpenDSS. See code in directory ```blazegraph/test/glm/pnnl``` for details.
+
+The following steps are used to injest these models, and verify that exports from CIM will solve in both GridLAB-D and OpenDSS. (Note: on Linux and Mac OS X, use ```python3``` as shown below. On Windows, it may be that ```python3``` is not defined, in which case use ```python``` to invoke Python 3.)
+
+1. Start the Blazegraph engine; _existing contents will be removed in the steps below_. GridLAB-D and OpenDSSCmd must also have been installed.
+2. From blazegraph/test directory, issue ```./go.sh``` or ```go.bat``` to create the CIM XML files and baseline OpenDSS power flow solutions.
+   - Results will be in the ```blazegraph/test``` directory
+   - ```rootname.xml``` is the CIM XML file
+   - ```rootname_s.csv``` contains exported snapshot loadflow summary
+   - ```rootname_i.csv``` contains exported branch currents
+   - ```rootname_v.csv``` contains exported bus voltages
+   - ```rootname_t.csv``` contains exported regulator tap positions
+3. From blazegraph directory, issue ```python3 MakeLoopScript.py -b``` to create the platform-dependent script for step 3
+4. From blazegraph directory, issue ```./convert_xml.sh``` or ```convert_xml.bat``` to:
+   - Empty and create a new ```blazegraph/both``` directory
+   - Sequentially ingest the CIM XML files into Blazegraph, and export both OpenDSS and GridLAB-D models
+   - This step may take a few minutes. When finished, all of the GridLAB-D and OpenDSS models will be in ```blazegraph/both``` directory
+   - When finished, only the last CIM XML will still be in Blazegraph. _This should be deleted before doing any more work in Blazegraph, to ensure compatible namespaces_.
+5. From blazegraph directory, issue ```python3 MakeLoopScript.py -d``` and then ```opendsscmd check.dss``` to run OpenDSS power flows on the exported models.
+   - Results will be in the ```blazegraph/both``` directory
+	 - ```rootname_s.csv``` contains exported snapshot loadflow summary
+	 - ```rootname_i.csv``` contains exported branch currents
+	 - ```rootname_v.csv``` contains exported bus voltages
+   - ```rootname_t.csv``` contains exported regulator tap positions
+6. From blazegraph directory, issue ```python3 MakeGlmTestScript.py``` to create the GridLAB-D wrapper files, ```*run.glm``` and a script execution file in ```blazegraph/both```
+7. From blazegraph/both diretory, if on Linux or Mac OS X, issue ```chmod +x *.sh``` and then ```./check_glm.sh```.  If on Windows, just issue ```check_glm```. This runs GridLAB-D power flow on the exported models.
+   - Results will be in the ```blazegraph/both``` directory
+   - ```rootname_volt.csv``` contains the output from a GridLAB-D voltdump, i.e., the node (bus) voltages
+	 - ```rootname_curr.csv``` contains the output from a GridLAB-D currdump, i.e., the link (branch) currents
+8. From blazegraph directory, issue ```python3 Compare_Cases.py``` to compare the power flow solutions from steps 5 and 7 to the baseline solutions from step 2
+9. In the blazegraph/both directory, comparison results are in a set of files:
+   - ```*Summary.log``` compares the OpenDSS snapshot load flow solutions
+   - Other ```*.log``` files capture GridLAB-D warnings and errors. At present, the exported IEEE 37-bus model, which is a delta system, does not solve in GridLAB-D
+   - ```*Missing_Nodes_DSS.txt``` identifies nodes (buses) that appear in one OpenDSS model (baseline step 2 or exported step 5), but not the other.
+	 - ```*Missing_Links_DSS.txt``` identifies links (branches) that appear in one OpenDSS model (baseline step 2 or exported step 5), but not the other.
+   - ```*Compare_Voltages_DSS.csv``` compares the bus voltages from steps 2 and 5, sorted by increasing difference
+	 - ```*Compare_Voltages_GLM.csv``` compares the bus voltages from steps 2 and 7, sorted by increasing difference
+	 - ```*Compare_Currents_DSS.csv``` compares the branch currents from steps 2 and 5, sorted by increasing difference
+	 - ```*Compare_Currents_GLM.csv``` compares the branch currents from steps 2 and 7, sorted by increasing difference
+
+## Circuit Validation Scripts
 
 _This is work in progress; essential changes to DPV J1 are not yet under version control._ The goal is to verify round-trip model translation
-and solution between the supported model formats. 
-There are currently four supporting Python files in the _blazegraph_ subdirectory:
+and solution between the supported model formats. It also forms the basis for validing eleven feeder models including with GridAPPS-D.
+
+There are currently five supporting Python files in the _blazegraph_ subdirectory:
 
 * _MakeConversionScript.py_ creates _ConvertCDPSM.dss_ that will batch-load all supported test circuits into OpenDSS, and export CIM XML
   * Use this first
@@ -125,7 +197,7 @@ There are currently four supporting Python files in the _blazegraph_ subdirector
   * Blazegraph must be set up
   * Invoke ```python MakeLoopScript.py -b``` to make _convert\_xml.bat_ or _convert\_xml.sh_, which converts all CIM XML into DSS and GLM files
   * Invoke ```python MakeLoopScript.py -d``` to make _check.dss_, after which invoke ```opendsscmd check.dss``` to batch-solve all converted DSS files
-* _MakeTable.py_ gathers OpenDSS solution summary information from CSV files into _table.txt_
+* _MakeTable.py_ gathers OpenDSS solution summary information from CSV files into _table.txt_ (not currently used)
 * _MakeGlmTestScript.py_ creates _check\_glm.bat_ or _check\_glm.sh_ that will solve all supported test circuits in GridLAB-D
 
 

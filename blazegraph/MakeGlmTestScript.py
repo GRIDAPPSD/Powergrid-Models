@@ -1,13 +1,13 @@
 import sys;
 
 if sys.platform == 'win32':
-    glmpath = 'c:\\gridapps-d\\powergrid-models\\blazegraph\\glm\\'
+    glmpath = 'c:\\gridapps-d\\powergrid-models\\blazegraph\\both\\'
     bp = open (glmpath + 'check_glm.bat', 'w')
 elif sys.platform == 'linux':
-    glmpath = '/home/mcde601/src/Powergrid-Models/blazegraph/glm/'
+    glmpath = '/home/mcde601/src/Powergrid-Models/blazegraph/both/'
     bp = open (glmpath + 'check_glm.sh', 'w')
 else:
-    glmpath = '/Users/mcde601/src/GRIDAPPSD/Powergrid-Models/blazegraph/glm/'
+    glmpath = '/Users/mcde601/src/GRIDAPPSD/Powergrid-Models/blazegraph/both/'
     bp = open (glmpath + 'check_glm.sh', 'w')
 
 #casefiles = [['IEEE13',66395.3],
@@ -54,13 +54,6 @@ else:
 #             ['EPRI_DPV_K1',39837.2],
 #             ['EPRI_DPV_M1',38682.5]]
 
-#casefiles = [['IEEE13',66395.3],
-#             ['IEEE13_Assets',66395.3],
-#             ['IEEE8500',66395.3],
-#             ['IEEE123',2401.8],
-#             ['R2_12_47_2',57735.0],
-#             ['EPRI_DPV_J1',39837.2]]
-
 casefiles = [['R2_12_47_2',57735.0],
              ['EPRI_DPV_J1',39837.2],
              ['IEEE13',66395.3],
@@ -72,10 +65,6 @@ casefiles = [['R2_12_47_2',57735.0],
              ['IEEE123_PV',2401.8],
              ['ACEP_PSIL',277.13],
              ['Transactive',2401.8]]
-
-#casefiles = [['IEEE8500_3subs',66395.3]]
-
-#casefiles = [['Transactive',2401.8]]
 
 for c in casefiles:
     if sys.platform == 'win32':
