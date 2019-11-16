@@ -1765,41 +1765,41 @@ public class CIMImporter extends Object {
 			UpdateModelState(ms);
 			long t4 = System.nanoTime();
 			ApplyCurrentLimits();
-			// write GridLAB-D and the dictionaries first
 			long t5 = System.nanoTime();
-			PrintWriter pGld = new PrintWriter(fRoot + "_base.glm");
-			WriteGLMFile(pGld, load_scale, bWantSched, fSched, bWantZIP, randomZIP, useHouses, Zcoeff, Icoeff, Pcoeff, bHaveEventGen);
-			long t6 = System.nanoTime();
-			PrintWriter pSym = new PrintWriter(fRoot + "_symbols.json");
-			WriteJSONSymbolFile (pSym);
-			long t7 = System.nanoTime();
-			PrintWriter pDict = new PrintWriter(fRoot + "_dict.json");
-			WriteDictionaryFile (pDict, maxMeasurements);
-			long t8 = System.nanoTime();
-			PrintWriter pLimits = new PrintWriter(fRoot + "_limits.json");
-			WriteLimitsFile (pLimits);
-			long t9 = System.nanoTime();
-			// write OpenDSS
+			// write OpenDSS first, before GridLAB-D can modify the phases
 			fXY = fRoot + "_busxy.dss";
 			fID = fRoot + "_guid.dss";
 			PrintWriter pDss = new PrintWriter(fRoot + "_base.dss");
 			PrintWriter pID = new PrintWriter(fID);
 			WriteDSSFile (pDss, pID, fXY, fID, load_scale, bWantSched, fSched, bWantZIP, Zcoeff, Icoeff, Pcoeff);
-			long t10 = System.nanoTime();
+			long t6 = System.nanoTime();
 			PrintWriter pXY = new PrintWriter(fXY);
 			WriteDSSCoordinates (pXY);
+			long t7 = System.nanoTime();
+			// write GridLAB-D and the dictionaries to match GridLAB-D
+			PrintWriter pGld = new PrintWriter(fRoot + "_base.glm");
+			WriteGLMFile(pGld, load_scale, bWantSched, fSched, bWantZIP, randomZIP, useHouses, Zcoeff, Icoeff, Pcoeff, bHaveEventGen);
+			long t8 = System.nanoTime();
+			PrintWriter pSym = new PrintWriter(fRoot + "_symbols.json");
+			WriteJSONSymbolFile (pSym);
+			long t9 = System.nanoTime();
+			PrintWriter pDict = new PrintWriter(fRoot + "_dict.json");
+			WriteDictionaryFile (pDict, maxMeasurements);
+			long t10 = System.nanoTime();
+			PrintWriter pLimits = new PrintWriter(fRoot + "_limits.json");
+			WriteLimitsFile (pLimits);
 			long t11 = System.nanoTime();
 			if (bTiming) {
 				System.out.format ("LoadAllMaps:         %7.4f\n", (double) (t2 - t1) / 1.0e9);
 				System.out.format ("CheckMaps:           %7.4f\n", (double) (t3 - t2) / 1.0e9);
 				System.out.format ("UpdateModelState:    %7.4f\n", (double) (t4 - t3) / 1.0e9);
 				System.out.format ("ApplyCurrentLimits:  %7.4f\n", (double) (t5 - t4) / 1.0e9);
-				System.out.format ("WriteGLMFile:        %7.4f\n", (double) (t6 - t5) / 1.0e9);
-				System.out.format ("WriteJSONSymbolFile: %7.4f\n", (double) (t7 - t6) / 1.0e9);
-				System.out.format ("WriteDictionaryFile: %7.4f\n", (double) (t8 - t7) / 1.0e9);
-				System.out.format ("WriteLimitsFile:     %7.4f\n", (double) (t9 - t8) / 1.0e9);
-				System.out.format ("WriteDSSFile:        %7.4f\n", (double) (t10 - t9) / 1.0e9);
-				System.out.format ("WriteDSSCoordinates: %7.4f\n", (double) (t11 - t10) / 1.0e9);
+				System.out.format ("WriteDSSFile:        %7.4f\n", (double) (t6 - t5) / 1.0e9);
+				System.out.format ("WriteDSSCoordinates: %7.4f\n", (double) (t7 - t6) / 1.0e9);
+				System.out.format ("WriteGLMFile:        %7.4f\n", (double) (t8 - t7) / 1.0e9);
+				System.out.format ("WriteJSONSymbolFile: %7.4f\n", (double) (t9 - t8) / 1.0e9);
+				System.out.format ("WriteDictionaryFile: %7.4f\n", (double) (t10 - t9) / 1.0e9);
+				System.out.format ("WriteLimitsFile:     %7.4f\n", (double) (t11 - t10) / 1.0e9);
 			}
 		}	else if (fTarget.equals("idx")) {
 			fOut = fRoot + "_feeder_index.json";
