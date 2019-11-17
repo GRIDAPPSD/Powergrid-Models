@@ -1,6 +1,7 @@
 import json
 import matplotlib.pyplot as plt 
 import matplotlib.lines as lines
+import matplotlib.patches as patches
 import networkx as nx
 import sys
 
@@ -14,7 +15,31 @@ edgeTypes = {'overhead_line':   {'color':'blue',       'tag':'OHD'},
             'sectionalizer':    {'color':'darkred',    'tag':'SEC'}, 
             'triplex_line':     {'color':'tan',        'tag':'TPX'}, 
             'series_reactor':   {'color':'sienna',     'tag':'RCT'},
+            'parent':           {'color':'cyan',       'tag':'MTR'},
             'unknown':          {'color':'black',      'tag':'UNK'}}
+
+nodeTypes = {'load_class_C':    {'color':'green',      'tag':'COM', 'size':5},
+             'load_class_I':    {'color':'red',        'tag':'IND', 'size':5},
+             'load_class_A':    {'color':'gold',       'tag':'AGR', 'size':3},
+             'load_class_R':    {'color':'olive',      'tag':'RES', 'size':3},
+             'capacitor':       {'color':'magenta',    'tag':'CAP', 'size':5},
+             'other':           {'color':'black',      'tag':'NODE','size':3}}
+
+def get_node_mnemonic(nclass):
+    if nclass in nodeTypes:
+        return nodeTypes[nclass]['tag']
+    return nodeTypes['other']['tag']
+
+def get_node_size(nclass):
+    if nclass in nodeTypes:
+        return nodeTypes[nclass]['size']
+    return nodeTypes['other']['size']
+
+def get_node_color(nclass):
+    if nclass in nodeTypes:
+        return nodeTypes[nclass]['color']
+    print ('unknown node class', nclass)
+    return nodeTypes['other']['color']
 
 def get_edge_width(nphs):
     if nphs == 1:
@@ -26,6 +51,7 @@ def get_edge_width(nphs):
 def get_edge_color(eclass):
     if eclass in edgeTypes:
         return edgeTypes[eclass]['color']
+    print ('unknown edge class', eclass)
     return edgeTypes['unknown']['color']
 
 def get_edge_mnemonic(eclass):
@@ -52,20 +78,40 @@ if __name__ == '__main__':
     nbus = G.number_of_nodes()
     nbranch = G.number_of_edges()
     print ('read graph with', nbus, 'nodes and', nbranch, 'edges')
-#    print (G.nodes())
-#    print (G.edges())
+
+    # build a list of nodes, i.e., capacitors and loads, that modify rendering of their parent
+    shuntNodes = {}  # key on the parent node, value will be the nodeType
+    for n, data in G.nodes(data=True):
+        ndata = data['ndata']
+        nclass = data['nclass']
+        if nclass == 'capacitor':
+            shuntNodes[ndata['parent']] = 'capacitor'
+        elif nclass == 'load':
+            if 'load_class' in ndata:
+                loadclass = 'load_class_' + ndata['load_class']
+            else:
+                loadclass = 'load_class_R'
+            shuntNodes[ndata['parent']] = loadclass
 
     # extract the XY coordinates available for plotting
     xy = {}
     lblNode = {}
     plotNodes = []
-    for n in G.nodes():
-        ndata = G.nodes()[n]['ndata']
+    nodeColors = []
+    nodeSizes = []
+    for n, data in G.nodes(data=True):
+        ndata = data['ndata']
         if 'x' in ndata:
             busx = float(ndata['x'])
             busy = float(ndata['y'])
             xy[n] = [busx, busy]
             plotNodes.append(n)
+            if n in shuntNodes:
+                nclass = shuntNodes[n]
+            else:
+                nclass = 'other'
+            nodeColors.append (get_node_color (nclass))
+            nodeSizes.append (get_node_size (nclass))
             lblNode[n] = n[11:] # skip the first 11 characters, e.g., R5-12-47-5_
 
     # only plot the edges that have XY coordinates at both ends
@@ -93,10 +139,10 @@ if __name__ == '__main__':
                 plotEdges.append ((n1, n2))
                 edgeWidths.append (get_edge_width(nph))
                 edgeColors.append (get_edge_color(data['eclass']))
-        if not bFound:
+        if not bFound and data['eclass'] != 'parent':
             print ('unable to plot', data['ename'])
 
-    nx.draw_networkx_nodes (G, xy, nodelist=plotNodes, node_size=3, node_color='r')
+    nx.draw_networkx_nodes (G, xy, nodelist=plotNodes, node_color=nodeColors, node_size=nodeSizes)
     nx.draw_networkx_edges (G, xy, edgelist=plotEdges, edge_color=edgeColors, width=edgeWidths, alpha=0.8)
     if plotLabels:
         nx.draw_networkx_labels (G, xy, lblNode, font_size=8, font_color='k')
@@ -104,12 +150,12 @@ if __name__ == '__main__':
     plt.xlabel ('X coordinate [?]')
     plt.ylabel ('Y coordinate [?]')
     plt.grid(linestyle='dotted')
-    eclasses = ['overhead_line', 'underground_line', 'transformer', 'switch',
-                'fuse', 'regulator', 'recloser', 'sectionalizer', 'triplex_line', 'series_reactor']
     xdata = [0, 1]
     ydata = [1, 0]
-    lns = [lines.Line2D(xdata, ydata, color=get_edge_color(e)) for e in edgeTypes]
-    labs = [get_edge_mnemonic (e) for e in edgeTypes]
+    lns = [lines.Line2D(xdata, ydata, color=get_edge_color(e)) for e in edgeTypes] + \
+        [lines.Line2D(xdata, ydata, color=get_node_color(n), marker='o') for n in nodeTypes]
+        #        [patches.Circle((0,0), color=get_node_color(n), radius=get_node_size (n)) for n in nodeTypes]
+    labs = [get_edge_mnemonic (e) for e in edgeTypes] + [get_node_mnemonic (n) for n in nodeTypes]
     plt.legend(lns, labs, loc='best')
     plt.show()
 
