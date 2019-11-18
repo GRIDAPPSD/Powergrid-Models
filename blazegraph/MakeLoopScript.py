@@ -28,14 +28,14 @@ def append_xml_case(casefiles, xmlpath, outpath, fp):
             print('curl -D- -H "Content-Type: application/xml" --upload-file', 
                   xmlpath + c + '.xml',
                   '-X POST "http://localhost:9999/blazegraph/sparql"', file=fp)
-            print('java -classpath "target/*:/home/mcde601/src/apache-jena-3.6.0/lib/*:/home/mcde601/src/commons-math3-3.6.1/*" gov.pnnl.goss.cim2glm.CIMImporter -o=dss -l=1.0 -i=1', 
+            print('java -classpath "target/*:/home/mcde601/src/apache-jena-3.6.0/lib/*:/home/mcde601/src/commons-math3-3.6.1/*" gov.pnnl.goss.cim2glm.CIMImporter -o=both -l=1.0 -i=1', 
                   outpath + c, file=fp)
         else:
             print('./drop_all.sh', file=fp)
             print('curl -D- -H "Content-Type: application/xml" --upload-file', 
                   xmlpath + c + '.xml',
                   '-X POST "http://localhost:9999/blazegraph/sparql"', file=fp)
-            print('java -classpath "target/*:/Users/mcde601/src/apache-jena-3.6.0/lib/*:/Users/mcde601/src/commons-math3-3.6.1/*" gov.pnnl.goss.cim2glm.CIMImporter -o=dss -l=1.0 -i=1', 
+            print('java -classpath "target/*:/Users/mcde601/src/apache-jena-3.6.0/lib/*:/Users/mcde601/src/commons-math3-3.6.1/*" gov.pnnl.goss.cim2glm.CIMImporter -o=both -l=1.0 -i=1', 
                   outpath + c, file=fp)
 
 if sys.platform == 'win32':
