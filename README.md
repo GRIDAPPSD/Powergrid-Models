@@ -20,7 +20,7 @@ The taxonomy feeders are modified, as described in the _taxonomy_ subdirectory.
 ## CIM Translations
 
 The _blazegraph_ subdirectory contains a Java program and script files
-to manage the feeder model conversions to and from CIM. [Maven](https://maven.apache.org/) and [Java](https://java.com/en/download/) are required.
+to manage the feeder model conversions to and from CIM. [Maven](https://maven.apache.org/), [Java](https://java.com/en/download/), [Jena](https://jena.apache.org/) and [Commons Math](https://commons.apache.org/proper/commons-math/) are required.
 
 To set up and test the converter:
 
