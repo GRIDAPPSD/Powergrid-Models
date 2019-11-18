@@ -4,7 +4,7 @@ if sys.platform == 'win32':
     glmpath = 'c:\\gridapps-d\\powergrid-models\\blazegraph\\both\\'
     bp = open (glmpath + 'check_glm.bat', 'w')
 elif sys.platform == 'linux':
-    glmpath = '/home/mcde601/src/Powergrid-Models/blazegraph/both/'
+    glmpath = '/home/tom/src/Powergrid-Models/blazegraph/both/'
     bp = open (glmpath + 'check_glm.sh', 'w')
 else:
     glmpath = '/Users/mcde601/src/GRIDAPPSD/Powergrid-Models/blazegraph/both/'

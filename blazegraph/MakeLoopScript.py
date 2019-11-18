@@ -28,7 +28,7 @@ def append_xml_case(casefiles, xmlpath, outpath, fp):
             print('curl -D- -H "Content-Type: application/xml" --upload-file', 
                   xmlpath + c + '.xml',
                   '-X POST "http://localhost:9999/blazegraph/sparql"', file=fp)
-            print('java -classpath "target/*:/home/mcde601/src/apache-jena-3.6.0/lib/*:/home/mcde601/src/commons-math3-3.6.1/*" gov.pnnl.goss.cim2glm.CIMImporter -o=both -l=1.0 -i=1', 
+            print('java -classpath "target/*:/home/tom/src/apache-jena-3.13.1/lib/*:/home/tom/src/commons-math3-3.6.1/*" gov.pnnl.goss.cim2glm.CIMImporter -o=both -l=1.0 -i=1', 
                   outpath + c, file=fp)
         else:
             print('./drop_all.sh', file=fp)
@@ -44,7 +44,7 @@ if sys.platform == 'win32':
     glmpath = 'c:\\gridapps-d\\powergrid-models\\blazegraph\\glm\\'
     bothpath = 'c:\\gridapps-d\\powergrid-models\\blazegraph\\both\\'
 elif sys.platform == 'linux':
-    srcpath = '/home/mcde601/src/Powergrid-Models/blazegraph/'
+    srcpath = '/home/tom/src/Powergrid-Models/blazegraph/'
     xmlpath = srcpath + 'test/'
     dsspath = srcpath + 'dss/'
     glmpath = srcpath + 'glm/'

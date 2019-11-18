@@ -197,6 +197,8 @@ def load_summary(fname):
     return summ
 
 def write_comparisons(path1, path2, path3, rootname, voltagebases):
+    if sys.platform == 'linux':
+        rootname = rootname.lower()
     v1 = load_voltages (path1 + rootname + '_v.csv')
     v2 = load_voltages (path2 + rootname + '_v.csv')
     t1 = load_taps (path1 + rootname + '_t.csv')
