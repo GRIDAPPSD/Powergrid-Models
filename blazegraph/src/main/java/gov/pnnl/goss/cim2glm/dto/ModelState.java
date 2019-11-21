@@ -3,6 +3,8 @@ package gov.pnnl.goss.cim2glm.dto;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gson.Gson;
+
 public class ModelState {
 	List<SyncMachine> synchronousmachines = new ArrayList<SyncMachine>();
 	List<Switch> switches = new ArrayList<Switch>();
@@ -33,4 +35,15 @@ public class ModelState {
 	}
 
 
+	@Override
+	public String toString() {
+		Gson gson = new Gson();
+		return gson.toJson(this);
+	}
+
+	public static ModelState parse(String jsonString) {
+		Gson gson = new Gson();
+		ModelState obj = gson.fromJson(jsonString, ModelState.class);
+		return obj;
+	}
 }

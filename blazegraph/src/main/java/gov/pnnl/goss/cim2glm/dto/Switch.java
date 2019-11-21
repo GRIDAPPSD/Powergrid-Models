@@ -4,6 +4,8 @@ package gov.pnnl.goss.cim2glm.dto;
 //	All rights reserved.
 //	----------------------------------------------------------
 
+import com.google.gson.Gson;
+
 public class Switch {
 
 
@@ -22,6 +24,41 @@ public class Switch {
 		this.open = open;
 	}
 
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public boolean isOpen() {
+		return open;
+	}
+
+	public void setOpen(boolean open) {
+		this.open = open;
+	}
+
+	@Override
+	public String toString() {
+		Gson gson = new Gson();
+		return gson.toJson(this);
+	}
+
+	public static Switch parse(String jsonString) {
+		Gson gson = new Gson();
+		Switch obj = gson.fromJson(jsonString, Switch.class);
+		return obj;
+	}
 	/**
 	 * convert a CIM name to simulator name, replacing unallowed characters
 	 *

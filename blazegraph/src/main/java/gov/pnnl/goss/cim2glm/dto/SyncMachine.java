@@ -4,6 +4,8 @@ package gov.pnnl.goss.cim2glm.dto;
 //	All rights reserved.
 //	----------------------------------------------------------
 
+import com.google.gson.Gson;
+
 public class SyncMachine {
 
 	public String id;
@@ -21,6 +23,50 @@ public class SyncMachine {
 		name = null;
 		p = 0;
 		q = 0;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public double getP() {
+		return p;
+	}
+
+	public void setP(double p) {
+		this.p = p;
+	}
+
+	public double getQ() {
+		return q;
+	}
+
+	public void setQ(double q) {
+		this.q = q;
+	}
+
+	@Override
+	public String toString() {
+		Gson gson = new Gson();
+		return gson.toJson(this);
+	}
+
+	public static SyncMachine parse(String jsonString) {
+		Gson gson = new Gson();
+		SyncMachine obj = gson.fromJson(jsonString, SyncMachine.class);
+		return obj;
 	}
 	/**
 	 * convert a CIM name to simulator name, replacing unallowed characters

@@ -1796,54 +1796,6 @@ public class CIMImporter extends Object {
 			}
 		}
 
-		//		for(DistSwitch s: switchesToUpdate){
-		//			DistSwitch toUpdate = mapLoadBreakSwitches.get(s.name);
-		//			if(toUpdate!=null){
-		//				toUpdate.open = s.open;
-		//			}
-		//			//mapLoadBreakSwitches.put(s.name, (DistLoadBreakSwitch) toUpdate);
-		//		}
-		//		for(DistSwitch s: switchesToUpdate){
-		//			DistSwitch toUpdate = mapFuses.get(s.name);
-		//			if(toUpdate!=null){
-		//				toUpdate.open = s.open;
-		//			}
-		//			//mapFuses.put(s.name, (DistFuse)toUpdate);
-		//		}
-		//		for(DistSwitch s: switchesToUpdate){
-		//			DistSwitch toUpdate = mapBreakers.get(s.name);
-		//			if(toUpdate!=null){
-		//				toUpdate.open = s.open;
-		//			}
-		//			//mapBreakers.put(s.name, (DistBreaker) toUpdate);
-		//		}
-		//		for(DistSwitch s: switchesToUpdate){
-		//			DistSwitch toUpdate = mapReclosers.get(s.name);
-		//			if(toUpdate!=null){
-		//				toUpdate.open = s.open;
-		//			}
-		//			//mapReclosers.put(s.name, (DistRecloser) toUpdate);
-		//		}
-		//		for(DistSwitch s: switchesToUpdate){
-		//			DistSwitch toUpdate = mapSectionalisers.get(s.name);
-		//			if(toUpdate!=null){
-		//				toUpdate.open = s.open;
-		//			}
-		//			//mapSectionalisers.put(s.name, (DistSectionaliser) toUpdate);
-		//		}
-		//		for(DistSwitch s: switchesToUpdate){
-		//			DistSwitch toUpdate = mapDisconnectors.get(s.name);
-		//			if(toUpdate!=null){
-		//				toUpdate.open = s.open;
-		//			}
-		//			//mapDisconnectors.put(s.name,  (DistDisconnector) toUpdate);
-		//		}
-		//
-		//		System.out.println("Switches");
-		//		for(String key: mapSwitches.keySet()){
-		//			DistSwitch gen = mapSwitches.get(key);
-		//			System.out.println(key+"  "+gen.open);
-		//		}
 
 	}
 	/**
@@ -1964,6 +1916,7 @@ public class CIMImporter extends Object {
 		String fTarget = "dss";
 		String feeder_mRID = "";
 		double Zcoeff = 0.0, Icoeff = 0.0, Pcoeff = 0.0;
+		String modelStateStr = null;
 		String blazegraphURI = "http://localhost:9999/blazegraph/namespace/kb/sparql";
 		if (args.length < 1) {
 			System.out.println ("Usage: java CIMImporter [options] output_root");
@@ -1978,6 +1931,8 @@ public class CIMImporter extends Object {
 			System.out.println ("       -r={0, 1}          // determine ZIP load fraction based on given xml file or randomized fractions");
 			System.out.println ("       -h={0, 1}          // determine if house load objects should be added to the model or not");
 			System.out.println ("       -x={0, 1}          // indicate whether for glm, the model will be called with a fault_check already created");
+			System.out.println(
+					"       -m={model state json}  // indicates any changes necessary to the model state before generating config files");
 			System.out.println ("       -u={http://localhost:9999/blazegraph/namespace/kb/sparql} // blazegraph uri (if connecting over HTTP); defaults to http://localhost:9999/blazegraph/namespace/kb/sparql");
 
 			System.out.println ("Example 1: java CIMImporter -l=1 -i=1 -n=zipload_schedule ieee8500");
@@ -2035,6 +1990,8 @@ public class CIMImporter extends Object {
 					bSelectFeeder = true;
 				} else if (opt == 'u') {
 					blazegraphURI = optVal;
+				} else if (opt == 'm') {
+					modelStateStr = optVal;
 				}
 			} else {
 				if (fTarget.equals("glm")) {
@@ -2060,18 +2017,12 @@ public class CIMImporter extends Object {
 				//				System.out.println ("Selecting only feeder " + feeder_mRID);
 			}
 
-			List<SyncMachine> machinesToUpdate = new ArrayList<>();
-			machinesToUpdate.add(new SyncMachine("diesel590", 1000.000, 140.000));
-			machinesToUpdate.add(new SyncMachine("diesel620", 150.000, 500.000));
-			List<Switch> switchesToUpdate = new ArrayList<>();
-			//			switchesToUpdate.add(new DistSwitch("2002200004641085_sw",true));//2002200004641085_sw, "normalOpen":false
-			//			switchesToUpdate.add(new DistSwitch("2002200004868472_sw",true));//2002200004641085_sw, "normalOpen":false
-			//			switchesToUpdate.add(new DistSwitch("2002200004991174_sw",true));//2002200004641085_sw, "normalOpen":false
-			switchesToUpdate.add(new Switch("g9343_48332_sw", true));
-
-
-
-			ModelState ms = new ModelState(machinesToUpdate, switchesToUpdate);
+			ModelState ms = new ModelState();
+			// Example model state -
+			// {"synchronousmachines":[{"name":"diesel590","p":1000.000,"q":140.000},{"name":"diesel620","p":150.000,"q":500.000}],"switches":[{"name":"2002200004641085_sw","open":true},{"name":"2002200004868472_sw","open":true},{"name":"l9407_48332_sw","open":true},{"name":"tsw568613_sw","open":false}]}
+			if (modelStateStr != null) {
+				ms = ModelState.parse(modelStateStr);
+			}
 
 			new CIMImporter().start(qh, fTarget, fRoot, fSched, load_scale,
 					bWantSched, bWantZIP, randomZIP, useHouses,
