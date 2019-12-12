@@ -6,6 +6,8 @@ export summary  Transactive_s.csv
 export voltages Transactive_v.csv
 export currents Transactive_i.csv
 export taps     Transactive_t.csv
+uuids transactive_uuids.dat
 export cim100 file=Transactive.xml sub=PNNL subgeo=Medium geo=IEEE fid=503D6E20-F499-4CC7-8051-971E23D0BF79 sid=A4C079AE-FE2B-4D11-969E-1268AFC562E9 sgrid=2BBFD370-B30F-4EC5-B7AE-6873921C8C7C rgnid=24BA911D-65D5-4769-9A30-4178B2DFA203
+export uuids transactive_uuids.dat
 
 // export cim100 file=Transactive.xml sub=PNNL subgeo=Medium geo=IEEE
