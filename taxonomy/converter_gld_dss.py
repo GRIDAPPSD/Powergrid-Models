@@ -159,11 +159,11 @@ def obj(parent,model,line,itr,oidh,octr):
     # Return the 
     return line,octr
 
-def process_one_model(inf, modeldir, dotfile, vbase_str):
+def process_one_model(inf, modeldir, dotfile, vbase_str, circuit_name):
 
     toks = vbase_str.split(',')
     srcekv = float(toks[0])
-    print ('voltage bases are {:s} and source voltage is {:.2f}'.format (vbase_str, srcekv))
+    print ('voltage bases are {:s} and source voltage is {:.2f} for {:s}'.format (vbase_str, srcekv, circuit_name))
 
     #-----------------------
     # Pull Model Into Memory
@@ -1308,7 +1308,7 @@ def process_one_model(inf, modeldir, dotfile, vbase_str):
 
     # SUBSTATION
     sourcef = open(modeldir+'/VSource.dss','w')
-    sourcef.write('new circuit.sourceckt bus1=sourcebus phases=3 MVAsc3=50000 basekv={:.2f}\n'.format(srcekv))
+    sourcef.write('new circuit.{:s} bus1=sourcebus phases=3 MVAsc3=50000 basekv={:.2f}\n'.format(circuit_name, srcekv))
     sourcef.write('new line.trunk bus1=sourcebus bus2=rootbus phases=3 switch=yes\n')
     sourcef.write('new energymeter.feeder element=line.trunk terminal=1\n')
     feederhead = '' # starting bus as defined by PNNL
@@ -1467,7 +1467,7 @@ def process_taxonomy():
             os.system('mkdir '+modeldir)
 
         dotfile = wd+'/visualizations/'+taxname+'.dot'
-        process_one_model (inf, modeldir, dotfile, vbase_str)
+        process_one_model (inf, modeldir, dotfile, vbase_str, 'sourceckt')
 
 if __name__ == '__main__':
     if len(sys.argv) > 1:
@@ -1477,7 +1477,11 @@ if __name__ == '__main__':
             vbase_str = sys.argv[2].strip('"')
         else:
             vbase_str = '12.47,0.48,0.208'
-        process_one_model (fp, '.', '', vbase_str)
+        if len(sys.argv) > 3:
+            ckt_name = sys.argv[3]
+        else:
+            ckt_name = 'substation'
+        process_one_model (fp, '.', '', vbase_str, ckt_name)
         fp.close()
     else:
         process_taxonomy()

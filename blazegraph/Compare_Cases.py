@@ -19,15 +19,9 @@ casefiles = [{'root':'ACEP_PSIL',      'bases':[314.0,480.0]},
              {'root':'IEEE8500_3subs', 'bases':[12480.0,69000.0,115000.0]},
              {'root':'R2_12_47_2',     'bases':[480.0,12470.0,100000.0]}]
 
-#casefiles = [{'root':'IEEE8500_3subs', 'bases':[12480.0,69000.0,115000.0]}]
-
-#casefiles = [{'root':'IEEE123_PV',     'bases':[4160.0]}]
-
-#casefiles = [{'root':'Transactive',     'bases':[4160.0]}]
-
 dir1 = './test/'
-dir2 = './dss/'
-dir3 = './glm/'
+dir2 = './both/'   # dss and output files
+dir3 = './both/'   # gridlab-d files
 
 def dss_phase(col):
     if col==1:
@@ -203,6 +197,8 @@ def load_summary(fname):
     return summ
 
 def write_comparisons(path1, path2, path3, rootname, voltagebases):
+    if sys.platform == 'linux':
+        rootname = rootname.lower()
     v1 = load_voltages (path1 + rootname + '_v.csv')
     v2 = load_voltages (path2 + rootname + '_v.csv')
     t1 = load_taps (path1 + rootname + '_t.csv')
@@ -354,5 +350,6 @@ if __name__ == "__main__":
         bases = row['bases']
         for i in range(len(bases)):
             bases[i] /= math.sqrt(3.0)
+        print (root, bases)
         write_comparisons (dir1, dir2, dir3, root, bases)
 

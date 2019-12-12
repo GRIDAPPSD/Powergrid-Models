@@ -13,7 +13,7 @@ are required.
 ### Instructions
 
  1. Open a command shell to the Meas directory.
- 2. Review the feeders.sh file which lists the feeders that are available for ingestion.
+ 2. Review the listall.sh file which lists the feeders that are available for ingestion.
  3. Run ./listall.sh to generage temporary files for adding measurements.
  4. Run ./insertall.sh to insert measurements for the feeders.
  
@@ -46,6 +46,7 @@ removing those from the blazegraph database.
     load <file:///tmp/test/IEEE13.xml>;
     load <file:///tmp/test/IEEE8500_3subs.xml>;
     load <file:///tmp/test/R2_12_47_2.xml>;
+		load <file:///tmp/test/Transactive.xml>;
     ````
  1. Click update button on the bottom.
  

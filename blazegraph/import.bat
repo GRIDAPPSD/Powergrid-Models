@@ -1,8 +1,9 @@
 set CLASSPATH=target/*;c:/apache-jena-3.6.0/lib/*;c:/commons-math3-3.6.1/*
-java gov.pnnl.goss.cim2glm.CIMImporter -o=idx directory
-java gov.pnnl.goss.cim2glm.CIMImporter ^
+rem java gov.pnnl.goss.cim2glm.CIMImporter -o=idx directory
+java -agentpath:C:/Java/jdk1.8.0_192/lib/visualvm/profiler/lib/deployed/jdk16/windows-amd64/profilerinterface.dll=C:\Java\jdk1.8.0_192\lib\visualvm\profiler\lib,5140 gov.pnnl.goss.cim2glm.CIMImporter ^
  -u=http://localhost:9999/blazegraph/namespace/kb/sparql ^
- -o=glm -l=1.0 CandleSt
+ -s=_AAE94E4A-2465-6F5E-37B1-3E72183A4E44 ^
+ -o=both -l=1.0 -i=1 -x=0 eval
 rem java gov.pnnl.goss.cim2glm.CIMImporter ^
 rem  -u=http://localhost:9999/blazegraph/namespace/kb/sparql ^
 rem  -s=_E407CBB6-8C8D-9BC9-589C-AB83FBF0826D -o=glm -l=1.0 -i=1 ieee123pv

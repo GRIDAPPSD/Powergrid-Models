@@ -57,7 +57,7 @@ public class OperationalLimits extends Object {
 		"} ORDER by ?id ?val";
 
 	private void LoadVoltageMap () {
-		ResultSet results = queryHandler.query (szVOLT);
+		ResultSet results = queryHandler.query (szVOLT, "voltage map");
 		String lastID = "";
 		double Alo = 0.0, Ahi = 1.0e9, Blo = 1.0e9, Bhi = 0.0;
 		while (results.hasNext()) {
@@ -139,7 +139,7 @@ public class OperationalLimits extends Object {
 	}
 
 	private void LoadCurrentMap () {
-		ResultSet results = queryHandler.query (szCURR);
+		ResultSet results = queryHandler.query (szCURR, "current map");
 		String lastID = "";
 		double Norm = 1.0e9, Emer = 0.0;
 		while (results.hasNext()) {

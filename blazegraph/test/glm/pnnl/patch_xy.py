@@ -43,7 +43,7 @@ fp.close()
 print ('xrange [{:.2f} {:.2f}] yrange [{:.2f} {:.2f}]'.format(xmin,xmax,ymin,ymax))
 
 buses = []
-fp = open('BusCoords.csv', mode='r')
+fp = open('Buscoords.csv', mode='r')
 for ln in fp.readlines():
     toks = ln.split(',')
     if len(toks) >= 3:
