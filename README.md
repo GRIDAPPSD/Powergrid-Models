@@ -22,7 +22,7 @@ The taxonomy feeders are modified, as described in the _taxonomy_ subdirectory.
 The _blazegraph_ subdirectory contains a Java program and script files
 to manage the feeder model conversions to and from CIM. [Maven](https://maven.apache.org/), [Java](https://java.com/en/download/), [Jena](https://jena.apache.org/) and [Commons Math](https://commons.apache.org/proper/commons-math/) are required.
 
-Blazegraph requires Java 8, which is no longer widely available for new installations.  Blazegraph isn't compatible with Java 9 or newer versions. Therefore, we recommend using Blazegrapn in a Docker container:
+Blazegraph requires Java 8, which is no longer widely available for new installations.  Blazegraph isn't compatible with Java 9 or newer versions. Therefore, we recommend using Blazegraph in a Docker container:
 
 1. Install the [Docker Engine](https://docs.docker.com/install/)
 2. Issue commands that install and start the containerized Blazegraph engine:
