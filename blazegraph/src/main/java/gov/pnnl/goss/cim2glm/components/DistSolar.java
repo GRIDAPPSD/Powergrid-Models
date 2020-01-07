@@ -150,6 +150,8 @@ public class DistSolar extends DistComponent {
 			pf *= -1.0;
 		}
 
+//		System.out.println (name + ":" + bus + ":" + Boolean.toString(bDelta) + ":" + phases + ":" + Integer.toString(nphases));
+
 		buf.append (" phases=" + Integer.toString(nphases) + " bus1=" + DSSShuntPhases (bus, phases, bDelta) + 
 								" conn=" + DSSConn(bDelta) + " kva=" + df3.format(kva) + " kv=" + df3.format(kv) +
 								" pmpp=" + df3.format(kva) + " irrad=" + df3.format(0.001 * p/kva) + " pf=" + df4.format(pf) +

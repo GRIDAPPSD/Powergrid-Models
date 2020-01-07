@@ -1,0 +1,7 @@
+New Transformer.M1_XFMR  phases=3  windings=2  buses=(Sourcebus, temp)  conns=(delta wye)  sub=y subname=M1
+~ kvs=(67, 12.47)  kvas=(16800 16800)  xhl=8  sub=y  subname=M1 mintap=0.95 maxtap=1.05
+~ wdg=1  %r=.2
+~ wdg=2  %r=.2
+
+New Regcontrol.M1_XFMR_Regulator  transformer=M1_XFMR  winding=2  
+~ vreg=122.0  band=3.0 ptratio=60 bus=temp enabled=True delay=15 tapdelay=45 !maxtapchange=2

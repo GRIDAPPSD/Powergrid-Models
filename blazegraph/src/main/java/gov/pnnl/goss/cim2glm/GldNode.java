@@ -95,6 +95,8 @@ public class GldNode {
 	public boolean bStorageInverters;
 	/** signifies there are synchronous machines connected to this bus */
 	public boolean bSyncMachines;
+	/** signifies local DER that can support an island */
+	public boolean bSwingPQ;
 	/** signifies this bus is connected to a tertiary (or higher) transformer winding,
 	 *  which is not supported in GridLAB-D. */
 	public boolean bTertiaryWinding;
@@ -120,6 +122,7 @@ public class GldNode {
 		pa_p = pb_p = pc_p = qa_p = qb_p = qc_p = 0.0;
 		bDelta = false;
 		bSwing = false;
+		bSwingPQ = false;
 		bSecondary = false;
 		bSolarInverters = false;
 		bStorageInverters = false;
@@ -404,7 +407,10 @@ public class GldNode {
 			buf.append ("  name \"" + name + "\";\n");
 			buf.append ("  phases " + GetPhases() + ";\n");
 			buf.append ("  nominal_voltage " + df2.format(nomvln) + ";\n");
-			buf.append ("}\n");
+//			if (bSyncMachines) {
+//				buf.append ("  bustype SWING_PQ;\n");
+//			}
+			buf.append("}\n");
 			if (bSolarInverters) {
 				AppendSubMeter (buf, "triplex_meter", "_pvmtr");
 			}
@@ -419,6 +425,10 @@ public class GldNode {
 			buf.append ("  name \"" + name + "\";\n");
 			buf.append ("  phases " + GetPhases() + ";\n");
 			buf.append ("  nominal_voltage " + df2.format(nomvln) + ";\n");
+			if (bSyncMachines || bStorageInverters) {
+				buf.append ("  bustype SWING_PQ;\n");
+				bSwingPQ = true;
+			}
 			buf.append ("}\n");
 			if (bSolarInverters) {
 				AppendSubMeter (buf, "meter", "_pvmtr");

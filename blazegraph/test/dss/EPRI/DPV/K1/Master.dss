@@ -1,0 +1,51 @@
+!EPRI Feeder K1, OpenDSS
+! This Circuit model is provided to the public by EPRI (Electric Power Research Institute) as part of the Distributed Renewables Research Program (P174).
+! Please feel free to use this circuit model for further research/study. 
+! For reference purposes, please use: EPRI Feeder K1, Distributed PV (DPV) Monitoring and Feeder Analysis, dpv.epri.com, 2013
+Clear
+
+New Circuit.EPRIK1  pu=1.00 bus1=Trans_equiv basekv=69  r1=0.806263 x1=7.813791 r0=0.916307 x0=14.55679 !corrected to match CYME dist side impedances
+
+
+
+
+Redirect triplexlinecodes.dss
+Redirect Substation.dss
+Redirect LineCodes.dss
+Redirect Lines.dss
+Redirect xfmrs.dss
+Redirect loadShapes.dss
+Redirect services.dss
+Redirect loads.dss
+Redirect Capacitors.dss
+
+Set voltagebases = [69.0, 13.2, .4156922]
+Calcv
+Redirect vbases.dss
+
+Set maxiter=200
+Set maxcontroliter=60
+
+New energymeter.K21_feeder element=line.K21_feeder term=1 option=R peakcurrent=(224.8647,207.6677,211.8367) PhaseVolt=yes
+
+
+redirect AllocationFactors.txt
+
+New monitor.subVI element=Transformer.T2 terminal=2 mode=0
+New monitor.subPQ element=Transformer.T2 terminal=1 mode=65 PPolar=No
+New monitor.feederPQ element=line.K21_feeder terminal=1 mode=65 PPolar=No
+New monitor.Tap1 element=Transformer.T2 terminal=2 mode=2
+New monitor.Cap1 element=Capacitor.10548920-1 mode=33
+New monitor.VoltageCap1 element=Capacitor.10548920-1 terminal=1 mode=0
+New monitor.VoltageTap1 element=Transformer.T2 terminal=2 mode=0
+New monitor.HighestImpedanceBus element=Line.UG_10540314 terminal=2 mode=0
+
+set loadmult=1.0    !peak load for the K21 feeder (also changes K22 load level)
+!set loadmult=0.156  !offpeak (minimum) load for the K21 feeder (also changes K22 load level)
+
+solve mode=snap
+
+
+Buscoords Buscoords.dss
+
+// Plot Profile Phases=ALL

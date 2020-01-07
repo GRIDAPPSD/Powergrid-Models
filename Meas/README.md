@@ -14,27 +14,33 @@ Sample commands below should be executed in the powergrid-models/Meas directory.
 
 2. "python ListMeasureables.py rootname _4F76A5F9-271D-9EB8-5E31-AA362D86F2C3" produces a list of ConductingEquipment instances that can have sensors attached, written to separate files as listed below.  The example mRID corresponds to the IEEE 8500-node feeder, circa March 2018.
  
-    - rootname_special.txt contains capacitor (state, S, V), tap changer (state), solar PV (S, V), and storage (S, V) measurements. 
+    - rootname_special.txt contains capacitor (state, S, V), tap changer (state), solar photovoltaic (S, V), and storage (S, V) measurements. 
  
-    - rootname_node_v.txt contains node voltage measurements for every line segment and transformer, not already included in rootname_special.txt 
+    - rootname_node_v.txt contains node voltage measurements for every switch, line segment and transformer, not already included in rootname_special.txt 
 
     - rootname_loads.txt contains load S and V measurements, which may overlap with rootname_node_v.txt 
 
-    - rootname_switch_i.txt contains LoadBreakSwitch current measurements. 
+		- rootname_machines.txt contains rotating machine S and V measurements, which may overlap with rootname_node_v.txt
+
+    - rootname_switch_i.txt contains LoadBreakSwitch current measurements into the first bus (ConnectivityNode) 
 
     - rootname_lines_pq.txt contains ACLineSegment S measurements into the first bus (ConnectivityNode)
  
-    - rootname_xfmr_pq.txt contains TransformerEnd (i.e. winding) S measurements into the winding
+    - rootname_xfmr_pq.txt contains TransformerEnd (i.e. winding) S measurements into winding 1, i.e., only the high-voltage side
 
 3. "python InsertMeasurements.py filename" will insert a measurement file from step 2 into the triple-store.  This Python code makes some assumptions (e.g.  each capacitor, aka LinearShuntCompensator, in the file will get a PNV, VA and POS measurement).  The LoadBreakSwitch POS measurements are not implemented.  You can modify this Python file to implement your own measurement strategies.  
  
 4. "python DropMeasurements.py mRID" will remove all measurements associated with the feeder mRID. After this, you can re-start step 3 with a clean slate.
 
-5. listall.sh executes step 2 for each of the four feeders included in GridAPPS-D version 1.0
+5. listall.sh executes step 2 for each of the eleven feeders currently included in GridAPPS-D
 
-6. insertall.sh inserts a selection of measurement files created in step 5; only special, node_v, and switch_i are included by default
+6. insertall.sh inserts a selection of measurement files created in step 5
 
-7. dropall.sh removes all measurements for each of the four feeders included in GridAPPS-D version 1.0
+    - by default, all non-empty measurement files are inserted, implying a more-than-realistic number of sensors
+
+		- a suggested realistic set of measurements would include special, machines, switch_i, plus a subset of PNV and VA measurements from the other files
+
+7. dropall.sh removes all measurements for each of the eleven feeders currently included in GridAPPS-D
 
 Whenever you create a new feeder model from CIMImporter, it will also create a JSON file that describes the sensors that were added to the triple-store.
 

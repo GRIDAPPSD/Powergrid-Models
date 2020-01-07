@@ -5,11 +5,23 @@ java -classpath "target/*:/Users/mcde601/src/apache-jena-3.6.0/lib/*:/Users/mcde
 
 # CIM100 testing with 9500-node feeder; OpenDSS, GridLAB-D and GridLAB-D with houses
 java -classpath "target/*:/Users/mcde601/src/apache-jena-3.6.0/lib/*:/Users/mcde601/src/commons-math3-3.6.1/*" gov.pnnl.goss.cim2glm.CIMImporter \
-     -s=_AAE94E4A-2465-6F5E-37B1-3E72183A4E44 -o=dss -l=1.0 -i=1 eval
-java -classpath "target/*:/Users/mcde601/src/apache-jena-3.6.0/lib/*:/Users/mcde601/src/commons-math3-3.6.1/*" gov.pnnl.goss.cim2glm.CIMImporter \
-     -s=_AAE94E4A-2465-6F5E-37B1-3E72183A4E44 -o=glm -l=1.0 -i=1 eval
-java -classpath "target/*:/Users/mcde601/src/apache-jena-3.6.0/lib/*:/Users/mcde601/src/commons-math3-3.6.1/*" gov.pnnl.goss.cim2glm.CIMImporter \
-     -s=_AAE94E4A-2465-6F5E-37B1-3E72183A4E44 -o=glm -l=1.0 -i=1 -h=1 evalHouse
+     -s=_AAE94E4A-2465-6F5E-37B1-3E72183A4E44 -o=both -l=1.0 -i=1 -h=0 -x=0 -t=1 eval
+
+# CIM100 testing with Transactive feeder; OpenDSS, GridLAB-D and GridLAB-D with houses
+#java -classpath "target/*:/Users/mcde601/src/apache-jena-3.6.0/lib/*:/Users/mcde601/src/commons-math3-3.6.1/*" gov.pnnl.goss.cim2glm.CIMImporter \
+#     -s=_503D6E20-F499-4CC7-8051-971E23D0BF79 -o=dss -l=1.0 -i=1 transactive
+#java -classpath "target/*:/Users/mcde601/src/apache-jena-3.6.0/lib/*:/Users/mcde601/src/commons-math3-3.6.1/*" gov.pnnl.goss.cim2glm.CIMImporter \
+#     -s=_503D6E20-F499-4CC7-8051-971E23D0BF79 -o=glm -l=1.0 -i=1 -x=0 transactive
+#java -classpath "target/*:/Users/mcde601/src/apache-jena-3.6.0/lib/*:/Users/mcde601/src/commons-math3-3.6.1/*" gov.pnnl.goss.cim2glm.CIMImporter \
+#     -s=_503D6E20-F499-4CC7-8051-971E23D0BF79 -o=glm -l=1.0 -i=1 -h=1 transactiveHouse
+
+# CIM100 testing with 9500-node feeder; OpenDSS, GridLAB-D and GridLAB-D with houses
+#java -classpath "target/*:/Users/mcde601/src/apache-jena-3.6.0/lib/*:/Users/mcde601/src/commons-math3-3.6.1/*" gov.pnnl.goss.cim2glm.CIMImporter \
+#     -s=_AAE94E4A-2465-6F5E-37B1-3E72183A4E44 -o=dss -l=1.0 -i=1 eval
+#java -classpath "target/*:/Users/mcde601/src/apache-jena-3.6.0/lib/*:/Users/mcde601/src/commons-math3-3.6.1/*" gov.pnnl.goss.cim2glm.CIMImporter \
+#     -s=_AAE94E4A-2465-6F5E-37B1-3E72183A4E44 -o=glm -l=1.0 -i=1 -x=0 eval
+#java -classpath "target/*:/Users/mcde601/src/apache-jena-3.6.0/lib/*:/Users/mcde601/src/commons-math3-3.6.1/*" gov.pnnl.goss.cim2glm.CIMImporter \
+#     -s=_AAE94E4A-2465-6F5E-37B1-3E72183A4E44 -o=glm -l=1.0 -i=1 -h=1 evalHouse
 
 #java -classpath "target/*:/Users/mcde601/src/apache-jena-3.6.0/lib/*:/Users/mcde601/src/commons-math3-3.6.1/*" gov.pnnl.goss.cim2glm.CIMImporter \
 #  -s=_E407CBB6-8C8D-9BC9-589C-AB83FBF0826D -o=glm -l=1.0 -i=1 ieee123pv

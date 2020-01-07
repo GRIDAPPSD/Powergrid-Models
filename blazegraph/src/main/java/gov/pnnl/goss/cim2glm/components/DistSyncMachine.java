@@ -66,6 +66,11 @@ public class DistSyncMachine extends DistComponent {
 			ratedS = Double.parseDouble (soln.get("?ratedS").toString());
 		}
 	}
+	public DistSyncMachine (String name, Double p, Double q) {
+		this.name = SafeName (name);
+		this.p = p;
+		this.q = q;
+	}
 
 	public String DisplayString() {
 		StringBuilder buf = new StringBuilder ("");

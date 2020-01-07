@@ -63,8 +63,8 @@ export currents R2_12_47_2_i.csv
 export taps     R2_12_47_2_t.csv
 export cim100 file=R2_12_47_2.xml subgeo=Taxonomy geo=PNNL fid=9CE150A8-8CC5-A0F9-B67E-BBD8C79D3095 sid=933D85C1-BE1C-4C05-D4DD-4B41D941C52C sgrid=656EE259-23FF-086E-1DC0-39CB9DC60A20 rgnid=79C9D814-3CE0-DC11-534D-BDA1AF949810
 //
-cd /Users/mcde601/src/epri_dpv/
-redirect ./J1/Master_noPV.dss
+cd /Users/mcde601/src/GRIDAPPSD/Powergrid-Models/blazegraph/test/dss/EPRI/DPV/J1
+redirect Master.dss
 set maxiterations=20
 solve
 cd /Users/mcde601/src/GRIDAPPSD/Powergrid-Models/blazegraph/test/

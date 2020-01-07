@@ -44,13 +44,13 @@ Set MaxControlIter=100
 Generator.SteamGen1.kw=1000
 Generator.PVFarm1.kw=450
 Generator.MicroTurb-1.kw=50
-Generator.MicroTurb-2.enabled=0
-Generator.MicroTurb-3.enabled=0
+Generator.MicroTurb-2.kw=0
+Generator.MicroTurb-3.kw=0
 Generator.MicroTurb-4.kw=100
-Generator.Diesel620.enabled=0
-Generator.Diesel590.enabled=0
-Generator.LNGEngine100.enabled=0
-Generator.LNGEngine1800.enabled=0
+Generator.Diesel620.kw=0
+Generator.Diesel590.kw=0
+Generator.LNGEngine100.kw=0
+Generator.LNGEngine1800.kw=0
 
 ! Set normal feeder configuration
 open LINE.LN0653457_SW
