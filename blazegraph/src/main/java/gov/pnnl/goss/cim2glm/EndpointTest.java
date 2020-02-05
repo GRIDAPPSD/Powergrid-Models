@@ -55,8 +55,8 @@ public class EndpointTest extends Object {
 //      String id = soln.get("?s").toString();
       String name = soln.get("?name").toString();
       String bus = soln.get("?bus").toString();
-      double nomu = new Double (soln.get("?nomu").toString()).doubleValue();
-      double bsection = new Double (soln.get("?bsection").toString()).doubleValue();
+      double nomu = Double.parseDouble (soln.get("?nomu").toString());
+      double bsection = Double.parseDouble (soln.get("?bsection").toString());
       double kvar = nomu * nomu * bsection / 1000.0;
 
       System.out.println (name + " @ " + bus + "  " + 

@@ -1,6 +1,8 @@
-set CLASSPATH=target/*;c:/apache-jena-3.6.0/lib/*;c:/commons-math3-3.6.1/*
+set CLASSPATH=target/libs/*;target/cim2glm-0.0.1-SNAPSHOT.jar
 
-java gov.pnnl.goss.cim2glm.CIMImporter -o=idx directory
+java gov.pnnl.goss.cim2glm.CIMImporter -u=http://localhost:8889/bigdata/namespace/kb/sparql -o=idx directory
+
+echo off
 
 rem java -agentpath:C:/Java/jdk1.8.0_192/lib/visualvm/profiler/lib/deployed/jdk16/windows-amd64/profilerinterface.dll=C:\Java\jdk1.8.0_192\lib\visualvm\profiler\lib,5140 gov.pnnl.goss.cim2glm.CIMImporter ^
 rem  -u=http://localhost:9999/blazegraph/namespace/kb/sparql ^
