@@ -47,7 +47,10 @@ def dss_name(s):
   s1 = (((str(s).replace(" ","_")).replace("'","")).replace("/","_")).replace(".","_")
   return s1
 
-def WriteLoadPower (fp, p, q, s):
+def WriteLoadPower (fp, p, q, s, AllocateLoads):
+  if AllocateLoads > 0:
+    fp.write (' xfkva=' + '{:.2f}'.format(s))
+    return
   # any two of these fully define the load, and if only one is written the default power factor will be 0.88
   if s != 0.0:
     fp.write (' kva=' + '{:.2f}'.format(s))
@@ -56,19 +59,19 @@ def WriteLoadPower (fp, p, q, s):
   if q != 0.0:
     fp.write (' kvar=' + '{:.2f}'.format(q))
 
-def WriteThreePhaseLoad (fp, name, bus, p, q, s, kv, conn):
+def WriteThreePhaseLoad (fp, name, bus, p, q, s, kv, conn, AllocateLoads):
   fp.write('new load.' + name + ' bus1=' + bus + ' phases=3 conn=' + conn + ' kv=' + '{:.3f}'.format(kv))
-  WriteLoadPower (fp, p, q, s)
+  WriteLoadPower (fp, p, q, s, AllocateLoads)
   fp.write('\n')
 
-def WriteSinglePhaseLoad (fp, name, phs, bus, p, q, s, kv, conn):
+def WriteSinglePhaseLoad (fp, name, phs, bus, p, q, s, kv, conn, AllocateLoads):
   if conn == 'wye':
     kv /= math.sqrt(3.0)
     phs_str = '.' + str(phs)
   else:
     phs_str = '.' + str(phs) + '.' + str((phs + 1) % 3)
   fp.write('new load.' + name + str(phs) + ' bus1=' + bus + phs_str + ' phases=1 conn=' + conn + ' kv=' + '{:.3f}'.format(kv))
-  WriteLoadPower (fp, p, q, s)
+  WriteLoadPower (fp, p, q, s, AllocateLoads)
   fp.write('\n')
 
 ################################################################################################
@@ -78,7 +81,9 @@ def WriteSinglePhaseLoad (fp, name, phs, bus, p, q, s, kv, conn):
 def ConvertMDB(cfg):
   rootdir = cfg['DefaultDir']
   mdbname = cfg['MDBName']
-  outpath = cfg['RelativeOutDir']
+  outpath = cfg['RelativeOutDir'] + '/'
+  BaseVoltages = cfg['BaseVoltages']
+  AllocateLoads = int(cfg['AllocateLoads'])
   myFlag = int(cfg['SubOrFeeder'])  # 1 for a substation source/swing/slack bus, 0 for a feeder source/swing/slack bus
   SW_Flag = int(cfg['InsertSwitchgear'])  # insert switchgear
 
@@ -398,29 +403,29 @@ def ConvertMDB(cfg):
 
     if bThreePhaseBalancedLoad:
       if bSpotLoad:
-        WriteThreePhaseLoad (loadf, name + '_spot', bus2, ptotal, qtotal, stotal, kvload, connload)
+        WriteThreePhaseLoad (loadf, name + '_spot', bus2, ptotal, qtotal, stotal, kvload, connload, AllocateLoads)
       else:
-        WriteThreePhaseLoad (loadf, name + '_from', bus1, ptotal, qtotal, stotal, kvload, connload)
-        WriteThreePhaseLoad (loadf, name + '_to', bus2, ptotal, qtotal, stotal, kvload, connload)
+        WriteThreePhaseLoad (loadf, name + '_from', bus1, ptotal, qtotal, stotal, kvload, connload, AllocateLoads)
+        WriteThreePhaseLoad (loadf, name + '_to', bus2, ptotal, qtotal, stotal, kvload, connload, AllocateLoads)
     else:
       if p1 != 0.0 or q1 != 0.0 or s1 != 0.0:
         if bSpotLoad:
-          WriteSinglePhaseLoad (loadf, name + '_spot', 1, bus2, p1, q1, s1, kvload, connload)
+          WriteSinglePhaseLoad (loadf, name + '_spot', 1, bus2, p1, q1, s1, kvload, connload, AllocateLoads)
         else:
-          WriteSinglePhaseLoad (loadf, name + '_from', 1, bus1, p1, q1, s1, kvload, connload)
-          WriteSinglePhaseLoad (loadf, name + '_to', 1, bus2, p1, q1, s1, kvload, connload)
+          WriteSinglePhaseLoad (loadf, name + '_from', 1, bus1, p1, q1, s1, kvload, connload, AllocateLoads)
+          WriteSinglePhaseLoad (loadf, name + '_to', 1, bus2, p1, q1, s1, kvload, connload, AllocateLoads)
       if p2 != 0.0 or q2 != 0.0 or s2 != 0.0:
         if bSpotLoad:
-          WriteSinglePhaseLoad (loadf, name + '_spot', 2, bus2, p2, q2, s2, kvload, connload)
+          WriteSinglePhaseLoad (loadf, name + '_spot', 2, bus2, p2, q2, s2, kvload, connload, AllocateLoads)
         else:
-          WriteSinglePhaseLoad (loadf, name + '_from', 2, bus1, p2, q2, s2, kvload, connload)
-          WriteSinglePhaseLoad (loadf, name + '_to', 2, bus2, p2, q2, s2, kvload, connload)
+          WriteSinglePhaseLoad (loadf, name + '_from', 2, bus1, p2, q2, s2, kvload, connload, AllocateLoads)
+          WriteSinglePhaseLoad (loadf, name + '_to', 2, bus2, p2, q2, s2, kvload, connload, AllocateLoads)
       if p3 != 0.0 or q3 != 0.0 or s3 != 0.0:
         if bSpotLoad:
-          WriteSinglePhaseLoad (loadf, name + '_spot', 3, bus2, p3, q3, s3, kvload, connload)
+          WriteSinglePhaseLoad (loadf, name + '_spot', 3, bus2, p3, q3, s3, kvload, connload, AllocateLoads)
         else:
-          WriteSinglePhaseLoad (loadf, name + '_from', 3, bus1, p3, q3, s3, kvload, connload)
-          WriteSinglePhaseLoad (loadf, name + '_to', 3, bus2, p3, q3, s3, kvload, connload)
+          WriteSinglePhaseLoad (loadf, name + '_from', 3, bus1, p3, q3, s3, kvload, connload, AllocateLoads)
+          WriteSinglePhaseLoad (loadf, name + '_to', 3, bus2, p3, q3, s3, kvload, connload, AllocateLoads)
 
   print ('Total Feeder P=' + '{:.1f}'.format(feederP) + ' kW, ' + '{:.1f}'.format(feederQ) + ' kVAR, ' + '{:.1f}'.format(feederS) + ' kVA')
   print ('Total Feeder Phase Balance:', '{:.1f}'.format(feederS1), '{:.1f}'.format(feederS2), '{:.1f}'.format(feederS3))
@@ -541,10 +546,11 @@ def ConvertMDB(cfg):
   masterf.write('redirect Switches.dss\n')
   masterf.write('redirect SwitchGears.dss\n')
   masterf.write('redirect CustomEdits.dss\n')
-  masterf.write('set voltagebases=[34.5 12.47]\n')
+  masterf.write('Set VoltageBases=' + str(BaseVoltages) + '\n')
   masterf.write('calcv\n')
   masterf.write('setloadandgenkv\n')
   masterf.write('buscoords Buscoords.csv\n')
+  masterf.write('redirect InitialConditions.dss\n')
   masterf.close()
 
 def usage():
