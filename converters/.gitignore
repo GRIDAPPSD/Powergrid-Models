@@ -6,3 +6,4 @@
 *.dsscmd
 *.dsslib
 *.zip
+test_dss/*
