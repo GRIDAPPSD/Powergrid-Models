@@ -1,7 +1,8 @@
-# updated process: build a jar file using Apache Maven with pom.xml
+# updated for Java 11; Apache Maven updates are specified in pom.xml; Blazegraph running in Docker
 mvn clean install
 
-java -classpath "target/*:/Users/mcde601/src/apache-jena-3.6.0/lib/*:/Users/mcde601/src/commons-math3-3.6.1/*" gov.pnnl.goss.cim2glm.CIMImporter -o=idx test
+java -cp "target/libs/*:target/cim2glm-0.0.1-SNAPSHOT.jar" gov.pnnl.goss.cim2glm.CIMImporter -u=http://localhost:8889/bigdata/namespace/kb/sparql \
+    -o=idx directory
 
 java -classpath "target/*:/Users/mcde601/src/apache-jena-3.6.0/lib/*:/Users/mcde601/src/commons-math3-3.6.1/*" gov.pnnl.goss.cim2glm.CIMImporter \
    -s=_49AD8E07-3BF9-A4E2-CB8F-C3722F837B62 -o=both -l=1.0 -i=1 ieee13
@@ -72,4 +73,5 @@ java -classpath "target/*:/Users/mcde601/src/apache-jena-3.6.0/lib/*:/Users/mcde
 # other test cases not used in GridAPPS-D
 
 #java -classpath "target/*:/Users/mcde601/src/apache-jena-3.6.0/lib/*:/Users/mcde601/src/commons-math3-3.6.1/*" gov.pnnl.goss.cim2glm.CIMImporter -s=_49003F52-A359-C2EA-10C4-F4ED3FD368CC -o=glm -l=1.0 -i=1 ieee37
+
 

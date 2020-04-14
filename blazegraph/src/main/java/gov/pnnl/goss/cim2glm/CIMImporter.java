@@ -751,6 +751,7 @@ public class CIMImporter extends Object {
 		WriteMapDictionary (mapBreakers, "breakers", false, out);
 		WriteMapDictionary (mapReclosers, "reclosers", false, out);
 		WriteMapDictionary (mapDisconnectors, "disconnectors", false, out);
+		WriteMapDictionary (mapLoads, "energyconsumers", false, out);
 		WriteMapDictionary (mapMeasurements, "measurements", true, out, maxMeasurements);
 		out.println("}]}");
 		out.close();
