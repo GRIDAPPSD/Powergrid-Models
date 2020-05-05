@@ -2019,7 +2019,7 @@ public class CIMImporter extends Object {
 		String fTarget = "dss";
 		String feeder_mRID = "";
 		double Zcoeff = 0.0, Icoeff = 0.0, Pcoeff = 0.0;
-		String blazegraphURI = "http://localhost:9999/blazegraph/namespace/kb/sparql";
+		String blazegraphURI = "http://localhost:8889/bigdata/namespace/kb/sparql";
 		if (args.length < 1) {
 			System.out.println ("Usage: java CIMImporter [options] output_root");
 			System.out.println ("       -s={mRID}          // select one feeder by CIM mRID; selects all feeders if not specified");
@@ -2034,7 +2034,7 @@ public class CIMImporter extends Object {
 			System.out.println ("       -h={0, 1}          // determine if house load objects should be added to the model or not");
 			System.out.println ("       -x={0, 1}          // indicate whether for glm, the model will be called with a fault_check already created");
 			System.out.println ("       -t={0, 1}          // request timing of top-level methods and SPARQL queries, requires -o=both for methods");
-			System.out.println ("       -u={http://localhost:9999/blazegraph/namespace/kb/sparql} // blazegraph uri (if connecting over HTTP); defaults to http://localhost:9999/blazegraph/namespace/kb/sparql");
+			System.out.println ("       -u={http://localhost:8889/bigdata/namespace/kb/sparql} // blazegraph uri (if connecting over HTTP); defaults to http://localhost:8889/bigdata/namespace/kb/sparql");
 
 			System.out.println ("Example 1: java CIMImporter -l=1 -i=1 -n=zipload_schedule ieee8500");
 			System.out.println ("   assuming Jena and Commons-Math are in Java's classpath, this will produce two output files");

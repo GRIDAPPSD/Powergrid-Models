@@ -22,27 +22,25 @@ The taxonomy feeders are modified, as described in the _taxonomy_ subdirectory.
 The _blazegraph_ subdirectory contains a Java program and script files
 to manage the feeder model conversions to and from CIM. [Maven](https://maven.apache.org/), [Java](https://java.com/en/download/), [Jena](https://jena.apache.org/) and [Commons Math](https://commons.apache.org/proper/commons-math/) are required.
 
-To set up and test the converter:
+Blazegraph requires Java 8, which is no longer widely available for new installations.  Blazegraph isn't compatible with Java 9 or newer versions. Therefore, we recommend using Blazegraph in a Docker container:
 
-1. Download the [Blazegraph jar file](https://www.blazegraph.com/download/)
-2. Make sure to run Java 8. There have been reports that Blazegraph isn't compatible with Java 9 yet.
-3. On Windows only, patch the configuration:
-   * Add to _rwstore.properties_ ```com.bigdata.rwstore.RWStore.readBlobsAsync=false```
-   * Invoke ```jar uf blazegraph.jar RWStore.properties```
-4. To start Blazegraph, invoke from a terminal ```java -server -Xmx4g -Dfile.encoding=UTF-8 -jar blazegraph.jar```
-5. Point a web browser to _http://localhost:9999/blazegraph_ 
-   * On-line help on Blazegraph is available from the browser
-6. Create the Blazegraph namespace _kb_ and use that for the rest of these examples
-   * You can use a different namespace, but you'll have to specify that using the -u option for the CIMImporter, handediting the default _-u=http://localhost:9999/blazegraph/namespace/kb/sparql_
+1. Install the [Docker Engine](https://docs.docker.com/install/)
+2. Issue commands that install and start the containerized Blazegraph engine:
+   * _docker pull lyrasis/blazegraph:2.1.5_ to download the container for Blazegraph, only necessary the first time
+   * _docker run --name blazegraph -d -p 8889:8080 lyrasis/blazegraph:2.1.5_ to start the container for Blazegraph
+   * _docker logs -f blazegraph_ to log the database and Java messages to the console
+   * consult the Docker documentation for more details on how to stop and otherwise manage containers
+3. Point a web browser to _http://localhost:8889/bigdata_. On-line help on Blazegraph is available from the browser
+4. Load some data from a CIM XML file, or any other XML triple-store
+5. Run a query in the browser
+   * the file _queries.txt_ contains sample SPARQL that can be pasted into the Blazegraph browser window
+6. Verify that the Blazegraph namespace is _kb_ and use that for the rest of these examples
+   * You can use a different namespace, but you'll have to specify that using the -u option for the CIMImporter, handediting the default _-u=http://localhost:8889/bigdata/namespace/kb/sparql_
    * You can use a different namespace, but you may have to hand-edit some of the Python files (e.g. under the Meas directory)
    * The GridAPPS-D platform itself may use a different namespace
-7. Load some data from a CIM XML file, or any other XML triple-store
-8. Run a query in the browser
-   * the file _queries.txt_ contains sample SPARQL that can be pasted into the Blazegraph browser window
 
 Helper scripts on Windows:
 
-* _go.bat_ starts Blazegraph, like item 4 above
 * _compile.bat_ recompiles the Java CIM Importer; this step can't be included within _import.bat_ on Windows
 * _drop\_all.bat_ empties the triple-store
 * _import.bat_ will run the Java importer against the triple-store. Within this file:
@@ -53,7 +51,6 @@ Helper scripts on Windows:
 
 Helper scripts for Linux/Mac OS X:
 
-* _start\_server.sh_ starts Blazegraph, like item 4 above
 * _import.sh_ will compile and run the Java importer against the triple-store. Within this file:
   * the ```-o=dss``` option creates an OpenDSS model from CIM
   * the ```-o=glm``` option creates a GridLAB-D model from CIM 
@@ -76,7 +73,7 @@ Usage and options for ```java gov.pnnl.goss.cim2glm.CIMImporter [options] output
 * ```-h={0..1}          // determine if house load objects should be added to supplement EnergyConsumers```
 * ```-x={0, 1}          // indicate whether for glm, the model will be called with a fault_check already created```
 * ```-t={0, 1}          // request timing of top-level methods and SPARQL queries, requires -o=both for methods```
-* ```-u={http://localhost:9999/blazegraph/namespace/kb/sparql} // blazegraph uri (if connecting over HTTP); defaults to http://localhost:9999/blazegraph/namespace/kb/sparql```
+* ```-u={http://localhost:8889/bigdata/namespace/kb/sparql} // blazegraph uri (if connecting over HTTP); defaults to http://localhost:8889/bigdata/namespace/kb/sparql```
 
 ## GridAPPS-D Feeder Models
 

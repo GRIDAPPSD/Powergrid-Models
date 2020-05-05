@@ -1,4 +1,4 @@
-# Copyright (C) 2017-2019 Battelle Memorial Institute
+# Copyright (C) 2017-2020 Battelle Memorial Institute
 # file: Cyme2DSS.py
 """Converts a CYMDIST self-contained study file, with SXST extension, to OpenDSS.
 
@@ -20,6 +20,7 @@ import math
 import xml.etree.ElementTree as ET
 import json
 import sys
+import os
 
 # to make DSS names
 intab =  "[]{}()|,.=~/!?\'$ "
@@ -38,6 +39,7 @@ RegConfigTable = {}
 ECGTable = {}
 PhotovoltaicTable = {}
 BESSTable = {}
+MatrixTable = {}
 
 # coordinate table is also global, because feeder segments may insert midpoints
 NodeXYTable = {}
@@ -94,9 +96,9 @@ def CreateWireData(f,Name,row):
     if row[0] <= 0.00001 or row[2] <= 0.00001:
         f.write('// ')
     f.write('new wiredata.' + Name)
-    f.write(' rac=' + '{0:.5f}'.format(row[0]))
-    f.write(' gmrac=' + '{0:.5f}'.format(row[1]))
-    f.write(' diam=' + '{0:.5f}'.format(row[2]))
+    f.write(' rac=' + '{:.5f}'.format(row[0]))
+    f.write(' gmrac=' + '{:.5f}'.format(row[1]))
+    f.write(' diam=' + '{:.5f}'.format(row[2]))
     f.write(' normamps=' + str(row[3]))
     f.write(' runits=km radunits=cm gmrunits=cm\n')
     return
@@ -108,6 +110,49 @@ def CreateLineSpacing(f,Name,row):
     f.write(' x=' + row[2])
     f.write(' h=' + row[3])
     f.write(' units=m\n')
+    return
+
+# MatrixTable[EquipmentID] = [nphases,Raa,Rbb,Rcc,Xaa,Xbb,Xcc,Baa,Bbb,Bcc,
+#                             Rab,Rbc,Rca,Xab,Xbc,Xca,Bab,Bbc,Bca,NominalRating]
+def CreateMatrix(f,Name,row):
+    if int(row[20]) < 1:
+        return
+    n = row[0]
+    Raa = row[1]
+    Rbb = row[2]
+    Rcc = row[3]
+    Xaa = row[4]
+    Xbb = row[5]
+    Xcc = row[6]
+    Caa = row[7] / 0.377 # uS to nF
+    Cbb = row[8] / 0.377
+    Ccc = row[9] / 0.377
+    Rab = row[10]
+    Rbc = row[11]
+    Rca = row[12]
+    Xab = row[13]
+    Xbc = row[14]
+    Xca = row[15]
+    Cab = row[16] / 0.377
+    Cbc = row[17] / 0.377
+    Cca = row[18] / 0.377
+    f.write('new linecode.' + Name)
+    f.write(' nphases=' + str(n))
+    # TODO - determine how they define line codes for A vs. B vs. C, or AB vs. BC vs. CA
+    if n == 1:
+        f.write (' rmatrix=[{:.4f}]'.format(Raa))
+        f.write (' xmatrix=[{:.4f}]'.format(Xaa))
+        f.write (' cmatrix=[{:.4f}]'.format(Caa))
+    elif n == 2:
+        f.write (' rmatrix=[{:.4f}|{:.4f} {:.4f}]'.format(Raa, Rab, Rbb))
+        f.write (' xmatrix=[{:.4f}|{:.4f} {:.4f}]'.format(Xaa, Xab, Xbb))
+        f.write (' cmatrix=[{:.4f}|{:.4f} {:.4f}]'.format(Caa, Cab, Cbb))
+    else:
+        f.write (' rmatrix=[{:.4f}|{:.4f} {:.4f}|{:.4f} {:.4f} {:.4f}]'.format(Raa, Rab, Rbb, Rca, Rbc, Rcc))
+        f.write (' xmatrix=[{:.4f}|{:.4f} {:.4f}|{:.4f} {:.4f} {:.4f}]'.format(Xaa, Xab, Xbb, Xca, Xbc, Xcc))
+        f.write (' cmatrix=[{:.4f}|{:.4f} {:.4f}|{:.4f} {:.4f} {:.4f}]'.format(Caa, Cab, Cbb, Cca, Cbc, Ccc))
+    f.write(' normamps=' + str(row[19]))
+    f.write(' units=' + CYMELineCodeUnit + '\n')
     return
 
 # ConfigTable[EquipmentID] = [nphases,r1,x1,r0,x0,b1,b0,NominalRating,use]
@@ -123,8 +168,8 @@ def CreateLineCode(f,Name,row):
         xs = (row[4] + 2.0 * row[2]) / 3.0
         cs = (row[6] + 2.0 * row[5]) / 3.0 / 0.377  # uS/length ==> nF/length
 #        cs = 0.0
-        f.write(' rmatrix=[' + '{0:.4f}'.format(rs) + '] xmatrix=[' + '{0:.4f}'.format(xs) + ']')
-        f.write(' cmatrix=[' + '{0:.4f}'.format(cs) + ']')
+        f.write(' rmatrix=[' + '{:.4f}'.format(rs) + '] xmatrix=[' + '{:.4f}'.format(xs) + ']')
+        f.write(' cmatrix=[' + '{:.4f}'.format(cs) + ']')
     elif n == 2:
         rs = (row[3] + 2.0 * row[1]) / 3.0
         xs = (row[4] + 2.0 * row[2]) / 3.0
@@ -134,16 +179,16 @@ def CreateLineCode(f,Name,row):
         cm = (row[6] - row[5]) / 3.0 / 0.377  # uS/length ==> nF/length
 #        cs = 0.0
 #        cm = 0.0
-        f.write(' rmatrix=[' + '{0:.4f}'.format(rs) + '|' + '{0:.4f}'.format(rm) + ' ' + '{0:.4f}'.format(rs) + ']')
-        f.write(' xmatrix=[' + '{0:.4f}'.format(xs) + '|' + '{0:.4f}'.format(xm) + ' ' + '{0:.4f}'.format(xs) + ']')
-        f.write(' cmatrix=[' + '{0:.4f}'.format(cs) + '|' + '{0:.4f}'.format(cm) + ' ' + '{0:.4f}'.format(cs) + ']')
+        f.write(' rmatrix=[' + '{:.4f}'.format(rs) + '|' + '{:.4f}'.format(rm) + ' ' + '{:.4f}'.format(rs) + ']')
+        f.write(' xmatrix=[' + '{:.4f}'.format(xs) + '|' + '{:.4f}'.format(xm) + ' ' + '{:.4f}'.format(xs) + ']')
+        f.write(' cmatrix=[' + '{:.4f}'.format(cs) + '|' + '{:.4f}'.format(cm) + ' ' + '{:.4f}'.format(cs) + ']')
     else:
-        f.write(' r1=' + '{0:.4f}'.format(row[1]))
-        f.write(' x1=' + '{0:.4f}'.format(row[2]))
-        f.write(' r0=' + '{0:.4f}'.format(row[3]))
-        f.write(' x0=' + '{0:.4f}'.format(row[4]))
-        f.write(' b1=' + '{0:.4f}'.format(row[5]))
-        f.write(' b0=' + '{0:.4f}'.format(row[6]))
+        f.write(' r1=' + '{:.4f}'.format(row[1]))
+        f.write(' x1=' + '{:.4f}'.format(row[2]))
+        f.write(' r0=' + '{:.4f}'.format(row[3]))
+        f.write(' x0=' + '{:.4f}'.format(row[4]))
+        f.write(' b1=' + '{:.4f}'.format(row[5]))
+        f.write(' b0=' + '{:.4f}'.format(row[6]))
 #        f.write(' b1=0')
 #        f.write(' b0=0')
     f.write(' normamps=' + str(row[7]))
@@ -157,10 +202,10 @@ def CreateXfmrCode(f,Name,row):
     f.write(' kva=' + str(row[1]))
     f.write(' kvs=[' + str(row[2]) + ' ' + str(row[3])+']')
     f.write(' conns=[' + str(row[4]) + ' ' + str(row[5])+']')
-    f.write(' xhl=' + '{0:.5f}'.format(row[6]))
-    f.write(' %loadloss=' + '{0:.5f}'.format(row[7]))
-    f.write(' %imag=' + '{0:.5f}'.format(row[8]))
-    f.write(' %noloadloss=' + '{0:.5f}'.format(row[9]) + '\n')
+    f.write(' xhl=' + '{:.5f}'.format(row[6]))
+    f.write(' %loadloss=' + '{:.5f}'.format(row[7]))
+    f.write(' %imag=' + '{:.5f}'.format(row[8]))
+    f.write(' %noloadloss=' + '{:.5f}'.format(row[9]) + '\n')
     return
 
 def CreateNode(f,Name,NomV,BusType,phase):
@@ -210,12 +255,16 @@ def ParseLoadTerminals (phs,conn):
 def CreateByPhase(f,Name,row):
     nphs = ParseNPhases(row[2])
     phs = ParseTerminals(row[2])
+    nwires = 0
+    for wire in row[5:9]: # wireA through wireN
+        if wire!= 'OH_NONE':
+            nwires += 1
     f.write('new line.' + Name)
     f.write(' bus1=' + row[0] + phs)
     f.write(' bus2=' + row[1] + phs)
     f.write(' phases=' + str(nphs))
-    if nphs < 3 and row[4] == 'OH_DEFAULT':
-        f.write(' spacing=' + row[4] + str(nphs))
+    if nphs < 3 and (row[4] == 'OH_DEFAULT' or row[4] == 'OH_UNKNOWN'):
+        f.write(' spacing=' + row[4] + str(nwires) + str(nphs))
     else:
         f.write(' spacing=' + row[4])
     f.write(' wires=[')
@@ -223,13 +272,48 @@ def CreateByPhase(f,Name,row):
         if wire!= 'OH_NONE':
             f.write(wire + ' ')
     f.write(']')
-    f.write(' length=' + '{0:.6f}'.format(CYMEtoDSSSection * row[3]))
+    f.write(' length=' + '{:.6f}'.format(CYMEtoDSSSection * row[3]))
     f.write(' units=' + DSSSectionUnit + '\n')
 
 # LineConfigTable[EquipmentID] = [nphases,r1,x1,r0,x0,b1,b0,NominalRating,use]
 # OHLineTable[SectionID] = [LineFromNode,LineToNode,Phase,DeviceLength,LineConfig]
 # CableConfigTable[EquipmentID] = [nphases,r1,x1,r0,x0,b1,b0,NominalRating,use]
 # UGLineTable[SectionID] = [LineFromNode,LineToNode,Phase,DeviceLength,LineConfig]
+
+def CreateMatrixLine(f,Name,row,cfg):
+    nphs = ParseNPhases(row[2])
+    phs = ParseTerminals(row[2])
+    f.write('new line.' + Name)
+    f.write(' bus1=' + row[0] + phs)
+    f.write(' bus2=' + row[1] + phs)
+    f.write(' phases=' + str(nphs))
+    len = row[3] * CYMEtoDSSSection # miles
+    if nphs == cfg[0]:
+        f.write(' linecode=' + row[4])
+        f.write(' normamps=' + str(cfg[19]))
+        f.write(' length=' + '{:.6f}'.format(len))
+        f.write(' units=' + DSSSectionUnit + '\n')
+    else:
+        rs = (cfg[1] + cfg[2] + cfg[3]) * CYMEtoDSSLineCode / 3.0  # creating [ohms/unit] compatible with length
+        xs = (cfg[4] + cfg[5] + cfg[6]) * CYMEtoDSSLineCode / 3.0
+        bs = (cfg[7] + cfg[8] + cfg[9]) * CYMEtoDSSLineCode / 3.0
+        rm = (cfg[10] + cfg[11] + cfg[12]) * CYMEtoDSSLineCode / 3.0
+        xm = (cfg[13] + cfg[14] + cfg[15]) * CYMEtoDSSLineCode / 3.0
+        bm = (cfg[16] + cfg[17] + cfg[18]) * CYMEtoDSSLineCode / 3.0
+        if nphs == 1:
+            f.write(' rmatrix=[' + '{:.6f}'.format(rs) + '] xmatrix=[' + '{:.6f}'.format(xs) + ']')
+            f.write(' cmatrix=[' + '{:.4f}'.format(cs) + ']')
+        elif nphs == 2:
+            f.write(' rmatrix=[' + '{:.6f}'.format(rs) + '|' + '{:.6f}'.format(rm) + ' ' + '{:.6f}'.format(rs) + ']')
+            f.write(' xmatrix=[' + '{:.6f}'.format(xs) + '|' + '{:.6f}'.format(xm) + ' ' + '{:.6f}'.format(xs) + ']')
+            f.write(' cmatrix=[' + '{:.4f}'.format(cs) + '|' + '{:.4f}'.format(cm) + ' ' + '{:.4f}'.format(cs) + ']')
+        else:
+            print('WARNING: phases > 2 for a line that does not match its linecode:' + Name)
+        f.write(' normamps=' + str(cfg[19]))
+        f.write(' length=' + '{:.6f}'.format(len))
+        f.write(' units=' + DSSSectionUnit)
+        f.write(' // linecode=' + row[4] + '\n')
+    return
 
 def CreateLine(f,Name,row,cfg):
     nphs = ParseNPhases(row[2])
@@ -242,7 +326,7 @@ def CreateLine(f,Name,row,cfg):
     if nphs == cfg[0]:
         f.write(' linecode=' + row[4])
         f.write(' normamps=' + str(cfg[7]))
-        f.write(' length=' + '{0:.6f}'.format(len))
+        f.write(' length=' + '{:.6f}'.format(len))
         f.write(' units=' + DSSSectionUnit + '\n')
     else:
         r1 = cfg[1] * CYMEtoDSSLineCode  # creating [ohms/unit] compatible with length
@@ -256,8 +340,8 @@ def CreateLine(f,Name,row,cfg):
             xs = (x0 + x1 + x1) / 3.0
             cs = (b0 + b1 + b1) / 3.0 / 0.377 # uS ==> nF
 #            cs = 0.0
-            f.write(' rmatrix=[' + '{0:.6f}'.format(rs) + '] xmatrix=[' + '{0:.6f}'.format(xs) + ']')
-            f.write(' cmatrix=[' + '{0:.4f}'.format(cs) + ']')
+            f.write(' rmatrix=[' + '{:.6f}'.format(rs) + '] xmatrix=[' + '{:.6f}'.format(xs) + ']')
+            f.write(' cmatrix=[' + '{:.4f}'.format(cs) + ']')
         elif nphs == 2:
             rs = (r0 + r1 + r1) / 3.0
             xs = (x0 + x1 + x1) / 3.0
@@ -267,13 +351,13 @@ def CreateLine(f,Name,row,cfg):
             cm = (b0 - b1) / 3.0 / 0.377
 #            cs = 0.0
 #            cm = 0.0
-            f.write(' rmatrix=[' + '{0:.6f}'.format(rs) + '|' + '{0:.6f}'.format(rm) + ' ' + '{0:.6f}'.format(rs) + ']')
-            f.write(' xmatrix=[' + '{0:.6f}'.format(xs) + '|' + '{0:.6f}'.format(xm) + ' ' + '{0:.6f}'.format(xs) + ']')
-            f.write(' cmatrix=[' + '{0:.4f}'.format(cs) + '|' + '{0:.4f}'.format(cm) + ' ' + '{0:.4f}'.format(cs) + ']')
+            f.write(' rmatrix=[' + '{:.6f}'.format(rs) + '|' + '{:.6f}'.format(rm) + ' ' + '{:.6f}'.format(rs) + ']')
+            f.write(' xmatrix=[' + '{:.6f}'.format(xs) + '|' + '{:.6f}'.format(xm) + ' ' + '{:.6f}'.format(xs) + ']')
+            f.write(' cmatrix=[' + '{:.4f}'.format(cs) + '|' + '{:.4f}'.format(cm) + ' ' + '{:.4f}'.format(cs) + ']')
         else:
             print('WARNING: phases > 2 for a line that does not match its linecode:' + Name)
         f.write(' normamps=' + str(cfg[7]))
-        f.write(' length=' + '{0:.6f}'.format(len))
+        f.write(' length=' + '{:.6f}'.format(len))
         f.write(' units=' + DSSSectionUnit)
         f.write(' // linecode=' + row[4] + '\n')
     return
@@ -330,7 +414,7 @@ def CreateCapacitor(f,Name,row):
     else:
         f.write(' bus1=' + row[0] + phs)
         f.write(' conn=' + row[2])
-    f.write(' kv=' + '{0:.3f}'.format(row[3]))
+    f.write(' kv=' + '{:.3f}'.format(row[3]))
     f.write(' kvar=' + str(row[4]))
     f.write(' enabled=' + row[5] + '\n')
 #    if row[6] == 'Closed':
@@ -362,13 +446,13 @@ def WriteOneTransformerPhase(f,Name,bus1,bus2,cfg,enabled):
     f.write('new transformer.' + Name)
     f.write(' buses=(' + bus1 + ',' + bus2 + ')')
     f.write(' phases=1 windings=2')
-    f.write(' kva=' + "{0:.2f}".format(kva))
-    f.write(' kvs=[' + "{0:.3f}".format(kv1) + ' ' + "{0:.3f}".format(kv2)+']\n')
+    f.write(' kvas=[{:.2f} {:.2f}]'.format(kva,kva))
+    f.write(' kvs=[' + "{:.3f}".format(kv1) + ' ' + "{:.3f}".format(kv2)+']\n')
     f.write('~ conns=[wye wye]')
-    f.write(' xhl=' + "{0:.3f}".format(cfg[6]))
-    f.write(' %loadloss=' + "{0:.4f}".format(cfg[7]))
-    f.write(' %imag=' + "{0:.4f}".format(cfg[8]))
-    f.write(' %noloadloss=' + "{0:.4f}".format(cfg[9]) + '\n')
+    f.write(' xhl=' + "{:.3f}".format(cfg[6]))
+    f.write(' %loadloss=' + "{:.4f}".format(cfg[7]))
+    f.write(' %imag=' + "{:.4f}".format(cfg[8]))
+    f.write(' %noloadloss=' + "{:.4f}".format(cfg[9]) + '\n')
     f.write(' enabled=' + enabled + '\n')
     return
 
@@ -434,27 +518,39 @@ def CreateTransformer(f,Name,row,cfg):
     f.write('new transformer.' + Name)
     f.write(' buses=(' + row[0] + phs1 + ',' + row[1] + phs2 + ')')
     f.write(' phases=' + str(nphs) + ' windings=2')
-    f.write(' kva=' + "{0:.2f}".format(kva))
-    f.write(' kvs=[' + "{0:.3f}".format(kv1) + ' ' + "{0:.3f}".format(kv2)+']\n')
+    f.write(' kvas=[{:.2f} {:.2f}]'.format(kva,kva))
+    f.write(' kvs=[' + "{:.3f}".format(kv1) + ' ' + "{:.3f}".format(kv2)+']\n')
     f.write('~ conns=[' + con1 + ' ' + con2 + ']')
-    f.write(' xhl=' + "{0:.3f}".format(cfg[6]))
-    f.write(' %loadloss=' + "{0:.4f}".format(cfg[7]))
-    f.write(' %imag=' + "{0:.4f}".format(cfg[8]))
-    f.write(' %noloadloss=' + "{0:.4f}".format(cfg[9]) + '\n')
-    f.write('~ taps=(' + "{0:.5f}".format(row[4]) + ',' + "{0:.5f}".format(row[5]) + ')')
+    f.write(' xhl=' + "{:.3f}".format(cfg[6]))
+    f.write(' %loadloss=' + "{:.4f}".format(cfg[7]))
+    f.write(' %imag=' + "{:.4f}".format(cfg[8]))
+    f.write(' %noloadloss=' + "{:.4f}".format(cfg[9]) + '\n')
+    f.write('~ taps=(' + "{:.5f}".format(row[4]) + ',' + "{:.5f}".format(row[5]) + ')')
     f.write(' enabled=' + row[6] + ' // xfmrcode=' + row[3] + '\n')
     return
 
-# RegulatorTable[DeviceNumber] = [XfmrFromNode,XfmrToNode,phs,conn,kva,kv,vreg,bw,pt,ct,enabled]
-
-# TODO - these are all independent by phase
+# RegulatorTable[DeviceNumber] = [XfmrFromNode,XfmrToNode,phs,monPhs,conn,kva,kv,vreg,bw,pt,ct,enabled]
 def CreateRegulator(f,Name,row):
-    nphs = ParseNPhases(row[2])
-    if nphs == 3:
-        if row[3] == 'delta':
+    nPhs = ParseNPhases(row[2])  # transformer phases
+    nMon = ParseNPhases(row[3])  # monitored phases
+    if nPhs == 3:
+        if row[4] == 'delta':
             phases = ['.1.2', '.2.3', '.3.1']
         else:
             phases = ['.1', '.2', '.3']
+    elif nPhs == 2:
+        if row[4] == 'delta':  # TODO - only handling single-phase delta
+            phases = ['.1.2']
+            if 'A' not in row[2]:
+                phases = ['.2.3']
+            elif 'B' not in row[2]:
+                phases = ['.1.3']
+        else:
+            phases = ['.1', '.2']
+            if 'A' not in row[2]:
+                phases = ['.2', '.3']
+            elif 'B' not in row[2]:
+                phases = ['.1', '.3']
     else:
         p1 = ord(row[2][0]) - ord('A') + 1
         if row[3] == 'delta':
@@ -462,26 +558,36 @@ def CreateRegulator(f,Name,row):
             phases = ['.' + str(p1) + '.' + str(p2)]
         else:
             phases = ['.' + str(p1)]
-    phases = ['.1', '.2', '.3'] # workaround for Nantucket - TODO - single-phase regulator embedded in three-phase line
-    for phs in phases:
-        ltr = chr(ord('a') + int(phs[1]) - 1)
-        f.write('new transformer.' + Name + ltr)
-        f.write(' phases=1 windings=2')
-        f.write(' buses=(' + row[0] + phs + ',' + row[1] + phs + ')')
-        f.write(' kva=' + str(row[4]))
-        f.write(' kvs=(' + str(row[5]) + ',' + str(row[5]) + ')')
-        f.write(' conns=(' + row[3] + ',' + row[3] + ')')
-        f.write(' xhl=1')
-        f.write(' enabled=' + row[10] + '\n')
-        f.write('new regcontrol.' + Name + ltr)
-        f.write(' transformer=' + Name + ltr)
-        f.write(' winding=2')
-        f.write(' vreg=' + str(row[6]))
-        f.write(' band=' + str(row[7]))
-        f.write(' ptratio=' + str(row[8]))
-        f.write(' ctprim=' + str(row[9]))
-        f.write(' enabled=' + row[10] + '\n')
-    f.write('\n')
+#    phases = ['.1', '.2', '.3'] # workaround for Nantucket - TODO - single-phase regulator embedded in three-phase line
+    if nMon < nPhs: # ganged
+        kvLL = math.sqrt(3) * row[6]
+        allPhs = ParseTerminals (row[2])
+        kva3 = 3*row[5]
+        f.write('new transformer.{:s} phases={:d} windings=2 buses=({:s},{:s})'.format(Name, nPhs, row[0]+allPhs, row[1]+allPhs))
+        f.write(' kvas=({:.2f},{:.2f}) kvs=({:.3f},{:.3f}) conns=({:s},{:s}) xhl=1 enabled={:s}\n'.format(kva3,kva3,kvLL,kvLL,row[4],row[4],row[11]))
+        f.write('new regcontrol.{:s} transformer={:s} winding=2 vreg={:.2f}'.format(Name,Name,row[7]))
+        f.write(' band={:.2f} ptratio={:.1f} ctprim={:.1f} enabled={:s}\n'.format(row[8],row[9],row[10],row[11]))
+        f.write('\n')
+    else: # indepdendent
+        for phs in phases:
+            ltr = chr(ord('a') + int(phs[1]) - 1)
+            f.write('new transformer.' + Name + ltr)
+            f.write(' phases=1 windings=2')
+            f.write(' buses=(' + row[0] + phs + ',' + row[1] + phs + ')')
+            f.write(' kvas=(' + str(row[5]) + ',' + str(row[5]) + ')')
+            f.write(' kvs=(' + str(row[6]) + ',' + str(row[6]) + ')')
+            f.write(' conns=(' + row[4] + ',' + row[4] + ')')
+            f.write(' xhl=1')
+            f.write(' enabled=' + row[11] + '\n')
+            f.write('new regcontrol.' + Name + ltr)
+            f.write(' transformer=' + Name + ltr)
+            f.write(' winding=2')
+            f.write(' vreg=' + str(row[7]))
+            f.write(' band=' + str(row[8]))
+            f.write(' ptratio=' + str(row[9]))
+            f.write(' ctprim=' + str(row[10]))
+            f.write(' enabled=' + row[11] + '\n')
+        f.write('\n')
     return
 
 #[DeviceNumber,End,DeviceID,switch,enabled,amps,curve,SectionID,SwtFromNode,SwtToNode,Phase]
@@ -531,11 +637,11 @@ def CreateGenerator(f,Name,row):
 #    f.write('new generator.' + Name)
     f.write(' phases=' + str(nphs))
     f.write(' bus1=' + row[0] + phs)
-    f.write(' conn=wye kv=' + '{0:.3f}'.format(kv))
-    f.write(' pmpp=' + '{0:.2f}'.format(row[2]))
-    f.write(' kva=' + '{0:.2f}'.format(row[4]))
-#    f.write(' kw=' + '{0:.2f}'.format(row[2]))
-    f.write(' pf=' + '{0:.4f}'.format(row[3]) + '\n')
+    f.write(' conn=wye kv=' + '{:.3f}'.format(kv))
+    f.write(' pmpp=' + '{:.2f}'.format(row[2]))
+    f.write(' kva=' + '{:.2f}'.format(row[4]))
+#    f.write(' kw=' + '{:.2f}'.format(row[2]))
+    f.write(' pf=' + '{:.4f}'.format(row[3]) + '\n')
     return
 
 def WriteOneLoad (f, Name, Bus, P, Q, kV, cls, conn):
@@ -546,9 +652,9 @@ def WriteOneLoad (f, Name, Bus, P, Q, kV, cls, conn):
     f.write('new load.' + Name)
     f.write(' bus1=' + Bus)
     f.write(' phases=1 model={:1} conn={:s}'.format (LoadModel, conn)) # 1 = PQ, 2 = Z
-    f.write(' kv=' + "{0:.3f}".format(kV))
-    f.write(' kw=' + "{0:.3f}".format(P))
-    f.write(' kvar=' + "{0:.3f}".format(Q))
+    f.write(' kv=' + "{:.3f}".format(kV))
+    f.write(' kw=' + "{:.3f}".format(P))
+    f.write(' kvar=' + "{:.3f}".format(Q))
     f.write(' class=' + str(cls) + '\n')
     return
 
@@ -561,9 +667,9 @@ def WriteBalancedLoad (f, Name, Bus, P, Q, kV, cls, conn):
         f.write('new load.' + Name)
         f.write(' bus1=' + Bus)
         f.write(' phases=3 model={:1} conn={:s}'.format (LoadModel, conn)) # 1 = PQ, 2 = Z
-        f.write(' kv=' + "{0:.3f}".format(kV))
-        f.write(' kw=' + "{0:.3f}".format(P))
-        f.write(' kvar=' + "{0:.3f}".format(Q))
+        f.write(' kv=' + "{:.3f}".format(kV))
+        f.write(' kw=' + "{:.3f}".format(P))
+        f.write(' kvar=' + "{:.3f}".format(Q))
         f.write(' class=' + str(cls) + '\n')
     return
 
@@ -661,12 +767,12 @@ def BuildCatalog(root):
             elif EquipmentID.find('-2PH-') >= 0:
                 nphases = 2
                 gmd *= 0.5
-                xstr = '[' + '{0:.5f}'.format(-gmd) + ' ' + '{0:.5f}'.format(gmd)
+                xstr = '[' + '{:.5f}'.format(-gmd) + ' ' + '{:.5f}'.format(gmd)
                 hstr = '[' + hp + ' ' + hp
             else:
                 nphases = 3
                 gmd /= math.pow(2.0,1/3.0)
-                xstr = '[' + '{0:.5f}'.format(-gmd) + ' 0 ' + '{0:.5f}'.format(gmd)
+                xstr = '[' + '{:.5f}'.format(-gmd) + ' 0 ' + '{:.5f}'.format(gmd)
                 hstr = '[' + hp + ' ' + hp + ' ' + hp
             nconds = nphases + 1
             xstr += ' 0]'
@@ -701,7 +807,30 @@ def BuildCatalog(root):
             b0 = b1
         LineConfigTable[EquipmentID] = [nphases,r1,x1,r0,x0,b1,b0,NominalRating,0]
 
-    #   for OverheadLineDB in EquipmentDBs.findall('OverheadLineUnbalancedDB'): # ignore for now
+    for MatrixDB in root.findall('./Equipments/Equipments/EquipmentDBs/OverheadLineUnbalancedDB'):
+        EquipmentID = "ZM_" + MatrixDB.find('EquipmentID').text.translate(dsstab)
+        nphases = 3 # TODO - how to find 1-phase and 2-phase matrices; could be the existence of phase conductors
+        NominalRating = float(MatrixDB.find('NominalRatingA').text)
+        Raa = float(MatrixDB.find('SelfResistanceA').text)
+        Rbb = float(MatrixDB.find('SelfResistanceB').text)
+        Rcc = float(MatrixDB.find('SelfResistanceC').text)
+        Xaa = float(MatrixDB.find('SelfReactanceA').text)
+        Xbb = float(MatrixDB.find('SelfReactanceB').text)
+        Xcc = float(MatrixDB.find('SelfReactanceC').text)
+        Baa = float(MatrixDB.find('ShuntSusceptanceA').text)
+        Bbb = float(MatrixDB.find('ShuntSusceptanceB').text)
+        Bcc = float(MatrixDB.find('ShuntSusceptanceC').text)
+        Rab = float(MatrixDB.find('MutualResistanceAB').text)
+        Rbc = float(MatrixDB.find('MutualResistanceBC').text)
+        Rca = float(MatrixDB.find('MutualResistanceCA').text)
+        Xab = float(MatrixDB.find('MutualReactanceAB').text)
+        Xbc = float(MatrixDB.find('MutualReactanceBC').text)
+        Xca = float(MatrixDB.find('MutualReactanceCA').text)
+        Bab = float(MatrixDB.find('MutualShuntSusceptanceAB').text)
+        Bbc = float(MatrixDB.find('MutualShuntSusceptanceBC').text)
+        Bca = float(MatrixDB.find('MutualShuntSusceptanceCA').text)
+        MatrixTable[EquipmentID] = [nphases,Raa,Rbb,Rcc,Xaa,Xbb,Xcc,Baa,Bbb,Bcc,
+                                    Rab,Rbc,Rca,Xab,Xbc,Xca,Bab,Bbc,Bca,NominalRating,0] #position 20 == 1 if used
 
     for CableDB in root.findall('./Equipments/Equipments/EquipmentDBs/CableDB'):
         EquipmentID = "UG_" + CableDB.find('EquipmentID').text.translate(dsstab)
@@ -779,7 +908,7 @@ def BuildCatalog(root):
         kvln = float(RegDB.find('RatedKVLN').text)
         boost = float(RegDB.find('MaximumBoost').text)
         buck = float(RegDB.find('MaximumBuck').text)
-        if CYMEVersion < 8.1:
+        if CYMEVersion < 8.0:
             bw = float(RegDB.find('BandWidth').text)
         else:
             bw = float(RegDB.find('ForwardBandwidth').text)
@@ -814,6 +943,15 @@ def WriteCatalog(filename):
         CreateWireData(fcatalog,key,OHConductorTable[key])
     fcatalog.write('\n')
 
+    # TODO - generalize this, 1st suffix is # of conductors, 2nd suffix is # of phases
+    LineSpacingTable['OH_DEFAULT21'] = [2,1,'[0.0 0.2]', '[11.4 8.7]']
+    LineSpacingTable['OH_UNKNOWN21'] = [2,1,'[0.0 0.2]', '[11.4 8.7]']
+    LineSpacingTable['OH_DEFAULT32'] = [3,2,'[-1.1 1.1 0.2]', '[11.0 11.0 8.7]']
+    LineSpacingTable['OH_UNKNOWN32'] = [3,2,'[-1.1 1.1 0.2]', '[11.0 11.0 8.7]']
+    LineSpacingTable['OH_DEFAULT11'] = [1,1,'[0.0]', '[11.4]']
+    LineSpacingTable['OH_UNKNOWN11'] = [1,1,'[0.0]', '[11.4]']
+    LineSpacingTable['OH_DEFAULT22'] = [2,2,'[-1.1 1.1]', '[11.0 11.0]']
+    LineSpacingTable['OH_UNKNOWN22'] = [2,2,'[-1.1 1.1]', '[11.0 11.0]']
     for key in LineSpacingTable:
         CreateLineSpacing(fcatalog,key,LineSpacingTable[key])
     fcatalog.write('\n')
@@ -826,6 +964,10 @@ def WriteCatalog(filename):
         CreateLineCode(fcatalog,key,CableConfigTable[key])
     fcatalog.write('\n')
 
+    for key in MatrixTable:
+        CreateMatrix(fcatalog,key,MatrixTable[key])
+    fcatalog.write('\n')
+
     for key in XfmrConfigTable:
         CreateXfmrCode(fcatalog,key,XfmrConfigTable[key])
     fcatalog.write('\n')
@@ -834,11 +976,24 @@ def WriteCatalog(filename):
 
 def BuildInitialCoordinates(root):
     # create a dictionary of node coordinates
+    Xmin = sys.float_info.max
+    Xmax = -sys.float_info.max
+    Ymin = Xmin
+    Ymax = Xmax
     for Node in root.findall('./Networks/Network/Nodes/Node'):
         ID = Node.find('NodeID').text.translate(dsstab)
-        X = Node.find('Connectors').find('Point').find('X').text
-        Y = Node.find('Connectors').find('Point').find('Y').text
+        X = float(Node.find('Connectors').find('Point').find('X').text)
+        Y = float(Node.find('Connectors').find('Point').find('Y').text)
+        if X < Xmin:
+            Xmin = X
+        if Y < Ymin:
+            Ymin = Y
+        if X > Xmax:
+            Xmax = X
+        if Y > Ymax:
+            Ymax = Y
         NodeXYTable[ID] = [X,Y]
+    print ('NodeXY X range=[{:f}, {:f}] and Y range =[{:f}, {:f}]'.format(Xmin, Xmax, Ymin, Ymax))
 
 def WriteCoordinates(filename):
     fxy=open(filename,'w')
@@ -852,6 +1007,7 @@ def WriteCoordinates(filename):
 def WriteFeeder(root, OwnerID, networkfilename, loadfilename):
     # Extract info for sections and lines. create a dictionary
     OHLineTable = {}
+    ZMLineTable = {}
     OHPhaseTable = {}
     LoadTable = {}
     UGLineTable = {}
@@ -995,8 +1151,16 @@ def WriteFeeder(root, OwnerID, networkfilename, loadfilename):
                             LineConfigTable[LineConfig][8] = 1 # flag to write only the ones we use
                         else:
                             # add a closed switch
-                            DeviceID = child.find('DeviceID').text.translate(dsstab)
-                            SwitchTable[DeviceNumber] = [LineFromNode,LineToNode,Phase,'Closed',DeviceID]
+                            SwitchTable[DeviceNumber] = [LineFromNode,LineToNode,Phase,'Closed',DeviceType]
+                    elif DeviceType == 'OverheadLineUnbalanced':
+                        DeviceLength = float(child.find('Length').text)
+                        if DeviceLength > 0.0:
+                            LineConfig = 'ZM_' + child.find('LineID').text.translate(dsstab)
+                            ZMLineTable[DeviceNumber] = [LineFromNode,LineToNode,Phase,DeviceLength,LineConfig]
+                            MatrixTable[LineConfig][20] = 1 # flag to write only the ones we use
+                        else:
+                            # add a closed switch
+                            SwitchTable[DeviceNumber] = [LineFromNode,LineToNode,Phase,'Closed',DeviceType]
                     elif DeviceType == 'OverheadByPhase':
                         DeviceLength = float(child.find('Length').text)
                         if DeviceLength > 0.0:
@@ -1004,15 +1168,17 @@ def WriteFeeder(root, OwnerID, networkfilename, loadfilename):
                             WireA = 'OH_' + child.find('PhaseConductorIDA').text.translate(dsstab)
                             WireB = 'OH_' + child.find('PhaseConductorIDB').text.translate(dsstab)
                             WireC = 'OH_' + child.find('PhaseConductorIDC').text.translate(dsstab)
-                            WireN = 'OH_' + child.find('NeutralConductorID1').text.translate(dsstab)
+                            Obj = child.find('NeutralConductorID1')
+                            if Obj is None:
+                                Obj = child.find('NeutralConductorID')
+                            WireN = 'OH_' + Obj.text.translate(dsstab)
                             row = LineSpacingTable[LineSpacing]
                             if (row[0] > row[1]) and (WireN == 'OH_NONE'):
                                 WireN = WireA
                             OHPhaseTable[DeviceNumber] = [LineFromNode,LineToNode,Phase,DeviceLength,LineSpacing,WireA,WireB,WireC,WireN]
                         else:
                             # add a closed switch
-                            DeviceID = child.find('DeviceID').text.translate(dsstab)
-                            SwitchTable[DeviceNumber] = [LineFromNode,LineToNode,Phase,"Closed",DeviceID]
+                            SwitchTable[DeviceNumber] = [LineFromNode,LineToNode,Phase,"Closed",DeviceType]
                     elif DeviceType == 'Underground':
                         DeviceLength = float(child.find('Length').text)
                         if DeviceLength > 0.0:
@@ -1021,8 +1187,7 @@ def WriteFeeder(root, OwnerID, networkfilename, loadfilename):
                             CableConfigTable[LineConfig][8] = 1 # flag to write only the ones we use
                         else:
                             # add a closed switch
-                            DeviceID = child.find('DeviceID').text.translate(dsstab)
-                            SwitchTable[DeviceNumber] = [LineFromNode,LineToNode,Phase,"Closed",DeviceID]
+                            SwitchTable[DeviceNumber] = [LineFromNode,LineToNode,Phase,"Closed",DeviceType]
                     elif DeviceType == 'Recloser':
                         if child.find('Location').text == 'To':
                             End = 2
@@ -1114,13 +1279,16 @@ def WriteFeeder(root, OwnerID, networkfilename, loadfilename):
                         TransformerPhaseTable[DeviceNumber] = [XfmrFromNode,XfmrToNode,Phase,XfmrCode1,XfmrCode2,XfmrCode3,enabled]
                     elif DeviceType == 'Regulator':
                         RegCode = child.find('DeviceID').text.translate(dsstab)
-                        phs = child.find('ControlStatus').text
+                        monPhs = child.find('ControlStatus').text
                         if child.find('ConnectionConfiguration').text.find('Delta') > 0:
                             conn = 'delta'
                         else:
                             conn = 'wye'
                         enabled = Connected(child)
-                        bw = float(child.find('BandWidth').text)
+                        if CYMEVersion < 8.0:
+                            bw = float(child.find('BandWidth').text)
+                        else:
+                            bw = float(child.find('ForwardSettings').find('BandwidthA').text)
                         vreg = float(child.find('ForwardSettings').find('SetVoltageA').text)
                         vregb = float(child.find('ForwardSettings').find('SetVoltageB').text)
                         vregc = float(child.find('ForwardSettings').find('SetVoltageC').text)
@@ -1136,7 +1304,7 @@ def WriteFeeder(root, OwnerID, networkfilename, loadfilename):
                             print('WARNING: unhandled ReverseSensingMode for regulator ' + DeviceNumber + ': ' + child.find('ReverseSensingMode').text)
                         if child.find('SettingOption').text != 'LoadCenter':
                             print('WARNING: unhandled SettingOption for regulator ' + DeviceNumber + ': ' + child.find('SettingOption').text)
-                        RegulatorTable[DeviceNumber] = [XfmrFromNode,XfmrToNode,phs,conn,kva,kv,vreg,bw,pt,ct,enabled]
+                        RegulatorTable[DeviceNumber] = [XfmrFromNode,XfmrToNode,Phase,monPhs,conn,kva,kv,vreg,bw,pt,ct,enabled]
                     elif DeviceType == 'ShuntCapacitor':
                         if child.find('Location').text == 'To':
                             CapBus = ToNodeID
@@ -1240,7 +1408,7 @@ def WriteFeeder(root, OwnerID, networkfilename, loadfilename):
         PLoadTotal = PLoadTotal + LoadVector[0] + LoadVector[2] + LoadVector[4]
         QLoadTotal = QLoadTotal + LoadVector[1] + LoadVector[3] + LoadVector[5]
     floads.write('\n')
-    floads.write('Total Load = ' + '{:.2f}'.format(PLoadTotal) + ' +j ' + '{:.2f}'.format(QLoadTotal) + '\n')
+    floads.write('// Total Load = ' + '{:.2f}'.format(PLoadTotal) + ' +j ' + '{:.2f}'.format(QLoadTotal) + '\n')
     floads.close()
 
     #create the network of lines, transformers, regulators, capacitor banks and switches
@@ -1248,6 +1416,11 @@ def WriteFeeder(root, OwnerID, networkfilename, loadfilename):
     for key in OHLineTable:
         cfg = LineConfigTable[OHLineTable[key][4]]
         CreateLine(fnetwork,key,OHLineTable[key],cfg)
+    fnetwork.write('\n')
+
+    for key in ZMLineTable:
+        cfg = MatrixTable[ZMLineTable[key][4]]
+        CreateMatrixLine(fnetwork,key,ZMLineTable[key],cfg)
     fnetwork.write('\n')
 
     for key in OHPhaseTable:
@@ -1355,19 +1528,31 @@ def ConvertSXST(cfg):
     xyfilename = RootName + '_xy.dat'
     fmaster=open(masterfilename,'w')
     fmaster.write('clear\n')
-    fmaster.write('redirect ' + SubName + '.sub\n')
-    for key,row in SourceTable.items():
-        fmaster.write('// use this source impedance as the starting point for {:s}.sub\n'.format(SubName))
-        fmaster.write('// new circuit.' + RootName)
-        fmaster.write(' bus1=' + row[7])
-        fmaster.write(' basekv=' + str(row[0]))
-        fmaster.write(' pu=' + str(row[1]))
-        fmaster.write(' ang=' + str(row[2]))
-        fmaster.write(' r1=' + str(row[3]))
-        fmaster.write(' x1=' + str(row[4]))
-        fmaster.write(' r0=' + str(row[5]))
-        fmaster.write(' x0=' + str(row[6]))
-        fmaster.write(' // ' + key + '\n')
+    SubFile = SubName + '.sub'
+    if not os.path.exists(SubFile):
+        sp = open (SubFile, 'w')
+        print ("""
+// At minimum, this file needs to create the new circuit for OpenDSS.
+// You may also add transmission lines, substation switchgear, substation regulator, 
+//  energy meter, or other components before the feeder backbone is included.
+// This file is not over-written if you run the converter again.""", file=sp)
+        if len(SourceTable) < 1:
+            print ('// Placeholder source:', file=sp)
+            print ('new circuit.{:s} bus1={:s} basekv={:.3f} pu=1 ang=0 r1=0 x1=0.001 r0=0 x0=0.001'.format (RootName, '???', DefaultBaseVoltage), file=sp)
+        for key,row in SourceTable.items():
+            sp.write('// Use this source impedance as the starting point for {:s}\n'.format(SubName))
+            sp.write('// new circuit.' + RootName)
+            sp.write(' bus1=' + row[7])
+            sp.write(' basekv=' + str(row[0]))
+            sp.write(' pu=' + str(row[1]))
+            sp.write(' ang=' + str(row[2]))
+            sp.write(' r1=' + str(row[3]))
+            sp.write(' x1=' + str(row[4]))
+            sp.write(' r0=' + str(row[5]))
+            sp.write(' x0=' + str(row[6]))
+            sp.write(' // ' + key + '\n')
+        sp.close()
+    fmaster.write('redirect ' + SubFile + '\n')
     fmaster.write('redirect ' + catalogfilename + '\n')
     BuildCatalog (root)
     BuildInitialCoordinates (root)
@@ -1377,7 +1562,16 @@ def ConvertSXST(cfg):
         fmaster.write('redirect ' + networkfilename + '\n')
         fmaster.write('redirect ' + loadfilename + '\n')
         WriteFeeder (root, OwnerID, networkfilename, loadfilename)
-    fmaster.write('redirect ' + RootName + '.edits\n')
+    EditFile = RootName + '.edits'
+    if not os.path.exists(EditFile):
+        ep = open (EditFile, 'w')
+        print ("""
+// This is included after the feeder backbone has been created, and before calculating voltage bases in OpenDSS. 
+// You can start with an empty file. 
+// Typical contents include control and protection settings, parameter adjustments, and creation of DER for study. 
+// This file is not over-written if you run the converter again.""", file=ep)
+        ep.close()
+    fmaster.write('redirect ' + EditFile + '\n')
     fmaster.write('Set VoltageBases = ' + str(BaseVoltages) + '\n')
     fmaster.write('CalcVoltageBases\n')
     fmaster.write('SetLoadAndGenKv\n')
@@ -1387,7 +1581,7 @@ def ConvertSXST(cfg):
     fmaster.write('solve mode=snap\n')
     fmaster.write('batchedit energymeter..* action=take\n')
     fmaster.close()
-    #print('wrote total load = ' + "{0:3}".format(TotalP) + ' + j' + "{0:3}".format(TotalQ) + ' [kVA]')
+    #print('wrote total load = ' + "{:3}".format(TotalP) + ' + j' + "{:3}".format(TotalQ) + ' [kVA]')
 
 def usage():
     print("usage: python Cyme2DSS.py <full path to JSON configuration>")

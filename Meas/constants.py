@@ -7,7 +7,9 @@ Created on Apr 24, 2018
 # URL for blazegraph
 
 # Using the default blazegraph installation as a standalone
-blazegraph_url = "http://localhost:9999/blazegraph/namespace/kb/sparql"
+# blazegraph_url = "http://localhost:9999/blazegraph/namespace/kb/sparql"
+# Using the default blazegraph installation, dockerized from lyrasis
+blazegraph_url = "http://localhost:8889/bigdata/namespace/kb/sparql"
 
 # When running the platform in the docker, the blazegraph URL can be found in
 # /gridappsd/conf/pnnl.goss.gridappsd.cfg. At the time of writing (04/24/18),
