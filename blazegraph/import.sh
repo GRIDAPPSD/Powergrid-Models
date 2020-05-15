@@ -5,7 +5,10 @@ java -cp "target/libs/*:target/cim2glm-0.0.1-SNAPSHOT.jar" gov.pnnl.goss.cim2glm
     -o=idx directory
 
 java -cp "target/libs/*:target/cim2glm-0.0.1-SNAPSHOT.jar" gov.pnnl.goss.cim2glm.CIMImporter \
-   -s=_49AD8E07-3BF9-A4E2-CB8F-C3722F837B62 -o=both -l=1.0 -i=1 ieee13
+     -s=_503D6E20-F499-4CC7-8051-971E23D0BF79 -o=both -l=1.0 -i=1 transactive2
+
+#java -cp "target/libs/*:target/cim2glm-0.0.1-SNAPSHOT.jar" gov.pnnl.goss.cim2glm.CIMImporter \
+#   -s=_49AD8E07-3BF9-A4E2-CB8F-C3722F837B62 -o=both -l=1.0 -i=1 ieee13
 
 # CIM100 testing with 9500-node feeder; OpenDSS, GridLAB-D and GridLAB-D with houses
 #java -cp "target/libs/*:target/cim2glm-0.0.1-SNAPSHOT.jar" gov.pnnl.goss.cim2glm.CIMImporter \
