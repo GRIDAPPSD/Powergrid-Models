@@ -5,13 +5,14 @@ package gov.pnnl.goss.cim2glm;
 // ----------------------------------------------------------
 
 import java.io.*;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.text.DecimalFormat;
 
 import org.apache.jena.query.*;
 
 import gov.pnnl.goss.cim2glm.CIMImporter;
+import gov.pnnl.goss.cim2glm.components.DistCoordinates;
 import gov.pnnl.goss.cim2glm.queryhandler.QueryHandler;
 import gov.pnnl.goss.cim2glm.queryhandler.impl.HTTPBlazegraphQueryHandler;
 
@@ -44,9 +45,24 @@ public class OperationalLimits extends Object {
 	// an ascending list of current magnitude thresholds, indexed by equipment ID
 	// normally the indexing will be 0:normal, 1:emergency
 	HashMap<String,double[]> mapCurrentLimits = new HashMap<>();
+  // a list of equipment terminals associated with connectivity node id
+  HashMap<String,ArrayList<String>> mapBusEquipment = new HashMap<>();
+
+  private static final String szBUSEQ = 
+    "SELECT ?cnid ?eqtype ?eqname ?tseq WHERE {"+
+    " ?fdr c:IdentifiedObject.mRID ?fdrid."+
+    " ?eq c:Equipment.EquipmentContainer ?fdr."+
+    " ?trm c:Terminal.ConductingEquipment ?eq."+
+    " ?trm c:Terminal.ConnectivityNode ?cn."+
+    " ?cn c:IdentifiedObject.mRID ?cnid."+
+    " ?eq a ?classraw."+
+    "  bind(strafter(str(?classraw),\"CIM100#\") as ?eqtype)"+
+    " ?eq c:IdentifiedObject.name ?eqname."+
+    " ?trm c:ACDCTerminal.sequenceNumber ?tseq."+
+    "} ORDER by ?cnid ?eqtype ?eqname ?tseq";
 
 	private static final String szVOLT = 
-		"SELECT ?id ?val ?dur ?dir ?bus ?x ?y WHERE {"+
+		"SELECT ?id ?val ?dur ?dir ?bus WHERE {"+
 		" ?fdr c:IdentifiedObject.mRID ?fdrid."+
 		" ?s c:ConnectivityNode.ConnectivityNodeContainer ?fdr."+
 		" ?s r:type c:ConnectivityNode."+
@@ -60,14 +76,6 @@ public class OperationalLimits extends Object {
 		" ?olt c:OperationalLimitType.direction ?rawdir."+
 		"  bind(strafter(str(?rawdir),\"OperationalLimitDirectionKind.\") as ?dir)"+
 		" ?vlim c:VoltageLimit.value ?val."+
-		" ?trm c:Terminal.ConnectivityNode ?s."+
- 		" ?trm c:Terminal.ConductingEquipment ?eq."+
-		" ?eq c:PowerSystemResource.Location ?loc."+
-		" ?trm c:ACDCTerminal.sequenceNumber ?tseq."+
-		" ?pt c:PositionPoint.sequenceNumber ?tseq."+
-		" ?pt c:PositionPoint.Location ?loc."+
-		" ?pt c:PositionPoint.xPosition ?x."+
-		" ?pt c:PositionPoint.yPosition ?y."+
 		"} ORDER by ?id ?val";
 
 	private static final String szCURR = 
@@ -86,7 +94,19 @@ public class OperationalLimits extends Object {
 		" ?clim c:CurrentLimit.value ?val."+
 		"} ORDER by ?id ?val";
 
-	private void LoadVoltageMap () {
+	private void LoadVoltageMap (HashMap<String,DistCoordinates> mapCoordinates) {
+    ResultSet resTemp = queryHandler.query (szBUSEQ, "bus-equipment map");
+    while (resTemp.hasNext()) {
+      QuerySolution soln = resTemp.next();
+      String cnid = soln.get("?cnid").toString();
+      String key = soln.get("?eqtype").toString() + ":" + soln.get("?eqname").toString() + ":" + soln.get("?tseq").toString();
+      if (!mapBusEquipment.containsKey (cnid)) {
+        mapBusEquipment.put (cnid, new ArrayList<String>());
+      }
+      mapBusEquipment.get(cnid).add(key);
+    }
+    ((ResultSetCloseable)resTemp).close();
+
 		ResultSet results = queryHandler.query (szVOLT, "voltage map");
 		String lastID = "";
     String bus = "";
@@ -94,6 +114,17 @@ public class OperationalLimits extends Object {
 		while (results.hasNext()) {
 			QuerySolution soln = results.next();
 			String id = soln.get("?id").toString();
+      if (!id.equals(lastID) && mapBusEquipment.containsKey (id)) {
+        ArrayList<String> keys = mapBusEquipment.get(id);
+        for (String key : keys) {
+          if (mapCoordinates.containsKey (key)) {
+            DistCoordinates pt1 = mapCoordinates.get(key);
+            x = pt1.x;
+            y = pt1.y;
+            break;
+          }
+        }
+      }
 			if (!id.equals(lastID)) {
 				if (!lastID.equals("")) {
 					mapVoltageLimits.put(lastID, new VoltageLimit (lastID, bus, x, y, Blo, Alo, Ahi, Bhi));
@@ -106,8 +137,6 @@ public class OperationalLimits extends Object {
 			}
 			String dir = soln.get("?dir").toString();
       bus = soln.get("?bus").toString();
-      x = Double.parseDouble (soln.get("?x").toString());
-      y = Double.parseDouble (soln.get("?y").toString());
 			double dur = Double.parseDouble (soln.get("?dur").toString());
 			double val = Double.parseDouble (soln.get("?val").toString());
 			if (dir.equals("low")) {
@@ -210,9 +239,9 @@ public class OperationalLimits extends Object {
 		}
 	}
 
-	public void BuildLimitMaps (CIMImporter mdl, QueryHandler qH)  {
+	public void BuildLimitMaps (CIMImporter mdl, QueryHandler qH, HashMap<String,DistCoordinates> mapCoordinates)  {
 		queryHandler = qH;
-		LoadVoltageMap();
+		LoadVoltageMap(mapCoordinates);
 		LoadCurrentMap();
 	}
 }
