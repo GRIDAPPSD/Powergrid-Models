@@ -1,0 +1,9 @@
+{
+  "DefaultDir": "C:/Projects/TE/Campus",
+  "MDBName": "FeederModels",
+  "RelativeOutDir": "./test_dss",
+  "BaseVoltages": [115.0, 12.47],
+  "AllocateLoads": 1,
+  "SubOrFeeder": 0,
+  "InsertSwitchgear": 1
+}
