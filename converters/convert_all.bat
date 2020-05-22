@@ -7,6 +7,6 @@ rem python Cyme2DSS.py SampleCyme5.json
 rem python Cyme2DSS.py SampleCyme6.json
 rem python Cyme2DSS.py SampleCyme7.json
 
-rem python mdb2dss.py SampleSynergi1.json
+python mdb2dss.py SampleSynergi1.json
 python mdb2dss.py SampleSynergi2.json
 
