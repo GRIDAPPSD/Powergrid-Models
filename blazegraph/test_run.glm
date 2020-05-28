@@ -29,14 +29,15 @@ object climate {
   interpolate QUADRATIC;
 };
 
-//#define VSOURCE=2401.8
+#define VSOURCE=2401.8
+#include "transactive2_base.glm";
 //#include "transactive_base.glm";
 //#include "transactiveHouse_base.glm";
 //#include "ieee123pv_base.glm";
 
-#define VSOURCE=66395.3
+//#define VSOURCE=66395.3
 //#include "evalHouse_base.glm";
-#include "eval_base.glm";
+//#include "eval_base.glm";
 //#include "ieee3sub_base.glm";
 
 //#define VSOURCE=2401.8
