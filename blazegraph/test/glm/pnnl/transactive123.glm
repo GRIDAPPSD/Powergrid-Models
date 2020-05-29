@@ -2738,9 +2738,9 @@ object transformer {
 };
 
 object transformer {
-	name xf_xfs_node_60_a;
-	from node_60;
-	to s_node_60_a;
+	name xf_xfs_node_61_a;
+	from node_61;
+	to s_node_61_a;
 	phases AS;
 	configuration xcon_ct100;
 };
@@ -3400,7 +3400,7 @@ object triplex_node {
 };
 
 object triplex_node {
-	name s_node_60_a;
+	name s_node_61_a;
 	phases AS;
 	nominal_voltage 120.09;
 };
@@ -9598,73 +9598,73 @@ object triplex_line {
 };
 
 object triplex_line {
-	name trpln_agg_3_A_1_node_60_659;
+	name trpln_agg_3_A_1_node_61_659;
 	phases AS;
-	from s_node_60_a;
-	to house_agg_3_A_1_node_60_659;
+	from s_node_61_a;
+	to house_agg_3_A_1_node_61_659;
 	length 50.00;
 	configuration trip_line_config;
 };
 
 object triplex_line {
-	name trpln_agg_3_A_2_node_60_660;
+	name trpln_agg_3_A_2_node_61_660;
 	phases AS;
-	from s_node_60_a;
-	to house_agg_3_A_2_node_60_660;
+	from s_node_61_a;
+	to house_agg_3_A_2_node_61_660;
 	length 50.00;
 	configuration trip_line_config;
 };
 
 object triplex_line {
-	name trpln_agg_3_A_3_node_60_661;
+	name trpln_agg_3_A_3_node_61_661;
 	phases AS;
-	from s_node_60_a;
-	to house_agg_3_A_3_node_60_661;
+	from s_node_61_a;
+	to house_agg_3_A_3_node_61_661;
 	length 50.00;
 	configuration trip_line_config;
 };
 
 object triplex_line {
-	name trpln_agg_3_A_4_node_60_662;
+	name trpln_agg_3_A_4_node_61_662;
 	phases AS;
-	from s_node_60_a;
-	to house_agg_3_A_4_node_60_662;
+	from s_node_61_a;
+	to house_agg_3_A_4_node_61_662;
 	length 50.00;
 	configuration trip_line_config;
 };
 
 object triplex_line {
-	name trpln_agg_3_A_5_node_60_663;
+	name trpln_agg_3_A_5_node_61_663;
 	phases AS;
-	from s_node_60_a;
-	to house_agg_3_A_5_node_60_663;
+	from s_node_61_a;
+	to house_agg_3_A_5_node_61_663;
 	length 50.00;
 	configuration trip_line_config;
 };
 
 object triplex_line {
-	name trpln_agg_3_A_6_node_60_664;
+	name trpln_agg_3_A_6_node_61_664;
 	phases AS;
-	from s_node_60_a;
-	to house_agg_3_A_6_node_60_664;
+	from s_node_61_a;
+	to house_agg_3_A_6_node_61_664;
 	length 50.00;
 	configuration trip_line_config;
 };
 
 object triplex_line {
-	name trpln_agg_3_A_7_node_60_665;
+	name trpln_agg_3_A_7_node_61_665;
 	phases AS;
-	from s_node_60_a;
-	to house_agg_3_A_7_node_60_665;
+	from s_node_61_a;
+	to house_agg_3_A_7_node_61_665;
 	length 50.00;
 	configuration trip_line_config;
 };
 
 object triplex_line {
-	name trpln_agg_3_A_8_node_60_666;
+	name trpln_agg_3_A_8_node_61_666;
 	phases AS;
-	from s_node_60_a;
-	to house_agg_3_A_8_node_60_666;
+	from s_node_61_a;
+	to house_agg_3_A_8_node_61_666;
 	length 50.00;
 	configuration trip_line_config;
 };
@@ -21118,7 +21118,7 @@ object triplex_node {
 };
 
 object triplex_node {
-	name house_agg_3_A_1_node_60_659;
+	name house_agg_3_A_1_node_61_659;
 	phases AS;
 	nominal_voltage 120.09;
 	power_12 3000.0+0.0j;
@@ -21127,7 +21127,7 @@ object triplex_node {
 };
 
 object triplex_node {
-	name house_agg_3_A_2_node_60_660;
+	name house_agg_3_A_2_node_61_660;
 	phases AS;
 	nominal_voltage 120.09;
 	power_12 3000.0+0.0j;
@@ -21136,7 +21136,7 @@ object triplex_node {
 };
 
 object triplex_node {
-	name house_agg_3_A_3_node_60_661;
+	name house_agg_3_A_3_node_61_661;
 	phases AS;
 	nominal_voltage 120.09;
 	power_12 3000.0+0.0j;
@@ -21145,7 +21145,7 @@ object triplex_node {
 };
 
 object triplex_node {
-	name house_agg_3_A_4_node_60_662;
+	name house_agg_3_A_4_node_61_662;
 	phases AS;
 	nominal_voltage 120.09;
 	power_12 3000.0+0.0j;
@@ -21154,7 +21154,7 @@ object triplex_node {
 };
 
 object triplex_node {
-	name house_agg_3_A_5_node_60_663;
+	name house_agg_3_A_5_node_61_663;
 	phases AS;
 	nominal_voltage 120.09;
 	power_12 3000.0+0.0j;
@@ -21163,7 +21163,7 @@ object triplex_node {
 };
 
 object triplex_node {
-	name house_agg_3_A_6_node_60_664;
+	name house_agg_3_A_6_node_61_664;
 	phases AS;
 	nominal_voltage 120.09;
 	power_12 3000.0+0.0j;
@@ -21172,7 +21172,7 @@ object triplex_node {
 };
 
 object triplex_node {
-	name house_agg_3_A_7_node_60_665;
+	name house_agg_3_A_7_node_61_665;
 	phases AS;
 	nominal_voltage 120.09;
 	power_12 3000.0+0.0j;
@@ -21181,7 +21181,7 @@ object triplex_node {
 };
 
 object triplex_node {
-	name house_agg_3_A_8_node_60_666;
+	name house_agg_3_A_8_node_61_666;
 	phases AS;
 	nominal_voltage 120.09;
 	power_12 3000.0+0.0j;
@@ -26715,55 +26715,105 @@ object triplex_node {
 	voltage_2 120.0+0.0j;
 };
 
-object load {
-	parent node_7;
+object inverter {
 	name DG_7;
-	nominal_voltage 2401.7771;
-	phases ABCN;
-	constant_power_A_real 0;
-	constant_power_B_real 0;
-	constant_power_C_real 0;
-};
+	parent node_7;
+	inverter_type FOUR_QUADRANT;
+	four_quadrant_control_mode CONSTANT_PQ;
+	rated_power 10000; //VA
+	P_Out 0; //W
+	Q_Out 0; //Var
+}
 
-object load {
-	parent node_18;
+Object battery {
+	name DG_7_battery;
+	parent DG_7;
+	use_internal_battery_model true;
+	state_of_charge 1.0;
+	round_trip_efficiency 0.95;
+	battery_type LI_ION;
+	battery_capacity 500 kWh;
+}
+
+object inverter {
 	name DG_18;
-	nominal_voltage 2401.7771;
-	phases ABCN;
-	constant_power_A_real 0;
-	constant_power_B_real 0;
-	constant_power_C_real 0;
-};
+	parent node_18;
+	inverter_type FOUR_QUADRANT;
+	four_quadrant_control_mode CONSTANT_PQ;
+	rated_power 10000; //VA
+	P_Out 0; //W
+	Q_Out 0; //Var
+}
 
-object load {
-	parent node_56;
+Object battery {
+	name DG_18_battery;
+	parent DG_18;
+	use_internal_battery_model true;
+	state_of_charge 1.0;
+	round_trip_efficiency 0.95;
+	battery_type LI_ION;
+	battery_capacity 500 kWh;
+}
+
+object inverter {
 	name DG_56;
-	nominal_voltage 2401.7771;
-	phases ABCN;
-	constant_power_A_real 0;
-	constant_power_B_real 0;
-	constant_power_C_real 0;
-};
+	parent node_56;
+	inverter_type FOUR_QUADRANT;
+	four_quadrant_control_mode CONSTANT_PQ;
+	rated_power 10000; //VA
+	P_Out 0; //W
+	Q_Out 0; //Var
+}
 
-object load {
-	parent node_57;
+Object battery {
+	name DG_56_battery;
+	parent DG_56;
+	use_internal_battery_model true;
+	state_of_charge 1.0;
+	round_trip_efficiency 0.95;
+	battery_type LI_ION;
+	battery_capacity 500 kWh;
+}
+
+object inverter {
 	name DG_57;
-	nominal_voltage 2401.7771;
-	phases ABCN;
-	constant_power_A_real 0;
-	constant_power_B_real 0;
-	constant_power_C_real 0;
-};
+	parent node_57;
+	inverter_type FOUR_QUADRANT;
+	four_quadrant_control_mode CONSTANT_PQ;
+	rated_power 10000; //VA
+	P_Out 0; //W
+	Q_Out 0; //Var
+}
 
-object load {
-	parent node_152;
+Object battery {
+	name DG_57_battery;
+	parent DG_57;
+	use_internal_battery_model true;
+	state_of_charge 1.0;
+	round_trip_efficiency 0.95;
+	battery_type LI_ION;
+	battery_capacity 500 kWh;
+}
+
+object inverter {
 	name DG_152;
-	nominal_voltage 2401.7771;
-	phases ABCN;
-	constant_power_A_real 0;
-	constant_power_B_real 0;
-	constant_power_C_real 0;
-};
+	parent node_152;
+	inverter_type FOUR_QUADRANT;
+	four_quadrant_control_mode CONSTANT_PQ;
+	rated_power 10000; //VA
+	P_Out 0; //W
+	Q_Out 0; //Var
+}
+
+Object battery {
+	name DG_152_battery;
+	parent DG_152;
+	use_internal_battery_model true;
+	state_of_charge 1.0;
+	round_trip_efficiency 0.95;
+	battery_type LI_ION;
+	battery_capacity 500 kWh;
+}
 
 object recorder {
 	property voltage_1,voltage_2,power_12;
@@ -26771,4 +26821,3 @@ object recorder {
 	file Output/triplex_node_load_1280.csv;
 	parent house_agg_3_A_8_node_114_1280;
 };
-
