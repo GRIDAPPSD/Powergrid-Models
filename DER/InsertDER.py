@@ -2,9 +2,10 @@ from SPARQLWrapper import SPARQLWrapper2
 import sys
 import re
 import uuid
+import os.path
 
 prefix_template = """PREFIX r: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-PREFIX c: {cimURL}
+PREFIX c: <{cimURL}>
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 """
 
@@ -40,6 +41,102 @@ VALUES ?fdrid {{"{:s}"}}
 ORDER BY ?locid ?seq
 """
 
+crs_query = """SELECT DISTINCT ?name ?id WHERE {{
+ ?crs r:type c:CoordinateSystem.
+ ?crs c:IdentifiedObject.mRID ?id.
+ ?crs c:IdentifiedObject.name ?name.
+}}
+ORDER by ?name
+"""
+
+ins_pt_template = """INSERT DATA {{
+ <{url}#{res}> a c:PositionPoint.
+ <{url}#{res}> c:PositionPoint.Location <{url}#{resLoc}>.
+ <{url}#{res}> c:PositionPoint.sequenceNumber \"{seq}\".
+ <{url}#{res}> c:PositionPoint.xPosition \"{x}\".
+ <{url}#{res}> c:PositionPoint.yPosition \"{y}\".
+}}
+"""
+
+ins_loc_template = """INSERT DATA {{
+ <{url}#{res}> a c:Location.
+ <{url}#{res}> c:IdentifiedObject.mRID \"{res}\".
+ <{url}#{res}> c:IdentifiedObject.name \"{nm}\".
+ <{url}#{res}> c:Location.CoordinateSystem <{url}#{resCrs}>.
+}}
+"""
+
+ins_trm_template = """INSERT DATA {{
+ <{url}#{res}> a c:Terminal.
+ <{url}#{res}> c:IdentifiedObject.mRID \"{res}\".
+ <{url}#{res}> c:IdentifiedObject.name \"{nm}\".
+ <{url}#{res}> c:Terminal.ConductingEquipment <{url}#{resEQ}>.
+ <{url}#{res}> c:ACDCTerminal.sequenceNumber \"1\".
+ <{url}#{res}> c:Terminal.ConnectivityNode <{url}#{resCN}>.
+}}
+"""
+
+ins_pec_template = """INSERT DATA {{
+ <{url}#{res}> a c:PowerElectronicsConnection.
+ <{url}#{res}> c:IdentifiedObject.mRID \"{res}\".
+ <{url}#{res}> c:IdentifiedObject.name \"{nm}\".
+ <{url}#{res}> c:Equipment.EquipmentContainer  <{url}#{resFdr}>.
+ <{url}#{res}> c:PowerElectronicsConnection.PowerElectronicsUnit <{url}#{resUnit}>.
+ <{url}#{res}> c:PowerSystemResource.Location <{url}#{resLoc}>.
+ <{url}#{res}> c:PowerElectronicsConnection.maxIFault \"1.111\".
+ <{url}#{res}> c:PowerElectronicsConnection.p \"{p}\".
+ <{url}#{res}> c:PowerElectronicsConnection.q \"{q}\".
+ <{url}#{res}> c:PowerElectronicsConnection.ratedS \"{ratedS}\".
+ <{url}#{res}> c:PowerElectronicsConnection.ratedU \"{ratedU}\".
+}}
+"""
+
+ins_pep_template = """INSERT DATA {{
+ <{url}#{res}> a c:PowerElectronicsConnectionPhase.
+ <{url}#{res}> c:IdentifiedObject.mRID \"{res}\".
+ <{url}#{res}> c:IdentifiedObject.name \"{nm}\".
+ <{url}#{res}> c:PowerElectronicsConnectionPhase.phase <{ns}SinglePhaseKind.{phs}>.
+ <{url}#{res}> c:PowerElectronicsConnectionPhase.PowerElectronicsConnection <{url}#{resPEC}>.
+ <{url}#{res}> c:PowerElectronicsConnectionPhase.p \"{p}\".
+ <{url}#{res}> c:PowerElectronicsConnectionPhase.q \"{q}\".
+ <{url}#{res}> c:PowerSystemResource.Location <{url}#{resLoc}>.
+}}
+"""
+
+ins_pv_template = """INSERT DATA {{
+ <{url}#{res}> a c:PhotovoltaicUnit.
+ <{url}#{res}> c:IdentifiedObject.mRID \"{res}\".
+ <{url}#{res}> c:IdentifiedObject.name \"{nm}\".
+ <{url}#{res}> c:PowerSystemResource.Location <{url}#{resLoc}>.
+}}
+"""
+
+ins_bat_template = """INSERT DATA {{
+ <{url}#{res}> a c:BatteryUnit.
+ <{url}#{res}> c:IdentifiedObject.mRID \"{res}\".
+ <{url}#{res}> c:IdentifiedObject.name \"{nm}\".
+ <{url}#{res}> c:BatteryUnit.ratedE \"{ratedE}\".
+ <{url}#{res}> c:BatteryUnit.storedE \"{storedE}\".
+ <{url}#{res}> c:BatteryUnit.batteryState <{ns}BatteryState.{state}>.
+ <{url}#{res}> c:PowerSystemResource.Location <{url}#{resLoc}>.
+}}
+"""
+
+def GetCIMID (cls, nm, uuids):
+  if nm is not None:
+    key = cls + ':' + nm
+    if key not in uuids:
+      uuids[key] = '_' + str(uuid.uuid4()).upper()
+    return uuids[key]
+  return '_' + str(uuid.uuid4()).upper() # for unidentified CIM instances
+
+def ParsePhases (sphs):
+  lst = []
+  for code in ['A', 'B', 'C', 's1', 's2']:
+    if code in sphs:
+      lst.append(code)
+  return lst
+
 if len(sys.argv) < 2:
   print ('usage: python3 InsertDER.py fname')
   print (' Blazegraph server must already be started')
@@ -50,12 +147,15 @@ if len(sys.argv) < 2:
 cim_ns = ''
 blz_url = ''
 fdr_id = ''
+crs_id = ''
 prefix = None
 qbus = None
 qloc = None
 sparql = None
 buses = {}
 locs = {}
+fuidname = None
+uuids = {}
 
 fp = open (sys.argv[1], 'r')
 lines = fp.readlines()
@@ -67,9 +167,98 @@ for ln in lines:
     cim_ns = toks[1]
   elif toks[0] == 'feederID':
     fdr_id = toks[1]
+  elif toks[0] == 'uuid_file':
+    fuidname = toks[1]
+    if os.path.exists(fuidname):
+      print ('reading identifiable instance mRIDs from', fuidname)
+      fuid = open (fuidname, 'r')
+      for uuid_ln in fuid.readlines():
+        uuid_toks = re.split('[,\s]+', uuid_ln)
+        if len(uuid_toks) > 2 and not uuid_toks[0].startswith('//'):
+          cls = uuid_toks[0]
+          nm = uuid_toks[1]
+          key = cls + ':' + nm
+          val = uuid_toks[2]
+          uuids[key] = val
+      fuid.close()
+
   if sparql is not None:
     if not toks[0].startswith('//') and len(toks[0]) > 0:
-      print ('create DG for', toks)
+      nmPEC = toks[0]
+      nmCN = toks[1]
+      phases = toks[2]
+      unit = toks[3]
+      kVA = float(toks[4])
+      kV = float(toks[5])
+      kW = float(toks[6])
+      kVAR = float(toks[7])
+      if unit == 'Battery':
+        ratedkwh = float(toks[8])
+        storedkwh = float(toks[9])
+      else:
+        ratedkwh = 0.0
+        storedkwh = 0.0
+      nmUnit = nmPEC + '_' + unit
+      nmTrm = nmPEC + '_T1'
+      nmLoc = nmPEC + '_Loc'
+      idPEC = GetCIMID('PowerElectronicsConnection', nmPEC, uuids)
+      idUnit = GetCIMID(unit + 'Unit', nmUnit, uuids)
+      idLoc = GetCIMID('Location', nmLoc, uuids)
+      idPt = GetCIMID('PositionPoint', None, uuids)
+      idTrm = GetCIMID('Terminal', nmTrm, uuids)
+      row = buses[nmCN]
+      idCN = row['cn']
+      idTrm = row['trm']
+      keyXY = row['loc'] + ':' + str(row['seq'])
+      row = locs[keyXY]
+      x = float(row['x'])
+      y = float(row['y'])
+      print ('create {:s} at {:s} CN {:s} location {:.4f},{:.4f}'.format (nmPEC, nmCN, idCN, x, y))
+
+      inspec = prefix + ins_pec_template.format(url=blz_url, res=idPEC, nm=nmPEC, resLoc=idLoc, resFdr=fdr_id, resUnit=idUnit,
+                                                p=kW*1000.0, q=kVAR*1000.0, ratedS=kVA*1000.0, ratedU=kV*1000.0)
+      sparql.setQuery(inspec)
+      ret = sparql.query()
+
+      if len(phases) > 0 and phases != 'ABC':
+        phase_list = ParsePhases (phases)
+        nphs = len(phase_list)
+        p=kW*1000.0/nphs
+        q=kVAR*1000.0/nphs
+        for phs in phase_list:
+          nmPhs = '{:s}_{:s}'.format (nmPEC, phs)
+          idPhs = GetCIMID('PowerElectronicsConnectionPhase', nmPhs, uuids)
+          inspep = prefix + ins_pep_template.format (url=blz_url, res=idPhs, nm=nmPhs, resPEC=idPEC, resLoc=idLoc, ns=cim_ns, phs=phs, p=p, q=q)
+          sparql.setQuery(inspep)
+          ret = sparql.query()
+
+      if unit == 'Battery':
+        state = 'Waiting'
+        if kW > 0.0:
+          state = 'Discharging'
+        elif kW < 0.0:
+          state = 'Charging'
+        insunit = prefix + ins_bat_template.format(url=blz_url, res=idUnit, nm=nmUnit, resLoc=idLoc, ns=cim_ns,
+                                                   ratedE=ratedkwh*1000.0, storedE=storedkwh*1000.0, state=state)
+      elif unit == 'Photovoltaic':
+        insunit = prefix + ins_pv_template.format(url=blz_url, res=idUnit, nm=nmUnit, resLoc=idLoc)
+      else:
+        insunit = '** Unsupported Unit ' + unit
+      sparql.setQuery(insunit)
+      ret = sparql.query()
+
+      instrm = prefix + ins_trm_template.format(url=blz_url, res=idTrm, nm=nmTrm, resCN=idCN, resEQ=idPEC)
+      sparql.setQuery(instrm)
+      ret = sparql.query()
+
+      insloc = prefix + ins_loc_template.format(url=blz_url, res=idLoc, nm=nmLoc, resCrs=crs_id)
+      sparql.setQuery(insloc)
+      ret = sparql.query()
+
+      inspt = prefix + ins_pt_template.format(url=blz_url, res=idPt, resLoc=idLoc, seq=1, x=x, y=y)
+      sparql.setQuery(inspt)
+      ret = sparql.query()
+
   else:
     if len(blz_url) > 0 and len(cim_ns) > 0 and len(fdr_id) > 0:
       prefix = prefix_template.format(cimURL=cim_ns)
@@ -88,7 +277,7 @@ for ln in lines:
         locid = b['locid'].value
         seq = b['seq'].value
         buses[key] = {'cn':cnid, 'trm':tid, 'eq':eqid, 'seq': seq, 'loc': locid}
-      print (len(buses))
+      print (len(buses), 'buses')
 
       sparql.setQuery(qloc)
       ret = sparql.query()
@@ -97,114 +286,21 @@ for ln in lines:
         x = b['x'].value
         y = b['y'].value
         locs[key] = {'x': x, 'y': y}
-      print (len(locs))
+      print (len(locs), 'locations')
+
+      sparql.setQuery (prefix + crs_query)
+      ret = sparql.query()
+      for b in ret.bindings:
+        crs_id = b['id'].value
+        print ('Coordinate System', b['name'].value, crs_id, 'Feeder', fdr_id)
+        break
 
 fp.close()
 
-#def InsertMeasurement (meascls, measid, eqname, eqid, trmid, meastype, phases):
-#  #if not measid starts with _ then prepend it, this is here for consistency. otherwise the mrids are uploaded without the initial _
-#  if (not str(measid).startswith("_")):
-#    measid = "_"+str(measid)
-#
-#  resource = '<' + constants.blazegraph_url + '#' + str(measid) + '>'
-#  equipment = '<' + constants.blazegraph_url + '#' + str(eqid) + '>'
-#  terminal = '<' + constants.blazegraph_url + '#' + str(trmid) + '>'
-#  ln1 = resource + ' a c:' + meascls + '. '
-#  ln2 = resource + ' c:IdentifiedObject.mRID \"' + str(measid) + '\". '
-#  ln3 = resource + ' c:IdentifiedObject.name \"' + str(eqname) + '\". '
-#  ln4 = resource + ' c:Measurement.PowerSystemResource ' + equipment + '. '
-#  ln5 = resource + ' c:Measurement.Terminal ' + terminal + '. '
-#  ln6 = (resource + ' c:Measurement.phases ' + constants.cim100
-#    + 'PhaseCode.' + phases + '>. ')
-#  ln7 = resource + ' c:Measurement.measurementType \"' + meastype + '\"'
-#  qstr = (constants.prefix + 'INSERT DATA { ' + ln1 + ln2 + ln3 + ln4 +
-#    ln5 + ln6 + ln7 + '}')
-#
-##  print (qstr)
-#  sparql.setQuery(qstr)
-#  ret = sparql.query()
-##  print (ret)
-#  return
-#
-#lines = fp.readlines()
-#for ln in lines:
-#  toks = re.split('[,\s]+', ln)
-#  if toks[0] == 'LinearShuntCompensator':
-#    phases = toks[3]
-#    eqid = toks[4]
-#    trmid = toks[5]
-#    id1 = uuid.uuid4()
-#    id2 = uuid.uuid4()
-#    id3 = uuid.uuid4()
-#    InsertMeasurement ('Analog', id1, 'LinearShuntCompensator_' + toks[1], eqid, trmid, 'PNV', phases)
-#    InsertMeasurement ('Analog', id2, 'LinearShuntCompensator_' + toks[1], eqid, trmid, 'VA', phases)
-#    InsertMeasurement ('Discrete', id3, 'LinearShuntCompensator_' + toks[1], eqid, trmid, 'Pos', phases)
-#  if toks[0] == 'PowerTransformer' and toks[1] == 'RatioTapChanger':
-#    phases = toks[5]
-#    eqid = toks[6]
-#    trmid = toks[7]
-#    id1 = uuid.uuid4()
-#    InsertMeasurement ('Discrete', id1, 'RatioTapChanger_' + toks[2], eqid, trmid, 'Pos', phases)
-#  if toks[0] == 'EnergyConsumer':
-#    phases = toks[3]
-#    eqid = toks[4]
-#    trmid = toks[5]
-#    id1 = uuid.uuid4()
-#    id2 = uuid.uuid4()
-#    InsertMeasurement ('Analog', id1, 'EnergyConsumer_' + toks[1], eqid, trmid, 'PNV', phases)
-#    InsertMeasurement ('Analog', id2, 'EnergyConsumer_' + toks[1], eqid, trmid, 'VA', phases)
-#  if toks[0] == 'SynchronousMachine':
-#    phases = toks[3]
-#    eqid = toks[4]
-#    trmid = toks[5]
-#    id1 = uuid.uuid4()
-#    id2 = uuid.uuid4()
-#    InsertMeasurement ('Analog', id1, 'SynchronousMachine_' + toks[1], eqid, trmid, 'PNV', phases)
-#    InsertMeasurement ('Analog', id2, 'SynchronousMachine_' + toks[1], eqid, trmid, 'VA', phases)
-#  if toks[0] == 'PowerElectronicsConnection' and toks[1] == 'PhotovoltaicUnit':
-#    phases = toks[5]
-#    eqid = toks[6]
-#    trmid = toks[7]
-#    id1 = uuid.uuid4()
-#    id2 = uuid.uuid4()
-#    InsertMeasurement ('Analog', id1, 'PowerElectronicsConnection_PhotovoltaicUnit_' + toks[3], eqid, trmid, 'PNV', phases)
-#    InsertMeasurement ('Analog', id2, 'PowerElectronicsConnection_PhotovoltaicUnit_' + toks[3], eqid, trmid, 'VA', phases)
-#  if toks[0] == 'PowerElectronicsConnection' and toks[1] == 'BatteryUnit':
-#    phases = toks[5]
-#    eqid = toks[6]
-#    trmid = toks[7]
-#    id1 = uuid.uuid4()
-#    id2 = uuid.uuid4()
-#    InsertMeasurement ('Analog', id1, 'PowerElectronicsConnection_BatteryUnit_' + toks[3], eqid, trmid, 'PNV', phases)
-#    InsertMeasurement ('Analog', id2, 'PowerElectronicsConnection_BatteryUnit_' + toks[3], eqid, trmid, 'VA', phases)
-#  if toks[0] == 'PowerTransformer' and toks[1] == 'PowerTransformerEnd':
-#    what = toks[2]
-#    phases = toks[6]
-#    eqid = toks[7]
-#    trmid = toks[8]
-#    id1 = uuid.uuid4()
-#    if 'v' in what:
-#      InsertMeasurement ('Analog', id1, 'PowerTransformer_' + toks[3] + '_Voltage', eqid, trmid, 'PNV', phases)
-#    elif 's' in what:
-#      InsertMeasurement ('Analog', id1, 'PowerTransformer_' + toks[3] + '_Power', eqid, trmid, 'VA', phases)
-#    elif 'i' in what:
-#      InsertMeasurement ('Analog', id1, 'PowerTransformer_' + toks[3] + '_Current', eqid, trmid, 'A', phases)
-#  if toks[0] == 'ACLineSegment' or toks[0] == 'LoadBreakSwitch' or toks[0] == 'Breaker' or toks[0] == 'Recloser':
-#    what = toks[1]
-#    phases = toks[5]
-#    eqid = toks[6]
-#    if '1' in what:
-#      trmid = toks[7]
-#      if toks[0] != 'ACLineSegment' and what == 'i1':
-#        id1 = uuid.uuid4()
-#        InsertMeasurement ('Discrete', id1, toks[0] + '_' + toks[2] + '_State', eqid, trmid, 'Pos', phases)
-#    else:
-#      trmid = toks[8]
-#    id1 = uuid.uuid4()
-#    if 'v' in what:
-#      InsertMeasurement ('Analog', id1, toks[0] + '_' + toks[2] + '_Voltage', eqid, trmid, 'PNV', phases)
-#    elif 's' in what:
-#      InsertMeasurement ('Analog', id1, toks[0] + '_' + toks[2] + '_Power', eqid, trmid, 'VA', phases)
-#    elif 'i' in what:
-#      InsertMeasurement ('Analog', id1, toks[0] + '_' + toks[2] + '_Current', eqid, trmid, 'A', phases)
+if fuidname is not None:
+  print ('saving identifiable instance mRIDs to', fuidname)
+  fuid = open (fuidname, 'w')
+  for key, val in uuids.items():
+    print ('{:s},{:s}'.format (key.replace(':', ',', 1), val), file=fuid)
+  fuid.close()
 

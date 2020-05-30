@@ -14,6 +14,16 @@ WHERE {
 
 #############################
 
+# get the coordinate system ID for inserting components that have locations
+PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX c:  <http://iec.ch/TC57/CIM100#>
+SELECT DISTINCT ?name ?id WHERE {
+ ?crs r:type c:CoordinateSystem.
+ ?crs c:IdentifiedObject.mRID ?id.
+ ?crs c:IdentifiedObject.name ?name.
+}
+ORDER by ?name
+
 # list all the connectivity node base voltages by feeder, for sensor service
 PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX c:  <http://iec.ch/TC57/CIM100#>
