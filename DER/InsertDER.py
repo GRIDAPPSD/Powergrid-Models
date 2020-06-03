@@ -208,7 +208,6 @@ for ln in lines:
       idTrm = GetCIMID('Terminal', nmTrm, uuids)
       row = buses[nmCN]
       idCN = row['cn']
-      idTrm = row['trm']
       keyXY = row['loc'] + ':' + str(row['seq'])
       row = locs[keyXY]
       x = float(row['x'])
