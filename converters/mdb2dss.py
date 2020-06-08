@@ -53,7 +53,10 @@ def WriteLoadPower (fp, p, q, s, AllocateLoads):
     return
   # any two of these fully define the load, and if only one is written the default power factor will be 0.88
   if s != 0.0:
-    fp.write (' kva=' + '{:.2f}'.format(s))
+    if p != 0.0:
+      fp.write (' xfkva=' + '{:.2f}'.format(s))
+    else:
+      fp.write (' kva=' + '{:.2f}'.format(s))
   if p != 0.0:
     fp.write (' kw=' + '{:.2f}'.format(p))
   if q != 0.0:
@@ -102,7 +105,6 @@ def ConvertMDB(cfg):
   Feeder = 1 - Substation
 
   cursor = con.cursor()
-  cursor2 = con.cursor()
 
   # keep track of the catalog items
 
@@ -183,11 +185,14 @@ def ConvertMDB(cfg):
   for row in cursor.fetchall():
     name = 'fuse.' + dss_name(row['uniquedeviceid'])
     secID = 'line.' + dss_name(row['sectionid'])
+    amps = row['amprating']
+    if len(amps) < 1:
+        amps = '40'
     if int(row['nearfromnode']) == 1:
       swterm = 1
     else:
       swterm = 2
-    fusef.write('new ' + name + ' ratedcurrent=' + row['amprating'] + ' monitoredobj=' + secID + ' monitoredterm=' + str(swterm))
+    fusef.write('new ' + name + ' ratedcurrent=' + amps + ' monitoredobj=' + secID + ' monitoredterm=' + str(swterm))
     fusef.write(' switchedobj=' + secID + ' switchedterm=' + str(swterm))
     if row['fuseisopen'] == 'OPEN':
       fusef.write(' action=open')
@@ -226,8 +231,23 @@ def ConvertMDB(cfg):
   cncables = set()
   tscables = set()
   xfmrcodes = set()
+  linecodes = set()
+  useDev = False
 
-  cursor.execute ('SELECT * FROM instsection')
+  try:
+      cursor.execute("SELECT top 1 * FROM DevConductors")
+      cursor.fetchall()
+      useDev = True
+      print ('DevConductors table found')
+  except:
+      print ('DevConjuctors table not found')
+
+  if useDev:
+      cursor.execute("SELECT instsection.*, devconductors.* " +\
+                    "FROM (instsection INNER JOIN devconductors ON instsection.phaseconductorid = devconductors.conductorname)")
+  else:
+      cursor.execute ('SELECT * FROM instsection')
+
   sgf = open(outpath + 'SwitchGears.dss', 'w');
   sgf.write('! SwitchGears Definitions:\n');
   lf = open(outpath + 'Lines.dss', 'w')
@@ -249,24 +269,46 @@ def ConvertMDB(cfg):
         sgf.write ('close line.' + name + ' 2\n')
 
     length = float(row['sectionlength_mul']) / 5280.0
+
     spacing = dss_name(row['configurationid']) + '_' + str(phqty)
-    spacings.add (spacing)
+    if useDev:
+        condType = dss_name(row['conductortype'])
+    else:
+        if spacing.startswith ('UG'):
+            condType = 'Conc'
+        else:
+            condType = 'Bare'
     wire1 = dss_name(row['phaseconductorid'])
     wire2 = dss_name(row['phaseconductor2id'])
     wire3 = dss_name(row['phaseconductor3id'])
     wireN = dss_name(row['neutralconductorid'])
     wiretype = 'wires'
-    if spacing.startswith('UG'):
-      wiretype = 'cncables'
-      cncables.add (wire1)
-      cncables.add (wire2)
-      cncables.add (wire3)
-    else:
-      wires.add (wire1)
-      wires.add (wire2)
-      wires.add (wire3)
-      wires.add (wireN)
-
+    if 'ActZ' in condType:
+        print ('ActZ not supported in section {:s}'.format(name))
+        linecodes.add (spacing)
+    elif 'Bare' in condType or 'SepN' in condType:
+        wiretype = 'wires'
+        wires.add (wire1)
+        wires.add (wire2)
+        wires.add (wire3)
+        wires.add (wireN)
+        if not spacing.startswith('OH'):
+            spacing = 'OH_' + spacing
+    elif 'Conc' in condType:
+        wiretype = 'cncables'
+        cncables.add (wire1)
+        cncables.add (wire2)
+        cncables.add (wire3)
+        if not spacing.startswith('UG'):
+            spacing = 'UG_' + spacing
+    elif 'Tape' in condType:
+        wiretype = 'tscables'
+        tscables.add (wire1)
+        tscables.add (wire2)
+        tscables.add (wire3)
+        if not spacing.startswith('UG'):
+            spacing = 'UG_' + spacing
+    spacings.add (spacing)
     wirearray = []
     ncond = phqty
     wirearray.append (wire1)
@@ -324,6 +366,54 @@ def ConvertMDB(cfg):
         xff.write('new transformer.' + name + phs + ' xfmrcode=' + xftype + ' bank=' + name + ' buses=' + str(busarray) + '\n')
     xff.write('edit line.' + name + ' enabled=no\n\n')
   xff.close()
+
+  # -----------------------------------------------------------------------------
+  # Capacitors
+  # -----------------------------------------------------------------------------
+  print('Processing capacitors.')
+  # Capacitor is assumed to be located at recceiving end of a section
+  # Query the capacitors
+  cursor.execute("SELECT * " +\
+                "FROM instsection " +\
+                "INNER JOIN instcapacitors " +\
+                "ON instcapacitors.sectionid = instsection.sectionid")
+  capf = open (outpath + 'Capacitors.dss', 'w')
+  capf.write('! Capacitor Definitions \n\n')
+  for row in cursor.fetchall():
+      name = dss_name(row['uniquedeviceid'])
+      bus1 = dss_name(row['tonodeid'])
+      phsfx = get_phsfx(row['connectedphases'])
+      phqty = count_ph(row['connectedphases'])
+      kvLL = float(row['ratedkv'])
+      kv = kvLL
+      if phqty == 1:
+          kv = kvLL / math.sqrt(3)
+      # Assuming all capacitors are on ## row['module1on']
+      kvar = 0.0
+      if '1' in phsfx:
+          kvar += float(row['fixedkvarphase1']) + float(row['module1kvarperphase'])
+      if '2' in phsfx:
+          kvar += float(row['fixedkvarphase2']) + float(row['module1kvarperphase'])
+      if '3' in phsfx:
+          kvar += float(row['fixedkvarphase3']) + float(row['module1kvarperphase'])
+      if kvar!=0.0:
+          capf.write('new capacitor.{:s} bus1={:s} phases={:d} kvar={:.2f} kv={:.3f} conn=wye\n'.format (name, bus1+phsfx, phqty, kvar, kv)) 						+\
+          capf.write('new capcontrol.' + name + '_ctrl ' + 'capacitor=' + name)
+          if row['primarycontrolmode'] == 'VOLTS':
+              # used metering phase for PT phase
+              # used same time delay for both
+              capf.write(' type=voltage element=capacitor.' + name + ' terminal=1'+\
+                  ' ptphase=' + get_phnum(row['meteringphase']) + ' ptratio=1'+\
+                  ' offsetting=' + str(row['module1capswitchtripvalue'])+\
+                  ' onsetting=' + str(row['module1capswitchclosevalue'])+\
+                  ' delay=' + str(row['timedelaysec'])+\
+                  ' delayoff=' + str(row['timedelaysec'])+\
+                  ' deadtime=0\n')
+          else:
+              # unrecognized control type: disable the controller
+              print('Warning: "'+row['control']+'" cap control not implemented')
+              capf.write(' enabled=false\n')
+  capf.close()
 
   # -----------------------------------------------------------------------------
   # Loads
@@ -429,8 +519,8 @@ def ConvertMDB(cfg):
 
   print ('Total Feeder P=' + '{:.1f}'.format(feederP) + ' kW, ' + '{:.1f}'.format(feederQ) + ' kVAR, ' + '{:.1f}'.format(feederS) + ' kVA')
   print ('Total Feeder Phase Balance:', '{:.1f}'.format(feederS1), '{:.1f}'.format(feederS2), '{:.1f}'.format(feederS3))
-  print ('Total Feeder P=' + '{:.1f}'.format(feederP) + ' kW, ' + '{:.1f}'.format(feederQ) + ' kVAR, ' + '{:.1f}'.format(feederS) + ' kVA', file=loadf)
-  print ('Total Feeder Phase Balance:', '{:.1f}'.format(feederS1), '{:.1f}'.format(feederS2), '{:.1f}'.format(feederS3), file=loadf)
+  print ('// Total Feeder P=' + '{:.1f}'.format(feederP) + ' kW, ' + '{:.1f}'.format(feederQ) + ' kVAR, ' + '{:.1f}'.format(feederS) + ' kVA', file=loadf)
+  print ('// Total Feeder Phase Balance:', '{:.1f}'.format(feederS1), '{:.1f}'.format(feederS2), '{:.1f}'.format(feederS3), file=loadf)
   loadf.close()
 
   # -----------------------------------------------------------------------------
@@ -503,7 +593,27 @@ def ConvertMDB(cfg):
 
       sourcef.write('new line.trunk bus1=regbus bus2=' + str(rootbus) + ' phases=3 switch=yes\n')
       sourcef.write('new energymeter.feeder element=line.trunk terminal=1\n')
+  else:
+    print('Using a substation transformer as a power source slack bus...')
+    cursor.execute(	"SELECT * " +\
+                    "FROM node " +\
+                    "INNER JOIN instsubstationtransformers " +\
+                    "ON instsubstationtransformers.subtranid = node.nodeid ")
 
+    sourcef.write('new circuit.sourceckt bus1=sourcebus phases=3 basekv=115\n')
+    sourcef.write('~ pu=1.00 R1=0 X1=0.0001 R0=0 X0=0.0001 \n')
+    sourcef.write('new line.trunk bus1=sourcebus bus2=rootbus phases=3 switch=yes\n')
+    sourcef.write('new energymeter.feeder element=line.trunk terminal=1\n')
+    for row in cursor.fetchall():
+        if 0:#row['x'] is not None and row['y'] is not None:
+            # Write coordinates
+            coordf.write(str(row['substationid'])+',')
+            coordf.write(str(row['x'])+',')
+            coordf.write(str(row['y'])+'\n')
+        if 1:#if row['bustype'] == 'SWING':
+            # Connect gld swing bus to the source bus, 115-kV is arbitrary choice
+            subname = str(row['subtranid']).replace(" ","_")
+            sourcef.write('new line.source_'+ subname + ' phases=3 bus1=rootbus bus2=' + subname + ' switch=y\n')
   sourcef.close()
 
   # -----------------------------------------------------------------------------
@@ -538,6 +648,7 @@ def ConvertMDB(cfg):
   masterf.write('redirect Lines.dss\n')
   masterf.write('redirect Transformers.dss\n')
   masterf.write('redirect Loads.dss\n')
+  masterf.write('redirect Capacitors.dss\n')
   masterf.write('redirect LargeCust.dss\n')
   masterf.write('redirect Breakers.dss\n')
   masterf.write('redirect Reclosers.dss\n')
