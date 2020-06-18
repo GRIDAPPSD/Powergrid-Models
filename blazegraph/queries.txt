@@ -11,6 +11,18 @@ WHERE {
   ?s a ?class .
 } group by ?class order by ?class
 
+##############################
+
+# get all the mRID values by class and name
+PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX c:  <http://iec.ch/TC57/CIM100#>
+SELECT ?type ?name ?id WHERE {
+ ?s c:IdentifiedObject.name ?name.
+ ?s c:IdentifiedObject.mRID ?id.
+ ?s r:type ?rawtype.
+  bind(strafter(str(?rawtype),"#") as ?type)
+}
+ORDER by ?type ?name
 
 #############################
 
