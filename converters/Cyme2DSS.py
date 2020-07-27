@@ -1471,10 +1471,13 @@ def WriteFeeder(root, OwnerID, networkfilename, loadfilename):
     fnetwork.close()
 
 def ConvertSXST(cfg):
-    global xmlfilename, RootName, SubName, LoadScale, LoadModel, DefaultBaseVoltage
+    global xmlfilename, RootName, SubName, LoadScale, LoadModel, DefaultBaseVoltage, rootdir, outpath
     global BaseVoltages, CoordXmin, CoordXmax, CoordYmin, CoordYmax
     global CYMELineCodeUnit, DSSSectionUnit, OwnerIDs, CYMEtoDSSSection
     global CYMEtoDSSLineCode, Zbase, TotalP, TotalQ, CYMESectionUnit, CYMEVersion
+
+    rootdir = cfg['DefaultDir'] + '/'
+    outpath = cfg['OutDir'] + '/'
 
     xmlfilename = cfg['xmlfilename']
     RootName = cfg['RootName']
@@ -1517,7 +1520,7 @@ def ConvertSXST(cfg):
 
     # Read in cyme xml file data
     print ('Reading the network data from CYME xml...')
-    tree = ET.parse(xmlfilename + '.sxst')
+    tree = ET.parse(rootdir + xmlfilename + '.sxst')
     root = tree.getroot()
     CYMEVersion = float (root.find('Version').text)
     print ('Version {:.2f}'.format(CYMEVersion))
@@ -1526,11 +1529,11 @@ def ConvertSXST(cfg):
     masterfilename = RootName + '_master.dss'
     catalogfilename = RootName + '_catalog.dss'
     xyfilename = RootName + '_xy.dat'
-    fmaster=open(masterfilename,'w')
+    fmaster=open(outpath + masterfilename,'w')
     fmaster.write('clear\n')
     SubFile = SubName + '.sub'
-    if not os.path.exists(SubFile):
-        sp = open (SubFile, 'w')
+    if not os.path.exists(outpath + SubFile):
+        sp = open (outpath + SubFile, 'w')
         print ("""
 // At minimum, this file needs to create the new circuit for OpenDSS.
 // You may also add transmission lines, substation switchgear, substation regulator, 
@@ -1561,7 +1564,7 @@ def ConvertSXST(cfg):
         loadfilename = OwnerID + '_loads.dss'
         fmaster.write('redirect ' + networkfilename + '\n')
         fmaster.write('redirect ' + loadfilename + '\n')
-        WriteFeeder (root, OwnerID, networkfilename, loadfilename)
+        WriteFeeder (root, OwnerID, outpath + networkfilename, outpath + loadfilename)
     EditFile = RootName + '.edits'
     if not os.path.exists(EditFile):
         ep = open (EditFile, 'w')
@@ -1576,8 +1579,8 @@ def ConvertSXST(cfg):
     fmaster.write('CalcVoltageBases\n')
     fmaster.write('SetLoadAndGenKv\n')
     fmaster.write('buscoords ' + xyfilename + '\n')
-    WriteCoordinates (xyfilename)
-    WriteCatalog (catalogfilename)
+    WriteCoordinates (outpath + xyfilename)
+    WriteCatalog (outpath + catalogfilename)
     fmaster.write('solve mode=snap\n')
     fmaster.write('batchedit energymeter..* action=take\n')
     fmaster.close()

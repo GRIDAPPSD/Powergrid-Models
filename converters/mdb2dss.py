@@ -10,6 +10,7 @@ import numpy
 import pypyodbc
 import json
 import sys
+import os
 
 def get_phnum(phstr):
   '''Convert a phase letter to a DSS phase number'''
@@ -84,7 +85,7 @@ def WriteSinglePhaseLoad (fp, name, phs, bus, p, q, s, kv, conn, AllocateLoads):
 def ConvertMDB(cfg):
   rootdir = cfg['DefaultDir']
   mdbname = cfg['MDBName']
-  outpath = cfg['RelativeOutDir'] + '/'
+  outpath = cfg['OutDir'] + '/'
   BaseVoltages = cfg['BaseVoltages']
   AllocateLoads = int(cfg['AllocateLoads'])
   myFlag = int(cfg['SubOrFeeder'])  # 1 for a substation source/swing/slack bus, 0 for a feeder source/swing/slack bus
@@ -663,6 +664,24 @@ def ConvertMDB(cfg):
   masterf.write('buscoords Buscoords.csv\n')
   masterf.write('redirect InitialConditions.dss\n')
   masterf.close()
+
+  EditFile = outpath + 'CustomEdits.dss'
+  if not os.path.exists(EditFile):
+    ep = open (EditFile, 'w')
+    print ("""
+// This is included after the feeder backbone has been created, and before calculating voltage bases in OpenDSS. 
+// You can start with an empty file. 
+// Typical contents include control and protection settings, parameter adjustments, and creation of DER for study. 
+// This file is not over-written if you run the converter again.""", file=ep)
+    ep.close()
+  ICFile = outpath + 'InitialConditions.dss'
+  if not os.path.exists(ICFile):
+    icp = open (ICFile, 'w')
+    print ("""
+// the last file included; may have load allocation, load scaling, switching operations and a solve command.
+// You can start with an empty file. 
+// This file is not over-written if you run the converter again.""", file=icp)
+    icp.close()
 
 def usage():
     print("usage: python mdb2dss.py <full path to JSON configuration>")

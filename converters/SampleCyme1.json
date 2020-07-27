@@ -1,4 +1,6 @@
 {
+  "DefaultDir": "C:/Projects/Nantucket/Model",
+  "OutDir": ".",
   "xmlfilename": "Nantucket_Upgrades_2019_PNNL",
   "RootName": "Nantucket",
   "SubName": "Candle_Street",
