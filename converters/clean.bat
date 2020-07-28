@@ -5,3 +5,4 @@ del /s *.csv
 del /s *.DSV
 del /s *.dbl
 del /s *.Txt
+del /s *.log

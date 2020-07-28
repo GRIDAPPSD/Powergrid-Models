@@ -461,12 +461,19 @@ def WriteOneTransformerPhase(f,Name,bus1,bus2,cfg,enabled):
     f.write(' enabled=' + enabled + '\n')
     return
 
+# TODO - open delta is not handled correctly
 def CreateTransformerPhase(f,Name,row,cfgtable):
+#    print ('CreateTransformerPhase', Name, row)
     bus1 = row[0]
     bus2 = row[1]
     XfmrCode1 = row[3]
     XfmrCode2 = row[4]
     XfmrCode3 = row[5]
+    # TODO - this is a temporary fix when row[2] calls for a phase that doesn't have a corresponding XfmrCode
+    if ('B' in row[2]) and (XfmrCode2 is None):
+        XfmrCode2 = XfmrCode1
+    if ('A' in row[2]) and (XfmrCode1 is None):
+        XfmrCode1 = XfmrCode3
     enabled = row[6]
     if XfmrCode1 is not None:
         WriteOneTransformerPhase (f, Name+'A', bus1+'.1', bus2+'.1', cfgtable[XfmrCode1], enabled)
