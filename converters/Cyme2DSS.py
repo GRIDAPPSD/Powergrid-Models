@@ -379,6 +379,7 @@ def CreateSwitch(f,Name,row):
         f.write('  open line.' + Name + ' 1\n')
     return
 
+# [SwtFromNode,SwtToNode,Phase,SectionStatus,DeviceID,End,enabled]
 def CreateRecloser(f,Name,row):
     nphs = ParseNPhases(row[2])
     phs = ParseTerminals(row[2])
@@ -391,7 +392,11 @@ def CreateRecloser(f,Name,row):
     f.write('new recloser.' + Name)
     f.write(' monitoredobj=line.' + Name)
     f.write(' monitoredterm=' + str(row[5]))
-    f.write(' phasetrip=1000\n')
+    f.write(' phasetrip=1000')
+    if row[3] == 'Open':
+        f.write (' action=open\n')
+        f.write ('edit line.' + Name + ' enabled=no // TODO: fix OpenDSS so that action=open is executed for the initial powerflow')
+    f.write('\n')
     return
 
 def CreateCapacitor(f,Name,row):
@@ -590,40 +595,46 @@ def CreateRegulator(f,Name,row):
         f.write('\n')
     return
 
-#[DeviceNumber,End,DeviceID,switch,enabled,amps,curve,SectionID,SwtFromNode,SwtToNode,Phase]
+#[DeviceNumber,End,DeviceID,switch,enabled,amps,curve,LineName,SwtFromNode,SwtToNode,Phase]
 def CreateFuse(f,Name,row):
     nphs = ParseNPhases(row[10])
     phs = ParseTerminals(row[10])
-    f.write('new line.' + Name)
-    f.write(' bus1=' + row[8] + phs)
-    f.write(' bus2=' + row[9] + phs)
-    f.write(' phases=' + str(nphs))
-    f.write(' switch=yes')
-    f.write(' // ' + row[4] + '\n')
-    f.write('new fuse.' + Name)
-    f.write(" monitoredobj=line." + Name) # row[7])
-    f.write(" monitoredterm=" + str(row[1]))
-    f.write(" ratedcurrent=" + str(row[5]))
-    f.write(" fusecurve=" + row[6])
-    f.write(" // " + row[2] + "\n")
+    if len(row[7]) == 0:
+        f.write('new line.' + Name)
+        f.write(' bus1=' + row[8] + phs)
+        f.write(' bus2=' + row[9] + phs)
+        f.write(' phases=' + str(nphs))
+        f.write(' switch=yes')
+        f.write(' // ' + row[4] + '\n')
+        f.write('new fuse.' + Name)
+        f.write(' monitoredobj=line.' + Name)
+    else:
+        f.write('new fuse.' + Name)
+        f.write(' monitoredobj=line.' + row[7])
+    f.write(' monitoredterm=' + str(row[1]))
+    f.write(' ratedcurrent=' + str(row[5]))
+    f.write(' fusecurve=' + row[6])
+    if row[3] == 'Open':
+        f.write (' action=open')
+    f.write(' // ' + row[2] + '\n')
     return
 # this is for a fuse within a line section
-#    f.write("new fuse." + Name)
-##    f.write(" monitoredobj=line." + row[0])  # worked for SCE
-#    f.write(" monitoredobj=line." + row[7])
-#    f.write(" monitoredterm=" + str(row[1]))
-#    f.write(" ratedcurrent=" + str(row[5]))
-#    f.write(" fusecurve=" + row[6])
-#    f.write(" // " + row[2] + "\n")
+#    f.write('new fuse.' + Name)
+##    f.write(' monitoredobj=line.' + row[0])  # worked for SCE
+#    f.write(' monitoredobj=line.' + row[7])
+#    f.write(' monitoredterm=' + str(row[1]))
+#    f.write(' ratedcurrent=' + str(row[5]))
+#    f.write(' fusecurve=' + row[6])
+#    f.write(' // ' + row[2] + '\n')
 #    return
 
 def CreateSwtControl(f,Name,row):
-    f.write("// new swtcontrol." + Name)
-    f.write(" switchedobj=line." + row[0])
-    f.write(" switchedterm=" + str(row[1]))
-    f.write(" action=(" + row[3] + ")")
-    f.write(" enabled=" + row[4])
-    f.write(" // " + row[2] + "\n")
+    f.write('// new swtcontrol.' + Name)
+    f.write(' switchedobj=line.' + row[0])
+    f.write(' switchedterm=' + str(row[1]))
+    f.write(' action=(' + row[3] + ')')
+    f.write(' enabled=' + row[4])
+    f.write(' // ' + row[2] + '\n')
     return
 
 # DGTable[DeviceNumber] = [GenBus,PhasesConnected,ActiveGen,pf,kva,pufault]
@@ -1071,11 +1082,13 @@ def WriteFeeder(root, OwnerID, networkfilename, loadfilename):
             SectionLine = 'No'
             SectionSwitch = 'No'
             SectionXfmr = 'No' 
+            LineName = ''  # for adding Fuses without their own line impedance
             for child in Devices:
                 DeviceType = child.tag
                 AllDeviceTypes.add (DeviceType)
                 if DeviceType in ('OverheadLine', 'OverheadByPhase', 'Underground'):
                     SectionLine = 'Yes'
+                    LineName = child.find('DeviceNumber').text.translate(dsstab)
                 if DeviceType in ('Transformer', 'Regulator'):
                     SectionXfmr = 'Yes'
                 if DeviceType in ('Switch', 'Fuse', 'Breaker', 'Recloser'):
@@ -1142,243 +1155,242 @@ def WriteFeeder(root, OwnerID, networkfilename, loadfilename):
                 DeviceType = child.tag
                 AllDeviceTypes.add (DeviceType)
                 DeviceNumber = child.find('DeviceNumber').text.translate(dsstab)
-                if SectionStatus == 'Closed':
-                    if DeviceType == 'OverheadLine':
-                        DeviceLength = float(child.find('Length').text)
-                        if DeviceLength > 0.0:
-                            LineConfig = 'OH_' + child.find('LineID').text.translate(dsstab)
-                            OHLineTable[DeviceNumber] = [LineFromNode,LineToNode,Phase,DeviceLength,LineConfig]
-                            LineConfigTable[LineConfig][8] = 1 # flag to write only the ones we use
-                        else:
-                            # add a closed switch
-                            SwitchTable[DeviceNumber] = [LineFromNode,LineToNode,Phase,'Closed',DeviceType]
-                    elif DeviceType == 'OverheadLineUnbalanced':
-                        DeviceLength = float(child.find('Length').text)
-                        if DeviceLength > 0.0:
-                            LineConfig = 'ZM_' + child.find('LineID').text.translate(dsstab)
-                            ZMLineTable[DeviceNumber] = [LineFromNode,LineToNode,Phase,DeviceLength,LineConfig]
-                            MatrixTable[LineConfig][20] = 1 # flag to write only the ones we use
-                        else:
-                            # add a closed switch
-                            SwitchTable[DeviceNumber] = [LineFromNode,LineToNode,Phase,'Closed',DeviceType]
-                    elif DeviceType == 'OverheadByPhase':
-                        DeviceLength = float(child.find('Length').text)
-                        if DeviceLength > 0.0:
-                            LineSpacing = 'OH_' + child.find('ConductorSpacingID').text.translate(dsstab)
-                            WireA = 'OH_' + child.find('PhaseConductorIDA').text.translate(dsstab)
-                            WireB = 'OH_' + child.find('PhaseConductorIDB').text.translate(dsstab)
-                            WireC = 'OH_' + child.find('PhaseConductorIDC').text.translate(dsstab)
-                            Obj = child.find('NeutralConductorID1')
-                            if Obj is None:
-                                Obj = child.find('NeutralConductorID')
-                            WireN = 'OH_' + Obj.text.translate(dsstab)
-                            row = LineSpacingTable[LineSpacing]
-                            if (row[0] > row[1]) and (WireN == 'OH_NONE'):
-                                WireN = WireA
-                            OHPhaseTable[DeviceNumber] = [LineFromNode,LineToNode,Phase,DeviceLength,LineSpacing,WireA,WireB,WireC,WireN]
-                        else:
-                            # add a closed switch
-                            SwitchTable[DeviceNumber] = [LineFromNode,LineToNode,Phase,"Closed",DeviceType]
-                    elif DeviceType == 'Underground':
-                        DeviceLength = float(child.find('Length').text)
-                        if DeviceLength > 0.0:
-                            LineConfig = "UG_" + child.find('CableID').text.translate(dsstab)
-                            UGLineTable[DeviceNumber] = [LineFromNode,LineToNode,Phase,DeviceLength,LineConfig]
-                            CableConfigTable[LineConfig][8] = 1 # flag to write only the ones we use
-                        else:
-                            # add a closed switch
-                            SwitchTable[DeviceNumber] = [LineFromNode,LineToNode,Phase,"Closed",DeviceType]
-                    elif DeviceType == 'Recloser':
-                        if child.find('Location').text == 'To':
-                            End = 2
-                        else:
-                            End = 1
-                        enabled = Connected(child)
-                        switch = child.find('NormalStatus').text
-                        DeviceID = child.find('DeviceID').text.translate(dsstab)
-                        if SectionID == DeviceNumber:
-                            DeviceNumber = 'Recloser_' + SectionID
-    #                    RecloserTable[DeviceNumber] = [SectionID,End,DeviceID,switch,enabled]
-    #                    print('WARNING: recloser in ' + SectionID + ' will be a closed switch')
+                if DeviceType == 'OverheadLine':
+                    DeviceLength = float(child.find('Length').text)
+                    if DeviceLength > 0.0:
+                        LineConfig = 'OH_' + child.find('LineID').text.translate(dsstab)
+                        OHLineTable[DeviceNumber] = [LineFromNode,LineToNode,Phase,DeviceLength,LineConfig]
+                        LineConfigTable[LineConfig][8] = 1 # flag to write only the ones we use
+                    else:
+                        # add a switch matching SectionStatus
+                        SwitchTable[DeviceNumber] = [LineFromNode,LineToNode,Phase,SectionStatus,DeviceType]
+                elif DeviceType == 'OverheadLineUnbalanced':
+                    DeviceLength = float(child.find('Length').text)
+                    if DeviceLength > 0.0:
+                        LineConfig = 'ZM_' + child.find('LineID').text.translate(dsstab)
+                        ZMLineTable[DeviceNumber] = [LineFromNode,LineToNode,Phase,DeviceLength,LineConfig]
+                        MatrixTable[LineConfig][20] = 1 # flag to write only the ones we use
+                    else:
+                        # add a switch matching SectionStatus
+                        SwitchTable[DeviceNumber] = [LineFromNode,LineToNode,Phase,SectionStatus,DeviceType]
+                elif DeviceType == 'OverheadByPhase':
+                    DeviceLength = float(child.find('Length').text)
+                    if DeviceLength > 0.0:
+                        LineSpacing = 'OH_' + child.find('ConductorSpacingID').text.translate(dsstab)
+                        WireA = 'OH_' + child.find('PhaseConductorIDA').text.translate(dsstab)
+                        WireB = 'OH_' + child.find('PhaseConductorIDB').text.translate(dsstab)
+                        WireC = 'OH_' + child.find('PhaseConductorIDC').text.translate(dsstab)
+                        Obj = child.find('NeutralConductorID1')
+                        if Obj is None:
+                            Obj = child.find('NeutralConductorID')
+                        WireN = 'OH_' + Obj.text.translate(dsstab)
+                        row = LineSpacingTable[LineSpacing]
+                        if (row[0] > row[1]) and (WireN == 'OH_NONE'):
+                            WireN = WireA
+                        OHPhaseTable[DeviceNumber] = [LineFromNode,LineToNode,Phase,DeviceLength,LineSpacing,WireA,WireB,WireC,WireN]
+                    else:
+                        # add a switch matching SectionStatus
+                        SwitchTable[DeviceNumber] = [LineFromNode,LineToNode,Phase,SectionStatus,DeviceType]
+                elif DeviceType == 'Underground':
+                    DeviceLength = float(child.find('Length').text)
+                    if DeviceLength > 0.0:
+                        LineConfig = "UG_" + child.find('CableID').text.translate(dsstab)
+                        UGLineTable[DeviceNumber] = [LineFromNode,LineToNode,Phase,DeviceLength,LineConfig]
+                        CableConfigTable[LineConfig][8] = 1 # flag to write only the ones we use
+                    else:
+                        # add a switch matching SectionStatus
+                        SwitchTable[DeviceNumber] = [LineFromNode,LineToNode,Phase,SectionStatus,DeviceType]
+                elif DeviceType == 'Recloser':
+                    if child.find('Location').text == 'To':
+                        End = 2
+                    else:
+                        End = 1
+                    enabled = Connected(child)
+                    switch = SectionStatus # child.find('NormalStatus').text
+                    DeviceID = child.find('DeviceID').text.translate(dsstab)
+                    if SectionID == DeviceNumber:
+                        DeviceNumber = 'Recloser_' + SectionID
+#                    RecloserTable[DeviceNumber] = [SectionID,End,DeviceID,switch,enabled]
+#                    print('WARNING: recloser in ' + SectionID + ' will be a closed switch')
 #                        SwitchTable[DeviceNumber] = [SwtFromNode,SwtToNode,Phase,"Closed",DeviceID]
-                        RecloserTable[DeviceNumber] = [SwtFromNode,SwtToNode,Phase,"Closed",DeviceID,End,enabled]
-                    elif DeviceType == 'Switch':
-                        if child.find('Location').text == 'To':
-                            End = 2
-                        else:
-                            End = 1
-                        switch = child.find('NormalStatus').text
-                        closedPhases = child.find('ClosedPhase').text
-                        DeviceID = child.find('DeviceID').text.translate(dsstab)
-                        if child.find('ConnectionStatus').text == 'Connected': 
-                            enabled = 'yes'
-                            if closedPhases == 'None':
+                    RecloserTable[DeviceNumber] = [SwtFromNode,SwtToNode,Phase,SectionStatus,DeviceID,End,enabled]
+                elif DeviceType == 'Switch':
+                    if child.find('Location').text == 'To':
+                        End = 2
+                    else:
+                        End = 1
+                    switch = SectionStatus # child.find('NormalStatus').text
+                    closedPhases = child.find('ClosedPhase').text
+                    DeviceID = child.find('DeviceID').text.translate(dsstab)
+                    if child.find('ConnectionStatus').text == 'Connected': 
+                        enabled = 'yes'
+                        if closedPhases == 'None':
 #                                print(SwtFromNode,SwtToNode,Phase,DeviceID,closedPhases)
-                                switch = 'Open'
-                            else:
-                                switch = 'Closed'
-                        else:
-                            enabled = 'no'
                             switch = 'Open'
-                        if SectionID == DeviceNumber:
-                            DeviceNumber = 'Switch_' + SectionID
-                        SwitchTable[DeviceNumber] = [SwtFromNode,SwtToNode,Phase,switch,DeviceID]
-    #                    SwtControlTable[DeviceNumber] = [SectionID,End,DeviceID,switch,enabled]
-                    elif DeviceType == 'Fuse':
-                        if child.find('Location').text == 'To':
-                            End = 2
                         else:
-                            End = 1
-                        enabled = Connected(child)
-                        switch = child.find('NormalStatus').text
-                        DeviceID = child.find('DeviceID').text.translate(dsstab)
-                        amps = FuseConfigTable[DeviceID][0]
-                        curve = FuseConfigTable[DeviceID][1]
-                        if SectionID == DeviceNumber:
-                            DeviceNumber = 'Fuse_' + SectionID
-#                        FuseTable[DeviceNumber] = [DeviceNumber,End,DeviceID,switch,enabled,amps,curve,SectionID]
-                        # this version is for a section with only a fuse; need to write a line impedance
-                        FuseTable[DeviceNumber] = [DeviceNumber,End,DeviceID,switch,enabled,amps,curve,SectionID,
-                                                   SwtFromNode,SwtToNode,Phase]
-#                        print ('Fuse', FuseTable[DeviceNumber])
-                    elif DeviceType == 'Breaker': # in SCE circuit, the breaker is in-line with a line segment
-                        if child.find('Location').text == 'To':
-                            End = 2
-                        else:
-                            End = 1
-                        switch = child.find('NormalStatus').text
-                        DeviceID = child.find('DeviceID').text.translate(dsstab)
-                        if child.find('ConnectionStatus').text == 'Connected': 
-                            enabled = 'yes'
                             switch = 'Closed'
-                        else:
-                            enabled = 'no'
-                            switch = 'Open'
-                        #  print('WARNING: breaker in ' + SectionID + ' will be a closed switch')
-                        if SectionID == DeviceNumber:
-                            DeviceNumber = 'Breaker_' + SectionID
-                        SwitchTable[DeviceNumber] = [SwtFromNode,SwtToNode,Phase,'Closed',DeviceID]
-                        # SwtControlTable[DeviceNumber] = [SectionID,End,DeviceID,switch,enabled]
-                    elif DeviceType == 'Transformer':
-                        XfmrCode = child.find('DeviceID').text.translate(dsstab)
-                        tap1 = 0.01 * float(child.find('PrimaryTapSettingPercent').text)
-                        tap2 = 0.01 * float(child.find('SecondaryTapSettingPercent').text)
-                        enabled = Connected(child)
-                        TransformerTable[DeviceNumber] = [XfmrFromNode,XfmrToNode,Phase,XfmrCode,tap1,tap2,enabled]
-                    elif DeviceType == 'TransformerByPhase':
-                        XfmrCode1 = child.find('PhaseTransformerID1').text
-                        if XfmrCode1 is not None:
-                            XfmrCode1 = XfmrCode1.translate(dsstab)
-                        XfmrCode2 = child.find('PhaseTransformerID2').text
-                        if XfmrCode2 is not None:
-                            XfmrCode2 = XfmrCode2.translate(dsstab)
-                        XfmrCode3 = child.find('PhaseTransformerID3').text
-                        if XfmrCode3 is not None:
-                            XfmrCode3 = XfmrCode3.translate(dsstab)
-                        enabled = Connected(child)
-                        TransformerPhaseTable[DeviceNumber] = [XfmrFromNode,XfmrToNode,Phase,XfmrCode1,XfmrCode2,XfmrCode3,enabled]
-                    elif DeviceType == 'Regulator':
-                        RegCode = child.find('DeviceID').text.translate(dsstab)
-                        monPhs = child.find('ControlStatus').text
-                        if child.find('ConnectionConfiguration').text.find('Delta') > 0:
-                            conn = 'delta'
-                        else:
-                            conn = 'wye'
-                        enabled = Connected(child)
-                        if CYMEVersion < 8.0:
-                            bw = float(child.find('BandWidth').text)
-                        else:
-                            bw = float(child.find('ForwardSettings').find('BandwidthA').text)
-                        vreg = float(child.find('ForwardSettings').find('SetVoltageA').text)
-                        vregb = float(child.find('ForwardSettings').find('SetVoltageB').text)
-                        vregc = float(child.find('ForwardSettings').find('SetVoltageC').text)
-                        if vregb > vreg:
-                            vreg = vregb
-                        if vregc > vreg:
-                            vreg = vregc
-                        ct = float(child.find('CTPrimaryRating').text)
-                        pt = float(child.find('PTRatio').text)
-                        kva = RegConfigTable[RegCode][1] * 10.0
-                        kv = RegConfigTable[RegCode][2]
-                        if child.find('ReverseSensingMode').text != 'NoReverse':
-                            print('WARNING: unhandled ReverseSensingMode for regulator ' + DeviceNumber + ': ' + child.find('ReverseSensingMode').text)
-                        if child.find('SettingOption').text != 'LoadCenter':
-                            print('WARNING: unhandled SettingOption for regulator ' + DeviceNumber + ': ' + child.find('SettingOption').text)
-                        RegulatorTable[DeviceNumber] = [XfmrFromNode,XfmrToNode,Phase,monPhs,conn,kva,kv,vreg,bw,pt,ct,enabled]
-                    elif DeviceType == 'ShuntCapacitor':
-                        if child.find('Location').text == 'To':
-                            CapBus = ToNodeID
-                        else:
-                            CapBus = FromNodeID
-                        PhasesConnected = Phase # child.find('Phase').text
-                        kvar = 0 # float(child.find('KVARABC').text)
-                        kvar += float(child.find('FixedKVARA').text)
-                        kvar += float(child.find('FixedKVARB').text)
-                        kvar += float(child.find('FixedKVARC').text)
-                        kvar += float(child.find('SwitchedKVARA').text)
-                        kvar += float(child.find('SwitchedKVARB').text)
-                        kvar += float(child.find('SwitchedKVARC').text)
-                        switch = 'Open' # see InitiallyClosedPhase
-                        enabled = Connected(child)
-                        if child.find('ConnectionConfiguration').text == 'D':
-                            conn = 'delta'
-                        else:
-                            conn = 'wye'
-                        nomkv = float(child.find('KVLN').text)
-                        if len(PhasesConnected) == 3:
-                            nomkv *= math.sqrt(3.0)
-                        elif conn == 'delta':
-                            nomkv *= math.sqrt(3.0)
-                        ShuntCapTable[DeviceNumber] = [CapBus,PhasesConnected,conn,nomkv,kvar,enabled,switch]
-                    elif DeviceType == 'Photovoltaic':
-                        if child.find('Location').text == 'To':
-                            GenBus = ToNodeID
-                        else:
-                            GenBus = FromNodeID
-                        PhasesConnected = Phase
-                        enabled = Connected(child)
-                        ActiveGen = float(child.find('GenerationModels/DGGenerationModel/ActiveGeneration').text)
-                        pf = 0.01 * float(child.find('GenerationModels/DGGenerationModel/PowerFactor').text)
-                        PVCode = child.find('DeviceID').text.translate(dsstab)
-                        kva = PhotovoltaicTable[PVCode][0] * float(child.find('Ns').text) * float(child.find('Np').text)
-                        pufault = PhotovoltaicTable[PVCode][1]
-                        if child.find('FaultContributionUnit').text == 'Percent':
-                            pufault = 0.01 * float(child.find('FaultContribution').text)
-                        DGTable[DeviceNumber] = [GenBus,PhasesConnected,ActiveGen,pf,kva,pufault]
-                    elif DeviceType == 'BESS':
-                        if child.find('Location').text == 'To':
-                            GenBus = ToNodeID
-                        else:
-                            GenBus = FromNodeID
-                        PhasesConnected = Phase
-                        enabled = Connected(child)
-                        ActiveGen = float(child.find('Converter/ActivePowerRating').text)
-                        ReactiveGen = float(child.find('Converter/ReactivePowerRating').text)
-                        TotalGen = float(child.find('Converter/ConverterRating').text)
-                        pf = 1.0
-                        BESSCode = child.find('DeviceID').text.translate(dsstab)
-                        kwh = BESSTable[BESSCode][0]
-                        pufault = 1.1
-                        if child.find('FaultContributionUnit').text == 'Percent':
-                            pufault = 0.01 * float(child.find('FaultContribution').text)
-                        DGTable[DeviceNumber] = [GenBus,PhasesConnected,ActiveGen,pf,TotalGen,pufault]
-                    elif DeviceType == 'ElectronicConverterGenerator':
-                        if child.find('Location').text == 'To':
-                            GenBus = ToNodeID
-                        else:
-                            GenBus = FromNodeID
-                        PhasesConnected = Phase
-                        enabled = Connected(child)
-                        ActiveGen = float(child.find('GenerationModels/DGGenerationModel/ActiveGeneration').text)
-                        pf = 0.01 * float(child.find('GenerationModels/DGGenerationModel/PowerFactor').text)
-                        ECGCode = child.find('DeviceID').text.translate(dsstab)
-                        kva = ECGTable[ECGCode][0]
-                        pufault = ECGTable[ECGCode][2]
-                        DGTable[DeviceNumber] = [GenBus,PhasesConnected,ActiveGen,pf,kva,pufault]
-                    elif DeviceType == 'SynchronousGenerator':
-                        print ('SynchronousGenerator', FromNodeID, ToNodeID)
-                    elif DeviceType not in ['DistributedLoad', 'SpotLoad']:
-                        print ('unsupported',DeviceType,'in section',SectionID)
+                    else:
+                        enabled = 'no'
+                        switch = 'Open'
+                    if SectionID == DeviceNumber:
+                        DeviceNumber = 'Switch_' + SectionID
+                    SwitchTable[DeviceNumber] = [SwtFromNode,SwtToNode,Phase,switch,DeviceID]
+#                    SwtControlTable[DeviceNumber] = [SectionID,End,DeviceID,switch,enabled]
+                elif DeviceType == 'Fuse':
+                    if child.find('Location').text == 'To':
+                        End = 2
+                    else:
+                        End = 1
+                    enabled = Connected(child)
+                    switch = SectionStatus # child.find('NormalStatus').text
+                    DeviceID = child.find('DeviceID').text.translate(dsstab)
+                    amps = FuseConfigTable[DeviceID][0]
+                    curve = FuseConfigTable[DeviceID][1]
+                    if SectionID == DeviceNumber:
+                        DeviceNumber = 'Fuse_' + SectionID
+#                        FuseTable[DeviceNumber] = [DeviceNumber,End,DeviceID,switch,enabled,amps,curve,LineName,Phase]
+                    # this version is for a section with only a fuse; need to write a line impedance
+                    FuseTable[DeviceNumber] = [DeviceNumber,End,DeviceID,switch,enabled,amps,curve,LineName,
+                                               SwtFromNode,SwtToNode,Phase]
+#                        print ('Fuse', FuseTable[DeviceNumber])
+                elif DeviceType == 'Breaker': # in SCE circuit, the breaker is in-line with a line segment
+                    if child.find('Location').text == 'To':
+                        End = 2
+                    else:
+                        End = 1
+                    switch = SectionStatus # child.find('NormalStatus').text
+                    DeviceID = child.find('DeviceID').text.translate(dsstab)
+                    if child.find('ConnectionStatus').text == 'Connected': 
+                        enabled = 'yes'
+                        switch = 'Closed'
+                    else:
+                        enabled = 'no'
+                        switch = 'Open'
+                    #  print('WARNING: breaker in ' + SectionID + ' will be a closed switch')
+                    if SectionID == DeviceNumber:
+                        DeviceNumber = 'Breaker_' + SectionID
+                    SwitchTable[DeviceNumber] = [SwtFromNode,SwtToNode,Phase,SectionStatus,DeviceID]
+                    # SwtControlTable[DeviceNumber] = [SectionID,End,DeviceID,switch,enabled]
+                elif DeviceType == 'Transformer':
+                    XfmrCode = child.find('DeviceID').text.translate(dsstab)
+                    tap1 = 0.01 * float(child.find('PrimaryTapSettingPercent').text)
+                    tap2 = 0.01 * float(child.find('SecondaryTapSettingPercent').text)
+                    enabled = Connected(child)
+                    TransformerTable[DeviceNumber] = [XfmrFromNode,XfmrToNode,Phase,XfmrCode,tap1,tap2,enabled]
+                elif DeviceType == 'TransformerByPhase':
+                    XfmrCode1 = child.find('PhaseTransformerID1').text
+                    if XfmrCode1 is not None:
+                        XfmrCode1 = XfmrCode1.translate(dsstab)
+                    XfmrCode2 = child.find('PhaseTransformerID2').text
+                    if XfmrCode2 is not None:
+                        XfmrCode2 = XfmrCode2.translate(dsstab)
+                    XfmrCode3 = child.find('PhaseTransformerID3').text
+                    if XfmrCode3 is not None:
+                        XfmrCode3 = XfmrCode3.translate(dsstab)
+                    enabled = Connected(child)
+                    TransformerPhaseTable[DeviceNumber] = [XfmrFromNode,XfmrToNode,Phase,XfmrCode1,XfmrCode2,XfmrCode3,enabled]
+                elif DeviceType == 'Regulator':
+                    RegCode = child.find('DeviceID').text.translate(dsstab)
+                    monPhs = child.find('ControlStatus').text
+                    if child.find('ConnectionConfiguration').text.find('Delta') > 0:
+                        conn = 'delta'
+                    else:
+                        conn = 'wye'
+                    enabled = Connected(child)
+                    if CYMEVersion < 8.0:
+                        bw = float(child.find('BandWidth').text)
+                    else:
+                        bw = float(child.find('ForwardSettings').find('BandwidthA').text)
+                    vreg = float(child.find('ForwardSettings').find('SetVoltageA').text)
+                    vregb = float(child.find('ForwardSettings').find('SetVoltageB').text)
+                    vregc = float(child.find('ForwardSettings').find('SetVoltageC').text)
+                    if vregb > vreg:
+                        vreg = vregb
+                    if vregc > vreg:
+                        vreg = vregc
+                    ct = float(child.find('CTPrimaryRating').text)
+                    pt = float(child.find('PTRatio').text)
+                    kva = RegConfigTable[RegCode][1] * 10.0
+                    kv = RegConfigTable[RegCode][2]
+                    if child.find('ReverseSensingMode').text != 'NoReverse':
+                        print('WARNING: unhandled ReverseSensingMode for regulator ' + DeviceNumber + ': ' + child.find('ReverseSensingMode').text)
+                    if child.find('SettingOption').text != 'LoadCenter':
+                        print('WARNING: unhandled SettingOption for regulator ' + DeviceNumber + ': ' + child.find('SettingOption').text)
+                    RegulatorTable[DeviceNumber] = [XfmrFromNode,XfmrToNode,Phase,monPhs,conn,kva,kv,vreg,bw,pt,ct,enabled]
+                elif DeviceType == 'ShuntCapacitor':
+                    if child.find('Location').text == 'To':
+                        CapBus = ToNodeID
+                    else:
+                        CapBus = FromNodeID
+                    PhasesConnected = Phase # child.find('Phase').text
+                    kvar = 0 # float(child.find('KVARABC').text)
+                    kvar += float(child.find('FixedKVARA').text)
+                    kvar += float(child.find('FixedKVARB').text)
+                    kvar += float(child.find('FixedKVARC').text)
+                    kvar += float(child.find('SwitchedKVARA').text)
+                    kvar += float(child.find('SwitchedKVARB').text)
+                    kvar += float(child.find('SwitchedKVARC').text)
+                    switch = 'Open' # see InitiallyClosedPhase
+                    enabled = Connected(child)
+                    if child.find('ConnectionConfiguration').text == 'D':
+                        conn = 'delta'
+                    else:
+                        conn = 'wye'
+                    nomkv = float(child.find('KVLN').text)
+                    if len(PhasesConnected) == 3:
+                        nomkv *= math.sqrt(3.0)
+                    elif conn == 'delta':
+                        nomkv *= math.sqrt(3.0)
+                    ShuntCapTable[DeviceNumber] = [CapBus,PhasesConnected,conn,nomkv,kvar,enabled,switch]
+                elif DeviceType == 'Photovoltaic':
+                    if child.find('Location').text == 'To':
+                        GenBus = ToNodeID
+                    else:
+                        GenBus = FromNodeID
+                    PhasesConnected = Phase
+                    enabled = Connected(child)
+                    ActiveGen = float(child.find('GenerationModels/DGGenerationModel/ActiveGeneration').text)
+                    pf = 0.01 * float(child.find('GenerationModels/DGGenerationModel/PowerFactor').text)
+                    PVCode = child.find('DeviceID').text.translate(dsstab)
+                    kva = PhotovoltaicTable[PVCode][0] * float(child.find('Ns').text) * float(child.find('Np').text)
+                    pufault = PhotovoltaicTable[PVCode][1]
+                    if child.find('FaultContributionUnit').text == 'Percent':
+                        pufault = 0.01 * float(child.find('FaultContribution').text)
+                    DGTable[DeviceNumber] = [GenBus,PhasesConnected,ActiveGen,pf,kva,pufault]
+                elif DeviceType == 'BESS':
+                    if child.find('Location').text == 'To':
+                        GenBus = ToNodeID
+                    else:
+                        GenBus = FromNodeID
+                    PhasesConnected = Phase
+                    enabled = Connected(child)
+                    ActiveGen = float(child.find('Converter/ActivePowerRating').text)
+                    ReactiveGen = float(child.find('Converter/ReactivePowerRating').text)
+                    TotalGen = float(child.find('Converter/ConverterRating').text)
+                    pf = 1.0
+                    BESSCode = child.find('DeviceID').text.translate(dsstab)
+                    kwh = BESSTable[BESSCode][0]
+                    pufault = 1.1
+                    if child.find('FaultContributionUnit').text == 'Percent':
+                        pufault = 0.01 * float(child.find('FaultContribution').text)
+                    DGTable[DeviceNumber] = [GenBus,PhasesConnected,ActiveGen,pf,TotalGen,pufault]
+                elif DeviceType == 'ElectronicConverterGenerator':
+                    if child.find('Location').text == 'To':
+                        GenBus = ToNodeID
+                    else:
+                        GenBus = FromNodeID
+                    PhasesConnected = Phase
+                    enabled = Connected(child)
+                    ActiveGen = float(child.find('GenerationModels/DGGenerationModel/ActiveGeneration').text)
+                    pf = 0.01 * float(child.find('GenerationModels/DGGenerationModel/PowerFactor').text)
+                    ECGCode = child.find('DeviceID').text.translate(dsstab)
+                    kva = ECGTable[ECGCode][0]
+                    pufault = ECGTable[ECGCode][2]
+                    DGTable[DeviceNumber] = [GenBus,PhasesConnected,ActiveGen,pf,kva,pufault]
+                elif DeviceType == 'SynchronousGenerator':
+                    print ('SynchronousGenerator', FromNodeID, ToNodeID)
+                elif DeviceType not in ['DistributedLoad', 'SpotLoad']:
+                    print ('unsupported',DeviceType,'in section',SectionID)
 
             # Now go through all the loads on this section
             for child in Devices:
