@@ -1,4 +1,4 @@
-Bundle-Version: 18.0.6
+Bundle-Version: 19.0.0
 Private-Package: \
 	gov.pnnl.goss.cim2glm.components,\
 	gov.pnnl.goss.cim2glm.queryhandler.impl
