@@ -1,4 +1,6 @@
 {
+  "DefaultDir": ".",
+  "OutDir": ".",
   "xmlfilename": "Base Case Summer Peak_Connected",
   "RootName": "Island13180",
   "SubName": "Island13180",

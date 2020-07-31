@@ -596,7 +596,7 @@ public class CIMImporter extends Object {
 		LoadHouses();
 		LoadSyncMachines();
 		oLimits = new OperationalLimits();
-		oLimits.BuildLimitMaps (this, queryHandler);
+		oLimits.BuildLimitMaps (this, queryHandler, mapCoordinates);
 		allMapsLoaded = true;
 	}
 

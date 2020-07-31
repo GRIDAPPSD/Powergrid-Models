@@ -1,4 +1,6 @@
 {
+  "DefaultDir": "C:/Projects/SETO_Protection/EPB",
+  "OutDir": ".",
   "xmlfilename": "SHE",
   "RootName": "SHE215",
   "SubName": "SHE",

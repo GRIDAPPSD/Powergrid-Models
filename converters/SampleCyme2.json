@@ -1,4 +1,6 @@
 {
+  "DefaultDir": "C:/Projects/SCE",
+  "OutDir": ".",
   "xmlfilename": "Titanium_Klingon",
   "RootName": "Titanium_Klingon",
   "SubName": "Titanium",
