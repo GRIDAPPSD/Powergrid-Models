@@ -1,0 +1,19 @@
+{
+  "DefaultDir": "C:/Projects/SCE",
+  "OutDir": ".",
+  "xmlfilename": "Titanium_Klingon",
+  "RootName": "Titanium_Klingon",
+  "SubName": "Titanium",
+  "LoadScale": 1.0,
+  "LoadModel": 1,
+  "DefaultBaseVoltage": 12.0,
+  "BaseVoltages": [12.0],
+  "CoordXmin": 2600000.0,
+  "CoordXmax": 2700000.0,
+  "CoordYmin": 1300000.0,
+  "CoordYmax": 1400000.0,
+  "CYMESectionUnit": "m",
+  "CYMELineCodeUnit": "km",
+  "DSSSectionUnit": "ft",
+  "OwnerIDs": ["TITANIUM_12KV"]
+}

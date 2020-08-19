@@ -1,7 +1,7 @@
 This directory contains data and scripts that will insert houses into a 
 CIM feeder model that has EnergyConsumer objects (aka ZIP loads) already 
 defined.  In order to actually use the houses, a -h=1 argument must be 
-given to the CIMImporter, and only -o=glm applies.
+given to the CIMImporter, and only -o=glm (or -o=both) applies.
 
 The feeder model must already be loaded into Blazegraph, and you must also 
 know the feeder mRID.  
@@ -13,6 +13,7 @@ Example files include:
     * the 9500-node in region 3
     * the taxonomy feeder in region 2
     * the 123-bus feeder with PV in region 5
+    * the 123-bus feeder with transactive connection points, region 3
 * _drop_all.sh_ removes houses on feeders that were populated by _test.sh_
 
 # insertHouses.py

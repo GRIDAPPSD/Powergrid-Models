@@ -1,0 +1,2 @@
+cd glm\pnnl
+go

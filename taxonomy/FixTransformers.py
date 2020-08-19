@@ -133,6 +133,8 @@ def is_node_class(s):
         return True
     if s == 'triplex_meter':
         return True
+    if s == 'capacitor':
+        return True
     return False
 
 def is_edge_class(s):
@@ -539,7 +541,7 @@ for c in casefiles:
                     if data['ndata']['bustype'] == 'SWING':
                         swing_node = n1
 
-        sub_graphs = nx.connected_component_subgraphs(G)
+        sub_graphs = nx.connected_components(G)
         seg_loads = {} # [name][kva, phases]
         total_kva = 0.0
 #       for sg in sub_graphs:

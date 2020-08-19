@@ -1,0 +1,43 @@
+!EPRI Feeder M1, OpenDSS
+! This Circuit model is provided to the public by EPRI (Electric Power Research Institute) as part of the Distributed Renewables Research Program (P174).
+! Please feel free to use this circuit model for further research/study. 
+! For reference purposes, please use: EPRI Feeder M1, Distributed PV (DPV) Monitoring and Feeder Analysis, dpv.epri.com, 2013
+Clear
+
+New Circuit.M1 bus1=SourceBus pu=1.0  basekV=67  R1= 0.0518  X1=0.1555    R0= 0.0518  X0=0.155
+New line.temp bus1=temp bus2=temp2 switch=yes enabled=yes phases=3 normamps=99999 emergamps=99999
+New line.temp1 bus1=temp2 bus2=AggLD switch=yes enabled=yes phases=3 normamps=99999 emergamps=99999
+New line.temp2 bus1=temp2 bus2=0x0089F0C8 switch=yes enabled=yes phases=3 normamps=99999 emergamps=99999
+
+Redirect Sub_Xfmr.dss
+Redirect Linecodes.dss
+Redirect WireData.dss
+Redirect LineGeom.dss
+Redirect  Lines.dss
+Redirect  Capacitors.dss
+Redirect  Switches.dss
+Redirect Loadshapes.dss
+Redirect  Loads_Only.dss
+Redirect  Xfmr_Only.dss
+Redirect  2nd_ckt.dss
+
+Set voltagebases=[66 12.47,  0.480, 0.416, 0.208]
+Calcv
+Solve
+
+New Energymeter.M1 element=line.temp2 term=1 PhaseVolt=yes 
+New Monitor.subVI element=transformer.M1_XFMR term=2 mode=0
+New Monitor.subPQ element=transformer.M1_XFMR term=1 mode=17 
+New Monitor.feederPQ element=line.temp2 term=1 mode=17
+New Monitor.V_M1 element=line.temp2 term=2 mode=0 Residual=yes
+New Monitor.HighestImpedanceBus element=Line.0x008C87D8_0x008F1DE0 term=2 mode=0
+
+New Monitor.Cap1 element=capacitor.Cap1 mode=33
+New Monitor.Cap2 element=capacitor.Cap2 mode=33
+New Monitor.Cap3 element=capacitor.Cap3 mode=33
+New monitor.Tap1 element=Transformer.M1_XFMR terminal=2 mode=2
+
+New Monitor.VoltageCap1 element=capacitor.Cap1 mode=0
+New Monitor.VoltageCap2 element=capacitor.Cap2 mode=0
+New Monitor.VoltageCap3 element=capacitor.Cap3 mode=0
+New monitor.VoltageTap1 element=Transformer.M1_XFMR terminal=2 mode=0

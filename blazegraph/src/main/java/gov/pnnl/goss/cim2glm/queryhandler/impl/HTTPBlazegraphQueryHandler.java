@@ -18,10 +18,12 @@ public class HTTPBlazegraphQueryHandler implements QueryHandler {
 	String endpoint;
 	String mRID;
 	boolean use_mRID;
+	boolean bTiming;
 	
 	public HTTPBlazegraphQueryHandler(String endpoint) {
 		this.endpoint = endpoint;
 		this.use_mRID = false;
+		this.bTiming = false;
 	}
 	public String getEndpoint() {
 		return endpoint;
@@ -34,7 +36,8 @@ public class HTTPBlazegraphQueryHandler implements QueryHandler {
 	}
 
 	@Override
-	public ResultSetCloseable query(String szQuery) { 
+	public ResultSetCloseable query(String szQuery, String szTag) { 
+		long t1 = System.nanoTime(); 
 		Query query;
 		if (use_mRID) { // try to insert a VALUES block for the feeder mRID of interest
 			String insertion_point = "WHERE {";
@@ -55,11 +58,15 @@ public class HTTPBlazegraphQueryHandler implements QueryHandler {
 		}
 		QueryExecution qexec = QueryExecutionFactory.sparqlService (endpoint, query);
 		ResultSetCloseable rs=  ResultSetCloseable.closeableResultSet(qexec);
+		long t2 = System.nanoTime();
+		if (bTiming) {
+			System.out.format("SPARQL Query Time:   %7.4f for %s\n", (double)(t2 - t1) / 1.0e9, szTag);
+		}
 		return rs;
 	}
 	
 	@Override
-	public ResultSet construct(String szQuery) { 
+	public ResultSet construct(String szQuery) {
 		Query query;
 		if (use_mRID) { // try to insert a VALUES block for the feeder mRID of interest
 			String insertion_point = "WHERE {";
@@ -91,5 +98,8 @@ public class HTTPBlazegraphQueryHandler implements QueryHandler {
 	public boolean clearFeederSelections () {
 		use_mRID = false;
 		return use_mRID;
+	}
+	public void setTiming (boolean val) {
+		bTiming = val;
 	}
 }

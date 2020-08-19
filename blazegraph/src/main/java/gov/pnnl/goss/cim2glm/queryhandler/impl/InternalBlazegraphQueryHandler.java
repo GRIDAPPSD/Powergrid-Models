@@ -60,7 +60,7 @@ public class InternalBlazegraphQueryHandler implements QueryHandler{
 	}
 
 	@Override
-	public ResultSetCloseable query(String szQuery) {
+	public ResultSetCloseable query(String szQuery, String szTag) {
 //		TupleQuery tupleQuery = con.prepareTupleQuery(QueryLanguage.SPARQL, szQuery);
 //		TupleQueryResult result = tupleQuery.evaluate();
 //		return result;

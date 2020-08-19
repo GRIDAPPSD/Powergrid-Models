@@ -235,7 +235,7 @@ public class CIMWriter extends Object {
 	}
 
 	private void LoadTransformerInfo (PrintWriter out) {
-		ResultSet results = queryHandler.query (szXFINF);
+		ResultSet results = queryHandler.query (szXFINF, "xf info");
 		String lastName = "";
 		while (results.hasNext()) {
 			QuerySolution soln = results.next();
@@ -257,7 +257,7 @@ public class CIMWriter extends Object {
 	}
 
 	private void LoadConnectivityNodes (PrintWriter out) {
-		ResultSet results = queryHandler.query (szCN);
+		ResultSet results = queryHandler.query (szCN, "CN");
 		while (results.hasNext()) {
 			QuerySolution soln = results.next();
 			String name = DistComponent.SafeName (soln.get("?name").toString());
@@ -272,7 +272,7 @@ public class CIMWriter extends Object {
 
 	private void LoadTerminals (PrintWriter out) {
 		HashMap<String,String> mapEnds = new HashMap<>();
-		ResultSet resEnds = queryHandler.query (szEND);
+		ResultSet resEnds = queryHandler.query (szEND, "ends");
 		while (resEnds.hasNext()) {
 			QuerySolution soln = resEnds.next();
 			String endid = ShortenUUID (soln.get("?endid").toString());
@@ -281,7 +281,7 @@ public class CIMWriter extends Object {
 		}
 		((ResultSetCloseable)resEnds).close();
 
-		ResultSet results = queryHandler.query (szTRM);
+		ResultSet results = queryHandler.query (szTRM, "TRM");
 		while (results.hasNext()) {
 			QuerySolution soln = results.next();
 			String name = DistComponent.SafeName (soln.get("?name").toString());
@@ -308,7 +308,7 @@ public class CIMWriter extends Object {
 	}
 
 	private void LoadLocations (PrintWriter out) {
-		ResultSet results = queryHandler.query (szLOC);
+		ResultSet results = queryHandler.query (szLOC, "LOC");
 		while (results.hasNext()) {
 			QuerySolution soln = results.next();
 			String name = DistComponent.SafeName (soln.get("?name").toString());
@@ -327,7 +327,7 @@ public class CIMWriter extends Object {
 	}
 
 	private void LoadPositionPoints (PrintWriter out) {
-		ResultSet results = queryHandler.query (szPOS);
+		ResultSet results = queryHandler.query (szPOS, "POS PTS");
 		while (results.hasNext()) {
 			QuerySolution soln = results.next();
 			String id = ShortenUUID (soln.get("?id").toString());

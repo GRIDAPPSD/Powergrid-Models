@@ -1,0 +1,19 @@
+{
+  "DefaultDir": "C:/Projects/SETO_Protection/EPB",
+  "OutDir": ".",
+  "xmlfilename": "RIV",
+  "RootName": "RIV209",
+  "SubName": "RIV",
+  "LoadScale": 1.0,
+  "LoadModel": 2,
+  "DefaultBaseVoltage": 12.47,
+  "BaseVoltages": [46.0, 12.47, 0.480, 0.416, 0.208],
+  "CoordXmin": 2000000.0,
+  "CoordXmax": 3000000.0,
+  "CoordYmin": 200000.0,
+  "CoordYmax": 300000.0,
+  "CYMESectionUnit": "m",
+  "CYMELineCodeUnit": "km",
+  "DSSSectionUnit": "kft",
+  "OwnerIDs": ["RIV209"]
+}

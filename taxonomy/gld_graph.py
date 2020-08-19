@@ -117,6 +117,7 @@ def print_model(model,h):
 #----------------------------
 # Read file from command line
 #----------------------------
+# example: python gld_graph.py base_taxonomy/new_R5-35.00-1.glm
 arg = sys.argv[1]
 inf = open(arg,'r')
 

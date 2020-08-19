@@ -1,0 +1,9 @@
+{
+  "DefaultDir": "C:/Projects/SETO_Protection/DEV",
+  "MDBName": "Louisa_375",
+  "OutDir": "./test_dss",
+  "BaseVoltages": [34.5, 12.47, 0.418],
+  "AllocateLoads": 1,
+  "SubOrFeeder": 0,
+  "InsertSwitchgear": 1
+}

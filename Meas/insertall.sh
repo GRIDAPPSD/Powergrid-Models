@@ -45,12 +45,12 @@
 #python3 InsertMeasurements.py ieee37_special.txt
 #python3 InsertMeasurements.py ieee37_xfmr_pq.txt
 
-python3 InsertMeasurements.py ieee8500_lines_pq.txt
-python3 InsertMeasurements.py ieee8500_loads.txt
-python3 InsertMeasurements.py ieee8500_node_v.txt
-python3 InsertMeasurements.py ieee8500_special.txt
-python3 InsertMeasurements.py ieee8500_switch_i.txt
-python3 InsertMeasurements.py ieee8500_xfmr_pq.txt
+#python3 InsertMeasurements.py ieee8500_lines_pq.txt
+#python3 InsertMeasurements.py ieee8500_loads.txt
+#python3 InsertMeasurements.py ieee8500_node_v.txt
+#python3 InsertMeasurements.py ieee8500_special.txt
+#python3 InsertMeasurements.py ieee8500_switch_i.txt
+#python3 InsertMeasurements.py ieee8500_xfmr_pq.txt
 
 #python3 InsertMeasurements.py ieee8500enh_lines_pq.txt
 #python3 InsertMeasurements.py ieee8500enh_loads.txt
@@ -66,4 +66,11 @@ python3 InsertMeasurements.py ieee8500_xfmr_pq.txt
 #python3 InsertMeasurements.py r2_12_47_2_special.txt
 #python3 InsertMeasurements.py r2_12_47_2_switch_i.txt
 #python3 InsertMeasurements.py r2_12_47_2_xfmr_pq.txt
+
+python3 InsertMeasurements.py transactive_lines_pq.txt
+python3 InsertMeasurements.py transactive_loads.txt
+python3 InsertMeasurements.py transactive_node_v.txt
+python3 InsertMeasurements.py transactive_special.txt
+python3 InsertMeasurements.py transactive_switch_i.txt
+python3 InsertMeasurements.py transactive_xfmr_pq.txt
 

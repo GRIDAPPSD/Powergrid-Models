@@ -15,12 +15,14 @@ maps.txt
 test*.json
 *dict.json
 *.hprof.txt
+directory*.json
 /bin/
 /generated/
 /target/
 test
 dss
 glm
+both
 check.dss
 convert_xml.bat
 convert_xml.sh

@@ -11,8 +11,30 @@ WHERE {
   ?s a ?class .
 } group by ?class order by ?class
 
+##############################
+
+# get all the mRID values by class and name
+PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX c:  <http://iec.ch/TC57/CIM100#>
+SELECT ?type ?name ?id WHERE {
+ ?s c:IdentifiedObject.name ?name.
+ ?s c:IdentifiedObject.mRID ?id.
+ ?s r:type ?rawtype.
+  bind(strafter(str(?rawtype),"#") as ?type)
+}
+ORDER by ?type ?name
 
 #############################
+
+# get the coordinate system ID for inserting components that have locations
+PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX c:  <http://iec.ch/TC57/CIM100#>
+SELECT DISTINCT ?name ?id WHERE {
+ ?crs r:type c:CoordinateSystem.
+ ?crs c:IdentifiedObject.mRID ?id.
+ ?crs c:IdentifiedObject.name ?name.
+}
+ORDER by ?name
 
 # list all the connectivity node base voltages by feeder, for sensor service
 PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
@@ -231,7 +253,8 @@ SELECT ?fdrname ?name ?parent ?coolingSetpoint ?coolingSystem ?floorArea ?heatin
 WHERE { 
 #	VALUES ?fdrid {"_9CE150A8-8CC5-A0F9-B67E-BBD8C79D3095"}  # R2 12.47 3
 #	VALUES ?fdrid {"_4F76A5F9-271D-9EB8-5E31-AA362D86F2C3"}  # 8500-node
-VALUES ?fdrid {"_E407CBB6-8C8D-9BC9-589C-AB83FBF0826D"}  # 123 PV/Triplex
+# VALUES ?fdrid {"_E407CBB6-8C8D-9BC9-589C-AB83FBF0826D"}  # 123 PV/Triplex
+   VALUES ?fdrid {"_503D6E20-F499-4CC7-8051-971E23D0BF79"}  # 123 Transactive
    ?h r:type c:House.
    ?h c:IdentifiedObject.name ?name.
    ?h c:IdentifiedObject.mRID ?id.
