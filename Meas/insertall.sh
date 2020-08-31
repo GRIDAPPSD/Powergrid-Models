@@ -32,12 +32,12 @@
 #python3 InsertMeasurements.py ieee13assets_switch_i.txt
 #python3 InsertMeasurements.py ieee13assets_xfmr_pq.txt
 
-#python3 InsertMeasurements.py ieee13nodeckt_lines_pq.txt
-#python3 InsertMeasurements.py ieee13nodeckt_loads.txt
-#python3 InsertMeasurements.py ieee13nodeckt_node_v.txt
-#python3 InsertMeasurements.py ieee13nodeckt_special.txt
-#python3 InsertMeasurements.py ieee13nodeckt_switch_i.txt
-#python3 InsertMeasurements.py ieee13nodeckt_xfmr_pq.txt
+python3 InsertMeasurements.py ieee13nodeckt_lines_pq.txt
+python3 InsertMeasurements.py ieee13nodeckt_loads.txt
+python3 InsertMeasurements.py ieee13nodeckt_node_v.txt
+python3 InsertMeasurements.py ieee13nodeckt_special.txt
+python3 InsertMeasurements.py ieee13nodeckt_switch_i.txt
+python3 InsertMeasurements.py ieee13nodeckt_xfmr_pq.txt
 
 #python3 InsertMeasurements.py ieee37_loads.txt
 #python3 InsertMeasurements.py ieee37_lines_pq.txt
@@ -67,10 +67,10 @@
 #python3 InsertMeasurements.py r2_12_47_2_switch_i.txt
 #python3 InsertMeasurements.py r2_12_47_2_xfmr_pq.txt
 
-python3 InsertMeasurements.py transactive_lines_pq.txt
-python3 InsertMeasurements.py transactive_loads.txt
-python3 InsertMeasurements.py transactive_node_v.txt
-python3 InsertMeasurements.py transactive_special.txt
-python3 InsertMeasurements.py transactive_switch_i.txt
-python3 InsertMeasurements.py transactive_xfmr_pq.txt
+#python3 InsertMeasurements.py transactive_lines_pq.txt
+#python3 InsertMeasurements.py transactive_loads.txt
+#python3 InsertMeasurements.py transactive_node_v.txt
+#python3 InsertMeasurements.py transactive_special.txt
+#python3 InsertMeasurements.py transactive_switch_i.txt
+#python3 InsertMeasurements.py transactive_xfmr_pq.txt
 
