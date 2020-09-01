@@ -22,7 +22,7 @@ Redirect  LinesSwitchesGeometry.dss
 Redirect  Transformers.dss
 Redirect  LoadXfmrCodes.dss
 Redirect  TriplexLines.dss
-Redirect  UnbalancedLoads.dss
+Redirect  BalancedLoads.dss
 Redirect  Capacitors.dss
 Redirect  CapControls.dss
 Redirect  Regulators.dss
