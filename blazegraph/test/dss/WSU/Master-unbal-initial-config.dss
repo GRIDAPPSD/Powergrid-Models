@@ -12,13 +12,13 @@ New Circuit.Test9500new
 Redirect  WireData.dss
 Redirect  CableData.dss
 ! Use either LineGeometry or LineConstantsCodes
-!Redirect  LineGeometry.dss
-Redirect  LineConstantsCodes.dss
+Redirect  LineGeometry.dss
+!Redirect  LineCodes.dss
 Redirect  TriplexLineCodes.dss
 
 ! Use either LineGeometry or LineConstantsCodes
-!Redirect  LinesSwitchesGeometry.dss
-Redirect  LinesSwitchesLineCodes.dss
+Redirect  LinesSwitchesGeometry.dss
+!Redirect  LinesSwitchesLineCodes.dss
 Redirect  Transformers.dss
 Redirect  LoadXfmrCodes.dss
 Redirect  TriplexLines.dss
@@ -78,7 +78,12 @@ Generator.Diesel590.kw=0
 Generator.LNGEngine100.kw=0
 Generator.LNGEngine1800.kw=0
 
+
 ! Set normal feeder configuration
+open Line.WD701_48332_sw
+open Line.WF586_48332_sw
+open Line.WF856_48332_sw
+open Line.WG127_48332_sw
 open LINE.LN0653457_SW
 open LINE.V7173_48332_SW
 open LINE.TSW803273_SW 
@@ -87,10 +92,6 @@ solve
 open LINE.TSW320328_SW  
 open LINE.A8645_48332_SW
 open LINE.TSW568613_SW
-open Line.WD701_48332_sw
-open Line.WF586_48332_sw
-open Line.WF856_48332_sw
-open Line.WG127_48332_sw
 solve
 
 
