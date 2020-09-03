@@ -11,6 +11,33 @@ WHERE {
   ?s a ?class .
 } group by ?class order by ?class
 
+
+##############################
+
+# list the bus name and xy coordinates
+# basis of qbus_template in InsertDER.py
+PREFIX r:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX c:  <http://iec.ch/TC57/CIM100#>
+SELECT ?bus ?seq ?locid ?x ?y WHERE { # ?cnid ?tid ?eqid
+ ?fdr c:IdentifiedObject.mRID ?fdrid.
+ ?cn c:ConnectivityNode.ConnectivityNodeContainer ?fdr.
+ ?trm c:Terminal.ConnectivityNode ?cn.
+ ?trm c:ACDCTerminal.sequenceNumber ?seq.
+ ?trm c:Terminal.ConductingEquipment ?eq.
+ ?eq c:PowerSystemResource.Location ?loc.
+ ?trm c:IdentifiedObject.mRID ?tid.
+ ?cn c:IdentifiedObject.mRID ?cnid.
+ ?cn c:IdentifiedObject.name ?bus.
+ ?eq c:IdentifiedObject.mRID ?eqid.
+ ?loc c:IdentifiedObject.mRID ?locid.
+ ?pt c:PositionPoint.Location ?loc.
+  # caution - these next three triples make the query very slow....
+ ?pt c:PositionPoint.sequenceNumber ?seq.
+ ?pt c:PositionPoint.xPosition ?x.
+ ?pt c:PositionPoint.yPosition ?y
+}
+ORDER BY ?bus ?locid
+
 ##############################
 
 # get all the mRID values by class and name
