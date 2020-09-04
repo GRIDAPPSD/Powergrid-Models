@@ -2,14 +2,25 @@ import uuid
 from Meas import constants
 from SPARQLWrapper import SPARQLWrapper2
 import xml.etree.ElementTree as ET
+from lxml import etree, objectify
 from xml.etree.ElementTree import Comment
 from xml.dom import minidom
+import sys
+from os import path
 
 
 '''
 since I query from outside the docker container
 '''
 blazegraph_url = "http://localhost:8889/bigdata/sparql"
+usagePoints = {}
+endDevices = {}
+equipments = {}
+usagePendDDict = {}
+usedUsagePoints = {}
+usedEndDevices = {}
+usedEquipments = {}
+usedUsagePendDDict = {}
 
 
 class UsagePoint(object):
@@ -27,16 +38,33 @@ class UsagePoint(object):
 
 class EndDevice(object):
     '''
-    class represent a end device
+    class represent an end device
     '''
 
-    def __init__(self, name=None, mrid=None, isSmartInverter=None):
+    def __init__(self, name=None, mrid=None, isSmartInverter=None, usagePoint=None, upID=None):
         self.name = name
         if mrid:
             self.mrid = mrid
         else:
             self.mrid = uuid.uuid4()
         self.isSmartInverter = isSmartInverter
+        self.usagePoint = usagePoint
+        self.upID = upID
+
+
+class Equipment(object):
+    '''
+    class represent a power electronics connection
+    '''
+
+    def __init__(self, mrid=None, usagePoint=None, upID=None, tp=None):
+        if mrid:
+            self.mrid = mrid
+        else:
+            self.mrid = uuid.uuid4()
+        self.usagePoint = usagePoint
+        self.upID = upID
+        self.type = tp
 
 
 def getPowerElectronicsConnection(sparql):
@@ -86,16 +114,47 @@ def insertUPsAndEDs(pecs, machines):
     :return:
     '''
     for pec in pecs.bindings:
-        print(pec['pec'].value)
-        usage = UsagePoint(name='usagePoint_' + pec['name'].value)
-        enddevice = EndDevice(name='endDevice_' + pec['name'].value)
-        enddevice.isSmartInverter = True
+        # print(pec['pec'].value)
+        # a = pec['name'].value
+        # print(a)
+        eqid = pec['mrid'].value
+        # print(b)
+        if eqid in equipments:
+            usage = equipments[eqid].usagePoint
+            usedUsagePoints[usage.mrid] = usage
+            usedEquipments[eqid] = equipments[eqid]
+            if usage in usagePendDDict:
+                enddevice = usagePendDDict[usage]
+                usedEndDevices[enddevice.mrid] = enddevice
+                usedUsagePendDDict[usage] = enddevice
+        else:
+            usage = UsagePoint(name='usagePoint_' + pec['name'].value)
+            usedUsagePoints[usage.mrid] = usage
+            usedEquipments[eqid] = Equipment(mrid=eqid, usagePoint=usage, upID=usage.mrid, tp="pec")
+            enddevice = EndDevice(name='endDevice_' + pec['name'].value)
+            enddevice.isSmartInverter = True
+            usedEndDevices[enddevice.mrid] = enddevice
+            usedUsagePendDDict[usage] = enddevice
         insertUPandED(pec['pec'].value, usage, enddevice)
     for machine in machines.bindings:
-        print(machine['syncMachine'].value)
-        usage = UsagePoint(name='usagePoint_' + machine['name'].value)
-        enddevice = EndDevice(name='endDevice_' + machine['name'].value)
-        enddevice.isSmartInverter = False
+        eqid = machine['mrid'].value
+        # print(machine['syncMachine'].value)
+        if eqid in equipments:
+            usage = equipments[eqid].usagePoint
+            usedUsagePoints[usage.mrid] = usage
+            usedEquipments[eqid] = equipments[eqid]
+            if usage in usagePendDDict:
+                enddevice = usagePendDDict[usage]
+                usedEndDevices[enddevice.mrid] = enddevice
+                usedUsagePendDDict[usage] = enddevice
+        else:
+            usage = UsagePoint(name='usagePoint_' + machine['name'].value)
+            usedUsagePoints[usage.mrid] = usage
+            usedEquipments[eqid] = Equipment(mrid=eqid, usagePoint=usage, upID=usage.mrid, tp="syn")
+            enddevice = EndDevice(name='endDevice_' + machine['name'].value)
+            enddevice.isSmartInverter = False
+            usedEndDevices[enddevice.mrid] = enddevice
+            usedUsagePendDDict[usage] = enddevice
         insertUPandED(machine['syncMachine'].value, usage, enddevice)
 
 
@@ -157,21 +216,28 @@ def exportCIMXML(pecs, machines):
     '''
     root = ET.Element('rdf:RDF', attrib={'xmlns:cim': 'http://iec.ch/TC57/CIM100#', 'xmlns:rdf': 'http://www.w3.org/1999/02/22-rdf-syntax-ns#'})
 
-    # comment = Comment('un-comment this line to enable validation\n')
-    # root.append(comment)
-
-    for pec in pecs.bindings:
-        print(pec['pec'].value)
-        usage = UsagePoint(name='usagePoint_' + pec['name'].value)
-        enddevice = EndDevice(name='endDevice_' + pec['name'].value)
-        enddevice.isSmartInverter = True
-        addAEquipmentToCIMXML("cim:PowerElectronicsConnection", pec['mrid'].value, usage, enddevice, root)
-    for machine in machines.bindings:
-        print(machine['syncMachine'].value)
-        usage = UsagePoint(name='usagePoint_' + machine['name'].value)
-        enddevice = EndDevice(name='endDevice_' + machine['name'].value)
-        enddevice.isSmartInverter = False
-        addAEquipmentToCIMXML("cim:SynchronousMachine", machine['mrid'].value, usage, enddevice, root)
+    # # comment = Comment('un-comment this line to enable validation\n')
+    # # root.append(comment)
+    #
+    # for pec in pecs.bindings:
+    #     print(pec['pec'].value)
+    #     usage = UsagePoint(name='usagePoint_' + pec['name'].value)
+    #     enddevice = EndDevice(name='endDevice_' + pec['name'].value)
+    #     enddevice.isSmartInverter = True
+    #     addAEquipmentToCIMXML("cim:PowerElectronicsConnection", pec['mrid'].value, usage, enddevice, root)
+    # for machine in machines.bindings:
+    #     print(machine['syncMachine'].value)
+    #     usage = UsagePoint(name='usagePoint_' + machine['name'].value)
+    #     enddevice = EndDevice(name='endDevice_' + machine['name'].value)
+    #     enddevice.isSmartInverter = False
+    #     addAEquipmentToCIMXML("cim:SynchronousMachine", machine['mrid'].value, usage, enddevice, root)
+    for eqID, equipment in usedEquipments.items():
+        usage = equipment.usagePoint
+        enddevice = usedUsagePendDDict[usage]
+        if equipment.type == "pec":
+            addAEquipmentToCIMXML("cim:PowerElectronicsConnection", eqID, usage, enddevice, root)
+        if equipment.type == "syn":
+            addAEquipmentToCIMXML("cim:SynchronousMachine", eqID, usage, enddevice, root)
 
     rough_string = ET.tostring(root, 'utf-8')
     reparsed = minidom.parseString(rough_string)
@@ -212,11 +278,97 @@ generate xml elements for each equipment
     ET.SubElement(thisEquipment, "cim:Equipment.UsagePoint", attrib={'rdf:resource': "#" + upmRIDStr})
 
 
+def usage():
+    print("usage: python addUsagePointsandEndDevices.py <input xml file full path>")
+    print("input xml file should have usage point with end device.")
+
+
+def parseUsagePoint(e):
+    for se in e:
+        st = str(se.tag).split('}')
+        if len(st) == 2 and st[1] == "IdentifiedObject.name":
+            name = se.text
+        if len(st) == 2 and st[1] == "IdentifiedObject.mRID":
+            mrid = se.text
+    return UsagePoint(name=name, mrid=mrid)
+
+
+def parseEndDevice(e):
+    for se in e:
+        st = str(se.tag).split('}')
+        if len(st) == 2 and st[1] == "IdentifiedObject.name":
+            name = se.text
+        if len(st) == 2 and st[1] == "IdentifiedObject.mRID":
+            mrid = se.text
+        if len(st) == 2 and st[1] == "EndDevice.isSmartInverter":
+            isSmart = se.text
+        if len(st) == 2 and st[1] == "EndDevice.UsagePoint":
+            up = get_id(se.attrib)
+    return EndDevice(name=name, mrid=mrid, isSmartInverter=isSmart, upID=up)
+
+
+def parseEquipment(e):
+    for se in e:
+        st = str(se.tag).split('}')
+        if len(st) == 2 and st[1] == "Equipment.UsagePoint":
+            return get_id(se.attrib)
+    return None
+
+
+def readxmlFile(f):
+    tree = ET.parse(f)
+    root = tree.getroot()
+    for e in root:
+        t = str(e.tag).split('}')
+        if len(t) == 2:
+            if t[1] == "UsagePoint":
+                node = parseUsagePoint(e)
+                usagePoints[node.mrid] = node
+            elif t[1] == "EndDevice":
+                node = parseEndDevice(e)
+                endDevices[node.mrid] = node
+            elif t[1] == "SynchronousMachine":
+                id = get_id(e.attrib)
+                eq = Equipment(mrid=id, tp="syn")
+                eq.upID = parseEquipment(e)
+                equipments[eq.mrid] = eq
+            elif t[1] == "PowerElectronicsConnection":
+                id = get_id(e.attrib)
+                eq = Equipment(mrid=id, tp="pec")
+                eq.upID = parseEquipment(e)
+                equipments[eq.mrid] = eq
+            else:
+                pass
+    for k, v in endDevices.items():
+        if v.upID in usagePoints:
+            v.usagePoint = usagePoints[v.upID]
+            usagePendDDict[v.usagePoint] = v
+    for k, v in equipments.items():
+        if v.upID in usagePoints:
+            v.usagePoint = usagePoints[v.upID]
+
+
+def get_id(attrib):
+    for k, v in attrib.items():
+        if v.startswith("#"):
+            return v[1:]
+        elif v.startswith("_"):
+            return v
+    return None
+
+
 if __name__ == "__main__":
+    if len(sys.argv) != 2:
+        usage()
+        sys.exit()
+    inputFile = sys.argv[1]
+    if path.isfile(inputFile):
+        readxmlFile(inputFile)
     sparql = SPARQLWrapper2(blazegraph_url)
     pecs = getPowerElectronicsConnection(sparql)
     machines = getSynchronousMachine(sparql)
     print(pecs)
     print(machines)
-    #insertUPsAndEDs(pecs, machines)
+
+    insertUPsAndEDs(pecs, machines)
     exportCIMXML(pecs, machines)

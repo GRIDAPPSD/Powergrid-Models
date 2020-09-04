@@ -229,8 +229,8 @@ for ln in lines:
       idPt = GetCIMID('PositionPoint', None, uuids)
       idTrm = GetCIMID('Terminal', nmTrm, uuids)
       row = buses[nmCN]
-      idCN = row[0]['cn']
-      keyXY = row[0]['loc'] + ':' + str(row[0]['seq'])
+      idCN = row['cn']
+      keyXY = row['loc'] + ':' + str(row['seq'])
       pp = locs[keyXY]
       x = float(pp['x'])
       y = float(pp['y'])
@@ -308,9 +308,7 @@ for ln in lines:
         eqid = b['eqid'].value
         locid = b['locid'].value
         seq = b['seq'].value
-        if not key in buses:
-          buses[key] = []
-        buses[key].append({'cn':cnid, 'trm':tid, 'eq':eqid, 'seq': seq, 'loc': locid})
+        buses[key] = {'cn':cnid, 'trm':tid, 'eq':eqid, 'seq': seq, 'loc': locid}
       print (len(buses), 'buses')
 
       sparql.setQuery(qloc)
