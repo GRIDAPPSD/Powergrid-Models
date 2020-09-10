@@ -166,8 +166,8 @@ public class DistPowerXfmrWinding extends DistComponent {
 		} else {
 			buf.append ("  connect_type " + sConnect + ";\n");
 		}
-		buf.append ("  primary_voltage " + df3.format (ratedU[0] / Math.sqrt(3.0)) + ";\n");
-		buf.append ("  secondary_voltage " + df3.format (ratedU[1] / Math.sqrt(3.0)) + ";\n");
+		buf.append ("  primary_voltage " + df3.format (ratedU[0]) + ";\n");
+		buf.append ("  secondary_voltage " + df3.format (ratedU[1]) + ";\n");
 		buf.append ("  power_rating " + df3.format (ratedS[0] * 0.001) + ";\n");
 		int idx;
 		double Zbase;

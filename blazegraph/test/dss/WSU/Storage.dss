@@ -1,8 +1,0 @@
-!New utility-scale battery storage systems - capacity can be adjusted later
-
-New Storage.Battery1 phases=3 bus1=m2001500 kVA=250
-~ kWrated=250 kWHrated=500 %reserve=30
-~ state=charge kW=150 PF=1
-
-
-

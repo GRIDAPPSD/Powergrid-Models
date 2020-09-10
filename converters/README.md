@@ -29,7 +29,9 @@ For Mac/Linux:
 
 The JSON configuration file attributes are:
 
-- *xmlfilename*; base file name of the SXST file, should be in current directory
+- *DefaultDir*; path to the SXST file
+- *OutDir*; path to the generated OpenDSS files
+- *xmlfilename*; base file name of the SXST file, should exist in DefaultDir
 - *RootName*; root file name for the OpenDSS output files
 - *SubName*; root file name for the substation model to be included in OpenDSS
 - *LoadScale*; scaling factor from CYMDIST to OpenDSS loads, usually 1.0
@@ -81,7 +83,7 @@ The JSON configuration file attributes are:
 
 - *DefaultDir*; path to the MDB file
 - *MDBName*; name of the Synergi model file, should exist in DefaultDir
-- *RelativeOutDir*; path to the generated OpenDSS files, relative to DefaultDir
+- *OutDir*; path to the generated OpenDSS files
 - *BaseVoltages*; array of one or more voltages, in kV, to use for OpenDSS voltage bases. Should include any transmission, secondary or other voltage bases expected in the model. OpenDSS uses these for per-unit voltage output, and also to set nominal voltages for load and generation through its "SetLoadAndGenkV" command.
 - *AllocateLoads*; set 1 if the load kva values are actually transformer kva. Set 0 if the actual peak or nominal load values will be found in the MDB file.
 - *SubOrFeeder*; set 1 if the source is a substation, or 0 if the source is a feeder (see Synergi documentation)
