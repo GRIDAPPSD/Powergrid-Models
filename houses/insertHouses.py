@@ -15,6 +15,7 @@ import sys
 import math
 from uuid import uuid4
 import json
+import os
 
 # Installed packages:
 import numpy as np
@@ -55,9 +56,17 @@ LOG = logging.getLogger(__name__)
 #******************************************************************************
 # METHODS
 #******************************************************************************
-def main(fdrid, region, loglevel='INFO', logfile=None, seed=None):
+def main(fdrid, region, loglevel='INFO', logfile=None, seed=None, uuidfile=None):
     """
     """
+    print ('Seeding is', seed, 'mRID file is', uuidfile)
+    uuidDict = {}
+    if uuidfile is not None:
+        if os.path.exists (uuidfile):
+            fp_uuid = open (uuidfile).read()
+            uuidDict = json.loads(fp_uuid)
+
+
     # Setup log:
     setupLog(logger=LOG, loglevel=loglevel, logfile=logfile)
     # 
@@ -116,13 +125,15 @@ def main(fdrid, region, loglevel='INFO', logfile=None, seed=None):
         for row, houseData in houseDf.iterrows():
             # Insert into database.
             insertHouse(sparql=sparql, ecName=load, ecID=mrid, houseNum=row,
-                        houseData=houseData)
+                        houseData=houseData, uuids=uuidDict)
             
     LOG.info('All houses inserted into database.')
+    if uuidfile is not None:
+        json_fp = open (uuidfile, 'w')
+        json.dump (uuidDict, json_fp, indent=2)
+        json_fp.close()
+
     
-    print('hooray')
-
-
 def setupLog(logger, loglevel, logfile):
     """Helper function to setup the module's log.
     """
@@ -240,7 +251,7 @@ def getEnergyConsumers(sparql, fdrid):
         
     return ec, no_houses, abs(totalRes)
 
-def insertHouse(sparql, ecName, ecID, houseNum, houseData):
+def insertHouse(sparql, ecName, ecID, houseNum, houseData, uuids):
     """Insert a single house into the CIM triplestore.
     """
     # Initialize query
@@ -248,11 +259,15 @@ def insertHouse(sparql, ecName, ecID, houseNum, houseData):
     
     # Get MRIDs as strings
     ecIDStr = str(ecID)
-    hIDStr = str(uuid4())
-    # Need an underscore on the ID.
-    if hIDStr[0] != '_':
-        hIDStr = '_' + hIDStr
-    
+    key = ecName + '_house_' + str(houseNum) # relies on unique names within EnergyConsumers
+    if key in uuids: # re-use
+        hIDStr = uuids[key]
+    else: # make a new one with underscore, save it for re-use
+        hIDStr = str(uuid4())
+        if hIDStr[0] != '_':
+            hIDStr = '_' + hIDStr
+        uuids[key] = hIDStr
+
     # Define strings for the house and energy consumer.
     house = '<' + constants.blazegraph_url + '#' + hIDStr + '>'
     ec = '<' + constants.blazegraph_url + '#' + ecIDStr + '>'
@@ -261,8 +276,7 @@ def insertHouse(sparql, ecName, ecID, houseNum, houseData):
     q += (\
           house + ' a c:House. ' +
           house + ' c:IdentifiedObject.mRID \"' + hIDStr + '\". ' +
-          (house + ' c:IdentifiedObject.name \"' + ecName + '_house_' + 
-            str(houseNum) + '\". ') +
+          (house + ' c:IdentifiedObject.name \"' + key + '\". ') +
           house + ' c:House.EnergyConsumer ' + ec + '. '
         )
     
@@ -301,7 +315,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Add houses to a CIM model.")
     
     # We'll need a fdrid
-    parser.add_argument("fdrid", help=("Full GUID of the feeder "
+    parser.add_argument("fdrid", help=("Full UUID of the feeder "
                                        "to add houses to."))
     
     # Also grab the region qualifier.
@@ -309,10 +323,22 @@ if __name__ == "__main__":
                                         "exists in. Valid options "
                                         "are 1, 2, 3, 4, or 5."))
     
+    parser.add_argument("seed", help=("Specify a value for repeatable randomizations."),
+                        nargs='?', default=None)
+
+    parser.add_argument("uuid", help=("Specify a file to read (if available) and rewrite a file of mRID values. "
+                                      "This only makes sense if a seed value is also specified."),
+                        nargs='?', default=None)
+
     # Get args
     args = parser.parse_args()
+
+    if args.seed is not None:
+      seed = int(args.seed)
+    else:
+      seed = None
     
     # Call main function.
-    main(fdrid=args.fdrid, region=args.region)
+    main(fdrid=args.fdrid, region=args.region, seed=seed, uuidfile=args.uuid)
     
     
