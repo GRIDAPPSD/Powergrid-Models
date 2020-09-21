@@ -67,7 +67,11 @@ public class DistMeasurement extends DistComponent {
 			simobj = "cap_" + eqname;
 		} else if (eqtype.equals ("PowerElectronicsConnection")) {
 			if (bStorage) {
-				simobj = bus + "_stmtr";
+        if (measType.equals ("SoC")) {
+          simobj = "bat_" + eqname;
+        } else {
+          simobj = bus + "_stmtr";
+        }
 			} else if (bSolar) {
 				simobj = bus + "_pvmtr";
 			} else {
