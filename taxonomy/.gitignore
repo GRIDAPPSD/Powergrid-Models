@@ -50,4 +50,3 @@ graph.log
 model.log
 sample.*
 base_taxonomy/new*.glm
-new*.json
