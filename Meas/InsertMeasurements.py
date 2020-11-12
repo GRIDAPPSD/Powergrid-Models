@@ -123,10 +123,14 @@ for ln in lines:
     trmid = toks[7]
     name = 'PowerElectronicsConnection_BatteryUnit_' + toks[3]
     key = name + ':' + bus + ':' + phases
-    id1 = getMeasurementID (key + ':PNV', uuidDict)
-    id2 = getMeasurementID (key + ':VA', uuidDict)
-    InsertMeasurement ('Analog', id1, name, eqid, trmid, 'PNV', phases)
-    InsertMeasurement ('Analog', id2, name, eqid, trmid, 'VA', phases)
+    if phases == 'SoC':
+      id1 = getMeasurementID (key + ':SoC', uuidDict)
+      InsertMeasurement ('Analog', id1, name, eqid, trmid, 'SoC', 'none')
+    else:
+      id1 = getMeasurementID (key + ':PNV', uuidDict)
+      id2 = getMeasurementID (key + ':VA', uuidDict)
+      InsertMeasurement ('Analog', id1, name, eqid, trmid, 'PNV', phases)
+      InsertMeasurement ('Analog', id2, name, eqid, trmid, 'VA', phases)
   if toks[0] == 'PowerTransformer' and toks[1] == 'PowerTransformerEnd':
     what = toks[2]
     bus = toks[5]
