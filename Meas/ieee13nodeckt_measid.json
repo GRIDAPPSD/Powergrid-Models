@@ -183,5 +183,7 @@
   "PowerTransformer_xfm1:xf1:C:VA": "_ac3b5302-cffe-4ba2-82d1-165e8ea793a2",
   "PowerTransformer_xfm1:634:A:VA": "_bdf6271a-832a-40db-b7aa-2c9153a6b59f",
   "PowerTransformer_xfm1:634:B:VA": "_7845cc4d-ea6b-4322-ac62-0ef3815a514e",
-  "PowerTransformer_xfm1:634:C:VA": "_44300afb-c52e-4509-a37f-26a31560c89f"
+  "PowerTransformer_xfm1:634:C:VA": "_44300afb-c52e-4509-a37f-26a31560c89f",
+  "PowerElectronicsConnection_BatteryUnit_house:house:SoC:SoC": "_2656dca3-0d6f-4ded-abd1-de6ef6e2eeb5",
+  "PowerElectronicsConnection_BatteryUnit_school:634:SoC:SoC": "_cb12b959-8b26-4cc6-9169-b8be54fddfde"
 }
