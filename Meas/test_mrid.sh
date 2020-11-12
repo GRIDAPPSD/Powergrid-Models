@@ -16,6 +16,8 @@ curl -D- -H "Content-Type: application/xml" --upload-file ../blazegraph/test/IEE
 java -cp "../blazegraph/target/libs/*:../blazegraph/target/cim2glm-0.0.1-SNAPSHOT.jar" \
   gov.pnnl.goss.cim2glm.CIMImporter -u=$DB_URL -o=idx test
 
+python3 ListMeasureables.py ieee13nodeckt _49AD8E07-3BF9-A4E2-CB8F-C3722F837B62
+
 python3 InsertMeasurements.py ieee13nodeckt_special.txt  ieee13nodeckt_measid.json
 python3 InsertMeasurements.py ieee13nodeckt_lines_pq.txt ieee13nodeckt_measid.json
 python3 InsertMeasurements.py ieee13nodeckt_loads.txt    ieee13nodeckt_measid.json
