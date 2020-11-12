@@ -196,9 +196,9 @@ public abstract class DistComponent {
 			return bus + ".3.1";
 		} else if (phs.contains ("C:B")) {
 			return bus + ".3.2";
-		} else if (phs.contains ("s1:s2")) {
+		} else if (phs.contains ("s1:s2") || phs.contains ("s1s2")) {
 			return bus + ".1.2";
-		} else if (phs.contains ("s2:s1")) {
+		} else if (phs.contains ("s2:s1") || phs.contains ("s2s1")) {
 			return bus + ".2.1";
 		} else if (phs.contains ("s1")) {
 			return bus + ".1";
