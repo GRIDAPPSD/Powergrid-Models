@@ -28,23 +28,33 @@ ORDER BY ?bus ?tid
 """
 
 qloc_template = """# list the location id, with xy coordinates of each sequence number
-SELECT DISTINCT ?locid ?seq ?x ?y WHERE {{
+SELECT DISTINCT ?locid ?seq ?x ?y ?ptid WHERE {{
 VALUES ?fdrid {{"{:s}"}}
  ?fdr c:IdentifiedObject.mRID ?fdrid.
+ ?cn c:ConnectivityNode.ConnectivityNodeContainer ?fdr.
+ ?trm c:Terminal.ConnectivityNode ?cn.
+ ?trm c:Terminal.ConductingEquipment ?eq.
  ?eq c:PowerSystemResource.Location ?loc.
  ?pt c:PositionPoint.Location ?loc.
  ?pt c:PositionPoint.xPosition ?x.
  ?pt c:PositionPoint.yPosition ?y.
  ?pt c:PositionPoint.sequenceNumber ?seq.
+   bind(strafter(str(?pt),"#") as ?ptid).
  ?loc c:IdentifiedObject.mRID ?locid.
 }}
 ORDER BY ?locid ?seq
 """
 
-crs_query = """SELECT DISTINCT ?name ?id WHERE {{
- ?crs r:type c:CoordinateSystem.
- ?crs c:IdentifiedObject.mRID ?id.
- ?crs c:IdentifiedObject.name ?name.
+crs_query = """SELECT DISTINCT ?name ?mrid WHERE {{
+ VALUES ?id {{"{:s}"}}
+  ?fdr c:IdentifiedObject.mRID ?id .
+  ?fdr c:PowerSystemResource.Location ?loc .
+  ?loc c:Location.CoordinateSystem ?crs .
+  ?crs c:IdentifiedObject.mRID ?mrid.
+  ?crs c:IdentifiedObject.name ?name.
+# ?crs r:type c:CoordinateSystem.
+# ?crs c:IdentifiedObject.mRID ?id.
+# ?crs c:IdentifiedObject.name ?name.
 }}
 ORDER by ?name
 """
@@ -88,6 +98,19 @@ ins_pec_template = """INSERT DATA {{
  <{url}#{res}> c:PowerElectronicsConnection.q \"{q}\".
  <{url}#{res}> c:PowerElectronicsConnection.ratedS \"{ratedS}\".
  <{url}#{res}> c:PowerElectronicsConnection.ratedU \"{ratedU}\".
+}}
+"""
+
+ins_syn_template = """INSERT DATA {{
+ <{url}#{res}> a c:SynchronousMachine.
+ <{url}#{res}> c:IdentifiedObject.mRID \"{res}\".
+ <{url}#{res}> c:IdentifiedObject.name \"{nm}\".
+ <{url}#{res}> c:Equipment.EquipmentContainer  <{url}#{resFdr}>.
+ <{url}#{res}> c:PowerSystemResource.Location <{url}#{resLoc}>.
+ <{url}#{res}> c:SynchronousMachine.p \"{p}\".
+ <{url}#{res}> c:SynchronousMachine.q \"{q}\".
+ <{url}#{res}> c:SynchronousMachine.ratedS \"{ratedS}\".
+ <{url}#{res}> c:SynchronousMachine.ratedU \"{ratedU}\".
 }}
 """
 
@@ -184,7 +207,7 @@ for ln in lines:
 
   if sparql is not None:
     if not toks[0].startswith('//') and len(toks[0]) > 0:
-      nmPEC = toks[0]
+      name = toks[0]
       nmCN = toks[1]
       phases = toks[2]
       unit = toks[3]
@@ -198,10 +221,9 @@ for ln in lines:
       else:
         ratedkwh = 0.0
         storedkwh = 0.0
-      nmUnit = nmPEC + '_' + unit
-      nmTrm = nmPEC + '_T1'
-      nmLoc = nmPEC + '_Loc'
-      idPEC = GetCIMID('PowerElectronicsConnection', nmPEC, uuids)
+      nmUnit = name + '_' + unit
+      nmTrm = name + '_T1'
+      nmLoc = name + '_Loc'
       idUnit = GetCIMID(unit + 'Unit', nmUnit, uuids)
       idLoc = GetCIMID('Location', nmLoc, uuids)
       idPt = GetCIMID('PositionPoint', None, uuids)
@@ -209,44 +231,55 @@ for ln in lines:
       row = buses[nmCN]
       idCN = row['cn']
       keyXY = row['loc'] + ':' + str(row['seq'])
-      row = locs[keyXY]
-      x = float(row['x'])
-      y = float(row['y'])
-      print ('create {:s} at {:s} CN {:s} location {:.4f},{:.4f}'.format (nmPEC, nmCN, idCN, x, y))
+      pp = locs[keyXY]
+      x = float(pp['x'])
+      y = float(pp['y'])
+      print ('create {:s} at {:s} CN {:s} location {:.4f},{:.4f}'.format (name, nmCN, idCN, x, y))
 
-      inspec = prefix + ins_pec_template.format(url=blz_url, res=idPEC, nm=nmPEC, resLoc=idLoc, resFdr=fdr_id, resUnit=idUnit,
-                                                p=kW*1000.0, q=kVAR*1000.0, ratedS=kVA*1000.0, ratedU=kV*1000.0)
-      sparql.setQuery(inspec)
-      ret = sparql.query()
-
-      if len(phases) > 0 and phases != 'ABC':
-        phase_list = ParsePhases (phases)
-        nphs = len(phase_list)
-        p=kW*1000.0/nphs
-        q=kVAR*1000.0/nphs
-        for phs in phase_list:
-          nmPhs = '{:s}_{:s}'.format (nmPEC, phs)
-          idPhs = GetCIMID('PowerElectronicsConnectionPhase', nmPhs, uuids)
-          inspep = prefix + ins_pep_template.format (url=blz_url, res=idPhs, nm=nmPhs, resPEC=idPEC, resLoc=idLoc, ns=cim_ns, phs=phs, p=p, q=q)
-          sparql.setQuery(inspep)
-          ret = sparql.query()
-
-      if unit == 'Battery':
-        state = 'Waiting'
-        if kW > 0.0:
-          state = 'Discharging'
-        elif kW < 0.0:
-          state = 'Charging'
-        insunit = prefix + ins_bat_template.format(url=blz_url, res=idUnit, nm=nmUnit, resLoc=idLoc, ns=cim_ns,
-                                                   ratedE=ratedkwh*1000.0, storedE=storedkwh*1000.0, state=state)
-      elif unit == 'Photovoltaic':
-        insunit = prefix + ins_pv_template.format(url=blz_url, res=idUnit, nm=nmUnit, resLoc=idLoc)
+      if unit == "SynchronousMachine":
+        idSYN = GetCIMID('SynchronousMachine', name, uuids)
+        inssyn = prefix + ins_syn_template.format(url=blz_url, res=idSYN, nm=name, resLoc=idLoc, resFdr=fdr_id, resUnit=idUnit,
+                                                  p=kW*1000.0, q=kVAR*1000.0, ratedS=kVA*1000.0, ratedU=kV*1000.0)
+        sparql.setQuery(inssyn)
+        ret = sparql.query()
       else:
-        insunit = '** Unsupported Unit ' + unit
-      sparql.setQuery(insunit)
-      ret = sparql.query()
+        idPEC = GetCIMID('PowerElectronicsConnection', name, uuids)
+        inspec = prefix + ins_pec_template.format(url=blz_url, res=idPEC, nm=name, resLoc=idLoc, resFdr=fdr_id, resUnit=idUnit,
+                                                  p=kW*1000.0, q=kVAR*1000.0, ratedS=kVA*1000.0, ratedU=kV*1000.0)
+        sparql.setQuery(inspec)
+        ret = sparql.query()
 
-      instrm = prefix + ins_trm_template.format(url=blz_url, res=idTrm, nm=nmTrm, resCN=idCN, resEQ=idPEC)
+        if len(phases) > 0 and phases != 'ABC':
+          phase_list = ParsePhases (phases)
+          nphs = len(phase_list)
+          p=kW*1000.0/nphs
+          q=kVAR*1000.0/nphs
+          for phs in phase_list:
+            nmPhs = '{:s}_{:s}'.format (name, phs)
+            idPhs = GetCIMID('PowerElectronicsConnectionPhase', nmPhs, uuids)
+            inspep = prefix + ins_pep_template.format (url=blz_url, res=idPhs, nm=nmPhs, resPEC=idPEC, resLoc=idLoc, ns=cim_ns, phs=phs, p=p, q=q)
+            sparql.setQuery(inspep)
+            ret = sparql.query()
+
+        if unit == 'Battery':
+          state = 'Waiting'
+          if kW > 0.0:
+            state = 'Discharging'
+          elif kW < 0.0:
+            state = 'Charging'
+          insunit = prefix + ins_bat_template.format(url=blz_url, res=idUnit, nm=nmUnit, resLoc=idLoc, ns=cim_ns,
+                                                     ratedE=ratedkwh*1000.0, storedE=storedkwh*1000.0, state=state)
+        elif unit == 'Photovoltaic':
+          insunit = prefix + ins_pv_template.format(url=blz_url, res=idUnit, nm=nmUnit, resLoc=idLoc)
+        else:
+          insunit = '** Unsupported Unit ' + unit
+        sparql.setQuery(insunit)
+        ret = sparql.query()
+
+      if unit == "SynchronousMachine":
+        instrm = prefix + ins_trm_template.format(url=blz_url, res=idTrm, nm=nmTrm, resCN=idCN, resEQ=idSYN)
+      else:
+        instrm = prefix + ins_trm_template.format(url=blz_url, res=idTrm, nm=nmTrm, resCN=idCN, resEQ=idPEC)
       sparql.setQuery(instrm)
       ret = sparql.query()
 
@@ -284,13 +317,15 @@ for ln in lines:
         key = b['locid'].value + ':' + b['seq'].value
         x = b['x'].value
         y = b['y'].value
-        locs[key] = {'x': x, 'y': y}
+        ppid = b['ptid'].value
+        locs[key] = {'x': x, 'y': y, 'ppid':ppid}
       print (len(locs), 'locations')
 
-      sparql.setQuery (prefix + crs_query)
+#      qcrs = prefix + crs_query.format(fdr_id)
+      sparql.setQuery(prefix + crs_query.format(fdr_id))
       ret = sparql.query()
       for b in ret.bindings:
-        crs_id = b['id'].value
+        crs_id = b['mrid'].value
         print ('Coordinate System', b['name'].value, crs_id, 'Feeder', fdr_id)
         break
 

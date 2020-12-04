@@ -1,11 +1,11 @@
 # updated for Java 11; Apache Maven updates are specified in pom.xml; Blazegraph running in Docker
-#mvn clean install
+mvn clean install
 
 #java -cp "target/libs/*:target/cim2glm-0.0.1-SNAPSHOT.jar" gov.pnnl.goss.cim2glm.CIMImporter -u=http://localhost:8889/bigdata/namespace/kb/sparql \
 #    -o=idx directory
 
-java -cp "target/libs/*:target/cim2glm-0.0.1-SNAPSHOT.jar" gov.pnnl.goss.cim2glm.CIMImporter \
-     -s=_503D6E20-F499-4CC7-8051-971E23D0BF79 -o=both -l=1.0 -i=1 -t=1 transactive2
+#java -cp "target/libs/*:target/cim2glm-0.0.1-SNAPSHOT.jar" gov.pnnl.goss.cim2glm.CIMImporter \
+#     -s=_503D6E20-F499-4CC7-8051-971E23D0BF79 -o=both -l=1.0 -i=1 -t=1 transactive2
 
 #java -cp "target/libs/*:target/cim2glm-0.0.1-SNAPSHOT.jar" gov.pnnl.goss.cim2glm.CIMImporter \
 #   -s=_49AD8E07-3BF9-A4E2-CB8F-C3722F837B62 -o=both -l=1.0 -i=1 ieee13
@@ -42,8 +42,8 @@ java -cp "target/libs/*:target/cim2glm-0.0.1-SNAPSHOT.jar" gov.pnnl.goss.cim2glm
 #     -s=_AAE94E4A-2465-6F5E-37B1-3E72183A4E44 -o=glm -l=1.0 -i=1 ieee8500_3subs
 
 # CIM100 testing
-#java -cp "target/libs/*:target/cim2glm-0.0.1-SNAPSHOT.jar" gov.pnnl.goss.cim2glm.CIMImporter \
-#   -s=_49AD8E07-3BF9-A4E2-CB8F-C3722F837B62 -o=glm -l=1.0 -i=1 ieee13
+java -cp "target/libs/*:target/cim2glm-0.0.1-SNAPSHOT.jar" gov.pnnl.goss.cim2glm.CIMImporter \
+   -s=_49AD8E07-3BF9-A4E2-CB8F-C3722F837B62 -o=both -l=1.0 -i=1 -t=1 ieee13
 #java -cp "target/libs/*:target/cim2glm-0.0.1-SNAPSHOT.jar" gov.pnnl.goss.cim2glm.CIMImporter \
 #   -s=_49AD8E07-3BF9-A4E2-CB8F-C3722F837B62 -o=dss ieee13
 #java -cp "target/libs/*:target/cim2glm-0.0.1-SNAPSHOT.jar" gov.pnnl.goss.cim2glm.CIMImporter \
