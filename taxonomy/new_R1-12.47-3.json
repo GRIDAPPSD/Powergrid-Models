@@ -1,0 +1,2326 @@
+{
+  "directed": false,
+  "multigraph": false,
+  "graph": {},
+  "nodes": [
+    {
+      "nclass": "node",
+      "ndata": {
+        "bustype": "SWING",
+        "phases": "ABCN",
+        "nominal_voltage": "7200",
+        "voltage_A": "7200+0.0j",
+        "voltage_B": "-3600-6235j",
+        "voltage_C": "-3600+6235j",
+        "x": "2444.2",
+        "y": "290.88"
+      },
+      "id": "R1-12-47-3_node_53"
+    },
+    {
+      "nclass": "meter",
+      "ndata": {
+        "phases": "ABCN",
+        "nominal_voltage": "7200",
+        "voltage_A": "7200+0.0j",
+        "voltage_B": "-3600-6235j",
+        "voltage_C": "-3600+6235j",
+        "x": "2435.2",
+        "y": "306.66"
+      },
+      "id": "R1-12-47-3_meter_22"
+    },
+    {
+      "nclass": "node",
+      "ndata": {
+        "phases": "ABCN",
+        "voltage_A": "7200+0.0j",
+        "voltage_B": "-3600-6235j",
+        "voltage_C": "-3600+6235j",
+        "nominal_voltage": "7200",
+        "x": "1016.9",
+        "y": "445.15"
+      },
+      "id": "R1-12-47-3_node_19"
+    },
+    {
+      "nclass": "node",
+      "ndata": {
+        "phases": "AN",
+        "voltage_A": "7200+0.0j",
+        "nominal_voltage": "7200",
+        "x": "1004.9",
+        "y": "457.99"
+      },
+      "id": "R1-12-47-3_node_20"
+    },
+    {
+      "nclass": "node",
+      "ndata": {
+        "phases": "ABCN",
+        "voltage_A": "7200+0.0j",
+        "voltage_B": "-3600-6235j",
+        "voltage_C": "-3600+6235j",
+        "nominal_voltage": "7200",
+        "x": "981.31",
+        "y": "328.22"
+      },
+      "id": "R1-12-47-3_node_21"
+    },
+    {
+      "nclass": "node",
+      "ndata": {
+        "phases": "BCN",
+        "voltage_B": "-3600-6235j",
+        "voltage_C": "-3600+6235j",
+        "nominal_voltage": "7200",
+        "x": "997.08",
+        "y": "317.88"
+      },
+      "id": "R1-12-47-3_node_23"
+    },
+    {
+      "nclass": "node",
+      "ndata": {
+        "phases": "ABCN",
+        "voltage_A": "7200+0.0j",
+        "voltage_B": "-3600-6235j",
+        "voltage_C": "-3600+6235j",
+        "nominal_voltage": "7200",
+        "x": "745.87",
+        "y": "886.6"
+      },
+      "id": "R1-12-47-3_node_27"
+    },
+    {
+      "nclass": "node",
+      "ndata": {
+        "phases": "AN",
+        "voltage_A": "7200+0.0j",
+        "nominal_voltage": "7200",
+        "x": "757.22",
+        "y": "870.57"
+      },
+      "id": "R1-12-47-3_node_28"
+    },
+    {
+      "nclass": "node",
+      "ndata": {
+        "phases": "ABCN",
+        "voltage_A": "7200+0.0j",
+        "voltage_B": "-3600-6235j",
+        "voltage_C": "-3600+6235j",
+        "nominal_voltage": "7200",
+        "x": "592.78",
+        "y": "1010.8"
+      },
+      "id": "R1-12-47-3_node_32"
+    },
+    {
+      "nclass": "node",
+      "ndata": {
+        "phases": "AN",
+        "voltage_A": "7200+0.0j",
+        "nominal_voltage": "7200",
+        "x": "582.38",
+        "y": "995.96"
+      },
+      "id": "R1-12-47-3_node_33"
+    },
+    {
+      "nclass": "node",
+      "ndata": {
+        "phases": "ABCN",
+        "voltage_A": "7200+0.0j",
+        "voltage_B": "-3600-6235j",
+        "voltage_C": "-3600+6235j",
+        "nominal_voltage": "7200",
+        "x": "581.91",
+        "y": "1026.8"
+      },
+      "id": "R1-12-47-3_node_35"
+    },
+    {
+      "nclass": "node",
+      "ndata": {
+        "phases": "ABCN",
+        "voltage_A": "7200+0.0j",
+        "voltage_B": "-3600-6235j",
+        "voltage_C": "-3600+6235j",
+        "nominal_voltage": "7200",
+        "x": "571.35",
+        "y": "1139.9"
+      },
+      "id": "R1-12-47-3_node_36"
+    },
+    {
+      "nclass": "node",
+      "ndata": {
+        "phases": "BN",
+        "voltage_B": "-3600-6235j",
+        "nominal_voltage": "7200",
+        "x": "555.49",
+        "y": "1152.5"
+      },
+      "id": "R1-12-47-3_node_37"
+    },
+    {
+      "nclass": "node",
+      "ndata": {
+        "phases": "BN",
+        "voltage_B": "-3600-6235j",
+        "nominal_voltage": "7200",
+        "x": "590.67",
+        "y": "1140.1"
+      },
+      "id": "R1-12-47-3_node_40"
+    },
+    {
+      "nclass": "node",
+      "ndata": {
+        "phases": "ABCN",
+        "voltage_A": "7200+0.0j",
+        "voltage_B": "-3600-6235j",
+        "voltage_C": "-3600+6235j",
+        "nominal_voltage": "7200",
+        "x": "2388.4",
+        "y": "354.1"
+      },
+      "id": "R1-12-47-3_node_3"
+    },
+    {
+      "nclass": "node",
+      "ndata": {
+        "phases": "ABCN",
+        "voltage_A": "7200+0.0j",
+        "voltage_B": "-3600-6235j",
+        "voltage_C": "-3600+6235j",
+        "nominal_voltage": "7200",
+        "x": "2222.5",
+        "y": "380.26"
+      },
+      "id": "R1-12-47-3_node_4"
+    },
+    {
+      "nclass": "node",
+      "ndata": {
+        "phases": "ACN",
+        "voltage_A": "7200+0.0j",
+        "voltage_C": "-3600+6235j",
+        "nominal_voltage": "7200",
+        "x": "2244.9",
+        "y": "390.09"
+      },
+      "id": "R1-12-47-3_node_5"
+    },
+    {
+      "nclass": "node",
+      "ndata": {
+        "phases": "CN",
+        "voltage_C": "-3600+6235j",
+        "nominal_voltage": "7200",
+        "x": "2199.2",
+        "y": "324.03"
+      },
+      "id": "R1-12-47-3_node_6"
+    },
+    {
+      "nclass": "node",
+      "ndata": {
+        "phases": "ABCN",
+        "voltage_A": "7200+0.0j",
+        "voltage_B": "-3600-6235j",
+        "voltage_C": "-3600+6235j",
+        "nominal_voltage": "7200",
+        "x": "2194.9",
+        "y": "429.89"
+      },
+      "id": "R1-12-47-3_node_7"
+    },
+    {
+      "nclass": "node",
+      "ndata": {
+        "phases": "ABCN",
+        "voltage_A": "7200+0.0j",
+        "voltage_B": "-3600-6235j",
+        "voltage_C": "-3600+6235j",
+        "nominal_voltage": "7200",
+        "x": "1783.8",
+        "y": "910.5"
+      },
+      "id": "R1-12-47-3_node_8"
+    },
+    {
+      "nclass": "node",
+      "ndata": {
+        "phases": "ABCN",
+        "voltage_A": "7200+0.0j",
+        "voltage_B": "-3600-6235j",
+        "voltage_C": "-3600+6235j",
+        "nominal_voltage": "7200",
+        "x": "1981.4",
+        "y": "814.52"
+      },
+      "id": "R1-12-47-3_node_9"
+    },
+    {
+      "nclass": "node",
+      "ndata": {
+        "phases": "ABCN",
+        "voltage_A": "7200+0.0j",
+        "voltage_B": "-3600-6235j",
+        "voltage_C": "-3600+6235j",
+        "nominal_voltage": "7200",
+        "x": "2064.8",
+        "y": "837.79"
+      },
+      "id": "R1-12-47-3_node_10"
+    },
+    {
+      "nclass": "node",
+      "ndata": {
+        "phases": "ACN",
+        "voltage_A": "7200+0.0j",
+        "voltage_C": "-3600+6235j",
+        "nominal_voltage": "7200",
+        "x": "1951.6",
+        "y": "1228.2"
+      },
+      "id": "R1-12-47-3_node_11"
+    },
+    {
+      "nclass": "node",
+      "ndata": {
+        "phases": "CN",
+        "voltage_C": "-3600+6235j",
+        "nominal_voltage": "7200",
+        "x": "1915.2",
+        "y": "1254.6"
+      },
+      "id": "R1-12-47-3_node_12"
+    },
+    {
+      "nclass": "node",
+      "ndata": {
+        "phases": "ACN",
+        "voltage_A": "7200+0.0j",
+        "voltage_C": "-3600+6235j",
+        "nominal_voltage": "7200",
+        "x": "2036.9",
+        "y": "1285.8"
+      },
+      "id": "R1-12-47-3_node_13"
+    },
+    {
+      "nclass": "node",
+      "ndata": {
+        "phases": "CN",
+        "voltage_C": "-3600+6235j",
+        "nominal_voltage": "7200",
+        "x": "2096",
+        "y": "1373.3"
+      },
+      "id": "R1-12-47-3_node_14"
+    },
+    {
+      "nclass": "node",
+      "ndata": {
+        "phases": "ABCN",
+        "voltage_A": "7200+0.0j",
+        "voltage_B": "-3600-6235j",
+        "voltage_C": "-3600+6235j",
+        "nominal_voltage": "7200",
+        "x": "1672.1",
+        "y": "871.73"
+      },
+      "id": "R1-12-47-3_node_15"
+    },
+    {
+      "nclass": "node",
+      "ndata": {
+        "phases": "ABCN",
+        "voltage_A": "7200+0.0j",
+        "voltage_B": "-3600-6235j",
+        "voltage_C": "-3600+6235j",
+        "nominal_voltage": "7200",
+        "x": "1682.3",
+        "y": "893.2"
+      },
+      "id": "R1-12-47-3_node_16"
+    },
+    {
+      "nclass": "node",
+      "ndata": {
+        "phases": "ABCN",
+        "voltage_A": "7200+0.0j",
+        "voltage_B": "-3600-6235j",
+        "voltage_C": "-3600+6235j",
+        "nominal_voltage": "7200",
+        "x": "1652.9",
+        "y": "873.42"
+      },
+      "id": "R1-12-47-3_node_17"
+    },
+    {
+      "nclass": "node",
+      "ndata": {
+        "phases": "ABCN",
+        "voltage_A": "7200+0.0j",
+        "voltage_B": "-3600-6235j",
+        "voltage_C": "-3600+6235j",
+        "nominal_voltage": "7200",
+        "x": "1000.4",
+        "y": "667.4"
+      },
+      "id": "R1-12-47-3_node_18"
+    },
+    {
+      "nclass": "node",
+      "ndata": {
+        "phases": "ABCN",
+        "voltage_A": "7200+0.0j",
+        "voltage_B": "-3600-6235j",
+        "voltage_C": "-3600+6235j",
+        "nominal_voltage": "7200",
+        "x": "919.23",
+        "y": "297.84"
+      },
+      "id": "R1-12-47-3_node_22"
+    },
+    {
+      "nclass": "node",
+      "ndata": {
+        "phases": "BCN",
+        "voltage_B": "-3600-6235j",
+        "voltage_C": "-3600+6235j",
+        "nominal_voltage": "7200",
+        "x": "1074.9",
+        "y": "307.07"
+      },
+      "id": "R1-12-47-3_node_25"
+    },
+    {
+      "nclass": "node",
+      "ndata": {
+        "phases": "BCN",
+        "voltage_B": "-3600-6235j",
+        "voltage_C": "-3600+6235j",
+        "nominal_voltage": "7200",
+        "x": "970.64",
+        "y": "38.6"
+      },
+      "id": "R1-12-47-3_node_26"
+    },
+    {
+      "nclass": "node",
+      "ndata": {
+        "phases": "AN",
+        "voltage_A": "7200+0.0j",
+        "nominal_voltage": "7200",
+        "x": "785.66",
+        "y": "838.09"
+      },
+      "id": "R1-12-47-3_node_29"
+    },
+    {
+      "nclass": "node",
+      "ndata": {
+        "phases": "AN",
+        "voltage_A": "7200+0.0j",
+        "nominal_voltage": "7200",
+        "x": "715.9",
+        "y": "808.92"
+      },
+      "id": "R1-12-47-3_node_30"
+    },
+    {
+      "nclass": "node",
+      "ndata": {
+        "phases": "ABCN",
+        "voltage_A": "7200+0.0j",
+        "voltage_B": "-3600-6235j",
+        "voltage_C": "-3600+6235j",
+        "nominal_voltage": "7200",
+        "x": "674.28",
+        "y": "948.91"
+      },
+      "id": "R1-12-47-3_node_31"
+    },
+    {
+      "nclass": "node",
+      "ndata": {
+        "phases": "ABCN",
+        "voltage_A": "7200+0.0j",
+        "voltage_B": "-3600-6235j",
+        "voltage_C": "-3600+6235j",
+        "nominal_voltage": "7200",
+        "x": "784.37",
+        "y": "1314.5"
+      },
+      "id": "R1-12-47-3_node_34"
+    },
+    {
+      "nclass": "node",
+      "ndata": {
+        "phases": "ABCN",
+        "voltage_A": "7200+0.0j",
+        "voltage_B": "-3600-6235j",
+        "voltage_C": "-3600+6235j",
+        "nominal_voltage": "7200",
+        "x": "377.28",
+        "y": "944.43"
+      },
+      "id": "R1-12-47-3_node_41"
+    },
+    {
+      "nclass": "node",
+      "ndata": {
+        "phases": "ABCN",
+        "voltage_A": "7200+0.0j",
+        "voltage_B": "-3600-6235j",
+        "voltage_C": "-3600+6235j",
+        "nominal_voltage": "7200",
+        "x": "367.36",
+        "y": "859.13"
+      },
+      "id": "R1-12-47-3_node_42"
+    },
+    {
+      "nclass": "node",
+      "ndata": {
+        "phases": "ABCN",
+        "voltage_A": "7200+0.0j",
+        "voltage_B": "-3600-6235j",
+        "voltage_C": "-3600+6235j",
+        "nominal_voltage": "7200",
+        "x": "245.91",
+        "y": "966.63"
+      },
+      "id": "R1-12-47-3_node_43"
+    },
+    {
+      "nclass": "node",
+      "ndata": {
+        "phases": "AN",
+        "voltage_A": "7200+0.0j",
+        "nominal_voltage": "7200",
+        "x": "228.35",
+        "y": "918.61"
+      },
+      "id": "R1-12-47-3_node_44"
+    },
+    {
+      "nclass": "node",
+      "ndata": {
+        "phases": "ABCN",
+        "voltage_A": "7200+0.0j",
+        "voltage_B": "-3600-6235j",
+        "voltage_C": "-3600+6235j",
+        "nominal_voltage": "7200",
+        "x": "215.12",
+        "y": "995.41"
+      },
+      "id": "R1-12-47-3_node_45"
+    },
+    {
+      "nclass": "node",
+      "ndata": {
+        "parent": "R1-12-47-3_meter_22",
+        "phases": "ABCN",
+        "voltage_A": "7200+0.0j",
+        "voltage_B": "-3600-6235j",
+        "voltage_C": "-3600+6235j",
+        "nominal_voltage": "7200",
+        "x": "2425.8",
+        "y": "322.24"
+      },
+      "id": "R1-12-47-3_node_52"
+    },
+    {
+      "nclass": "node",
+      "ndata": {
+        "phases": "ABCN",
+        "voltage_A": "7200+0.0j",
+        "voltage_B": "-3600-6235j",
+        "voltage_C": "-3600+6235j",
+        "nominal_voltage": "7200",
+        "x": "2414.2",
+        "y": "336.33"
+      },
+      "id": "R1-12-47-3_node_2"
+    },
+    {
+      "nclass": "node",
+      "ndata": {
+        "phases": "ABCN",
+        "voltage_A": "7200+0.0j",
+        "voltage_B": "-3600-6235j",
+        "voltage_C": "-3600+6235j",
+        "nominal_voltage": "7200",
+        "x": "1964.9",
+        "y": "808.03"
+      },
+      "id": "R1-12-47-3_node_51"
+    },
+    {
+      "nclass": "node",
+      "ndata": {
+        "phases": "ABCN",
+        "voltage_A": "7200+0.0j",
+        "voltage_B": "-3600-6235j",
+        "voltage_C": "-3600+6235j",
+        "nominal_voltage": "7200",
+        "x": "1679.4",
+        "y": "854.43"
+      },
+      "id": "R1-12-47-3_node_49"
+    },
+    {
+      "nclass": "node",
+      "ndata": {
+        "phases": "ABCN",
+        "voltage_A": "7200+0.0j",
+        "voltage_B": "-3600-6235j",
+        "voltage_C": "-3600+6235j",
+        "nominal_voltage": "7200",
+        "x": "802.39",
+        "y": "1310.3"
+      },
+      "id": "R1-12-47-3_node_1"
+    },
+    {
+      "nclass": "node",
+      "ndata": {
+        "phases": "ABCN",
+        "voltage_A": "7200+0.0j",
+        "voltage_B": "-3600-6235j",
+        "voltage_C": "-3600+6235j",
+        "nominal_voltage": "7200",
+        "x": "777.06",
+        "y": "1331.7"
+      },
+      "id": "R1-12-47-3_node_50"
+    },
+    {
+      "nclass": "triplex_node",
+      "ndata": {
+        "phases": "BS",
+        "voltage_1": "-60-103.92j",
+        "voltage_2": "-60-103.92j",
+        "voltage_N": "0",
+        "nominal_voltage": "120",
+        "x": "608.85",
+        "y": "1146.3"
+      },
+      "id": "R1-12-47-3_tn_1"
+    },
+    {
+      "nclass": "meter",
+      "ndata": {
+        "phases": "CN",
+        "nominal_voltage": "480",
+        "x": "2189.5",
+        "y": "308.71"
+      },
+      "id": "R1-12-47-3_meter_1"
+    },
+    {
+      "nclass": "meter",
+      "ndata": {
+        "phases": "ABCN",
+        "nominal_voltage": "480",
+        "x": "2082.9",
+        "y": "838.62"
+      },
+      "id": "R1-12-47-3_meter_2"
+    },
+    {
+      "nclass": "meter",
+      "ndata": {
+        "phases": "ACN",
+        "nominal_voltage": "480",
+        "x": "1958.6",
+        "y": "1211.6"
+      },
+      "id": "R1-12-47-3_meter_3"
+    },
+    {
+      "nclass": "meter",
+      "ndata": {
+        "phases": "CN",
+        "nominal_voltage": "480",
+        "x": "1904.8",
+        "y": "1269.4"
+      },
+      "id": "R1-12-47-3_meter_4"
+    },
+    {
+      "nclass": "meter",
+      "ndata": {
+        "phases": "CN",
+        "nominal_voltage": "480",
+        "x": "2110.9",
+        "y": "1383.6"
+      },
+      "id": "R1-12-47-3_meter_5"
+    },
+    {
+      "nclass": "meter",
+      "ndata": {
+        "phases": "ABCN",
+        "nominal_voltage": "480",
+        "x": "1016.3",
+        "y": "676.02"
+      },
+      "id": "R1-12-47-3_meter_6"
+    },
+    {
+      "nclass": "meter",
+      "ndata": {
+        "phases": "AN",
+        "nominal_voltage": "480",
+        "x": "987.98",
+        "y": "463.04"
+      },
+      "id": "R1-12-47-3_meter_7"
+    },
+    {
+      "nclass": "meter",
+      "ndata": {
+        "phases": "ABCN",
+        "nominal_voltage": "480",
+        "x": "905.57",
+        "y": "285.37"
+      },
+      "id": "R1-12-47-3_meter_8"
+    },
+    {
+      "nclass": "node",
+      "ndata": {
+        "phases": "BN",
+        "voltage_B": "-3600-6235j",
+        "nominal_voltage": "7200",
+        "x": "1020.6",
+        "y": "259.44"
+      },
+      "id": "R1-12-47-3_node_24"
+    },
+    {
+      "nclass": "meter",
+      "ndata": {
+        "phases": "BN",
+        "nominal_voltage": "480",
+        "x": "1029.4",
+        "y": "243.4"
+      },
+      "id": "R1-12-47-3_meter_9"
+    },
+    {
+      "nclass": "meter",
+      "ndata": {
+        "phases": "ABCN",
+        "nominal_voltage": "480",
+        "x": "750.64",
+        "y": "905.17"
+      },
+      "id": "R1-12-47-3_meter_10"
+    },
+    {
+      "nclass": "meter",
+      "ndata": {
+        "phases": "AN",
+        "nominal_voltage": "480",
+        "x": "775.83",
+        "y": "876.38"
+      },
+      "id": "R1-12-47-3_meter_11"
+    },
+    {
+      "nclass": "meter",
+      "ndata": {
+        "phases": "AN",
+        "nominal_voltage": "480",
+        "x": "802.63",
+        "y": "830.88"
+      },
+      "id": "R1-12-47-3_meter_12"
+    },
+    {
+      "nclass": "meter",
+      "ndata": {
+        "phases": "AN",
+        "nominal_voltage": "480",
+        "x": "708.96",
+        "y": "791.78"
+      },
+      "id": "R1-12-47-3_meter_13"
+    },
+    {
+      "nclass": "meter",
+      "ndata": {
+        "phases": "AN",
+        "nominal_voltage": "480",
+        "x": "570.38",
+        "y": "982.4"
+      },
+      "id": "R1-12-47-3_meter_14"
+    },
+    {
+      "nclass": "meter",
+      "ndata": {
+        "phases": "BN",
+        "nominal_voltage": "480",
+        "x": "556.22",
+        "y": "1170.2"
+      },
+      "id": "R1-12-47-3_meter_15"
+    },
+    {
+      "nclass": "node",
+      "ndata": {
+        "phases": "BN",
+        "voltage_B": "-3600-6235j",
+        "nominal_voltage": "7200",
+        "x": "546.45",
+        "y": "1231"
+      },
+      "id": "R1-12-47-3_node_38"
+    },
+    {
+      "nclass": "meter",
+      "ndata": {
+        "phases": "BN",
+        "nominal_voltage": "480",
+        "x": "544.08",
+        "y": "1249.1"
+      },
+      "id": "R1-12-47-3_meter_16"
+    },
+    {
+      "nclass": "node",
+      "ndata": {
+        "phases": "BN",
+        "voltage_B": "-3600-6235j",
+        "nominal_voltage": "7200",
+        "x": "526.38",
+        "y": "1147.9"
+      },
+      "id": "R1-12-47-3_node_39"
+    },
+    {
+      "nclass": "meter",
+      "ndata": {
+        "phases": "BN",
+        "nominal_voltage": "480",
+        "x": "507.98",
+        "y": "1150.9"
+      },
+      "id": "R1-12-47-3_meter_17"
+    },
+    {
+      "nclass": "meter",
+      "ndata": {
+        "phases": "ABCN",
+        "nominal_voltage": "480",
+        "x": "361.67",
+        "y": "841.59"
+      },
+      "id": "R1-12-47-3_meter_18"
+    },
+    {
+      "nclass": "meter",
+      "ndata": {
+        "phases": "AN",
+        "nominal_voltage": "480",
+        "x": "218.95",
+        "y": "902.57"
+      },
+      "id": "R1-12-47-3_meter_19"
+    },
+    {
+      "nclass": "node",
+      "ndata": {
+        "phases": "ABCN",
+        "voltage_A": "7200+0.0j",
+        "voltage_B": "-3600-6235j",
+        "voltage_C": "-3600+6235j",
+        "nominal_voltage": "7200",
+        "x": "85.331",
+        "y": "985.29"
+      },
+      "id": "R1-12-47-3_node_47"
+    },
+    {
+      "nclass": "meter",
+      "ndata": {
+        "phases": "ABCN",
+        "nominal_voltage": "480",
+        "x": "69.31",
+        "y": "976.02"
+      },
+      "id": "R1-12-47-3_meter_20"
+    },
+    {
+      "nclass": "node",
+      "ndata": {
+        "phases": "ABCN",
+        "voltage_A": "7200+0.0j",
+        "voltage_B": "-3600-6235j",
+        "voltage_C": "-3600+6235j",
+        "nominal_voltage": "7200",
+        "x": "70.817",
+        "y": "1109.6"
+      },
+      "id": "R1-12-47-3_node_48"
+    },
+    {
+      "nclass": "meter",
+      "ndata": {
+        "phases": "ABCN",
+        "nominal_voltage": "480",
+        "x": "57.639",
+        "y": "1122.3"
+      },
+      "id": "R1-12-47-3_meter_21"
+    },
+    {
+      "nclass": "triplex_meter",
+      "ndata": {
+        "phases": "BS",
+        "voltage_1": "-60-103.92j",
+        "voltage_2": "-60-103.92j",
+        "voltage_N": "0",
+        "nominal_voltage": "120",
+        "x": "625.38",
+        "y": "1155.6"
+      },
+      "id": "R1-12-47-3_tm_1"
+    },
+    {
+      "nclass": "node",
+      "ndata": {
+        "phases": "ABCN",
+        "voltage_A": "7200+0.0j",
+        "voltage_B": "-3600-6235j",
+        "voltage_C": "-3600+6235j",
+        "nominal_voltage": "7200",
+        "x": "128.26",
+        "y": "1016.4"
+      },
+      "id": "R1-12-47-3_node_46"
+    },
+    {
+      "nclass": "load",
+      "ndata": {
+        "parent": "R1-12-47-3_meter_1",
+        "phases": "CN",
+        "voltage_C": "-3600+6235j",
+        "constant_power_C": "54848.3315+1161.1672j",
+        "nominal_voltage": "480",
+        "load_class": "C"
+      },
+      "id": "R1-12-47-3_load_1"
+    },
+    {
+      "nclass": "load",
+      "ndata": {
+        "parent": "R1-12-47-3_meter_2",
+        "phases": "ABCN",
+        "voltage_A": "7200+0.0j",
+        "voltage_B": "-3600-6235j",
+        "voltage_C": "-3600+6235j",
+        "constant_power_A": "18397.9491+344.1439j",
+        "constant_power_B": "5945.0578+187.089j",
+        "constant_power_C": "16454.4994+348.3502j",
+        "nominal_voltage": "480",
+        "load_class": "C"
+      },
+      "id": "R1-12-47-3_load_2"
+    },
+    {
+      "nclass": "load",
+      "ndata": {
+        "parent": "R1-12-47-3_meter_3",
+        "phases": "ACN",
+        "voltage_A": "7200+0.0j",
+        "voltage_C": "-3600+6235j",
+        "constant_power_A": "0+0j",
+        "constant_power_C": "27424.1657+580.5836j",
+        "nominal_voltage": "480",
+        "load_class": "C"
+      },
+      "id": "R1-12-47-3_load_3"
+    },
+    {
+      "nclass": "load",
+      "ndata": {
+        "parent": "R1-12-47-3_meter_4",
+        "phases": "CN",
+        "voltage_C": "-3600+6235j",
+        "constant_power_C": "54848.3315+1161.1672j",
+        "nominal_voltage": "480",
+        "load_class": "C"
+      },
+      "id": "R1-12-47-3_load_4"
+    },
+    {
+      "nclass": "load",
+      "ndata": {
+        "parent": "R1-12-47-3_meter_5",
+        "phases": "CN",
+        "voltage_C": "-3600+6235j",
+        "constant_power_C": "54848.3315+1161.1672j",
+        "nominal_voltage": "480",
+        "load_class": "C"
+      },
+      "id": "R1-12-47-3_load_5"
+    },
+    {
+      "nclass": "load",
+      "ndata": {
+        "parent": "R1-12-47-3_meter_6",
+        "phases": "ABCN",
+        "voltage_A": "7200+0.0j",
+        "voltage_B": "-3600-6235j",
+        "voltage_C": "-3600+6235j",
+        "constant_power_A": "0+0j",
+        "constant_power_B": "0+0j",
+        "constant_power_C": "82272.4972+1741.7508j",
+        "nominal_voltage": "480",
+        "load_class": "C"
+      },
+      "id": "R1-12-47-3_load_6"
+    },
+    {
+      "nclass": "load",
+      "ndata": {
+        "parent": "R1-12-47-3_meter_7",
+        "phases": "AN",
+        "voltage_A": "7200+0.0j",
+        "constant_power_A": "42928.5478+803.0025j",
+        "nominal_voltage": "480",
+        "load_class": "C"
+      },
+      "id": "R1-12-47-3_load_7"
+    },
+    {
+      "nclass": "load",
+      "ndata": {
+        "parent": "R1-12-47-3_meter_8",
+        "phases": "ABCN",
+        "voltage_A": "7200+0.0j",
+        "voltage_B": "-3600-6235j",
+        "voltage_C": "-3600+6235j",
+        "constant_power_A": "30663.2485+573.5732j",
+        "constant_power_B": "9908.4297+311.8149j",
+        "constant_power_C": "27424.1657+580.5836j",
+        "nominal_voltage": "480",
+        "load_class": "C"
+      },
+      "id": "R1-12-47-3_load_8"
+    },
+    {
+      "nclass": "load",
+      "ndata": {
+        "parent": "R1-12-47-3_meter_9",
+        "phases": "BN",
+        "voltage_B": "-3600-6235j",
+        "constant_power_B": "29725.289+935.4448j",
+        "nominal_voltage": "480",
+        "load_class": "C"
+      },
+      "id": "R1-12-47-3_load_9"
+    },
+    {
+      "nclass": "load",
+      "ndata": {
+        "parent": "R1-12-47-3_meter_10",
+        "phases": "ABCN",
+        "voltage_A": "7200+0.0j",
+        "voltage_B": "-3600-6235j",
+        "voltage_C": "-3600+6235j",
+        "constant_power_A": "0+0j",
+        "constant_power_B": "9908.4297+311.8149j",
+        "constant_power_C": "54848.3315+1161.1672j",
+        "nominal_voltage": "480",
+        "load_class": "C"
+      },
+      "id": "R1-12-47-3_load_10"
+    },
+    {
+      "nclass": "load",
+      "ndata": {
+        "parent": "R1-12-47-3_meter_11",
+        "phases": "AN",
+        "voltage_A": "7200+0.0j",
+        "constant_power_A": "110387.6944+2064.8636j",
+        "nominal_voltage": "480",
+        "load_class": "C"
+      },
+      "id": "R1-12-47-3_load_11"
+    },
+    {
+      "nclass": "load",
+      "ndata": {
+        "parent": "R1-12-47-3_meter_12",
+        "phases": "AN",
+        "voltage_A": "7200+0.0j",
+        "constant_power_A": "30663.2485+573.5732j",
+        "nominal_voltage": "480",
+        "load_class": "C"
+      },
+      "id": "R1-12-47-3_load_12"
+    },
+    {
+      "nclass": "load",
+      "ndata": {
+        "parent": "R1-12-47-3_meter_13",
+        "phases": "AN",
+        "voltage_A": "7200+0.0j",
+        "constant_power_A": "30663.2485+573.5732j",
+        "nominal_voltage": "480",
+        "load_class": "C"
+      },
+      "id": "R1-12-47-3_load_13"
+    },
+    {
+      "nclass": "load",
+      "ndata": {
+        "parent": "R1-12-47-3_meter_14",
+        "phases": "AN",
+        "voltage_A": "7200+0.0j",
+        "constant_power_A": "30663.2485+573.5732j",
+        "nominal_voltage": "480",
+        "load_class": "C"
+      },
+      "id": "R1-12-47-3_load_14"
+    },
+    {
+      "nclass": "load",
+      "ndata": {
+        "parent": "R1-12-47-3_meter_15",
+        "phases": "BN",
+        "voltage_B": "-3600-6235j",
+        "constant_power_B": "19800+600j",
+        "nominal_voltage": "480",
+        "load_class": "C"
+      },
+      "id": "R1-12-47-3_load_15"
+    },
+    {
+      "nclass": "load",
+      "ndata": {
+        "parent": "R1-12-47-3_meter_16",
+        "phases": "BN",
+        "voltage_B": "-3600-6235j",
+        "constant_power_B": "66200+2100j",
+        "nominal_voltage": "480",
+        "load_class": "C"
+      },
+      "id": "R1-12-47-3_load_16"
+    },
+    {
+      "nclass": "load",
+      "ndata": {
+        "parent": "R1-12-47-3_meter_17",
+        "phases": "BN",
+        "voltage_B": "-3600-6235j",
+        "constant_power_B": "19800+600j",
+        "nominal_voltage": "480",
+        "load_class": "C"
+      },
+      "id": "R1-12-47-3_load_17"
+    },
+    {
+      "nclass": "load",
+      "ndata": {
+        "parent": "R1-12-47-3_meter_18",
+        "phases": "ABCN",
+        "voltage_A": "7200+0.0j",
+        "voltage_B": "-3600-6235j",
+        "voltage_C": "-3600+6235j",
+        "constant_power_A": "61326.4969+1147.1465j",
+        "constant_power_B": "19816.8593+623.6299j",
+        "constant_power_C": "54848.3315+1161.1672j",
+        "nominal_voltage": "480",
+        "load_class": "C"
+      },
+      "id": "R1-12-47-3_load_18"
+    },
+    {
+      "nclass": "load",
+      "ndata": {
+        "parent": "R1-12-47-3_meter_19",
+        "phases": "AN",
+        "voltage_A": "7200+0.0j",
+        "constant_power_A": "30663.2485+573.5732j",
+        "nominal_voltage": "480",
+        "load_class": "C"
+      },
+      "id": "R1-12-47-3_load_19"
+    },
+    {
+      "nclass": "load",
+      "ndata": {
+        "parent": "R1-12-47-3_meter_20",
+        "phases": "ABCN",
+        "voltage_A": "7200+0.0j",
+        "voltage_B": "-3600-6235j",
+        "voltage_C": "-3600+6235j",
+        "constant_power_A": "45994.8727+860.3598j",
+        "constant_power_B": "14862.6445+467.7224j",
+        "constant_power_C": "41136.2486+870.8754j",
+        "nominal_voltage": "480",
+        "load_class": "C"
+      },
+      "id": "R1-12-47-3_load_20"
+    },
+    {
+      "nclass": "load",
+      "ndata": {
+        "parent": "R1-12-47-3_meter_21",
+        "phases": "ABCN",
+        "voltage_A": "7200+0.0j",
+        "voltage_B": "-3600-6235j",
+        "voltage_C": "-3600+6235j",
+        "constant_power_A": "30663.2485+573.5732j",
+        "constant_power_B": "9908.4297+311.8149j",
+        "constant_power_C": "27424.1657+580.5836j",
+        "nominal_voltage": "480",
+        "load_class": "C"
+      },
+      "id": "R1-12-47-3_load_21"
+    },
+    {
+      "nclass": "triplex_node",
+      "ndata": {
+        "phases": "BS",
+        "parent": "R1-12-47-3_tm_1",
+        "power_12": "175181.0364+5512.8881j",
+        "voltage_1": "-60-103.92j",
+        "voltage_2": "-60-103.92j",
+        "voltage_N": "0",
+        "nominal_voltage": "120",
+        "x": "640.36",
+        "y": "1166.8"
+      },
+      "id": "R1-12-47-3_tn_2"
+    }
+  ],
+  "links": [
+    {
+      "eclass": "regulator",
+      "ename": "R1-12-47-3_reg_1",
+      "edata": {
+        "from": "R1-12-47-3_node_53",
+        "to": "R1-12-47-3_meter_22",
+        "phases": "ABCN",
+        "configuration": "feeder_reg_cfg"
+      },
+      "source": "R1-12-47-3_node_53",
+      "target": "R1-12-47-3_meter_22"
+    },
+    {
+      "eclass": "parent",
+      "ename": "R1-12-47-3_node_52",
+      "edata": {},
+      "source": "R1-12-47-3_meter_22",
+      "target": "R1-12-47-3_node_52"
+    },
+    {
+      "eclass": "fuse",
+      "ename": "R1-12-47-3_fuse_1",
+      "edata": {
+        "phases": "AN",
+        "from": "R1-12-47-3_node_19",
+        "to": "R1-12-47-3_node_20",
+        "mean_replacement_time": "3600",
+        "current_limit": "40",
+        "status": "CLOSED"
+      },
+      "source": "R1-12-47-3_node_19",
+      "target": "R1-12-47-3_node_20"
+    },
+    {
+      "eclass": "overhead_line",
+      "ename": "R1-12-47-3_ol_15",
+      "edata": {
+        "phases": "ABCN",
+        "from": "R1-12-47-3_node_18",
+        "to": "R1-12-47-3_node_19",
+        "length": "485.017",
+        "configuration": "line_configuration:24"
+      },
+      "source": "R1-12-47-3_node_19",
+      "target": "R1-12-47-3_node_18"
+    },
+    {
+      "eclass": "overhead_line",
+      "ename": "R1-12-47-3_ol_16",
+      "edata": {
+        "phases": "ABCN",
+        "from": "R1-12-47-3_node_19",
+        "to": "R1-12-47-3_node_21",
+        "length": "275.614",
+        "configuration": "line_configuration:26"
+      },
+      "source": "R1-12-47-3_node_19",
+      "target": "R1-12-47-3_node_21"
+    },
+    {
+      "eclass": "transformer",
+      "ename": "R1-12-47-3_xfmr_8",
+      "edata": {
+        "phases": "AN",
+        "from": "R1-12-47-3_node_20",
+        "to": "R1-12-47-3_meter_7",
+        "configuration": "XF1_POLETOP_AN_75"
+      },
+      "source": "R1-12-47-3_node_20",
+      "target": "R1-12-47-3_meter_7"
+    },
+    {
+      "eclass": "fuse",
+      "ename": "R1-12-47-3_fuse_2",
+      "edata": {
+        "phases": "BCN",
+        "from": "R1-12-47-3_node_21",
+        "to": "R1-12-47-3_node_23",
+        "mean_replacement_time": "3600",
+        "current_limit": "40",
+        "status": "CLOSED"
+      },
+      "source": "R1-12-47-3_node_21",
+      "target": "R1-12-47-3_node_23"
+    },
+    {
+      "eclass": "overhead_line",
+      "ename": "R1-12-47-3_ol_17",
+      "edata": {
+        "phases": "ABCN",
+        "from": "R1-12-47-3_node_21",
+        "to": "R1-12-47-3_node_22",
+        "length": "165.147",
+        "configuration": "line_configuration:27"
+      },
+      "source": "R1-12-47-3_node_21",
+      "target": "R1-12-47-3_node_22"
+    },
+    {
+      "eclass": "underground_line",
+      "ename": "R1-12-47-3_ul_2",
+      "edata": {
+        "phases": "BN",
+        "from": "R1-12-47-3_node_23",
+        "to": "R1-12-47-3_node_24",
+        "length": "160.451",
+        "configuration": "line_configuration:29"
+      },
+      "source": "R1-12-47-3_node_23",
+      "target": "R1-12-47-3_node_24"
+    },
+    {
+      "eclass": "underground_line",
+      "ename": "R1-12-47-3_ul_3",
+      "edata": {
+        "phases": "BCN",
+        "from": "R1-12-47-3_node_23",
+        "to": "R1-12-47-3_node_25",
+        "length": "190.827",
+        "configuration": "line_configuration:28"
+      },
+      "source": "R1-12-47-3_node_23",
+      "target": "R1-12-47-3_node_25"
+    },
+    {
+      "eclass": "fuse",
+      "ename": "R1-12-47-3_fuse_3",
+      "edata": {
+        "phases": "AN",
+        "from": "R1-12-47-3_node_27",
+        "to": "R1-12-47-3_node_28",
+        "mean_replacement_time": "3600",
+        "current_limit": "65",
+        "status": "CLOSED"
+      },
+      "source": "R1-12-47-3_node_27",
+      "target": "R1-12-47-3_node_28"
+    },
+    {
+      "eclass": "overhead_line",
+      "ename": "R1-12-47-3_ol_19",
+      "edata": {
+        "phases": "ABCN",
+        "from": "R1-12-47-3_node_18",
+        "to": "R1-12-47-3_node_27",
+        "length": "734.441",
+        "configuration": "line_configuration:27"
+      },
+      "source": "R1-12-47-3_node_27",
+      "target": "R1-12-47-3_node_18"
+    },
+    {
+      "eclass": "overhead_line",
+      "ename": "R1-12-47-3_ol_22",
+      "edata": {
+        "phases": "ABCN",
+        "from": "R1-12-47-3_node_27",
+        "to": "R1-12-47-3_node_31",
+        "length": "229.262",
+        "configuration": "line_configuration:27"
+      },
+      "source": "R1-12-47-3_node_27",
+      "target": "R1-12-47-3_node_31"
+    },
+    {
+      "eclass": "transformer",
+      "ename": "R1-12-47-3_xfmr_11",
+      "edata": {
+        "phases": "ABCN",
+        "from": "R1-12-47-3_node_27",
+        "to": "R1-12-47-3_meter_10",
+        "configuration": "XF3_POLETOP_ABCN_112p5"
+      },
+      "source": "R1-12-47-3_node_27",
+      "target": "R1-12-47-3_meter_10"
+    },
+    {
+      "eclass": "overhead_line",
+      "ename": "R1-12-47-3_ol_20",
+      "edata": {
+        "phases": "AN",
+        "from": "R1-12-47-3_node_28",
+        "to": "R1-12-47-3_node_29",
+        "length": "111.674",
+        "configuration": "line_configuration:32"
+      },
+      "source": "R1-12-47-3_node_28",
+      "target": "R1-12-47-3_node_29"
+    },
+    {
+      "eclass": "overhead_line",
+      "ename": "R1-12-47-3_ol_21",
+      "edata": {
+        "phases": "AN",
+        "from": "R1-12-47-3_node_28",
+        "to": "R1-12-47-3_node_30",
+        "length": "174.016",
+        "configuration": "line_configuration:32"
+      },
+      "source": "R1-12-47-3_node_28",
+      "target": "R1-12-47-3_node_30"
+    },
+    {
+      "eclass": "transformer",
+      "ename": "R1-12-47-3_xfmr_12",
+      "edata": {
+        "phases": "AN",
+        "from": "R1-12-47-3_node_28",
+        "to": "R1-12-47-3_meter_11",
+        "configuration": "XF1_POLETOP_AN_167"
+      },
+      "source": "R1-12-47-3_node_28",
+      "target": "R1-12-47-3_meter_11"
+    },
+    {
+      "eclass": "fuse",
+      "ename": "R1-12-47-3_fuse_4",
+      "edata": {
+        "phases": "AN",
+        "from": "R1-12-47-3_node_32",
+        "to": "R1-12-47-3_node_33",
+        "mean_replacement_time": "3600",
+        "current_limit": "40",
+        "status": "CLOSED"
+      },
+      "source": "R1-12-47-3_node_32",
+      "target": "R1-12-47-3_node_33"
+    },
+    {
+      "eclass": "fuse",
+      "ename": "R1-12-47-3_fuse_5",
+      "edata": {
+        "phases": "ABCN",
+        "from": "R1-12-47-3_node_32",
+        "to": "R1-12-47-3_node_35",
+        "mean_replacement_time": "3600",
+        "current_limit": "100",
+        "status": "CLOSED"
+      },
+      "source": "R1-12-47-3_node_32",
+      "target": "R1-12-47-3_node_35"
+    },
+    {
+      "eclass": "overhead_line",
+      "ename": "R1-12-47-3_ol_23",
+      "edata": {
+        "phases": "ABCN",
+        "from": "R1-12-47-3_node_31",
+        "to": "R1-12-47-3_node_32",
+        "length": "234.203",
+        "configuration": "line_configuration:18"
+      },
+      "source": "R1-12-47-3_node_32",
+      "target": "R1-12-47-3_node_31"
+    },
+    {
+      "eclass": "overhead_line",
+      "ename": "R1-12-47-3_ol_24",
+      "edata": {
+        "phases": "ABCN",
+        "from": "R1-12-47-3_node_32",
+        "to": "R1-12-47-3_node_34",
+        "length": "693.760",
+        "configuration": "line_configuration:18"
+      },
+      "source": "R1-12-47-3_node_32",
+      "target": "R1-12-47-3_node_34"
+    },
+    {
+      "eclass": "transformer",
+      "ename": "R1-12-47-3_xfmr_15",
+      "edata": {
+        "phases": "AN",
+        "from": "R1-12-47-3_node_33",
+        "to": "R1-12-47-3_meter_14",
+        "configuration": "XF1_POLETOP_AN_37p5"
+      },
+      "source": "R1-12-47-3_node_33",
+      "target": "R1-12-47-3_meter_14"
+    },
+    {
+      "eclass": "overhead_line",
+      "ename": "R1-12-47-3_ol_25",
+      "edata": {
+        "phases": "ABCN",
+        "from": "R1-12-47-3_node_35",
+        "to": "R1-12-47-3_node_36",
+        "length": "277.512",
+        "configuration": "line_configuration:27"
+      },
+      "source": "R1-12-47-3_node_35",
+      "target": "R1-12-47-3_node_36"
+    },
+    {
+      "eclass": "overhead_line",
+      "ename": "R1-12-47-3_ol_26",
+      "edata": {
+        "phases": "ABCN",
+        "from": "R1-12-47-3_node_35",
+        "to": "R1-12-47-3_node_41",
+        "length": "428.598",
+        "configuration": "line_configuration:21"
+      },
+      "source": "R1-12-47-3_node_35",
+      "target": "R1-12-47-3_node_41"
+    },
+    {
+      "eclass": "fuse",
+      "ename": "R1-12-47-3_fuse_6",
+      "edata": {
+        "phases": "BN",
+        "from": "R1-12-47-3_node_36",
+        "to": "R1-12-47-3_node_37",
+        "mean_replacement_time": "3600",
+        "current_limit": "40",
+        "status": "CLOSED"
+      },
+      "source": "R1-12-47-3_node_36",
+      "target": "R1-12-47-3_node_37"
+    },
+    {
+      "eclass": "fuse",
+      "ename": "R1-12-47-3_fuse_7",
+      "edata": {
+        "phases": "BN",
+        "from": "R1-12-47-3_node_36",
+        "to": "R1-12-47-3_node_40",
+        "mean_replacement_time": "3600",
+        "current_limit": "65",
+        "status": "CLOSED"
+      },
+      "source": "R1-12-47-3_node_36",
+      "target": "R1-12-47-3_node_40"
+    },
+    {
+      "eclass": "transformer",
+      "ename": "R1-12-47-3_xfmr_16",
+      "edata": {
+        "phases": "BN",
+        "from": "R1-12-47-3_node_37",
+        "to": "R1-12-47-3_meter_15",
+        "configuration": "XF1_POLETOP_BN_25"
+      },
+      "source": "R1-12-47-3_node_37",
+      "target": "R1-12-47-3_meter_15"
+    },
+    {
+      "eclass": "underground_line",
+      "ename": "R1-12-47-3_ul_4",
+      "edata": {
+        "phases": "BN",
+        "from": "R1-12-47-3_node_37",
+        "to": "R1-12-47-3_node_38",
+        "length": "165.500",
+        "configuration": "line_configuration:29"
+      },
+      "source": "R1-12-47-3_node_37",
+      "target": "R1-12-47-3_node_38"
+    },
+    {
+      "eclass": "underground_line",
+      "ename": "R1-12-47-3_ul_5",
+      "edata": {
+        "phases": "BN",
+        "from": "R1-12-47-3_node_37",
+        "to": "R1-12-47-3_node_39",
+        "length": "74.300",
+        "configuration": "line_configuration:29"
+      },
+      "source": "R1-12-47-3_node_37",
+      "target": "R1-12-47-3_node_39"
+    },
+    {
+      "eclass": "transformer",
+      "ename": "R1-12-47-3_xfmr_1",
+      "edata": {
+        "phases": "BS",
+        "from": "R1-12-47-3_node_40",
+        "to": "R1-12-47-3_tn_1",
+        "configuration": "XF1_POLETOP_BS_250"
+      },
+      "source": "R1-12-47-3_node_40",
+      "target": "R1-12-47-3_tn_1"
+    },
+    {
+      "eclass": "overhead_line",
+      "ename": "R1-12-47-3_ol_1",
+      "edata": {
+        "phases": "ABCN",
+        "from": "R1-12-47-3_node_3",
+        "to": "R1-12-47-3_node_4",
+        "length": "387.401",
+        "configuration": "line_configuration:18"
+      },
+      "source": "R1-12-47-3_node_3",
+      "target": "R1-12-47-3_node_4"
+    },
+    {
+      "eclass": "underground_line",
+      "ename": "R1-12-47-3_ul_1",
+      "edata": {
+        "phases": "ABCN",
+        "from": "R1-12-47-3_node_2",
+        "to": "R1-12-47-3_node_3",
+        "length": "84.593",
+        "configuration": "line_configuration:17"
+      },
+      "source": "R1-12-47-3_node_3",
+      "target": "R1-12-47-3_node_2"
+    },
+    {
+      "eclass": "overhead_line",
+      "ename": "R1-12-47-3_ol_2",
+      "edata": {
+        "phases": "ACN",
+        "from": "R1-12-47-3_node_4",
+        "to": "R1-12-47-3_node_5",
+        "length": "68.936",
+        "configuration": "line_configuration:19"
+      },
+      "source": "R1-12-47-3_node_4",
+      "target": "R1-12-47-3_node_5"
+    },
+    {
+      "eclass": "overhead_line",
+      "ename": "R1-12-47-3_ol_3",
+      "edata": {
+        "phases": "CN",
+        "from": "R1-12-47-3_node_4",
+        "to": "R1-12-47-3_node_6",
+        "length": "157.766",
+        "configuration": "line_configuration:20"
+      },
+      "source": "R1-12-47-3_node_4",
+      "target": "R1-12-47-3_node_6"
+    },
+    {
+      "eclass": "overhead_line",
+      "ename": "R1-12-47-3_ol_4",
+      "edata": {
+        "phases": "ABCN",
+        "from": "R1-12-47-3_node_4",
+        "to": "R1-12-47-3_node_7",
+        "length": "139.494",
+        "configuration": "line_configuration:18"
+      },
+      "source": "R1-12-47-3_node_4",
+      "target": "R1-12-47-3_node_7"
+    },
+    {
+      "eclass": "transformer",
+      "ename": "R1-12-47-3_xfmr_2",
+      "edata": {
+        "phases": "CN",
+        "from": "R1-12-47-3_node_6",
+        "to": "R1-12-47-3_meter_1",
+        "configuration": "XF1_PADMOUNT_CN_75"
+      },
+      "source": "R1-12-47-3_node_6",
+      "target": "R1-12-47-3_meter_1"
+    },
+    {
+      "eclass": "overhead_line",
+      "ename": "R1-12-47-3_ol_5",
+      "edata": {
+        "phases": "ABCN",
+        "from": "R1-12-47-3_node_7",
+        "to": "R1-12-47-3_node_8",
+        "length": "1260.546",
+        "configuration": "line_configuration:18"
+      },
+      "source": "R1-12-47-3_node_7",
+      "target": "R1-12-47-3_node_8"
+    },
+    {
+      "eclass": "overhead_line",
+      "ename": "R1-12-47-3_ol_6",
+      "edata": {
+        "phases": "ABCN",
+        "from": "R1-12-47-3_node_8",
+        "to": "R1-12-47-3_node_9",
+        "length": "633.806",
+        "configuration": "line_configuration:18"
+      },
+      "source": "R1-12-47-3_node_8",
+      "target": "R1-12-47-3_node_9"
+    },
+    {
+      "eclass": "overhead_line",
+      "ename": "R1-12-47-3_ol_8",
+      "edata": {
+        "phases": "ACN",
+        "from": "R1-12-47-3_node_8",
+        "to": "R1-12-47-3_node_11",
+        "length": "749.489",
+        "configuration": "line_configuration:22"
+      },
+      "source": "R1-12-47-3_node_8",
+      "target": "R1-12-47-3_node_11"
+    },
+    {
+      "eclass": "overhead_line",
+      "ename": "R1-12-47-3_ol_12",
+      "edata": {
+        "phases": "ABCN",
+        "from": "R1-12-47-3_node_8",
+        "to": "R1-12-47-3_node_15",
+        "length": "275.240",
+        "configuration": "line_configuration:18"
+      },
+      "source": "R1-12-47-3_node_8",
+      "target": "R1-12-47-3_node_15"
+    },
+    {
+      "eclass": "overhead_line",
+      "ename": "R1-12-47-3_ol_7",
+      "edata": {
+        "phases": "ABCN",
+        "from": "R1-12-47-3_node_9",
+        "to": "R1-12-47-3_node_10",
+        "length": "237.576",
+        "configuration": "line_configuration:21"
+      },
+      "source": "R1-12-47-3_node_9",
+      "target": "R1-12-47-3_node_10"
+    },
+    {
+      "eclass": "switch",
+      "ename": "R1-12-47-3_switch_2",
+      "edata": {
+        "phases": "ABCN",
+        "from": "R1-12-47-3_node_9",
+        "to": "R1-12-47-3_node_51",
+        "status": "CLOSED"
+      },
+      "source": "R1-12-47-3_node_9",
+      "target": "R1-12-47-3_node_51"
+    },
+    {
+      "eclass": "transformer",
+      "ename": "R1-12-47-3_xfmr_3",
+      "edata": {
+        "phases": "ABCN",
+        "from": "R1-12-47-3_node_10",
+        "to": "R1-12-47-3_meter_2",
+        "configuration": "XF3_PADMOUNT_ABCN_75"
+      },
+      "source": "R1-12-47-3_node_10",
+      "target": "R1-12-47-3_meter_2"
+    },
+    {
+      "eclass": "overhead_line",
+      "ename": "R1-12-47-3_ol_9",
+      "edata": {
+        "phases": "CN",
+        "from": "R1-12-47-3_node_11",
+        "to": "R1-12-47-3_node_12",
+        "length": "122.880",
+        "configuration": "line_configuration:23"
+      },
+      "source": "R1-12-47-3_node_11",
+      "target": "R1-12-47-3_node_12"
+    },
+    {
+      "eclass": "overhead_line",
+      "ename": "R1-12-47-3_ol_10",
+      "edata": {
+        "phases": "ACN",
+        "from": "R1-12-47-3_node_11",
+        "to": "R1-12-47-3_node_13",
+        "length": "245.725",
+        "configuration": "line_configuration:19"
+      },
+      "source": "R1-12-47-3_node_11",
+      "target": "R1-12-47-3_node_13"
+    },
+    {
+      "eclass": "transformer",
+      "ename": "R1-12-47-3_xfmr_4",
+      "edata": {
+        "phases": "ACN",
+        "from": "R1-12-47-3_node_11",
+        "to": "R1-12-47-3_meter_3",
+        "configuration": "XF2_POLETOP_ACN_45"
+      },
+      "source": "R1-12-47-3_node_11",
+      "target": "R1-12-47-3_meter_3"
+    },
+    {
+      "eclass": "transformer",
+      "ename": "R1-12-47-3_xfmr_5",
+      "edata": {
+        "phases": "CN",
+        "from": "R1-12-47-3_node_12",
+        "to": "R1-12-47-3_meter_4",
+        "configuration": "XF1_POLETOP_CN_75"
+      },
+      "source": "R1-12-47-3_node_12",
+      "target": "R1-12-47-3_meter_4"
+    },
+    {
+      "eclass": "overhead_line",
+      "ename": "R1-12-47-3_ol_11",
+      "edata": {
+        "phases": "CN",
+        "from": "R1-12-47-3_node_13",
+        "to": "R1-12-47-3_node_14",
+        "length": "275.331",
+        "configuration": "line_configuration:23"
+      },
+      "source": "R1-12-47-3_node_13",
+      "target": "R1-12-47-3_node_14"
+    },
+    {
+      "eclass": "transformer",
+      "ename": "R1-12-47-3_xfmr_6",
+      "edata": {
+        "phases": "CN",
+        "from": "R1-12-47-3_node_14",
+        "to": "R1-12-47-3_meter_5",
+        "configuration": "XF1_POLETOP_CN_75"
+      },
+      "source": "R1-12-47-3_node_14",
+      "target": "R1-12-47-3_meter_5"
+    },
+    {
+      "eclass": "overhead_line",
+      "ename": "R1-12-47-3_ol_13",
+      "edata": {
+        "phases": "ABCN",
+        "from": "R1-12-47-3_node_15",
+        "to": "R1-12-47-3_node_16",
+        "length": "63.897",
+        "configuration": "line_configuration:18"
+      },
+      "source": "R1-12-47-3_node_15",
+      "target": "R1-12-47-3_node_16"
+    },
+    {
+      "eclass": "switch",
+      "ename": "R1-12-47-3_switch_3",
+      "edata": {
+        "phases": "ABCN",
+        "from": "R1-12-47-3_node_15",
+        "to": "R1-12-47-3_node_49",
+        "status": "CLOSED"
+      },
+      "source": "R1-12-47-3_node_15",
+      "target": "R1-12-47-3_node_49"
+    },
+    {
+      "eclass": "switch",
+      "ename": "R1-12-47-3_switch_4",
+      "edata": {
+        "phases": "ABCN",
+        "from": "R1-12-47-3_node_15",
+        "to": "R1-12-47-3_node_17",
+        "status": "CLOSED"
+      },
+      "source": "R1-12-47-3_node_15",
+      "target": "R1-12-47-3_node_17"
+    },
+    {
+      "eclass": "overhead_line",
+      "ename": "R1-12-47-3_ol_14",
+      "edata": {
+        "phases": "ABCN",
+        "from": "R1-12-47-3_node_17",
+        "to": "R1-12-47-3_node_18",
+        "length": "1499.769",
+        "configuration": "line_configuration:24"
+      },
+      "source": "R1-12-47-3_node_17",
+      "target": "R1-12-47-3_node_18"
+    },
+    {
+      "eclass": "transformer",
+      "ename": "R1-12-47-3_xfmr_7",
+      "edata": {
+        "phases": "ABCN",
+        "from": "R1-12-47-3_node_18",
+        "to": "R1-12-47-3_meter_6",
+        "configuration": "XF3_POLETOP_ABCN_112p5"
+      },
+      "source": "R1-12-47-3_node_18",
+      "target": "R1-12-47-3_meter_6"
+    },
+    {
+      "eclass": "transformer",
+      "ename": "R1-12-47-3_xfmr_9",
+      "edata": {
+        "phases": "ABCN",
+        "from": "R1-12-47-3_node_22",
+        "to": "R1-12-47-3_meter_8",
+        "configuration": "XF3_POLETOP_ABCN_112p5"
+      },
+      "source": "R1-12-47-3_node_22",
+      "target": "R1-12-47-3_meter_8"
+    },
+    {
+      "eclass": "overhead_line",
+      "ename": "R1-12-47-3_ol_18",
+      "edata": {
+        "phases": "BCN",
+        "from": "R1-12-47-3_node_25",
+        "to": "R1-12-47-3_node_26",
+        "length": "497.233",
+        "configuration": "line_configuration:30"
+      },
+      "source": "R1-12-47-3_node_25",
+      "target": "R1-12-47-3_node_26"
+    },
+    {
+      "eclass": "transformer",
+      "ename": "R1-12-47-3_xfmr_13",
+      "edata": {
+        "phases": "AN",
+        "from": "R1-12-47-3_node_29",
+        "to": "R1-12-47-3_meter_12",
+        "configuration": "XF1_POLETOP_AN_37p5"
+      },
+      "source": "R1-12-47-3_node_29",
+      "target": "R1-12-47-3_meter_12"
+    },
+    {
+      "eclass": "transformer",
+      "ename": "R1-12-47-3_xfmr_14",
+      "edata": {
+        "phases": "AN",
+        "from": "R1-12-47-3_node_30",
+        "to": "R1-12-47-3_meter_13",
+        "configuration": "XF1_POLETOP_AN_37p5"
+      },
+      "source": "R1-12-47-3_node_30",
+      "target": "R1-12-47-3_meter_13"
+    },
+    {
+      "eclass": "switch",
+      "ename": "R1-12-47-3_switch_5",
+      "edata": {
+        "phases": "ABCN",
+        "from": "R1-12-47-3_node_34",
+        "to": "R1-12-47-3_node_1",
+        "status": "CLOSED"
+      },
+      "source": "R1-12-47-3_node_34",
+      "target": "R1-12-47-3_node_1"
+    },
+    {
+      "eclass": "switch",
+      "ename": "R1-12-47-3_switch_6",
+      "edata": {
+        "phases": "ABCN",
+        "from": "R1-12-47-3_node_34",
+        "to": "R1-12-47-3_node_50",
+        "status": "CLOSED"
+      },
+      "source": "R1-12-47-3_node_34",
+      "target": "R1-12-47-3_node_50"
+    },
+    {
+      "eclass": "overhead_line",
+      "ename": "R1-12-47-3_ol_27",
+      "edata": {
+        "phases": "ABCN",
+        "from": "R1-12-47-3_node_41",
+        "to": "R1-12-47-3_node_42",
+        "length": "208.252",
+        "configuration": "line_configuration:24"
+      },
+      "source": "R1-12-47-3_node_41",
+      "target": "R1-12-47-3_node_42"
+    },
+    {
+      "eclass": "overhead_line",
+      "ename": "R1-12-47-3_ol_28",
+      "edata": {
+        "phases": "ABCN",
+        "from": "R1-12-47-3_node_41",
+        "to": "R1-12-47-3_node_43",
+        "length": "288.056",
+        "configuration": "line_configuration:24"
+      },
+      "source": "R1-12-47-3_node_41",
+      "target": "R1-12-47-3_node_43"
+    },
+    {
+      "eclass": "transformer",
+      "ename": "R1-12-47-3_xfmr_19",
+      "edata": {
+        "phases": "ABCN",
+        "from": "R1-12-47-3_node_42",
+        "to": "R1-12-47-3_meter_18",
+        "configuration": "XF3_POLETOP_ABCN_225"
+      },
+      "source": "R1-12-47-3_node_42",
+      "target": "R1-12-47-3_meter_18"
+    },
+    {
+      "eclass": "overhead_line",
+      "ename": "R1-12-47-3_ol_29",
+      "edata": {
+        "phases": "AN",
+        "from": "R1-12-47-3_node_43",
+        "to": "R1-12-47-3_node_44",
+        "length": "127.857",
+        "configuration": "line_configuration:31"
+      },
+      "source": "R1-12-47-3_node_43",
+      "target": "R1-12-47-3_node_44"
+    },
+    {
+      "eclass": "overhead_line",
+      "ename": "R1-12-47-3_ol_30",
+      "edata": {
+        "phases": "ABCN",
+        "from": "R1-12-47-3_node_43",
+        "to": "R1-12-47-3_node_45",
+        "length": "103.017",
+        "configuration": "line_configuration:27"
+      },
+      "source": "R1-12-47-3_node_43",
+      "target": "R1-12-47-3_node_45"
+    },
+    {
+      "eclass": "transformer",
+      "ename": "R1-12-47-3_xfmr_20",
+      "edata": {
+        "phases": "AN",
+        "from": "R1-12-47-3_node_44",
+        "to": "R1-12-47-3_meter_19",
+        "configuration": "XF1_POLETOP_AN_37p5"
+      },
+      "source": "R1-12-47-3_node_44",
+      "target": "R1-12-47-3_meter_19"
+    },
+    {
+      "eclass": "underground_line",
+      "ename": "R1-12-47-3_ul_6",
+      "edata": {
+        "phases": "ABCN",
+        "from": "R1-12-47-3_node_45",
+        "to": "R1-12-47-3_node_46",
+        "length": "202.409",
+        "configuration": "line_configuration:33"
+      },
+      "source": "R1-12-47-3_node_45",
+      "target": "R1-12-47-3_node_46"
+    },
+    {
+      "eclass": "switch",
+      "ename": "R1-12-47-3_switch_1",
+      "edata": {
+        "phases": "ABCN",
+        "from": "R1-12-47-3_node_52",
+        "to": "R1-12-47-3_node_2",
+        "status": "CLOSED"
+      },
+      "source": "R1-12-47-3_node_52",
+      "target": "R1-12-47-3_node_2"
+    },
+    {
+      "eclass": "triplex_line",
+      "ename": "R1-12-47-3_tl_1",
+      "edata": {
+        "phases": "BS",
+        "from": "R1-12-47-3_tn_1",
+        "to": "R1-12-47-3_tm_1",
+        "length": "30",
+        "configuration": "triplex_line_configuration:1"
+      },
+      "source": "R1-12-47-3_tn_1",
+      "target": "R1-12-47-3_tm_1"
+    },
+    {
+      "eclass": "parent",
+      "ename": "R1-12-47-3_load_1",
+      "edata": {},
+      "source": "R1-12-47-3_meter_1",
+      "target": "R1-12-47-3_load_1"
+    },
+    {
+      "eclass": "parent",
+      "ename": "R1-12-47-3_load_2",
+      "edata": {},
+      "source": "R1-12-47-3_meter_2",
+      "target": "R1-12-47-3_load_2"
+    },
+    {
+      "eclass": "parent",
+      "ename": "R1-12-47-3_load_3",
+      "edata": {},
+      "source": "R1-12-47-3_meter_3",
+      "target": "R1-12-47-3_load_3"
+    },
+    {
+      "eclass": "parent",
+      "ename": "R1-12-47-3_load_4",
+      "edata": {},
+      "source": "R1-12-47-3_meter_4",
+      "target": "R1-12-47-3_load_4"
+    },
+    {
+      "eclass": "parent",
+      "ename": "R1-12-47-3_load_5",
+      "edata": {},
+      "source": "R1-12-47-3_meter_5",
+      "target": "R1-12-47-3_load_5"
+    },
+    {
+      "eclass": "parent",
+      "ename": "R1-12-47-3_load_6",
+      "edata": {},
+      "source": "R1-12-47-3_meter_6",
+      "target": "R1-12-47-3_load_6"
+    },
+    {
+      "eclass": "parent",
+      "ename": "R1-12-47-3_load_7",
+      "edata": {},
+      "source": "R1-12-47-3_meter_7",
+      "target": "R1-12-47-3_load_7"
+    },
+    {
+      "eclass": "parent",
+      "ename": "R1-12-47-3_load_8",
+      "edata": {},
+      "source": "R1-12-47-3_meter_8",
+      "target": "R1-12-47-3_load_8"
+    },
+    {
+      "eclass": "transformer",
+      "ename": "R1-12-47-3_xfmr_10",
+      "edata": {
+        "phases": "BN",
+        "from": "R1-12-47-3_node_24",
+        "to": "R1-12-47-3_meter_9",
+        "configuration": "XF1_POLETOP_BN_37p5"
+      },
+      "source": "R1-12-47-3_node_24",
+      "target": "R1-12-47-3_meter_9"
+    },
+    {
+      "eclass": "parent",
+      "ename": "R1-12-47-3_load_9",
+      "edata": {},
+      "source": "R1-12-47-3_meter_9",
+      "target": "R1-12-47-3_load_9"
+    },
+    {
+      "eclass": "parent",
+      "ename": "R1-12-47-3_load_10",
+      "edata": {},
+      "source": "R1-12-47-3_meter_10",
+      "target": "R1-12-47-3_load_10"
+    },
+    {
+      "eclass": "parent",
+      "ename": "R1-12-47-3_load_11",
+      "edata": {},
+      "source": "R1-12-47-3_meter_11",
+      "target": "R1-12-47-3_load_11"
+    },
+    {
+      "eclass": "parent",
+      "ename": "R1-12-47-3_load_12",
+      "edata": {},
+      "source": "R1-12-47-3_meter_12",
+      "target": "R1-12-47-3_load_12"
+    },
+    {
+      "eclass": "parent",
+      "ename": "R1-12-47-3_load_13",
+      "edata": {},
+      "source": "R1-12-47-3_meter_13",
+      "target": "R1-12-47-3_load_13"
+    },
+    {
+      "eclass": "parent",
+      "ename": "R1-12-47-3_load_14",
+      "edata": {},
+      "source": "R1-12-47-3_meter_14",
+      "target": "R1-12-47-3_load_14"
+    },
+    {
+      "eclass": "parent",
+      "ename": "R1-12-47-3_load_15",
+      "edata": {},
+      "source": "R1-12-47-3_meter_15",
+      "target": "R1-12-47-3_load_15"
+    },
+    {
+      "eclass": "transformer",
+      "ename": "R1-12-47-3_xfmr_17",
+      "edata": {
+        "phases": "BN",
+        "from": "R1-12-47-3_node_38",
+        "to": "R1-12-47-3_meter_16",
+        "configuration": "XF1_POLETOP_BN_100"
+      },
+      "source": "R1-12-47-3_node_38",
+      "target": "R1-12-47-3_meter_16"
+    },
+    {
+      "eclass": "parent",
+      "ename": "R1-12-47-3_load_16",
+      "edata": {},
+      "source": "R1-12-47-3_meter_16",
+      "target": "R1-12-47-3_load_16"
+    },
+    {
+      "eclass": "transformer",
+      "ename": "R1-12-47-3_xfmr_18",
+      "edata": {
+        "phases": "BN",
+        "from": "R1-12-47-3_node_39",
+        "to": "R1-12-47-3_meter_17",
+        "configuration": "XF1_POLETOP_BN_25"
+      },
+      "source": "R1-12-47-3_node_39",
+      "target": "R1-12-47-3_meter_17"
+    },
+    {
+      "eclass": "parent",
+      "ename": "R1-12-47-3_load_17",
+      "edata": {},
+      "source": "R1-12-47-3_meter_17",
+      "target": "R1-12-47-3_load_17"
+    },
+    {
+      "eclass": "parent",
+      "ename": "R1-12-47-3_load_18",
+      "edata": {},
+      "source": "R1-12-47-3_meter_18",
+      "target": "R1-12-47-3_load_18"
+    },
+    {
+      "eclass": "parent",
+      "ename": "R1-12-47-3_load_19",
+      "edata": {},
+      "source": "R1-12-47-3_meter_19",
+      "target": "R1-12-47-3_load_19"
+    },
+    {
+      "eclass": "transformer",
+      "ename": "R1-12-47-3_xfmr_21",
+      "edata": {
+        "phases": "ABCN",
+        "from": "R1-12-47-3_node_47",
+        "to": "R1-12-47-3_meter_20",
+        "configuration": "XF3_POLETOP_ABCN_150"
+      },
+      "source": "R1-12-47-3_node_47",
+      "target": "R1-12-47-3_meter_20"
+    },
+    {
+      "eclass": "underground_line",
+      "ename": "R1-12-47-3_ul_7",
+      "edata": {
+        "phases": "ABCN",
+        "from": "R1-12-47-3_node_46",
+        "to": "R1-12-47-3_node_47",
+        "length": "131.003",
+        "configuration": "line_configuration:33"
+      },
+      "source": "R1-12-47-3_node_47",
+      "target": "R1-12-47-3_node_46"
+    },
+    {
+      "eclass": "parent",
+      "ename": "R1-12-47-3_load_20",
+      "edata": {},
+      "source": "R1-12-47-3_meter_20",
+      "target": "R1-12-47-3_load_20"
+    },
+    {
+      "eclass": "transformer",
+      "ename": "R1-12-47-3_xfmr_22",
+      "edata": {
+        "phases": "ABCN",
+        "from": "R1-12-47-3_node_48",
+        "to": "R1-12-47-3_meter_21",
+        "configuration": "XF3_POLETOP_ABCN_112p5"
+      },
+      "source": "R1-12-47-3_node_48",
+      "target": "R1-12-47-3_meter_21"
+    },
+    {
+      "eclass": "underground_line",
+      "ename": "R1-12-47-3_ul_8",
+      "edata": {
+        "phases": "ABCN",
+        "from": "R1-12-47-3_node_46",
+        "to": "R1-12-47-3_node_48",
+        "length": "258.143",
+        "configuration": "line_configuration:33"
+      },
+      "source": "R1-12-47-3_node_48",
+      "target": "R1-12-47-3_node_46"
+    },
+    {
+      "eclass": "parent",
+      "ename": "R1-12-47-3_load_21",
+      "edata": {},
+      "source": "R1-12-47-3_meter_21",
+      "target": "R1-12-47-3_load_21"
+    },
+    {
+      "eclass": "parent",
+      "ename": "R1-12-47-3_tn_2",
+      "edata": {},
+      "source": "R1-12-47-3_tm_1",
+      "target": "R1-12-47-3_tn_2"
+    }
+  ]
+}
