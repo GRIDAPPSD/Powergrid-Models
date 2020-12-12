@@ -115,6 +115,9 @@ casefiles = [['R1-12.47-1',12470.0, 7200.0],
              ['R5-35.00-1',34500.0,19920.0],
              ['GC-12.47-1',12470.0, 7200.0]]
 
+# this will be for the TESP multi-building example
+#casefiles = [['GC-12.47-1',12470.0, 7200.0]]
+
 # this will be for the TESP communication system example
 #casefiles = [['R5-12.47-5',12470.0, 7200.0]]
 
@@ -694,7 +697,7 @@ for c in casefiles:
         # saving the graph to a JSON file; need to verify whether the component upsizings are included
         json_fp = open ('new_' + c[0] + '.json', 'w')
         json_data = nx.readwrite.json_graph.node_link_data(G)
-        json.dump (json_data, json_fp)
+        json.dump (json_data, json_fp, indent=2)
         json_fp.close()
 
 
