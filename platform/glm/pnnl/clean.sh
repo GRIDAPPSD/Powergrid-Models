@@ -5,3 +5,4 @@ rm *.Txt
 rm *.dsv
 rm *.dbl
 rm *.new
+rm *.json
