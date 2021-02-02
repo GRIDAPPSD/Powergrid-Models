@@ -12,8 +12,8 @@ source of models in these formats:
 
 from these sources:
 
-* [IEEE Distribution Test Cases](http://ewh.ieee.org/soc/pes/dsacom/testfeeders/) 
-* [PNNL Taxonomy of North American Feeders](https://www.gridlabd.org/models/feeders/taxonomy_of_prototypical_feeders.pdf)
+* [IEEE Distribution Test Cases](https://site.ieee.org/pes-testfeeders/)
+* [PNNL Taxonomy of North American Feeders](https://doi.org/10.2172/1040684)
 * [EPRI Large OpenDSS Test Feeders](https://sourceforge.net/p/electricdss/code/HEAD/tree/trunk/Distrib/EPRITestCircuits/Readme.pdf)
 * [EPRI Distributed Photovoltaic (DPV) Test Feeders](http://dpv.epri.com/)
 
@@ -40,7 +40,7 @@ Eleven feeder models are tested routinely for use in GridAPPS-D, summarized in t
 Notes:
 
 1. The "CIM Sampler" version of the IEEE 13-bus model added a single breaker, recloser, fuse, center-tap transformer, split-phase secondary load, PV and battery for the purpose of CIM conversion testing
-2. All models originated with an OpenDSS version, except for Transactive, which originated from a hand-edited GridLAB-D model, then converted to OpenDSS. See code in directory ```blazegraph/test/glm/pnnl``` for details.
+2. All models originated with an OpenDSS version, except for Transactive, which originated from a hand-edited GridLAB-D model, then converted to OpenDSS. See code in directory ```platform/glm/pnnl``` for details.
 3. Model marked ```Yes``` for Houses have been tested with houses, but they don't require houses.
 4. ```Load``` is the net OpenDSS source power injection, which is approximately load plus losses, less DER output
 
