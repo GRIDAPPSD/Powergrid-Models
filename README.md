@@ -55,60 +55,100 @@ Verify that the Blazegraph namespace is _kb_ and use that for the rest of these 
    * You can use a different namespace, but you may have to hand-edit some of the Python files (e.g. under the Meas directory)
    * The GridAPPS-D platform itself may use a different namespace
 
-Helper scripts for Linux/Mac OS X:
+This process assumes you have the [CIMHub](https://github.com/GRIDAPPSD/CIMHub), Powergrid-Models and OpenDSS 
+repositories cloned under ~/src. CIMHub needs to have been built from that repository using ```mvn clean install```. 
 
-* _import.sh_ will compile and run the Java importer against the triple-store. Within this file:
-  * the ```-o=cim``` option creates a CIM14 model from CIM100
-  * the ```-o=csv``` option creates a set of comma-delimited text files from CIM100
-  * the ```-o=dss``` option creates an OpenDSS model from CIM100
-  * the ```-o=glm``` option creates a GridLAB-D model from CIM 100
-  * the ```-o=both``` option creates both OpenDSS and GridLAB-D models from CIM100 
-  * the ```-o=idx``` option creates a JSON index of all Feeders in the triple-store. Use this to obtain valid mRID values for the -s option
+If you don't have the OpenDSS repository, the following steps may be used to clone just the examples used in GridAPPS-D.
 
-If you will need both OpenDSS and GridLAB-D files, the ```-o=both``` option is much more efficient than generating them individually, because over 90% of the execution time is taken up with SPARQL queries that are common to both.
+  cd ~/src
+  mkdir OpenDSS
+  cd OpenDSS
+  svn checkout --depth immediates https://svn.code.sf.net/p/electricdss/code/trunk/Version7 .
+  svn update --set-depth infinity Test
+  svn update --set-depth infinity Distrib/EPRITestCircuits
+  svn update --set-depth infinity Distrib/IEEETestCases
 
-The following steps are used to ingest these models, and verify that exports from CIM will solve in both GridLAB-D and OpenDSS. (Note: on Linux and Mac OS X, use ```python3``` as shown below. On Windows, it may be that ```python3``` is not defined, in which case use ```python``` to invoke Python 3.)
+The following steps are used to ingest these models, and verify that exports from CIM will solve in both GridLAB-D and OpenDSS. 
+GridLAB-D and OpenDSSCmd must have already been installed.
 
-1. Start the Blazegraph engine; _existing contents will be removed in the steps below_. GridLAB-D and OpenDSSCmd must also have been installed.
-2. From ```platform``` directory, issue ```./go.sh``` to create the CIM XML files and baseline OpenDSS power flow solutions.
-   - Results will be in the ```test``` directory
+1. All steps are performed from the ```platform``` directory.
+2. Start the Blazegraph engine; _existing contents will be removed in the steps below_.
+3. Issue ```./go.sh``` to create the CIM XML files and baseline OpenDSS power flow solutions.
+   - Feeder Models will be in the ```cimxml``` subdirectory
    - ```rootname.xml``` is the CIM XML file
+   - ```rootname_uuids.dat``` is a file used to persist CIM mRIDs
+   - Baseline Results will be in the ```test``` subdirectory
    - ```rootname_s.csv``` contains exported snapshot loadflow summary
    - ```rootname_i.csv``` contains exported branch currents
    - ```rootname_v.csv``` contains exported bus voltages
    - ```rootname_t.csv``` contains exported regulator tap positions
-3. From ```platform``` directory, issue ```python3 MakeLoopScript.py -b``` to create the platform-dependent script for step 3
-4. From ```platform``` directory, issue ```./convert_xml.sh``` to:
+4. Issue ```python3 MakeLoopScript.py -b``` to create the script for step 5
+   - optionally specify the non-default source path and Blazegraph URL:
+     ```python3 MakeLoopScript.py -b /home/tom/src/Powergrid-Models/platform/ http://localhost:8889/bigdata/namespace/kb/sparql```
+5. Issue ```./convert_xml.sh``` to:
    - Empty and create a new ```test``` directory
    - Sequentially ingest the CIM XML files into Blazegraph, and export both OpenDSS and GridLAB-D models
-   - This step may take a few minutes. When finished, all of the GridLAB-D and OpenDSS models will be in ```model_output_tests/both``` directory
+   - This step may take a few minutes. When finished, all of the GridLAB-D and OpenDSS models will be in ```both``` subdirectory
    - When finished, only the last CIM XML will still be in Blazegraph. _This should be deleted before doing any more work in Blazegraph, to ensure compatible namespaces_.
-5. From ```platform``` directory, issue ```python3 MakeLoopScript.py -d``` and then ```opendsscmd check.dss``` to run OpenDSS power flows on the exported models.
-   - Results will be in the ```test``` directory
+6. Issue ```python3 MakeLoopScript.py -d``` to make a sequential solution script for OpenDSS.
+   - optionally specify the non-default source path and Blazegraph URL:
+     ```python3 MakeLoopScript.py -d /home/tom/src/Powergrid-Models/platform/```
+7. Issue ```opendsscmd check.dss``` to run OpenDSS power flows on the exported models.
+   - Results will be in the ```test/dss``` subdirectory
    - ```rootname_s.csv``` contains exported snapshot loadflow summary
    - ```rootname_i.csv``` contains exported branch currents
    - ```rootname_v.csv``` contains exported bus voltages
    - ```rootname_t.csv``` contains exported regulator tap positions
-6. From ```platform``` directory, issue ```python3 MakeGlmTestScript.py``` to create the GridLAB-D wrapper files, ```*run.glm``` and a script execution file in ```blazegraph/both```
-7. From ```test``` diretory, if on Linux or Mac OS X, issue ```chmod +x *.sh``` and then ```./check_glm.sh```.  This runs GridLAB-D power flow on the exported models.
-   - Results will be in the ```model_output_tests/both``` directory
+8. Issue ```python3 MakeGlmTestScript.py``` to create the GridLAB-D wrapper files, ```*run.glm``` and a script execution file in ```both``` subdirectory
+   - optionally specify the non-default source path and Blazegraph URL:
+     ```python3 MakeGlmTestScript.py /home/tom/src/Powergrid-Models/platform/```
+9. Issue ```./check_glm.sh```.  This runs GridLAB-D power flow on the exported models.
+   - Results will be in the ```tests/glm``` directory
+   - ```rootname.log``` contains the GridLAB-D error, warning and information messages
    - ```rootname_volt.csv``` contains the output from a GridLAB-D voltdump, i.e., the node (bus) voltages
    - ```rootname_curr.csv``` contains the output from a GridLAB-D currdump, i.e., the link (branch) currents
-8. From ```platform``` directory, issue ```python3 Compare_Cases.py``` to compare the power flow solutions from steps 5 and 7 to the baseline solutions from step 2
-9. In the ```test``` directory, comparison results are in a set of files:
+10. Issue ```python3 Compare_Cases.py``` to compare the power flow solutions from steps 7 and 9 to the baseline solutions from step 3
+11. In the ```test/dss``` directory, OpenDSS comparison results are in a set of files:
    - ```*Summary.log``` compares the OpenDSS snapshot load flow solutions
-   - Other ```*.log``` files capture GridLAB-D warnings and errors. At present, the exported IEEE 37-bus model, which is a delta system, does not solve in GridLAB-D
    - ```*Missing_Nodes_DSS.txt``` identifies nodes (buses) that appear in one OpenDSS model (baseline step 2 or exported step 5), but not the other.
    - ```*Missing_Links_DSS.txt``` identifies links (branches) that appear in one OpenDSS model (baseline step 2 or exported step 5), but not the other.
-   - ```*Compare_Voltages_DSS.csv``` compares the bus voltages from steps 2 and 5, sorted by increasing difference
-   - ```*Compare_Voltages_GLM.csv``` compares the bus voltages from steps 2 and 7, sorted by increasing difference
-   - ```*Compare_Currents_DSS.csv``` compares the branch currents from steps 2 and 5, sorted by increasing difference
-   - ```*Compare_Currents_GLM.csv``` compares the branch currents from steps 2 and 7, sorted by increasing difference
-
+   - ```*Compare_Voltages_DSS.csv``` compares the bus voltages from steps 3 and 7, sorted by increasing difference
+   - ```*Compare_Currents_DSS.csv``` compares the branch currents from steps 3 and 7, sorted by increasing difference
+12. In the ```test/glm``` directory, GridLAB-D comparison results are in a set of files. At present, the exported IEEE 37-bus model, which is a delta system, does not solve in GridLAB-D.
+   - ```*Compare_Voltages_GLM.csv``` compares the bus voltages from steps 3 and 9, sorted by increasing difference
+   - ```*Compare_Currents_GLM.csv``` compares the branch currents from steps 3 and 9, sorted by increasing difference
 
 ## Model Translations
 
-Feeder model converters from CYMDist and Synergi Electric to OpenDSS
-are available [here](https://github.com/GRIDAPPSD/CIMHub/tree/issue/1175/converters). 
+Feeder model converters from CYMDist and Synergi Electric to OpenDSS are now maintained as part of 
+CIMHub [here](https://github.com/GRIDAPPSD/CIMHub/tree/issue/1175/converters). 
 
+## Directory Contents
+
+These directories are actively maintained:
+
+* CIM: Enterprise Architect file of the CIM UML subset used in GridAPPS-D
+* DER: scripts to add DER to some of the platform feeders for DERMS interoperability testing
+* platform: helper scripts to load 11 feeders into the platform
+* platform/cimxml: feeder CIM XML and mRID files
+* platform/dss/EPRI: the EPRI J1 distributed PV model, with a full set of XY coordinates
+* platform/dss/NREL: a version of the IEEE 123-Bus test feeder with PV added
+* platform/dss/UAF: model of the University of Alaska - Fairbanks Power System Integration Lab
+* platform/dss/WSU: the IEEE 9500-node test feeder
+* platform/glm/pnnl: a transactive energy version of the IEEE 123-bus feeder, with secondary service points for houses
+* platform/support: appliance schedules for GridLAB-D
+* platform/test: feeder model solutions from OpenDSS before the CIM export, i.e., the baseline solutions
+* platform/test/dss: solutions from converted OpenDSS models, commpared to the baseline (created on the fly)
+* platform/test/glm: solutions from converted GridLAB-D models, commpared to the baseline (created on the fly)
+* taxonomy: PNNL taxonomy feeders as used in GridAPPS-D
+
+These directories are deprecated, moved, or not of general interest:
+
+* archive (unused files)
+* blazegraph (moved to CIMHub)
+* cnf (platform maintenance)
+* converters (moved to CIMHub)
+* glmanip_module (platform maintenance)
+* houses (moved to CIMHub)
+* Meas (moved to CIMHub)
 

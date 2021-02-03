@@ -3,5 +3,6 @@ python3 patch_xy.py
 cp Buscoords.new Buscoords.csv
 opendsscmd ConvertTransactive.ds
 cp Transactive.xml ../../cimxml
+cp transactive_uuids.dat ../../cimxml
 cp transactive_*.csv ../../test
 

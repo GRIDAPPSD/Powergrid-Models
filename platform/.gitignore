@@ -1,2 +1,8 @@
 test_feeder_index.json
 ConvertCIM100.dss
+both
+test/dss
+test/glm
+convert_xml.sh
+check.dss
+check_glm.sh
