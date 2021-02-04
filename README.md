@@ -50,6 +50,8 @@ Feeder model import into GridAPPS-D is now accomplished using [CIMHub](https://g
 Please be able to build CIMHub as described in the previous section, so that you can
 perform this model import process as a developer.
 
+### Preparations
+
 Verify that the Blazegraph namespace is _kb_ and use that for the rest of these examples
    * You can use a different namespace, but you'll have to specify that using the -u option for the CIMImporter, handediting the default _-u=http://localhost:8889/bigdata/namespace/kb/sparql_
    * You can use a different namespace, but you may have to hand-edit some of the Python files (e.g. under the Meas directory)
@@ -68,12 +70,26 @@ If you don't have the OpenDSS repository, the following steps may be used to clo
   svn update --set-depth infinity Distrib/EPRITestCircuits
   svn update --set-depth infinity Distrib/IEEETestCases
 
+### Batch Process
+
+To import all 11 feeder models at once into the platform:
+
+1. Change to the ```platform``` directory
+2. Edit the two ```declare``` lines at the top of ```go.sh``` so they match your path and Blazegraph URL
+3. Start Blazegraph with ```docker restart blazegraph```
+4. Issue ```./go.sh```
+
+If any errors occur, you might need the step-by-step process to localize the problem.
+(Note: the IEEE 37-bus feeder will not solve in GridLAB-D; this is a known issue.)
+
+### Step-by-step Process
+
 The following steps are used to ingest these models, and verify that exports from CIM will solve in both GridLAB-D and OpenDSS. 
 GridLAB-D and OpenDSSCmd must have already been installed.
 
 1. All steps are performed from the ```platform``` directory.
 2. Start the Blazegraph engine; _existing contents will be removed in the steps below_.
-3. Issue ```./go.sh``` to create the CIM XML files and baseline OpenDSS power flow solutions.
+3. Issue ```./convert_source.sh``` to create the CIM XML files and baseline OpenDSS power flow solutions.
    - Feeder Models will be in the ```cimxml``` subdirectory
    - ```rootname.xml``` is the CIM XML file
    - ```rootname_uuids.dat``` is a file used to persist CIM mRIDs
