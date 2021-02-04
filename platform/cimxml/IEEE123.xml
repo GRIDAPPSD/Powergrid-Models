@@ -2393,7 +2393,7 @@
   <cim:IdentifiedObject.name>reg1a_T1</cim:IdentifiedObject.name>
   <cim:Terminal.ConductingEquipment rdf:resource="#_9DA10945-2EDC-43C9-A748-B079D826B0DB"/>
   <cim:ACDCTerminal.sequenceNumber>1</cim:ACDCTerminal.sequenceNumber>
-<cim:Terminal.ConnectivityNode rdf:resource="#_8A79AEE8-7C11-47E6-A5A2-F2CB4022D9FD"/>
+  <cim:Terminal.ConnectivityNode rdf:resource="#_8A79AEE8-7C11-47E6-A5A2-F2CB4022D9FD"/>
   <cim:ACDCTerminal.OperationalLimitSet rdf:resource="#_3332E917-197E-40AB-B545-BF0D2FFC757A"/>
 </cim:Terminal>
 <cim:PowerTransformerEnd rdf:ID="_08F493AE-2410-4C26-A2B4-66C0B2BEE69A">
@@ -2417,7 +2417,7 @@
   <cim:IdentifiedObject.name>reg1a_T2</cim:IdentifiedObject.name>
   <cim:Terminal.ConductingEquipment rdf:resource="#_9DA10945-2EDC-43C9-A748-B079D826B0DB"/>
   <cim:ACDCTerminal.sequenceNumber>2</cim:ACDCTerminal.sequenceNumber>
-<cim:Terminal.ConnectivityNode rdf:resource="#_7D316F55-4536-4528-B97A-9B83F9F65DF0"/>
+  <cim:Terminal.ConnectivityNode rdf:resource="#_7D316F55-4536-4528-B97A-9B83F9F65DF0"/>
 </cim:Terminal>
 <cim:Location rdf:ID="_F86A1AA1-31DB-400F-B69F-63EE18C42BEF">
   <cim:IdentifiedObject.mRID>_F86A1AA1-31DB-400F-B69F-63EE18C42BEF</cim:IdentifiedObject.mRID>
@@ -2474,7 +2474,7 @@
   <cim:IdentifiedObject.name>xfm1_T1</cim:IdentifiedObject.name>
   <cim:Terminal.ConductingEquipment rdf:resource="#_D16A0CBB-DE18-4820-BDF5-DA651A688285"/>
   <cim:ACDCTerminal.sequenceNumber>1</cim:ACDCTerminal.sequenceNumber>
-<cim:Terminal.ConnectivityNode rdf:resource="#_053462C1-60B1-4184-AD9E-049A99C1BA9B"/>
+  <cim:Terminal.ConnectivityNode rdf:resource="#_053462C1-60B1-4184-AD9E-049A99C1BA9B"/>
   <cim:ACDCTerminal.OperationalLimitSet rdf:resource="#_F4BF32FD-02F3-4B9E-8A0A-DFF8A49FADDF"/>
 </cim:Terminal>
 <cim:PowerTransformerEnd rdf:ID="_C503CF19-A759-4ED6-8708-5538ED327D6E">
@@ -2496,7 +2496,7 @@
   <cim:IdentifiedObject.name>xfm1_T2</cim:IdentifiedObject.name>
   <cim:Terminal.ConductingEquipment rdf:resource="#_D16A0CBB-DE18-4820-BDF5-DA651A688285"/>
   <cim:ACDCTerminal.sequenceNumber>2</cim:ACDCTerminal.sequenceNumber>
-<cim:Terminal.ConnectivityNode rdf:resource="#_10E89156-C0CA-4EA8-A952-E0209C2A56CD"/>
+  <cim:Terminal.ConnectivityNode rdf:resource="#_10E89156-C0CA-4EA8-A952-E0209C2A56CD"/>
 </cim:Terminal>
 <cim:TransformerTank rdf:ID="_9C8F8334-5AE7-49C8-8946-4A2429D95262">
   <cim:IdentifiedObject.mRID>_9C8F8334-5AE7-49C8-8946-4A2429D95262</cim:IdentifiedObject.mRID>
@@ -2539,7 +2539,7 @@
   <cim:IdentifiedObject.name>reg2a_T1</cim:IdentifiedObject.name>
   <cim:Terminal.ConductingEquipment rdf:resource="#_8ABD7FA9-DD4A-44A0-AC71-E423F050B0CE"/>
   <cim:ACDCTerminal.sequenceNumber>1</cim:ACDCTerminal.sequenceNumber>
-<cim:Terminal.ConnectivityNode rdf:resource="#_C03BC3CE-46D6-497A-9B1B-0C50B8E25674"/>
+  <cim:Terminal.ConnectivityNode rdf:resource="#_C03BC3CE-46D6-497A-9B1B-0C50B8E25674"/>
   <cim:ACDCTerminal.OperationalLimitSet rdf:resource="#_837E83B4-D7F9-4E47-8D26-25CBCBF40CF1"/>
 </cim:Terminal>
 <cim:TransformerTankEnd rdf:ID="_71EF31BE-8D68-4411-B6FC-83463F2E4978">
@@ -2559,7 +2559,7 @@
   <cim:IdentifiedObject.name>reg2a_T2</cim:IdentifiedObject.name>
   <cim:Terminal.ConductingEquipment rdf:resource="#_8ABD7FA9-DD4A-44A0-AC71-E423F050B0CE"/>
   <cim:ACDCTerminal.sequenceNumber>2</cim:ACDCTerminal.sequenceNumber>
-<cim:Terminal.ConnectivityNode rdf:resource="#_9930BF52-1B0B-4135-9F9B-FF31CB87C81E"/>
+  <cim:Terminal.ConnectivityNode rdf:resource="#_9930BF52-1B0B-4135-9F9B-FF31CB87C81E"/>
 </cim:Terminal>
 <cim:TransformerTank rdf:ID="_61F3CA21-6382-45A6-B2E5-CA67AF5CB7C2">
   <cim:IdentifiedObject.mRID>_61F3CA21-6382-45A6-B2E5-CA67AF5CB7C2</cim:IdentifiedObject.mRID>
@@ -2602,7 +2602,7 @@
   <cim:IdentifiedObject.name>reg3a_T1</cim:IdentifiedObject.name>
   <cim:Terminal.ConductingEquipment rdf:resource="#_8F6B28EE-C00B-4274-8CF4-FAE50E9AF9EF"/>
   <cim:ACDCTerminal.sequenceNumber>1</cim:ACDCTerminal.sequenceNumber>
-<cim:Terminal.ConnectivityNode rdf:resource="#_03276A5F-9CA1-4056-95C8-BE0F43C5A193"/>
+  <cim:Terminal.ConnectivityNode rdf:resource="#_03276A5F-9CA1-4056-95C8-BE0F43C5A193"/>
   <cim:ACDCTerminal.OperationalLimitSet rdf:resource="#_837E83B4-D7F9-4E47-8D26-25CBCBF40CF1"/>
 </cim:Terminal>
 <cim:TransformerTankEnd rdf:ID="_083108B3-297C-41F1-95B0-0F4F4D3C7384">
@@ -2622,7 +2622,7 @@
   <cim:IdentifiedObject.name>reg3a_T2</cim:IdentifiedObject.name>
   <cim:Terminal.ConductingEquipment rdf:resource="#_8F6B28EE-C00B-4274-8CF4-FAE50E9AF9EF"/>
   <cim:ACDCTerminal.sequenceNumber>2</cim:ACDCTerminal.sequenceNumber>
-<cim:Terminal.ConnectivityNode rdf:resource="#_2CC0EB0A-7F9F-4FFD-96AA-07191A37601F"/>
+  <cim:Terminal.ConnectivityNode rdf:resource="#_2CC0EB0A-7F9F-4FFD-96AA-07191A37601F"/>
 </cim:Terminal>
 <cim:TransformerTank rdf:ID="_A0AFD5F7-EFC2-4711-95DF-82F6A19A8B3F">
   <cim:IdentifiedObject.mRID>_A0AFD5F7-EFC2-4711-95DF-82F6A19A8B3F</cim:IdentifiedObject.mRID>
@@ -2665,7 +2665,7 @@
   <cim:IdentifiedObject.name>reg4a_T1</cim:IdentifiedObject.name>
   <cim:Terminal.ConductingEquipment rdf:resource="#_B89A2F76-07E6-4BC5-86FD-FC2B400B09D8"/>
   <cim:ACDCTerminal.sequenceNumber>1</cim:ACDCTerminal.sequenceNumber>
-<cim:Terminal.ConnectivityNode rdf:resource="#_108D7BE6-6A0B-420C-A95F-99461AB1F9BA"/>
+  <cim:Terminal.ConnectivityNode rdf:resource="#_108D7BE6-6A0B-420C-A95F-99461AB1F9BA"/>
   <cim:ACDCTerminal.OperationalLimitSet rdf:resource="#_837E83B4-D7F9-4E47-8D26-25CBCBF40CF1"/>
 </cim:Terminal>
 <cim:TransformerTankEnd rdf:ID="_3D40A7D1-409B-4312-87E8-019E00DDD905">
@@ -2685,7 +2685,7 @@
   <cim:IdentifiedObject.name>reg4a_T2</cim:IdentifiedObject.name>
   <cim:Terminal.ConductingEquipment rdf:resource="#_B89A2F76-07E6-4BC5-86FD-FC2B400B09D8"/>
   <cim:ACDCTerminal.sequenceNumber>2</cim:ACDCTerminal.sequenceNumber>
-<cim:Terminal.ConnectivityNode rdf:resource="#_379397B8-72D0-4E1A-ABB9-70ABCDE271D4"/>
+  <cim:Terminal.ConnectivityNode rdf:resource="#_379397B8-72D0-4E1A-ABB9-70ABCDE271D4"/>
 </cim:Terminal>
 <cim:TransformerTank rdf:ID="_37C29C46-00B6-4378-9B86-E5D6D5F38902">
   <cim:IdentifiedObject.mRID>_37C29C46-00B6-4378-9B86-E5D6D5F38902</cim:IdentifiedObject.mRID>
@@ -2728,7 +2728,7 @@
   <cim:IdentifiedObject.name>reg3c_T1</cim:IdentifiedObject.name>
   <cim:Terminal.ConductingEquipment rdf:resource="#_8F6B28EE-C00B-4274-8CF4-FAE50E9AF9EF"/>
   <cim:ACDCTerminal.sequenceNumber>1</cim:ACDCTerminal.sequenceNumber>
-<cim:Terminal.ConnectivityNode rdf:resource="#_03276A5F-9CA1-4056-95C8-BE0F43C5A193"/>
+  <cim:Terminal.ConnectivityNode rdf:resource="#_03276A5F-9CA1-4056-95C8-BE0F43C5A193"/>
   <cim:ACDCTerminal.OperationalLimitSet rdf:resource="#_837E83B4-D7F9-4E47-8D26-25CBCBF40CF1"/>
 </cim:Terminal>
 <cim:TransformerTankEnd rdf:ID="_D75EDED9-FF21-4A19-947C-C474AFAE4630">
@@ -2748,7 +2748,7 @@
   <cim:IdentifiedObject.name>reg3c_T2</cim:IdentifiedObject.name>
   <cim:Terminal.ConductingEquipment rdf:resource="#_8F6B28EE-C00B-4274-8CF4-FAE50E9AF9EF"/>
   <cim:ACDCTerminal.sequenceNumber>2</cim:ACDCTerminal.sequenceNumber>
-<cim:Terminal.ConnectivityNode rdf:resource="#_2CC0EB0A-7F9F-4FFD-96AA-07191A37601F"/>
+  <cim:Terminal.ConnectivityNode rdf:resource="#_2CC0EB0A-7F9F-4FFD-96AA-07191A37601F"/>
 </cim:Terminal>
 <cim:TransformerTank rdf:ID="_559462D0-7FEA-49BB-B3DF-4702D2FA2563">
   <cim:IdentifiedObject.mRID>_559462D0-7FEA-49BB-B3DF-4702D2FA2563</cim:IdentifiedObject.mRID>
@@ -2791,7 +2791,7 @@
   <cim:IdentifiedObject.name>reg4b_T1</cim:IdentifiedObject.name>
   <cim:Terminal.ConductingEquipment rdf:resource="#_B89A2F76-07E6-4BC5-86FD-FC2B400B09D8"/>
   <cim:ACDCTerminal.sequenceNumber>1</cim:ACDCTerminal.sequenceNumber>
-<cim:Terminal.ConnectivityNode rdf:resource="#_108D7BE6-6A0B-420C-A95F-99461AB1F9BA"/>
+  <cim:Terminal.ConnectivityNode rdf:resource="#_108D7BE6-6A0B-420C-A95F-99461AB1F9BA"/>
   <cim:ACDCTerminal.OperationalLimitSet rdf:resource="#_837E83B4-D7F9-4E47-8D26-25CBCBF40CF1"/>
 </cim:Terminal>
 <cim:TransformerTankEnd rdf:ID="_AD2DB024-2B4D-464E-8C7C-34FD049F5B09">
@@ -2811,7 +2811,7 @@
   <cim:IdentifiedObject.name>reg4b_T2</cim:IdentifiedObject.name>
   <cim:Terminal.ConductingEquipment rdf:resource="#_B89A2F76-07E6-4BC5-86FD-FC2B400B09D8"/>
   <cim:ACDCTerminal.sequenceNumber>2</cim:ACDCTerminal.sequenceNumber>
-<cim:Terminal.ConnectivityNode rdf:resource="#_379397B8-72D0-4E1A-ABB9-70ABCDE271D4"/>
+  <cim:Terminal.ConnectivityNode rdf:resource="#_379397B8-72D0-4E1A-ABB9-70ABCDE271D4"/>
 </cim:Terminal>
 <cim:TransformerTank rdf:ID="_7783128E-2906-46F4-8747-68F2B5B6CBCE">
   <cim:IdentifiedObject.mRID>_7783128E-2906-46F4-8747-68F2B5B6CBCE</cim:IdentifiedObject.mRID>
@@ -2854,7 +2854,7 @@
   <cim:IdentifiedObject.name>reg4c_T1</cim:IdentifiedObject.name>
   <cim:Terminal.ConductingEquipment rdf:resource="#_B89A2F76-07E6-4BC5-86FD-FC2B400B09D8"/>
   <cim:ACDCTerminal.sequenceNumber>1</cim:ACDCTerminal.sequenceNumber>
-<cim:Terminal.ConnectivityNode rdf:resource="#_108D7BE6-6A0B-420C-A95F-99461AB1F9BA"/>
+  <cim:Terminal.ConnectivityNode rdf:resource="#_108D7BE6-6A0B-420C-A95F-99461AB1F9BA"/>
   <cim:ACDCTerminal.OperationalLimitSet rdf:resource="#_837E83B4-D7F9-4E47-8D26-25CBCBF40CF1"/>
 </cim:Terminal>
 <cim:TransformerTankEnd rdf:ID="_C09216D6-CF5C-4CDC-8F55-4F5232E07164">
@@ -2874,7 +2874,7 @@
   <cim:IdentifiedObject.name>reg4c_T2</cim:IdentifiedObject.name>
   <cim:Terminal.ConductingEquipment rdf:resource="#_B89A2F76-07E6-4BC5-86FD-FC2B400B09D8"/>
   <cim:ACDCTerminal.sequenceNumber>2</cim:ACDCTerminal.sequenceNumber>
-<cim:Terminal.ConnectivityNode rdf:resource="#_379397B8-72D0-4E1A-ABB9-70ABCDE271D4"/>
+  <cim:Terminal.ConnectivityNode rdf:resource="#_379397B8-72D0-4E1A-ABB9-70ABCDE271D4"/>
 </cim:Terminal>
 <cim:PowerTransformer rdf:ID="_9DA10945-2EDC-43C9-A748-B079D826B0DB">
   <cim:IdentifiedObject.mRID>_9DA10945-2EDC-43C9-A748-B079D826B0DB</cim:IdentifiedObject.mRID>

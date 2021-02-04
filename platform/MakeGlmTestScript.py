@@ -18,7 +18,7 @@ casefiles = [['R2_12_47_2',57735.0],
              ['ACEP_PSIL',277.13],
              ['Transactive',2401.8]]
 
-#casefiles = [['ACEP_PSIL',277.13]]
+#casefiles = [['R2_12_47_2',57735.0]]
 
 if sys.platform == 'linux':
   srcpath = '/home/tom/src/Powergrid-Models/platform/'

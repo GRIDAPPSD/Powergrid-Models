@@ -17,4 +17,7 @@ declare -r CIMHUB_PROG="gov.pnnl.gridappsd.cimhub.CIMImporter"
 #rm *.csv
 sed 's!_SRCPATH_!/home/tom/src!g' ConvertCIM100.template > ConvertCIM100.dss
 opendsscmd ConvertCIM100.dss
-#./ConvertTransactive.sh
+./ConvertTransactive.sh
+
+#opendsscmd ConvertR2.dss
+

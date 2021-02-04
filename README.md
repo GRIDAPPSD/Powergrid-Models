@@ -134,6 +134,37 @@ GridLAB-D and OpenDSSCmd must have already been installed.
    - ```*Compare_Voltages_GLM.csv``` compares the bus voltages from steps 3 and 9, sorted by increasing difference
    - ```*Compare_Currents_GLM.csv``` compares the branch currents from steps 3 and 9, sorted by increasing difference
 
+### Comparing Results
+
+After completing step 3 of the batch process or step 10 of the detailed process, you should see
+a summary of the model output differences as shown below.
+
+* Nbus  is the number of buses found in [Base OpenDSS, Converted OpenDSS, Converted GridLAB-D]
+* Nlink is the number of links found in [Base OpenDSS, Converted OpenDSS, Converted GridLAB-D]
+* MAEv  is the mean absolute voltage error between Base OpenDSS and [Converted OpenDSS, Converted GridLAB-D], in per-unit
+* MAEi  is the mean absolute link current error between Base OpenDSS and [Converted OpenDSS, Converted GridLAB-D], in Amperes
+
+```
+ACEP_PSIL      Nbus=[  24,  24,   39] Nlink=[   39,   39,  21] MAEv=[0.0008,0.0316] MAEi=[ 0.9958,22.6701]
+EPRI_DPV_J1    Nbus=[4245,4245, 5674] Nlink=[ 7887, 7831,4186] MAEv=[0.0008,0.1860] MAEi=[ 0.1231,54.4130]
+IEEE123        Nbus=[ 274, 274,  433] Nlink=[  470,  470, 257] MAEv=[0.0004,0.0038] MAEi=[ 0.0179, 3.1347]
+IEEE123_PV     Nbus=[ 442, 442,  655] Nlink=[  744,  748, 338] MAEv=[0.0001,0.0160] MAEi=[ 0.0573, 2.3041]
+Transactive    Nbus=[3036,3036, 5602] Nlink=[ 6888, 6888, 363] MAEv=[0.0002,0.0042] MAEi=[ 0.0220, 0.6304]
+IEEE13         Nbus=[  56,  56,   90] Nlink=[  103,  103,  44] MAEv=[0.0197,0.0450] MAEi=[ 9.5887,35.5342]
+IEEE13_Assets  Nbus=[  41,  41,   66] Nlink=[   77,   79,  37] MAEv=[0.0099,0.0355] MAEi=[14.1490,29.2863]
+IEEE37         Nbus=[ 117, 117,    0] Nlink=[  180,  180,   0] MAEv=[0.2536,0.0000] MAEi=[ 5.4502, 0.0000]
+IEEE8500       Nbus=[8531,8531,10915] Nlink=[12086,12086,4958] MAEv=[0.0017,0.0706] MAEi=[ 0.2038, 1.2057]
+IEEE8500_3subs Nbus=[9493,9493,12463] Nlink=[13874,13897,5570] MAEv=[0.0036,0.0547] MAEi=[ 0.1925, 0.5880]
+R2_12_47_2     Nbus=[1631,1632, 1665] Nlink=[ 2246, 2269, 638] MAEv=[0.0158,0.0134] MAEi=[10.0851, 6.5670]
+```
+
+Some notes about these comparisons:
+
+* The IEEE37 example has zero entries for Nbus, Nlink, MAEv and MAEi for GridLAB-D because that model doesn't solve
+* GridLAB-D doesn't export load currents and other shunt currents to the CSV file, but Nlink includes them for OpenDSS
+* Only voltage errors within 0.8 per-unit are included in MAEv. This means the comparison doesn't try to match voltages in a de-energized part of the network due to wiring, phasing or switching errors. However, such errors would still appear in MAEi.
+* Efforts may be undertaken to reduce MAEv and MAEi.
+
 ## Model Translations
 
 Feeder model converters from CYMDist and Synergi Electric to OpenDSS are now maintained as part of 
