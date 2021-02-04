@@ -1,0 +1,15 @@
+//
+cd /home/tom/src/Powergrid-Models/taxonomy/
+redirect ./new_R2_12_47_2/Master.dss
+set maxiterations=20
+solve
+cd /home/tom/src/Powergrid-Models/platform/test/
+export summary  R2_12_47_2_s.csv
+export voltages R2_12_47_2_v.csv
+export currents R2_12_47_2_i.csv
+export taps     R2_12_47_2_t.csv
+cd /home/tom/src/Powergrid-Models/platform/cimxml
+uuids r2_12_47_2_uuids.dat
+export cim100 file=R2_12_47_2.xml subgeo=Taxonomy geo=PNNL fid=9CE150A8-8CC5-A0F9-B67E-BBD8C79D3095 sid=933D85C1-BE1C-4C05-D4DD-4B41D941C52C sgrid=656EE259-23FF-086E-1DC0-39CB9DC60A20 rgnid=79C9D814-3CE0-DC11-534D-BDA1AF949810
+export uuids r2_12_47_2_uuids.dat
+
