@@ -22,7 +22,7 @@ def append_xml_case(casefiles, xmlpath, outpath, fp):
   classpath = '{:s}libs/*:{:s}cimhub-0.0.1-SNAPSHOT.jar'.format (cimhubpath, cimhubpath)
   progname = 'gov.pnnl.gridappsd.cimhub.CIMImporter'
   for c in casefiles:
-    print('./drop_all.sh', file=fp)
+    print('curl -D- -X POST $DB_URL --data-urlencode "update=drop all"', file=fp)
     print('curl -D- -H "Content-Type: application/xml" --upload-file', xmlpath + c + '.xml', '-X POST $DB_URL', file=fp)
     print('java -cp "{:s}" {:s} -o=both -l=1.0 -i=1'.format (classpath, progname), outpath + c, file=fp)
 
