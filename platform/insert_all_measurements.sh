@@ -21,7 +21,7 @@ python3 $CIMHUB_UTILS/InsertMeasurements.py ./Meas/ieee123_lines_pq.txt    ./Mea
 python3 $CIMHUB_UTILS/InsertMeasurements.py ./Meas/ieee123_loads.txt       ./Meas/ieee123_msid.json
 python3 $CIMHUB_UTILS/InsertMeasurements.py ./Meas/ieee123_node_v.txt      ./Meas/ieee123_msid.json
 python3 $CIMHUB_UTILS/InsertMeasurements.py ./Meas/ieee123_special.txt     ./Meas/ieee123_msid.json
-python3 $CIMHUB_UTILS/InsertMeasurements.py ./Meas/ieee123_supplement.txt  ./Meas/ieee123_msid.json
+python3 $CIMHUB_UTILS/InsertMeasurements.py ./Meas/ieee123_supplement.sav  ./Meas/ieee123_msid.json
 python3 $CIMHUB_UTILS/InsertMeasurements.py ./Meas/ieee123_switch_i.txt    ./Meas/ieee123_msid.json
 python3 $CIMHUB_UTILS/InsertMeasurements.py ./Meas/ieee123_xfmr_pq.txt     ./Meas/ieee123_msid.json
 
