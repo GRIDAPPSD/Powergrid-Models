@@ -46,15 +46,17 @@ Notes:
 
 ## GridAPPS-D Model Import
 
-If there have been no changes to the source models, you may follow these [import instructions](BLAZEGRAPH_IMPORT.MD).
+If there have been no changes to the CIM XML files in ```platform/cimxml```, you may follow these [import instructions](BLAZEGRAPH_IMPORT.md).
 
-If the source models have changed, please test them first as described next.
+If the source models have changed under ```platform/dss``` or ```platform/glm```, please test them first as described next.
 
 ## GridAPPS-D Model Testing
 
-Feeder model import into GridAPPS-D is now accomplished using [CIMHub](https://github.com/GRIDAPPSD/CIMHub).
+Feeder model translations for GridAPPS-D are now accomplished using [CIMHub](https://github.com/GRIDAPPSD/CIMHub).
 Please be able to build CIMHub as described in the previous section, so that you can
-perform this model import process as a developer.
+perform this model testing process as a developer.
+
+After the models have been tested, check them in to ```platform/cimxml```, from which they can be [imported into GridAPPS-D](BLAZEGRAPH_IMPORT.md).
 
 ### Preparations
 
