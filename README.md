@@ -46,6 +46,12 @@ Notes:
 
 ## GridAPPS-D Model Import
 
+If there have been no changes to the source models, you may follow these [import instructions](BLAZEGRAPH_IMPORT.MD).
+
+If the source models have changed, please test them first as described next.
+
+## GridAPPS-D Model Testing
+
 Feeder model import into GridAPPS-D is now accomplished using [CIMHub](https://github.com/GRIDAPPSD/CIMHub).
 Please be able to build CIMHub as described in the previous section, so that you can
 perform this model import process as a developer.
@@ -53,26 +59,28 @@ perform this model import process as a developer.
 ### Preparations
 
 Verify that the Blazegraph namespace is _kb_ and use that for the rest of these examples
-   * You can use a different namespace, but you'll have to specify that using the -u option for the CIMImporter, handediting the default _-u=http://localhost:8889/bigdata/namespace/kb/sparql_
-   * You can use a different namespace, but you may have to hand-edit some of the Python files (e.g. under the Meas directory)
-   * The GridAPPS-D platform itself may use a different namespace
+* You can use a different namespace, but you'll have to specify that using the -u option for the CIMImporter, handediting the default _-u=http://localhost:8889/bigdata/namespace/kb/sparql_
+* You can use a different namespace, but you may have to hand-edit some of the Python files (e.g. under the Meas directory)
+* The GridAPPS-D platform itself may use a different namespace
 
 This process assumes you have the [CIMHub](https://github.com/GRIDAPPSD/CIMHub), Powergrid-Models and OpenDSS 
 repositories cloned under ~/src. CIMHub needs to have been built from that repository using ```mvn clean install```. 
 
 If you don't have the OpenDSS repository, the following steps may be used to clone just the examples used in GridAPPS-D.
 
-  cd ~/src
-  mkdir OpenDSS
-  cd OpenDSS
-  svn checkout --depth immediates https://svn.code.sf.net/p/electricdss/code/trunk/Version7 .
-  svn update --set-depth infinity Test
-  svn update --set-depth infinity Distrib/EPRITestCircuits
-  svn update --set-depth infinity Distrib/IEEETestCases
+```
+cd ~/src
+mkdir OpenDSS
+cd OpenDSS
+svn checkout --depth immediates https://svn.code.sf.net/p/electricdss/code/trunk/Version7 .
+svn update --set-depth infinity Test
+svn update --set-depth infinity Distrib/EPRITestCircuits
+svn update --set-depth infinity Distrib/IEEETestCases
+```
 
-### Batch Process
+### Batch Testing Process
 
-To import all 11 feeder models at once into the platform:
+To test all 11 feeder models at once, before importing into the platform:
 
 1. Change to the ```platform``` directory
 2. Edit the two ```declare``` lines at the top of ```go.sh``` so they match your path and Blazegraph URL
@@ -82,7 +90,7 @@ To import all 11 feeder models at once into the platform:
 If any errors occur, you might need the step-by-step process to localize the problem.
 (Note: the IEEE 37-bus feeder will not solve in GridLAB-D; this is a known issue.)
 
-### Step-by-step Process
+### Step-by-step Testing Process
 
 The following steps are used to ingest these models, and verify that exports from CIM will solve in both GridLAB-D and OpenDSS. 
 GridLAB-D and OpenDSSCmd must have already been installed.
@@ -90,51 +98,51 @@ GridLAB-D and OpenDSSCmd must have already been installed.
 1. All steps are performed from the ```platform``` directory.
 2. Start the Blazegraph engine; _existing contents will be removed in the steps below_.
 3. Issue ```./convert_source.sh``` to create the CIM XML files and baseline OpenDSS power flow solutions.
-   - Feeder Models will be in the ```cimxml``` subdirectory
-   - ```rootname.xml``` is the CIM XML file
-   - ```rootname_uuids.dat``` is a file used to persist CIM mRIDs
-   - Baseline Results will be in the ```test``` subdirectory
-   - ```rootname_s.csv``` contains exported snapshot loadflow summary
-   - ```rootname_i.csv``` contains exported branch currents
-   - ```rootname_v.csv``` contains exported bus voltages
-   - ```rootname_t.csv``` contains exported regulator tap positions
+    - Feeder Models will be in the ```cimxml``` subdirectory
+        - ```rootname.xml``` is the CIM XML file
+        - ```rootname_uuids.dat``` is a file used to persist CIM mRIDs
+    - Baseline Results will be in the ```test``` subdirectory
+        - ```rootname_s.csv``` contains exported snapshot loadflow summary
+        - ```rootname_i.csv``` contains exported branch currents
+        - ```rootname_v.csv``` contains exported bus voltages
+        - ```rootname_t.csv``` contains exported regulator tap positions
 4. Issue ```python3 MakeLoopScript.py -b``` to create the script for step 5
-   - optionally specify the non-default source path and Blazegraph URL:
-     ```python3 MakeLoopScript.py -b /home/tom/src/Powergrid-Models/platform/ http://localhost:8889/bigdata/namespace/kb/sparql```
+    - optionally specify the non-default source path and Blazegraph URL:
+      ```python3 MakeLoopScript.py -b /home/tom/src/Powergrid-Models/platform/ http://localhost:8889/bigdata/namespace/kb/sparql```
 5. Issue ```./convert_xml.sh``` to:
-   - Empty and create a new ```test``` directory
-   - Sequentially ingest the CIM XML files into Blazegraph, and export both OpenDSS and GridLAB-D models
-   - This step may take a few minutes. When finished, all of the GridLAB-D and OpenDSS models will be in ```both``` subdirectory
-   - When finished, only the last CIM XML will still be in Blazegraph. _This should be deleted before doing any more work in Blazegraph, to ensure compatible namespaces_.
+    - Empty and create a new ```test``` directory
+    - Sequentially ingest the CIM XML files into Blazegraph, and export both OpenDSS and GridLAB-D models
+    - This step may take a few minutes. When finished, all of the GridLAB-D and OpenDSS models will be in ```both``` subdirectory
+    - When finished, only the last CIM XML will still be in Blazegraph. _This should be deleted before doing any more work in Blazegraph, to ensure compatible namespaces_.
 6. Issue ```python3 MakeLoopScript.py -d``` to make a sequential solution script for OpenDSS.
-   - optionally specify the non-default source path and Blazegraph URL:
+    - optionally specify the non-default source path and Blazegraph URL:
      ```python3 MakeLoopScript.py -d /home/tom/src/Powergrid-Models/platform/```
 7. Issue ```opendsscmd check.dss``` to run OpenDSS power flows on the exported models.
-   - Results will be in the ```test/dss``` subdirectory
-   - ```rootname_s.csv``` contains exported snapshot loadflow summary
-   - ```rootname_i.csv``` contains exported branch currents
-   - ```rootname_v.csv``` contains exported bus voltages
-   - ```rootname_t.csv``` contains exported regulator tap positions
+    - Results will be in the ```test/dss``` subdirectory
+        - ```rootname_s.csv``` contains exported snapshot loadflow summary
+        - ```rootname_i.csv``` contains exported branch currents
+        - ```rootname_v.csv``` contains exported bus voltages
+        - ```rootname_t.csv``` contains exported regulator tap positions
 8. Issue ```python3 MakeGlmTestScript.py``` to create the GridLAB-D wrapper files, ```*run.glm``` and a script execution file in ```both``` subdirectory
-   - optionally specify the non-default source path and Blazegraph URL:
+    - optionally specify the non-default source path and Blazegraph URL:
      ```python3 MakeGlmTestScript.py /home/tom/src/Powergrid-Models/platform/```
 9. Issue ```./check_glm.sh```.  This runs GridLAB-D power flow on the exported models.
-   - Results will be in the ```tests/glm``` directory
-   - ```rootname.log``` contains the GridLAB-D error, warning and information messages
-   - ```rootname_volt.csv``` contains the output from a GridLAB-D voltdump, i.e., the node (bus) voltages
-   - ```rootname_curr.csv``` contains the output from a GridLAB-D currdump, i.e., the link (branch) currents
+    - Results will be in the ```tests/glm``` directory
+        - ```rootname.log``` contains the GridLAB-D error, warning and information messages
+        - ```rootname_volt.csv``` contains the output from a GridLAB-D voltdump, i.e., the node (bus) voltages
+        - ```rootname_curr.csv``` contains the output from a GridLAB-D currdump, i.e., the link (branch) currents
 10. Issue ```python3 Compare_Cases.py``` to compare the power flow solutions from steps 7 and 9 to the baseline solutions from step 3
 11. In the ```test/dss``` directory, OpenDSS comparison results are in a set of files:
-   - ```*Summary.log``` compares the OpenDSS snapshot load flow solutions
-   - ```*Missing_Nodes_DSS.txt``` identifies nodes (buses) that appear in one OpenDSS model (baseline step 2 or exported step 5), but not the other.
-   - ```*Missing_Links_DSS.txt``` identifies links (branches) that appear in one OpenDSS model (baseline step 2 or exported step 5), but not the other.
-   - ```*Compare_Voltages_DSS.csv``` compares the bus voltages from steps 3 and 7, sorted by increasing difference
-   - ```*Compare_Currents_DSS.csv``` compares the branch currents from steps 3 and 7, sorted by increasing difference
+    - ```*Summary.log``` compares the OpenDSS snapshot load flow solutions
+    - ```*Missing_Nodes_DSS.txt``` identifies nodes (buses) that appear in one OpenDSS model (baseline step 2 or exported step 5), but not the other.
+    - ```*Missing_Links_DSS.txt``` identifies links (branches) that appear in one OpenDSS model (baseline step 2 or exported step 5), but not the other.
+    - ```*Compare_Voltages_DSS.csv``` compares the bus voltages from steps 3 and 7, sorted by increasing difference
+    - ```*Compare_Currents_DSS.csv``` compares the branch currents from steps 3 and 7, sorted by increasing difference
 12. In the ```test/glm``` directory, GridLAB-D comparison results are in a set of files. At present, the exported IEEE 37-bus model, which is a delta system, does not solve in GridLAB-D.
-   - ```*Compare_Voltages_GLM.csv``` compares the bus voltages from steps 3 and 9, sorted by increasing difference
-   - ```*Compare_Currents_GLM.csv``` compares the branch currents from steps 3 and 9, sorted by increasing difference
+    - ```*Compare_Voltages_GLM.csv``` compares the bus voltages from steps 3 and 9, sorted by increasing difference
+    - ```*Compare_Currents_GLM.csv``` compares the branch currents from steps 3 and 9, sorted by increasing difference
 
-### Comparing Results
+### Comparing Test Results
 
 After completing step 3 of the batch process or step 10 of the detailed process, you should see
 a summary of the model output differences as shown below.

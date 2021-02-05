@@ -1,3 +1,7 @@
+Feeder model import into GridAPPS-D is now accomplished using [CIMHub](https://github.com/GRIDAPPSD/CIMHub).
+Please be able to build CIMHub as described in the previous section, so that you can
+perform this model import process as a developer.
+
 # Importing to Blazegraph
 
 Import blazegraph data from the blazegraph/tests folder.  From the blazegraph ui click the update tab and then upload 

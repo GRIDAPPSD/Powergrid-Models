@@ -376,7 +376,7 @@ def write_comparisons(basepath, dsspath, glmpath, rootname, voltagebases):
   print (len(i1), 'Case 1 links,', nmissing_2, 'not in Case 2', file=ftxt)
   print (len(i2), 'Case 2 links,', nmissing_1, 'not in Case 1', file=ftxt)
   ftxt.close()
-  print ('{:s} Nbus=[{:d},{:d},{:d}] Nlink=[{:d},{:d},{:d}] MAEv=[{:.4f},{:.4f}] MAEi=[{:.4f},{:.4f}]'.format (
+  print ('{:16s} Nbus=[{:6d},{:6d},{:6d}] Nlink=[{:6d},{:6d},{:6d}] MAEv=[{:7.4f},{:7.4f}] MAEi=[{:9.4f},{:9.4f}]'.format (
     rootname, len(v1), len(v2), len(gldv), len(i1), len(i2), len(gldi), err_v_dss, err_v_glm, err_i_dss, err_i_glm))
 
 if __name__ == "__main__":
