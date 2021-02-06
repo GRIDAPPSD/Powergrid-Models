@@ -31,7 +31,7 @@ declare -r CIMHUB_UTILS="../../CIMHub/utils"
 #python3 $CIMHUB_UTILS/ListMeasureables.py r2_12_47_2    _9CE150A8-8CC5-A0F9-B67E-BBD8C79D3095 Meas
 #python3 $CIMHUB_UTILS/ListMeasureables.py transactive   _503D6E20-F499-4CC7-8051-971E23D0BF79 Meas
 
-./insert_all_measurements.sh
-
-
+#./insert_all_measurements.sh
+#./insert_all_houses.sh
+./test_all_houses.sh
 
