@@ -64,7 +64,8 @@ bothpath = srcpath + 'both/'
 
 if arg == '-b':
   fp = open ('convert_xml.sh', 'w')
-  print ('declare -r DB_URL="{:s}"'.format(db_url), file=fp)
+  print ('source envars.sh', file=fp)
+#  print ('declare -r DB_URL="{:s}"'.format(db_url), file=fp)
   print ('rm -rf', bothpath, file=fp)
   print ('rm -rf', dsspath, file=fp)
   print ('rm -rf', glmpath, file=fp)

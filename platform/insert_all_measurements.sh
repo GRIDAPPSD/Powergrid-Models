@@ -1,7 +1,4 @@
-declare -r DB_URL="http://localhost:8889/bigdata/namespace/kb/sparql"
-declare -r CIMHUB_PATH="../../CIMHub/target/libs/*:../../CIMHub/target/cimhub-0.0.1-SNAPSHOT.jar"
-declare -r CIMHUB_PROG="gov.pnnl.gridappsd.cimhub.CIMImporter"
-declare -r CIMHUB_UTILS="../../CIMHub/utils"
+source envars.sh
 
 python3 $CIMHUB_UTILS/InsertMeasurements.py ./Meas/acep_psil_lines_pq.txt  ./Meas/acep_msid.json
 python3 $CIMHUB_UTILS/InsertMeasurements.py ./Meas/acep_psil_loads.txt     ./Meas/acep_msid.json

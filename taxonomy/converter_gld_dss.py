@@ -965,7 +965,7 @@ def process_one_model(inf, modeldir, dotfile, vbase_str, circuit_name):
         xff.close()
 
     
-    # NON-SPLIT-PHASE LOADS
+    # NON-SPLIT-PHASE LOADS, indicate with class=2 to prevent OpenDSS from triplexing
     if 'load' in model:
         redirects.append('Loads.dss')
         loadf = open(modeldir+'/Loads.dss', 'w')
@@ -995,7 +995,7 @@ def process_one_model(inf, modeldir, dotfile, vbase_str, circuit_name):
                 loadf.write(' kv='+'{:.3f}'.format(float(row['nominal_voltage'])/1000))
                 loadf.write(' kw='+'{:.3f}'.format(PA/1000))
                 loadf.write(' kvar='+'{:.3f}'.format(QA/1000))
-                loadf.write('\n')
+                loadf.write(' class=2\n')
             if 'constant_power_B' in row:
                 toks = re.split('[\+j]',row['constant_power_B'])
                 PB = float(toks[0])
@@ -1016,7 +1016,7 @@ def process_one_model(inf, modeldir, dotfile, vbase_str, circuit_name):
                 loadf.write(' kv='+'{:.3f}'.format(float(row['nominal_voltage'])/1000))
                 loadf.write(' kw='+'{:.3f}'.format(PB/1000))
                 loadf.write(' kvar='+'{:.3f}'.format(QB/1000))
-                loadf.write('\n')
+                loadf.write(' class=2\n')
             if 'constant_power_C' in row:
                 toks = re.split('[\+j]',row['constant_power_C'])
                 PC = float(toks[0])
@@ -1037,7 +1037,7 @@ def process_one_model(inf, modeldir, dotfile, vbase_str, circuit_name):
                 loadf.write(' kv='+'{:.3f}'.format(float(row['nominal_voltage'])/1000))
                 loadf.write(' kw='+'{:.3f}'.format(PC/1000))
                 loadf.write(' kvar='+'{:.3f}'.format(QC/1000))
-                loadf.write('\n')
+                loadf.write(' class=2\n')
     
     
     # TRIPLEX LOADS

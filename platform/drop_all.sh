@@ -1,3 +1,3 @@
-declare -r DB_URL="http://localhost:8889/bigdata/namespace/kb/sparql"
+source envars.sh
 
 curl -D- -X POST $DB_URL --data-urlencode "update=drop all"

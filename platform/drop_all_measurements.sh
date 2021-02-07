@@ -1,4 +1,4 @@
-declare -r CIMHUB_UTILS="../../CIMHub/utils"
+source envars.sh
 
 python3 $CIMHUB_UTILS/DropMeasurements.py _77966920-E1EC-EE8A-23EE-4EFD23B205BD
 python3 $CIMHUB_UTILS/DropMeasurements.py _67AB291F-DCCD-31B7-B499-338206B9828F

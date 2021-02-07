@@ -1,7 +1,4 @@
-declare -r DB_URL="http://localhost:8889/bigdata/namespace/kb/sparql"
-declare -r CIMHUB_PATH="../../CIMHub/target/libs/*:../../CIMHub/target/cimhub-0.0.1-SNAPSHOT.jar"
-declare -r CIMHUB_PROG="gov.pnnl.gridappsd.cimhub.CIMImporter"
-declare -r CIMHUB_UTILS="../../CIMHub/utils"
+source envars.sh
 
 python3 $CIMHUB_UTILS/DropHouses.py _4F76A5F9-271D-9EB8-5E31-AA362D86F2C3 3
 python3 $CIMHUB_UTILS/DropHouses.py _AAE94E4A-2465-6F5E-37B1-3E72183A4E44 3
