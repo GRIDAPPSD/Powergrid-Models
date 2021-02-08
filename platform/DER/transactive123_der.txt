@@ -10,7 +10,7 @@ DG_57,node_57,ABC,Battery,10,4.16,0,0,500.0,250.0
 DG_152,node_152,ABC,Battery,10,4.16,0,0,500.0,250.0
 // test cases to add a three-phase PV and synchronous machine
 PV_1,s_node_5_c,s1s2,Photovoltaic,5,0.208,3,0
-WTG_55,node_55,ABC,SynchronousMachine,5,2.4,3,0
+WTG_55,node_55,ABC,SynchronousMachine,5,4.16,3,0
 // these are test cases for single-phase DER and non-waiting batteries
 //PV_1,s_node_5_c,s1s2,Photovoltaic,5,0.208,3,0
 //PV_2,node_55,B,Photovoltaic,5,2.4,3,0
