@@ -26,7 +26,7 @@ For platform maintenance, updated feeder models that have been tested can be imp
 
 See [platform/dss/WSU](platform/dss/WSU) for the original OpenDSS version of this test case.
 
-See [CIMHub/ieee9500](https://github.com/GRIDAPPSD/CIMHub/tree/develop/ieee9500) for the latest published CIM, CSV, GridLAB-D and OpenDSS versions.
+See [CIMHub/ieee9500](https://github.com/GRIDAPPSD/CIMHub/ieee9500) for the latest published CIM, CSV, GridLAB-D and OpenDSS versions.
 
 ## Platform Feeder Characteristics
 

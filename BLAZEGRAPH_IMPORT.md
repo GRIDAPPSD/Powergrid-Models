@@ -2,7 +2,7 @@
 
 Copyright (c) 2017-2021, Battelle Memorial Institute
 
-Feeder model import into GridAPPS-D is now accomplished using Python scripts from [CIMHub](https://github.com/GRIDAPPSD/CIMHub/tree/develop/utils).
+Feeder model import into GridAPPS-D is now accomplished using Python scripts from [CIMHub](https://github.com/GRIDAPPSD/CIMHub/utils).
 Please clone those Python scripts, and check the ```requirements.txt``` file in their directory. Another precondition is that
 the CIM XML files have been tested as described in the [platform](platform) directory.
 
