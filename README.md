@@ -22,7 +22,7 @@ The feeder model conversion code has been moved to [CIMHub](https://github.com/G
 
 ## IEEE 9500-Node Test Case (Proposed)
 
-See [dss/WSU](dss/WSU) for the original OpenDSS version of this test case.
+See [platform/dss/WSU](platform/dss/WSU) for the original OpenDSS version of this test case.
 
 See [CIMHub/ieee9500](https://github.com/GRIDAPPSD/CIMHub/tree/develop/ieee9500) for the latest published CIM, CSV, GridLAB-D and OpenDSS versions.
 
@@ -61,5 +61,5 @@ These directories are actively maintained under version control:
 * [platform](platform): helper scripts and files to load 11 feeders into the platform
 * [taxonomy](taxonomy): PNNL taxonomy feeders as used in GridAPPS-D
 
-The [archive][(archive) directories are deprecated, moved, or not of general interest.
+The [archive](archive) directories are deprecated, moved, or not of general interest.
 
