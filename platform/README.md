@@ -56,14 +56,15 @@ Python scripts configure CIMHub from [cimhubconfig.json](cimhubconfig.json), whi
 
 ### Batch Testing Process
 
+If there have not been any changes to the CIM XML, you may skip ahead to the [Preparation for Batch Import](#preparation_for_batch-import).
+
 To test all 11 feeder models at once, before importing into the platform:
 
 1. Change to the ```platform``` directory
-2. Edit the two ```declare``` lines at the top of ```go.sh``` so they match your path and Blazegraph URL
-3. Start Blazegraph with ```docker restart blazegraph```
-4. Issue ```./go.sh```
+2. Start Blazegraph with ```docker restart blazegraph```
+3. Issue ```./test_all.sh```
 
-If any errors occur, you might need the step-by-step process to localize the problem.
+If any errors occur, you might need the Step-by-step Testing Process to localize the problem.
 (Note: the IEEE 37-bus feeder will not solve in GridLAB-D; this is a known issue.)
 
 ### Step-by-step Testing Process
@@ -148,6 +149,30 @@ Some notes about these comparisons:
 * GridLAB-D doesn't export load currents and other shunt currents to the CSV file, but Nlink includes them for OpenDSS
 * Only voltage errors within 0.8 per-unit are included in MAEv. This means the comparison doesn't try to match voltages in a de-energized part of the network due to wiring, phasing or switching errors. However, such errors would still appear in MAEi.
 * Efforts may be undertaken to reduce MAEv and MAEi.
+
+### Preparation for Batch Import
+
+This procedure verifies that platform models work with Houses and Measurements. A precondition is that the Batch
+Testing Process or Step-by-step Testing Process has been completed. A postcondition is that the CIM XML files
+are ready to deploy in GridAPPS-D as described in [BLAZEGRAPH_IMPORT](../BLAZEGRAPH_IMPORT.md).
+
+To import all 11 feeder models at once, including Houses and Measurements:
+
+1. Change to the ```platform``` directory
+2. Start Blazegraph with ```docker restart blazegraph```
+3. Issue ```./import_all.sh```
+
+The last several lines of console output should indicate that 5 cases have run successfully with Houses.
+
+In order to test the DER scripts on a platform feeder model (assume Blazegraph still running):
+
+1. Change to the ```platform/DER``` directory
+2. Issue ```./insert_der.sh```
+3. Issue ```./test_der.sh```
+4. Issue ```./drop_der.sh```
+
+Console output from step 3 should indicate that a DER case ran on the Transactive model, in both OpenDSS and GridLAB-D.
+The test DER is removed from Blazegraph in step 4.
 
 ## Directory Contents
 
