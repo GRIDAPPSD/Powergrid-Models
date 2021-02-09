@@ -1,0 +1,4 @@
+{
+  "blazegraph_url": "http://localhost:8889/bigdata/namespace/kb/sparql",
+  "cim_ns": "<http://iec.ch/TC57/CIM100#"
+}

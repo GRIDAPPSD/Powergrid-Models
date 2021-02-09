@@ -1,6 +1,4 @@
 uuid_file,test9500new_der_uuid.txt
-blazegraph_url,http://localhost:8889/bigdata/sparql
-cim_namespace,http://iec.ch/TC57/CIM100#
 //test9500new, 10 synchronous machines
 feederID,_AAE94E4A-2465-6F5E-37B1-3E72183A4E44
 //name,bus,phases(ABCs1s2),type(Battery,Photovoltaic,SynchronousMachine),RatedkVA(s),RatedkV(u?),kW(p),kVAR(q)
