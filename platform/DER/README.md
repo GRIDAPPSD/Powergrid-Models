@@ -44,8 +44,8 @@ Other files in this directory are:
 
 - *insert_der.sh* is the script to insert DER, by calling a CIMHub Python utility program. Blazegraph must be running and loaded with the base network model. First Python argument is a config file and the second argument is the DER text file as described above.
 
-- *drop_der.sh* removes previously inserted DER from Blazegraph, by calling CIMHub Python utility program. First Python argument is a config file and the second argument is a file of the object mRIDs to remove.
+- *drop_der.sh* removes previously inserted DER from Blazegraph, by calling a CIMHub Python utility program. First Python argument is a config file and the second argument is a file of the object mRIDs to remove.
 
-- *cimhubconfig.json* contains the *blazegraph_url* and *cim_ns* for the scripts (this information used to be in a ```config.txt``)
+- *cimhubconfig.json* contains the *blazegraph_url* and *cim_ns* for the scripts (this information used to be in a ```config.txt```)
 
 
