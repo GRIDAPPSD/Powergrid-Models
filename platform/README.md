@@ -2,7 +2,7 @@
 
 Copyright (c) 2017-2021, Battelle Memorial Institute
 
-If there have been no changes to the CIM XML files in ```platform/cimxml```, you may follow these [import instructions](BLAZEGRAPH_IMPORT.md).
+If there have been no changes to the CIM XML files in ```platform/cimxml```, you may follow these [import instructions](../BLAZEGRAPH_IMPORT.md).
 
 If the source models have changed under ```platform/dss``` or ```platform/glm```, please test them first as described next.
 
@@ -56,7 +56,7 @@ Python scripts configure CIMHub from [cimhubconfig.json](cimhubconfig.json), whi
 
 ### Batch Testing Process
 
-If there have not been any changes to the CIM XML, you may skip ahead to the [Preparation for Batch Import](#preparation_for_batch-import).
+If there have not been any changes to the CIM XML, you may skip ahead to the [Preparation for Batch Import](#preparation-for-batch-import).
 
 To test all 11 feeder models at once, before importing into the platform:
 
