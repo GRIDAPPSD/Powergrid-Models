@@ -12,7 +12,7 @@ Feeder model translations for GridAPPS-D are now accomplished using [CIMHub](htt
 Please be able to build CIMHub as described in the previous section, so that you can
 perform this model testing process as a developer.
 
-After the models have been tested, check them in to ```platform/cimxml```, from which they can be [imported into GridAPPS-D](BLAZEGRAPH_IMPORT.md).
+After the models have been tested, check them in to ```platform/cimxml```, from which they can be [imported into GridAPPS-D](../BLAZEGRAPH_IMPORT.md).
 
 ### Preparations
 
@@ -64,7 +64,7 @@ To test all 11 feeder models at once, before importing into the platform:
 2. Start Blazegraph with ```docker restart blazegraph```
 3. Issue ```./test_all.sh```
 
-If any errors occur, you might need the Step-by-step Testing Process to localize the problem.
+If any errors occur, you might need the [Step-by-step Testing Process](#step-by-step-testing-process) to localize the problem.
 (Note: the IEEE 37-bus feeder will not solve in GridLAB-D; this is a known issue.)
 
 ### Step-by-step Testing Process

@@ -20,6 +20,8 @@ The taxonomy feeders are modified, as described in the [taxonomy](taxonomy) subd
 
 The feeder model conversion code has been moved to [CIMHub](https://github.com/GRIDAPPSD/CIMHub). This repository now contains mostly data.
 
+For platform maintenance, updated feeder models that have been tested can be imported using [these instructions](BLAZEGRAPH_IMPORT.md).
+
 ## IEEE 9500-Node Test Case (Proposed)
 
 See [platform/dss/WSU](platform/dss/WSU) for the original OpenDSS version of this test case.
