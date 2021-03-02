@@ -578,11 +578,11 @@ for c in casefiles:
         print ('#ifdef WANT_VI_DUMP', file=op)
         print ('object voltdump {', file=op)
         print ('  filename Voltage_Dump_' + c[0] + '.csv;', file=op)
-        print ('  mode polar;', file=op)
+        print ('  mode POLAR;', file=op)
         print ('}', file=op)
         print ('object currdump {', file=op)
         print ('  filename Current_Dump_' + c[0] + '.csv;', file=op)
-        print ('  mode polar;', file=op)
+        print ('  mode POLAR;', file=op)
         print ('}', file=op)
         print ('#endif', file=op)
 
