@@ -1,0 +1,9 @@
+cd /Users/mcde601/src/opendss/Distrib/IEEETestCases/
+redirect ./123Bus/IEEE123Switches.dss
+buscoords ./123Bus/buscoords.dat
+set maxiterations=20
+solve
+cd /Users/mcde601/src/GRIDAPPSD/Powergrid-Models/blazegraph/test/
+export summary IEEE123.csv
+
+export cdpsmcombined file=IEEE123.xml fid=C1C3E687-6FFD-C753-582B-632A27E28507 sub=ieee123_Substation sid=FE44B314-385E-C2BF-3983-3A10C6060022 subgeo=large sgrid=1CD7D2EE-3C91-3248-5662-A43EFEFAC224 geo=ieee rgnid=24809814-4EC6-29D2-B509-7F8BFB646437

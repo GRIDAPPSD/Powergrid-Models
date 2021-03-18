@@ -1,0 +1,83 @@
+! Primary circuit line definitions
+! Most lines pick up their impedance and phase definition from the Linecodes.DSS file
+New Line.HVMV_Sub_connector  bus1=_HVMV_Sub_LSB       bus2=HVMV_Sub_48332      length=0.001       units=km r1=0.001                                        r0=0.001 x1=0.01      x0=0.01      c1=0     c0=0           
+New Line.LN5710794-3         bus1=HVMV_Sub_48332      bus2=D5710794-3_INT      length=0.019436038 units=km Linecode=3PH_H-397_ACSR397_ACSR397_ACSR397_ACSR  
+New Line.A8735_48332_sw      bus1=D5710794-3_INT      bus2=E192860             switch=y           R1=1     1   1        1            Length=0.001   
+New Line.LN5815900-1         bus1=E192860             bus2=Bus2            length=0.019593344 units=km Linecode=3PH_H-397_ACSR397_ACSR397_ACSR397_ACSR  
+
+  
+New linecode.mtx23 nphases=3 BaseFreq=60 
+~ rmatrix = [ 0.7989    0.3456    0.3416|   0.3456    0.7973    0.3599 |  0.3416    0.3599    0.7957]
+~ xmatrix = [1.0378    0.4439    0.4101 |   0.4439    1.0729    0.4851 | 0.4101    0.4851    1.0897]
+~ units=mi 
+
+New linecode.mtx34 nphases=3 BaseFreq=60 
+~ rmatrix = ( 1.3376    0.5965    0.5765 |     0.5965    1.3379    0.6133 |     0.5765    0.6133    1.2876)
+~ xmatrix = ( 1.3723    0.4608    0.4553 |     0.4608    1.4531    0.5766 |     0.4553    0.5766    1.6416)
+~ units=mi 
+
+New linecode.mtx56 nphases=3 BaseFreq=60 
+~ rmatrix = (1.1755    0.5310    0.5082  |    0.5310    1.1865    0.5479  |     0.5082    0.5479    1.1380 )
+~ xmatrix = ( 0.7806    0.1564    0.1834  |    0.1564    0.8729    0.2770 |    0.1834    0.2770    1.0947)
+~ units=mi 
+
+New linecode.mtx67 nphases=3 BaseFreq=60 
+~ rmatrix = (0.2770    0.0594    0.0613 |     0.0594    0.2843    0.0669 |    0.0613    0.0669    0.2962)
+~ xmatrix = ( 0.0827   0.0    0.0019 |  0.0    0.1217    0.0176 |    0.0019    0.0176    0.1608)
+~ units=mi 
+  
+New linecode.mtx89 nphases=3 BaseFreq=60 
+~ rmatrix = (3.9807    0.6196    0.6892  |     0.6196    4.8441    0.6134  |     0.6892    0.6134    4.5413)
+~ xmatrix = (  2.6435    1.1376    1.5894  |     1.1376    3.1425    0.8438 |     1.5894    0.8438    3.2381)
+~ units=mi 
+
+New linecode.mtx310 nphases=3 BaseFreq=60 
+~ rmatrix = ( 3.3931    0.6975    0.7003  |      0.6975    3.3812    0.7193  |      0.7003    0.7193    3.4278)
+~ xmatrix = ( 2.3770    1.0521    0.9754 |    1.0521    2.3572    1.0957 |     0.9754    1.0957    2.3358 ) 
+~ units=mi 
+
+New linecode.mtx1112 nphases=3 BaseFreq=60 
+~ rmatrix = (3.0787    0.4052    0.4225  |     0.4052    2.9940    0.4242  |     0.4225    0.4242    3.2063 )
+~ xmatrix =  ( 1.0474    0.4884    0.5222  |     0.4884    0.9653    0.5551  |     0.5222    0.5551    1.2209 )
+~ units=mi 
+
+New linecode.mtx1213  nphases=3 BaseFreq=60 
+~ rmatrix = ( 3.7087    0.2911    0.3305  |     0.2911    3.5324    0.3087  |     0.3305    0.3087    3.8751)
+~ xmatrix = (  1.8071    0.7524    0.7984  |   0.7524    1.6471    0.8305  |    0.7984    0.8305    1.9735 )
+~ units=mi 
+
+
+
+
+New Line.LN23        Phases=3  bus1=Bus2             bus2=Bus3     LineCode=mtx23 Length=1 units=mi         
+New Line.LN34        Phases=3  bus1=Bus3             bus2=Bus4    LineCode=mtx34 Length=1 units=mi           
+New Line.LN56        Phases=3  bus1=Bus5             bus2=Bus6   LineCode=mtx56 Length=1 units=mi           
+New Line.LN67        Phases=3  bus1=Bus6             bus2=Bus7   LineCode=mtx67 Length=1 units=mi           
+New Line.LN89        Phases=3  bus1=Bus8             bus2=Bus9   LineCode=mtx89 Length=1 units=mi         
+New Line.LN310        Phases=3  bus1=Bus3             bus2=Bus10   LineCode=mtx310 Length=1 units=mi           
+New Line.LN1112        Phases=3  bus1=Bus11             bus2=Bus12   LineCode=mtx1112 Length=1 units=mi           
+New Line.LN1213        Phases=3  bus1=Bus12             bus2=Bus13   LineCode=mtx1213 Length=1 units=mi           
+
+
+
+
+
+! 1-phase Capacitor Connectors
+New Line.CAP_1A              bus1=Bus3.1          bus2=Bus3_CAP.1      length=0.001        units=km r1=1.0        r0=1.0  x1=1.0      x0=1.0      c1=0     c0=0    Phases=1       
+New Line.CAP_1B              bus1=Bus3.2          bus2=Bus3_CAP.2      length=0.001        units=km r1=1.0        r0=1.0  x1=1.0      x0=1.0      c1=0     c0=0    Phases=1       
+New Line.CAP_1C              bus1=Bus3.3          bus2=Bus3_CAP.3      length=0.001        units=km r1=1.0        r0=1.0  x1=1.0      x0=1.0      c1=0     c0=0    Phases=1       
+
+
+New Line.CAP_3A              bus1=Bus6.1            bus2=Bus6_CAP.1        length=0.001        units=km r1=1.0        r0=1.0  x1=1.0      x0=1.0      c1=0     c0=0           Phases=1
+New Line.CAP_3B              bus1=Bus6.2            bus2=Bus6_CAP.2        length=0.001        units=km r1=1.0        r0=1.0  x1=1.0      x0=1.0      c1=0     c0=0           Phases=1
+New Line.CAP_3C              bus1=Bus6.3            bus2=Bus6_CAP.3        length=0.001        units=km r1=1.0        r0=1.0  x1=1.0      x0=1.0      c1=0     c0=0           Phases=1
+
+
+
+New Line.CAP_2A              bus1= Bus2.1            bus2= Bus2_CAP.1              length=0.001        units=km r1=1.0        r0=1.0  x1=1.0      x0=1.0      c1=0     c0=0           Phases=1
+New Line.CAP_2B              bus1=Bus2.2            bus2=Bus2_CAP.2        length=0.001        units=km r1=1.0        r0=1.0  x1=1.0      x0=1.0      c1=0     c0=0           Phases=1
+New Line.CAP_2C              bus1=Bus2.3            bus2=Bus2_CAP.3        length=0.001        units=km r1=1.0        r0=1.0  x1=1.0      x0=1.0      c1=0     c0=0           Phases=1
+
+
+
+

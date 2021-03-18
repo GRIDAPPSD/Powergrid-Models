@@ -1,6 +1,0 @@
-*.txt
-*index.json
-# pydev/eclipse:
-*.project
-*.pydevproject
-__pycache__/**

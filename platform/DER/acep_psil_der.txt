@@ -1,0 +1,4 @@
+uuid_file,acep_psil_der_uuid.txt
+feederID,_77966920-E1EC-EE8A-23EE-4EFD23B205BD
+//name,bus,phases(ABCs1s2),type(Battery,Photovoltaic,SynchronousMachine),RatedkVA(s),RatedkV(u?),kW(p),kVAR(q),RatedkWH,StoredkWH
+wind,wind,ABC,SynchronousMachine,120,0.48,100,53.974282

@@ -1,0 +1,11 @@
+//
+cd /Users/mcde601/src/GRIDAPPSD/Powergrid-Models/blazegraph/test/dss/NREL
+redirect IEEE123Master_fixedVR.dss
+cd /Users/mcde601/src/GRIDAPPSD/Powergrid-Models/blazegraph/test/
+export summary  IEEE123_PV_s.csv
+export voltages IEEE123_PV_v.csv
+export currents IEEE123_PV_i.csv
+export taps     IEEE123_PV_t.csv
+uuids ieee123_PV_uuids.dat
+export cim100 file=IEEE123_PV.xml sub=IEEE123 subgeo=Medium geo=IEEE fid=E407CBB6-8C8D-9BC9-589C-AB83FBF0826D sid=FE44B314-385E-C2BF-3983-3A10C6060022 sgrid=1CD7D2EE-3C91-3248-5662-A43EFEFAC224 rgnid=73C512BD-7249-4F50-50DA-D93849B89C43
+export uuids ieee123_PV_uuids.dat

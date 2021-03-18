@@ -1,0 +1,16 @@
+! Large, 3-Phase PV Systems
+New PVSystem.3P_ExistingSite1 phases=3 bus1=X_5865228330A  kV=0.416 kVA=314 irradiance=1 Pmpp=285 pf=1 %cutin=0.1 %cutout=0.1 	!yearly=PV_13_15
+New PVSystem.3P_ExistingSite2 phases=3 bus1=B4832_sec      kV=0.416 kVA=209 irradiance=1 Pmpp=190 pf=1 %cutin=0.1 %cutout=0.1 	!yearly=PV_13_16
+New PVSystem.3P_ExistingSite3 phases=3 bus1=5890628219_sec kV=0.416 kVA=836 irradiance=1 Pmpp=760 pf=1 %cutin=0.1 %cutout=0.1 	!yearly=PV_15_14
+New PVSystem.3P_ExistingSite4 phases=3 bus1=B51854_sec2     kV=0.416 kVA=523 irradiance=1 Pmpp=475 pf=1 %cutin=0.1 %cutout=0.1 	!yearly=PV_16_15
+
+!small, single-phase PV Systems
+New PVSystem.C_Existing2 phases=1 bus1=X_B55624_Cust1-C.3 kV=0.24 kVA=12.2 irradiance=1 Pmpp=11.1 pf=1 %cutin=0.1 %cutout=0.1 	!yearly=PV_18_22
+New PVSystem.B_Existing3 phases=1 bus1=X_B60964_Cust1-B.2 kV=0.24 kVA=11 irradiance=1 Pmpp=10 pf=1 %cutin=0.1 %cutout=0.1 	!yearly=PV_24_29
+New PVSystem.C_Existing5 phases=1 bus1=X_B61252_Cust1-C.3 kV=0.24 kVA=22 irradiance=1 Pmpp=20 pf=1 %cutin=0.1 %cutout=0.1 	!yearly=PV_25_22
+New PVSystem.B_Existing7 phases=1 bus1=X_B4870_Cust1-B.2 kV=0.24 kVA=11 irradiance=1 Pmpp=10 pf=1 %cutin=0.1 %cutout=0.1 	!yearly=PV_12_15
+New PVSystem.A_Existing9 phases=1 bus1=X_B66452_Cust1-A.1 kV=0.24 kVA=11 irradiance=1 Pmpp=10 pf=1 %cutin=0.1 %cutout=0.1 	!yearly=PV_30_29
+New PVSystem.C_Existing10 phases=1 bus1=X_B18989_Cust1-C.3 kV=0.24 kVA=11 irradiance=1 Pmpp=10 pf=1 %cutin=0.1 %cutout=0.1 	!yearly=PV_30_26
+New PVSystem.C_Existing11 phases=1 bus1=X_6039329105_Cust1-C.3 kV=0.24 kVA=11 irradiance=1 Pmpp=10 pf=1 %cutin=0.1 %cutout=0.1 	!yearly=PV_27_24
+New PVSystem.B_Existing12 phases=1 bus1=X_B41861_Cust1-B.2 kV=0.24 kVA=8.8 irradiance=1 Pmpp=8 pf=1 %cutin=0.1 %cutout=0.1 	!yearly=PV_27_28
+New PVSystem.C_Existing13 phases=1 bus1=X_B26203_Cust1-C.3 kV=0.24 kVA=16 irradiance=1 Pmpp=14.5 pf=1 %cutin=0.1 %cutout=0.1 	!yearly=PV_14_24

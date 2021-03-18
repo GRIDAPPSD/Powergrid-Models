@@ -1,0 +1,30 @@
+//
+clear
+cd c:/GRIDAPPS-D/Powergrid-Models/blazegraph/
+redirect ieee3sub_base.dss
+
+close  line.sub1_sw 1
+close line.sub2_sw 1
+close  line.sub3_sw 1
+open Line.a8611_48332_sw
+open Line.2002200004991174_sw
+
+set maxiterations=20
+Set MaxControlIter=100
+set loadmult=0.8
+set controlmode=off
+solve
+export summary case2s.csv
+export voltages case2v.csv
+export currents case2i.csv
+export taps case2t.csv
+
+clear
+cd c:/temp/8500_Node_3Sub
+redirect Run_8500Node.dss
+export summary c:/GRIDAPPS-D/Powergrid-Models/blazegraph/case1s.csv
+export voltages c:/GRIDAPPS-D/Powergrid-Models/blazegraph/case1v.csv
+export currents c:/GRIDAPPS-D/Powergrid-Models/blazegraph/case1i.csv
+export taps c:/GRIDAPPS-D/Powergrid-Models/blazegraph/case1t.csv
+
+

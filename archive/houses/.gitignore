@@ -1,0 +1,4 @@
+.project
+.pydevproject
+*index.json
+*__pycache__

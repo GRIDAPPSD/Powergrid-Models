@@ -1,0 +1,2609 @@
+
+
+
+object capacitor {
+  name "cap_capbank1b";
+  parent "nd_bus3";
+  phases BN;
+  phases_connected BN;
+  cap_nominal_voltage 7200.00;
+  capacitor_B 300000;
+  control VAR;
+  VAr_set_low -225000;
+  VAr_set_high 150000;
+  remote_sense "line_cap_2b";
+  pt_phase B;
+  control_level BANK;
+  time_delay 101.000;
+}
+object capacitor {
+  name "cap_capbank2a";
+  parent "nd_bus2";
+  phases AN;
+  phases_connected AN;
+  cap_nominal_voltage 7200.00;
+  capacitor_A 300000;
+  control VAR;
+  VAr_set_low -225000;
+  VAr_set_high 150000;
+  remote_sense "line_cap_1a";
+  pt_phase A;
+  control_level BANK;
+  time_delay 100.000;
+}
+object capacitor {
+  name "cap_capbank0b";
+  parent "nd_bus6";
+  phases BN;
+  phases_connected BN;
+  cap_nominal_voltage 7200.00;
+  capacitor_B 400000;
+  control VAR;
+  VAr_set_low -300000;
+  VAr_set_high 200000;
+  remote_sense "line_cap_3b";
+  pt_phase B;
+  control_level BANK;
+  time_delay 101.000;
+}
+object capacitor {
+  name "cap_capbank0a";
+  parent "nd_bus6";
+  phases AN;
+  phases_connected AN;
+  cap_nominal_voltage 7200.00;
+  capacitor_A 400000;
+  control VAR;
+  VAr_set_low -300000;
+  VAr_set_high 200000;
+  remote_sense "line_cap_3a";
+  pt_phase A;
+  control_level BANK;
+  time_delay 100.000;
+}
+object capacitor {
+  name "cap_capbank2c";
+  parent "nd_bus2";
+  phases CN;
+  phases_connected CN;
+  cap_nominal_voltage 7200.00;
+  capacitor_C 300000;
+  control VAR;
+  VAr_set_low -225000;
+  VAr_set_high 150000;
+  remote_sense "line_cap_1c";
+  pt_phase C;
+  control_level BANK;
+  time_delay 102.000;
+}
+object capacitor {
+  name "cap_capbank1c";
+  parent "nd_bus3";
+  phases CN;
+  phases_connected CN;
+  cap_nominal_voltage 7200.00;
+  capacitor_C 300000;
+  control VAR;
+  VAr_set_low -225000;
+  VAr_set_high 150000;
+  remote_sense "line_cap_2c";
+  pt_phase C;
+  control_level BANK;
+  time_delay 102.000;
+}
+object capacitor {
+  name "cap_capbank1a";
+  parent "nd_bus3";
+  phases AN;
+  phases_connected AN;
+  cap_nominal_voltage 7200.00;
+  capacitor_A 300000;
+  control VAR;
+  VAr_set_low -225000;
+  VAr_set_high 150000;
+  remote_sense "line_cap_2a";
+  pt_phase A;
+  control_level BANK;
+  time_delay 100.000;
+}
+object capacitor {
+  name "cap_capbank2b";
+  parent "nd_bus2";
+  phases BN;
+  phases_connected BN;
+  cap_nominal_voltage 7200.00;
+  capacitor_B 300000;
+  control VAR;
+  VAr_set_low -225000;
+  VAr_set_high 150000;
+  remote_sense "line_cap_1b";
+  pt_phase B;
+  control_level BANK;
+  time_delay 101.000;
+}
+object capacitor {
+  name "cap_capbank3";
+  parent "nd_bus12";
+  phases ABCN;
+  phases_connected ABCN;
+  cap_nominal_voltage 7200.20;
+  capacitor_A 300000;
+  capacitor_B 300000;
+  capacitor_C 300000;
+}
+object capacitor {
+  name "cap_capbank0c";
+  parent "nd_bus6";
+  phases CN;
+  phases_connected CN;
+  cap_nominal_voltage 7200.00;
+  capacitor_C 400000;
+  control VAR;
+  VAr_set_low -300000;
+  VAr_set_high 200000;
+  remote_sense "line_cap_3c";
+  pt_phase C;
+  control_level BANK;
+  time_delay 102.000;
+}
+
+object transformer_configuration {
+  name "xcon_cimxfmrcode_feeder_regc";
+  connect_type SINGLE_PHASE;
+  primary_voltage 7200.00;
+  secondary_voltage 7200.00;
+  power_rating 27500.0;
+  resistance 1.00000e-05;
+  reactance 0.00100000;
+}
+object transformer_configuration {
+  name "xcon_cimxfmrcode_vreg2_a";
+  connect_type SINGLE_PHASE;
+  primary_voltage 7200.00;
+  secondary_voltage 7200.00;
+  power_rating 10000.0;
+  resistance 0.000100000;
+  reactance 0.00100000;
+}
+object transformer_configuration {
+  name "xcon_cimxfmrcode_vreg2_b";
+  connect_type SINGLE_PHASE;
+  primary_voltage 7200.00;
+  secondary_voltage 7200.00;
+  power_rating 10000.0;
+  resistance 0.000100000;
+  reactance 0.00100000;
+}
+object transformer_configuration {
+  name "xcon_cimxfmrcode_vreg3_c";
+  connect_type SINGLE_PHASE;
+  primary_voltage 7200.00;
+  secondary_voltage 7200.00;
+  power_rating 10000.0;
+  resistance 0.000100000;
+  reactance 0.00100000;
+}
+object transformer_configuration {
+  name "xcon_cimxfmrcode_vreg4_a";
+  connect_type SINGLE_PHASE;
+  primary_voltage 7200.00;
+  secondary_voltage 7200.00;
+  power_rating 10000.0;
+  resistance 0.000100000;
+  reactance 0.00100000;
+}
+object transformer_configuration {
+  name "xcon_cimxfmrcode_feeder_rega";
+  connect_type SINGLE_PHASE;
+  primary_voltage 7200.00;
+  secondary_voltage 7200.00;
+  power_rating 27500.0;
+  resistance 1.00000e-05;
+  reactance 0.00100000;
+}
+object transformer_configuration {
+  name "xcon_cimxfmrcode_feeder_regb";
+  connect_type SINGLE_PHASE;
+  primary_voltage 7200.00;
+  secondary_voltage 7200.00;
+  power_rating 27500.0;
+  resistance 1.00000e-05;
+  reactance 0.00100000;
+}
+object transformer_configuration {
+  name "xcon_cimxfmrcode_vreg2_c";
+  connect_type SINGLE_PHASE;
+  primary_voltage 7200.00;
+  secondary_voltage 7200.00;
+  power_rating 10000.0;
+  resistance 0.000100000;
+  reactance 0.00100000;
+}
+object transformer_configuration {
+  name "xcon_cimxfmrcode_vreg3_b";
+  connect_type SINGLE_PHASE;
+  primary_voltage 7200.00;
+  secondary_voltage 7200.00;
+  power_rating 10000.0;
+  resistance 0.000100000;
+  reactance 0.00100000;
+}
+object transformer_configuration {
+  name "xcon_cimxfmrcode_vreg3_a";
+  connect_type SINGLE_PHASE;
+  primary_voltage 7200.00;
+  secondary_voltage 7200.00;
+  power_rating 10000.0;
+  resistance 0.000100000;
+  reactance 0.00100000;
+}
+object transformer_configuration {
+  name "xcon_cimxfmrcode_vreg4_b";
+  connect_type SINGLE_PHASE;
+  primary_voltage 7200.00;
+  secondary_voltage 7200.00;
+  power_rating 10000.0;
+  resistance 0.000100000;
+  reactance 0.00100000;
+}
+object transformer_configuration {
+  name "xcon_cimxfmrcode_vreg4_c";
+  connect_type SINGLE_PHASE;
+  primary_voltage 7200.00;
+  secondary_voltage 7200.00;
+  power_rating 10000.0;
+  resistance 0.000100000;
+  reactance 0.00100000;
+}
+
+object regulator_configuration {
+  name "rcon_vreg2_c";
+  connect_type WYE_WYE;
+  band_center 125.000;
+  band_width 2.00000;
+  time_delay 15.0000;
+  raise_taps 16;
+  lower_taps 16;
+  regulation 0.100000;
+  Control OUTPUT_VOLTAGE;
+  current_transducer_ratio 300.000;
+  power_transducer_ratio 60.0000;
+  compensator_r_setting_C 0.00000;
+  compensator_x_setting_C 0.00000;
+}
+object regulator {
+  name "reg_vreg2_c";
+  from "nd_bus4";
+  to "nd_bus5";
+  phases C;
+  configuration "rcon_vreg2_c";
+}
+
+object regulator_configuration {
+  name "rcon_vreg3_a";
+  connect_type WYE_WYE;
+  band_center 125.000;
+  band_width 2.00000;
+  time_delay 15.0000;
+  raise_taps 16;
+  lower_taps 16;
+  regulation 0.100000;
+  Control OUTPUT_VOLTAGE;
+  current_transducer_ratio 300.000;
+  power_transducer_ratio 60.0000;
+  compensator_r_setting_A 0.00000;
+  compensator_x_setting_A 0.00000;
+}
+object regulator {
+  name "reg_vreg3_a";
+  from "nd_bus10";
+  to "nd_bus11";
+  phases A;
+  configuration "rcon_vreg3_a";
+}
+
+object regulator_configuration {
+  name "rcon_vreg2_b";
+  connect_type WYE_WYE;
+  band_center 125.000;
+  band_width 2.00000;
+  time_delay 15.0000;
+  raise_taps 16;
+  lower_taps 16;
+  regulation 0.100000;
+  Control OUTPUT_VOLTAGE;
+  current_transducer_ratio 300.000;
+  power_transducer_ratio 60.0000;
+  compensator_r_setting_B 0.00000;
+  compensator_x_setting_B 0.00000;
+}
+object regulator {
+  name "reg_vreg2_b";
+  from "nd_bus4";
+  to "nd_bus5";
+  phases B;
+  configuration "rcon_vreg2_b";
+}
+
+object regulator_configuration {
+  name "rcon_vreg3_c";
+  connect_type WYE_WYE;
+  band_center 125.000;
+  band_width 2.00000;
+  time_delay 15.0000;
+  raise_taps 16;
+  lower_taps 16;
+  regulation 0.100000;
+  Control OUTPUT_VOLTAGE;
+  current_transducer_ratio 300.000;
+  power_transducer_ratio 60.0000;
+  compensator_r_setting_C 0.00000;
+  compensator_x_setting_C 0.00000;
+}
+object regulator {
+  name "reg_vreg3_c";
+  from "nd_bus10";
+  to "nd_bus11";
+  phases C;
+  configuration "rcon_vreg3_c";
+}
+
+object transformer_configuration {
+  name "xcon_hvmv_sub";
+  connect_type DELTA_GWYE;
+  primary_voltage 115000;
+  secondary_voltage 12470.0;
+  power_rating 27500.0;
+  resistance 0.0134404;
+  reactance 0.155100;
+}
+object transformer {
+  name "xf_hvmv_sub";
+  from "nd_hvmv_sub_hsb";
+  to "nd_regxfmr_hvmv_sub_lsb";
+  phases ABCN;
+  configuration "xcon_hvmv_sub";
+}
+
+object regulator_configuration {
+  name "rcon_feeder_rega";
+  connect_type WYE_WYE;
+  band_center 126.500;
+  band_width 2.00000;
+  time_delay 15.0000;
+  raise_taps 16;
+  lower_taps 16;
+  regulation 0.100000;
+  Control OUTPUT_VOLTAGE;
+  current_transducer_ratio 300.000;
+  power_transducer_ratio 60.0000;
+  compensator_r_setting_A 0.00000;
+  compensator_x_setting_A 0.00000;
+}
+object regulator {
+  name "reg_feeder_rega";
+  from "nd_regxfmr_hvmv_sub_lsb";
+  to "nd__hvmv_sub_lsb";
+  phases A;
+  configuration "rcon_feeder_rega";
+}
+
+object regulator_configuration {
+  name "rcon_vreg4_a";
+  connect_type WYE_WYE;
+  band_center 125.000;
+  band_width 2.00000;
+  time_delay 15.0000;
+  raise_taps 16;
+  lower_taps 16;
+  regulation 0.100000;
+  Control OUTPUT_VOLTAGE;
+  current_transducer_ratio 300.000;
+  power_transducer_ratio 60.0000;
+  compensator_r_setting_A 0.00000;
+  compensator_x_setting_A 0.00000;
+}
+object regulator {
+  name "reg_vreg4_a";
+  from "nd_bus7";
+  to "nd_bus8";
+  phases A;
+  configuration "rcon_vreg4_a";
+}
+
+object regulator_configuration {
+  name "rcon_feeder_regc";
+  connect_type WYE_WYE;
+  band_center 126.500;
+  band_width 2.00000;
+  time_delay 15.0000;
+  raise_taps 16;
+  lower_taps 16;
+  regulation 0.100000;
+  Control OUTPUT_VOLTAGE;
+  current_transducer_ratio 300.000;
+  power_transducer_ratio 60.0000;
+  compensator_r_setting_C 0.00000;
+  compensator_x_setting_C 0.00000;
+}
+object regulator {
+  name "reg_feeder_regc";
+  from "nd_regxfmr_hvmv_sub_lsb";
+  to "nd__hvmv_sub_lsb";
+  phases C;
+  configuration "rcon_feeder_regc";
+}
+
+object regulator_configuration {
+  name "rcon_vreg4_b";
+  connect_type WYE_WYE;
+  band_center 125.000;
+  band_width 2.00000;
+  time_delay 15.0000;
+  raise_taps 16;
+  lower_taps 16;
+  regulation 0.100000;
+  Control OUTPUT_VOLTAGE;
+  current_transducer_ratio 300.000;
+  power_transducer_ratio 60.0000;
+  compensator_r_setting_B 0.00000;
+  compensator_x_setting_B 0.00000;
+}
+object regulator {
+  name "reg_vreg4_b";
+  from "nd_bus7";
+  to "nd_bus8";
+  phases B;
+  configuration "rcon_vreg4_b";
+}
+
+object regulator_configuration {
+  name "rcon_feeder_regb";
+  connect_type WYE_WYE;
+  band_center 126.500;
+  band_width 2.00000;
+  time_delay 15.0000;
+  raise_taps 16;
+  lower_taps 16;
+  regulation 0.100000;
+  Control OUTPUT_VOLTAGE;
+  current_transducer_ratio 300.000;
+  power_transducer_ratio 60.0000;
+  compensator_r_setting_B 0.00000;
+  compensator_x_setting_B 0.00000;
+}
+object regulator {
+  name "reg_feeder_regb";
+  from "nd_regxfmr_hvmv_sub_lsb";
+  to "nd__hvmv_sub_lsb";
+  phases B;
+  configuration "rcon_feeder_regb";
+}
+
+object regulator_configuration {
+  name "rcon_vreg4_c";
+  connect_type WYE_WYE;
+  band_center 125.000;
+  band_width 2.00000;
+  time_delay 15.0000;
+  raise_taps 16;
+  lower_taps 16;
+  regulation 0.100000;
+  Control OUTPUT_VOLTAGE;
+  current_transducer_ratio 300.000;
+  power_transducer_ratio 60.0000;
+  compensator_r_setting_C 0.00000;
+  compensator_x_setting_C 0.00000;
+}
+object regulator {
+  name "reg_vreg4_c";
+  from "nd_bus7";
+  to "nd_bus8";
+  phases C;
+  configuration "rcon_vreg4_c";
+}
+
+object regulator_configuration {
+  name "rcon_vreg3_b";
+  connect_type WYE_WYE;
+  band_center 125.000;
+  band_width 2.00000;
+  time_delay 15.0000;
+  raise_taps 16;
+  lower_taps 16;
+  regulation 0.100000;
+  Control OUTPUT_VOLTAGE;
+  current_transducer_ratio 300.000;
+  power_transducer_ratio 60.0000;
+  compensator_r_setting_B 0.00000;
+  compensator_x_setting_B 0.00000;
+}
+object regulator {
+  name "reg_vreg3_b";
+  from "nd_bus10";
+  to "nd_bus11";
+  phases B;
+  configuration "rcon_vreg3_b";
+}
+
+object regulator_configuration {
+  name "rcon_vreg2_a";
+  connect_type WYE_WYE;
+  band_center 125.000;
+  band_width 2.00000;
+  time_delay 15.0000;
+  raise_taps 16;
+  lower_taps 16;
+  regulation 0.100000;
+  Control OUTPUT_VOLTAGE;
+  current_transducer_ratio 300.000;
+  power_transducer_ratio 60.0000;
+  compensator_r_setting_A 0.00000;
+  compensator_x_setting_A 0.00000;
+}
+object regulator {
+  name "reg_vreg2_a";
+  from "nd_bus4";
+  to "nd_bus5";
+  phases A;
+  configuration "rcon_vreg2_a";
+}
+
+
+
+
+
+
+object line_configuration {
+  name "lcon_1ph-xx4_acsr2_acsr_A";
+  z11 2.69335+1.43736j;
+  c11 10.1754;
+}
+object line_configuration {
+  name "lcon_1ph-xx4_acsr2_acsr_B";
+  z22 2.69335+1.43736j;
+  c22 10.1754;
+}
+object line_configuration {
+  name "lcon_1ph-xx4_acsr2_acsr_C";
+  z33 2.69335+1.43736j;
+  c33 10.1754;
+}
+
+object line_configuration {
+  name "lcon_1ph-xx2_acsr1/0_tpx_A";
+  z11 1.66096+1.28979j;
+  c11 10.4538;
+}
+object line_configuration {
+  name "lcon_1ph-xx2_acsr1/0_tpx_B";
+  z22 1.66096+1.28979j;
+  c22 10.4538;
+}
+object line_configuration {
+  name "lcon_1ph-xx2_acsr1/0_tpx_C";
+  z33 1.66096+1.28979j;
+  c33 10.4538;
+}
+
+object line_configuration {
+  name "lcon_3ph_h-2/0_acsr2/0_acsr2/0_acsr2_acsr_ABC";
+  z11 1.06357+1.40004j;
+  c11 13.4300;
+  z12 0.221283+0.625357j;
+  c12 -3.72717;
+  z21 0.221283+0.625357j;
+  c21 -3.72717;
+  z22 1.05251+1.41385j;
+  c22 14.0347;
+  z31 0.228633+0.589205j;
+  c31 -3.07789;
+  z13 0.228633+0.589205j;
+  c13 -3.07789;
+  z32 0.222923+0.653318j;
+  c32 -4.37273;
+  z23 0.222923+0.653318j;
+  c23 -4.37273;
+  z33 1.06701+1.39578j;
+  c33 13.8026;
+}
+
+object line_configuration {
+  name "lcon_1ph-4_wpalxx2_wpal_A";
+  z11 2.62471+1.38600j;
+  c11 10.1754;
+}
+object line_configuration {
+  name "lcon_1ph-4_wpalxx2_wpal_B";
+  z22 2.62471+1.38600j;
+  c22 10.1754;
+}
+object line_configuration {
+  name "lcon_1ph-4_wpalxx2_wpal_C";
+  z33 2.62471+1.38600j;
+  c33 10.1754;
+}
+
+object line_configuration {
+  name "lcon_1ph-xx4_acsr4_acsr_A";
+  z11 2.69510+1.50403j;
+  c11 10.1754;
+}
+object line_configuration {
+  name "lcon_1ph-xx4_acsr4_acsr_B";
+  z22 2.69510+1.50403j;
+  c22 10.1754;
+}
+object line_configuration {
+  name "lcon_1ph-xx4_acsr4_acsr_C";
+  z33 2.69510+1.50403j;
+  c33 10.1754;
+}
+
+object line_configuration {
+  name "lcon_cap_2b_PUZ_A";
+  z11 1609.34+1609.34j;
+  c11 0.00000;
+}
+object line_configuration {
+  name "lcon_cap_2b_PUZ_B";
+  z22 1609.34+1609.34j;
+  c22 0.00000;
+}
+object line_configuration {
+  name "lcon_cap_2b_PUZ_C";
+  z33 1609.34+1609.34j;
+  c33 0.00000;
+}
+
+object line_configuration {
+  name "lcon_1ph-4_acsrxx4_wpal_A";
+  z11 2.69924+1.50057j;
+  c11 10.1754;
+}
+object line_configuration {
+  name "lcon_1ph-4_acsrxx4_wpal_B";
+  z22 2.69924+1.50057j;
+  c22 10.1754;
+}
+object line_configuration {
+  name "lcon_1ph-4_acsrxx4_wpal_C";
+  z33 2.69924+1.50057j;
+  c33 10.1754;
+}
+
+object line_configuration {
+  name "lcon_cap_2a_PUZ_A";
+  z11 1609.34+1609.34j;
+  c11 0.00000;
+}
+object line_configuration {
+  name "lcon_cap_2a_PUZ_B";
+  z22 1609.34+1609.34j;
+  c22 0.00000;
+}
+object line_configuration {
+  name "lcon_cap_2a_PUZ_C";
+  z33 1609.34+1609.34j;
+  c33 0.00000;
+}
+
+object line_configuration {
+  name "lcon_mtx34_ABC";
+  z11 1.33764+1.37234j;
+  c11 2.80001;
+  z12 0.596516+0.460813j;
+  c12 -0.600002;
+  z21 0.596516+0.460813j;
+  c21 -0.600002;
+  z22 1.33794+1.45314j;
+  c22 2.80001;
+  z31 0.576516+0.455312j;
+  c31 -0.600002;
+  z13 0.576516+0.455312j;
+  c13 -0.600002;
+  z32 0.613317+0.576616j;
+  c32 -0.600002;
+  z23 0.613317+0.576616j;
+  c23 -0.600002;
+  z33 1.28764+1.64164j;
+  c33 2.80001;
+}
+
+object line_configuration {
+  name "lcon_1ph-x2_acsrx4_acsr_A";
+  z11 1.80792+1.50923j;
+  c11 10.4538;
+}
+object line_configuration {
+  name "lcon_1ph-x2_acsrx4_acsr_B";
+  z22 1.80792+1.50923j;
+  c22 10.4538;
+}
+object line_configuration {
+  name "lcon_1ph-x2_acsrx4_acsr_C";
+  z33 1.80792+1.50923j;
+  c33 10.4538;
+}
+
+object line_configuration {
+  name "lcon_3ph_h-397_acsr397_acsr397_acsr2/0_wpal_ABC";
+  z11 0.434553+1.12006j;
+  c11 14.7027;
+  z12 0.176949+0.536732j;
+  c12 -4.29326;
+  z21 0.176949+0.536732j;
+  c21 -4.29326;
+  z22 0.425887+1.14059j;
+  c22 15.4852;
+  z31 0.182722+0.496114j;
+  c31 -3.50259;
+  z13 0.182722+0.496114j;
+  c13 -3.50259;
+  z32 0.178230+0.563687j;
+  c32 -5.08000;
+  z23 0.178230+0.563687j;
+  c23 -5.08000;
+  z33 0.437256+1.11370j;
+  c33 15.1789;
+}
+
+object line_configuration {
+  name "lcon_1ph-x4_acsrx4_tpx_A";
+  z11 2.69935+1.50000j;
+  c11 10.1754;
+}
+object line_configuration {
+  name "lcon_1ph-x4_acsrx4_tpx_B";
+  z22 2.69935+1.50000j;
+  c22 10.1754;
+}
+object line_configuration {
+  name "lcon_1ph-x4_acsrx4_tpx_C";
+  z33 2.69935+1.50000j;
+  c33 10.1754;
+}
+
+object line_configuration {
+  name "lcon_1ph-x4_acsrx4_acsr_A";
+  z11 2.69510+1.50403j;
+  c11 10.1754;
+}
+object line_configuration {
+  name "lcon_1ph-x4_acsrx4_acsr_B";
+  z22 2.69510+1.50403j;
+  c22 10.1754;
+}
+object line_configuration {
+  name "lcon_1ph-x4_acsrx4_acsr_C";
+  z33 2.69510+1.50403j;
+  c33 10.1754;
+}
+
+object line_configuration {
+  name "lcon_cap_3b_PUZ_A";
+  z11 1609.34+1609.34j;
+  c11 0.00000;
+}
+object line_configuration {
+  name "lcon_cap_3b_PUZ_B";
+  z22 1609.34+1609.34j;
+  c22 0.00000;
+}
+object line_configuration {
+  name "lcon_cap_3b_PUZ_C";
+  z33 1609.34+1609.34j;
+  c33 0.00000;
+}
+
+object line_configuration {
+  name "lcon_3ph_h-4_acsr4_acsr4_acsr4_tpx_ABC";
+  z11 2.71390+1.48797j;
+  c11 12.2323;
+  z12 0.227164+0.691995j;
+  c12 -3.21461;
+  z21 0.227164+0.691995j;
+  c21 -3.21461;
+  z22 2.70301+1.49697j;
+  c22 12.6944;
+  z31 0.234396+0.659039j;
+  c31 -2.68427;
+  z13 0.234396+0.659039j;
+  c13 -2.68427;
+  z32 0.228780+0.720677j;
+  c32 -3.74146;
+  z23 0.228780+0.720677j;
+  c23 -3.74146;
+  z33 2.71728+1.48521j;
+  c33 12.5210;
+}
+
+object line_configuration {
+  name "lcon_1ph-x4_acsrx4_dpx_A";
+  z11 2.69935+1.50000j;
+  c11 10.1754;
+}
+object line_configuration {
+  name "lcon_1ph-x4_acsrx4_dpx_B";
+  z22 2.69935+1.50000j;
+  c22 10.1754;
+}
+object line_configuration {
+  name "lcon_1ph-x4_acsrx4_dpx_C";
+  z33 2.69935+1.50000j;
+  c33 10.1754;
+}
+
+object line_configuration {
+  name "lcon_mtx310_ABC";
+  z11 3.39319+2.37706j;
+  c11 2.80001;
+  z12 0.697519+1.05213j;
+  c12 -0.600002;
+  z21 0.697519+1.05213j;
+  c21 -0.600002;
+  z22 3.38129+2.35726j;
+  c22 2.80001;
+  z31 0.700319+0.975427j;
+  c31 -0.600002;
+  z13 0.700319+0.975427j;
+  c13 -0.600002;
+  z32 0.719320+1.09573j;
+  c32 -0.600002;
+  z23 0.719320+1.09573j;
+  c23 -0.600002;
+  z33 3.42789+2.33586j;
+  c33 2.80001;
+}
+
+object line_configuration {
+  name "lcon_1ph-xx4_acsr4_tpx_A";
+  z11 2.69935+1.50000j;
+  c11 10.1754;
+}
+object line_configuration {
+  name "lcon_1ph-xx4_acsr4_tpx_B";
+  z22 2.69935+1.50000j;
+  c22 10.1754;
+}
+object line_configuration {
+  name "lcon_1ph-xx4_acsr4_tpx_C";
+  z33 2.69935+1.50000j;
+  c33 10.1754;
+}
+
+object line_configuration {
+  name "lcon_3ph_h-4_wpal4_wpal4_wpal4_wpal_ABC";
+  z11 2.64391+1.43133j;
+  c11 12.2323;
+  z12 0.227043+0.692596j;
+  c12 -3.21461;
+  z21 0.227043+0.692596j;
+  c21 -3.21461;
+  z22 2.63303+1.44028j;
+  c22 12.6944;
+  z31 0.234266+0.659667j;
+  c31 -2.68427;
+  z13 0.234266+0.659667j;
+  c13 -2.68427;
+  z32 0.228656+0.721284j;
+  c32 -3.74146;
+  z23 0.228656+0.721284j;
+  c23 -3.74146;
+  z33 2.64729+1.42858j;
+  c33 12.5210;
+}
+
+object line_configuration {
+  name "lcon_3ph_h-2/0_acsr2/0_acsr2/0_acsr2_wpal_ABC";
+  z11 1.06486+1.40657j;
+  c11 13.4300;
+  z12 0.222558+0.631648j;
+  c12 -3.72717;
+  z21 0.222558+0.631648j;
+  c21 -3.72717;
+  z22 1.05376+1.41992j;
+  c22 14.0347;
+  z31 0.229930+0.595802j;
+  c31 -3.07789;
+  z13 0.229930+0.595802j;
+  c13 -3.07789;
+  z32 0.224203+0.659678j;
+  c32 -4.37273;
+  z23 0.224203+0.659678j;
+  c23 -4.37273;
+  z33 1.06831+1.40245j;
+  c33 13.8026;
+}
+
+object line_configuration {
+  name "lcon_3ph_h-4_acsr4_acsr4_acsr4_acsr_ABC";
+  z11 2.70917+1.49234j;
+  c11 12.2323;
+  z12 0.222611+0.696239j;
+  c12 -3.21461;
+  z21 0.222611+0.696239j;
+  c21 -3.21461;
+  z22 2.69864+1.50108j;
+  c22 12.6944;
+  z31 0.229603+0.663457j;
+  c31 -2.68427;
+  z13 0.229603+0.663457j;
+  c13 -2.68427;
+  z32 0.224172+0.724960j;
+  c32 -3.74146;
+  z23 0.224172+0.724960j;
+  c23 -3.74146;
+  z33 2.71244+1.48967j;
+  c33 12.5210;
+}
+
+object line_configuration {
+  name "lcon_1ph-xx2_acsr2_acsr_A";
+  z11 1.80617+1.44256j;
+  c11 10.4538;
+}
+object line_configuration {
+  name "lcon_1ph-xx2_acsr2_acsr_B";
+  z22 1.80617+1.44256j;
+  c22 10.4538;
+}
+object line_configuration {
+  name "lcon_1ph-xx2_acsr2_acsr_C";
+  z33 1.80617+1.44256j;
+  c33 10.4538;
+}
+
+object line_configuration {
+  name "lcon_1ph-2_acsrxx1/0_tpx_A";
+  z11 1.66096+1.28979j;
+  c11 10.4538;
+}
+object line_configuration {
+  name "lcon_1ph-2_acsrxx1/0_tpx_B";
+  z22 1.66096+1.28979j;
+  c22 10.4538;
+}
+object line_configuration {
+  name "lcon_1ph-2_acsrxx1/0_tpx_C";
+  z33 1.66096+1.28979j;
+  c33 10.4538;
+}
+
+object line_configuration {
+  name "lcon_3ph_h-2_acsr2_acsr2_acsr2_acsr_ABC";
+  z11 1.82094+1.42409j;
+  c11 12.6870;
+  z12 0.221283+0.625357j;
+  c12 -3.40676;
+  z21 0.221283+0.625357j;
+  c21 -3.40676;
+  z22 1.80988+1.43790j;
+  c22 13.2005;
+  z31 0.228633+0.589205j;
+  c31 -2.83286;
+  z13 0.228633+0.589205j;
+  c13 -2.83286;
+  z32 0.222923+0.653318j;
+  c32 -3.97708;
+  z23 0.222923+0.653318j;
+  c23 -3.97708;
+  z33 1.82438+1.41983j;
+  c33 13.0060;
+}
+
+object line_configuration {
+  name "lcon_cap_1b_PUZ_A";
+  z11 1609.34+1609.34j;
+  c11 0.00000;
+}
+object line_configuration {
+  name "lcon_cap_1b_PUZ_B";
+  z22 1609.34+1609.34j;
+  c22 0.00000;
+}
+object line_configuration {
+  name "lcon_cap_1b_PUZ_C";
+  z33 1609.34+1609.34j;
+  c33 0.00000;
+}
+
+object line_configuration {
+  name "lcon_1ph-xx4_acsr1/0_acsr_A";
+  z11 2.66665+1.37642j;
+  c11 10.1754;
+}
+object line_configuration {
+  name "lcon_1ph-xx4_acsr1/0_acsr_B";
+  z22 2.66665+1.37642j;
+  c22 10.1754;
+}
+object line_configuration {
+  name "lcon_1ph-xx4_acsr1/0_acsr_C";
+  z33 2.66665+1.37642j;
+  c33 10.1754;
+}
+
+object line_configuration {
+  name "lcon_1ph-xx2_acsr4_dpx_A";
+  z11 1.81217+1.50521j;
+  c11 10.4538;
+}
+object line_configuration {
+  name "lcon_1ph-xx2_acsr4_dpx_B";
+  z22 1.81217+1.50521j;
+  c22 10.4538;
+}
+object line_configuration {
+  name "lcon_1ph-xx2_acsr4_dpx_C";
+  z33 1.81217+1.50521j;
+  c33 10.4538;
+}
+
+object line_configuration {
+  name "lcon_1ph-2/0_acsrxx2_acsr_A";
+  z11 1.04880+1.41852j;
+  c11 10.8950;
+}
+object line_configuration {
+  name "lcon_1ph-2/0_acsrxx2_acsr_B";
+  z22 1.04880+1.41852j;
+  c22 10.8950;
+}
+object line_configuration {
+  name "lcon_1ph-2/0_acsrxx2_acsr_C";
+  z33 1.04880+1.41852j;
+  c33 10.8950;
+}
+
+object line_configuration {
+  name "lcon_1ph-xx4_wpal1/0_tpx_A";
+  z11 2.47826+1.22732j;
+  c11 10.1754;
+}
+object line_configuration {
+  name "lcon_1ph-xx4_wpal1/0_tpx_B";
+  z22 2.47826+1.22732j;
+  c22 10.1754;
+}
+object line_configuration {
+  name "lcon_1ph-xx4_wpal1/0_tpx_C";
+  z33 2.47826+1.22732j;
+  c33 10.1754;
+}
+
+object line_configuration {
+  name "lcon_1ph-x4_wpalx4_acsr_A";
+  z11 2.62523+1.44677j;
+  c11 10.1754;
+}
+object line_configuration {
+  name "lcon_1ph-x4_wpalx4_acsr_B";
+  z22 2.62523+1.44677j;
+  c22 10.1754;
+}
+object line_configuration {
+  name "lcon_1ph-x4_wpalx4_acsr_C";
+  z33 2.62523+1.44677j;
+  c33 10.1754;
+}
+
+object line_configuration {
+  name "lcon_1ph-4_wpalxx4_acsr_A";
+  z11 2.62523+1.44677j;
+  c11 10.1754;
+}
+object line_configuration {
+  name "lcon_1ph-4_wpalxx4_acsr_B";
+  z22 2.62523+1.44677j;
+  c22 10.1754;
+}
+object line_configuration {
+  name "lcon_1ph-4_wpalxx4_acsr_C";
+  z33 2.62523+1.44677j;
+  c33 10.1754;
+}
+
+object line_configuration {
+  name "lcon_1ph-x4_wpalx4_wpal_A";
+  z11 2.62938+1.44331j;
+  c11 10.1754;
+}
+object line_configuration {
+  name "lcon_1ph-x4_wpalx4_wpal_B";
+  z22 2.62938+1.44331j;
+  c22 10.1754;
+}
+object line_configuration {
+  name "lcon_1ph-x4_wpalx4_wpal_C";
+  z33 2.62938+1.44331j;
+  c33 10.1754;
+}
+
+object line_configuration {
+  name "lcon_1ph-x2_acsrx1/0_tpx_A";
+  z11 1.66096+1.28979j;
+  c11 10.4538;
+}
+object line_configuration {
+  name "lcon_1ph-x2_acsrx1/0_tpx_B";
+  z22 1.66096+1.28979j;
+  c22 10.4538;
+}
+object line_configuration {
+  name "lcon_1ph-x2_acsrx1/0_tpx_C";
+  z33 1.66096+1.28979j;
+  c33 10.4538;
+}
+
+object line_configuration {
+  name "lcon_cap_3c_PUZ_A";
+  z11 1609.34+1609.34j;
+  c11 0.00000;
+}
+object line_configuration {
+  name "lcon_cap_3c_PUZ_B";
+  z22 1609.34+1609.34j;
+  c22 0.00000;
+}
+object line_configuration {
+  name "lcon_cap_3c_PUZ_C";
+  z33 1609.34+1609.34j;
+  c33 0.00000;
+}
+
+object line_configuration {
+  name "lcon_3ph_h-4_acsr2_acsr2_acsr4_acsr_ABC";
+  z11 2.70917+1.49234j;
+  c11 12.2793;
+  z12 0.222611+0.696239j;
+  c12 -3.29729;
+  z21 0.222611+0.696239j;
+  c21 -3.29729;
+  z22 1.81146+1.50628j;
+  c22 13.1711;
+  z31 0.229603+0.663457j;
+  c31 -2.74184;
+  z13 0.229603+0.663457j;
+  c13 -2.74184;
+  z32 0.224172+0.724960j;
+  c32 -4.00152;
+  z23 0.224172+0.724960j;
+  c23 -4.00152;
+  z33 1.82527+1.49487j;
+  c33 12.9857;
+}
+
+object line_configuration {
+  name "lcon_mtx89_ABC";
+  z11 3.98081+2.64357j;
+  c11 2.80001;
+  z12 0.619617+1.13763j;
+  c12 -0.600002;
+  z21 0.619617+1.13763j;
+  c21 -0.600002;
+  z22 4.84423+3.14259j;
+  c22 2.80001;
+  z31 0.689219+1.58944j;
+  c31 -0.600002;
+  z13 0.689219+1.58944j;
+  c13 -0.600002;
+  z32 0.613417+0.843823j;
+  c32 -0.600002;
+  z23 0.613417+0.843823j;
+  c23 -0.600002;
+  z33 4.54142+3.23819j;
+  c33 2.80001;
+}
+
+object line_configuration {
+  name "lcon_cap_2c_PUZ_A";
+  z11 1609.34+1609.34j;
+  c11 0.00000;
+}
+object line_configuration {
+  name "lcon_cap_2c_PUZ_B";
+  z22 1609.34+1609.34j;
+  c22 0.00000;
+}
+object line_configuration {
+  name "lcon_cap_2c_PUZ_C";
+  z33 1609.34+1609.34j;
+  c33 0.00000;
+}
+
+object line_configuration {
+  name "lcon_1ph-x4_acsrx2_wpal_A";
+  z11 2.69459+1.44326j;
+  c11 10.1754;
+}
+object line_configuration {
+  name "lcon_1ph-x4_acsrx2_wpal_B";
+  z22 2.69459+1.44326j;
+  c22 10.1754;
+}
+object line_configuration {
+  name "lcon_1ph-x4_acsrx2_wpal_C";
+  z33 2.69459+1.44326j;
+  c33 10.1754;
+}
+
+object line_configuration {
+  name "lcon_3ph_h-397_acsr397_acsr397_acsr397_acsr_ABC";
+  z11 0.344660+1.02186j;
+  c11 14.7027;
+  z12 0.0897945+0.442360j;
+  c12 -4.29326;
+  z21 0.0897945+0.442360j;
+  c21 -4.29326;
+  z22 0.341392+1.04990j;
+  c22 15.4852;
+  z31 0.0919959+0.396748j;
+  c31 -3.50259;
+  z13 0.0919959+0.396748j;
+  c13 -3.50259;
+  z32 0.0902668+0.468190j;
+  c32 -5.08000;
+  z23 0.0902668+0.468190j;
+  c23 -5.08000;
+  z33 0.345689+1.01315j;
+  c33 15.1789;
+}
+
+object line_configuration {
+  name "lcon_1ph-2_wpalxx2_wpal_A";
+  z11 1.87057+1.44847j;
+  c11 10.4538;
+}
+object line_configuration {
+  name "lcon_1ph-2_wpalxx2_wpal_B";
+  z22 1.87057+1.44847j;
+  c22 10.4538;
+}
+object line_configuration {
+  name "lcon_1ph-2_wpalxx2_wpal_C";
+  z33 1.87057+1.44847j;
+  c33 10.4538;
+}
+
+object line_configuration {
+  name "lcon_cap_1c_PUZ_A";
+  z11 1609.34+1609.34j;
+  c11 0.00000;
+}
+object line_configuration {
+  name "lcon_cap_1c_PUZ_B";
+  z22 1609.34+1609.34j;
+  c22 0.00000;
+}
+object line_configuration {
+  name "lcon_cap_1c_PUZ_C";
+  z33 1609.34+1609.34j;
+  c33 0.00000;
+}
+
+object line_configuration {
+  name "lcon_3ph_h-4_wpal4_wpal4_wpal1/0_tpx_ABC";
+  z11 2.48030+1.19143j;
+  c11 12.2323;
+  z12 0.0681689+0.461809j;
+  c12 -3.21461;
+  z21 0.0681689+0.461809j;
+  c21 -3.21461;
+  z22 2.47876+1.21826j;
+  c22 12.6944;
+  z31 0.0692292+0.416991j;
+  c31 -2.68427;
+  z13 0.0692292+0.416991j;
+  c13 -2.68427;
+  z32 0.0683844+0.487820j;
+  c32 -3.74146;
+  z23 0.0683844+0.487820j;
+  c23 -3.74146;
+  z33 2.48080+1.18309j;
+  c33 12.5210;
+}
+
+object line_configuration {
+  name "lcon_3ph_h-397_acsr397_acsr397_acsr4_wpal_ABC";
+  z11 0.485761+1.28182j;
+  c11 14.7027;
+  z12 0.227043+0.692596j;
+  c12 -4.29326;
+  z21 0.227043+0.692596j;
+  c21 -4.29326;
+  z22 0.474882+1.29077j;
+  c22 15.4852;
+  z31 0.234266+0.659667j;
+  c31 -3.50259;
+  z13 0.234266+0.659667j;
+  c13 -3.50259;
+  z32 0.228656+0.721284j;
+  c32 -5.08000;
+  z23 0.228656+0.721284j;
+  c23 -5.08000;
+  z33 0.489138+1.27907j;
+  c33 15.1789;
+}
+
+object line_configuration {
+  name "lcon_2ph_h-2_acsrx2_acsr2_acsr_AB";
+  z11 1.82094+1.42409j;
+  c11 11.8078;
+  z12 0.228633+0.589205j;
+  c12 -3.85926;
+  z21 0.228633+0.589205j;
+  c21 -3.85926;
+  z22 1.82438+1.41983j;
+  c22 11.8078;
+}
+object line_configuration {
+  name "lcon_2ph_h-2_acsrx2_acsr2_acsr_BC";
+  z22 1.82094+1.42409j;
+  c22 11.8078;
+  z23 0.228633+0.589205j;
+  c23 -3.85926;
+  z32 0.228633+0.589205j;
+  c32 -3.85926;
+  z33 1.82438+1.41983j;
+  c33 11.8078;
+}
+object line_configuration {
+  name "lcon_2ph_h-2_acsrx2_acsr2_acsr_AC";
+  z11 1.82094+1.42409j;
+  c11 11.8078;
+  z13 0.228633+0.589205j;
+  c13 -3.85926;
+  z31 0.228633+0.589205j;
+  c31 -3.85926;
+  z33 1.82438+1.41983j;
+  c33 11.8078;
+}
+
+object line_configuration {
+  name "lcon_1ph-xx4_acsr1/0_tpx_A";
+  z11 2.54814+1.28458j;
+  c11 10.1754;
+}
+object line_configuration {
+  name "lcon_1ph-xx4_acsr1/0_tpx_B";
+  z22 2.54814+1.28458j;
+  c22 10.1754;
+}
+object line_configuration {
+  name "lcon_1ph-xx4_acsr1/0_tpx_C";
+  z33 2.54814+1.28458j;
+  c33 10.1754;
+}
+
+object line_configuration {
+  name "lcon_1ph-x4_wpalx1/0_tpx_A";
+  z11 2.47826+1.22732j;
+  c11 10.1754;
+}
+object line_configuration {
+  name "lcon_1ph-x4_wpalx1/0_tpx_B";
+  z22 2.47826+1.22732j;
+  c22 10.1754;
+}
+object line_configuration {
+  name "lcon_1ph-x4_wpalx1/0_tpx_C";
+  z33 2.47826+1.22732j;
+  c33 10.1754;
+}
+
+object line_configuration {
+  name "lcon_1ph-2_acsrxx4_acsr_A";
+  z11 1.80792+1.50923j;
+  c11 10.4538;
+}
+object line_configuration {
+  name "lcon_1ph-2_acsrxx4_acsr_B";
+  z22 1.80792+1.50923j;
+  c22 10.4538;
+}
+object line_configuration {
+  name "lcon_1ph-2_acsrxx4_acsr_C";
+  z33 1.80792+1.50923j;
+  c33 10.4538;
+}
+
+object line_configuration {
+  name "lcon_1ph-x2_acsrx2_acsr_A";
+  z11 1.80617+1.44256j;
+  c11 10.4538;
+}
+object line_configuration {
+  name "lcon_1ph-x2_acsrx2_acsr_B";
+  z22 1.80617+1.44256j;
+  c22 10.4538;
+}
+object line_configuration {
+  name "lcon_1ph-x2_acsrx2_acsr_C";
+  z33 1.80617+1.44256j;
+  c33 10.4538;
+}
+
+object line_configuration {
+  name "lcon_1ph-4_acsrxx1/0_tpx_A";
+  z11 2.54814+1.28458j;
+  c11 10.1754;
+}
+object line_configuration {
+  name "lcon_1ph-4_acsrxx1/0_tpx_B";
+  z22 2.54814+1.28458j;
+  c22 10.1754;
+}
+object line_configuration {
+  name "lcon_1ph-4_acsrxx1/0_tpx_C";
+  z33 2.54814+1.28458j;
+  c33 10.1754;
+}
+
+object line_configuration {
+  name "lcon_1ph-4_acsrxx6_wpal_A";
+  z11 2.67516+1.55656j;
+  c11 10.1754;
+}
+object line_configuration {
+  name "lcon_1ph-4_acsrxx6_wpal_B";
+  z22 2.67516+1.55656j;
+  c22 10.1754;
+}
+object line_configuration {
+  name "lcon_1ph-4_acsrxx6_wpal_C";
+  z33 2.67516+1.55656j;
+  c33 10.1754;
+}
+
+object line_configuration {
+  name "lcon_1ph-xx6_wpal6_wpal_A";
+  z11 4.02827+1.56898j;
+  c11 9.91268;
+}
+object line_configuration {
+  name "lcon_1ph-xx6_wpal6_wpal_B";
+  z22 4.02827+1.56898j;
+  c22 9.91268;
+}
+object line_configuration {
+  name "lcon_1ph-xx6_wpal6_wpal_C";
+  z33 4.02827+1.56898j;
+  c33 9.91268;
+}
+
+object line_configuration {
+  name "lcon_1ph-2_acsrxx2_acsr_A";
+  z11 1.80617+1.44256j;
+  c11 10.4538;
+}
+object line_configuration {
+  name "lcon_1ph-2_acsrxx2_acsr_B";
+  z22 1.80617+1.44256j;
+  c22 10.4538;
+}
+object line_configuration {
+  name "lcon_1ph-2_acsrxx2_acsr_C";
+  z33 1.80617+1.44256j;
+  c33 10.4538;
+}
+
+object line_configuration {
+  name "lcon_1p_1/0_axnj_db_A";
+  z11 1.54330+0.871099j;
+  c11 41.7188;
+}
+object line_configuration {
+  name "lcon_1p_1/0_axnj_db_B";
+  z22 1.54330+0.871099j;
+  c22 41.7188;
+}
+object line_configuration {
+  name "lcon_1p_1/0_axnj_db_C";
+  z33 1.54330+0.871099j;
+  c33 41.7188;
+}
+
+object line_configuration {
+  name "lcon_3ph_h-2/0_acsr2/0_acsr2/0_acsr2/0_acsr_ABC";
+  z11 1.01802+1.30800j;
+  c11 13.4300;
+  z12 0.176949+0.536732j;
+  c12 -3.72717;
+  z21 0.176949+0.536732j;
+  c21 -3.72717;
+  z22 1.00935+1.32852j;
+  c22 14.0347;
+  z31 0.182722+0.496114j;
+  c31 -3.07789;
+  z13 0.182722+0.496114j;
+  c13 -3.07789;
+  z32 0.178230+0.563687j;
+  c32 -4.37273;
+  z23 0.178230+0.563687j;
+  c23 -4.37273;
+  z33 1.02072+1.30164j;
+  c33 13.8026;
+}
+
+object line_configuration {
+  name "lcon_3ph_h-397_acsr397_acsr397_acsr2/0_acsr_ABC";
+  z11 0.434553+1.12006j;
+  c11 14.7027;
+  z12 0.176949+0.536732j;
+  c12 -4.29326;
+  z21 0.176949+0.536732j;
+  c21 -4.29326;
+  z22 0.425887+1.14059j;
+  c22 15.4852;
+  z31 0.182722+0.496114j;
+  c31 -3.50259;
+  z13 0.182722+0.496114j;
+  c13 -3.50259;
+  z32 0.178230+0.563687j;
+  c32 -5.08000;
+  z23 0.178230+0.563687j;
+  c23 -5.08000;
+  z33 0.437256+1.11370j;
+  c33 15.1789;
+}
+
+object line_configuration {
+  name "lcon_1ph-x4_acsrx1/0_tpx_A";
+  z11 2.54814+1.28458j;
+  c11 10.1754;
+}
+object line_configuration {
+  name "lcon_1ph-x4_acsrx1/0_tpx_B";
+  z22 2.54814+1.28458j;
+  c22 10.1754;
+}
+object line_configuration {
+  name "lcon_1ph-x4_acsrx1/0_tpx_C";
+  z33 2.54814+1.28458j;
+  c33 10.1754;
+}
+
+object line_configuration {
+  name "lcon_1ph-xx4_wpal4_acsr_A";
+  z11 2.62523+1.44677j;
+  c11 10.1754;
+}
+object line_configuration {
+  name "lcon_1ph-xx4_wpal4_acsr_B";
+  z22 2.62523+1.44677j;
+  c22 10.1754;
+}
+object line_configuration {
+  name "lcon_1ph-xx4_wpal4_acsr_C";
+  z33 2.62523+1.44677j;
+  c33 10.1754;
+}
+
+object line_configuration {
+  name "lcon_1ph-xx4_acsr4_wpal_A";
+  z11 2.69924+1.50057j;
+  c11 10.1754;
+}
+object line_configuration {
+  name "lcon_1ph-xx4_acsr4_wpal_B";
+  z22 2.69924+1.50057j;
+  c22 10.1754;
+}
+object line_configuration {
+  name "lcon_1ph-xx4_acsr4_wpal_C";
+  z33 2.69924+1.50057j;
+  c33 10.1754;
+}
+
+object line_configuration {
+  name "lcon_1ph-4_acsrxx4_acsr_A";
+  z11 2.69510+1.50403j;
+  c11 10.1754;
+}
+object line_configuration {
+  name "lcon_1ph-4_acsrxx4_acsr_B";
+  z22 2.69510+1.50403j;
+  c22 10.1754;
+}
+object line_configuration {
+  name "lcon_1ph-4_acsrxx4_acsr_C";
+  z33 2.69510+1.50403j;
+  c33 10.1754;
+}
+
+object line_configuration {
+  name "lcon_cap_1a_PUZ_A";
+  z11 1609.34+1609.34j;
+  c11 0.00000;
+}
+object line_configuration {
+  name "lcon_cap_1a_PUZ_B";
+  z22 1609.34+1609.34j;
+  c22 0.00000;
+}
+object line_configuration {
+  name "lcon_cap_1a_PUZ_C";
+  z33 1609.34+1609.34j;
+  c33 0.00000;
+}
+
+object line_configuration {
+  name "lcon_1ph-xx4_wpal4_wpal_A";
+  z11 2.62938+1.44331j;
+  c11 10.1754;
+}
+object line_configuration {
+  name "lcon_1ph-xx4_wpal4_wpal_B";
+  z22 2.62938+1.44331j;
+  c22 10.1754;
+}
+object line_configuration {
+  name "lcon_1ph-xx4_wpal4_wpal_C";
+  z33 2.62938+1.44331j;
+  c33 10.1754;
+}
+
+object line_configuration {
+  name "lcon_3ph_h-4_wpal4_wpal4_wpal4_acsr_ABC";
+  z11 2.63931+1.43508j;
+  c11 12.2323;
+  z12 0.222611+0.696239j;
+  c12 -3.21461;
+  z21 0.222611+0.696239j;
+  c21 -3.21461;
+  z22 2.62877+1.44382j;
+  c22 12.6944;
+  z31 0.229603+0.663457j;
+  c31 -2.68427;
+  z13 0.229603+0.663457j;
+  c13 -2.68427;
+  z32 0.224172+0.724960j;
+  c32 -3.74146;
+  z23 0.224172+0.724960j;
+  c23 -3.74146;
+  z33 2.64258+1.43241j;
+  c33 12.5210;
+}
+
+object line_configuration {
+  name "lcon_3ph_h-2_acsr2_acsr4_acsr4_acsr_ABC";
+  z11 1.82200+1.49755j;
+  c11 12.6667;
+  z12 0.222611+0.696239j;
+  c12 -3.43527;
+  z21 0.222611+0.696239j;
+  c21 -3.43527;
+  z22 1.81146+1.50628j;
+  c22 13.1605;
+  z31 0.229603+0.663457j;
+  c31 -2.73962;
+  z13 0.229603+0.663457j;
+  c13 -2.73962;
+  z32 0.224172+0.724960j;
+  c32 -3.84618;
+  z23 0.224172+0.724960j;
+  c23 -3.84618;
+  z33 2.71244+1.48967j;
+  c33 12.5779;
+}
+
+object line_configuration {
+  name "lcon_3ph_h-4_acsr4_acsr4_acsr4_wpal_ABC";
+  z11 2.71377+1.48859j;
+  c11 12.2323;
+  z12 0.227043+0.692596j;
+  c12 -3.21461;
+  z21 0.227043+0.692596j;
+  c21 -3.21461;
+  z22 2.70289+1.49754j;
+  c22 12.6944;
+  z31 0.234266+0.659667j;
+  c31 -2.68427;
+  z13 0.234266+0.659667j;
+  c13 -2.68427;
+  z32 0.228656+0.721284j;
+  c32 -3.74146;
+  z23 0.228656+0.721284j;
+  c23 -3.74146;
+  z33 2.71715+1.48584j;
+  c33 12.5210;
+}
+
+object line_configuration {
+  name "lcon_1ph-2_acsrxx4/0_tpx_A";
+  z11 1.72580+1.30031j;
+  c11 10.4538;
+}
+object line_configuration {
+  name "lcon_1ph-2_acsrxx4/0_tpx_B";
+  z22 1.72580+1.30031j;
+  c22 10.4538;
+}
+object line_configuration {
+  name "lcon_1ph-2_acsrxx4/0_tpx_C";
+  z33 1.72580+1.30031j;
+  c33 10.4538;
+}
+
+object line_configuration {
+  name "lcon_cap_3a_PUZ_A";
+  z11 1609.34+1609.34j;
+  c11 0.00000;
+}
+object line_configuration {
+  name "lcon_cap_3a_PUZ_B";
+  z22 1609.34+1609.34j;
+  c22 0.00000;
+}
+object line_configuration {
+  name "lcon_cap_3a_PUZ_C";
+  z33 1609.34+1609.34j;
+  c33 0.00000;
+}
+
+object line_configuration {
+  name "lcon_mtx1213_ABC";
+  z11 3.70880+1.80715j;
+  c11 2.80001;
+  z12 0.291108+0.752421j;
+  c12 -0.600002;
+  z21 0.291108+0.752421j;
+  c21 -0.600002;
+  z22 3.53250+1.64715j;
+  c22 2.80001;
+  z31 0.330509+0.798422j;
+  c31 -0.600002;
+  z13 0.330509+0.798422j;
+  c13 -0.600002;
+  z32 0.308708+0.830523j;
+  c32 -0.600002;
+  z23 0.308708+0.830523j;
+  c23 -0.600002;
+  z33 3.87521+1.97355j;
+  c33 2.80001;
+}
+
+object line_configuration {
+  name "lcon_1ph-x4_acsrx4_wpal_A";
+  z11 2.69924+1.50057j;
+  c11 10.1754;
+}
+object line_configuration {
+  name "lcon_1ph-x4_acsrx4_wpal_B";
+  z22 2.69924+1.50057j;
+  c22 10.1754;
+}
+object line_configuration {
+  name "lcon_1ph-x4_acsrx4_wpal_C";
+  z33 2.69924+1.50057j;
+  c33 10.1754;
+}
+
+object line_configuration {
+  name "lcon_1ph-4_acsrxx2_acsr_A";
+  z11 2.69335+1.43736j;
+  c11 10.1754;
+}
+object line_configuration {
+  name "lcon_1ph-4_acsrxx2_acsr_B";
+  z22 2.69335+1.43736j;
+  c22 10.1754;
+}
+object line_configuration {
+  name "lcon_1ph-4_acsrxx2_acsr_C";
+  z33 2.69335+1.43736j;
+  c33 10.1754;
+}
+
+object line_configuration {
+  name "lcon_3ph_h-4_acsr4_acsr4_acsr2_wpal_ABC";
+  z11 2.70941+1.42541j;
+  c11 12.2323;
+  z12 0.222558+0.631648j;
+  c12 -3.21461;
+  z21 0.222558+0.631648j;
+  c21 -3.21461;
+  z22 2.69831+1.43876j;
+  c22 12.6944;
+  z31 0.229930+0.595802j;
+  c31 -2.68427;
+  z13 0.229930+0.595802j;
+  c13 -2.68427;
+  z32 0.224203+0.659678j;
+  c32 -3.74146;
+  z23 0.224203+0.659678j;
+  c23 -3.74146;
+  z33 2.71286+1.42129j;
+  c33 12.5210;
+}
+
+object line_configuration {
+  name "lcon_3ph_h-2/0_acsr2/0_acsr2/0_acsr4_acsr_ABC";
+  z11 1.06462+1.47351j;
+  c11 13.4300;
+  z12 0.222611+0.696239j;
+  c12 -3.72717;
+  z21 0.222611+0.696239j;
+  c21 -3.72717;
+  z22 1.05409+1.48224j;
+  c22 14.0347;
+  z31 0.229603+0.663457j;
+  c31 -3.07789;
+  z13 0.229603+0.663457j;
+  c13 -3.07789;
+  z32 0.224172+0.724960j;
+  c32 -4.37273;
+  z23 0.224172+0.724960j;
+  c23 -4.37273;
+  z33 1.06789+1.47083j;
+  c33 13.8026;
+}
+
+object line_configuration {
+  name "lcon_1ph-4_wpalxx4_wpal_A";
+  z11 2.62938+1.44331j;
+  c11 10.1754;
+}
+object line_configuration {
+  name "lcon_1ph-4_wpalxx4_wpal_B";
+  z22 2.62938+1.44331j;
+  c22 10.1754;
+}
+object line_configuration {
+  name "lcon_1ph-4_wpalxx4_wpal_C";
+  z33 2.62938+1.44331j;
+  c33 10.1754;
+}
+
+object line_configuration {
+  name "lcon_1ph-x4_acsrx1/0_3w_cs_A";
+  z11 2.67450+1.35837j;
+  c11 10.1754;
+}
+object line_configuration {
+  name "lcon_1ph-x4_acsrx1/0_3w_cs_B";
+  z22 2.67450+1.35837j;
+  c22 10.1754;
+}
+object line_configuration {
+  name "lcon_1ph-x4_acsrx1/0_3w_cs_C";
+  z33 2.67450+1.35837j;
+  c33 10.1754;
+}
+
+object line_configuration {
+  name "lcon_1ph-4_wpalxx1/0_tpx_A";
+  z11 2.47826+1.22732j;
+  c11 10.1754;
+}
+object line_configuration {
+  name "lcon_1ph-4_wpalxx1/0_tpx_B";
+  z22 2.47826+1.22732j;
+  c22 10.1754;
+}
+object line_configuration {
+  name "lcon_1ph-4_wpalxx1/0_tpx_C";
+  z33 2.47826+1.22732j;
+  c33 10.1754;
+}
+
+object line_configuration {
+  name "lcon_1ph-2_acsrxx4_wpal_A";
+  z11 1.81207+1.50577j;
+  c11 10.4538;
+}
+object line_configuration {
+  name "lcon_1ph-2_acsrxx4_wpal_B";
+  z22 1.81207+1.50577j;
+  c22 10.4538;
+}
+object line_configuration {
+  name "lcon_1ph-2_acsrxx4_wpal_C";
+  z33 1.81207+1.50577j;
+  c33 10.4538;
+}
+
+object line_configuration {
+  name "lcon_1ph-x2_acsrx1/0_3w_cs_A";
+  z11 1.78732+1.36357j;
+  c11 10.4538;
+}
+object line_configuration {
+  name "lcon_1ph-x2_acsrx1/0_3w_cs_B";
+  z22 1.78732+1.36357j;
+  c22 10.4538;
+}
+object line_configuration {
+  name "lcon_1ph-x2_acsrx1/0_3w_cs_C";
+  z33 1.78732+1.36357j;
+  c33 10.4538;
+}
+
+object line_configuration {
+  name "lcon_1ph-xx2/0_acsr1/0_tpx_A";
+  z11 0.903584+1.26575j;
+  c11 10.8950;
+}
+object line_configuration {
+  name "lcon_1ph-xx2/0_acsr1/0_tpx_B";
+  z22 0.903584+1.26575j;
+  c22 10.8950;
+}
+object line_configuration {
+  name "lcon_1ph-xx2/0_acsr1/0_tpx_C";
+  z33 0.903584+1.26575j;
+  c33 10.8950;
+}
+
+object line_configuration {
+  name "lcon_mtx23_ABC";
+  z11 0.798922+1.03783j;
+  c11 2.80001;
+  z12 0.345609+0.443912j;
+  c12 -0.600002;
+  z21 0.345609+0.443912j;
+  c21 -0.600002;
+  z22 0.797322+1.07293j;
+  c22 2.80001;
+  z31 0.341609+0.410111j;
+  c31 -0.600002;
+  z13 0.341609+0.410111j;
+  c13 -0.600002;
+  z32 0.359910+0.485113j;
+  c32 -0.600002;
+  z23 0.359910+0.485113j;
+  c23 -0.600002;
+  z33 0.795722+1.08973j;
+  c33 2.80001;
+}
+
+object line_configuration {
+  name "lcon_mtx67_ABC";
+  z11 0.277008+0.0827023j;
+  c11 2.80001;
+  z12 0.0594016+0.00000j;
+  c12 -0.600002;
+  z21 0.0594016+0.00000j;
+  c21 -0.600002;
+  z22 0.284308+0.121703j;
+  c22 2.80001;
+  z31 0.0613017+0.00190005j;
+  c31 -0.600002;
+  z13 0.0613017+0.00190005j;
+  c13 -0.600002;
+  z32 0.0669018+0.0176005j;
+  c32 -0.600002;
+  z23 0.0669018+0.0176005j;
+  c23 -0.600002;
+  z33 0.296208+0.160804j;
+  c33 2.80001;
+}
+
+object line_configuration {
+  name "lcon_1ph-4_acsrxx1/0_3w_cs_A";
+  z11 2.67450+1.35837j;
+  c11 10.1754;
+}
+object line_configuration {
+  name "lcon_1ph-4_acsrxx1/0_3w_cs_B";
+  z22 2.67450+1.35837j;
+  c22 10.1754;
+}
+object line_configuration {
+  name "lcon_1ph-4_acsrxx1/0_3w_cs_C";
+  z33 2.67450+1.35837j;
+  c33 10.1754;
+}
+
+object line_configuration {
+  name "lcon_mtx56_ABC";
+  z11 1.17553+0.780621j;
+  c11 2.80001;
+  z12 0.531015+0.156404j;
+  c12 -0.600002;
+  z21 0.531015+0.156404j;
+  c21 -0.600002;
+  z22 1.18653+0.872924j;
+  c22 2.80001;
+  z31 0.508214+0.183405j;
+  c31 -0.600002;
+  z13 0.508214+0.183405j;
+  c13 -0.600002;
+  z32 0.547915+0.277008j;
+  c32 -0.600002;
+  z23 0.547915+0.277008j;
+  c23 -0.600002;
+  z33 1.13803+1.09473j;
+  c33 2.80001;
+}
+
+object line_configuration {
+  name "lcon_1ph-x4_wpalx2_acsr_A";
+  z11 2.62347+1.38009j;
+  c11 10.1754;
+}
+object line_configuration {
+  name "lcon_1ph-x4_wpalx2_acsr_B";
+  z22 2.62347+1.38009j;
+  c22 10.1754;
+}
+object line_configuration {
+  name "lcon_1ph-x4_wpalx2_acsr_C";
+  z33 2.62347+1.38009j;
+  c33 10.1754;
+}
+
+object line_configuration {
+  name "lcon_3ph_h-4_acsr2_acsr2_acsr4_wpal_ABC";
+  z11 2.71377+1.48859j;
+  c11 12.2793;
+  z12 0.227043+0.692596j;
+  c12 -3.29729;
+  z21 0.227043+0.692596j;
+  c21 -3.29729;
+  z22 1.81573+1.50275j;
+  c22 13.1711;
+  z31 0.234266+0.659667j;
+  c31 -2.74184;
+  z13 0.234266+0.659667j;
+  c13 -2.74184;
+  z32 0.228656+0.721284j;
+  c32 -4.00152;
+  z23 0.228656+0.721284j;
+  c23 -4.00152;
+  z33 1.82999+1.49105j;
+  c33 12.9857;
+}
+
+object line_configuration {
+  name "lcon_mtx1112_ABC";
+  z11 3.07878+1.04743j;
+  c11 2.80001;
+  z12 0.405211+0.488413j;
+  c12 -0.600002;
+  z21 0.405211+0.488413j;
+  c21 -0.600002;
+  z22 2.99408+0.965326j;
+  c22 2.80001;
+  z31 0.422512+0.522214j;
+  c31 -0.600002;
+  z13 0.422512+0.522214j;
+  c13 -0.600002;
+  z32 0.424212+0.555115j;
+  c32 -0.600002;
+  z23 0.424212+0.555115j;
+  c23 -0.600002;
+  z33 3.20639+1.22093j;
+  c33 2.80001;
+}
+
+object line_configuration {
+  name "lcon_1ph-x2_acsrx4_tpx_A";
+  z11 1.81217+1.50521j;
+  c11 10.4538;
+}
+object line_configuration {
+  name "lcon_1ph-x2_acsrx4_tpx_B";
+  z22 1.81217+1.50521j;
+  c22 10.4538;
+}
+object line_configuration {
+  name "lcon_1ph-x2_acsrx4_tpx_C";
+  z33 1.81217+1.50521j;
+  c33 10.4538;
+}
+
+object line_configuration {
+  name "lcon_3p_1/0_axnj_db_ABC";
+  z11 1.31573+0.444400j;
+  z12 0.428730+0.121300j;
+  z13 0.428730+0.121300j;
+  z21 0.428730+0.121300j;
+  z22 1.31573+0.444400j;
+  z23 0.428730+0.121300j;
+  z31 0.428730+0.121300j;
+  z32 0.428730+0.121300j;
+  z33 1.31573+0.444400j;
+  c11 7.83196e-08;
+  c12 0.00000;
+  c13 0.00000;
+  c21 0.00000;
+  c22 7.83196e-08;
+  c23 0.00000;
+  c31 0.00000;
+  c32 0.00000;
+  c33 7.83196e-08;
+}
+object line_configuration {
+  name "lcon_3p_1/0_axnj_db_AB";
+  z11 1.31573+0.444400j;
+  z12 0.428730+0.121300j;
+  z21 0.428730+0.121300j;
+  z22 1.31573+0.444400j;
+  c11 7.83196e-08;
+  c12 0.00000;
+  c21 0.00000;
+  c22 7.83196e-08;
+}
+object line_configuration {
+  name "lcon_3p_1/0_axnj_db_AC";
+  z11 1.31573+0.444400j;
+  z13 0.428730+0.121300j;
+  z31 0.428730+0.121300j;
+  z33 1.31573+0.444400j;
+  c11 7.83196e-08;
+  c13 0.00000;
+  c31 0.00000;
+  c33 7.83196e-08;
+}
+object line_configuration {
+  name "lcon_3p_1/0_axnj_db_BC";
+  z22 1.31573+0.444400j;
+  z23 0.428730+0.121300j;
+  z32 0.428730+0.121300j;
+  z33 1.31573+0.444400j;
+  c22 7.83196e-08;
+  c23 0.00000;
+  c32 0.00000;
+  c33 7.83196e-08;
+}
+object line_configuration {
+  name "lcon_3p_1/0_axnj_db_A";
+  z11 1.31573+0.444400j;
+  c11 7.83196e-08;
+}
+object line_configuration {
+  name "lcon_3p_1/0_axnj_db_B";
+  z22 1.31573+0.444400j;
+  c22 7.83196e-08;
+}
+object line_configuration {
+  name "lcon_3p_1/0_axnj_db_C";
+  z33 1.31573+0.444400j;
+  c33 7.83196e-08;
+}
+
+
+object overhead_line {
+  name "line_cap_1c";
+  phases C;
+  from "nd_bus3_cap";
+  to "nd_bus3";
+  length 0.00328084;
+  configuration "lcon_cap_1c_PUZ_C";
+}
+object overhead_line {
+  name "line_ln5710794-3";
+  phases ABC;
+  from "nd_d5710794-3_int";
+  to "nd_hvmv_sub_48332";
+  length 63.7665;
+  configuration "lcon_3ph_h-397_acsr397_acsr397_acsr397_acsr_ABC";
+}
+object overhead_line {
+  name "line_ln89";
+  phases ABC;
+  from "nd_bus9";
+  to "nd_bus8";
+  length 5279.86;
+  configuration "lcon_mtx89_ABC";
+}
+object overhead_line {
+  name "line_cap_1b";
+  phases B;
+  from "nd_bus3_cap";
+  to "nd_bus3";
+  length 0.00328084;
+  configuration "lcon_cap_1b_PUZ_B";
+}
+object overhead_line {
+  name "line_cap_2b";
+  phases B;
+  from "nd_bus2";
+  to "nd_bus2_cap";
+  length 0.00328084;
+  configuration "lcon_cap_2b_PUZ_B";
+}
+object overhead_line {
+  name "line_cap_1a";
+  phases A;
+  from "nd_bus3";
+  to "nd_bus3_cap";
+  length 0.00328084;
+  configuration "lcon_cap_1a_PUZ_A";
+}
+object overhead_line {
+  name "line_cap_3c";
+  phases C;
+  from "nd_bus6_cap";
+  to "nd_bus6";
+  length 0.00328084;
+  configuration "lcon_cap_3c_PUZ_C";
+}
+object line_configuration {
+  name "lcon_hvmv_sub_connector_ABC";
+  z11 0.00160934+0.0160934j;
+  z12 0.00000+0.00000j;
+  z13 0.00000+0.00000j;
+  z21 0.00000+0.00000j;
+  z22 0.00160934+0.0160934j;
+  z23 0.00000+0.00000j;
+  z31 0.00000+0.00000j;
+  z32 0.00000+0.00000j;
+  z33 0.00160934+0.0160934j;
+  c11 0.00000;
+  c12 0.00000;
+  c13 0.00000;
+  c21 0.00000;
+  c22 0.00000;
+  c23 0.00000;
+  c31 0.00000;
+  c32 0.00000;
+  c33 0.00000;
+}
+object line_configuration {
+  name "lcon_hvmv_sub_connector_AB";
+  z11 0.00160934+0.0160934j;
+  z12 0.00000+0.00000j;
+  z21 0.00000+0.00000j;
+  z22 0.00160934+0.0160934j;
+  c11 0.00000;
+  c12 0.00000;
+  c21 0.00000;
+  c22 0.00000;
+}
+object line_configuration {
+  name "lcon_hvmv_sub_connector_AC";
+  z11 0.00160934+0.0160934j;
+  z13 0.00000+0.00000j;
+  z31 0.00000+0.00000j;
+  z33 0.00160934+0.0160934j;
+  c11 0.00000;
+  c13 0.00000;
+  c31 0.00000;
+  c33 0.00000;
+}
+object line_configuration {
+  name "lcon_hvmv_sub_connector_BC";
+  z22 0.00160934+0.0160934j;
+  z23 0.00000+0.00000j;
+  z32 0.00000+0.00000j;
+  z33 0.00160934+0.0160934j;
+  c22 0.00000;
+  c23 0.00000;
+  c32 0.00000;
+  c33 0.00000;
+}
+object line_configuration {
+  name "lcon_hvmv_sub_connector_A";
+  z11 0.00160934+0.0160934j;
+  c11 0.00000;
+}
+object line_configuration {
+  name "lcon_hvmv_sub_connector_B";
+  z22 0.00160934+0.0160934j;
+  c22 0.00000;
+}
+object line_configuration {
+  name "lcon_hvmv_sub_connector_C";
+  z33 0.00160934+0.0160934j;
+  c33 0.00000;
+}
+
+object overhead_line {
+  name "line_hvmv_sub_connector";
+  phases ABC;
+  from "nd_hvmv_sub_48332";
+  to "nd__hvmv_sub_lsb";
+  length 3.28084;
+  configuration "lcon_hvmv_sub_connector_ABC";
+}
+object overhead_line {
+  name "line_ln23";
+  phases ABC;
+  from "nd_bus3";
+  to "nd_bus2";
+  length 5279.86;
+  configuration "lcon_mtx23_ABC";
+}
+object overhead_line {
+  name "line_cap_3b";
+  phases B;
+  from "nd_bus6_cap";
+  to "nd_bus6";
+  length 0.00328084;
+  configuration "lcon_cap_3b_PUZ_B";
+}
+object overhead_line {
+  name "line_ln56";
+  phases ABC;
+  from "nd_bus5";
+  to "nd_bus6";
+  length 5279.86;
+  configuration "lcon_mtx56_ABC";
+}
+object overhead_line {
+  name "line_ln310";
+  phases ABC;
+  from "nd_bus10";
+  to "nd_bus3";
+  length 5279.86;
+  configuration "lcon_mtx310_ABC";
+}
+object overhead_line {
+  name "line_ln67";
+  phases ABC;
+  from "nd_bus6";
+  to "nd_bus7";
+  length 5279.86;
+  configuration "lcon_mtx67_ABC";
+}
+object overhead_line {
+  name "line_cap_2c";
+  phases C;
+  from "nd_bus2_cap";
+  to "nd_bus2";
+  length 0.00328084;
+  configuration "lcon_cap_2c_PUZ_C";
+}
+object overhead_line {
+  name "line_cap_2a";
+  phases A;
+  from "nd_bus2";
+  to "nd_bus2_cap";
+  length 0.00328084;
+  configuration "lcon_cap_2a_PUZ_A";
+}
+object overhead_line {
+  name "line_ln1112";
+  phases ABC;
+  from "nd_bus12";
+  to "nd_bus11";
+  length 5279.86;
+  configuration "lcon_mtx1112_ABC";
+}
+object line_configuration {
+  name "lcon_hvmv_sub_hsb_ABC";
+  z11 0.00000+23815.6j;
+  z12 0.00000+0.00000j;
+  z13 0.00000+0.00000j;
+  z21 0.00000+0.00000j;
+  z22 0.00000+23815.6j;
+  z23 0.00000+0.00000j;
+  z31 0.00000+0.00000j;
+  z32 0.00000+0.00000j;
+  z33 0.00000+23815.6j;
+  c11 0.00000;
+  c12 0.00000;
+  c13 0.00000;
+  c21 0.00000;
+  c22 0.00000;
+  c23 0.00000;
+  c31 0.00000;
+  c32 0.00000;
+  c33 0.00000;
+}
+object line_configuration {
+  name "lcon_hvmv_sub_hsb_AB";
+  z11 0.00000+23815.6j;
+  z12 0.00000+0.00000j;
+  z21 0.00000+0.00000j;
+  z22 0.00000+23815.6j;
+  c11 0.00000;
+  c12 0.00000;
+  c21 0.00000;
+  c22 0.00000;
+}
+object line_configuration {
+  name "lcon_hvmv_sub_hsb_AC";
+  z11 0.00000+23815.6j;
+  z13 0.00000+0.00000j;
+  z31 0.00000+0.00000j;
+  z33 0.00000+23815.6j;
+  c11 0.00000;
+  c13 0.00000;
+  c31 0.00000;
+  c33 0.00000;
+}
+object line_configuration {
+  name "lcon_hvmv_sub_hsb_BC";
+  z22 0.00000+23815.6j;
+  z23 0.00000+0.00000j;
+  z32 0.00000+0.00000j;
+  z33 0.00000+23815.6j;
+  c22 0.00000;
+  c23 0.00000;
+  c32 0.00000;
+  c33 0.00000;
+}
+object line_configuration {
+  name "lcon_hvmv_sub_hsb_A";
+  z11 0.00000+23815.6j;
+  c11 0.00000;
+}
+object line_configuration {
+  name "lcon_hvmv_sub_hsb_B";
+  z22 0.00000+23815.6j;
+  c22 0.00000;
+}
+object line_configuration {
+  name "lcon_hvmv_sub_hsb_C";
+  z33 0.00000+23815.6j;
+  c33 0.00000;
+}
+
+object overhead_line {
+  name "line_hvmv_sub_hsb";
+  phases ABC;
+  from "nd_sourcebus";
+  to "nd_hvmv_sub_hsb";
+  length 3.28084;
+  configuration "lcon_hvmv_sub_hsb_ABC";
+}
+object overhead_line {
+  name "line_ln1213";
+  phases ABC;
+  from "nd_bus13";
+  to "nd_bus12";
+  length 5279.86;
+  configuration "lcon_mtx1213_ABC";
+}
+object overhead_line {
+  name "line_cap_3a";
+  phases A;
+  from "nd_bus6";
+  to "nd_bus6_cap";
+  length 0.00328084;
+  configuration "lcon_cap_3a_PUZ_A";
+}
+object overhead_line {
+  name "line_ln5815900-1";
+  phases ABC;
+  from "nd_bus2";
+  to "nd_e192860";
+  length 64.2826;
+  configuration "lcon_3ph_h-397_acsr397_acsr397_acsr397_acsr_ABC";
+}
+object overhead_line {
+  name "line_ln34";
+  phases ABC;
+  from "nd_bus4";
+  to "nd_bus3";
+  length 5279.86;
+  configuration "lcon_mtx34_ABC";
+}
+object switch {
+  name "swt_a8735_48332_sw";
+  phases ABC;
+  from "nd_d5710794-3_int";
+  to "nd_e192860";
+  status CLOSED;
+}
+
+object node {
+  name "nd_bus2";
+  phases ABCN;
+  nominal_voltage 7199.56;
+}
+object node {
+  name "nd_regxfmr_hvmv_sub_lsb";
+  phases ABCN;
+  nominal_voltage 7199.56;
+}
+object node {
+  name "nd__hvmv_sub_lsb";
+  phases ABCN;
+  nominal_voltage 7199.56;
+}
+object node {
+  name "nd_e192860";
+  phases ABCN;
+  nominal_voltage 7199.56;
+}
+object load {
+  name "nd_bus6";
+  phases ABCN;
+  nominal_voltage 7199.56;
+  constant_power_A 280100+153900j;
+  constant_power_B 508000+430500j;
+  constant_power_C 206300+55400.0j;
+}
+object node {
+  name "nd_bus5";
+  phases ABCN;
+  nominal_voltage 7199.56;
+}
+object node {
+  name "nd_bus4";
+  phases ABCN;
+  nominal_voltage 7199.56;
+}
+object load {
+  name "nd_bus3";
+  phases ABCN;
+  nominal_voltage 7199.56;
+  constant_power_A 1.37460e+06+558600j;
+  constant_power_B 1.07050e+06+634000j;
+  constant_power_C 1.50980e+06+195100j;
+}
+object node {
+  bustype SWING;
+  name "nd_sourcebus";
+  phases ABCN;
+  nominal_voltage 66395.3;
+}
+object node {
+  name "nd_bus3_cap";
+  phases ABCN;
+  nominal_voltage 7199.56;
+}
+object node {
+  name "nd_bus12";
+  phases ABCN;
+  nominal_voltage 7199.56;
+}
+object load {
+  name "nd_bus13";
+  phases ABCN;
+  nominal_voltage 7199.56;
+  constant_power_A 572700+158400j;
+  constant_power_B 687500+111700j;
+  constant_power_C 606100+157900j;
+}
+object node {
+  name "nd_d5710794-3_int";
+  phases ABCN;
+  nominal_voltage 7199.56;
+}
+object load {
+  name "nd_bus9";
+  phases ABCN;
+  nominal_voltage 7199.56;
+  constant_power_A 1.92570e+06+533200j;
+  constant_power_B 1.73100e+06+490000j;
+  constant_power_C 1.45180e+06+394000j;
+}
+object node {
+  name "nd_bus8";
+  phases ABCN;
+  nominal_voltage 7199.56;
+}
+object node {
+  name "nd_bus7";
+  phases ABCN;
+  nominal_voltage 7199.56;
+}
+object node {
+  name "nd_bus6_cap";
+  phases ABCN;
+  nominal_voltage 7199.56;
+}
+object node {
+  name "nd_hvmv_sub_hsb";
+  phases ABCN;
+  nominal_voltage 66395.3;
+}
+object node {
+  name "nd_bus10";
+  phases ABCN;
+  nominal_voltage 7199.56;
+}
+object node {
+  name "nd_hvmv_sub_48332";
+  phases ABCN;
+  nominal_voltage 7199.56;
+}
+object node {
+  name "nd_bus2_cap";
+  phases ABCN;
+  nominal_voltage 7199.56;
+}
+object node {
+  name "nd_bus11";
+  phases ABCN;
+  nominal_voltage 7199.56;
+}
+
+// total load = 1.19241e+07 W
+// buscoords oneline_busxy.glm

@@ -1,2 +1,0 @@
-new loadshape.Loadshape_1sec  npts=172800  sinterval=1  mult=(file=Load_shape_1sec.csv)
-new loadshape.PVshape_1sec  npts=172800  sinterval=1  mult=(file=PVshape.csv)

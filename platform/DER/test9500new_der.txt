@@ -1,0 +1,14 @@
+uuid_file,test9500new_der_uuid.txt
+//test9500new, 10 synchronous machines
+feederID,_AAE94E4A-2465-6F5E-37B1-3E72183A4E44
+//name,bus,phases(ABCs1s2),type(Battery,Photovoltaic,SynchronousMachine),RatedkVA(s),RatedkV(u?),kW(p),kVAR(q)
+steamgen1,m1026chp-3,ABC,SynchronousMachine,4000,12.47,1000,-1079.4856
+diesel620,m1209-dies1,ABC,SynchronousMachine,775,0.48,0,0
+diesel590,m1089-dies1,ABC,SynchronousMachine,737,0.48,0,0
+microturb-4,m1069-mt1,ABC,SynchronousMachine,250,0.48,100,48.43221
+lngengine1800,m1089-lng1,ABC,SynchronousMachine,2250,0.48,0,0
+pvfarm1,m1047pv-3,ABC,SynchronousMachine,750,12.47,450,90
+lngengine100,m1142-lng1,ABC,SynchronousMachine,125,0.48,0,0
+microturb-3,m2001-mt3,ABC,SynchronousMachine,250,0.48,0,0
+microturb-2,m2001-mt2,ABC,SynchronousMachine,250,0.48,0,0
+microturb-1,m2001-mt1,ABC,SynchronousMachine,250,0.48,50,24.216105

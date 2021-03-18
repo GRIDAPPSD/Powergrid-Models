@@ -1,0 +1,19 @@
+! Created with Distribute Command:
+! Distribute kW=1000 PF=1 How=skip Skip=5  file=distributed_PV_1.dss
+
+new PVsystem.DG_6  bus1=7.1 phases=1 kV=2.4 Pmpp=120  kVA=120 PF=1 irradiance=1 %cutin=0.1 %cutout=0.1  !yearly=PVshape_1sec
+new PVsystem.DG_12  bus1=17.3 phases=1 kV=2.4 Pmpp=120  kVA=120 PF=1 irradiance=1 %cutin=0.1 %cutout=0.1  !yearly=PVshape_1sec
+new PVsystem.DG_18  bus1=29.1 phases=1 kV=2.4 Pmpp=250  kVA=250 PF=1 irradiance=1 %cutin=0.1 %cutout=0.1  !yearly=PVshape_1sec
+//new PVsystem.DG_24  bus1=35.1.2 phases=1 kV=4.16 Pmpp=260  kVA=260 PF=1 irradiance=1 %cutin=0.1 %cutout=0.1  !yearly=PVshape_1sec
+new PVsystem.DG_30  bus1=43.2 phases=1 kV=2.4 Pmpp=300 kVA=300 PF=1 irradiance=1 %cutin=0.1 %cutout=0.1  !yearly=PVshape_1sec
+new PVsystem.DG_36  bus1=49.2 phases=1 kV=2.4 Pmpp=400  kVA=400 PF=1 irradiance=1 %cutin=0.1 %cutout=0.1  !yearly=PVshape_1sec
+new PVsystem.DG_42  bus1=55.1 phases=1 kV=2.4 Pmpp=150 kVA=150 PF=1 irradiance=1 %cutin=0.1 %cutout=0.1  !yearly=PVshape_1sec
+new PVsystem.DG_48  bus1=63.1 phases=1 kV=2.4 Pmpp=250 kVA=250 PF=1 irradiance=1 %cutin=0.1 %cutout=0.1  !yearly=PVshape_1sec
+new PVsystem.DG_54  bus1=68.1 phases=1 kV=2.4 Pmpp=130 kVA=130 PF=1 irradiance=1 %cutin=0.1 %cutout=0.1  !yearly=PVshape_1sec
+new PVsystem.DG_60  bus1=75.3 phases=1 kV=2.4 Pmpp=260 kVA=260 PF=1 irradiance=1 %cutin=0.1 %cutout=0.1  !yearly=PVshape_1sec
+new PVsystem.DG_66  bus1=80.2 phases=1 kV=2.4 Pmpp=260 kVA=260 PF=1 irradiance=1 %cutin=0.1 %cutout=0.1  !yearly=PVshape_1sec
+new PVsystem.DG_72  bus1=87.2 phases=1 kV=2.4 Pmpp=280 kVA=280 PF=1 irradiance=1 %cutin=0.1 %cutout=0.1  !yearly=PVshape_1sec
+new PVsystem.DG_78  bus1=96.2 phases=1 kV=2.4 Pmpp=150 kVA=150 PF=1 irradiance=1 %cutin=0.1 %cutout=0.1  !yearly=PVshape_1sec
+new PVsystem.DG_84  bus1=104.3 phases=1 kV=2.4 Pmpp=300 kVA=300 PF=1 irradiance=1 %cutin=0.1 %cutout=0.1  !yearly=PVshape_1sec
+new PVsystem.DG_90  bus1=113.1 phases=1 kV=2.4 Pmpp=350 kVA=350 PF=1 irradiance=1 %cutin=0.1 %cutout=0.1  !yearly=PVshape_1sec
+

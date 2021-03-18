@@ -1,0 +1,56 @@
+//
+clear
+cd /Users/mcde601/src/GRIDAPPSD/Powergrid-Models/blazegraph/
+redirect test13_base.dss
+set maxiterations=20
+set controlmode=off
+solve
+export summary test13.csv
+//
+clear
+cd /Users/mcde601/src/GRIDAPPSD/Powergrid-Models/blazegraph/
+redirect test13assets_base.dss
+set maxiterations=20
+set controlmode=off
+solve
+export summary test13assets.csv
+//
+clear
+cd /Users/mcde601/src/GRIDAPPSD/Powergrid-Models/blazegraph/
+redirect test8500_base.dss
+set maxiterations=20
+set controlmode=off
+solve
+export summary test8500.csv
+//
+clear
+cd /Users/mcde601/src/GRIDAPPSD/Powergrid-Models/blazegraph/
+redirect test123_base.dss
+set maxiterations=20
+set controlmode=off
+solve
+export summary test123.csv
+//
+clear
+cd /Users/mcde601/src/GRIDAPPSD/Powergrid-Models/blazegraph/
+redirect testR2_base.dss
+set maxiterations=20
+set controlmode=off
+solve
+export summary testR2.csv
+//
+clear
+cd /Users/mcde601/src/GRIDAPPSD/Powergrid-Models/blazegraph/
+redirect testJ1_base.dss
+set maxiterations=20
+set controlmode=off
+solve
+export summary testJ1.csv
+//
+clear
+cd /Users/mcde601/src/GRIDAPPSD/Powergrid-Models/blazegraph/
+redirect test37_base.dss
+set maxiterations=20
+set controlmode=off
+solve
+export summary test37.csv

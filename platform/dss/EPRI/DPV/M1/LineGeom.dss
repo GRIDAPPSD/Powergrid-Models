@@ -1,0 +1,37 @@
+New LineGeometry.750A_QX3 nconds=4 nphases=3
+~ Cond=1 h=35 x=0 wire=750A units=ft 
+~ Cond=2 h=34.92 x=0.08 wire=750A units=ft 
+~ Cond=3 h=34.83 x=0 wire=750A units=ft 
+~ Cond=4 h=34.92 x=-0.08 wire=750A units=ft 
+~ Reduce=yes    ! eliminate the neutral conductor
+
+New LineGeometry.500A_QX3 nconds=4 nphases=3
+~ Cond=1 h=35 x=0 wire=500A units=ft 
+~ Cond=2 h=34.932 x=0.068 wire=500A units=ft 
+~ Cond=3 h=34.864 x=0 wire=500A units=ft 
+~ Cond=4 h=34.932 x=-0.068 wire=500A units=ft 
+~ Reduce=yes    ! eliminate the neutral conductor
+
+New LineGeometry.1/0A_QX3 nconds=4 nphases=3
+~ Cond=1 h=35 x=0 wire=1/0A units=ft 
+~ Cond=2 h=34.969 x=0.0307 wire=1/0A units=ft 
+~ Cond=3 h=34.939 x=0 wire=1/0A units=ft 
+~ Cond=4 h=34.969 x=-0.0307 wire=1/0A units=ft 
+~ Reduce=yes    ! eliminate the neutral conductor
+
+New LineGeometry.340A_QX3 nconds=4 nphases=3
+~ Cond=1 h=35 x=0 wire=340A units=ft 
+~ Cond=2 h=34.94 x=0.0555 wire=340A units=ft 
+~ Cond=3 h=34.889 x=0 wire=340A units=ft 
+~ Cond=4 h=34.94 x=-0.0555 wire=340A units=ft 
+~ Reduce=yes    ! eliminate the neutral conductor
+
+
+
+!New LineGeometry.3PH_H-795_AAC795_AAC795_AAC397_ACSR  nconds=4  nphases=3
+! example from Bob
+!~ cond=1  wire=795_AAC x=-0.6096 h=9.7536 units=m
+!~ cond=2  wire=795_AAC x=0.1524 h=10.3632 units=m
+!~ cond=3  wire=795_AAC x=0.6096 h=9.7536 units=m
+!~ cond=4  wire=397_ACSR x=0.1524 h=8.2296 units=m
+!~ reduce=y

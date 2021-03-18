@@ -1,0 +1,8 @@
+Gen1,100,0
+Wind,200,0
+Load1,500,0
+Batt,700,0
+Solar,900,0
+Load2,1100,0
+Bank1,500,-100
+BattInv,700,-100

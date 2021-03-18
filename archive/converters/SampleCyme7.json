@@ -1,0 +1,19 @@
+{
+  "DefaultDir": ".",
+  "OutDir": ".",
+  "xmlfilename": "Base Case Summer Peak_Connected",
+  "RootName": "Island13180",
+  "SubName": "Island13180",
+  "LoadScale": 1.0,
+  "LoadModel": 1,
+  "DefaultBaseVoltage": 12.47,
+  "BaseVoltages": [12.47, 0.4157],
+  "CoordXmin": 7647000.0,
+  "CoordXmax": 7671280.0,
+  "CoordYmin":  625980.0,
+  "CoordYmax":  672430.0,
+  "CYMESectionUnit": "m",
+  "CYMELineCodeUnit": "km",
+  "DSSSectionUnit": "mi",
+  "OwnerIDs": ["ISLAND-13180"]
+}
