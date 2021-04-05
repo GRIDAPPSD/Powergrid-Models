@@ -9,7 +9,7 @@ New Line.HVMV_Sub_connector  bus1=HVMV11sub1_LSB      bus2=HVMV_Sub1_48332     l
 New Line.LN5710794-3         bus1=HVMV_Sub1_48332     bus2=D5710794-3_INT      length=0.019436038 units=km Linecode=3PH_H-397_ACSR397_ACSR397_ACSR397_ACSR normamps=450 emergamps=600  
 New Line.HVMV69S1B2_sw       bus1=D5710794-3_INT      bus2=E192860             switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001 
 
-New Line.HVMV69S1B3_sw       bus1=HVMV69sub1_LSB2     bus2=HVMV69S1S2_1        switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001
+New Line.HVMV69S1B3_sw       bus1=HVMV69sub1_LSB2     bus2=HVMV69S1S2_1        switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001              
 New Line.HVMV69S1S2-1        bus1=HVMV69S1S2_1        bus2=HVMV69S1S2_2        length=1.0        units=km Linecode=3ph-69kV_397_TREEWIRE normamps=450 emergamps=600  
 New Line.HVMV69S1S2-2        bus1=HVMV69S1S2_2        bus2=HVMV69S1S2_3        length=0.75        units=km Linecode=3ph-69kV_397_TREEWIRE normamps=450 emergamps=600  
 New Line.HVMV69S1S2-3        bus1=HVMV69S1S2_3        bus2=HVMV69S1S2_4        length=0.75        units=km Linecode=3ph-69kV_397_TREEWIRE normamps=450 emergamps=600  
@@ -19,11 +19,11 @@ New Line.HVMV69S1S2-6        bus1=HVMV69S1S2_6        bus2=HVMV69S1S2_7        l
 New Line.HVMV69S1S2-7        bus1=HVMV69S1S2_7        bus2=HVMV69S1S2_8        length=1.0         units=km Linecode=3ph-69kV_397_TREEWIRE normamps=450 emergamps=600  
 New Line.HVMV69S1S2-8        bus1=HVMV69S1S2_8        bus2=HVMV69S1S2_9        length=1.0         units=km Linecode=3ph-69kV_397_TREEWIRE normamps=450 emergamps=600  
 New Line.HVMV69S1S2-9        bus1=HVMV69S1S2_9        bus2=HVMV69S1S2_10       length=1.0         units=km Linecode=3ph-69kV_397_TREEWIRE normamps=450 emergamps=600  
-New Line.HVMV69S1B3_sw       bus1=HVMV69S1S2_10       bus2=HVMV69sub2_LNB      switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001
+New Line.HVMV69S1S2-10       bus1=HVMV69S1S2_10       bus2=HVMV69sub2_LNB      switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001              
 New Line.HVMV69S2B1_sw       bus1=HVMV69sub2_LNB      bus2=HVMV69sub2_HSB      switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001              
 New Line.HVMV69S2B2_sw       bus1=HVMV11sub2_LSB      bus2=m1047300            switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001              
 
-New Line.HVMV69S2B4_sw       bus1=HVMV69Sub2_LNB      bus2=HVMV69S2S3_1        switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001
+New Line.HVMV69S2B3_sw       bus1=HVMV69Sub2_LNB      bus2=HVMV69S2S3_1        switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001              
 New Line.HVMV69S2S3-1        bus1=HVMV69S2S3_1        bus2=HVMV69S2S3_2        length=4.5         units=km Linecode=3ph-69kV_397_TREEWIRE normamps=450 emergamps=600  
 New Line.HVMV69S3B1_sw       bus1=HVMV69S2S3_2        bus2=HVMV69sub3_HSB      switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001              
 New Line.HVMV69S3B2_sw       bus1=HVMV11sub3_LSB      bus2=e203026             switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001              
@@ -152,7 +152,7 @@ New Line.LN5593234-1         bus1=M1089115            bus2=M1089112            l
 New Line.LN5835143-1         bus1=M1089118            bus2=M1089115            length=0.16170829  units=km Linecode=3PH_H-397_ACSR397_ACSR397_ACSR2/0_ACSR normamps=450 emergamps=600 
 New Line.LN5683823-1         bus1=M1089119            bus2=M1089118            length=0.078884003 units=km Linecode=3PH_H-397_ACSR397_ACSR397_ACSR2/0_ACSR normamps=450 emergamps=600 
 New Line.LN5472360-1         bus1=M1089120            bus2=M1089119            length=0.057934318 units=km Linecode=3PH_H-397_ACSR397_ACSR397_ACSR2/0_ACSR normamps=450 emergamps=600 
-New Line.LN5472335_sw        bus1=D5472350-1_INT      bus2=m1089120            switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001
+New Line.LN5472335-1         bus1=D5472350-1_INT      bus2=m1089120            switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001                                 
 New Line.LN5502532-1         bus1=190-7361            bus2=D5472350-1_INT      length=0.005820451 units=km Linecode=3PH_H-397_ACSR397_ACSR397_ACSR2/0_ACSR normamps=450 emergamps=600 
 New Line.LN6138608-2         bus1=Q14404              bus2=regxfmr_190-7361    length=0.004597065 units=km Linecode=3PH_H-397_ACSR397_ACSR397_ACSR2/0_ACSR normamps=450 emergamps=600 
 New Line.LN4586093_sw        bus1=D6138608-3_INT      bus2=Q14404              switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001
@@ -906,7 +906,7 @@ New Line.LN8979358-2         bus1=L2803194.3          bus2=L3047073.3          l
 New Line.LN8979358-3         bus1=L3047073.3          bus2=M1069250.3          length=0.21254262  units=km Linecode=1P_1/0_AXNJ_DB normamps=200 emergamps=250 
 New Line.LN8979371-1         bus1=M1069250.3          bus2=L2690868.3          length=0.020555058 units=km Linecode=1P_1/0_AXNJ_DB normamps=200 emergamps=250                          
 New Line.LN8979371-2         bus1=L2690868.3          bus2=228-979371-2_INT.3  length=0.01146058  units=km Linecode=1P_1/0_AXNJ_DB normamps=200 emergamps=250 
-New Line.WF586_48332_sw      bus1=228-979371-2_INT.3  bus2=193-48013.3         switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001 phases=1 !A-phase to C-phase N/O disconnect
+New Line.WF586_48332_sw      bus1=228-979371-2_INT.3  bus2=193-48013.1         switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001 phases=1 !switch disabled, A-phase to C-phase
 
 
 !2-ph loop from node M1108378 to M1108380
@@ -922,7 +922,7 @@ New Line.LN81048106-3        bus1=L2990098.1          bus2=M1108462.1          l
 New Line.LN81048108-1        bus1=M1108462.1          bus2=L3027671.1          length=0.11898371  units=km Linecode=1P_1/0_AXNJ_DB normamps=200 emergamps=250 
 New Line.LN81048108-2        bus1=L3027671.1          bus2=M1108423.1          length=0.13373712  units=km Linecode=1P_1/0_AXNJ_DB normamps=200 emergamps=250
 New Line.LN81048093-1        bus1=M1108393.1          bus2=193-51796.1         length=0.001797129 units=km Linecode=1P_1/0_AXNJ_DB normamps=200 emergamps=250                          
-New Line.WD701_48332_sw      bus1=228-1048090-1_INT.2 bus2=193-51796.2         switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001 phases=1 !A-phase to B-phase N/O disconnect
+New Line.WD701_48332_sw     bus1=228-1048090-1_INT.2 bus2=193-51796.1         switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001 phases=1 !switch disabled, A-phase to B-phase
 New Line.LN81048090-1        bus1=M1108433.2          bus2=228-1048090-1_INT.2 length=0.13353714  units=km Linecode=1P_1/0_AXNJ_DB normamps=200 emergamps=250 
 New Line.LN81048109-2        bus1=L3102286.2          bus2=M1108433.2          length=0.039047848 units=km Linecode=1P_1/0_AXNJ_DB normamps=200 emergamps=250                          
 New Line.LN81048109-1        bus1=M1108464.2          bus2=L3102286.2          length=0.10745557  units=km Linecode=1P_1/0_AXNJ_DB normamps=200 emergamps=250                
@@ -957,7 +957,7 @@ New Line.LN81354564-8        bus1=L3645809.3          bus2=L3645810.3          l
 New Line.LN81354564-9        bus1=L3645810.3          bus2=M3763623.3          length=0.009806726 units=km Linecode=1P_1/0_AXNJ_DB normamps=200 emergamps=250                          
 New Line.LN81353936-2        bus1=M3763623.3          bus2=L3645811.3          length=0.14305142  units=km Linecode=1P_1/0_AXNJ_DB normamps=200 emergamps=250 
 New Line.LN81353936-3        bus1=L3645811.3          bus2=193-103041.3        length=0.005712707 units=km Linecode=1P_1/0_AXNJ_DB normamps=200 emergamps=250                       
-New Line.WF856_48332_sw      bus1=228-1353934-4_INT.3 bus2=193-103041.3        switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001 phases=1 !underground cable N/O disconnect
+New Line.WF856_48332_sw      bus1=228-1353934-4_INT.3 bus2=193-103041.3        switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001 phases=1
 
 New Line.LN81353934-4        bus1=L3645812.3          bus2=228-1353934-4_INT.3 length=0.29687639  units=km Linecode=1P_1/0_AXNJ_DB normamps=200 emergamps=250                          
 New Line.LN81353934-3        bus1=M3763620.3          bus2=L3645812.3          length=0.044611806 units=km Linecode=1P_1/0_AXNJ_DB normamps=200 emergamps=250                          
@@ -974,7 +974,7 @@ New Line.LN8961760-1         bus1=M1047612.3          bus2=P828360.3           l
 New Line.LN8961799-1         bus1=P828360.3           bus2=L2729206.3          length=0.031497899 units=km Linecode=1P_1/0_AXNJ_DB normamps=200 emergamps=250                          
 New Line.LN8961799-2         bus1=L2729206.3          bus2=L2729207.3          length=0.29308333  units=km Linecode=1P_1/0_AXNJ_DB normamps=200 emergamps=250                          
 New Line.LN8961799-3         bus1=L2729207.3          bus2=228-961799-3_INT.3  length=0.012192846 units=km Linecode=1P_1/0_AXNJ_DB normamps=200 emergamps=250
-New Line.WG127_48332_sw      bus1=228-961799-3_INT.3  bus2=193-46661.3         switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001 phases=1 !underground cable N/O disconnect
+New Line.WG127_48332_sw      bus1=228-961799-3_INT.3  bus2=193-46661.3         switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001 phases=1 
 New Line.LN8961797-2         bus1=L2897554.3          bus2=193-46661.3         length=0.11998911  units=km Linecode=1P_1/0_AXNJ_DB normamps=200 emergamps=250                          
 New Line.LN8961797-1         bus1=M1047633.3          bus2=L2897554.3          length=0.17983472  units=km Linecode=1P_1/0_AXNJ_DB normamps=200 emergamps=250                          
 New Line.LN8961800-3         bus1=L2766499.3          bus2=M1047633.3          length=0.008266058 units=km Linecode=1P_1/0_AXNJ_DB normamps=200 emergamps=250                          
@@ -1247,7 +1247,7 @@ New Line.LN5623395-1         bus1=D5623395-1_INT.2    bus2=L2879068.2          l
 New Line.LN5895774-1         bus1=L2879068.2          bus2=M1047773.2          length=0.096799104 units=km Linecode=1PH-x4_ACSRx4_ACSR normamps=90 emergamps=130                
 
 New Line.LN6409775-3         bus1=M1047763.1          bus2=N1136027.1          length=0.01814072  units=km Linecode=1PH-4_ACSRxx4_ACSR normamps=90 emergamps=130                
-New Line.LN0409774_sw        bus1=N1136027.1          bus2=D6409775-4_INT.1    switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001 phases=1
+New Line.LN0409774-4_INT     bus1=N1136027.1          bus2=D6409775-4_INT.1    switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001 phases=1    
 New Line.LN6409775-4         bus1=D6409775-4_INT.1    bus2=L2876796.1          length=0.065085962 units=km Linecode=1PH-4_ACSRxx4_ACSR normamps=90 emergamps=130                
 New Line.LN6409775-2         bus1=L2876796.1          bus2=M1047756.1          length=0.051059122 units=km Linecode=1PH-4_ACSRxx4_ACSR normamps=90 emergamps=130                
 
@@ -2856,4 +2856,3 @@ New Line.LN2001DER-4         bus1=M2001DER480-2       bus2=M2001DER-4          l
 New Line.LN2001ESS1_SW       bus1=M2001DER-4          bus2=m2001-ESS1          switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001                            
 New Line.LN2001DER-5         bus1=M2001DER480-2       bus2=M2001DER-5          length=0.0500 units=km Linecode=3PH_H-397_ACSR397_ACSR397_ACSR397_ACSR normamps=450 emergamps=600 
 New Line.LN2001ESS2_SW       bus1=M2001DER-5          bus2=m2001-ESS2          switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001                            
-
