@@ -4,7 +4,7 @@
 
 Clear
 
-New Circuit.Test9500new
+New Circuit.final9500node
 
 ! Make the source stiff with small impedance
 ~ pu=1.05  r1=0  x1=0.001  r0=0  x0=0.001  
@@ -95,3 +95,11 @@ open LINE.TSW568613_SW
 solve
 
 
+set MarkPVSystems=true PVMarkerCode=18
+set Markswitches=true SwitchMarkerCode=9
+set MarkRegulators=true RegMarkerCode=15         
+set MarkCapacitors=true CapMarkerCode=38
+set MarkStorage=true StoreMarkerCode=36
+set MarkTransformers=true TransmarkerCode=14
+
+Plot daisy Power Max=1000 dots=n labels=n 1ph=3
