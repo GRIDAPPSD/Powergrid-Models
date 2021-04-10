@@ -80,8 +80,6 @@ Generator.LNGEngine1800.kw=0
 
 
 ! Set normal feeder configuration
-open Line.WD701_48332_sw
-open Line.WF586_48332_sw
 open Line.WF856_48332_sw
 open Line.WG127_48332_sw
 open LINE.LN0653457_SW
