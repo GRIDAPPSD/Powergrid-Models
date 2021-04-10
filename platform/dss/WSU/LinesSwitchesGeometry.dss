@@ -906,7 +906,7 @@ New Line.LN8979358-2         bus1=L2803194.3          bus2=L3047073.3          l
 New Line.LN8979358-3         bus1=L3047073.3          bus2=M1069250.3          length=0.21254262  units=km Geometry=1P_1/0_AXNJ_DB normamps=200 emergamps=250 
 New Line.LN8979371-1         bus1=M1069250.3          bus2=L2690868.3          length=0.020555058 units=km Geometry=1P_1/0_AXNJ_DB normamps=200 emergamps=250                          
 New Line.LN8979371-2         bus1=L2690868.3          bus2=228-979371-2_INT.3  length=0.01146058  units=km Geometry=1P_1/0_AXNJ_DB normamps=200 emergamps=250 
-! Line.WF586_48332_sw delted to support GridLAB-D
+! Line.WF586_48332_sw deleted to support GridLAB-D
 
 
 !2-ph loop from node M1108378 to M1108380
