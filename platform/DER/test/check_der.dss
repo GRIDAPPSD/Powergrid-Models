@@ -1,0 +1,11 @@
+//
+clear
+redirect transactive_der_base.dss
+set maxiterations=80
+set controlmode=off
+solve
+export summary  transactive_der_s.csv
+export voltages transactive_der_v.csv
+export currents transactive_der_i.csv
+export taps     transactive_der_t.csv
+

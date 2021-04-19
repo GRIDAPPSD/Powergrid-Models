@@ -1,0 +1,38 @@
+Clear
+// Gen1: 400 kVA, 320 kW
+New Circuit.ACEP_PSIL bus1=Gen1 basekv=0.48 pu=1.14 x1=0.06 r1=0.006 x0=0.06 r0=0.006
+
+New Linecode.buswork nphases=3 r1=0.02 x1=0.8 r0=0.2 x0=0.6 c1=0 c0=0 units=mi
+New Line.Seg1  bus1=Gen1   bus2=Wind   linecode=buswork length=12.5 units=ft
+New Line.Seg2  bus1=Wind   bus2=Load1  linecode=buswork length=37.5 units=ft
+New Line.Seg3  bus1=Load1  bus2=Batt   linecode=buswork length=25 units=ft
+New Line.Seg4  bus1=Batt   bus2=Solar  linecode=buswork length=25 units=ft
+New Line.Seg5  bus1=Solar  bus2=Load2  linecode=buswork length=25 units=ft
+
+New Generator.Wind bus1=Wind kv=0.48 model=1 kw=100 kva=120
+
+New Transformer.Load1 buses=(Load1 Bank1) kvas=(300 300) kvs=(0.480 0.208) 
+~ xhl=5.75 %loadloss=0.8 %imag=0.5 %noloadloss=0.2 conns=(delta wye)
+New Load.Load208  bus1=Bank1  phases=3 kva=313 kv=0.208 pf=0.8
+New Load.Load480  bus1=Load2  phases=3 kva=313 kv=0.480 pf=0.8
+
+New PVSystem.Solar bus1=Solar phases=3 kV=0.48 irradiance=1 pmpp=25 kVA=25 
+
+New Transformer.Batt buses=(Batt BattInv) kvas=(313 313) kvs=(0.480 0.318) 
+~ xhl=5.75 %loadloss=0.8 %imag=0.5 %noloadloss=0.2 conns=(wye delta)
+New Storage.LeadAcid bus1=BattInv phases=3 kv=0.318 kwrated=100 kwhrated=270 
+~ kwhstored=135 state=discharging kva=313 kw=100
+
+set voltagebases=[0.480 0.318 0.208]
+
+CalcV
+Buscoords PSIL_Buscoords.dat
+//solve
+
+//export summary ACEP_PSIL.csv
+//show voltages ln
+//show powers
+//plot circuit quantity=powers
+//export cdpsmcombined file=ACEP_PSIL.xml fid=77966920-E1EC-EE8A-23EE-4EFD23B205BD sub=UAF sid=22B12048-23DF-007B-9291-826A16DBCB21 subgeo=Fairbanks sgrid=2F8FC9BF-FF32-A197-D541-0A2529D04DF7 geo=Alaska rgnid=96465E7A-6EC3-ECCA-BC27-31B53F05C96E
+//quit
+

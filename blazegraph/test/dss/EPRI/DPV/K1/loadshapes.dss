@@ -1,9 +1,0 @@
-new loadshape.K21_A npts=1 interval=1 mult=(1) action=normalize
-new loadshape.K21_B npts=1 interval=1 mult=(1) action=normalize
-new loadshape.K21_C npts=1 interval=1 mult=(1) action=normalize
-new loadshape.K21_ABC npts=1 interval=1 mult=(1) action=normalize
-
-new loadshape.AggLoadProfileK22 npts=1 interval=1 mult=(1) action=normalize
-
-
-new loadshape.PV_1MW npts=1 interval=1 mult=(1) action=normalize

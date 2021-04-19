@@ -1,0 +1,165 @@
+var @root=/Users/mcde601/src/opendss
+//var @root=c:/opendss
+var @outpath=/Users/mcde601/src/gridappsd/powergrid-models/blazegraph/test
+
+//cd /Users/mcde601/src/opendss
+cd c:\opendss
+redirect ./Test/IEEE13_CDPSM.dss
+//cd /Users/mcde601/src/gridappsd/powergrid-models/blazegraph/test
+cd c:\gridapps-d\powergrid-models\blazegraph\test
+export CDPSMCombined IEEE13.xml
+export summary IEEE13.csv
+//export voltages IEEE13_VLN.csv
+
+//cd /Users/mcde601/src/opendss
+cd c:\opendss
+redirect ./Test/IEEE13_Assets.dss
+//cd /Users/mcde601/src/gridappsd/powergrid-models/blazegraph/test
+cd c:\gridapps-d\powergrid-models\blazegraph\test
+export CDPSMCombined IEEE13_Assets.xml
+export summary IEEE13_Assets.csv
+//export voltages IEEE13_Assets_VLN.csv
+
+//cd /Users/mcde601/src/opendss
+cd c:\opendss
+redirect ./Distrib/IEEETestCases/8500-Node/Master-unbal.dss
+set maxiterations=20
+solve
+//cd /Users/mcde601/src/gridappsd/powergrid-models/blazegraph/test
+cd c:\gridapps-d\powergrid-models\blazegraph\test
+export CDPSMCombined IEEE8500u.xml
+export summary IEEE8500u.csv
+//export voltages IEEE8500u_VLN.csv
+
+//cd /Users/mcde601/src/opendss
+cd c:\opendss
+redirect ./Distrib/IEEETestCases/8500-Node/Master.dss
+set maxiterations=20
+solve
+//cd /Users/mcde601/src/gridappsd/powergrid-models/blazegraph/test
+cd c:\gridapps-d\powergrid-models\blazegraph\test
+export CDPSMCombined IEEE8500.xml
+export summary IEEE8500.csv
+//export voltages IEEE8500_VLN.csv
+
+//cd /Users/mcde601/src/opendss
+cd c:\opendss
+redirect ./Distrib/IEEETestCases/34Bus/ieee34Mod2.dss
+//cd /Users/mcde601/src/gridappsd/powergrid-models/blazegraph/test
+cd c:\gridapps-d\powergrid-models\blazegraph\test
+export CDPSMCombined IEEE34.xml
+export summary IEEE34.csv
+
+//cd /Users/mcde601/src/opendss
+cd c:\opendss
+redirect ./Distrib/IEEETestCases/37Bus/ieee37.dss
+//cd /Users/mcde601/src/gridappsd/powergrid-models/blazegraph/test
+cd c:\gridapps-d\powergrid-models\blazegraph\test
+export CDPSMCombined IEEE37.xml
+export summary IEEE37.csv
+
+//cd /Users/mcde601/src/opendss
+cd c:\opendss
+redirect ./Distrib/IEEETestCases/123Bus/IEEE123Master.dss
+//cd /Users/mcde601/src/gridappsd/powergrid-models/blazegraph/test
+cd c:\gridapps-d\powergrid-models\blazegraph\test
+export CDPSMCombined IEEE123.xml
+export summary IEEE123.csv
+
+//cd /Users/mcde601/src/opendss
+cd c:\opendss
+redirect ./Distrib/IEEETestCases/4Bus-DY-Bal/4Bus-DY-Bal.dss
+//cd /Users/mcde601/src/gridappsd/powergrid-models/blazegraph/test
+cd c:\gridapps-d\powergrid-models\blazegraph\test
+export CDPSMCombined DY-balanced.xml
+export summary DY-balanced.csv
+
+//cd /Users/mcde601/src/opendss
+cd c:\opendss
+redirect ./Distrib/IEEETestCases/4Bus-GrdYD-Bal/4Bus-GrdYD-Bal.dss
+//cd /Users/mcde601/src/gridappsd/powergrid-models/blazegraph/test
+cd c:\gridapps-d\powergrid-models\blazegraph\test
+export CDPSMCombined GYD-balanced.xml
+export summary GYD-balanced.csv
+
+//cd /Users/mcde601/src/opendss
+cd c:\opendss
+redirect ./Distrib/IEEETestCases/4Bus-OYOD-Bal/4Bus-OYOD-Bal.dss
+//cd /Users/mcde601/src/gridappsd/powergrid-models/blazegraph/test
+cd c:\gridapps-d\powergrid-models\blazegraph\test
+export CDPSMCombined OYOD-balanced.xml
+export summary OYOD-balanced.csv
+
+//cd /Users/mcde601/src/opendss
+cd c:\opendss
+redirect ./Distrib/IEEETestCases/4Bus-OYOD-UnBal/4Bus-OYOD-UnBal.dss
+//cd /Users/mcde601/src/gridappsd/powergrid-models/blazegraph/test
+cd c:\gridapps-d\powergrid-models\blazegraph\test
+export CDPSMCombined OYOD-unbalanced.xml
+export summary OYOD-unbalanced.csv
+
+//cd /Users/mcde601/src/opendss
+cd c:\opendss
+redirect ./Distrib/IEEETestCases/4Bus-YD-Bal/4Bus-YD-Bal.dss
+//cd /Users/mcde601/src/gridappsd/powergrid-models/blazegraph/test
+cd c:\gridapps-d\powergrid-models\blazegraph\test
+export CDPSMCombined YD-balanced.xml
+export summary YD-balanced.csv
+
+//cd /Users/mcde601/src/opendss
+cd c:\opendss
+redirect ./Distrib/IEEETestCases/4Bus-YY-Bal/4Bus-YY-Bal.dss
+//cd /Users/mcde601/src/gridappsd/powergrid-models/blazegraph/test
+cd c:\gridapps-d\powergrid-models\blazegraph\test
+export CDPSMCombined YY-balanced.xml
+export summary YY-balanced.csv
+
+//cd /Users/mcde601/src/opendss
+cd c:\opendss
+redirect ./Distrib/EPRITestCircuits/ckt5/Master_ckt5.dss
+//cd /Users/mcde601/src/gridappsd/powergrid-models/blazegraph/test
+cd c:\gridapps-d\powergrid-models\blazegraph\test
+export CDPSMCombined EPRI5.xml
+export summary EPRI5.csv
+
+//cd /Users/mcde601/src/opendss
+cd c:\opendss
+redirect ./Distrib/EPRITestCircuits/ckt7/Master_ckt7.dss
+//cd /Users/mcde601/src/gridappsd/powergrid-models/blazegraph/test
+cd c:\gridapps-d\powergrid-models\blazegraph\test
+export CDPSMCombined EPRI7.xml
+export summary EPRI7.csv
+
+//cd /Users/mcde601/src/opendss
+cd c:\opendss
+redirect ./Distrib/EPRITestCircuits/ckt24/master_ckt24.dss
+//cd /Users/mcde601/src/gridappsd/powergrid-models/blazegraph/test
+cd c:\gridapps-d\powergrid-models\blazegraph\test
+export CDPSMCombined EPRI24.xml
+export summary EPRI24.csv
+
+//redirect ~/src/opendss/Distrib/IEEETestCases/13Bus/IEEE13Nodeckt.dss
+//export CDPSMCombined
+
+// the next three require IndMach012a, which is not implemented on Mac OS X or Linux
+//redirect ~/src/opendss/Distrib/IEEETestCases/4wire-Delta/Kersting4wire_Lagging.dss
+//export CDPSMCombined
+//redirect ~/src/opendss/Distrib/IEEETestCases/4wire-Delta/Kersting4wire_Leading.dss
+//export CDPSMCombined
+//redirect ~/src/opendss/Distrib/IEEETestCases/4wire-Delta/Kersting4wireIndMotor.dss
+//export CDPSMCombined
+
+// the next two cause access violations
+
+//redirect ~/src/opendss/Distrib/IEEETestCases/DG_Protection/DG_Prot_Fdr.dss
+//export CDPSMCombined
+
+//redirect "~/src/opendss/Distrib/IEEETestCases/IEEE 30 Bus/Master.dss"
+//export CDPSMCombined
+
+// this is a European LV system that performs lengthy DI simulations
+//redirect ~/src/opendss/Distrib/IEEETestCases/LVTestCase/Master.dss
+//export CDPSMCombined
+
+//redirect ~/src/opendss/Distrib/IEEETestCases/NEVTestCase/NEVMASTER.dss
+//export CDPSMCombined

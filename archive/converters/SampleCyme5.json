@@ -1,0 +1,19 @@
+{
+  "DefaultDir": ".",
+  "OutDir": "./v7",
+  "xmlfilename": "IEEE_123_node_test_feeder",
+  "RootName": "Cyme123v7",
+  "SubName": "IEEE_123v7",
+  "LoadScale": 1.0,
+  "LoadModel": 1,
+  "DefaultBaseVoltage": 4.16,
+  "BaseVoltages": [4.16, 0.480],
+  "CoordXmin": -300.0,
+  "CoordXmax": 1100.0,
+  "CoordYmin": -150.0,
+  "CoordYmax":  900.0,
+  "CYMESectionUnit": "m",
+  "CYMELineCodeUnit": "km",
+  "DSSSectionUnit": "mi",
+  "OwnerIDs": ["IEEE-123-NODES"]
+}

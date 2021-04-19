@@ -1,0 +1,46 @@
+clock {
+  timezone EST+5EDT;
+  starttime '2000-07-1 12:20:00';
+  stoptime '2000-07-1 12:20:00';
+};
+#set relax_naming_rules=1
+#set profiler=1
+module powerflow {
+  solver_method NR;
+  line_capacitance TRUE;
+};
+module generators;
+module residential;
+module climate;
+module tape;
+
+object climate {
+  name "RegionalWeather";
+  tmyfile "WA-Yakima.tmy2";
+  interpolate QUADRATIC;
+};
+
+// base VSOURCE=277.13
+// #define VSOURCE=315.93
+#define VSOURCE=277.13
+#include "acep_psil_base.glm";
+
+object voltdump {
+  filename test_volt.csv;
+  mode POLAR;
+};
+object currdump {
+  filename test_curr.csv;
+  mode POLAR;
+};
+object recorder {
+//	parent battinv_stmtr;
+//	parent solar_pvmtr;
+	parent wind_dgmtr;
+//	parent dg_wind;
+//	interval 60.0;
+	file acep_meter.csv;
+	property measured_power;
+//	property power_out_A;
+};
+

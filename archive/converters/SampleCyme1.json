@@ -1,0 +1,19 @@
+{
+  "DefaultDir": "C:/Projects/Nantucket/Model",
+  "OutDir": ".",
+  "xmlfilename": "Nantucket_Upgrades_2019_PNNL",
+  "RootName": "Nantucket",
+  "SubName": "Candle_Street",
+  "LoadScale": 1.0,
+  "LoadModel": 1,
+  "DefaultBaseVoltage": 13.2,
+  "BaseVoltages": [46.0, 13.2, 4.16, 0.208],
+  "CoordXmin": 900000000.0,
+  "CoordXmax": 930000000.0,
+  "CoordYmin": 570000000.0,
+  "CoordYmax": 590000000.0,
+  "CYMESectionUnit": "m",
+  "CYMELineCodeUnit": "km",
+  "DSSSectionUnit": "mi",
+  "OwnerIDs": ["101L1","101L2","101L3","101L4","101L5","101L6","101L7","101L8"]
+}

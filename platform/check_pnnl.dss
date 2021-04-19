@@ -1,0 +1,13 @@
+//
+clear
+cd /home/tom/src/Powergrid-Models/platform/both/
+redirect PNNL_base.dss
+set maxiterations=80
+set controlmode=off
+solve
+cd /home/tom/src/Powergrid-Models/platform/test/dss/
+export summary  PNNL_s.csv
+export voltages PNNL_v.csv
+export currents PNNL_i.csv
+export taps     PNNL_t.csv
+

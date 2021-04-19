@@ -1,0 +1,30 @@
+clock {
+  timezone EST+5EDT;
+  starttime '2000-01-01 0:00:00';
+  stoptime '2000-01-01 0:00:00';
+};
+#set relax_naming_rules=1
+#set profiler=1
+module powerflow {
+  solver_method NR;
+  line_capacitance TRUE;
+};
+module generators;
+module residential;
+module tape;
+module reliability {
+  report_event_log false;
+};
+#include "../support/appliance_schedules.glm"
+#define VSOURCE=66395.3
+#include "ieee9500_house_base.glm";
+#ifdef WANT_VI_DUMP
+object voltdump {
+  filename ieee9500_house_volt.csv;
+  mode POLAR;
+};
+object currdump {
+  filename ieee9500_house_curr.csv;
+  mode POLAR;
+};
+#endif
