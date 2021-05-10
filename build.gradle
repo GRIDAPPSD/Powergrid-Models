@@ -1,5 +1,0 @@
-// Available to customize the build
-
-task wrapper(type: Wrapper) {
-  jarFile = rootProject.file('.gradle-wrapper/gradle-wrapper.jar')
-}

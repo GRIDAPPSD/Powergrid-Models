@@ -34,6 +34,14 @@ python3 $CIMHUB_UTILS/InsertMeasurements.py cimhubconfig.json ./Meas/ieee13asset
 python3 $CIMHUB_UTILS/InsertMeasurements.py cimhubconfig.json ./Meas/ieee13assets_switch_i.txt  ./Meas/ieee13assets_msid.json
 python3 $CIMHUB_UTILS/InsertMeasurements.py cimhubconfig.json ./Meas/ieee13assets_xfmr_pq.txt   ./Meas/ieee13assets_msid.json
 
+python3 $CIMHUB_UTILS/InsertMeasurements.py cimhubconfig.json ./Meas/ieee13ochre_lines_pq.txt ./Meas/ieee13ochre_msid.json
+python3 $CIMHUB_UTILS/InsertMeasurements.py cimhubconfig.json ./Meas/ieee13ochre_loads.txt    ./Meas/ieee13ochre_msid.json
+python3 $CIMHUB_UTILS/InsertMeasurements.py cimhubconfig.json ./Meas/ieee13ochre_machines.txt ./Meas/ieee13ochre_msid.json
+python3 $CIMHUB_UTILS/InsertMeasurements.py cimhubconfig.json ./Meas/ieee13ochre_node_v.txt   ./Meas/ieee13ochre_msid.json
+python3 $CIMHUB_UTILS/InsertMeasurements.py cimhubconfig.json ./Meas/ieee13ochre_special.txt  ./Meas/ieee13ochre_msid.json
+python3 $CIMHUB_UTILS/InsertMeasurements.py cimhubconfig.json ./Meas/ieee13ochre_switch_i.txt ./Meas/ieee13ochre_msid.json
+python3 $CIMHUB_UTILS/InsertMeasurements.py cimhubconfig.json ./Meas/ieee13ochre_xfmr_pq.txt  ./Meas/ieee13ochre_msid.json
+
 python3 $CIMHUB_UTILS/InsertMeasurements.py cimhubconfig.json ./Meas/ieee13nodeckt_lines_pq.txt ./Meas/ieee13node_msid.json
 python3 $CIMHUB_UTILS/InsertMeasurements.py cimhubconfig.json ./Meas/ieee13nodeckt_loads.txt    ./Meas/ieee13node_msid.json
 python3 $CIMHUB_UTILS/InsertMeasurements.py cimhubconfig.json ./Meas/ieee13nodeckt_node_v.txt   ./Meas/ieee13node_msid.json

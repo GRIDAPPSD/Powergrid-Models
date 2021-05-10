@@ -4,6 +4,7 @@ python3 $CIMHUB_UTILS/ListMeasureables.py cimhubconfig.json acep_psil     _77966
 python3 $CIMHUB_UTILS/ListMeasureables.py cimhubconfig.json eprij1        _67AB291F-DCCD-31B7-B499-338206B9828F Meas
 python3 $CIMHUB_UTILS/ListMeasureables.py cimhubconfig.json ieee13assets  _5B816B93-7A5F-B64C-8460-47C17D6E4B0F Meas
 python3 $CIMHUB_UTILS/ListMeasureables.py cimhubconfig.json ieee13nodeckt _49AD8E07-3BF9-A4E2-CB8F-C3722F837B62 Meas
+python3 $CIMHUB_UTILS/ListMeasureables.py cimhubconfig.json ieee13ochre   _13AD8E07-3BF9-A4E2-CB8F-C3722F837B62 Meas
 python3 $CIMHUB_UTILS/ListMeasureables.py cimhubconfig.json ieee37        _49003F52-A359-C2EA-10C4-F4ED3FD368CC Meas
 python3 $CIMHUB_UTILS/ListMeasureables.py cimhubconfig.json ieee123       _C1C3E687-6FFD-C753-582B-632A27E28507 Meas
 python3 $CIMHUB_UTILS/ListMeasureables.py cimhubconfig.json ieee123pv     _E407CBB6-8C8D-9BC9-589C-AB83FBF0826D Meas
