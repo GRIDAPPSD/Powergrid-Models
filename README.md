@@ -38,6 +38,7 @@ Eleven feeder models are [tested routinely](platform) for use in GridAPPS-D, sum
 |EPRI_DPV_J1|1800 kW PV in 11 locations|No|3434|4245|4901|9.69|EPRI DPV|
 |IEEE13|Added CIM sampler|No|22|57|51|3.44|IEEE (mod)|
 |IEEE13_Assets|Uses line spacings and wires|No|16|41|40|3.58|IEEE (mod)|
+|IEEE13_OCHRE|Added 40 service transformers and triplex loads|Yes|74|160|75|0.24|IEEE (mod)|
 |IEEE37|Delta system|No|39|117|73|2.59|IEEE|
 |IEEE123|Includes switches for reconfiguration|No|130|274|237|3.62|IEEE|
 |IEEE123_PV|Added 3320 kW PV in 14 locations|Yes|214|442|334|0.27|IEEE/NREL|
