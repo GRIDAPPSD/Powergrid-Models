@@ -906,7 +906,7 @@ New Line.LN8979358-2         bus1=L2803194.3          bus2=L3047073.3          l
 New Line.LN8979358-3         bus1=L3047073.3          bus2=M1069250.3          length=0.21254262  units=km Geometry=1P_1/0_AXNJ_DB normamps=200 emergamps=250 
 New Line.LN8979371-1         bus1=M1069250.3          bus2=L2690868.3          length=0.020555058 units=km Geometry=1P_1/0_AXNJ_DB normamps=200 emergamps=250                          
 New Line.LN8979371-2         bus1=L2690868.3          bus2=228-979371-2_INT.3  length=0.01146058  units=km Geometry=1P_1/0_AXNJ_DB normamps=200 emergamps=250 
-New Line.WF586_48332_sw      bus1=228-979371-2_INT.3  bus2=193-48013.3         switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001 phases=1 !A-phase to C-phase
+! Line.WF586_48332_sw deleted to support GridLAB-D
 
 
 !2-ph loop from node M1108378 to M1108380
@@ -922,7 +922,7 @@ New Line.LN81048106-3        bus1=L2990098.1          bus2=M1108462.1          l
 New Line.LN81048108-1        bus1=M1108462.1          bus2=L3027671.1          length=0.11898371  units=km Geometry=1P_1/0_AXNJ_DB normamps=200 emergamps=250 
 New Line.LN81048108-2        bus1=L3027671.1          bus2=M1108423.1          length=0.13373712  units=km Geometry=1P_1/0_AXNJ_DB normamps=200 emergamps=250
 New Line.LN81048093-1        bus1=M1108393.1          bus2=193-51796.1         length=0.001797129 units=km Geometry=1P_1/0_AXNJ_DB normamps=200 emergamps=250                          
-New Line.WD701_48332_sw     bus1=228-1048090-1_INT.2 bus2=193-51796.2         switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001 phases=1 !A-phase to B-phase
+! Line.WD701_48332_sw deleted to support GridLAB-D
 New Line.LN81048090-1        bus1=M1108433.2          bus2=228-1048090-1_INT.2 length=0.13353714  units=km Geometry=1P_1/0_AXNJ_DB normamps=200 emergamps=250 
 New Line.LN81048109-2        bus1=L3102286.2          bus2=M1108433.2          length=0.039047848 units=km Geometry=1P_1/0_AXNJ_DB normamps=200 emergamps=250                          
 New Line.LN81048109-1        bus1=M1108464.2          bus2=L3102286.2          length=0.10745557  units=km Geometry=1P_1/0_AXNJ_DB normamps=200 emergamps=250                
