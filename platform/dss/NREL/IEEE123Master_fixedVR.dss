@@ -22,7 +22,7 @@ New object=circuit.ieee123pv
 ! the first line defines the 3-phase transformer to be controlled by the regulator control.
 ! The 2nd line defines the properties of the regulator control according to the test case
 
-new transformer.reg1a phases=3 windings=2 buses=[150 150r] conns=[wye wye] kvs=[4.16 4.16] kvas=[5000 5000] XHL=.001 %LoadLoss=0.00001 ppm=0.0
+new transformer.reg1a phases=3 windings=2 buses=[150 150r] conns=[wye wye] kvs=[4.16 4.16] kvas=[5000 5000] XHL=.001 %LoadLoss=0.00001 ppm=0.0 sub=yes subname=SRC
 new regcontrol.creg1a transformer=reg1a winding=2 vreg=120 band=2 ptratio=20 ctprim=700 R=3 X=7.5
 
 ! REDIRECT INPUT STREAM TO FILE CONTAINING DEFINITIONS OF LINECODES
