@@ -13,5 +13,6 @@ curl -D- -H "Content-Type: application/xml" --upload-file ./cimxml/IEEE8500.xml 
 curl -D- -H "Content-Type: application/xml" --upload-file ./cimxml/IEEE8500_3subs.xml -X POST $DB_URL
 curl -D- -H "Content-Type: application/xml" --upload-file ./cimxml/R2_12_47_2.xml -X POST $DB_URL
 curl -D- -H "Content-Type: application/xml" --upload-file ./cimxml/Transactive.xml -X POST $DB_URL
+curl -D- -H "Content-Type: application/xml" --upload-file ./cimxml/final9500nodebalanced.xml -X POST $DB_URL
 
 java -cp $CIMHUB_PATH $CIMHUB_PROG -u=$DB_URL -o=idx test

@@ -84,3 +84,11 @@ python3 $CIMHUB_UTILS/InsertMeasurements.py cimhubconfig.json ./Meas/transactive
 python3 $CIMHUB_UTILS/InsertMeasurements.py cimhubconfig.json ./Meas/transactive_switch_i.txt ./Meas/transactive_msid.json
 python3 $CIMHUB_UTILS/InsertMeasurements.py cimhubconfig.json ./Meas/transactive_xfmr_pq.txt  ./Meas/transactive_msid.json
 
+
+python3 $CIMHUB_UTILS/InsertMeasurements.py cimhubconfig.json ./Meas/final9500node_lines_pq.txt ./Meas/final9500node_msid.json
+python3 $CIMHUB_UTILS/InsertMeasurements.py cimhubconfig.json ./Meas/final9500node_loads.txt    ./Meas/final9500node_msid.json
+python3 $CIMHUB_UTILS/InsertMeasurements.py cimhubconfig.json ./Meas/final9500node_machines.txt ./Meas/final9500node_msid.json
+python3 $CIMHUB_UTILS/InsertMeasurements.py cimhubconfig.json ./Meas/final9500node_node_v.txt   ./Meas/final9500node_msid.json
+python3 $CIMHUB_UTILS/InsertMeasurements.py cimhubconfig.json ./Meas/final9500node_special.txt  ./Meas/final9500node_msid.json
+python3 $CIMHUB_UTILS/InsertMeasurements.py cimhubconfig.json ./Meas/final9500node_switch_i.txt ./Meas/final9500node_msid.json
+python3 $CIMHUB_UTILS/InsertMeasurements.py cimhubconfig.json ./Meas/final9500node_xfmr_pq.txt  ./Meas/final9500node_msid.json
