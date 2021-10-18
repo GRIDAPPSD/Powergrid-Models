@@ -1,3 +1,4 @@
+#!/bin/bash
 source envars.sh
 
 ./load_all_cimxml.sh

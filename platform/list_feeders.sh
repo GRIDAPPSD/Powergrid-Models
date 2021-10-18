@@ -1,4 +1,5 @@
+#!/bin/bash
 source envars.sh
 
-python3 $CIMHUB_UTILS/ListFeeders.py cimhubconfig.json
+python3 -m cimhub.ListFeeders cimhubconfig.json
 

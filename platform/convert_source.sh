@@ -1,3 +1,4 @@
+#!/bin/bash
 source envars.sh
 
 sed 's!_SRCPATH_!/home/tom/src!g' ConvertCIM100.template > ConvertCIM100.dss

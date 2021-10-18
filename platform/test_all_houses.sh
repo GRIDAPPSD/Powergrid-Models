@@ -1,3 +1,4 @@
+#!/bin/bash
 source envars.sh
 
 #java -cp $CIMHUB_PATH $CIMHUB_PROG -u=$DB_URL -o=idx test

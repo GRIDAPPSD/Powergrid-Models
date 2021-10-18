@@ -20,6 +20,7 @@ Verify that the Blazegraph namespace is _kb_ and use that for the rest of these 
 * You can use a different namespace, but you'll have to specify that using the -u option for the CIMImporter, handediting the default _-u=http://localhost:8889/bigdata/namespace/kb/sparql_
 * You can use a different namespace, but you may have to hand-edit some of the Python files (e.g. under the Meas directory)
 * The GridAPPS-D platform itself may use a different namespace
+* Please ```pip3 install cimhub --upgrade```. (Earlier versions used a local copy of the Python utilities, with a CIMHUB_UTILS environtment variable point to it. This has been removed.)
 
 This process assumes you have the [CIMHub](https://github.com/GRIDAPPSD/CIMHub), Powergrid-Models and OpenDSS 
 repositories cloned under ~/src. CIMHub needs to have been built from that repository using ```mvn clean install```. 
@@ -47,7 +48,6 @@ Bash scripts include [envars.sh](envars.sh), which defines:
 * ```SRC_PATH``` is the fully qualified path to the ```platform``` scripts
 * ```CIMHUB_PATH``` is the relative path to CIMHub code (you must have cloned this repository)
 * ```CIMHUB_PROG``` is the Java program name for CIMHub
-* ```CIMHUB_UTILS``` is the relative path to CIMHub Python utilities (may become a PyPi distribution later)
 
 Python scripts configure CIMHub from [cimhubconfig.json](cimhubconfig.json), which defines:
 
@@ -83,32 +83,32 @@ GridLAB-D and OpenDSSCmd must have already been installed.
         - ```rootname_i.csv``` contains exported branch currents
         - ```rootname_v.csv``` contains exported bus voltages
         - ```rootname_t.csv``` contains exported regulator tap positions
-4. Issue ```python3 MakeLoopScript.py -b``` to create the script for step 5
-    - optionally specify the non-default source path and Blazegraph URL:
-      ```python3 MakeLoopScript.py -b /home/tom/src/Powergrid-Models/platform/ http://localhost:8889/bigdata/namespace/kb/sparql```
+4. Issue ```python3 -m cimhub.MakeLoopScript -b``` to create the script for step 5
+    - optionally specify the non-default source path:
+      ```python3 -m cimhub.MakeLoopScript -b /home/tom/src/Powergrid-Models/platform/```
 5. Issue ```./convert_xml.sh``` to:
     - Empty and create a new ```test``` directory
     - Sequentially ingest the CIM XML files into Blazegraph, and export both OpenDSS and GridLAB-D models
     - This step may take a few minutes. When finished, all of the GridLAB-D and OpenDSS models will be in ```both``` subdirectory
     - When finished, only the last CIM XML will still be in Blazegraph. _This should be deleted before doing any more work in Blazegraph, to ensure compatible namespaces_.
-6. Issue ```python3 MakeLoopScript.py -d``` to make a sequential solution script for OpenDSS.
+6. Issue ```python3 -m cimhub.MakeLoopScript -d``` to make a sequential solution script for OpenDSS.
     - optionally specify the non-default source path and Blazegraph URL:
-     ```python3 MakeLoopScript.py -d /home/tom/src/Powergrid-Models/platform/```
+     ```python3 -m cimhub.MakeLoopScript -d /home/tom/src/Powergrid-Models/platform/```
 7. Issue ```opendsscmd check.dss``` to run OpenDSS power flows on the exported models.
     - Results will be in the ```test/dss``` subdirectory
         - ```rootname_s.csv``` contains exported snapshot loadflow summary
         - ```rootname_i.csv``` contains exported branch currents
         - ```rootname_v.csv``` contains exported bus voltages
         - ```rootname_t.csv``` contains exported regulator tap positions
-8. Issue ```python3 MakeGlmTestScript.py``` to create the GridLAB-D wrapper files, ```*run.glm``` and a script execution file in ```both``` subdirectory
+8. Issue ```python3 -m cimhub.MakeGlmTestScript``` to create the GridLAB-D wrapper files, ```*run.glm``` and a script execution file in ```both``` subdirectory
     - optionally specify the non-default source path and Blazegraph URL:
-     ```python3 MakeGlmTestScript.py /home/tom/src/Powergrid-Models/platform/```
+     ```python3 -m cimhub.MakeGlmTestScript /home/tom/src/Powergrid-Models/platform/```
 9. Issue ```./check_glm.sh```.  This runs GridLAB-D power flow on the exported models.
     - Results will be in the ```tests/glm``` directory
         - ```rootname.log``` contains the GridLAB-D error, warning and information messages
         - ```rootname_volt.csv``` contains the output from a GridLAB-D voltdump, i.e., the node (bus) voltages
         - ```rootname_curr.csv``` contains the output from a GridLAB-D currdump, i.e., the link (branch) currents
-10. Issue ```python3 Compare_Cases.py``` to compare the power flow solutions from steps 7 and 9 to the baseline solutions from step 3
+10. Issue ```python3 -m cimhub.Compare_Cases``` to compare the power flow solutions from steps 7 and 9 to the baseline solutions from step 3
 11. In the ```test/dss``` directory, OpenDSS comparison results are in a set of files:
     - ```*Summary.log``` compares the OpenDSS snapshot load flow solutions
     - ```*Missing_Nodes_DSS.txt``` identifies nodes (buses) that appear in one OpenDSS model (baseline step 2 or exported step 5), but not the other.
@@ -163,7 +163,7 @@ To import all 11 feeder models at once, including Houses and Measurements:
 2. Start Blazegraph with ```docker restart blazegraph```
 3. Issue ```./import_all.sh```
 
-The last several lines of console output should indicate that 5 cases have run successfully with Houses.
+The last several lines of console output should indicate that 6 cases have run successfully with Houses.
 
 In order to test the DER scripts on a platform feeder model (assume Blazegraph still running):
 

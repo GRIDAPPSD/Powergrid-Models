@@ -170,7 +170,7 @@ def process_one_model(inf, modeldir, dotfile, vbase_str, circuit_name):
     #-----------------------
     lines = []
     line = inf.readline()
-    while line is not '':
+    while line != '':
         while re.match('\s*//',line) or re.match('\s+$',line):
             # skip comments and white space
             line = inf.readline()
@@ -1350,7 +1350,7 @@ def process_one_model(inf, modeldir, dotfile, vbase_str, circuit_name):
     if len(dotfile) > 0:
         vf = open(dotfile)
         line = vf.readline()
-        while line is not '':
+        while line != '':
             m = re.search(r'^\s*(\S+)\s+\[',line)
             if m:
                 # Found an object
