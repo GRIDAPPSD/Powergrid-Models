@@ -1,0 +1,44 @@
+clear
+redirect VSource.dss
+redirect Capacitors.dss
+redirect CapControls.dss
+redirect Switches.dss
+redirect LineCodes.dss
+redirect OverheadLines.dss
+redirect UndergroundLines.dss
+redirect TpxLineCodes.dss
+redirect TriplexLines.dss
+redirect Transformers.dss
+redirect TpxLoads.dss
+redirect Regulators.dss
+redirect Jumpers.dss
+set voltagebases="115,4.16, 0.48,0.208"
+calcv
+buscoords Buscoords1.csv
+batchedit load..* model=5 // 1=P, 2=Z, 5=I
+AddBusMarker Bus=650 code=34 color=Green size=5
+set markcapacitors=yes
+set capmarkercode=38
+set capmarkersize=1
+set markfuses=no
+set fusemarkercode=12
+set markreclosers=yes
+set reclosermarkercode=26
+set reclosermarkersize=2
+set markregulators=yes
+set regmarkercode=34
+set regmarkersize=1
+set markswitches=no
+set switchmarkercode=12
+set marktransformers=no
+set transmarkercode=25
+set transmarkersize=1
+set DaisySize=1.0
+
+solve
+!plot circuit
+
+!uuids ieee13ochre_uuids.dat
+!export cim100 file=IEEE13_OCHRE.xml sub=IEEE13 subgeo=Small geo=IEEE fid=13AD8E07-3BF9-A4E2-CB8F-C3722F837B62 sid=6C62C905-6FC7-653D-9F1E-1340F974A587 sgrid=ABEB635F-729D-24BF-B8A4-E2EF268D8B9E rgnid=73C512BD-7249-4F50-50DA-D93849B89C43
+!export uuids ieee13OCHRE_uuids.dat
+

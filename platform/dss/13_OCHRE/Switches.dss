@@ -1,0 +1,2 @@
+! Switch Definitions
+new line.671-692 bus1=node_671.1.2.3 bus2=node_692.1.2.3 phases=3 switch=y

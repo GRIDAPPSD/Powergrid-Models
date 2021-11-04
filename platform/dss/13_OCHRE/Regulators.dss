@@ -1,0 +1,8 @@
+!Regulator Definitions_
+
+new transformer.OBJECT_162_A bank=vreg1 phases=1 numtaps=32.0 wdg=1 kva=100000 kv=2.4 bus=node_650.1 wdg=2 kva=100000 kv=2.4 bus=node_630.1
+new regcontrol.OBJECT_162_regA transformer=OBJECT_162_A winding=2 ptratio=1 vreg=2400.000 band=80.0 delay=0.0
+new transformer.OBJECT_162_B bank=vreg1 phases=1 numtaps=32.0 wdg=1 kva=100000 kv=2.4 bus=node_650.2 wdg=2 kva=100000 kv=2.4 bus=node_630.2
+new regcontrol.OBJECT_162_regB transformer=OBJECT_162_B winding=2 ptratio=1 vreg=2400.000 band=80.0 delay=0.0
+new transformer.OBJECT_162_C bank=vreg1 phases=1 numtaps=32.0 wdg=1 kva=100000 kv=2.4 bus=node_650.3 wdg=2 kva=100000 kv=2.4 bus=node_630.3
+new regcontrol.OBJECT_162_regC transformer=OBJECT_162_C winding=2 ptratio=1 vreg=2400.000 band=80.0 delay=0.0

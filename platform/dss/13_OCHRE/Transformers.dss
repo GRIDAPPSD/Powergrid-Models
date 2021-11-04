@@ -1,0 +1,51 @@
+! Transformer Definitions
+new xfmrcode.xfcode_OBJECT_151 windings=2 phases=3
+	~ %loadloss=1.100 xhl=2.0
+	~ wdg=1 conn=wye kva=500 kv=4.160
+	~ wdg=2 conn=wye kva=500 kv=0.480
+new xfmrcode.xfcode_AS_config_634 windings=3 phases=1
+	~ xhl=1.632 xht=1.632 xlt=1.088
+	~ wdg=1 conn=wye kva=75 kv=0.277 %R=0.300
+	~ wdg=2 conn=wye kva=75 kv=.120 %R=0.600
+	~ wdg=3 conn=wye kva=75 kv=.120 %R=0.600
+new xfmrcode.xfcode_BS_config_634 windings=3 phases=1
+	~ xhl=1.632 xht=1.632 xlt=1.088
+	~ wdg=1 conn=wye kva=75 kv=0.277 %R=0.300
+	~ wdg=2 conn=wye kva=75 kv=.120 %R=0.600
+	~ wdg=3 conn=wye kva=75 kv=.120 %R=0.600
+new xfmrcode.xfcode_CS_config_634 windings=3 phases=1
+	~ xhl=1.632 xht=1.632 xlt=1.088
+	~ wdg=1 conn=wye kva=75 kv=0.277 %R=0.300
+	~ wdg=2 conn=wye kva=75 kv=.120 %R=0.600
+	~ wdg=3 conn=wye kva=75 kv=.120 %R=0.600
+new xfmrcode.xfcode_AS_config windings=3 phases=1
+	~ xhl=1.632 xht=1.632 xlt=1.088
+	~ wdg=1 conn=wye kva=75 kv=2.401 %R=0.300
+	~ wdg=2 conn=wye kva=75 kv=.120 %R=0.600
+	~ wdg=3 conn=wye kva=75 kv=.120 %R=0.600
+new xfmrcode.xfcode_BS_config windings=3 phases=1
+	~ xhl=1.632 xht=1.632 xlt=1.088
+	~ wdg=1 conn=wye kva=75 kv=2.401 %R=0.300
+	~ wdg=2 conn=wye kva=75 kv=.120 %R=0.600
+	~ wdg=3 conn=wye kva=75 kv=.120 %R=0.600
+new xfmrcode.xfcode_CS_config windings=3 phases=1
+	~ xhl=1.632 xht=1.632 xlt=1.088
+	~ wdg=1 conn=wye kva=75 kv=2.401 %R=0.300
+	~ wdg=2 conn=wye kva=75 kv=.120 %R=0.600
+	~ wdg=3 conn=wye kva=75 kv=.120 %R=0.600
+new transformer.transformer_center_tap_1 xfmrcode=xfcode_CS_config buses=[node_611.3 trip_node1.1.0 trip_node1.0.2]
+new transformer.transformer_center_tap_2 xfmrcode=xfcode_AS_config_634 buses=[node_634.1 trip_node2.1.0 trip_node2.0.2]
+new transformer.transformer_center_tap_3 xfmrcode=xfcode_BS_config_634 buses=[node_634.2 trip_node3.1.0 trip_node3.0.2]
+new transformer.transformer_center_tap_4 xfmrcode=xfcode_CS_config_634 buses=[node_634.3 trip_node4.1.0 trip_node4.0.2]
+new transformer.transformer_center_tap_5 xfmrcode=xfcode_BS_config buses=[node_645.2 trip_node5.1.0 trip_node5.0.2]
+new transformer.transformer_center_tap_6 xfmrcode=xfcode_CS_config buses=[node_645.3 trip_node6.1.0 trip_node6.0.2]
+new transformer.transformer_center_tap_7 xfmrcode=xfcode_BS_config buses=[node_646.2 trip_node7.1.0 trip_node7.0.2]
+new transformer.transformer_center_tap_8 xfmrcode=xfcode_CS_config buses=[node_646.3 trip_node8.1.0 trip_node8.0.2]
+new transformer.transformer_center_tap_9 xfmrcode=xfcode_AS_config buses=[node_652.1 trip_node9.1.0 trip_node9.0.2]
+new transformer.transformer_center_tap_10 xfmrcode=xfcode_AS_config buses=[node_675.1 trip_node10.1.0 trip_node10.0.2]
+new transformer.transformer_center_tap_11 xfmrcode=xfcode_BS_config buses=[node_675.2 trip_node11.1.0 trip_node11.0.2]
+new transformer.transformer_center_tap_12 xfmrcode=xfcode_CS_config buses=[node_675.3 trip_node12.1.0 trip_node12.0.2]
+new transformer.transformer_center_tap_13 xfmrcode=xfcode_AS_config buses=[node_692.1 trip_node13.1.0 trip_node13.0.2]
+new transformer.transformer_center_tap_14 xfmrcode=xfcode_BS_config buses=[node_692.2 trip_node14.1.0 trip_node14.0.2]
+new transformer.transformer_center_tap_15 xfmrcode=xfcode_CS_config buses=[node_692.3 trip_node15.1.0 trip_node15.0.2]
+new transformer.transformer_633-634 xfmrcode=xfcode_OBJECT_151 buses=[node_633.1.2.3 node_634.1.2.3]

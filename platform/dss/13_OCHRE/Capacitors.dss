@@ -1,0 +1,4 @@
+! Capacitor Definitions 
+
+new capacitor.CAP1 bus1=CAP1.1.2.3 phases=3 kv=4.160 kvar=900.0 conn=wye
+new capacitor.CAP2 bus1=CAP2.1.2.3 phases=3 kv=4.160 kvar=750.0 conn=wye
