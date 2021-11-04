@@ -130,18 +130,18 @@ a summary of the model output differences as shown below.
 * MAEi  is the mean absolute link current error between Base OpenDSS and [Converted OpenDSS, Converted GridLAB-D], in Amperes
 
 ```
-ACEP_PSIL      Nbus=[  24,  24,   39] Nlink=[   39,   39,  21] MAEv=[0.0008,0.0316] MAEi=[ 0.9958,22.6701]
-EPRI_DPV_J1    Nbus=[4245,4245, 5674] Nlink=[ 7887, 7831,4186] MAEv=[0.0008,0.1860] MAEi=[ 0.1231,54.4130]
-IEEE123        Nbus=[ 274, 274,  433] Nlink=[  470,  470, 257] MAEv=[0.0004,0.0038] MAEi=[ 0.0179, 3.1347]
-IEEE123_PV     Nbus=[ 442, 442,  655] Nlink=[  744,  748, 338] MAEv=[0.0001,0.0160] MAEi=[ 0.0573, 2.3041]
-Transactive    Nbus=[3036,3036, 5602] Nlink=[ 6888, 6888, 363] MAEv=[0.0002,0.0042] MAEi=[ 0.0220, 0.6304]
-IEEE13         Nbus=[  56,  56,   90] Nlink=[  103,  103,  44] MAEv=[0.0197,0.0450] MAEi=[ 9.5887,35.5342]
-IEEE13_Assets  Nbus=[  41,  41,   66] Nlink=[   77,   79,  37] MAEv=[0.0099,0.0355] MAEi=[14.1490,29.2863]
-IEEE13_OCHRE   Nbus=[ 160, 160,  246] Nlink=[  283,  289,  59] MAEv=[0.0183,0.0181] MAEi=[10.0164,38.1205]
-IEEE37         Nbus=[ 117, 117,    0] Nlink=[  180,  180,   0] MAEv=[0.2536,0.0000] MAEi=[ 5.4502, 0.0000]
-IEEE8500       Nbus=[8531,8531,10915] Nlink=[12086,12086,4958] MAEv=[0.0017,0.0706] MAEi=[ 0.2038, 1.2057]
-IEEE8500_3subs Nbus=[9493,9493,12463] Nlink=[13874,13897,5570] MAEv=[0.0036,0.0547] MAEi=[ 0.1925, 0.5880]
-R2_12_47_2     Nbus=[1631,1632, 1665] Nlink=[ 2246, 2269, 638] MAEv=[0.0158,0.0134] MAEi=[10.0851, 6.5670]
+ACEP_PSIL        Nbus=[    24,    24,    39] Nlink=[    39,    39,    21] MAEv=[ 0.0035, 0.0399] MAEi=[  32.6082,  15.4486]
+EPRI_DPV_J1      Nbus=[  4245,  4245,  5674] Nlink=[  5674,  5674, 10341] MAEv=[ 0.0007, 0.1801] MAEi=[   0.1025,  52.5268]
+IEEE123          Nbus=[   274,   274,   433] Nlink=[   386,   386,   393] MAEv=[ 0.0000, 0.0019] MAEi=[   0.0216,   1.0353]
+IEEE123_PV       Nbus=[   442,   442,   655] Nlink=[   564,   564,   639] MAEv=[ 0.0000, 0.0009] MAEi=[   0.0068,   0.4388]
+Transactive      Nbus=[  3036,  3036,  5602] Nlink=[  5507,  5507,   690] MAEv=[ 0.0005, 0.0019] MAEi=[   0.0006,   0.0387]
+IEEE13           Nbus=[    56,    56,    85] Nlink=[    87,    87,    60] MAEv=[ 0.0000, 0.0181] MAEi=[   0.0206,   8.9768]
+IEEE13_Assets    Nbus=[    41,    41,    66] Nlink=[    64,    64,    45] MAEv=[ 0.0001, 0.0042] MAEi=[   0.0212,   3.1047]
+IEEE13_OCHRE     Nbus=[   160,   160,   246] Nlink=[   231,   231,    99] MAEv=[ 0.0000, 0.0005] MAEi=[   0.0010,   0.0091]
+IEEE37           Nbus=[   117,   117,     0] Nlink=[   180,   172,     0] MAEv=[ 0.2536,-1.0000] MAEi=[   5.4240,  -1.0000]
+IEEE8500         Nbus=[  8531,  8531, 10915] Nlink=[  9720,  9720, 11109] MAEv=[ 0.0014, 0.0634] MAEi=[   0.1094,   0.8839]
+IEEE8500_3subs   Nbus=[  9493,  9493, 12463] Nlink=[ 11196, 11196, 12132] MAEv=[ 0.0004, 0.0491] MAEi=[   0.0273,   0.6091]
+R2_12_47_2       Nbus=[  1631,  1631,  1665] Nlink=[  1857,  1857,  1404] MAEv=[ 0.0006, 0.0051] MAEi=[   0.0005,   0.1677]
 ```
 
 Some notes about these comparisons:
@@ -149,7 +149,7 @@ Some notes about these comparisons:
 * The IEEE37 example has zero entries for Nbus, Nlink, MAEv and MAEi for GridLAB-D because that model doesn't solve
 * GridLAB-D doesn't export load currents and other shunt currents to the CSV file, but Nlink includes them for OpenDSS
 * Only voltage errors within 0.8 per-unit are included in MAEv. This means the comparison doesn't try to match voltages in a de-energized part of the network due to wiring, phasing or switching errors. However, such errors would still appear in MAEi.
-* Efforts may be undertaken to reduce MAEv and MAEi.
+* Further efforts may be undertaken to reduce MAEv and MAEi.
 
 ### Preparation for Batch Import
 
