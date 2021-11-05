@@ -9,6 +9,8 @@ New Circuit.final9500node
 ! Make the source stiff with small impedance
 ~ pu=1.05  r1=0  x1=0.001  r0=0  x0=0.001  
 
+set earthmodel=carson
+
 Redirect  WireData.dss
 Redirect  CableData.dss
 ! Use either LineGeometry or LineConstantsCodes

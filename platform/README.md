@@ -130,14 +130,32 @@ a summary of the model output differences as shown below.
 * MAEi  is the mean absolute link current error between Base OpenDSS and [Converted OpenDSS, Converted GridLAB-D], in Amperes
 
 ```
-ACEP_PSIL        Nbus=[    24,    24,    39] Nlink=[    39,    39,    21] MAEv=[ 0.0000, 0.0399] MAEi=[   0.0014,  15.4486]
+  OpenDSS branch flow in LINE.SEG4 from BATT, Base case
+  Phs     Volts     rad      Amps     rad         kW          kVAR   PhsPhs     Volts     rad
+    A    284.27 -0.0663    346.27 -0.7681     75.172 + j    63.548     AB      492.36  0.4573
+    B    284.27 -2.1607    346.27 -2.8625     75.172 + j    63.548     BC      492.36 -1.6371
+    C    284.27  2.0281    346.27  1.3263     75.172 + j    63.548     CA      492.36  2.5517
+    Total S =   225.515 + j   190.643
+  OpenDSS branch flow in LINE.SEG4 from BATT, Converted case
+  Phs     Volts     rad      Amps     rad         kW          kVAR   PhsPhs     Volts     rad
+    A    284.27 -0.0663    346.27 -0.7681     75.172 + j    63.548     AB      492.36  0.4573
+    B    284.27 -2.1607    346.27 -2.8625     75.172 + j    63.548     BC      492.36 -1.6371
+    C    284.27  2.0281    346.27  1.3263     75.172 + j    63.548     CA      492.36  2.5517
+    Total S =   225.516 + j   190.643
+  GridLAB-D branch flow in LINE_SEG4 from BATT
+  Phs     Volts     rad      Amps     rad         kW          kVAR   PhsPhs     Volts     rad
+    A    272.52 -0.0135    361.42 -0.7163     75.160 + j    63.657     AB      472.02  0.5101
+    B    272.52  4.1753    361.42  3.4725     75.160 + j    63.657     BC      472.02 -1.5843
+    C    272.52  2.0809    361.42  1.3781     75.160 + j    63.657     CA      472.02  2.6045
+    Total S =   225.479 + j   190.972
+ACEP_PSIL        Nbus=[    24,    24,    39] Nlink=[    39,    39,    21] MAEv=[ 0.0000, 0.0408] MAEi=[   0.0014,  24.6883]
 EPRI_DPV_J1      Nbus=[  4245,  4245,  5674] Nlink=[  5674,  5674, 10341] MAEv=[ 0.0007, 0.1801] MAEi=[   0.1025,  52.5268]
-IEEE123          Nbus=[   274,   274,   433] Nlink=[   386,   386,   393] MAEv=[ 0.0000, 0.0019] MAEi=[   0.0216,   1.0353]
-IEEE123_PV       Nbus=[   442,   442,   655] Nlink=[   564,   564,   639] MAEv=[ 0.0000, 0.0009] MAEi=[   0.0068,   0.4388]
-Transactive      Nbus=[  3036,  3036,  5602] Nlink=[  5507,  5507,   690] MAEv=[ 0.0005, 0.0019] MAEi=[   0.0006,   0.0387]
-IEEE13           Nbus=[    56,    56,    85] Nlink=[    87,    87,    60] MAEv=[ 0.0000, 0.0181] MAEi=[   0.0206,   8.9768]
-IEEE13_Assets    Nbus=[    41,    41,    66] Nlink=[    64,    64,    45] MAEv=[ 0.0001, 0.0042] MAEi=[   0.0212,   3.1047]
-IEEE13_OCHRE     Nbus=[   160,   160,   246] Nlink=[   231,   231,    99] MAEv=[ 0.0000, 0.0005] MAEi=[   0.0010,   0.0091]
+IEEE123          Nbus=[   274,   274,   433] Nlink=[   386,   386,   393] MAEv=[ 0.0000, 0.0025] MAEi=[   0.0216,   0.0860]
+IEEE123_PV       Nbus=[   442,   442,   655] Nlink=[   564,   564,   639] MAEv=[ 0.0000, 0.0015] MAEi=[   0.0068,   0.4770]
+Transactive      Nbus=[  3036,  3036,  5602] Nlink=[  5507,  5507,   690] MAEv=[ 0.0006, 0.0022] MAEi=[   0.0100,   0.1158]
+IEEE13           Nbus=[    56,    56,    90] Nlink=[    87,    87,    60] MAEv=[ 0.0000, 0.0180] MAEi=[   0.0206,   1.9258]
+IEEE13_Assets    Nbus=[    41,    41,    66] Nlink=[    64,    64,    45] MAEv=[ 0.0000, 0.0040] MAEi=[   0.0224,   0.8783]
+IEEE13_OCHRE     Nbus=[   160,   160,   246] Nlink=[   231,   231,    99] MAEv=[ 0.0000, 0.0005] MAEi=[   0.0010,   0.0438]
   OpenDSS branch flow in LOAD.S728 from 728, Base case
   Phs     Volts     rad      Amps     rad         kW          kVAR   PhsPhs     Volts     rad
     A   2647.75 -0.0820     17.25 -0.5541     40.687 + j    20.776     AB     4684.00  0.4607
@@ -152,14 +170,19 @@ IEEE13_OCHRE     Nbus=[   160,   160,   246] Nlink=[   231,   231,    99] MAEv=[
     Total S =   126.008 + j    62.979
 IEEE37           Nbus=[   117,   117,     0] Nlink=[   180,   180,     0] MAEv=[ 0.0001,-1.0000] MAEi=[   0.0006,  -1.0000]
 IEEE8500         Nbus=[  8531,  8531, 10915] Nlink=[  9720,  9720, 11109] MAEv=[ 0.0014, 0.0077] MAEi=[   0.1094,   0.8632]
-IEEE8500_3subs   Nbus=[  9493,  9493, 12463] Nlink=[ 11196, 11196, 12132] MAEv=[ 0.0004, 0.0023] MAEi=[   0.0273,   0.4865]
-R2_12_47_2       Nbus=[  1631,  1631,  1665] Nlink=[  1857,  1857,  1404] MAEv=[ 0.0006, 0.0051] MAEi=[   0.0005,   0.1677]
+IEEE8500_3subs   Nbus=[  9493,  9493, 12463] Nlink=[ 11196, 11196, 12132] MAEv=[ 0.0004, 0.0021] MAEi=[   0.0280,   0.3260]
+R2_12_47_2       Nbus=[  1631,  1631,  1665] Nlink=[  1857,  1857,  1404] MAEv=[ 0.0006, 0.0050] MAEi=[   0.3401,   0.6481]
 ```
 
 Some notes about these comparisons:
 
-* The IEEE37 example has zero entries for Nbus, Nlink, MAEv and MAEi for GridLAB-D because that model doesn't solve
+* The IEEE37 example has zero entries for Nbus, Nlink, MAEv and MAEi for GridLAB-D because that model doesn't solve. The open-delta regulator bank is not implemented in GridLAB-D, and it was left out of this feeder in GridLAB-D's autotest suite.
 * GridLAB-D doesn't export load currents and other shunt currents to the CSV file, but Nlink includes them for OpenDSS
+* The EPRI J1 model does not solve properly in GridLAB-D, probably due to staggered single-phase regulators.
+* In the ACEP_PSIL model, GridLAB-D must swap the windings on a wye/delta transformer, which spoils the MAEi comparison. The detailed branch output illustrates that the currents agree outside of that transformer.
+* In the IEEE37 example, a delta load comparison has been included to show the agreement of line-to-line voltages.
+* The IEEE13 and IEEE13_Assets examples include a mixture of constant power, constant impedance and constant current load models. The IEEE8500 example solves in GridLAB-D only with a constant-current load model. The EPRI J1 uses a CVR load model, approximated with constant-current in GridLAB-D. The other examples all use constant-power load models.
+* For line constants, OpenDSS defaults to the Deri earth model, while GridLAB-D implements reduced-order Carson. Except for the IEEE123 example, which is distributed with OpenDSS, all of these examples use the reduced-order Carson earth model.
 * Only voltage errors within 0.8 per-unit are included in MAEv. This means the comparison doesn't try to match voltages in a de-energized part of the network due to wiring, phasing or switching errors. However, such errors would still appear in MAEi.
 * Further efforts may be undertaken to reduce MAEv and MAEi.
 

@@ -1,5 +1,6 @@
 clear
 redirect VSource.dss
+set earthmodel=carson
 redirect Capacitors.dss
 redirect CapControls.dss
 redirect Switches.dss

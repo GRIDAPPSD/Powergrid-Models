@@ -2,6 +2,8 @@ Clear
 // Gen1: 400 kVA, 320 kW
 New Circuit.ACEP_PSIL bus1=Gen1 basekv=0.48 pu=1.14 x1=0.06 r1=0.006 x0=0.06 r0=0.006
 
+set earthmodel=carson
+
 New Linecode.buswork nphases=3 r1=0.02 x1=0.8 r0=0.2 x0=0.6 c1=0 c0=0 units=mi
 New Line.Seg1  bus1=Gen1   bus2=Wind   linecode=buswork length=12.5 units=ft
 New Line.Seg2  bus1=Wind   bus2=Load1  linecode=buswork length=37.5 units=ft

@@ -6,6 +6,7 @@ Clear
 
 Redirect LoadShapes_mod.dss
 Redirect Substation.dss
+set earthmodel=carson
 Redirect LineCodes.dss
 Redirect Lines.dss
 Redirect Transformers.dss

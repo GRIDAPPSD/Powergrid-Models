@@ -1401,6 +1401,7 @@ def process_one_model(inf, modeldir, dotfile, vbase_str, circuit_name):
     masterf = open(modeldir+'/Master.dss','w')
     masterf.write('clear\n')
     masterf.write('redirect VSource.dss\n')
+    masterf.write('set earthmodel=carson\n')
     for f in redirects:
         masterf.write('redirect '+f+'\n')
     # Voltage bases should be built dynamically
@@ -1413,7 +1414,7 @@ def process_one_model(inf, modeldir, dotfile, vbase_str, circuit_name):
         # masterf.write(',' if ctr < len(# kvbases) else '"\n')
     masterf.write('calcv\n')
     masterf.write('buscoords Buscoords.csv\n')
-    print ('batchedit load..* model=5 // 1=P, 2=Z, 5=I', file=masterf)
+    print ('batchedit load..* model=1 // 1=P, 2=Z, 5=I', file=masterf)
     print ('AddBusMarker Bus={:s} code=34 color=Green size=5'.format (feederhead), file=masterf)
     print ('set markcapacitors=yes', file=masterf)
     print ('set capmarkercode=38', file=masterf)
