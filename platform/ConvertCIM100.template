@@ -1,5 +1,5 @@
 //
-cd _SRCPATH_/OpenDSS/Test/
+cd _SRCPATH_/OpenDSS/Distrib/Examples/CIM/
 redirect IEEE13_CDPSM.dss
 solve
 cd _SRCPATH_/Powergrid-Models/platform/test
@@ -13,7 +13,7 @@ uuids ieee13_uuids.dat
 export cim100 file=IEEE13.xml sub=IEEE13 subgeo=Small geo=IEEE fid=49AD8E07-3BF9-A4E2-CB8F-C3722F837B62 sid=6C62C905-6FC7-653D-9F1E-1340F974A587 sgrid=ABEB635F-729D-24BF-B8A4-E2EF268D8B9E rgnid=73C512BD-7249-4F50-50DA-D93849B89C43
 export uuids ieee13_uuids.dat
 //
-cd _SRCPATH_/OpenDSS/Test/
+cd _SRCPATH_/OpenDSS/Distrib/Examples/CIM/
 redirect IEEE13_Assets.dss
 solve
 cd _SRCPATH_/Powergrid-Models/platform/test
