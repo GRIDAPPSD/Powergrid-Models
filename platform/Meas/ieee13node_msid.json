@@ -181,5 +181,14 @@
   "PowerTransformer_xfm1:xf1:C:VA": "_37fc9b9a-0bc9-4417-8214-52afc237735f",
   "PowerTransformer_xfm1:634:A:VA": "_d2d52e14-2111-486e-a59a-d8c5b5f7bf92",
   "PowerTransformer_xfm1:634:B:VA": "_c3a9b1e7-7a52-4fa5-a199-1fd6035abc21",
-  "PowerTransformer_xfm1:634:C:VA": "_07b694ae-bde0-431c-a740-362a9f476949"
+  "PowerTransformer_xfm1:634:C:VA": "_07b694ae-bde0-431c-a740-362a9f476949",
+  "TransformerTank_Reg:brkr:C:VA": "_79567f7f-2206-451a-94a6-5fc06ef3c4fd",
+  "TransformerTank_Reg:brkr:A:VA": "_4a9dbb04-4297-4aa3-821a-ea074d9bceb4",
+  "TransformerTank_Reg:brkr:B:VA": "_ff416efa-3a4d-452c-ae27-ceeaeef86d7b",
+  "TransformerTank_Reg:rg60:C:VA": "_2de4a91f-0030-46d1-ade7-59c51dc77936",
+  "TransformerTank_Reg:rg60:A:VA": "_d417a060-a6bc-49ab-92b0-fb2c9cd2d7ca",
+  "TransformerTank_Reg:rg60:B:VA": "_956b1997-384a-47ae-b530-2ea9fc8b37e7",
+  "TransformerTank_tpoletop:670:B:VA": "_0afa19a9-402a-477f-b7cb-1c0568d23ec7",
+  "TransformerTank_tpoletop:house:s1:VA": "_1a566bb0-c53c-4e8b-9256-37311dc4604b",
+  "TransformerTank_tpoletop:house:s2:VA": "_e4155268-9235-4bfd-80ef-3d17e295324c"
 }
