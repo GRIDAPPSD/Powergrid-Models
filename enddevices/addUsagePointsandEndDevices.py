@@ -12,7 +12,7 @@ from os import path
 '''
 since I query from outside the docker container
 '''
-blazegraph_url = "http://localhost:8889/bigdata/sparql"
+blazegraph_url = "http://localhost:8889/bigdata/namespace/kb/sparql"
 usagePoints = {}
 endDevices = {}
 equipments = {}
@@ -203,7 +203,7 @@ def insertUPandED(equipment, usagePoint, enddevice):
     print(ret)
 
 
-def exportCIMXML(pecs, machines):
+def exportCIMXML(pecs, machines, filename):
     '''generate xml files that can be uploaded to the blazegraph via blazegraph workbench
     loop through each equipment: i.e., power electronics connection and synchronous machine
     create EndDevice and UsagePoint object for each equipment, call addAEquipmentToCIMXML to generate the actual xml element
@@ -218,18 +218,38 @@ def exportCIMXML(pecs, machines):
 
     # # comment = Comment('un-comment this line to enable validation\n')
     # # root.append(comment)
-    #
+
     # for pec in pecs.bindings:
-    #     print(pec['pec'].value)
-    #     usage = UsagePoint(name='usagePoint_' + pec['name'].value)
-    #     enddevice = EndDevice(name='endDevice_' + pec['name'].value)
-    #     enddevice.isSmartInverter = True
+    #     eqid = pec['mrid'].value
+    #     if eqid in equipments:
+    #         usage = equipments[eqid].usagePoint
+    #     else:
+    #         usage = UsagePoint(name='usagePoint_' + pec['name'].value)
+    #     if usage in usagePendDDict:
+    #         enddevice = usagePendDDict[usage]
+    #     else:
+    #         enddevice = EndDevice(name='endDevice_' + pec['name'].value)
+    #         enddevice.isSmartInverter = True
+    # #     print(pec['pec'].value)
+    # #     usage = UsagePoint(name='usagePoint_' + pec['name'].value)
+    # #     enddevice = EndDevice(name='endDevice_' + pec['name'].value)
+    # #     enddevice.isSmartInverter = True
     #     addAEquipmentToCIMXML("cim:PowerElectronicsConnection", pec['mrid'].value, usage, enddevice, root)
     # for machine in machines.bindings:
-    #     print(machine['syncMachine'].value)
-    #     usage = UsagePoint(name='usagePoint_' + machine['name'].value)
-    #     enddevice = EndDevice(name='endDevice_' + machine['name'].value)
-    #     enddevice.isSmartInverter = False
+    #     eqid = machine['mrid'].value
+    #     if eqid in equipments:
+    #         usage = equipments[eqid].usagePoint
+    #     else:
+    #         usage = UsagePoint(name='usagePoint_' + machine['name'].value)
+    #     if usage in usagePendDDict:
+    #         enddevice = usagePendDDict[usage]
+    #     else:
+    #         enddevice = EndDevice(name='endDevice_' + machine['name'].value)
+    #         enddevice.isSmartInverter = False
+    # #     print(machine['syncMachine'].value)
+    # #     usage = UsagePoint(name='usagePoint_' + machine['name'].value)
+    # #     enddevice = EndDevice(name='endDevice_' + machine['name'].value)
+    # #     enddevice.isSmartInverter = False
     #     addAEquipmentToCIMXML("cim:SynchronousMachine", machine['mrid'].value, usage, enddevice, root)
     for eqID, equipment in usedEquipments.items():
         usage = equipment.usagePoint
@@ -241,13 +261,13 @@ def exportCIMXML(pecs, machines):
 
     rough_string = ET.tostring(root, 'utf-8')
     reparsed = minidom.parseString(rough_string)
-    with open("endDevicesAndUsagePoints.xml", "w") as f:
+    with open(filename, "w") as f:
         f.write(reparsed.toprettyxml(indent="  "))
 
 
 def addAEquipmentToCIMXML(elementName, equipmentID, usagePoint, enddevice, root):
     '''
-generate xml elements for each equipment
+    generate xml elements for each equipment
     :param elementName: the name of the xml element that represent the equipment object in xml,
             either cim:PowerElectronicsConnection for power electronics connection
             or cim:SynchronousMachine for synchronous machine,
@@ -279,8 +299,8 @@ generate xml elements for each equipment
 
 
 def usage():
-    print("usage: python addUsagePointsandEndDevices.py <input xml file full path>")
-    print("input xml file should have usage point with end device.")
+    print("usage: python addUsagePointsandEndDevices.py [input xml file full path]")
+    print("Optional input xml file should have usage point with end device.")
 
 
 def parseUsagePoint(e):
@@ -316,36 +336,40 @@ def parseEquipment(e):
 
 
 def readxmlFile(f):
-    tree = ET.parse(f)
-    root = tree.getroot()
-    for e in root:
-        t = str(e.tag).split('}')
-        if len(t) == 2:
-            if t[1] == "UsagePoint":
-                node = parseUsagePoint(e)
-                usagePoints[node.mrid] = node
-            elif t[1] == "EndDevice":
-                node = parseEndDevice(e)
-                endDevices[node.mrid] = node
-            elif t[1] == "SynchronousMachine":
-                id = get_id(e.attrib)
-                eq = Equipment(mrid=id, tp="syn")
-                eq.upID = parseEquipment(e)
-                equipments[eq.mrid] = eq
-            elif t[1] == "PowerElectronicsConnection":
-                id = get_id(e.attrib)
-                eq = Equipment(mrid=id, tp="pec")
-                eq.upID = parseEquipment(e)
-                equipments[eq.mrid] = eq
-            else:
-                pass
-    for k, v in endDevices.items():
-        if v.upID in usagePoints:
-            v.usagePoint = usagePoints[v.upID]
-            usagePendDDict[v.usagePoint] = v
-    for k, v in equipments.items():
-        if v.upID in usagePoints:
-            v.usagePoint = usagePoints[v.upID]
+    try:
+        tree = ET.parse(f)
+    except ET.ParseError as ex:
+        print('Error parsing ' + f)
+    else:
+        root = tree.getroot()
+        for e in root:
+            t = str(e.tag).split('}')
+            if len(t) == 2:
+                if t[1] == "UsagePoint":
+                    node = parseUsagePoint(e)
+                    usagePoints[node.mrid] = node
+                elif t[1] == "EndDevice":
+                    node = parseEndDevice(e)
+                    endDevices[node.mrid] = node
+                elif t[1] == "SynchronousMachine":
+                    id = get_id(e.attrib)
+                    eq = Equipment(mrid=id, tp="syn")
+                    eq.upID = parseEquipment(e)
+                    equipments[eq.mrid] = eq
+                elif t[1] == "PowerElectronicsConnection":
+                    id = get_id(e.attrib)
+                    eq = Equipment(mrid=id, tp="pec")
+                    eq.upID = parseEquipment(e)
+                    equipments[eq.mrid] = eq
+                else:
+                    pass
+        for k, v in endDevices.items():
+            if v.upID in usagePoints:
+                v.usagePoint = usagePoints[v.upID]
+                usagePendDDict[v.usagePoint] = v
+        for k, v in equipments.items():
+            if v.upID in usagePoints:
+                v.usagePoint = usagePoints[v.upID]
 
 
 def get_id(attrib):
@@ -358,17 +382,35 @@ def get_id(attrib):
 
 
 if __name__ == "__main__":
-    if len(sys.argv) != 2:
+    # default file name
+    inputFile = 'endDevicesAndUsagePoints.xml'
+    if len(sys.argv) == 1:
+        pass
+    elif len(sys.argv) == 2:
+        inputFile = sys.argv[1]
+    else:
         usage()
         sys.exit()
-    inputFile = sys.argv[1]
     if path.isfile(inputFile):
         readxmlFile(inputFile)
     sparql = SPARQLWrapper2(blazegraph_url)
     pecs = getPowerElectronicsConnection(sparql)
     machines = getSynchronousMachine(sparql)
-    print(pecs)
-    print(machines)
+    # print(pecs)
+    # print(machines)
 
+    # # either use both functions or only exportCIMXML
+
+    # # if use this insertUPsAndEDs function to insert usagepoints and enddevices, the mrid won't be recorded out to the xml file.
+    # # it will be saved to the usedEquipments dictionary
+    # # then in the exportCIMXML function, comment out the first 2 for loops that generates usagepoints and enddevices again,
+    # # and only keep the third for loop that loop through the usedEquipments dictionary
+    # # this will write out the usagepoints and enddevices to the xml with the same mrids that were used and added to the blazegraph
+
+    # # this function adds end device and usage point to blazegraph
     insertUPsAndEDs(pecs, machines)
-    exportCIMXML(pecs, machines)
+
+    # if use this exportCIMXML function only, the xml has to be added by running the command to upload the usagepoints and endevices into blazegraph
+    # without running insertUPsAndEDs(), usedEquipments dictionary would be empty, so the first 2 for loops have to be umcommented
+    # in order for the output file to have content
+    exportCIMXML(pecs, machines, inputFile)
