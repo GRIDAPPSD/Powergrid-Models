@@ -1,5 +1,5 @@
 import uuid
-from Meas import constants
+from ../Meas import constants
 from SPARQLWrapper import SPARQLWrapper2
 import xml.etree.ElementTree as ET
 from lxml import etree, objectify
@@ -12,7 +12,7 @@ from os import path
 '''
 since I query from outside the docker container
 '''
-blazegraph_url = "http://localhost:8889/bigdata/sparql"
+blazegraph_url = "http://localhost:8889/bigdata/namespace/kb/sparql"
 usagePoints = {}
 endDevices = {}
 equipments = {}
