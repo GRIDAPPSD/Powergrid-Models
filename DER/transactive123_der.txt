@@ -1,5 +1,5 @@
 uuid_file,transactive123_der_uuid.txt
-blazegraph_url,http://localhost:8889/bigdata/sparql
+blazegraph_url,http://localhost:8889/bigdata/namespace/kb/sparql
 cim_namespace,http://iec.ch/TC57/CIM100#
 feederID,_503D6E20-F499-4CC7-8051-971E23D0BF79
 //name,bus,phases(ABCs1s2),type(Battery,Photovoltaic,SynchronousMachine),RatedkVA(s),RatedkV(u?),kW(p),kVAR(q),RatedkWH,StoredkWH
