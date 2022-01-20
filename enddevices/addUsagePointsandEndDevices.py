@@ -109,6 +109,9 @@ def getSynchronousMachine(sparql):
 def insertUPsAndEDs(pecs, machines):
     '''
     loop through each power electronics connection and synchronous machine to generate RDF triples for the blazegraph
+    it will check to see whether a mrid exists for the electronics connection or synchronous machine, which is read from
+    a existing xml file. If no mrid exists, it generates new mrid for this electronics connection or synchronous machine.
+    Then it calls insertUPandED() to insert them to the blazegraph.
     :param pecs:
     :param machines:
     :return:
@@ -206,7 +209,10 @@ def insertUPandED(equipment, usagePoint, enddevice):
 def exportCIMXML(pecs, machines, filename):
     '''generate xml files that can be uploaded to the blazegraph via blazegraph workbench
     loop through each equipment: i.e., power electronics connection and synchronous machine
-    create EndDevice and UsagePoint object for each equipment, call addAEquipmentToCIMXML to generate the actual xml element
+    create EndDevice and UsagePoint object for each equipment in the first 2 for loops,
+    call addAEquipmentToCIMXML to generate the actual xml element.
+    When insertUPsAndEDs() is not used in this script, the first 2 for loops need to be uncommented as the 3rd for loop
+    does nothing without insertUPsAndEDs() filling up the usedEquipments dictionary.
     command in terminal is:
     curl -s -D- -H 'Content-Type: application/xml' --upload-file "path/to/endDevicesAndUsagePoints.xml" -X POST "http://localhost:8889/bigdata/sparql"
 
@@ -219,6 +225,8 @@ def exportCIMXML(pecs, machines, filename):
     # # comment = Comment('un-comment this line to enable validation\n')
     # # root.append(comment)
 
+    # # these 2 for loops generates mrid again
+    # # only uncomment when insertUPsAndEDs() is not used.
     # for pec in pecs.bindings:
     #     eqid = pec['mrid'].value
     #     if eqid in equipments:
