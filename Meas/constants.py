@@ -8,6 +8,7 @@ Created on Apr 24, 2018
 
 # Using the default blazegraph installation as a standalone
 # blazegraph_url = "http://localhost:9999/blazegraph/namespace/kb/sparql"
+
 # Using the default blazegraph installation, dockerized from lyrasis
 blazegraph_url = "http://localhost:8889/bigdata/namespace/kb/sparql"
 
