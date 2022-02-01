@@ -12,6 +12,7 @@ from os import path
 '''
 since I query from outside the docker container
 '''
+# blazegraph_url = "http://localhost:8889/bigdata/sparql"
 blazegraph_url = "http://localhost:8889/bigdata/namespace/kb/sparql"
 usagePoints = {}
 endDevices = {}

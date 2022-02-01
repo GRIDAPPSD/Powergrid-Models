@@ -26,5 +26,8 @@ sparql.setQuery(constants.prefix +
 ret = sparql.query()
 print ('binding keys are:',ret.variables)
 for b in ret.bindings:
-    print (b['feeder'].value,b['fid'].value)
+    print(b['feeder'].value,b['fid'].value)
+    print(b['station'].value,b['sid'].value)
+    print(b['subregion'].value, b['sgrid'].value)
+    print(b['region'].value, b['rgnid'].value)
    
