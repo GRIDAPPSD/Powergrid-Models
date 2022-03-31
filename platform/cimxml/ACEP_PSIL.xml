@@ -318,6 +318,8 @@
   <cim:IdentifiedObject.mRID>_D6095B35-F2D7-4C33-82C3-5A598F5DB09A</cim:IdentifiedObject.mRID>
   <cim:IdentifiedObject.name>solar</cim:IdentifiedObject.name>
   <cim:PowerSystemResource.Location rdf:resource="#_16879DD7-72CB-463F-8B8E-94F8A102D7D5"/>
+  <cim:PowerElectronicsUnit.maxP>25000</cim:PowerElectronicsUnit.maxP>
+  <cim:PowerElectronicsUnit.minP>5000</cim:PowerElectronicsUnit.minP>
 </cim:PhotovoltaicUnit>
 <cim:PowerElectronicsConnection rdf:ID="_6C33817B-05D5-4AD0-BBAA-E93C77C51DD3">
   <cim:IdentifiedObject.mRID>_6C33817B-05D5-4AD0-BBAA-E93C77C51DD3</cim:IdentifiedObject.mRID>
@@ -327,8 +329,11 @@
   <cim:PowerElectronicsConnection.maxIFault>1.1111111</cim:PowerElectronicsConnection.maxIFault>
   <cim:PowerElectronicsConnection.p>25000</cim:PowerElectronicsConnection.p>
   <cim:PowerElectronicsConnection.q>0</cim:PowerElectronicsConnection.q>
+  <cim:PowerElectronicsConnection.controlMode rdf:resource="http://iec.ch/TC57/CIM100#ConverterControlMode.constantPowerFactor"/>
   <cim:PowerElectronicsConnection.ratedS>25000</cim:PowerElectronicsConnection.ratedS>
   <cim:PowerElectronicsConnection.ratedU>480</cim:PowerElectronicsConnection.ratedU>
+  <cim:PowerElectronicsConnection.maxQ>6250</cim:PowerElectronicsConnection.maxQ>
+  <cim:PowerElectronicsConnection.minQ>-6250</cim:PowerElectronicsConnection.minQ>
   <cim:PowerSystemResource.Location rdf:resource="#_16879DD7-72CB-463F-8B8E-94F8A102D7D5"/>
 </cim:PowerElectronicsConnection>
 <cim:Terminal rdf:ID="_BE39C990-3BB6-4E63-9199-7BC0CBE6E4DB">
@@ -352,9 +357,11 @@
 <cim:BatteryUnit rdf:ID="_870B7D12-960D-4FDE-BBE3-103D17F06954">
   <cim:IdentifiedObject.mRID>_870B7D12-960D-4FDE-BBE3-103D17F06954</cim:IdentifiedObject.mRID>
   <cim:IdentifiedObject.name>leadacid</cim:IdentifiedObject.name>
+  <cim:PowerElectronicsUnit.maxP>100000</cim:PowerElectronicsUnit.maxP>
+  <cim:PowerElectronicsUnit.minP>-100000</cim:PowerElectronicsUnit.minP>
   <cim:BatteryUnit.ratedE>270000</cim:BatteryUnit.ratedE>
   <cim:BatteryUnit.storedE>135000</cim:BatteryUnit.storedE>
-  <cim:BatteryUnit.batteryState rdf:resource="http://iec.ch/TC57/CIM100#BatteryState.Discharging"/>
+  <cim:BatteryUnit.batteryState rdf:resource="http://iec.ch/TC57/CIM100#BatteryState.discharging"/>
   <cim:PowerSystemResource.Location rdf:resource="#_409F9E62-0FC3-4A47-AC4F-73AF17C2C118"/>
 </cim:BatteryUnit>
 <cim:PowerElectronicsConnection rdf:ID="_D53E5067-06FC-4B99-B01E-A521D0D6CA2E">
@@ -365,8 +372,11 @@
   <cim:PowerElectronicsConnection.maxIFault>1.1111111</cim:PowerElectronicsConnection.maxIFault>
   <cim:PowerElectronicsConnection.p>100000</cim:PowerElectronicsConnection.p>
   <cim:PowerElectronicsConnection.q>0</cim:PowerElectronicsConnection.q>
+  <cim:PowerElectronicsConnection.controlMode rdf:resource="http://iec.ch/TC57/CIM100#ConverterControlMode.constantPowerFactor"/>
   <cim:PowerElectronicsConnection.ratedS>313000</cim:PowerElectronicsConnection.ratedS>
   <cim:PowerElectronicsConnection.ratedU>318</cim:PowerElectronicsConnection.ratedU>
+  <cim:PowerElectronicsConnection.maxQ>313000</cim:PowerElectronicsConnection.maxQ>
+  <cim:PowerElectronicsConnection.minQ>-313000</cim:PowerElectronicsConnection.minQ>
   <cim:PowerSystemResource.Location rdf:resource="#_409F9E62-0FC3-4A47-AC4F-73AF17C2C118"/>
 </cim:PowerElectronicsConnection>
 <cim:Terminal rdf:ID="_AE304A75-4560-4874-BABE-A2F3C5CD1B5C">
@@ -464,8 +474,8 @@
   <cim:PowerTransformerEnd.r>0.003072</cim:PowerTransformerEnd.r>
   <cim:PowerTransformerEnd.connectionKind rdf:resource="http://iec.ch/TC57/CIM100#WindingConnection.D"/>
   <cim:PowerTransformerEnd.phaseAngleClock>0</cim:PowerTransformerEnd.phaseAngleClock>
-  <cim:TransformerEnd.endNumber>1</cim:TransformerEnd.endNumber>
   <cim:TransformerEnd.grounded>false</cim:TransformerEnd.grounded>
+  <cim:TransformerEnd.endNumber>1</cim:TransformerEnd.endNumber>
   <cim:TransformerEnd.Terminal rdf:resource="#_4E5B059B-1ED4-4395-9BED-82A628342102"/>
   <cim:TransformerEnd.BaseVoltage rdf:resource="#_EB96009C-035B-420D-8DF4-187FE7E43448"/>
 </cim:PowerTransformerEnd>
@@ -486,10 +496,10 @@
   <cim:PowerTransformerEnd.r>0.00057685333</cim:PowerTransformerEnd.r>
   <cim:PowerTransformerEnd.connectionKind rdf:resource="http://iec.ch/TC57/CIM100#WindingConnection.Y"/>
   <cim:PowerTransformerEnd.phaseAngleClock>1</cim:PowerTransformerEnd.phaseAngleClock>
-  <cim:TransformerEnd.endNumber>2</cim:TransformerEnd.endNumber>
   <cim:TransformerEnd.grounded>true</cim:TransformerEnd.grounded>
   <cim:TransformerEnd.rground>0</cim:TransformerEnd.rground>
   <cim:TransformerEnd.xground>0</cim:TransformerEnd.xground>
+  <cim:TransformerEnd.endNumber>2</cim:TransformerEnd.endNumber>
   <cim:TransformerEnd.Terminal rdf:resource="#_6AB7AE6D-0FB9-4150-A903-741851735F59"/>
   <cim:TransformerEnd.BaseVoltage rdf:resource="#_B36CCB9A-8B68-4AE9-866B-0BFE6EBD1754"/>
 </cim:PowerTransformerEnd>
@@ -545,10 +555,10 @@
   <cim:PowerTransformerEnd.r>0.0029444089</cim:PowerTransformerEnd.r>
   <cim:PowerTransformerEnd.connectionKind rdf:resource="http://iec.ch/TC57/CIM100#WindingConnection.Y"/>
   <cim:PowerTransformerEnd.phaseAngleClock>0</cim:PowerTransformerEnd.phaseAngleClock>
-  <cim:TransformerEnd.endNumber>1</cim:TransformerEnd.endNumber>
   <cim:TransformerEnd.grounded>true</cim:TransformerEnd.grounded>
   <cim:TransformerEnd.rground>0</cim:TransformerEnd.rground>
   <cim:TransformerEnd.xground>0</cim:TransformerEnd.xground>
+  <cim:TransformerEnd.endNumber>1</cim:TransformerEnd.endNumber>
   <cim:TransformerEnd.Terminal rdf:resource="#_F79FDFA8-B057-430E-A1BD-428F5678D241"/>
   <cim:TransformerEnd.BaseVoltage rdf:resource="#_EB96009C-035B-420D-8DF4-187FE7E43448"/>
 </cim:PowerTransformerEnd>
@@ -569,8 +579,8 @@
   <cim:PowerTransformerEnd.r>0.0012923195</cim:PowerTransformerEnd.r>
   <cim:PowerTransformerEnd.connectionKind rdf:resource="http://iec.ch/TC57/CIM100#WindingConnection.D"/>
   <cim:PowerTransformerEnd.phaseAngleClock>1</cim:PowerTransformerEnd.phaseAngleClock>
-  <cim:TransformerEnd.endNumber>2</cim:TransformerEnd.endNumber>
   <cim:TransformerEnd.grounded>false</cim:TransformerEnd.grounded>
+  <cim:TransformerEnd.endNumber>2</cim:TransformerEnd.endNumber>
   <cim:TransformerEnd.Terminal rdf:resource="#_24E7AC49-26D5-476B-80BE-6B4479ECC17E"/>
   <cim:TransformerEnd.BaseVoltage rdf:resource="#_3AFF5C9B-CDC2-4A7A-9A05-A2510A8C7DA5"/>
 </cim:PowerTransformerEnd>
@@ -970,12 +980,12 @@
 <cim:PerLengthSequenceImpedance rdf:ID="_3DA8BF3E-5A68-4331-8030-EA006707AFCB">
   <cim:IdentifiedObject.mRID>_3DA8BF3E-5A68-4331-8030-EA006707AFCB</cim:IdentifiedObject.mRID>
   <cim:IdentifiedObject.name>buswork</cim:IdentifiedObject.name>
-  <cim:PerLengthSequenceImpedance.r>0.000012427764</cim:PerLengthSequenceImpedance.r>
-  <cim:PerLengthSequenceImpedance.x>0.00049711054</cim:PerLengthSequenceImpedance.x>
+  <cim:PerLengthSequenceImpedance.r>0.000012427424</cim:PerLengthSequenceImpedance.r>
+  <cim:PerLengthSequenceImpedance.x>0.00049709695</cim:PerLengthSequenceImpedance.x>
   <cim:PerLengthSequenceImpedance.bch>0</cim:PerLengthSequenceImpedance.bch>
   <cim:PerLengthSequenceImpedance.gch>0</cim:PerLengthSequenceImpedance.gch>
-  <cim:PerLengthSequenceImpedance.r0>0.00012427764</cim:PerLengthSequenceImpedance.r0>
-  <cim:PerLengthSequenceImpedance.x0>0.00037283291</cim:PerLengthSequenceImpedance.x0>
+  <cim:PerLengthSequenceImpedance.r0>0.00012427424</cim:PerLengthSequenceImpedance.r0>
+  <cim:PerLengthSequenceImpedance.x0>0.00037282272</cim:PerLengthSequenceImpedance.x0>
   <cim:PerLengthSequenceImpedance.b0ch>0</cim:PerLengthSequenceImpedance.b0ch>
   <cim:PerLengthSequenceImpedance.g0ch>0</cim:PerLengthSequenceImpedance.g0ch>
 </cim:PerLengthSequenceImpedance>

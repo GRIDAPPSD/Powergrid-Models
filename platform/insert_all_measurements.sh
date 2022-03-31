@@ -85,10 +85,19 @@ python3 -m cimhub.InsertMeasurements cimhubconfig.json ./Meas/transactive_specia
 python3 -m cimhub.InsertMeasurements cimhubconfig.json ./Meas/transactive_switch_i.txt ./Meas/transactive_msid.json
 python3 -m cimhub.InsertMeasurements cimhubconfig.json ./Meas/transactive_xfmr_pq.txt  ./Meas/transactive_msid.json
 
-python3 -m cimhub.InsertMeasurements cimhubconfig.json ./Meas/final9500node_lines_pq.txt ./Meas/final9500node_msid.json
-python3 -m cimhub.InsertMeasurements cimhubconfig.json ./Meas/final9500node_loads.txt    ./Meas/final9500node_msid.json
-python3 -m cimhub.InsertMeasurements cimhubconfig.json ./Meas/final9500node_machines.txt ./Meas/final9500node_msid.json
-python3 -m cimhub.InsertMeasurements cimhubconfig.json ./Meas/final9500node_node_v.txt   ./Meas/final9500node_msid.json
-python3 -m cimhub.InsertMeasurements cimhubconfig.json ./Meas/final9500node_special.txt  ./Meas/final9500node_msid.json
-python3 -m cimhub.InsertMeasurements cimhubconfig.json ./Meas/final9500node_switch_i.txt ./Meas/final9500node_msid.json
-python3 -m cimhub.InsertMeasurements cimhubconfig.json ./Meas/final9500node_xfmr_pq.txt  ./Meas/final9500node_msid.json
+#python3 -m cimhub.InsertMeasurements cimhubconfig.json ./Meas/final9500node_lines_pq.txt ./Meas/final9500node_msid.json
+#python3 -m cimhub.InsertMeasurements cimhubconfig.json ./Meas/final9500node_loads.txt    ./Meas/final9500node_msid.json
+#python3 -m cimhub.InsertMeasurements cimhubconfig.json ./Meas/final9500node_machines.txt ./Meas/final9500node_msid.json
+#python3 -m cimhub.InsertMeasurements cimhubconfig.json ./Meas/final9500node_node_v.txt   ./Meas/final9500node_msid.json
+#python3 -m cimhub.InsertMeasurements cimhubconfig.json ./Meas/final9500node_special.txt  ./Meas/final9500node_msid.json
+#python3 -m cimhub.InsertMeasurements cimhubconfig.json ./Meas/final9500node_switch_i.txt ./Meas/final9500node_msid.json
+#python3 -m cimhub.InsertMeasurements cimhubconfig.json ./Meas/final9500node_xfmr_pq.txt  ./Meas/final9500node_msid.json
+
+python3 -m cimhub.InsertMeasurements cimhubconfig.json ./Meas/ieee9500bal_lines_pq.txt ./Meas/ieee9500bal_msid.json
+python3 -m cimhub.InsertMeasurements cimhubconfig.json ./Meas/ieee9500bal_loads.txt    ./Meas/ieee9500bal_msid.json
+python3 -m cimhub.InsertMeasurements cimhubconfig.json ./Meas/ieee9500bal_machines.txt ./Meas/ieee9500bal_msid.json
+python3 -m cimhub.InsertMeasurements cimhubconfig.json ./Meas/ieee9500bal_node_v.txt   ./Meas/ieee9500bal_msid.json
+python3 -m cimhub.InsertMeasurements cimhubconfig.json ./Meas/ieee9500bal_special.txt  ./Meas/ieee9500bal_msid.json
+python3 -m cimhub.InsertMeasurements cimhubconfig.json ./Meas/ieee9500bal_switch_i.txt ./Meas/ieee9500bal_msid.json
+python3 -m cimhub.InsertMeasurements cimhubconfig.json ./Meas/ieee9500bal_xfmr_pq.txt  ./Meas/ieee9500bal_msid.json
+

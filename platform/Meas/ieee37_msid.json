@@ -300,5 +300,11 @@
   "PowerTransformer_xfm1:709:C:VA": "_723502a5-8c7a-4eab-bd1b-edf36f993dfc",
   "PowerTransformer_xfm1:775:A:VA": "_21af61fa-2840-41e1-b31f-7a58b4b29d41",
   "PowerTransformer_xfm1:775:B:VA": "_b46b7872-5394-4546-a3ba-3059b380bed5",
-  "PowerTransformer_xfm1:775:C:VA": "_12cb1ae5-819a-4b2a-85dd-f2b26385e8a5"
+  "PowerTransformer_xfm1:775:C:VA": "_12cb1ae5-819a-4b2a-85dd-f2b26385e8a5",
+  "TransformerTank_reg1:799:A:VA": "_18a3164b-50c2-415e-91c8-8ae41769b57a",
+  "TransformerTank_reg1:799:B:VA": "_a068d01b-3333-48f4-a625-c0b5db0aae73",
+  "TransformerTank_reg1:799:C:VA": "_95b69759-5815-4240-9c78-7734e1fd998e",
+  "TransformerTank_reg1:799r:A:VA": "_3a70c780-435c-458e-9373-2eeb05af9077",
+  "TransformerTank_reg1:799r:B:VA": "_3b71c30d-abf5-47b3-a7d9-f3fc6e4dd9b8",
+  "TransformerTank_reg1:799r:C:VA": "_552434c2-5314-45bf-82a3-9d5433db9659"
 }

@@ -12,4 +12,5 @@ python3 -m cimhub.DropMeasurements cimhubconfig.json _4F76A5F9-271D-9EB8-5E31-AA
 python3 -m cimhub.DropMeasurements cimhubconfig.json _AAE94E4A-2465-6F5E-37B1-3E72183A4E44
 python3 -m cimhub.DropMeasurements cimhubconfig.json _9CE150A8-8CC5-A0F9-B67E-BBD8C79D3095
 python3 -m cimhub.DropMeasurements cimhubconfig.json _503D6E20-F499-4CC7-8051-971E23D0BF79
+python3 -m cimhub.DropMeasurements cimhubconfig.json _EE71F6C9-56F0-4167-A14E-7F4C71F10EAA
 

@@ -1,4 +1,9 @@
 uuid_file,acep_psil_der_uuid.txt
 feederID,_77966920-E1EC-EE8A-23EE-4EFD23B205BD
-//name,bus,phases(ABCs1s2),type(Battery,Photovoltaic,SynchronousMachine),RatedkVA(s),RatedkV(u?),kW(p),kVAR(q),RatedkWH,StoredkWH
-wind,wind,ABC,SynchronousMachine,120,0.48,100,53.974282
+//
+//name,bus,phases(ABCs1s2),type(Battery,Photovoltaic,SynchronousMachine),kwMax,RatedkVA,RatedkV,kW,kVAR
+//  kW is taken as maximum real power
+//  for Battery,Photovoltaic: append IEEE 1547 category [catA/catB], control mode [CQ,PF,VV,VW,WVAR,AVR,VV_VW]
+//  for Battery: append RatedkWH,StoredkWH
+//
+wind, wind, ABC, SynchronousMachine, 100, 120, 0.48, 100, 53.974282
