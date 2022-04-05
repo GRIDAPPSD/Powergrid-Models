@@ -1980,8 +1980,8 @@
   <cim:ShortCircuitTest.GroundedEnds rdf:resource="#_607B2334-D6D4-4A39-9845-8EB38FA39DEB"/>
   <cim:ShortCircuitTest.energisedEndStep>16</cim:ShortCircuitTest.energisedEndStep>
   <cim:ShortCircuitTest.groundedEndStep>16</cim:ShortCircuitTest.groundedEndStep>
-  <cim:ShortCircuitTest.leakageImpedance>0.0002884802</cim:ShortCircuitTest.leakageImpedance>
-  <cim:ShortCircuitTest.leakageImpedanceZero>0.0002884802</cim:ShortCircuitTest.leakageImpedanceZero>
+  <cim:ShortCircuitTest.leakageImpedance>0.00028848034</cim:ShortCircuitTest.leakageImpedance>
+  <cim:ShortCircuitTest.leakageImpedanceZero>0.00028848034</cim:ShortCircuitTest.leakageImpedanceZero>
   <cim:ShortCircuitTest.loss>0.0002</cim:ShortCircuitTest.loss>
   <cim:ShortCircuitTest.lossZero>0.0002</cim:ShortCircuitTest.lossZero>
   <cim:TransformerTest.basePower>2000000</cim:TransformerTest.basePower>
@@ -2038,8 +2038,8 @@
   <cim:ShortCircuitTest.GroundedEnds rdf:resource="#_9B4FE541-0FF7-4020-A292-65D82CD75857"/>
   <cim:ShortCircuitTest.energisedEndStep>16</cim:ShortCircuitTest.energisedEndStep>
   <cim:ShortCircuitTest.groundedEndStep>16</cim:ShortCircuitTest.groundedEndStep>
-  <cim:ShortCircuitTest.leakageImpedance>0.0002884802</cim:ShortCircuitTest.leakageImpedance>
-  <cim:ShortCircuitTest.leakageImpedanceZero>0.0002884802</cim:ShortCircuitTest.leakageImpedanceZero>
+  <cim:ShortCircuitTest.leakageImpedance>0.00028848034</cim:ShortCircuitTest.leakageImpedance>
+  <cim:ShortCircuitTest.leakageImpedanceZero>0.00028848034</cim:ShortCircuitTest.leakageImpedanceZero>
   <cim:ShortCircuitTest.loss>0.0002</cim:ShortCircuitTest.loss>
   <cim:ShortCircuitTest.lossZero>0.0002</cim:ShortCircuitTest.lossZero>
   <cim:TransformerTest.basePower>2000000</cim:TransformerTest.basePower>
@@ -2096,8 +2096,8 @@
   <cim:ShortCircuitTest.GroundedEnds rdf:resource="#_AF565356-9CE1-4DD9-B5C9-72CA04A027AE"/>
   <cim:ShortCircuitTest.energisedEndStep>16</cim:ShortCircuitTest.energisedEndStep>
   <cim:ShortCircuitTest.groundedEndStep>16</cim:ShortCircuitTest.groundedEndStep>
-  <cim:ShortCircuitTest.leakageImpedance>0.0002884802</cim:ShortCircuitTest.leakageImpedance>
-  <cim:ShortCircuitTest.leakageImpedanceZero>0.0002884802</cim:ShortCircuitTest.leakageImpedanceZero>
+  <cim:ShortCircuitTest.leakageImpedance>0.00028848034</cim:ShortCircuitTest.leakageImpedance>
+  <cim:ShortCircuitTest.leakageImpedanceZero>0.00028848034</cim:ShortCircuitTest.leakageImpedanceZero>
   <cim:ShortCircuitTest.loss>0.0002</cim:ShortCircuitTest.loss>
   <cim:ShortCircuitTest.lossZero>0.0002</cim:ShortCircuitTest.lossZero>
   <cim:TransformerTest.basePower>2000000</cim:TransformerTest.basePower>
@@ -2154,8 +2154,8 @@
   <cim:ShortCircuitTest.GroundedEnds rdf:resource="#_4A05D544-8621-4CD9-B8C1-931184E85823"/>
   <cim:ShortCircuitTest.energisedEndStep>16</cim:ShortCircuitTest.energisedEndStep>
   <cim:ShortCircuitTest.groundedEndStep>16</cim:ShortCircuitTest.groundedEndStep>
-  <cim:ShortCircuitTest.leakageImpedance>0.0002884802</cim:ShortCircuitTest.leakageImpedance>
-  <cim:ShortCircuitTest.leakageImpedanceZero>0.0002884802</cim:ShortCircuitTest.leakageImpedanceZero>
+  <cim:ShortCircuitTest.leakageImpedance>0.00028848034</cim:ShortCircuitTest.leakageImpedance>
+  <cim:ShortCircuitTest.leakageImpedanceZero>0.00028848034</cim:ShortCircuitTest.leakageImpedanceZero>
   <cim:ShortCircuitTest.loss>0.0002</cim:ShortCircuitTest.loss>
   <cim:ShortCircuitTest.lossZero>0.0002</cim:ShortCircuitTest.lossZero>
   <cim:TransformerTest.basePower>2000000</cim:TransformerTest.basePower>
@@ -2212,8 +2212,8 @@
   <cim:ShortCircuitTest.GroundedEnds rdf:resource="#_ED1C4F4C-3F6C-4C50-8304-0FE3BB04665F"/>
   <cim:ShortCircuitTest.energisedEndStep>16</cim:ShortCircuitTest.energisedEndStep>
   <cim:ShortCircuitTest.groundedEndStep>16</cim:ShortCircuitTest.groundedEndStep>
-  <cim:ShortCircuitTest.leakageImpedance>0.0002884802</cim:ShortCircuitTest.leakageImpedance>
-  <cim:ShortCircuitTest.leakageImpedanceZero>0.0002884802</cim:ShortCircuitTest.leakageImpedanceZero>
+  <cim:ShortCircuitTest.leakageImpedance>0.00028848034</cim:ShortCircuitTest.leakageImpedance>
+  <cim:ShortCircuitTest.leakageImpedanceZero>0.00028848034</cim:ShortCircuitTest.leakageImpedanceZero>
   <cim:ShortCircuitTest.loss>0.0002</cim:ShortCircuitTest.loss>
   <cim:ShortCircuitTest.lossZero>0.0002</cim:ShortCircuitTest.lossZero>
   <cim:TransformerTest.basePower>2000000</cim:TransformerTest.basePower>
@@ -2270,8 +2270,8 @@
   <cim:ShortCircuitTest.GroundedEnds rdf:resource="#_3E0A12B1-8772-4D26-9587-29C39C8FBBDE"/>
   <cim:ShortCircuitTest.energisedEndStep>16</cim:ShortCircuitTest.energisedEndStep>
   <cim:ShortCircuitTest.groundedEndStep>16</cim:ShortCircuitTest.groundedEndStep>
-  <cim:ShortCircuitTest.leakageImpedance>0.0002884802</cim:ShortCircuitTest.leakageImpedance>
-  <cim:ShortCircuitTest.leakageImpedanceZero>0.0002884802</cim:ShortCircuitTest.leakageImpedanceZero>
+  <cim:ShortCircuitTest.leakageImpedance>0.00028848034</cim:ShortCircuitTest.leakageImpedance>
+  <cim:ShortCircuitTest.leakageImpedanceZero>0.00028848034</cim:ShortCircuitTest.leakageImpedanceZero>
   <cim:ShortCircuitTest.loss>0.0002</cim:ShortCircuitTest.loss>
   <cim:ShortCircuitTest.lossZero>0.0002</cim:ShortCircuitTest.lossZero>
   <cim:TransformerTest.basePower>2000000</cim:TransformerTest.basePower>

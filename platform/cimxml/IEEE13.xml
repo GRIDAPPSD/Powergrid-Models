@@ -623,8 +623,8 @@
 <cim:PositionPoint rdf:ID="_2EE5C1BE-451B-480C-AC29-FD216E26940F">
   <cim:PositionPoint.Location rdf:resource="#_EF80FC47-029B-401F-9E63-45BE7AB0530B"/>
   <cim:PositionPoint.sequenceNumber>1</cim:PositionPoint.sequenceNumber>
-  <cim:PositionPoint.xPosition>0</cim:PositionPoint.xPosition>
-  <cim:PositionPoint.yPosition>0</cim:PositionPoint.yPosition>
+  <cim:PositionPoint.xPosition>200</cim:PositionPoint.xPosition>
+  <cim:PositionPoint.yPosition>190</cim:PositionPoint.yPosition>
 </cim:PositionPoint>
 <cim:BatteryUnit rdf:ID="_9E931F3B-0D9D-4CBE-B771-9400202B20E8">
   <cim:IdentifiedObject.mRID>_9E931F3B-0D9D-4CBE-B771-9400202B20E8</cim:IdentifiedObject.mRID>
@@ -633,7 +633,7 @@
   <cim:PowerElectronicsUnit.minP>-100000</cim:PowerElectronicsUnit.minP>
   <cim:BatteryUnit.ratedE>200000</cim:BatteryUnit.ratedE>
   <cim:BatteryUnit.storedE>100000</cim:BatteryUnit.storedE>
-  <cim:BatteryUnit.batteryState rdf:resource="http://iec.ch/TC57/CIM100#BatteryState.charging"/>
+  <cim:BatteryUnit.batteryState rdf:resource="http://iec.ch/TC57/CIM100#BatteryStateKind.discharging"/>
   <cim:PowerSystemResource.Location rdf:resource="#_34199075-733E-4B94-9EC2-50DD84C1D8D5"/>
 </cim:BatteryUnit>
 <cim:PowerElectronicsConnection rdf:ID="_7B671984-4C56-4FF1-9733-B4B6FCA5F2AA">
@@ -642,7 +642,7 @@
   <cim:Equipment.EquipmentContainer rdf:resource="#_49AD8E07-3BF9-A4E2-CB8F-C3722F837B62"/>
   <cim:PowerElectronicsConnection.PowerElectronicsUnit rdf:resource="#_9E931F3B-0D9D-4CBE-B771-9400202B20E8"/>
   <cim:PowerElectronicsConnection.maxIFault>1.1111111</cim:PowerElectronicsConnection.maxIFault>
-  <cim:PowerElectronicsConnection.p>-100000</cim:PowerElectronicsConnection.p>
+  <cim:PowerElectronicsConnection.p>100000</cim:PowerElectronicsConnection.p>
   <cim:PowerElectronicsConnection.q>0</cim:PowerElectronicsConnection.q>
   <cim:PowerElectronicsConnection.controlMode rdf:resource="http://iec.ch/TC57/CIM100#ConverterControlMode.constantPowerFactor"/>
   <cim:PowerElectronicsConnection.ratedS>100000</cim:PowerElectronicsConnection.ratedS>
@@ -669,6 +669,49 @@
   <cim:PositionPoint.xPosition>400</cim:PositionPoint.xPosition>
   <cim:PositionPoint.yPosition>250</cim:PositionPoint.yPosition>
 </cim:PositionPoint>
+<cim:BatteryUnit rdf:ID="_C85C27E8-5ED0-4B7E-AA46-99F5843F8653">
+  <cim:IdentifiedObject.mRID>_C85C27E8-5ED0-4B7E-AA46-99F5843F8653</cim:IdentifiedObject.mRID>
+  <cim:IdentifiedObject.name>batidle</cim:IdentifiedObject.name>
+  <cim:PowerElectronicsUnit.maxP>100000</cim:PowerElectronicsUnit.maxP>
+  <cim:PowerElectronicsUnit.minP>-100000</cim:PowerElectronicsUnit.minP>
+  <cim:BatteryUnit.ratedE>200000</cim:BatteryUnit.ratedE>
+  <cim:BatteryUnit.storedE>100000</cim:BatteryUnit.storedE>
+  <cim:BatteryUnit.batteryState rdf:resource="http://iec.ch/TC57/CIM100#BatteryStateKind.waiting"/>
+  <cim:PowerSystemResource.Location rdf:resource="#_93EB27C8-6DFD-45DA-AA67-90458A26E7A6"/>
+</cim:BatteryUnit>
+<cim:PowerElectronicsConnection rdf:ID="_A9E8758B-5486-4798-8FBA-9AE639ABFC38">
+  <cim:IdentifiedObject.mRID>_A9E8758B-5486-4798-8FBA-9AE639ABFC38</cim:IdentifiedObject.mRID>
+  <cim:IdentifiedObject.name>batidle</cim:IdentifiedObject.name>
+  <cim:Equipment.EquipmentContainer rdf:resource="#_49AD8E07-3BF9-A4E2-CB8F-C3722F837B62"/>
+  <cim:PowerElectronicsConnection.PowerElectronicsUnit rdf:resource="#_C85C27E8-5ED0-4B7E-AA46-99F5843F8653"/>
+  <cim:PowerElectronicsConnection.maxIFault>1.1111111</cim:PowerElectronicsConnection.maxIFault>
+  <cim:PowerElectronicsConnection.p>-1000</cim:PowerElectronicsConnection.p>
+  <cim:PowerElectronicsConnection.q>0</cim:PowerElectronicsConnection.q>
+  <cim:PowerElectronicsConnection.controlMode rdf:resource="http://iec.ch/TC57/CIM100#ConverterControlMode.constantPowerFactor"/>
+  <cim:PowerElectronicsConnection.ratedS>100000</cim:PowerElectronicsConnection.ratedS>
+  <cim:PowerElectronicsConnection.ratedU>480</cim:PowerElectronicsConnection.ratedU>
+  <cim:PowerElectronicsConnection.maxQ>25000</cim:PowerElectronicsConnection.maxQ>
+  <cim:PowerElectronicsConnection.minQ>-25000</cim:PowerElectronicsConnection.minQ>
+  <cim:PowerSystemResource.Location rdf:resource="#_93EB27C8-6DFD-45DA-AA67-90458A26E7A6"/>
+</cim:PowerElectronicsConnection>
+<cim:Terminal rdf:ID="_A13EE73D-DA09-44D8-9008-7D842F18CB48">
+  <cim:IdentifiedObject.mRID>_A13EE73D-DA09-44D8-9008-7D842F18CB48</cim:IdentifiedObject.mRID>
+  <cim:IdentifiedObject.name>batidle_T1</cim:IdentifiedObject.name>
+  <cim:Terminal.ConductingEquipment rdf:resource="#_A9E8758B-5486-4798-8FBA-9AE639ABFC38"/>
+  <cim:ACDCTerminal.sequenceNumber>1</cim:ACDCTerminal.sequenceNumber>
+  <cim:Terminal.ConnectivityNode rdf:resource="#_0DCC57AF-F4FA-457D-BB24-2EFDA9865A1A"/>
+</cim:Terminal>
+<cim:Location rdf:ID="_93EB27C8-6DFD-45DA-AA67-90458A26E7A6">
+  <cim:IdentifiedObject.mRID>_93EB27C8-6DFD-45DA-AA67-90458A26E7A6</cim:IdentifiedObject.mRID>
+  <cim:IdentifiedObject.name>batidle_Loc</cim:IdentifiedObject.name>
+  <cim:Location.CoordinateSystem rdf:resource="#_1AF2A953-B244-4D6D-9E95-002C1E1D084D"/>
+</cim:Location>
+<cim:PositionPoint rdf:ID="_AA04342C-19BB-485A-BB2A-ED2DD093B156">
+  <cim:PositionPoint.Location rdf:resource="#_93EB27C8-6DFD-45DA-AA67-90458A26E7A6"/>
+  <cim:PositionPoint.sequenceNumber>1</cim:PositionPoint.sequenceNumber>
+  <cim:PositionPoint.xPosition>400</cim:PositionPoint.xPosition>
+  <cim:PositionPoint.yPosition>250</cim:PositionPoint.yPosition>
+</cim:PositionPoint>
 <cim:BatteryUnit rdf:ID="_D26D2D54-A267-4FC0-B86F-5FC93983784C">
   <cim:IdentifiedObject.mRID>_D26D2D54-A267-4FC0-B86F-5FC93983784C</cim:IdentifiedObject.mRID>
   <cim:IdentifiedObject.name>house</cim:IdentifiedObject.name>
@@ -676,7 +719,7 @@
   <cim:PowerElectronicsUnit.minP>-5000</cim:PowerElectronicsUnit.minP>
   <cim:BatteryUnit.ratedE>13500</cim:BatteryUnit.ratedE>
   <cim:BatteryUnit.storedE>5000</cim:BatteryUnit.storedE>
-  <cim:BatteryUnit.batteryState rdf:resource="http://iec.ch/TC57/CIM100#BatteryState.charging"/>
+  <cim:BatteryUnit.batteryState rdf:resource="http://iec.ch/TC57/CIM100#BatteryStateKind.charging"/>
   <cim:PowerSystemResource.Location rdf:resource="#_0F434724-42D6-4F82-855E-0BE55C717FF0"/>
 </cim:BatteryUnit>
 <cim:PowerElectronicsConnection rdf:ID="_682AB7A9-4FBF-4204-BDE1-27EAB3425DA0">
@@ -727,8 +770,8 @@
 <cim:PositionPoint rdf:ID="_C6041C27-8B34-4C22-B9B6-17C73176BC30">
   <cim:PositionPoint.Location rdf:resource="#_0F434724-42D6-4F82-855E-0BE55C717FF0"/>
   <cim:PositionPoint.sequenceNumber>1</cim:PositionPoint.sequenceNumber>
-  <cim:PositionPoint.xPosition>0</cim:PositionPoint.xPosition>
-  <cim:PositionPoint.yPosition>0</cim:PositionPoint.yPosition>
+  <cim:PositionPoint.xPosition>200</cim:PositionPoint.xPosition>
+  <cim:PositionPoint.yPosition>190</cim:PositionPoint.yPosition>
 </cim:PositionPoint>
 <cim:EnergySource rdf:ID="_8B452737-CA3D-4C10-A99D-6865506437C8">
   <cim:IdentifiedObject.mRID>_8B452737-CA3D-4C10-A99D-6865506437C8</cim:IdentifiedObject.mRID>
@@ -913,8 +956,8 @@
   <cim:ShortCircuitTest.GroundedEnds rdf:resource="#_92ADAD7A-8BD7-4523-914A-E73534E9AD4C"/>
   <cim:ShortCircuitTest.energisedEndStep>16</cim:ShortCircuitTest.energisedEndStep>
   <cim:ShortCircuitTest.groundedEndStep>16</cim:ShortCircuitTest.groundedEndStep>
-  <cim:ShortCircuitTest.leakageImpedance>23.5008</cim:ShortCircuitTest.leakageImpedance>
-  <cim:ShortCircuitTest.leakageImpedanceZero>23.5008</cim:ShortCircuitTest.leakageImpedanceZero>
+  <cim:ShortCircuitTest.leakageImpedance>31.341176</cim:ShortCircuitTest.leakageImpedance>
+  <cim:ShortCircuitTest.leakageImpedanceZero>31.341176</cim:ShortCircuitTest.leakageImpedanceZero>
   <cim:ShortCircuitTest.loss>0.09</cim:ShortCircuitTest.loss>
   <cim:ShortCircuitTest.lossZero>0.09</cim:ShortCircuitTest.lossZero>
   <cim:TransformerTest.basePower>5000</cim:TransformerTest.basePower>
@@ -927,10 +970,10 @@
   <cim:ShortCircuitTest.GroundedEnds rdf:resource="#_2958B019-21BE-49DC-BCD7-D130B99D2D7A"/>
   <cim:ShortCircuitTest.energisedEndStep>16</cim:ShortCircuitTest.energisedEndStep>
   <cim:ShortCircuitTest.groundedEndStep>16</cim:ShortCircuitTest.groundedEndStep>
-  <cim:ShortCircuitTest.leakageImpedance>23.5008</cim:ShortCircuitTest.leakageImpedance>
-  <cim:ShortCircuitTest.leakageImpedanceZero>23.5008</cim:ShortCircuitTest.leakageImpedanceZero>
-  <cim:ShortCircuitTest.loss>0</cim:ShortCircuitTest.loss>
-  <cim:ShortCircuitTest.lossZero>0</cim:ShortCircuitTest.lossZero>
+  <cim:ShortCircuitTest.leakageImpedance>31.341176</cim:ShortCircuitTest.leakageImpedance>
+  <cim:ShortCircuitTest.leakageImpedanceZero>31.341176</cim:ShortCircuitTest.leakageImpedanceZero>
+  <cim:ShortCircuitTest.loss>0.09</cim:ShortCircuitTest.loss>
+  <cim:ShortCircuitTest.lossZero>0.09</cim:ShortCircuitTest.lossZero>
   <cim:TransformerTest.basePower>5000</cim:TransformerTest.basePower>
   <cim:TransformerTest.temperature>50</cim:TransformerTest.temperature>
 </cim:ShortCircuitTest>
@@ -941,10 +984,10 @@
   <cim:ShortCircuitTest.GroundedEnds rdf:resource="#_2958B019-21BE-49DC-BCD7-D130B99D2D7A"/>
   <cim:ShortCircuitTest.energisedEndStep>16</cim:ShortCircuitTest.energisedEndStep>
   <cim:ShortCircuitTest.groundedEndStep>16</cim:ShortCircuitTest.groundedEndStep>
-  <cim:ShortCircuitTest.leakageImpedance>0.039168</cim:ShortCircuitTest.leakageImpedance>
-  <cim:ShortCircuitTest.leakageImpedanceZero>0.039168</cim:ShortCircuitTest.leakageImpedanceZero>
-  <cim:ShortCircuitTest.loss>0</cim:ShortCircuitTest.loss>
-  <cim:ShortCircuitTest.lossZero>0</cim:ShortCircuitTest.lossZero>
+  <cim:ShortCircuitTest.leakageImpedance>0.07944625</cim:ShortCircuitTest.leakageImpedance>
+  <cim:ShortCircuitTest.leakageImpedanceZero>0.07944625</cim:ShortCircuitTest.leakageImpedanceZero>
+  <cim:ShortCircuitTest.loss>0.12</cim:ShortCircuitTest.loss>
+  <cim:ShortCircuitTest.lossZero>0.12</cim:ShortCircuitTest.lossZero>
   <cim:TransformerTest.basePower>5000</cim:TransformerTest.basePower>
   <cim:TransformerTest.temperature>50</cim:TransformerTest.temperature>
 </cim:ShortCircuitTest>
@@ -999,8 +1042,8 @@
   <cim:ShortCircuitTest.GroundedEnds rdf:resource="#_6CD0E0AD-7F30-48DF-ADA1-1DDD9E9424EA"/>
   <cim:ShortCircuitTest.energisedEndStep>16</cim:ShortCircuitTest.energisedEndStep>
   <cim:ShortCircuitTest.groundedEndStep>16</cim:ShortCircuitTest.groundedEndStep>
-  <cim:ShortCircuitTest.leakageImpedance>0.0003457383</cim:ShortCircuitTest.leakageImpedance>
-  <cim:ShortCircuitTest.leakageImpedanceZero>0.0003457383</cim:ShortCircuitTest.leakageImpedanceZero>
+  <cim:ShortCircuitTest.leakageImpedance>0.00048894779</cim:ShortCircuitTest.leakageImpedance>
+  <cim:ShortCircuitTest.leakageImpedanceZero>0.00048894779</cim:ShortCircuitTest.leakageImpedanceZero>
   <cim:ShortCircuitTest.loss>0.1666</cim:ShortCircuitTest.loss>
   <cim:ShortCircuitTest.lossZero>0.1666</cim:ShortCircuitTest.lossZero>
   <cim:TransformerTest.basePower>1666000</cim:TransformerTest.basePower>
@@ -1057,8 +1100,8 @@
   <cim:ShortCircuitTest.GroundedEnds rdf:resource="#_69E263F9-E7D8-43F4-8F1A-93E46EDAB9F2"/>
   <cim:ShortCircuitTest.energisedEndStep>16</cim:ShortCircuitTest.energisedEndStep>
   <cim:ShortCircuitTest.groundedEndStep>16</cim:ShortCircuitTest.groundedEndStep>
-  <cim:ShortCircuitTest.leakageImpedance>0.0003457383</cim:ShortCircuitTest.leakageImpedance>
-  <cim:ShortCircuitTest.leakageImpedanceZero>0.0003457383</cim:ShortCircuitTest.leakageImpedanceZero>
+  <cim:ShortCircuitTest.leakageImpedance>0.00048894779</cim:ShortCircuitTest.leakageImpedance>
+  <cim:ShortCircuitTest.leakageImpedanceZero>0.00048894779</cim:ShortCircuitTest.leakageImpedanceZero>
   <cim:ShortCircuitTest.loss>0.1666</cim:ShortCircuitTest.loss>
   <cim:ShortCircuitTest.lossZero>0.1666</cim:ShortCircuitTest.lossZero>
   <cim:TransformerTest.basePower>1666000</cim:TransformerTest.basePower>
@@ -1115,8 +1158,8 @@
   <cim:ShortCircuitTest.GroundedEnds rdf:resource="#_27E2528D-9996-4297-BCDA-902BF8A98878"/>
   <cim:ShortCircuitTest.energisedEndStep>16</cim:ShortCircuitTest.energisedEndStep>
   <cim:ShortCircuitTest.groundedEndStep>16</cim:ShortCircuitTest.groundedEndStep>
-  <cim:ShortCircuitTest.leakageImpedance>0.0003457383</cim:ShortCircuitTest.leakageImpedance>
-  <cim:ShortCircuitTest.leakageImpedanceZero>0.0003457383</cim:ShortCircuitTest.leakageImpedanceZero>
+  <cim:ShortCircuitTest.leakageImpedance>0.00048894779</cim:ShortCircuitTest.leakageImpedance>
+  <cim:ShortCircuitTest.leakageImpedanceZero>0.00048894779</cim:ShortCircuitTest.leakageImpedanceZero>
   <cim:ShortCircuitTest.loss>0.1666</cim:ShortCircuitTest.loss>
   <cim:ShortCircuitTest.lossZero>0.1666</cim:ShortCircuitTest.lossZero>
   <cim:TransformerTest.basePower>1666000</cim:TransformerTest.basePower>
@@ -1142,8 +1185,8 @@
 <cim:PositionPoint rdf:ID="_5646EF7D-FB8B-411F-BE8A-B636895A87A4">
   <cim:PositionPoint.Location rdf:resource="#_6CE06D43-8DE4-4C72-B059-F71EAE02DDDD"/>
   <cim:PositionPoint.sequenceNumber>3</cim:PositionPoint.sequenceNumber>
-  <cim:PositionPoint.xPosition>0</cim:PositionPoint.xPosition>
-  <cim:PositionPoint.yPosition>0</cim:PositionPoint.yPosition>
+  <cim:PositionPoint.xPosition>205</cim:PositionPoint.xPosition>
+  <cim:PositionPoint.yPosition>350</cim:PositionPoint.yPosition>
 </cim:PositionPoint>
 <cim:TransformerCoreAdmittance rdf:ID="_87E3F28F-C940-48FB-B5FA-0BE3BF3E2158">
   <cim:IdentifiedObject.mRID>_87E3F28F-C940-48FB-B5FA-0BE3BF3E2158</cim:IdentifiedObject.mRID>
@@ -1268,8 +1311,8 @@
 <cim:PositionPoint rdf:ID="_FBF5542C-463D-4D6B-83A5-FF47CB8A7029">
   <cim:PositionPoint.Location rdf:resource="#_E66D540C-0FB1-429C-942B-6AE5A7B86619"/>
   <cim:PositionPoint.sequenceNumber>1</cim:PositionPoint.sequenceNumber>
-  <cim:PositionPoint.xPosition>0</cim:PositionPoint.xPosition>
-  <cim:PositionPoint.yPosition>0</cim:PositionPoint.yPosition>
+  <cim:PositionPoint.xPosition>200</cim:PositionPoint.xPosition>
+  <cim:PositionPoint.yPosition>325</cim:PositionPoint.yPosition>
 </cim:PositionPoint>
 <cim:PositionPoint rdf:ID="_BFE531A2-CCDB-4F05-951F-A5ECA88C3403">
   <cim:PositionPoint.Location rdf:resource="#_E66D540C-0FB1-429C-942B-6AE5A7B86619"/>
@@ -1332,8 +1375,8 @@
 <cim:PositionPoint rdf:ID="_38157125-7374-4612-AB16-81A64DCC17D2">
   <cim:PositionPoint.Location rdf:resource="#_32D47459-6FDA-47C8-AE69-6F59CCCB0BE9"/>
   <cim:PositionPoint.sequenceNumber>1</cim:PositionPoint.sequenceNumber>
-  <cim:PositionPoint.xPosition>0</cim:PositionPoint.xPosition>
-  <cim:PositionPoint.yPosition>0</cim:PositionPoint.yPosition>
+  <cim:PositionPoint.xPosition>200</cim:PositionPoint.xPosition>
+  <cim:PositionPoint.yPosition>325</cim:PositionPoint.yPosition>
 </cim:PositionPoint>
 <cim:PositionPoint rdf:ID="_A7DDDD7E-BADE-42E3-BE05-699201E502DE">
   <cim:PositionPoint.Location rdf:resource="#_32D47459-6FDA-47C8-AE69-6F59CCCB0BE9"/>
@@ -1396,8 +1439,8 @@
 <cim:PositionPoint rdf:ID="_DA28BB23-CF5A-4E7E-B4F2-D80954812DBB">
   <cim:PositionPoint.Location rdf:resource="#_16F0DA5A-A603-45D1-B14B-DA3EFF209FD3"/>
   <cim:PositionPoint.sequenceNumber>1</cim:PositionPoint.sequenceNumber>
-  <cim:PositionPoint.xPosition>0</cim:PositionPoint.xPosition>
-  <cim:PositionPoint.yPosition>0</cim:PositionPoint.yPosition>
+  <cim:PositionPoint.xPosition>200</cim:PositionPoint.xPosition>
+  <cim:PositionPoint.yPosition>325</cim:PositionPoint.yPosition>
 </cim:PositionPoint>
 <cim:PositionPoint rdf:ID="_A28118F5-9274-4EDB-BC28-B3E2F4A411B0">
   <cim:PositionPoint.Location rdf:resource="#_16F0DA5A-A603-45D1-B14B-DA3EFF209FD3"/>
@@ -1452,8 +1495,8 @@
 <cim:PositionPoint rdf:ID="_3AD2D69F-4137-4372-BCE9-0DB124489AFB">
   <cim:PositionPoint.Location rdf:resource="#_6D30F773-D772-465C-9A4C-41624B283C2C"/>
   <cim:PositionPoint.sequenceNumber>1</cim:PositionPoint.sequenceNumber>
-  <cim:PositionPoint.xPosition>0</cim:PositionPoint.xPosition>
-  <cim:PositionPoint.yPosition>0</cim:PositionPoint.yPosition>
+  <cim:PositionPoint.xPosition>390</cim:PositionPoint.xPosition>
+  <cim:PositionPoint.yPosition>250</cim:PositionPoint.yPosition>
 </cim:PositionPoint>
 <cim:PositionPoint rdf:ID="_931979C7-E0D7-4715-96F7-E0E0B4449888">
   <cim:PositionPoint.Location rdf:resource="#_6D30F773-D772-465C-9A4C-41624B283C2C"/>
@@ -1549,14 +1592,14 @@
 <cim:PositionPoint rdf:ID="_14C3B142-5136-470C-8EBB-693B37CFD0D1">
   <cim:PositionPoint.Location rdf:resource="#_AB09CC43-A30F-48C3-B55B-0558CE61C579"/>
   <cim:PositionPoint.sequenceNumber>2</cim:PositionPoint.sequenceNumber>
-  <cim:PositionPoint.xPosition>0</cim:PositionPoint.xPosition>
-  <cim:PositionPoint.yPosition>0</cim:PositionPoint.yPosition>
+  <cim:PositionPoint.xPosition>200</cim:PositionPoint.xPosition>
+  <cim:PositionPoint.yPosition>190</cim:PositionPoint.yPosition>
 </cim:PositionPoint>
 <cim:PositionPoint rdf:ID="_6B84F5FA-1FAF-4995-943C-D5E151DA6362">
   <cim:PositionPoint.Location rdf:resource="#_AB09CC43-A30F-48C3-B55B-0558CE61C579"/>
   <cim:PositionPoint.sequenceNumber>3</cim:PositionPoint.sequenceNumber>
-  <cim:PositionPoint.xPosition>0</cim:PositionPoint.xPosition>
-  <cim:PositionPoint.yPosition>0</cim:PositionPoint.yPosition>
+  <cim:PositionPoint.xPosition>200</cim:PositionPoint.xPosition>
+  <cim:PositionPoint.yPosition>190</cim:PositionPoint.yPosition>
 </cim:PositionPoint>
 <cim:TransformerTankEnd rdf:ID="_16B17370-7F8D-4028-92DA-C1577DD38E62">
   <cim:IdentifiedObject.mRID>_16B17370-7F8D-4028-92DA-C1577DD38E62</cim:IdentifiedObject.mRID>
@@ -1888,8 +1931,8 @@
 <cim:PositionPoint rdf:ID="_3F7B1523-47CC-42B4-A8BF-10F71EA45F31">
   <cim:PositionPoint.Location rdf:resource="#_216C1943-900F-4939-92FE-A3A4817363D8"/>
   <cim:PositionPoint.sequenceNumber>1</cim:PositionPoint.sequenceNumber>
-  <cim:PositionPoint.xPosition>0</cim:PositionPoint.xPosition>
-  <cim:PositionPoint.yPosition>0</cim:PositionPoint.yPosition>
+  <cim:PositionPoint.xPosition>200</cim:PositionPoint.xPosition>
+  <cim:PositionPoint.yPosition>245</cim:PositionPoint.yPosition>
 </cim:PositionPoint>
 <cim:PositionPoint rdf:ID="_E6411097-A78B-413F-B6CB-1C6A087F740D">
   <cim:PositionPoint.Location rdf:resource="#_216C1943-900F-4939-92FE-A3A4817363D8"/>
@@ -2368,8 +2411,8 @@
 <cim:PositionPoint rdf:ID="_4D78D923-801E-407F-BE36-043B1F740CC2">
   <cim:PositionPoint.Location rdf:resource="#_5A4B421C-35AA-45FA-B364-43236D22BCEE"/>
   <cim:PositionPoint.sequenceNumber>1</cim:PositionPoint.sequenceNumber>
-  <cim:PositionPoint.xPosition>0</cim:PositionPoint.xPosition>
-  <cim:PositionPoint.yPosition>0</cim:PositionPoint.yPosition>
+  <cim:PositionPoint.xPosition>95</cim:PositionPoint.xPosition>
+  <cim:PositionPoint.yPosition>100</cim:PositionPoint.yPosition>
 </cim:PositionPoint>
 <cim:PositionPoint rdf:ID="_BAA1F3AA-78FA-42E0-9B34-FF0E3D368341">
   <cim:PositionPoint.Location rdf:resource="#_5A4B421C-35AA-45FA-B364-43236D22BCEE"/>
@@ -2511,8 +2554,8 @@
 <cim:PositionPoint rdf:ID="_1B6A39F0-5320-4D4C-A2E0-74CEAD7B02A9">
   <cim:PositionPoint.Location rdf:resource="#_085BBE1F-FF95-4260-A9D2-8D2F1A8EA9A3"/>
   <cim:PositionPoint.sequenceNumber>2</cim:PositionPoint.sequenceNumber>
-  <cim:PositionPoint.xPosition>0</cim:PositionPoint.xPosition>
-  <cim:PositionPoint.yPosition>0</cim:PositionPoint.yPosition>
+  <cim:PositionPoint.xPosition>200</cim:PositionPoint.xPosition>
+  <cim:PositionPoint.yPosition>325</cim:PositionPoint.yPosition>
 </cim:PositionPoint>
 <cim:Fuse rdf:ID="_43EF8365-F932-409B-A51E-FBED3F6DFFAA">
   <cim:IdentifiedObject.mRID>_43EF8365-F932-409B-A51E-FBED3F6DFFAA</cim:IdentifiedObject.mRID>
@@ -2554,8 +2597,8 @@
 <cim:PositionPoint rdf:ID="_AD2325F7-3200-4562-BCC6-9E7CBA0C3453">
   <cim:PositionPoint.Location rdf:resource="#_9702BD06-90C3-40B5-9311-47FA1C2A9811"/>
   <cim:PositionPoint.sequenceNumber>2</cim:PositionPoint.sequenceNumber>
-  <cim:PositionPoint.xPosition>0</cim:PositionPoint.xPosition>
-  <cim:PositionPoint.yPosition>0</cim:PositionPoint.yPosition>
+  <cim:PositionPoint.xPosition>390</cim:PositionPoint.xPosition>
+  <cim:PositionPoint.yPosition>250</cim:PositionPoint.yPosition>
 </cim:PositionPoint>
 <cim:Recloser rdf:ID="_CE5D0651-676B-4AF3-8D67-41BF1B33E30C">
   <cim:IdentifiedObject.mRID>_CE5D0651-676B-4AF3-8D67-41BF1B33E30C</cim:IdentifiedObject.mRID>
@@ -2598,8 +2641,8 @@
 <cim:PositionPoint rdf:ID="_23E7CEF4-F7B6-437B-A396-7D7963B435D1">
   <cim:PositionPoint.Location rdf:resource="#_5DEC8E61-DFE8-4506-BD5A-5CBCBB6532EE"/>
   <cim:PositionPoint.sequenceNumber>2</cim:PositionPoint.sequenceNumber>
-  <cim:PositionPoint.xPosition>0</cim:PositionPoint.xPosition>
-  <cim:PositionPoint.yPosition>0</cim:PositionPoint.yPosition>
+  <cim:PositionPoint.xPosition>200</cim:PositionPoint.xPosition>
+  <cim:PositionPoint.yPosition>245</cim:PositionPoint.yPosition>
 </cim:PositionPoint>
 <cim:LoadBreakSwitch rdf:ID="_2858B6C2-0886-4269-884C-06FA8B887319">
   <cim:IdentifiedObject.mRID>_2858B6C2-0886-4269-884C-06FA8B887319</cim:IdentifiedObject.mRID>
@@ -2652,8 +2695,8 @@
 <cim:PositionPoint rdf:ID="_852C7047-D192-4EB4-B7B7-C7B867E6AE11">
   <cim:PositionPoint.Location rdf:resource="#_DC47C3ED-EF6A-4D32-916E-36D33DD338FC"/>
   <cim:PositionPoint.sequenceNumber>2</cim:PositionPoint.sequenceNumber>
-  <cim:PositionPoint.xPosition>0</cim:PositionPoint.xPosition>
-  <cim:PositionPoint.yPosition>0</cim:PositionPoint.yPosition>
+  <cim:PositionPoint.xPosition>95</cim:PositionPoint.xPosition>
+  <cim:PositionPoint.yPosition>100</cim:PositionPoint.yPosition>
 </cim:PositionPoint>
 <cim:LoadResponseCharacteristic rdf:ID="_76011ACA-EE17-4D61-8224-6BDBBC8FFB97">
   <cim:IdentifiedObject.mRID>_76011ACA-EE17-4D61-8224-6BDBBC8FFB97</cim:IdentifiedObject.mRID>
@@ -3397,8 +3440,8 @@
 <cim:PositionPoint rdf:ID="_AD29B689-53FC-459E-A9A1-80259F526775">
   <cim:PositionPoint.Location rdf:resource="#_0C4D68BF-AC73-45C8-B2BD-FF3BFBCD20E1"/>
   <cim:PositionPoint.sequenceNumber>1</cim:PositionPoint.sequenceNumber>
-  <cim:PositionPoint.xPosition>0</cim:PositionPoint.xPosition>
-  <cim:PositionPoint.yPosition>0</cim:PositionPoint.yPosition>
+  <cim:PositionPoint.xPosition>200</cim:PositionPoint.xPosition>
+  <cim:PositionPoint.yPosition>190</cim:PositionPoint.yPosition>
 </cim:PositionPoint>
 <cim:PerLengthPhaseImpedance rdf:ID="_50044320-7295-4591-B39E-F793F1923098">
   <cim:IdentifiedObject.mRID>_50044320-7295-4591-B39E-F793F1923098</cim:IdentifiedObject.mRID>

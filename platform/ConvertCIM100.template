@@ -129,19 +129,19 @@ uuids acep_psil_uuids.dat
 export cim100 file=ACEP_PSIL.xml sub=UAF subgeo=Fairbanks geo=Alaska fid=77966920-E1EC-EE8A-23EE-4EFD23B205BD sid=22B12048-23DF-007B-9291-826A16DBCB21 sgrid=2F8FC9BF-FF32-A197-D541-0A2529D04DF7 rgnid=96465E7A-6EC3-ECCA-BC27-31B53F05C96E
 export uuids acep_psil_uuids.dat
 //
-cd _SRCPATH_/Powergrid-Models/platform/dss/WSU
-redirect Master-bal-initial-config.dss
+cd _SRCPATH_/CIMHub/ieee9500/original_dss
+redirect ieee9500bal.dss
 solve
 cd _SRCPATH_/Powergrid-Models/platform/test/
-export summary  IEEE8500_3subs_s.csv
-export voltages IEEE8500_3subs_v.csv
-export currents IEEE8500_3subs_i.csv
-export taps     IEEE8500_3subs_t.csv
-export nodeorder IEEE8500_3subs_n.csv
+export summary  IEEE9500bal_s.csv
+export voltages IEEE9500bal_v.csv
+export currents IEEE9500bal_i.csv
+export taps     IEEE9500bal_t.csv
+export nodeorder IEEE9500bal_n.csv
 cd _SRCPATH_/Powergrid-Models/platform/cimxml
-uuids ieee8500_3subs_uuids.dat
-export cim100 file=IEEE8500_3subs.xml sub=ThreeSubs subgeo=Large geo=IEEE fid=AAE94E4A-2465-6F5E-37B1-3E72183A4E44 sid=40485321-9B2C-1B8C-EC33-39D2F7948163 sgrid=A1170111-942A-6ABD-D325-C64886DC4D7D rgnid=73C512BD-7249-4F50-50DA-D93849B89C43
-export uuids ieee8500_3subs_uuids.dat
+uuids ieee9500bal_uuids.dat
+export cim100 file=IEEE9500bal.xml sub=ThreeSubs subgeo=Large geo=IEEE fid=AAE94E4A-2465-6F5E-37B1-3E72183A4E44 sid=40485321-9B2C-1B8C-EC33-39D2F7948163 sgrid=A1170111-942A-6ABD-D325-C64886DC4D7D rgnid=73C512BD-7249-4F50-50DA-D93849B89C43
+export uuids ieee9500bal_uuids.dat
 //
 cd _SRCPATH_/Powergrid-Models/platform/dss/13_OCHRE
 redirect Master.dss
@@ -156,4 +156,19 @@ cd _SRCPATH_/Powergrid-Models/platform/cimxml
 uuids ieee13ochre_uuids.dat
 export cim100 file=IEEE13_OCHRE.xml sub=IEEE13 subgeo=Small geo=IEEE fid=13AD8E07-3BF9-A4E2-CB8F-C3722F837B62 sid=6C62C905-6FC7-653D-9F1E-1340F974A587 sgrid=ABEB635F-729D-24BF-B8A4-E2EF268D8B9E rgnid=73C512BD-7249-4F50-50DA-D93849B89C43
 export uuids ieee13ochre_uuids.dat
+//
+// this version of the 9500-node model is no longer part of the main test suite, and should not be uploaded to the platform
+cd _SRCPATH_/Powergrid-Models/platform/dss/WSU
+redirect Master-bal-initial-config.dss
+solve
+cd _SRCPATH_/Powergrid-Models/platform/test/
+export summary  IEEE8500_3subs_s.csv
+export voltages IEEE8500_3subs_v.csv
+export currents IEEE8500_3subs_i.csv
+export taps     IEEE8500_3subs_t.csv
+export nodeorder IEEE8500_3subs_n.csv
+cd _SRCPATH_/Powergrid-Models/platform/cimxml
+uuids ieee8500_3subs_uuids.dat
+export cim100 file=IEEE8500_3subs.xml sub=ThreeSubs subgeo=Large geo=IEEE fid=AAE94E4A-2465-6F5E-37B1-3E72183A4E44 sid=40485321-9B2C-1B8C-EC33-39D2F7948163 sgrid=A1170111-942A-6ABD-D325-C64886DC4D7D rgnid=73C512BD-7249-4F50-50DA-D93849B89C43
+export uuids ieee8500_3subs_uuids.dat
 

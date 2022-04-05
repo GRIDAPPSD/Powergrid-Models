@@ -361,7 +361,7 @@
   <cim:PowerElectronicsUnit.minP>-100000</cim:PowerElectronicsUnit.minP>
   <cim:BatteryUnit.ratedE>270000</cim:BatteryUnit.ratedE>
   <cim:BatteryUnit.storedE>135000</cim:BatteryUnit.storedE>
-  <cim:BatteryUnit.batteryState rdf:resource="http://iec.ch/TC57/CIM100#BatteryState.discharging"/>
+  <cim:BatteryUnit.batteryState rdf:resource="http://iec.ch/TC57/CIM100#BatteryStateKind.discharging"/>
   <cim:PowerSystemResource.Location rdf:resource="#_409F9E62-0FC3-4A47-AC4F-73AF17C2C118"/>
 </cim:BatteryUnit>
 <cim:PowerElectronicsConnection rdf:ID="_D53E5067-06FC-4B99-B01E-A521D0D6CA2E">
