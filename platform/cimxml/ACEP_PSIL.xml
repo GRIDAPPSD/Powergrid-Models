@@ -329,7 +329,7 @@
   <cim:PowerElectronicsConnection.maxIFault>1.1111111</cim:PowerElectronicsConnection.maxIFault>
   <cim:PowerElectronicsConnection.p>25000</cim:PowerElectronicsConnection.p>
   <cim:PowerElectronicsConnection.q>0</cim:PowerElectronicsConnection.q>
-  <cim:PowerElectronicsConnection.controlMode rdf:resource="http://iec.ch/TC57/CIM100#ConverterControlMode.constantPowerFactor"/>
+  <cim:PowerElectronicsConnection.controlMode rdf:resource="http://iec.ch/TC57/CIM100#ConverterControlModeKind.constantPowerFactor"/>
   <cim:PowerElectronicsConnection.ratedS>25000</cim:PowerElectronicsConnection.ratedS>
   <cim:PowerElectronicsConnection.ratedU>480</cim:PowerElectronicsConnection.ratedU>
   <cim:PowerElectronicsConnection.maxQ>6250</cim:PowerElectronicsConnection.maxQ>
@@ -372,7 +372,7 @@
   <cim:PowerElectronicsConnection.maxIFault>1.1111111</cim:PowerElectronicsConnection.maxIFault>
   <cim:PowerElectronicsConnection.p>100000</cim:PowerElectronicsConnection.p>
   <cim:PowerElectronicsConnection.q>0</cim:PowerElectronicsConnection.q>
-  <cim:PowerElectronicsConnection.controlMode rdf:resource="http://iec.ch/TC57/CIM100#ConverterControlMode.constantPowerFactor"/>
+  <cim:PowerElectronicsConnection.controlMode rdf:resource="http://iec.ch/TC57/CIM100#ConverterControlModeKind.constantPowerFactor"/>
   <cim:PowerElectronicsConnection.ratedS>313000</cim:PowerElectronicsConnection.ratedS>
   <cim:PowerElectronicsConnection.ratedU>318</cim:PowerElectronicsConnection.ratedU>
   <cim:PowerElectronicsConnection.maxQ>313000</cim:PowerElectronicsConnection.maxQ>
