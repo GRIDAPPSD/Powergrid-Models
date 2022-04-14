@@ -6747,5 +6747,17 @@
   "TransformerTank_vreg2:r2-12-47-2_node_90:C:VA": "_e900ef74-2a93-4d53-b4ef-7fc8c8b869e3",
   "TransformerTank_vreg2:r2-12-47-2_node_90:B:VA": "_c70a25c2-b02e-4baf-862a-4e1f09e662d9",
   "ACLineSegment_r2-12-47-2_tl_104:s1:s2:VA": "_5fcedfd9-4ca6-4b15-86e3-34000cda685b",
-  "ACLineSegment_r2-12-47-2_tl_104:v1:s2:PNV": "_739814f5-0ec0-4843-858f-f35732e99174"
+  "ACLineSegment_r2-12-47-2_tl_104:v1:s2:PNV": "_739814f5-0ec0-4843-858f-f35732e99174",
+  "LoadBreakSwitch_j53:v1:s2:PNV": "_7454a74a-a40b-4812-ac6b-f58c78849e06",
+  "LoadBreakSwitch_j53:v2:s2:PNV": "_a48aebc5-1b26-4710-8bf3-c290d52ef547",
+  "LoadBreakSwitch_j53:i1:s2:Pos": "_55635b08-b519-4e82-a4ba-04b3040f6fb3",
+  "LoadBreakSwitch_j53:i1:s2:A": "_6bb6b2b8-22ab-4f73-855d-6d7ab737a2fb",
+  "ACLineSegment_r2-12-47-2_tl_15:s1:s2:VA": "_a2ab248f-ddc9-42cf-8e2d-dd31c591391d",
+  "LoadBreakSwitch_j191:v1:s2:PNV": "_704289b8-8b30-43ca-bd26-2b7ed73a8e13",
+  "LoadBreakSwitch_j191:v2:s2:PNV": "_34b183fb-6bb4-4443-a862-cdbe7f51199c",
+  "ACLineSegment_r2-12-47-2_tl_15:v1:s2:PNV": "_17631d00-b585-4311-9941-c9e645a1e083",
+  "LoadBreakSwitch_j191:i1:s2:Pos": "_9c057e76-c485-4977-877a-13bc40f47a32",
+  "LoadBreakSwitch_j191:i1:s2:A": "_12631230-0e1b-47cf-913d-938450f4f1bb",
+  "ACLineSegment_r2-12-47-2_tl_104:v2:s2:PNV": "_43c6b3eb-da4b-41c0-acb6-3244221f4348",
+  "ACLineSegment_r2-12-47-2_tl_15:v2:s2:PNV": "_bf1f1d6b-0340-48f8-9acc-34255a335b3a"
 }

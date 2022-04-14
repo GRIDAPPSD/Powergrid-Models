@@ -190,5 +190,12 @@
   "TransformerTank_Reg:rg60:B:VA": "_956b1997-384a-47ae-b530-2ea9fc8b37e7",
   "TransformerTank_tpoletop:670:B:VA": "_0afa19a9-402a-477f-b7cb-1c0568d23ec7",
   "TransformerTank_tpoletop:house:s1:VA": "_1a566bb0-c53c-4e8b-9256-37311dc4604b",
-  "TransformerTank_tpoletop:house:s2:VA": "_e4155268-9235-4bfd-80ef-3d17e295324c"
+  "TransformerTank_tpoletop:house:s2:VA": "_e4155268-9235-4bfd-80ef-3d17e295324c",
+  "PowerElectronicsConnection_BatteryUnit_batidle:634:SoC:SoC": "_83f45cdb-d6f1-49ba-80dd-9e69c406c41d",
+  "PowerElectronicsConnection_BatteryUnit_batidle:634:A:PNV": "_47b035d6-020b-4ac2-9124-b49c970504a4",
+  "PowerElectronicsConnection_BatteryUnit_batidle:634:A:VA": "_4a9239f7-588c-4a95-9745-f70ed4750f1e",
+  "PowerElectronicsConnection_BatteryUnit_batidle:634:B:PNV": "_f498505d-40ae-4c8e-9c4c-4255b7fabad3",
+  "PowerElectronicsConnection_BatteryUnit_batidle:634:B:VA": "_3dc2e855-a617-4f75-a798-0a63fc400531",
+  "PowerElectronicsConnection_BatteryUnit_batidle:634:C:PNV": "_24487538-2e9e-4a97-8645-c38a2cb17535",
+  "PowerElectronicsConnection_BatteryUnit_batidle:634:C:VA": "_084c1275-694a-4c77-8670-ecdc349f2f29"
 }

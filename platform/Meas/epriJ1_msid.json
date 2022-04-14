@@ -12195,5 +12195,8 @@
   "TransformerTank_regxfmr_b4872:b4872:C:VA": "_bdc1024b-55d4-4806-aaae-a92e2e19cfc0",
   "TransformerTank_regxfmr_b4872:b4872reg:C:VA": "_09118b71-30c9-46e1-88de-f9f6c2deb0d5",
   "TransformerTank_regxfmr_b4874:b4877:A:VA": "_70a30a5b-182b-4e67-afa9-2bc1821980ae",
-  "TransformerTank_regxfmr_b4874:b4877reg:A:VA": "_aae0f9eb-078c-4d5b-8cc8-05b41dee2094"
+  "TransformerTank_regxfmr_b4874:b4877reg:A:VA": "_aae0f9eb-078c-4d5b-8cc8-05b41dee2094",
+  "RatioTapChanger_subxfmr:ls_bus:A:Pos": "_f47100f3-6a1a-4bc2-afe8-87ffa177d48e",
+  "RatioTapChanger_subxfmr:ls_bus:B:Pos": "_42d920ed-b6fb-468b-8c3b-47622c67957b",
+  "RatioTapChanger_subxfmr:ls_bus:C:Pos": "_0091034c-444f-4d47-9064-f9a01246b062"
 }

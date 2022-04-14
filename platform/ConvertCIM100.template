@@ -1,6 +1,7 @@
 //
 cd _SRCPATH_/OpenDSS/Distrib/Examples/CIM/
 redirect IEEE13_CDPSM.dss
+set maxiterations=80
 solve
 cd _SRCPATH_/Powergrid-Models/platform/test
 export summary  IEEE13_s.csv
@@ -15,6 +16,7 @@ export uuids ieee13_uuids.dat
 //
 cd _SRCPATH_/OpenDSS/Distrib/Examples/CIM/
 redirect IEEE13_Assets.dss
+set maxiterations=80
 solve
 cd _SRCPATH_/Powergrid-Models/platform/test
 export summary  IEEE13_Assets_s.csv
@@ -29,6 +31,7 @@ export uuids ieee13_assets_uuids.dat
 //
 cd _SRCPATH_/OpenDSS
 redirect ./Distrib/IEEETestCases/37Bus/ieee37.dss
+set maxiterations=80
 solve
 cd _SRCPATH_/Powergrid-Models/platform/test
 export summary  IEEE37_s.csv
@@ -43,7 +46,7 @@ export uuids ieee37_uuids.dat
 //
 cd _SRCPATH_/OpenDSS
 redirect ./Distrib/IEEETestCases/8500-Node/Master.dss
-set maxiterations=20
+set maxiterations=80
 solve
 cd _SRCPATH_/Powergrid-Models/platform/test
 export summary  IEEE8500_s.csv
@@ -59,7 +62,7 @@ export uuids ieee8500_uuids.dat
 cd _SRCPATH_/OpenDSS/Distrib/IEEETestCases/
 redirect ./123Bus/IEEE123Switches.dss
 buscoords ./123Bus/BusCoords.dat
-set maxiterations=20
+set maxiterations=80
 solve
 cd _SRCPATH_/Powergrid-Models/platform/test/
 export summary  IEEE123_s.csv
@@ -74,7 +77,7 @@ export uuids ieee123_uuids.dat
 //
 cd _SRCPATH_/Powergrid-Models/taxonomy/
 redirect ./new_R2_12_47_2/Master.dss
-set maxiterations=20
+set maxiterations=80
 solve
 cd _SRCPATH_/Powergrid-Models/platform/test/
 export summary  R2_12_47_2_s.csv
@@ -89,7 +92,7 @@ export uuids r2_12_47_2_uuids.dat
 //
 cd _SRCPATH_/Powergrid-Models/platform/dss/EPRI/DPV/J1
 redirect Master.dss
-set maxiterations=20
+set maxiterations=80
 solve
 cd _SRCPATH_/Powergrid-Models/platform/test/
 export summary  EPRI_DPV_J1_s.csv
@@ -104,6 +107,8 @@ export uuids epri_dpv_j1_uuids.dat
 //
 cd _SRCPATH_/Powergrid-Models/platform/dss/NREL
 redirect IEEE123Master_fixedVR.dss
+set maxiterations=80
+solve
 cd _SRCPATH_/Powergrid-Models/platform/test/
 export summary  IEEE123_PV_s.csv
 export voltages IEEE123_PV_v.csv
@@ -117,6 +122,7 @@ export uuids ieee123_pv_uuids.dat
 //
 cd _SRCPATH_/Powergrid-Models/platform/dss/UAF
 redirect ACEP_PSIL.dss
+set maxiterations=80
 solve
 cd _SRCPATH_/Powergrid-Models/platform/test/
 export summary  ACEP_PSIL_s.csv
@@ -131,6 +137,7 @@ export uuids acep_psil_uuids.dat
 //
 cd _SRCPATH_/CIMHub/ieee9500/original_dss
 redirect ieee9500bal.dss
+set maxiterations=80
 solve
 cd _SRCPATH_/Powergrid-Models/platform/test/
 export summary  IEEE9500bal_s.csv
@@ -145,6 +152,7 @@ export uuids ieee9500bal_uuids.dat
 //
 cd _SRCPATH_/Powergrid-Models/platform/dss/13_OCHRE
 redirect Master.dss
+set maxiterations=80
 solve
 cd _SRCPATH_/Powergrid-Models/platform/test/
 export summary  IEEE13_OCHRE_s.csv
@@ -160,6 +168,7 @@ export uuids ieee13ochre_uuids.dat
 // this version of the 9500-node model is no longer part of the main test suite, and should not be uploaded to the platform
 cd _SRCPATH_/Powergrid-Models/platform/dss/WSU
 redirect Master-bal-initial-config.dss
+set maxiterations=80
 solve
 cd _SRCPATH_/Powergrid-Models/platform/test/
 export summary  IEEE8500_3subs_s.csv

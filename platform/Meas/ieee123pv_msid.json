@@ -1065,5 +1065,10 @@
   "TransformerTank_xfs99b:s99b:s1:PNV": "_15ec211f-8944-431e-bc6d-142596a49708",
   "TransformerTank_xfs99b:s99b:s2:PNV": "_56c2e9b1-fb69-455e-9081-6025597d19bd",
   "TransformerTank_xfs9a:s9a:s1:PNV": "_fa186e81-61f8-4330-862b-3c24b04f87dd",
-  "TransformerTank_xfs9a:s9a:s2:PNV": "_017aea6a-96ac-43bc-afe1-2a068e4c3ff4"
+  "TransformerTank_xfs9a:s9a:s2:PNV": "_017aea6a-96ac-43bc-afe1-2a068e4c3ff4",
+  "EnergyConsumer_s59b:s59b:s2:PNV": "_a23408d5-6400-422e-a4f9-519396b39467",
+  "EnergyConsumer_s59b:s59b:s2:VA": "_79af561e-18eb-4edf-9a04-60400e5d0369",
+  "RatioTapChanger_reg1a:150r:A:Pos": "_8689d17d-7296-4abf-b067-45acbb606dd6",
+  "RatioTapChanger_reg1a:150r:B:Pos": "_1e6a3662-156a-4ca7-a327-42f002727736",
+  "RatioTapChanger_reg1a:150r:C:Pos": "_23da407e-b691-4354-aa6b-561b001ac59b"
 }
