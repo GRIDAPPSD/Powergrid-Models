@@ -149,7 +149,7 @@ a summary of the model output differences as shown below.
     C    272.49  2.0758    361.46  1.3731     75.160 + j    63.658     CA      471.97  2.5994
     Total S =   225.481 + j   190.973
 ACEP_PSIL        Nbus=[    24,    24,    39] Nlink=[    39,    39,    21] MAEv=[ 0.0000, 0.0412] MAEi=[   0.0012,  67.2664]
-EPRI_DPV_J1      Nbus=[  4245,  4245,  5674] Nlink=[  5674,  5674, 10341] MAEv=[ 0.0007, 0.1801] MAEi=[   0.1018,  52.5269]
+EPRI_DPV_J1      Nbus=[  4245,  4245,  5674] Nlink=[  5674,  5674, 10341] MAEv=[ 0.0007, 0.1690] MAEi=[   0.1018,  52.5269]
 IEEE123          Nbus=[   274,   274,   433] Nlink=[   386,   386,   393] MAEv=[ 0.0000, 0.0025] MAEi=[   0.0216,   0.0860]
 IEEE123_PV       Nbus=[   442,   442,   655] Nlink=[   564,   564,   639] MAEv=[ 0.0000, 0.0015] MAEi=[   0.0031,   0.4758]
 Transactive      Nbus=[  3036,  3036,  5602] Nlink=[  5507,  5507,   690] MAEv=[ 0.0006, 0.0022] MAEi=[   0.0100,   0.1158]

@@ -147,7 +147,7 @@ export taps     IEEE9500bal_t.csv
 export nodeorder IEEE9500bal_n.csv
 cd _SRCPATH_/Powergrid-Models/platform/cimxml
 uuids ieee9500bal_uuids.dat
-export cim100 file=IEEE9500bal.xml sub=ThreeSubs subgeo=Large geo=IEEE fid=AAE94E4A-2465-6F5E-37B1-3E72183A4E44 sid=40485321-9B2C-1B8C-EC33-39D2F7948163 sgrid=A1170111-942A-6ABD-D325-C64886DC4D7D rgnid=73C512BD-7249-4F50-50DA-D93849B89C43
+export cim100 file=IEEE9500bal.xml sub=ThreeSubs subgeo=Large geo=IEEE fid=EE71F6C9-56F0-4167-A14E-7F4C71F10EAA sid=40485321-9B2C-1B8C-EC33-39D2F7948163 sgrid=A1170111-942A-6ABD-D325-C64886DC4D7D rgnid=73C512BD-7249-4F50-50DA-D93849B89C43
 export uuids ieee9500bal_uuids.dat
 //
 cd _SRCPATH_/Powergrid-Models/platform/dss/13_OCHRE
