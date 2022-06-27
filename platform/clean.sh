@@ -1,4 +1,5 @@
 # rm test_feeder_index.json
+rm cimhubconfig.json
 rm ConvertCIM100.dss
 rm test/*.csv
 rm test/dss/*
