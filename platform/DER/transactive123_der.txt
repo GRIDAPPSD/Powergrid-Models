@@ -1,5 +1,5 @@
 uuid_file,transactive123_der_uuid.txt
-feederID,_503D6E20-F499-4CC7-8051-971E23D0BF79
+feederID,503D6E20-F499-4CC7-8051-971E23D0BF79
 //
 //name,bus,phases(ABCs1s2),type(Battery,Photovoltaic,SynchronousMachine),kwMax,RatedkVA,RatedkV,kW,kVAR
 //  kW is taken as maximum real power

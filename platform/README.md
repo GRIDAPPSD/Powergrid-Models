@@ -198,7 +198,7 @@ To import all 11 feeder models at once, including Houses and Measurements:
 2. Start Blazegraph with ```docker restart blazegraph```
 3. Issue ```./import_all.sh```
 
-The last several lines of console output should indicate that 6 cases have run successfully with Houses.
+The last several lines of console output should indicate that 5 cases have run successfully with Houses.
 
 In order to test the DER scripts on a platform feeder model (assume Blazegraph still running):
 
