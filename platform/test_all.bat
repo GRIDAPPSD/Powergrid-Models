@@ -1,16 +1,21 @@
 call envars.bat
+copy cimhubjar.json cimhubconfig.json
 
-rem call convert_source.bat
+call convert_source.bat
 rem exit /b
 
+cd /d "%~dp0"
 python -m cimhub.MakeLoopScript -b %SRC_PATH%
-rem call convert_xml.bat
+call convert_xml.bat
 
+cd /d "%~dp0"
 python -m cimhub.MakeLoopScript -d %SRC_PATH%
-rem opendsscmd check.dss
+opendsscmd check.dss
 
+cd /d "%~dp0"
 python -m cimhub.MakeGlmTestScript %SRC_PATH%
-rem call check_glm.bat
+call check_glm.bat
 
+cd /d "%~dp0"
 python -m cimhub.Compare_Cases
 
