@@ -290,10 +290,10 @@
   <cim:IdentifiedObject.mRID>AAE52506-E7E1-43CA-A603-3B06F5E14756</cim:IdentifiedObject.mRID>
   <cim:IdentifiedObject.name>wind</cim:IdentifiedObject.name>
   <cim:Equipment.EquipmentContainer rdf:resource="urn:uuid:77966920-E1EC-EE8A-23EE-4EFD23B205BD"/>
-  <cim:SynchronousMachine.p>100000</cim:SynchronousMachine.p>
-  <cim:SynchronousMachine.q>53974.282</cim:SynchronousMachine.q>
-  <cim:SynchronousMachine.ratedS>120000</cim:SynchronousMachine.ratedS>
-  <cim:SynchronousMachine.ratedU>480</cim:SynchronousMachine.ratedU>
+  <cim:RotatingMachine.p>100000</cim:RotatingMachine.p>
+  <cim:RotatingMachine.q>53974.282</cim:RotatingMachine.q>
+  <cim:RotatingMachine.ratedS>120000</cim:RotatingMachine.ratedS>
+  <cim:RotatingMachine.ratedU>480</cim:RotatingMachine.ratedU>
   <cim:PowerSystemResource.Location rdf:resource="urn:uuid:B814B54D-EA19-4EF2-B6ED-9152AF2F7617"/>
 </cim:SynchronousMachine>
 <cim:Terminal rdf:about="urn:uuid:358E3C88-9809-4D3B-9384-E095A2DD2D59">

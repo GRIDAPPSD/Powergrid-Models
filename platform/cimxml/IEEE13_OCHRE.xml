@@ -1155,13 +1155,13 @@
   <cim:ShuntCompensator.nomU>4160</cim:ShuntCompensator.nomU>
   <cim:LinearShuntCompensator.bPerSection>0.052006287</cim:LinearShuntCompensator.bPerSection>
   <cim:LinearShuntCompensator.gPerSection>0</cim:LinearShuntCompensator.gPerSection>
-  <cim:ShuntCompensator.aVRDelay>0</cim:ShuntCompensator.aVRDelay>
   <cim:ShuntCompensator.phaseConnection rdf:resource="http://iec.ch/TC57/CIM100#PhaseShuntConnectionKind.Y"/>
   <cim:ShuntCompensator.grounded>true</cim:ShuntCompensator.grounded>
-  <cim:LinearShuntCompensator.b0PerSection>0</cim:LinearShuntCompensator.b0PerSection>
+  <cim:LinearShuntCompensator.b0PerSection>0.052006287</cim:LinearShuntCompensator.b0PerSection>
   <cim:LinearShuntCompensator.g0PerSection>0</cim:LinearShuntCompensator.g0PerSection>
   <cim:ShuntCompensator.normalSections>1</cim:ShuntCompensator.normalSections>
   <cim:ShuntCompensator.maximumSections>1</cim:ShuntCompensator.maximumSections>
+  <cim:ShuntCompensator.aVRDelay>0</cim:ShuntCompensator.aVRDelay>
   <cim:ShuntCompensator.sections>0</cim:ShuntCompensator.sections>
   <cim:PowerSystemResource.Location rdf:resource="urn:uuid:27AD15E8-F8F8-4939-8A2A-80C51F157FEA"/>
 </cim:LinearShuntCompensator>
@@ -1192,13 +1192,13 @@
   <cim:ShuntCompensator.nomU>4160</cim:ShuntCompensator.nomU>
   <cim:LinearShuntCompensator.bPerSection>0.043338572</cim:LinearShuntCompensator.bPerSection>
   <cim:LinearShuntCompensator.gPerSection>0</cim:LinearShuntCompensator.gPerSection>
-  <cim:ShuntCompensator.aVRDelay>300</cim:ShuntCompensator.aVRDelay>
   <cim:ShuntCompensator.phaseConnection rdf:resource="http://iec.ch/TC57/CIM100#PhaseShuntConnectionKind.Y"/>
   <cim:ShuntCompensator.grounded>true</cim:ShuntCompensator.grounded>
-  <cim:LinearShuntCompensator.b0PerSection>300</cim:LinearShuntCompensator.b0PerSection>
+  <cim:LinearShuntCompensator.b0PerSection>0.043338572</cim:LinearShuntCompensator.b0PerSection>
   <cim:LinearShuntCompensator.g0PerSection>0</cim:LinearShuntCompensator.g0PerSection>
   <cim:ShuntCompensator.normalSections>1</cim:ShuntCompensator.normalSections>
   <cim:ShuntCompensator.maximumSections>1</cim:ShuntCompensator.maximumSections>
+  <cim:ShuntCompensator.aVRDelay>300</cim:ShuntCompensator.aVRDelay>
   <cim:ShuntCompensator.sections>1</cim:ShuntCompensator.sections>
   <cim:PowerSystemResource.Location rdf:resource="urn:uuid:99DBCFA8-89F8-4F08-89FE-750B6A1AFCCC"/>
 </cim:LinearShuntCompensator>
@@ -3892,8 +3892,7 @@
   <cim:TapChangerControl.lineDropCompensation>false</cim:TapChangerControl.lineDropCompensation>
   <cim:TapChangerControl.lineDropR>0</cim:TapChangerControl.lineDropR>
   <cim:TapChangerControl.lineDropX>0</cim:TapChangerControl.lineDropX>
-  <cim:TapChangerControl.reverseLineDropR>0</cim:TapChangerControl.reverseLineDropR>
-  <cim:TapChangerControl.reverseLineDropX>0</cim:TapChangerControl.reverseLineDropX>
+  <cim:TapChangerControl.reversible>false</cim:TapChangerControl.reversible>
   <cim:TapChangerControl.maxLimitVoltage>2640</cim:TapChangerControl.maxLimitVoltage>
   <cim:TapChangerControl.minLimitVoltage>2160</cim:TapChangerControl.minLimitVoltage>
   <cim:PowerSystemResource.Location rdf:resource="urn:uuid:0D397A82-760F-4727-A446-F54C62B64F93"/>
@@ -3932,8 +3931,7 @@
   <cim:TapChangerControl.lineDropCompensation>false</cim:TapChangerControl.lineDropCompensation>
   <cim:TapChangerControl.lineDropR>0</cim:TapChangerControl.lineDropR>
   <cim:TapChangerControl.lineDropX>0</cim:TapChangerControl.lineDropX>
-  <cim:TapChangerControl.reverseLineDropR>0</cim:TapChangerControl.reverseLineDropR>
-  <cim:TapChangerControl.reverseLineDropX>0</cim:TapChangerControl.reverseLineDropX>
+  <cim:TapChangerControl.reversible>false</cim:TapChangerControl.reversible>
   <cim:TapChangerControl.maxLimitVoltage>2640</cim:TapChangerControl.maxLimitVoltage>
   <cim:TapChangerControl.minLimitVoltage>2160</cim:TapChangerControl.minLimitVoltage>
   <cim:PowerSystemResource.Location rdf:resource="urn:uuid:5B1D9F0F-1AE0-4666-826D-2C7B08866846"/>
@@ -3972,8 +3970,7 @@
   <cim:TapChangerControl.lineDropCompensation>false</cim:TapChangerControl.lineDropCompensation>
   <cim:TapChangerControl.lineDropR>0</cim:TapChangerControl.lineDropR>
   <cim:TapChangerControl.lineDropX>0</cim:TapChangerControl.lineDropX>
-  <cim:TapChangerControl.reverseLineDropR>0</cim:TapChangerControl.reverseLineDropR>
-  <cim:TapChangerControl.reverseLineDropX>0</cim:TapChangerControl.reverseLineDropX>
+  <cim:TapChangerControl.reversible>false</cim:TapChangerControl.reversible>
   <cim:TapChangerControl.maxLimitVoltage>2640</cim:TapChangerControl.maxLimitVoltage>
   <cim:TapChangerControl.minLimitVoltage>2160</cim:TapChangerControl.minLimitVoltage>
   <cim:PowerSystemResource.Location rdf:resource="urn:uuid:7B7A54D0-F78B-4D7E-9795-4C8150BDF252"/>
