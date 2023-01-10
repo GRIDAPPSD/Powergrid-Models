@@ -28,13 +28,4 @@ Terminal,microturb-2_T1,FC130AD2-4453-4F03-81A0-F75D3C64A51D
 SynchronousMachine,microturb-1,F5C0D7EB-09AF-4A68-806C-CD77A83657CD
 Location,microturb-1_Loc,4C3232CD-F86D-4E23-BB20-C5F825FFB910
 Terminal,microturb-1_T1,0689846A-8EDA-4578-B5C8-4EDC6E2F98FA
-SynchronousMachineUnit,steamgen1_SynchronousMachine,A50BF0A4-476F-452C-BD04-C587178EFE5D
-SynchronousMachineUnit,diesel620_SynchronousMachine,9A25B756-35B8-41A3-8BED-208D674E5276
-SynchronousMachineUnit,diesel590_SynchronousMachine,93EE0F8A-9184-416B-964B-03F6B9E17BF4
-SynchronousMachineUnit,microturb-4_SynchronousMachine,DC4B784B-4CE7-4B55-AAFF-55B03F43C43E
-SynchronousMachineUnit,lngengine1800_SynchronousMachine,2EC0DC71-43AB-45BC-8329-CB84121C8D3B
-SynchronousMachineUnit,pvfarm1_SynchronousMachine,C3794AEB-7C00-4F0E-A2A2-35E4ABFBF271
-SynchronousMachineUnit,lngengine100_SynchronousMachine,E6709665-A7E6-4820-9FF4-E6D9409EC88B
-SynchronousMachineUnit,microturb-3_SynchronousMachine,619FFC26-065F-4390-851E-3838021D15B3
-SynchronousMachineUnit,microturb-2_SynchronousMachine,329835FA-CF48-43FD-84CE-A3EE08ADC2F7
-SynchronousMachineUnit,microturb-1_SynchronousMachine,40D635DF-B6AA-4B5E-A9A5-2CE26F035FD4
+
