@@ -1,6 +1,5 @@
 #!/bin/bash
 source envars.sh
-cp ../cimhubdocker.json ../cimhubconfig.json
 
 #the base feeder models for acep_psil and test9500new already include DER
 #python3 -m cimhub.InsertDER ../cimhubconfig.json acep_psil_der.txt

@@ -1,6 +1,6 @@
 #!/bin/bash
 source envars.sh
-cp cimhubdocker.json cimhubconfig.json
+#cp cimhubjar.json cimhubconfig.json
 
 ./convert_source.sh
 python3 -m cimhub.MakeLoopScript -b $SRC_PATH

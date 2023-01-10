@@ -1,6 +1,6 @@
 #!/bin/bash
 source envars.sh
-cp cimhubdocker.json cimhubconfig.json
+#cp cimhubjar.json cimhubconfig.json
 
 ./load_all_cimxml.sh
 ./list_all_measurements.sh

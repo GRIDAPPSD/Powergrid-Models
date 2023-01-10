@@ -1,6 +1,6 @@
 # GridAPPS-D Platform Feeder Model Testing and Import
 
-Copyright (c) 2017-2021, Battelle Memorial Institute
+Copyright (c) 2017-2022, Battelle Memorial Institute
 
 If there have been no changes to the CIM XML files in ```platform/cimxml```, you may follow these [import instructions](../BLAZEGRAPH_IMPORT.md).
 
@@ -61,7 +61,13 @@ If there have not been any changes to the CIM XML, you may skip ahead to the [Pr
 To test all 11 feeder models at once, before importing into the platform:
 
 1. Change to the ```platform``` directory
-2. Start Blazegraph with ```docker restart blazegraph```
+2. Start Blazegraph using either:
+    - if using Docker:
+        - invoke ```docker restart blazegraph```
+        - invoke ```cp cimhubdocker.json cimhubconfig.json```
+    - if using the Jar file:
+        - from the Jar directory, invoke ```./go.sh &```
+        - invoke ```cp cimhubjar.json cimhubconfig.json```
 3. Issue ```./test_all.sh```
 
 If any errors occur, you might need the [Step-by-step Testing Process](#step-by-step-testing-process) to localize the problem.
@@ -148,13 +154,13 @@ a summary of the model output differences as shown below.
     B    272.49  4.1702    361.46  3.4675     75.160 + j    63.658     BC      471.97 -1.5893
     C    272.49  2.0758    361.46  1.3731     75.160 + j    63.658     CA      471.97  2.5994
     Total S =   225.481 + j   190.973
-ACEP_PSIL        Nbus=[    24,    24,    39] Nlink=[    39,    39,    21] MAEv=[ 0.0000, 0.0412] MAEi=[   0.0012,  67.2664]
+ACEP_PSIL        Nbus=[    24,    24,    39] Nlink=[    39,    39,    21] MAEv=[ 0.0000, 0.0427] MAEi=[   0.0012,  67.2664]
 EPRI_DPV_J1      Nbus=[  4245,  4245,  5674] Nlink=[  5674,  5674, 10341] MAEv=[ 0.0007, 0.1690] MAEi=[   0.1019,  52.5269]
 IEEE123          Nbus=[   274,   274,   433] Nlink=[   386,   386,   393] MAEv=[ 0.0000, 0.0025] MAEi=[   0.0216,   0.0860]
 IEEE123_PV       Nbus=[   442,   442,   655] Nlink=[   564,   564,   639] MAEv=[ 0.0000, 0.0015] MAEi=[   0.0031,   0.4758]
 Transactive      Nbus=[  3036,  3036,  5602] Nlink=[  5507,  5507,   690] MAEv=[ 0.0006, 0.0022] MAEi=[   0.0100,   0.1158]
 IEEE13           Nbus=[    56,    56,    90] Nlink=[    90,    90,    60] MAEv=[ 0.0000, 0.0175] MAEi=[   0.0199,   2.0720]
-IEEE13_Assets    Nbus=[    41,    41,    66] Nlink=[    64,    64,    45] MAEv=[ 0.0000, 0.0040] MAEi=[   0.0224,   0.8783]
+IEEE13_Assets    Nbus=[    41,    41,    66] Nlink=[    64,    64,    45] MAEv=[ 0.0000, 0.0040] MAEi=[   0.0248,   0.8783]
 IEEE13_OCHRE     Nbus=[   160,   160,   246] Nlink=[   231,   231,    99] MAEv=[ 0.0000, 0.0005] MAEi=[   0.0010,   0.0438]
   OpenDSS branch flow in LOAD.S728 from 728, Base case
   Phs     Volts     rad      Amps     rad         kW          kVAR   PhsPhs     Volts     rad
@@ -170,7 +176,7 @@ IEEE13_OCHRE     Nbus=[   160,   160,   246] Nlink=[   231,   231,    99] MAEv=[
     Total S =   126.008 + j    62.979
 IEEE37           Nbus=[   117,   117,     0] Nlink=[   180,   180,     0] MAEv=[ 0.0001,-1.0000] MAEi=[   0.0006,  -1.0000]
 IEEE8500         Nbus=[  8531,  8531, 10915] Nlink=[  9720,  9720, 11112] MAEv=[ 0.0014, 0.0077] MAEi=[   0.1094,   0.8632]
-IEEE9500bal      Nbus=[  9549,  9549, 12528] Nlink=[ 11254, 11254, 12159] MAEv=[ 0.0002, 0.0021] MAEi=[   0.0269,   0.1669]
+IEEE9500bal      Nbus=[  9549,  9549, 12528] Nlink=[ 11254, 11254, 12159] MAEv=[ 0.0002, 0.0021] MAEi=[   0.0289,   0.1647]
 R2_12_47_2       Nbus=[  1631,  1631,  1665] Nlink=[  1857,  1857,  1404] MAEv=[ 0.0006, 0.0050] MAEi=[   0.3401,   0.6481]
 ```
 
