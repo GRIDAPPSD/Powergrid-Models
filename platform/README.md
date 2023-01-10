@@ -64,10 +64,10 @@ To test all 11 feeder models at once, before importing into the platform:
 2. Start Blazegraph using either:
     - if using Docker:
         - invoke ```docker restart blazegraph```
-        - invoke ```cp cimhubdocker.json cimhubconfig.json```
+        - invoke ```python3 configure_tests.py docker```
     - if using the Jar file:
         - from the Jar directory, invoke ```./go.sh &```
-        - invoke ```cp cimhubjar.json cimhubconfig.json```
+        - invoke ```python3 configure_tests.py```
 3. Issue ```./test_all.sh```
 
 If any errors occur, you might need the [Step-by-step Testing Process](#step-by-step-testing-process) to localize the problem.

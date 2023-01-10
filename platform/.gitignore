@@ -7,3 +7,4 @@ convert_xml.*
 check.dss
 check_glm.*
 cimhubconfig.json
+envars.sh
