@@ -8,3 +8,4 @@ check.dss
 check_glm.*
 cimhubconfig.json
 envars.sh
+envars.bat

@@ -1,5 +1,5 @@
 call envars.bat
-copy cimhubjar.json cimhubconfig.json
+rem copy cimhubjar.json cimhubconfig.json
 
 call convert_source.bat
 rem exit /b
