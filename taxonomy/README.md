@@ -11,7 +11,7 @@ The original taxonomy feeders have been updated as follows:
 * assign capacitor nominal voltages based on the nominal primary voltage
 * incorporate the [xy coordinates](http://emac.berkeley.edu/gridlabd/taxonomy_graphs/) from Michael A. Cohen 
   - Note: The xy coordinates are used in GridAPPS-D, CIM and OpenDSS, but not standalone GridLAB-D
-  - As of November 2019, the above link may be inactive, but the coordinates have been stored on this repository. Also, see https://digitalassets.lib.berkeley.edu/etd/ucb/text/Cohen_berkeley_0028E_15996.pdf for Cohen's thesis.
+  - As of November 2019, the above link may be inactive, but the coordinates have been stored on this repository. Also, see https://escholarship.org/uc/item/8rt4k5hh for Cohen's thesis.
 * remove assertion statements
 
 The solution results change, so GridLAB-D regression tests
