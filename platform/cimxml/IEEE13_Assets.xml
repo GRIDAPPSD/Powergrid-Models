@@ -2775,6 +2775,7 @@
   <cim:CableInfo.diameterOverInsulation>0.020828</cim:CableInfo.diameterOverInsulation>
   <cim:CableInfo.diameterOverJacket>0.026924</cim:CableInfo.diameterOverJacket>
   <cim:CableInfo.nominalTemperature>90</cim:CableInfo.nominalTemperature>
+  <cim:CableInfo.relativePermittivity>2.3</cim:CableInfo.relativePermittivity>
   <cim:CableInfo.diameterOverScreen>0.022098</cim:CableInfo.diameterOverScreen>
   <cim:TapeShieldCableInfo.tapeLap>20</cim:TapeShieldCableInfo.tapeLap>
   <cim:TapeShieldCableInfo.tapeThickness>0.000127</cim:TapeShieldCableInfo.tapeThickness>
@@ -2802,6 +2803,7 @@
   <cim:CableInfo.diameterOverInsulation>0.026924</cim:CableInfo.diameterOverInsulation>
   <cim:CableInfo.diameterOverJacket>0.032766</cim:CableInfo.diameterOverJacket>
   <cim:CableInfo.nominalTemperature>90</cim:CableInfo.nominalTemperature>
+  <cim:CableInfo.relativePermittivity>2.3</cim:CableInfo.relativePermittivity>
   <cim:CableInfo.diameterOverScreen>0.02950972</cim:CableInfo.diameterOverScreen>
   <cim:ConcentricNeutralCableInfo.diameterOverNeutral>0.032766</cim:ConcentricNeutralCableInfo.diameterOverNeutral>
   <cim:ConcentricNeutralCableInfo.neutralStrandRadius>0.00081407</cim:ConcentricNeutralCableInfo.neutralStrandRadius>
