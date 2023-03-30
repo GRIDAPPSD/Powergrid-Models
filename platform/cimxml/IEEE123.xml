@@ -14164,7 +14164,7 @@
   <cim:PhaseImpedanceData.column>1</cim:PhaseImpedanceData.column>
   <cim:PhaseImpedanceData.r>0.000098176647</cim:PhaseImpedanceData.r>
   <cim:PhaseImpedanceData.x>0.00026321284</cim:PhaseImpedanceData.x>
-  <cim:PhaseImpedanceData.b>7.2356971E-10</cim:PhaseImpedanceData.b>
+  <cim:PhaseImpedanceData.b>-7.2356971E-10</cim:PhaseImpedanceData.b>
 </cim:PhaseImpedanceData>
 <cim:PhaseImpedanceData rdf:about="urn:uuid:7E42F2B3-DAE3-4224-A942-04E21740DEEF">
   <cim:PhaseImpedanceData.PhaseImpedance rdf:resource="urn:uuid:54B74C9E-3915-4129-AFCA-30067B163257"/>
