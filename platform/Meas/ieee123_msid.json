@@ -780,5 +780,8 @@
   "PowerTransformer_xfm1:61s:C:VA": "_7667ac80-502a-401f-909d-190c5bf5bde0",
   "PowerTransformer_xfm1:610:A:VA": "_6fc7569f-8f71-420c-9e97-5cea6719bea2",
   "PowerTransformer_xfm1:610:B:VA": "_c65d8b29-47a6-48d7-a20a-4ddb1872284a",
-  "PowerTransformer_xfm1:610:C:VA": "_f691fbeb-449c-48dc-addb-0cdd8aa1f984"
+  "PowerTransformer_xfm1:610:C:VA": "_f691fbeb-449c-48dc-addb-0cdd8aa1f984",
+  "RatioTapChanger_reg1a:150r:A:Pos": "_fa071f70-5a38-4df6-ab72-38ab5dc36851",
+  "RatioTapChanger_reg1a:150r:B:Pos": "_d124928c-31bf-454f-baca-82ab333a662f",
+  "RatioTapChanger_reg1a:150r:C:Pos": "_bcdc9f5d-bc9e-4557-ac61-c59fcc1c0809"
 }
