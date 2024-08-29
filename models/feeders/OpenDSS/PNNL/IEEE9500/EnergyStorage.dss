@@ -1,0 +1,14 @@
+!New utility-scale battery storage systems
+
+New Storage.Battery1 phases=3 bus1=m2001-ESS1 kVA=250 kV=0.480
+~ kWrated=250 kWHrated=500 %reserve=30
+~ state=charge %charge=60 PF=1 // kW=150
+
+New Storage.Battery2 phases=3 bus1=m2001-ESS2 kVA=250 kV=0.480
+~ kWrated=250 kWHrated=500 %reserve=30
+~ state=charge %charge=60 PF=1 // kW=150
+
+New Transformer.2001-ESS12 XHL=5.75  kVA=750 Conns=[wye, wye]
+~ wdg=1 bus=m2001500.1.2.3     kV=12.47
+~ wdg=2 bus=m2001DER480-2      kV=0.480
+

@@ -1,0 +1,68 @@
+ 
+! Put Source Impedance in as a Reactor
+New Reactor.HVMV_Sub_HSB  bus1=SourceBus  bus2=HVMV115_HSB1  r=0  x=(1.051 0.88 0.001 3 * - - 115 12.47 / sqr *) normamps=400  emergamps=400
+
+! HV/MV Substation connected Delta/grounded-wye
+New Transformer.HVMV115_69Sub  phases=3  windings=2  buses=(HVMV115_HSB2, regxfmr_HVMV69sub1_LSB1.1.2.3.0)  
+~ conns=(delta wye)  
+~ kvs=(115, 69)  kvas=(75000, 75000)  
+~ xhl=7.05 
+~ wdg=1  %r=0.67
+~ wdg=2  %r=0.67
+
+! HV/MV Substation connected Delta/grounded-wye
+New Transformer.HVMV69_11Sub1  phases=3  windings=2  buses=(HVMV69sub1_HSB, regxfmr_HVMV11sub1_LSB.1.2.3.0)  
+~ conns=(wye wye)  
+~ kvs=(69, 12.47)  kvas=(20000, 20000)  
+~ xhl=7.94
+~ wdg=1  %r=0.67
+~ wdg=2  %r=0.67
+
+! Three single-phase voltage regulators on feeder
+! Define transformer part as low-impedance 2-winding Y-Y transformer
+New Transformer.FEEDER_REG1A phases=1  windings=2  buses=(regxfmr_HVMV11sub1_LSB.1,  HVMV11sub1_LSB.1)  conns=(wye, wye)  kvs=(7.2, 7.2)  kvas=(27500, 27500)  xhl=0.1 %loadloss=.001 wdg=2 Maxtap=1.1 Mintap=0.9 ppm=0
+New Transformer.FEEDER_REG1B phases=1  windings=2  buses=(regxfmr_HVMV11sub1_LSB.2,  HVMV11sub1_LSB.2)  conns=(wye, wye)  kvs=(7.2, 7.2)  kvas=(27500, 27500)  xhl=0.1 %loadloss=.001 wdg=2 Maxtap=1.1 Mintap=0.9 ppm=0
+New Transformer.FEEDER_REG1C phases=1  windings=2  buses=(regxfmr_HVMV11sub1_LSB.3,  HVMV11sub1_LSB.3)  conns=(wye, wye)  kvs=(7.2, 7.2)  kvas=(27500, 27500)  xhl=0.1 %loadloss=.001 wdg=2 Maxtap=1.1 Mintap=0.9 ppm=0
+
+! Voltage regulator controls
+New RegControl.FEEDER_REG1A transformer=FEEDER_REG1A  winding=2 vreg=123  ptratio=60 band=2 delay=10 revdelay=10
+New RegControl.FEEDER_REG1B transformer=FEEDER_REG1B  winding=2 vreg=123  ptratio=60 band=2 delay=11 revdelay=10
+New RegControl.FEEDER_REG1C transformer=FEEDER_REG1C  winding=2 vreg=123  ptratio=60 band=2 delay=12 revdelay=10
+
+! HV/MV Substation connected Delta/grounded-wye
+New Transformer.HVMV69_11Sub2  phases=3  windings=2  buses=(HVMV69sub2_HSB, regxfmr_HVMV11sub2_LSB.1.2.3.0)  
+~ conns=(wye wye)  
+~ kvs=(69, 12.47)  kvas=(20000, 20000)  
+~ xhl=7.94 
+~ wdg=1  %r=0.67
+~ wdg=2  %r=0.67
+
+! Three single-phase voltage regulators on feeder
+! Define transformer part as low-impedance 2-winding Y-Y transformer
+New Transformer.FEEDER_REG2A phases=1  windings=2  buses=(regxfmr_HVMV11sub2_LSB.1,  HVMV11sub2_LSB.1)  conns=(wye, wye)  kvs=(7.2, 7.2)  kvas=(27500, 27500)  xhl=0.1 %loadloss=.001 wdg=2 Maxtap=1.1 Mintap=0.9 ppm=0
+New Transformer.FEEDER_REG2B phases=1  windings=2  buses=(regxfmr_HVMV11sub2_LSB.2,  HVMV11sub2_LSB.2)  conns=(wye, wye)  kvs=(7.2, 7.2)  kvas=(27500, 27500)  xhl=0.1 %loadloss=.001 wdg=2 Maxtap=1.1 Mintap=0.9 ppm=0
+New Transformer.FEEDER_REG2C phases=1  windings=2  buses=(regxfmr_HVMV11sub2_LSB.3,  HVMV11sub2_LSB.3)  conns=(wye, wye)  kvs=(7.2, 7.2)  kvas=(27500, 27500)  xhl=0.1 %loadloss=.001 wdg=2 Maxtap=1.1 Mintap=0.9 ppm=0
+
+! Voltage regulator controls
+New RegControl.FEEDER_REG2A transformer=FEEDER_REG2A  winding=2 vreg=123  ptratio=60 band=2 delay=20 revdelay=10
+New RegControl.FEEDER_REG2B transformer=FEEDER_REG2B  winding=2 vreg=123  ptratio=60 band=2 delay=21 revdelay=10 
+New RegControl.FEEDER_REG2C transformer=FEEDER_REG2C  winding=2 vreg=123  ptratio=60 band=2 delay=22 revdelay=10 
+
+! HV/MV Substation connected Delta/grounded-wye
+New Transformer.HVMV69_11Sub3  phases=3  windings=2  buses=(HVMV69sub3_HSB, regxfmr_HVMV11sub3_LSB.1.2.3.0)  
+~ conns=(wye wye)  
+~ kvs=(69, 12.47)  kvas=(20000, 20000)  
+~ xhl=7.94 
+~ wdg=1  %r=0.67
+~ wdg=2  %r=0.67
+
+! Three single-phase voltage regulators on feeder
+! Define transformer part as low-impedance 2-winding Y-Y transformer
+New Transformer.FEEDER_REG3A phases=1  windings=2  buses=(regxfmr_HVMV11sub3_LSB.1,  HVMV11sub3_LSB.1)  conns=(wye, wye)  kvs=(7.2, 7.2)  kvas=(27500, 27500)  xhl=0.1 %loadloss=.001 wdg=2 Maxtap=1.1 Mintap=0.9 ppm=0
+New Transformer.FEEDER_REG3B phases=1  windings=2  buses=(regxfmr_HVMV11sub3_LSB.2,  HVMV11sub3_LSB.2)  conns=(wye, wye)  kvs=(7.2, 7.2)  kvas=(27500, 27500)  xhl=0.1 %loadloss=.001 wdg=2 Maxtap=1.1 Mintap=0.9 ppm=0
+New Transformer.FEEDER_REG3C phases=1  windings=2  buses=(regxfmr_HVMV11sub3_LSB.3,  HVMV11sub3_LSB.3)  conns=(wye, wye)  kvs=(7.2, 7.2)  kvas=(27500, 27500)  xhl=0.1 %loadloss=.001 wdg=2 Maxtap=1.1 Mintap=0.9 ppm=0
+
+! Voltage regulator controls
+New RegControl.FEEDER_REG3A transformer=FEEDER_REG3A  winding=2 vreg=123  ptratio=60 band=2 delay=30 revdelay=10 
+New RegControl.FEEDER_REG3B transformer=FEEDER_REG3B  winding=2 vreg=123  ptratio=60 band=2 delay=31 revdelay=10 
+New RegControl.FEEDER_REG3C transformer=FEEDER_REG3C  winding=2 vreg=123  ptratio=60 band=2 delay=32 revdelay=10 

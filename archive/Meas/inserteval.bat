@@ -1,8 +1,0 @@
-python ListMeasureables.py ieee8500enh _AAE94E4A-2465-6F5E-37B1-3E72183A4E44
-python InsertMeasurements.py ieee8500enh_lines_pq.txt
-python InsertMeasurements.py ieee8500enh_loads.txt
-python InsertMeasurements.py ieee8500enh_machines.txt
-python InsertMeasurements.py ieee8500enh_node_v.txt
-python InsertMeasurements.py ieee8500enh_special.txt
-python InsertMeasurements.py ieee8500enh_switch_i.txt
-python InsertMeasurements.py ieee8500enh_xfmr_pq.txt

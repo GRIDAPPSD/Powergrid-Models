@@ -1,0 +1,29 @@
+
+Compile (IEEE123Master.dss)
+
+Set MaxControlIter=30
+
+! Solve executes the solution for the present solution mode, which is "snapshot".
+
+New EnergyMeter.Feeder Line.L115 1
+
+
+Transformer.reg1a.Taps=[1.0 1.01875]
+Set Controlmode=OFF
+set loadmult = 0.5
+!set irradiance = 0.5
+
+solve
+
+
+Buscoords Buscoords.dat   ! load in bus coordinates
+! Show some selected results
+!Plot Profile
+!plot profile phases=all
+!Show taps                 ! shows the present regulator taps
+Redirect CircuitplottingScripts.DSS
+
+
+!export cim100 fid=E3D03A27-B988-4D79-BFAB-F9D37FB289F7 substation=sub1 subgeo=subgeo1 geo=geo1 file=ieee123apps.xml
+
+!export cim100

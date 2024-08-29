@@ -1,3 +1,0 @@
-PowerTransformer PowerTransformerEnd s1 hvmv_sub 1 hvmv_sub_hsb A _760DFDCF-E8B6-94C6-19F4-965EB7AA8C79 _B9E44FE0-B86B-BB7F-41E5-3D1E5DCC3EAA
-PowerTransformer PowerTransformerEnd s1 hvmv_sub 1 hvmv_sub_hsb B _760DFDCF-E8B6-94C6-19F4-965EB7AA8C79 _B9E44FE0-B86B-BB7F-41E5-3D1E5DCC3EAA
-PowerTransformer PowerTransformerEnd s1 hvmv_sub 1 hvmv_sub_hsb C _760DFDCF-E8B6-94C6-19F4-965EB7AA8C79 _B9E44FE0-B86B-BB7F-41E5-3D1E5DCC3EAA

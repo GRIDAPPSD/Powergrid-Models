@@ -1,0 +1,20 @@
+
+/********************************************************************************************************  fixed shunt definitions for 138.0kV  ***/
+
+New Reactor.Reac_at5_1     bus=5_olive      phases=3 kv=138.0 kvar=40000.0 R=0.0 enabled=True
+New Capacitor.Capa_at34_1  bus=34_rockhill  phases=3 kv=138.0 kvar=14000.0 R=0.0 enabled=True
+New Reactor.Reac_at37_1    bus=37_eastlima  phases=3 kv=138.0 kvar=25000.0 R=0.0 enabled=True
+New Capacitor.Capa_at44_1  bus=44_wmvernon  phases=3 kv=138.0 kvar=10000.0 R=0.0 enabled=True
+New Capacitor.Capa_at45_1  bus=45_nnewark   phases=3 kv=138.0 kvar=10000.0 R=0.0 enabled=True
+New Capacitor.Capa_at46_1  bus=46_wlancst   phases=3 kv=138.0 kvar=10000.0 R=0.0 enabled=True
+New Capacitor.Capa_at48_1  bus=48_zanesvll  phases=3 kv=138.0 kvar=15000.0 R=0.0 enabled=True
+New Capacitor.Capa_at74_1  bus=74_bellefnt  phases=3 kv=138.0 kvar=12000.0 R=0.0 enabled=True
+New Capacitor.Capa_at79_1  bus=79_capitlhl  phases=3 kv=138.0 kvar=20000.0 R=0.0 enabled=True
+New Capacitor.Capa_at82_1  bus=82_logan     phases=3 kv=138.0 kvar=20000.0 R=0.0 enabled=True
+New Capacitor.Capa_at83_1  bus=83_sprigg    phases=3 kv=138.0 kvar=10000.0 R=0.0 enabled=True
+New Capacitor.Capa_at105_1 bus=105_roanoke  phases=3 kv=138.0 kvar=20000.0 R=0.0 enabled=True
+New Capacitor.Capa_at107_1 bus=107_reusens  phases=3 kv=138.0 kvar=6000.0  R=0.0 enabled=True
+New Capacitor.Capa_at110_1 bus=110_fieldale phases=3 kv=138.0 kvar=6000.0  R=0.0 enabled=True
+
+/********************************************************************************************************  fixed shunt definitions for 20.0kV  ***/
+

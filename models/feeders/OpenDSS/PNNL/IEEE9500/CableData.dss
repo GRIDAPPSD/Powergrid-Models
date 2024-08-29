@@ -1,0 +1,6 @@
+New CNData.1/0_Al_15kV_1/3
+~ Runits=km Radunits=cm GMRunits=cm !Units of measure
+~ InsLayer=0.445 DiaIns=2.11 DiaCable=2.74 epsR=2.3 !Cable
+~ Rac=0.603 GMRac=0.338 diam=0.935 !Phase Conductor
+~ Rstrand=2.55 GMRstrand=0.02496 DiaStrand=0.064 k=6 !Neutral 
+
