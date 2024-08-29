@@ -1,6 +1,6 @@
 # GridAPPS-D Feeder Models
 
-Copyright (c) 2017-2021, Battelle Memorial Institute
+Copyright (c) 2017-2024, Battelle Memorial Institute
 
 This repository contains distribution feeder models for the GridAPPS-D project
 and other use cases in these formats:
@@ -16,17 +16,7 @@ from these sources:
 * [EPRI Large OpenDSS Test Feeders](https://sourceforge.net/p/electricdss/code/HEAD/tree/trunk/Distrib/EPRITestCircuits/Readme.pdf)
 * [EPRI Distributed Photovoltaic (DPV) Test Feeders](http://dpv.epri.com/)
 
-The taxonomy feeders are modified, as described in the [taxonomy](taxonomy) subdirectory.
 
-The feeder model conversion code has been moved to [CIMHub](https://github.com/GRIDAPPSD/CIMHub). This repository now contains mostly data.
-
-For platform maintenance, updated feeder models that have been tested can be imported using [these instructions](BLAZEGRAPH_IMPORT.md).
-
-## IEEE 9500-Node Test Case (Proposed)
-
-See [platform/dss/WSU](platform/dss/WSU) for the original OpenDSS version of this test case.
-
-See [CIMHub/ieee9500](https://github.com/GRIDAPPSD/CIMHub/tree/master/ieee9500) for the latest published CIM, CSV, GridLAB-D and OpenDSS versions.
 
 ## Platform Feeder Characteristics
 
@@ -47,22 +37,28 @@ Eleven feeder models are [tested routinely](platform) for use in GridAPPS-D, sum
 |R2_12_47_2|Supports approximately 4000 houses|Yes|853|1631|1086|6.26|PNNL|
 |Transactive|Added 1281 secondary loads to IEEE123|Yes|1516|3051|2812|3.92|GridAPPS-D|
 
-Notes:
+## Revised Build Instructions
 
-1. The "CIM Sampler" version of the IEEE 13-bus model added a single breaker, recloser, fuse, center-tap transformer, split-phase secondary load, PV and battery for the purpose of CIM conversion testing
-2. All models originated with an OpenDSS version, except for Transactive, which originated from a hand-edited GridLAB-D model, then converted to OpenDSS. See code in directory ```platform/glm/pnnl``` for details.
-3. Model marked ```Yes``` for Houses have been tested with houses, but they don't require houses.
-4. ```Load``` is the net OpenDSS source power injection, which is approximately load plus losses, less DER output
+This version has been rebased on the CIM-Graph, CIM-Builder, and CIM-Loader libraries instead of the CIMHub Java+Python package
+
+TODO: New Build Instructions
+
 
 ## Directory Contents
 
-These directories are actively maintained under version control:
+This repository contains:
+* Archive: Leftover fragments to be removed
+* Models: Transmission and distribution models in CIM format with source files used to create those models
+* Ontology: Enterprise Architect and CIMTool artifacts for the CIM profiles used by GridAPPS-D
+* Platform: Models populated with houses and measurements for simulation in the GridAPPS-D platform
 
-* [CIM](CIM): Enterprise Architect file of the CIM UML subset used in GridAPPS-D
-* [cnf](cnf): for platform maintenance
-* [glmanip_module](glmanip_module): Utility code that loads a GridLAB-D input file into a Python dictionary.
-* [platform](platform): helper scripts and files to load 11 feeders into the platform
-* [taxonomy](taxonomy): PNNL taxonomy feeders as used in GridAPPS-D
+## Attribute and Disclaimer:
+This software was created under a project sponsored by the U.S. Department of Energy’s Office of Electricity, an agency of the United States Government.  Neither the United States Government nor the United States Department of Energy, nor Battelle, nor any of their employees, nor any jurisdiction or organization that has cooperated in the development of these materials, makes any warranty, express or implied, or assumes any legal liability or responsibility for the accuracy, completeness, or usefulness or any information, apparatus, product, software, or process disclosed, or represents that its use would not infringe privately owned rights.
 
-The [archive](archive) directories are deprecated, moved, or not of general interest.
+Reference herein to any specific commercial product, process, or service by trade name, trademark, manufacturer, or otherwise does not necessarily constitute or imply its endorsement, recommendation, or favoring by the United States Government or any agency thereof, or Battelle Memorial Institute. The views and opinions of authors expressed herein do not necessarily state or reflect those of the United States Government or any agency thereof.
+
+PACIFIC NORTHWEST NATIONAL LABORATORY
+operated by BATTELLE for the
+UNITED STATES DEPARTMENT OF ENERGY
+under Contract DE-AC05-76RL01830
 

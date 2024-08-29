@@ -1,7 +1,0 @@
-{
-  "blazegraph_url": "http://localhost:8889/bigdata/namespace/kb/sparql",
-  "cim_ns": "<http://iec.ch/TC57/CIM100#",
-  "use_proxy": true,
-  "CIMHUB_PATH": "../../CIMHub/releases/cimhub-1.1.0.jar",
-  "CIMHUB_PROG": "gov.pnnl.gridappsd.cimhub.CIMImporter"
-}

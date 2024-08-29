@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "powergrid-models"
-version = "v0.0.1a"
+version = "0.0.1"
 description = "Repository of CIM models for the GridAPPS-D Platform"
 authors = ["A. Anderson <19935503+AAndersn@users.noreply.github.com>",
         "C. Allwardt <3979063+craig8@users.noreply.github.com>"]
@@ -10,7 +10,7 @@ packages = [
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = ">=3.8.1,<4.0"
+python = ">=3.10,<4.0"
 "OpenDSSDirect.py" = "^0.8.2"
 cim-graph = "^0.1.5a0"
 cim-loader = "^0.1.2a0"

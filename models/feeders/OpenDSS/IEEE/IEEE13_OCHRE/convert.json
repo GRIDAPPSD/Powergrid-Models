@@ -1,0 +1,12 @@
+{
+    "master": "Master.dss",
+    "feeder": "13AD8E07-3BF9-A4E2-CB8F-C3722F837B62",
+    "substation": "6C62C905-6FC7-653D-9F1E-1340F974A587",
+    "sub_geo_region": "ABEB635F-729D-24BF-B8A4-E2EF268D8B9E",
+    "geo_region": "73C512BD-7249-4F50-50DA-D93849B89C43",
+    "uuids": "ieee13ochre_uuids.dat",
+    "insert_measurements": true,
+    "insert_houses": true,
+    "insert_end_device": false,
+    "distributed": true
+}
