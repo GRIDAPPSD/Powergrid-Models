@@ -58,7 +58,10 @@ This software was created under a project sponsored by the U.S. Department of En
 Reference herein to any specific commercial product, process, or service by trade name, trademark, manufacturer, or otherwise does not necessarily constitute or imply its endorsement, recommendation, or favoring by the United States Government or any agency thereof, or Battelle Memorial Institute. The views and opinions of authors expressed herein do not necessarily state or reflect those of the United States Government or any agency thereof.
 
 PACIFIC NORTHWEST NATIONAL LABORATORY
+
 operated by BATTELLE for the
+
 UNITED STATES DEPARTMENT OF ENERGY
+
 under Contract DE-AC05-76RL01830
 

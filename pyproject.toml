@@ -12,8 +12,10 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = ">=3.10,<4.0"
 "OpenDSSDirect.py" = "^0.8.2"
-cim-graph = "^0.1.5a0"
+#cim-graph = "^0.1.5a0"
+cim-graph = { git = "https://github.com/PNNL-CIM-Tools/CIM-Graph.git", branch = "feature/68"}
 cim-loader = "^0.1.2a0"
+cim-builder = { git = "https://github.com/PNNL-CIM-Tools/CIM-Builder.git", branch = "feature/68"}
 
 [tool.poetry.extras]
 gridappsd = ["gridappsd-python"]
