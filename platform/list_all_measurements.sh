@@ -2,6 +2,7 @@ source envars.sh
 
 python3 $CIMHUB_UTILS/ListMeasureables.py cimhubconfig.json acep_psil     _77966920-E1EC-EE8A-23EE-4EFD23B205BD Meas
 python3 $CIMHUB_UTILS/ListMeasureables.py cimhubconfig.json eprij1        _67AB291F-DCCD-31B7-B499-338206B9828F Meas
+python3 $CIMHUB_UTILS/ListMeasureables.py cimhubconfig.json ieee123apps   _F49D1288-9EC6-47DB-8769-57E2B6EDB124 Meas
 python3 $CIMHUB_UTILS/ListMeasureables.py cimhubconfig.json ieee13assets  _5B816B93-7A5F-B64C-8460-47C17D6E4B0F Meas
 python3 $CIMHUB_UTILS/ListMeasureables.py cimhubconfig.json ieee13nodeckt _49AD8E07-3BF9-A4E2-CB8F-C3722F837B62 Meas
 python3 $CIMHUB_UTILS/ListMeasureables.py cimhubconfig.json ieee13ochre   _13AD8E07-3BF9-A4E2-CB8F-C3722F837B62 Meas
