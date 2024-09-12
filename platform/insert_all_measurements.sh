@@ -22,6 +22,14 @@ python3 $CIMHUB_UTILS/InsertMeasurements.py cimhubconfig.json ./Meas/ieee123_sup
 python3 $CIMHUB_UTILS/InsertMeasurements.py cimhubconfig.json ./Meas/ieee123_switch_i.txt    ./Meas/ieee123_msid.json
 python3 $CIMHUB_UTILS/InsertMeasurements.py cimhubconfig.json ./Meas/ieee123_xfmr_pq.txt     ./Meas/ieee123_msid.json
 
+python3 $CIMHUB_UTILS/InsertMeasurements.py cimhubconfig.json ./Meas/ieee123apps_lines_pq.txt  ./Meas/ieee123apps_msid.json
+python3 $CIMHUB_UTILS/InsertMeasurements.py cimhubconfig.json ./Meas/ieee123apps_machines.txt  ./Meas/ieee123apps_msid.json
+python3 $CIMHUB_UTILS/InsertMeasurements.py cimhubconfig.json ./Meas/ieee123apps_special.txt   ./Meas/ieee123apps_msid.json
+python3 $CIMHUB_UTILS/InsertMeasurements.py cimhubconfig.json ./Meas/ieee123apps_xfmr_pq.txt   ./Meas/ieee123apps_msid.json
+python3 $CIMHUB_UTILS/InsertMeasurements.py cimhubconfig.json ./Meas/ieee123apps_loads.txt     ./Meas/ieee123apps_msid.json
+python3 $CIMHUB_UTILS/InsertMeasurements.py cimhubconfig.json ./Meas/ieee123apps_node_v.txt    ./Meas/ieee123apps_msid.json
+python3 $CIMHUB_UTILS/InsertMeasurements.py cimhubconfig.json ./Meas/ieee123apps_switch_i.txt  ./Meas/ieee123apps_msid.json
+
 python3 $CIMHUB_UTILS/InsertMeasurements.py cimhubconfig.json ./Meas/ieee123pv_loads.txt     ./Meas/ieee123pv_msid.json
 python3 $CIMHUB_UTILS/InsertMeasurements.py cimhubconfig.json ./Meas/ieee123pv_lines_pq.txt  ./Meas/ieee123pv_msid.json
 python3 $CIMHUB_UTILS/InsertMeasurements.py cimhubconfig.json ./Meas/ieee123pv_node_v.txt    ./Meas/ieee123pv_msid.json
