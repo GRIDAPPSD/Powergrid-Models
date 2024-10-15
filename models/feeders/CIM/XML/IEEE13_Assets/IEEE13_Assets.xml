@@ -12,18 +12,18 @@
   <cim:IdentifiedObject.mRID>5BD3E9E8-AA88-4C7A-B398-036B10519511</cim:IdentifiedObject.mRID>
   <cim:IdentifiedObject.name>ieee13nodecktassets_CrsUrn</cim:IdentifiedObject.name>
 </cim:CoordinateSystem>
-<cim:GeographicalRegion rdf:about="urn:uuid:0337FA44-6F5C-4E54-A879-47479581422E">
-  <cim:IdentifiedObject.mRID>0337FA44-6F5C-4E54-A879-47479581422E</cim:IdentifiedObject.mRID>
+<cim:GeographicalRegion rdf:about="urn:uuid:73C512BD-7249-4F50-50DA-D93849B89C43">
+  <cim:IdentifiedObject.mRID>73C512BD-7249-4F50-50DA-D93849B89C43</cim:IdentifiedObject.mRID>
   <cim:IdentifiedObject.name>IEEE</cim:IdentifiedObject.name>
 </cim:GeographicalRegion>
-<cim:SubGeographicalRegion rdf:about="urn:uuid:E1E2A219-716C-4BB1-BB63-E59453662B7B">
-  <cim:SubGeographicalRegion.Region rdf:resource="urn:uuid:0337FA44-6F5C-4E54-A879-47479581422E"/>
-  <cim:IdentifiedObject.mRID>E1E2A219-716C-4BB1-BB63-E59453662B7B</cim:IdentifiedObject.mRID>
+<cim:SubGeographicalRegion rdf:about="urn:uuid:ABEB635F-729D-24BF-B8A4-E2EF268D8B9E">
+  <cim:SubGeographicalRegion.Region rdf:resource="urn:uuid:73C512BD-7249-4F50-50DA-D93849B89C43"/>
+  <cim:IdentifiedObject.mRID>ABEB635F-729D-24BF-B8A4-E2EF268D8B9E</cim:IdentifiedObject.mRID>
   <cim:IdentifiedObject.name>Small</cim:IdentifiedObject.name>
 </cim:SubGeographicalRegion>
-<cim:Substation rdf:about="urn:uuid:F3AA41BA-2B8B-4639-9F41-B25E6B2BF903">
-  <cim:Substation.Region rdf:resource="urn:uuid:E1E2A219-716C-4BB1-BB63-E59453662B7B"/>
-  <cim:IdentifiedObject.mRID>F3AA41BA-2B8B-4639-9F41-B25E6B2BF903</cim:IdentifiedObject.mRID>
+<cim:Substation rdf:about="urn:uuid:6C62C905-6FC7-653D-9F1E-1340F974A587">
+  <cim:Substation.Region rdf:resource="urn:uuid:ABEB635F-729D-24BF-B8A4-E2EF268D8B9E"/>
+  <cim:IdentifiedObject.mRID>6C62C905-6FC7-653D-9F1E-1340F974A587</cim:IdentifiedObject.mRID>
   <cim:IdentifiedObject.name>IEEE13</cim:IdentifiedObject.name>
 </cim:Substation>
 <cim:Location rdf:about="urn:uuid:E8CC2D43-FB22-4798-AA57-09F1CDB77C00">
@@ -207,7 +207,7 @@
   <cim:IdentifiedObject.name>670c_Loc</cim:IdentifiedObject.name>
 </cim:Location>
 <cim:Feeder rdf:about="urn:uuid:5B816B93-7A5F-B64C-8460-47C17D6E4B0F">
-  <cim:Feeder.NormalEnergizingSubstation rdf:resource="urn:uuid:F3AA41BA-2B8B-4639-9F41-B25E6B2BF903"/>
+  <cim:Feeder.NormalEnergizingSubstation rdf:resource="urn:uuid:6C62C905-6FC7-653D-9F1E-1340F974A587"/>
   <cim:PowerSystemResource.Location rdf:resource="urn:uuid:E8CC2D43-FB22-4798-AA57-09F1CDB77C00"/>
   <cim:IdentifiedObject.mRID>5B816B93-7A5F-B64C-8460-47C17D6E4B0F</cim:IdentifiedObject.mRID>
   <cim:IdentifiedObject.name>ieee13nodecktassets</cim:IdentifiedObject.name>
@@ -3366,4 +3366,1020 @@
   <cim:IdentifiedObject.mRID>A521871F-3F0D-4D7F-BE58-871182D9C3C7</cim:IdentifiedObject.mRID>
   <cim:IdentifiedObject.name>OpLimI_400.0_600.0_Emerg</cim:IdentifiedObject.name>
 </cim:CurrentLimit>
+<cim:Analog rdf:about="urn:uuid:642EA86E-D3E1-44D0-A1D9-4B011B103DA5">
+  <cim:Measurement.measurementType>PNV</cim:Measurement.measurementType>
+  <cim:Measurement.phases rdf:resource="http://iec.ch/TC57/CIM100#PhaseCode.A"/>
+  <cim:Measurement.PowerSystemResource rdf:resource="urn:uuid:6A7D7AF8-A0F7-41B6-BB0C-160EAE054DEA"/>
+  <cim:Measurement.Terminal rdf:resource="urn:uuid:B419F939-0900-4F5B-A5E8-888DA638A60E"/>
+  <cim:IdentifiedObject.mRID>642ea86e-d3e1-44d0-a1d9-4b011b103da5</cim:IdentifiedObject.mRID>
+  <cim:IdentifiedObject.name>LinearShuntCompensator_cap1_PNV_1_A</cim:IdentifiedObject.name>
+</cim:Analog>
+<cim:Analog rdf:about="urn:uuid:71E7F988-17F3-4C17-8086-BC6146BAF47B">
+  <cim:Measurement.measurementType>VA</cim:Measurement.measurementType>
+  <cim:Measurement.phases rdf:resource="http://iec.ch/TC57/CIM100#PhaseCode.A"/>
+  <cim:Measurement.PowerSystemResource rdf:resource="urn:uuid:6A7D7AF8-A0F7-41B6-BB0C-160EAE054DEA"/>
+  <cim:Measurement.Terminal rdf:resource="urn:uuid:B419F939-0900-4F5B-A5E8-888DA638A60E"/>
+  <cim:IdentifiedObject.mRID>71e7f988-17f3-4c17-8086-bc6146baf47b</cim:IdentifiedObject.mRID>
+  <cim:IdentifiedObject.name>LinearShuntCompensator_cap1_VA_1_A</cim:IdentifiedObject.name>
+</cim:Analog>
+<cim:Analog rdf:about="urn:uuid:5828D009-922C-4E44-B14A-26410F801D8F">
+  <cim:Measurement.measurementType>PNV</cim:Measurement.measurementType>
+  <cim:Measurement.phases rdf:resource="http://iec.ch/TC57/CIM100#PhaseCode.B"/>
+  <cim:Measurement.PowerSystemResource rdf:resource="urn:uuid:6A7D7AF8-A0F7-41B6-BB0C-160EAE054DEA"/>
+  <cim:Measurement.Terminal rdf:resource="urn:uuid:B419F939-0900-4F5B-A5E8-888DA638A60E"/>
+  <cim:IdentifiedObject.mRID>5828d009-922c-4e44-b14a-26410f801d8f</cim:IdentifiedObject.mRID>
+  <cim:IdentifiedObject.name>LinearShuntCompensator_cap1_PNV_1_B</cim:IdentifiedObject.name>
+</cim:Analog>
+<cim:Analog rdf:about="urn:uuid:CD4ED7E6-913A-45A7-A3B2-4E31B50578D7">
+  <cim:Measurement.measurementType>VA</cim:Measurement.measurementType>
+  <cim:Measurement.phases rdf:resource="http://iec.ch/TC57/CIM100#PhaseCode.B"/>
+  <cim:Measurement.PowerSystemResource rdf:resource="urn:uuid:6A7D7AF8-A0F7-41B6-BB0C-160EAE054DEA"/>
+  <cim:Measurement.Terminal rdf:resource="urn:uuid:B419F939-0900-4F5B-A5E8-888DA638A60E"/>
+  <cim:IdentifiedObject.mRID>cd4ed7e6-913a-45a7-a3b2-4e31b50578d7</cim:IdentifiedObject.mRID>
+  <cim:IdentifiedObject.name>LinearShuntCompensator_cap1_VA_1_B</cim:IdentifiedObject.name>
+</cim:Analog>
+<cim:Analog rdf:about="urn:uuid:C98B9B15-2A39-4FD6-8B4C-7176205E5629">
+  <cim:Measurement.measurementType>PNV</cim:Measurement.measurementType>
+  <cim:Measurement.phases rdf:resource="http://iec.ch/TC57/CIM100#PhaseCode.C"/>
+  <cim:Measurement.PowerSystemResource rdf:resource="urn:uuid:6A7D7AF8-A0F7-41B6-BB0C-160EAE054DEA"/>
+  <cim:Measurement.Terminal rdf:resource="urn:uuid:B419F939-0900-4F5B-A5E8-888DA638A60E"/>
+  <cim:IdentifiedObject.mRID>c98b9b15-2a39-4fd6-8b4c-7176205e5629</cim:IdentifiedObject.mRID>
+  <cim:IdentifiedObject.name>LinearShuntCompensator_cap1_PNV_1_C</cim:IdentifiedObject.name>
+</cim:Analog>
+<cim:Analog rdf:about="urn:uuid:DEAE6C9B-F558-4FE7-9FA9-46958CC7E5E3">
+  <cim:Measurement.measurementType>VA</cim:Measurement.measurementType>
+  <cim:Measurement.phases rdf:resource="http://iec.ch/TC57/CIM100#PhaseCode.C"/>
+  <cim:Measurement.PowerSystemResource rdf:resource="urn:uuid:6A7D7AF8-A0F7-41B6-BB0C-160EAE054DEA"/>
+  <cim:Measurement.Terminal rdf:resource="urn:uuid:B419F939-0900-4F5B-A5E8-888DA638A60E"/>
+  <cim:IdentifiedObject.mRID>deae6c9b-f558-4fe7-9fa9-46958cc7e5e3</cim:IdentifiedObject.mRID>
+  <cim:IdentifiedObject.name>LinearShuntCompensator_cap1_VA_1_C</cim:IdentifiedObject.name>
+</cim:Analog>
+<cim:Analog rdf:about="urn:uuid:D49ECED9-3081-4403-902B-466383A35D5B">
+  <cim:Measurement.measurementType>PNV</cim:Measurement.measurementType>
+  <cim:Measurement.phases rdf:resource="http://iec.ch/TC57/CIM100#PhaseCode.C"/>
+  <cim:Measurement.PowerSystemResource rdf:resource="urn:uuid:28456F60-7196-47E4-9BE6-54F7EAABC04A"/>
+  <cim:Measurement.Terminal rdf:resource="urn:uuid:E4552638-C557-445F-B802-A3651855C49C"/>
+  <cim:IdentifiedObject.mRID>d49eced9-3081-4403-902b-466383a35d5b</cim:IdentifiedObject.mRID>
+  <cim:IdentifiedObject.name>LinearShuntCompensator_cap2_PNV_1_C</cim:IdentifiedObject.name>
+</cim:Analog>
+<cim:Analog rdf:about="urn:uuid:355E4B4F-3F15-4996-B534-CB32AB7E1FA1">
+  <cim:Measurement.measurementType>VA</cim:Measurement.measurementType>
+  <cim:Measurement.phases rdf:resource="http://iec.ch/TC57/CIM100#PhaseCode.C"/>
+  <cim:Measurement.PowerSystemResource rdf:resource="urn:uuid:28456F60-7196-47E4-9BE6-54F7EAABC04A"/>
+  <cim:Measurement.Terminal rdf:resource="urn:uuid:E4552638-C557-445F-B802-A3651855C49C"/>
+  <cim:IdentifiedObject.mRID>355e4b4f-3f15-4996-b534-cb32ab7e1fa1</cim:IdentifiedObject.mRID>
+  <cim:IdentifiedObject.name>LinearShuntCompensator_cap2_VA_1_C</cim:IdentifiedObject.name>
+</cim:Analog>
+<cim:Analog rdf:about="urn:uuid:9B61D9A0-4996-401E-9565-CDE8A846A664">
+  <cim:Measurement.measurementType>PNV</cim:Measurement.measurementType>
+  <cim:Measurement.phases rdf:resource="http://iec.ch/TC57/CIM100#PhaseCode.A"/>
+  <cim:Measurement.PowerSystemResource rdf:resource="urn:uuid:819CA18E-54AA-42D5-B069-F1AC831D926E"/>
+  <cim:Measurement.Terminal rdf:resource="urn:uuid:A6716971-5376-43CD-9F13-AD2AEBD26FBC"/>
+  <cim:IdentifiedObject.mRID>9b61d9a0-4996-401e-9565-cde8a846a664</cim:IdentifiedObject.mRID>
+  <cim:IdentifiedObject.name>EnergyConsumer_671_PNV_1_A</cim:IdentifiedObject.name>
+</cim:Analog>
+<cim:Analog rdf:about="urn:uuid:21BDB536-FF75-4CE7-99C1-8802D438F8C3">
+  <cim:Measurement.measurementType>VA</cim:Measurement.measurementType>
+  <cim:Measurement.phases rdf:resource="http://iec.ch/TC57/CIM100#PhaseCode.A"/>
+  <cim:Measurement.PowerSystemResource rdf:resource="urn:uuid:819CA18E-54AA-42D5-B069-F1AC831D926E"/>
+  <cim:Measurement.Terminal rdf:resource="urn:uuid:A6716971-5376-43CD-9F13-AD2AEBD26FBC"/>
+  <cim:IdentifiedObject.mRID>21bdb536-ff75-4ce7-99c1-8802d438f8c3</cim:IdentifiedObject.mRID>
+  <cim:IdentifiedObject.name>EnergyConsumer_671_VA_1_A</cim:IdentifiedObject.name>
+</cim:Analog>
+<cim:Analog rdf:about="urn:uuid:415887BB-7F74-4CD1-9CDA-B23B472E2692">
+  <cim:Measurement.measurementType>PNV</cim:Measurement.measurementType>
+  <cim:Measurement.phases rdf:resource="http://iec.ch/TC57/CIM100#PhaseCode.B"/>
+  <cim:Measurement.PowerSystemResource rdf:resource="urn:uuid:819CA18E-54AA-42D5-B069-F1AC831D926E"/>
+  <cim:Measurement.Terminal rdf:resource="urn:uuid:A6716971-5376-43CD-9F13-AD2AEBD26FBC"/>
+  <cim:IdentifiedObject.mRID>415887bb-7f74-4cd1-9cda-b23b472e2692</cim:IdentifiedObject.mRID>
+  <cim:IdentifiedObject.name>EnergyConsumer_671_PNV_1_B</cim:IdentifiedObject.name>
+</cim:Analog>
+<cim:Analog rdf:about="urn:uuid:6DFC9692-5FA7-4DBD-8C0F-2B49D9812DA2">
+  <cim:Measurement.measurementType>VA</cim:Measurement.measurementType>
+  <cim:Measurement.phases rdf:resource="http://iec.ch/TC57/CIM100#PhaseCode.B"/>
+  <cim:Measurement.PowerSystemResource rdf:resource="urn:uuid:819CA18E-54AA-42D5-B069-F1AC831D926E"/>
+  <cim:Measurement.Terminal rdf:resource="urn:uuid:A6716971-5376-43CD-9F13-AD2AEBD26FBC"/>
+  <cim:IdentifiedObject.mRID>6dfc9692-5fa7-4dbd-8c0f-2b49d9812da2</cim:IdentifiedObject.mRID>
+  <cim:IdentifiedObject.name>EnergyConsumer_671_VA_1_B</cim:IdentifiedObject.name>
+</cim:Analog>
+<cim:Analog rdf:about="urn:uuid:2ECA99D0-F7BE-40AD-B9CD-B535F84A11D2">
+  <cim:Measurement.measurementType>PNV</cim:Measurement.measurementType>
+  <cim:Measurement.phases rdf:resource="http://iec.ch/TC57/CIM100#PhaseCode.C"/>
+  <cim:Measurement.PowerSystemResource rdf:resource="urn:uuid:819CA18E-54AA-42D5-B069-F1AC831D926E"/>
+  <cim:Measurement.Terminal rdf:resource="urn:uuid:A6716971-5376-43CD-9F13-AD2AEBD26FBC"/>
+  <cim:IdentifiedObject.mRID>2eca99d0-f7be-40ad-b9cd-b535f84a11d2</cim:IdentifiedObject.mRID>
+  <cim:IdentifiedObject.name>EnergyConsumer_671_PNV_1_C</cim:IdentifiedObject.name>
+</cim:Analog>
+<cim:Analog rdf:about="urn:uuid:54FC8941-9FC1-4282-A6A0-531043791D23">
+  <cim:Measurement.measurementType>VA</cim:Measurement.measurementType>
+  <cim:Measurement.phases rdf:resource="http://iec.ch/TC57/CIM100#PhaseCode.C"/>
+  <cim:Measurement.PowerSystemResource rdf:resource="urn:uuid:819CA18E-54AA-42D5-B069-F1AC831D926E"/>
+  <cim:Measurement.Terminal rdf:resource="urn:uuid:A6716971-5376-43CD-9F13-AD2AEBD26FBC"/>
+  <cim:IdentifiedObject.mRID>54fc8941-9fc1-4282-a6a0-531043791d23</cim:IdentifiedObject.mRID>
+  <cim:IdentifiedObject.name>EnergyConsumer_671_VA_1_C</cim:IdentifiedObject.name>
+</cim:Analog>
+<cim:Analog rdf:about="urn:uuid:B2C90A57-56A0-40BF-803A-899EB60D4467">
+  <cim:Measurement.measurementType>PNV</cim:Measurement.measurementType>
+  <cim:Measurement.phases rdf:resource="http://iec.ch/TC57/CIM100#PhaseCode.A"/>
+  <cim:Measurement.PowerSystemResource rdf:resource="urn:uuid:928BCF3C-276A-4E74-A4AE-C3C79D624F5F"/>
+  <cim:Measurement.Terminal rdf:resource="urn:uuid:38E5C6E9-68A6-4E29-B6A7-2243E96DC535"/>
+  <cim:IdentifiedObject.mRID>b2c90a57-56a0-40bf-803a-899eb60d4467</cim:IdentifiedObject.mRID>
+  <cim:IdentifiedObject.name>EnergyConsumer_634a_PNV_1_A</cim:IdentifiedObject.name>
+</cim:Analog>
+<cim:Analog rdf:about="urn:uuid:5B0F2E50-8B57-4CBA-9627-DD29F31DB3F3">
+  <cim:Measurement.measurementType>VA</cim:Measurement.measurementType>
+  <cim:Measurement.phases rdf:resource="http://iec.ch/TC57/CIM100#PhaseCode.A"/>
+  <cim:Measurement.PowerSystemResource rdf:resource="urn:uuid:928BCF3C-276A-4E74-A4AE-C3C79D624F5F"/>
+  <cim:Measurement.Terminal rdf:resource="urn:uuid:38E5C6E9-68A6-4E29-B6A7-2243E96DC535"/>
+  <cim:IdentifiedObject.mRID>5b0f2e50-8b57-4cba-9627-dd29f31db3f3</cim:IdentifiedObject.mRID>
+  <cim:IdentifiedObject.name>EnergyConsumer_634a_VA_1_A</cim:IdentifiedObject.name>
+</cim:Analog>
+<cim:Analog rdf:about="urn:uuid:7EA3C32D-820D-44E9-92AC-6B1912900489">
+  <cim:Measurement.measurementType>PNV</cim:Measurement.measurementType>
+  <cim:Measurement.phases rdf:resource="http://iec.ch/TC57/CIM100#PhaseCode.B"/>
+  <cim:Measurement.PowerSystemResource rdf:resource="urn:uuid:958C1DE5-2FA9-4051-8827-8681C4E7AFF6"/>
+  <cim:Measurement.Terminal rdf:resource="urn:uuid:56F5823B-D61B-4B64-BEA4-A6175B2E31EE"/>
+  <cim:IdentifiedObject.mRID>7ea3c32d-820d-44e9-92ac-6b1912900489</cim:IdentifiedObject.mRID>
+  <cim:IdentifiedObject.name>EnergyConsumer_634b_PNV_1_B</cim:IdentifiedObject.name>
+</cim:Analog>
+<cim:Analog rdf:about="urn:uuid:997CD4F8-8F8B-447B-956C-63AD60E7F320">
+  <cim:Measurement.measurementType>VA</cim:Measurement.measurementType>
+  <cim:Measurement.phases rdf:resource="http://iec.ch/TC57/CIM100#PhaseCode.B"/>
+  <cim:Measurement.PowerSystemResource rdf:resource="urn:uuid:958C1DE5-2FA9-4051-8827-8681C4E7AFF6"/>
+  <cim:Measurement.Terminal rdf:resource="urn:uuid:56F5823B-D61B-4B64-BEA4-A6175B2E31EE"/>
+  <cim:IdentifiedObject.mRID>997cd4f8-8f8b-447b-956c-63ad60e7f320</cim:IdentifiedObject.mRID>
+  <cim:IdentifiedObject.name>EnergyConsumer_634b_VA_1_B</cim:IdentifiedObject.name>
+</cim:Analog>
+<cim:Analog rdf:about="urn:uuid:720A12BA-D309-4576-95BF-FEEB0583ECD1">
+  <cim:Measurement.measurementType>PNV</cim:Measurement.measurementType>
+  <cim:Measurement.phases rdf:resource="http://iec.ch/TC57/CIM100#PhaseCode.C"/>
+  <cim:Measurement.PowerSystemResource rdf:resource="urn:uuid:6964DE20-CC96-473D-BB0F-73CD8ACAED2D"/>
+  <cim:Measurement.Terminal rdf:resource="urn:uuid:CCDFF835-7844-4F35-8A53-15CB6970F3A1"/>
+  <cim:IdentifiedObject.mRID>720a12ba-d309-4576-95bf-feeb0583ecd1</cim:IdentifiedObject.mRID>
+  <cim:IdentifiedObject.name>EnergyConsumer_634c_PNV_1_C</cim:IdentifiedObject.name>
+</cim:Analog>
+<cim:Analog rdf:about="urn:uuid:7DA4FDF2-6725-42EF-B937-2C054CAA03B9">
+  <cim:Measurement.measurementType>VA</cim:Measurement.measurementType>
+  <cim:Measurement.phases rdf:resource="http://iec.ch/TC57/CIM100#PhaseCode.C"/>
+  <cim:Measurement.PowerSystemResource rdf:resource="urn:uuid:6964DE20-CC96-473D-BB0F-73CD8ACAED2D"/>
+  <cim:Measurement.Terminal rdf:resource="urn:uuid:CCDFF835-7844-4F35-8A53-15CB6970F3A1"/>
+  <cim:IdentifiedObject.mRID>7da4fdf2-6725-42ef-b937-2c054caa03b9</cim:IdentifiedObject.mRID>
+  <cim:IdentifiedObject.name>EnergyConsumer_634c_VA_1_C</cim:IdentifiedObject.name>
+</cim:Analog>
+<cim:Analog rdf:about="urn:uuid:CC7E4697-F8E1-439A-A6D0-20C27292481B">
+  <cim:Measurement.measurementType>PNV</cim:Measurement.measurementType>
+  <cim:Measurement.phases rdf:resource="http://iec.ch/TC57/CIM100#PhaseCode.B"/>
+  <cim:Measurement.PowerSystemResource rdf:resource="urn:uuid:F3D41D9D-9606-4277-A336-69D7048301AF"/>
+  <cim:Measurement.Terminal rdf:resource="urn:uuid:DFAD23BA-1945-4200-85AF-AA248A8A16B3"/>
+  <cim:IdentifiedObject.mRID>cc7e4697-f8e1-439a-a6d0-20c27292481b</cim:IdentifiedObject.mRID>
+  <cim:IdentifiedObject.name>EnergyConsumer_645_PNV_1_B</cim:IdentifiedObject.name>
+</cim:Analog>
+<cim:Analog rdf:about="urn:uuid:BA86306B-5FD5-4EAC-A049-BD365216BB92">
+  <cim:Measurement.measurementType>VA</cim:Measurement.measurementType>
+  <cim:Measurement.phases rdf:resource="http://iec.ch/TC57/CIM100#PhaseCode.B"/>
+  <cim:Measurement.PowerSystemResource rdf:resource="urn:uuid:F3D41D9D-9606-4277-A336-69D7048301AF"/>
+  <cim:Measurement.Terminal rdf:resource="urn:uuid:DFAD23BA-1945-4200-85AF-AA248A8A16B3"/>
+  <cim:IdentifiedObject.mRID>ba86306b-5fd5-4eac-a049-bd365216bb92</cim:IdentifiedObject.mRID>
+  <cim:IdentifiedObject.name>EnergyConsumer_645_VA_1_B</cim:IdentifiedObject.name>
+</cim:Analog>
+<cim:Analog rdf:about="urn:uuid:98CC412D-52E1-4358-B14F-8FD2C20A4781">
+  <cim:Measurement.measurementType>PNV</cim:Measurement.measurementType>
+  <cim:Measurement.phases rdf:resource="http://iec.ch/TC57/CIM100#PhaseCode.B"/>
+  <cim:Measurement.PowerSystemResource rdf:resource="urn:uuid:C9CB60C2-46E0-4FDC-B2A5-73318344E4C9"/>
+  <cim:Measurement.Terminal rdf:resource="urn:uuid:809F49AB-A284-4320-9D80-F46BB9E7F455"/>
+  <cim:IdentifiedObject.mRID>98cc412d-52e1-4358-b14f-8fd2c20a4781</cim:IdentifiedObject.mRID>
+  <cim:IdentifiedObject.name>EnergyConsumer_646_PNV_1_B</cim:IdentifiedObject.name>
+</cim:Analog>
+<cim:Analog rdf:about="urn:uuid:E58E2E10-6E0B-4A50-9976-A9856A6CAD99">
+  <cim:Measurement.measurementType>VA</cim:Measurement.measurementType>
+  <cim:Measurement.phases rdf:resource="http://iec.ch/TC57/CIM100#PhaseCode.B"/>
+  <cim:Measurement.PowerSystemResource rdf:resource="urn:uuid:C9CB60C2-46E0-4FDC-B2A5-73318344E4C9"/>
+  <cim:Measurement.Terminal rdf:resource="urn:uuid:809F49AB-A284-4320-9D80-F46BB9E7F455"/>
+  <cim:IdentifiedObject.mRID>e58e2e10-6e0b-4a50-9976-a9856a6cad99</cim:IdentifiedObject.mRID>
+  <cim:IdentifiedObject.name>EnergyConsumer_646_VA_1_B</cim:IdentifiedObject.name>
+</cim:Analog>
+<cim:Analog rdf:about="urn:uuid:56D7A6BF-13D5-4173-8A13-21B503789D48">
+  <cim:Measurement.measurementType>PNV</cim:Measurement.measurementType>
+  <cim:Measurement.phases rdf:resource="http://iec.ch/TC57/CIM100#PhaseCode.C"/>
+  <cim:Measurement.PowerSystemResource rdf:resource="urn:uuid:8A0CF414-3240-47D1-AB8F-998165BA092E"/>
+  <cim:Measurement.Terminal rdf:resource="urn:uuid:415BF3EC-8D77-487F-A889-876DC07FA186"/>
+  <cim:IdentifiedObject.mRID>56d7a6bf-13d5-4173-8a13-21b503789d48</cim:IdentifiedObject.mRID>
+  <cim:IdentifiedObject.name>EnergyConsumer_692_PNV_1_C</cim:IdentifiedObject.name>
+</cim:Analog>
+<cim:Analog rdf:about="urn:uuid:5036196E-8247-421A-8B78-5FDA6FD7DBDA">
+  <cim:Measurement.measurementType>VA</cim:Measurement.measurementType>
+  <cim:Measurement.phases rdf:resource="http://iec.ch/TC57/CIM100#PhaseCode.C"/>
+  <cim:Measurement.PowerSystemResource rdf:resource="urn:uuid:8A0CF414-3240-47D1-AB8F-998165BA092E"/>
+  <cim:Measurement.Terminal rdf:resource="urn:uuid:415BF3EC-8D77-487F-A889-876DC07FA186"/>
+  <cim:IdentifiedObject.mRID>5036196e-8247-421a-8b78-5fda6fd7dbda</cim:IdentifiedObject.mRID>
+  <cim:IdentifiedObject.name>EnergyConsumer_692_VA_1_C</cim:IdentifiedObject.name>
+</cim:Analog>
+<cim:Analog rdf:about="urn:uuid:07A6A8C0-7897-4BAF-92CE-91CC4B3A1828">
+  <cim:Measurement.measurementType>PNV</cim:Measurement.measurementType>
+  <cim:Measurement.phases rdf:resource="http://iec.ch/TC57/CIM100#PhaseCode.A"/>
+  <cim:Measurement.PowerSystemResource rdf:resource="urn:uuid:EBD2AE36-04A5-4EA9-836F-12F9D3CCB777"/>
+  <cim:Measurement.Terminal rdf:resource="urn:uuid:59C5C053-47CA-45FB-A06F-81113E41E633"/>
+  <cim:IdentifiedObject.mRID>07a6a8c0-7897-4baf-92ce-91cc4b3a1828</cim:IdentifiedObject.mRID>
+  <cim:IdentifiedObject.name>EnergyConsumer_675a_PNV_1_A</cim:IdentifiedObject.name>
+</cim:Analog>
+<cim:Analog rdf:about="urn:uuid:2CB51A4C-7517-45F6-940B-839EB9B96015">
+  <cim:Measurement.measurementType>VA</cim:Measurement.measurementType>
+  <cim:Measurement.phases rdf:resource="http://iec.ch/TC57/CIM100#PhaseCode.A"/>
+  <cim:Measurement.PowerSystemResource rdf:resource="urn:uuid:EBD2AE36-04A5-4EA9-836F-12F9D3CCB777"/>
+  <cim:Measurement.Terminal rdf:resource="urn:uuid:59C5C053-47CA-45FB-A06F-81113E41E633"/>
+  <cim:IdentifiedObject.mRID>2cb51a4c-7517-45f6-940b-839eb9b96015</cim:IdentifiedObject.mRID>
+  <cim:IdentifiedObject.name>EnergyConsumer_675a_VA_1_A</cim:IdentifiedObject.name>
+</cim:Analog>
+<cim:Analog rdf:about="urn:uuid:8765610D-8FFD-439E-B0AE-BB41711BFFDF">
+  <cim:Measurement.measurementType>PNV</cim:Measurement.measurementType>
+  <cim:Measurement.phases rdf:resource="http://iec.ch/TC57/CIM100#PhaseCode.B"/>
+  <cim:Measurement.PowerSystemResource rdf:resource="urn:uuid:F841F05A-E047-491F-BF7B-C71283C653D6"/>
+  <cim:Measurement.Terminal rdf:resource="urn:uuid:39705E8F-F7F2-497C-AC7A-075D58902AC1"/>
+  <cim:IdentifiedObject.mRID>8765610d-8ffd-439e-b0ae-bb41711bffdf</cim:IdentifiedObject.mRID>
+  <cim:IdentifiedObject.name>EnergyConsumer_675b_PNV_1_B</cim:IdentifiedObject.name>
+</cim:Analog>
+<cim:Analog rdf:about="urn:uuid:70AC8EDB-867C-42A5-90CB-D803BB506F8F">
+  <cim:Measurement.measurementType>VA</cim:Measurement.measurementType>
+  <cim:Measurement.phases rdf:resource="http://iec.ch/TC57/CIM100#PhaseCode.B"/>
+  <cim:Measurement.PowerSystemResource rdf:resource="urn:uuid:F841F05A-E047-491F-BF7B-C71283C653D6"/>
+  <cim:Measurement.Terminal rdf:resource="urn:uuid:39705E8F-F7F2-497C-AC7A-075D58902AC1"/>
+  <cim:IdentifiedObject.mRID>70ac8edb-867c-42a5-90cb-d803bb506f8f</cim:IdentifiedObject.mRID>
+  <cim:IdentifiedObject.name>EnergyConsumer_675b_VA_1_B</cim:IdentifiedObject.name>
+</cim:Analog>
+<cim:Analog rdf:about="urn:uuid:EDF7D627-2C5A-47ED-BBBD-ED60B03507F5">
+  <cim:Measurement.measurementType>PNV</cim:Measurement.measurementType>
+  <cim:Measurement.phases rdf:resource="http://iec.ch/TC57/CIM100#PhaseCode.C"/>
+  <cim:Measurement.PowerSystemResource rdf:resource="urn:uuid:46479235-D5D9-4CE8-9F7C-C78426691797"/>
+  <cim:Measurement.Terminal rdf:resource="urn:uuid:77CA8D06-1026-4930-A284-FB89C71FEAFE"/>
+  <cim:IdentifiedObject.mRID>edf7d627-2c5a-47ed-bbbd-ed60b03507f5</cim:IdentifiedObject.mRID>
+  <cim:IdentifiedObject.name>EnergyConsumer_675c_PNV_1_C</cim:IdentifiedObject.name>
+</cim:Analog>
+<cim:Analog rdf:about="urn:uuid:03C3EB8D-8581-4D6C-B97E-F9C5A84CB57D">
+  <cim:Measurement.measurementType>VA</cim:Measurement.measurementType>
+  <cim:Measurement.phases rdf:resource="http://iec.ch/TC57/CIM100#PhaseCode.C"/>
+  <cim:Measurement.PowerSystemResource rdf:resource="urn:uuid:46479235-D5D9-4CE8-9F7C-C78426691797"/>
+  <cim:Measurement.Terminal rdf:resource="urn:uuid:77CA8D06-1026-4930-A284-FB89C71FEAFE"/>
+  <cim:IdentifiedObject.mRID>03c3eb8d-8581-4d6c-b97e-f9c5a84cb57d</cim:IdentifiedObject.mRID>
+  <cim:IdentifiedObject.name>EnergyConsumer_675c_VA_1_C</cim:IdentifiedObject.name>
+</cim:Analog>
+<cim:Analog rdf:about="urn:uuid:99A9D05A-2FD8-45F9-AE97-EEB5AE7F9BC9">
+  <cim:Measurement.measurementType>PNV</cim:Measurement.measurementType>
+  <cim:Measurement.phases rdf:resource="http://iec.ch/TC57/CIM100#PhaseCode.C"/>
+  <cim:Measurement.PowerSystemResource rdf:resource="urn:uuid:D186291A-2487-45AE-83C7-651C7C71D41E"/>
+  <cim:Measurement.Terminal rdf:resource="urn:uuid:26896AEE-6BE6-4FC7-9940-80F074A4A3D7"/>
+  <cim:IdentifiedObject.mRID>99a9d05a-2fd8-45f9-ae97-eeb5ae7f9bc9</cim:IdentifiedObject.mRID>
+  <cim:IdentifiedObject.name>EnergyConsumer_611_PNV_1_C</cim:IdentifiedObject.name>
+</cim:Analog>
+<cim:Analog rdf:about="urn:uuid:115A6BAE-1AC9-4017-BFFC-610CC99AA4DE">
+  <cim:Measurement.measurementType>VA</cim:Measurement.measurementType>
+  <cim:Measurement.phases rdf:resource="http://iec.ch/TC57/CIM100#PhaseCode.C"/>
+  <cim:Measurement.PowerSystemResource rdf:resource="urn:uuid:D186291A-2487-45AE-83C7-651C7C71D41E"/>
+  <cim:Measurement.Terminal rdf:resource="urn:uuid:26896AEE-6BE6-4FC7-9940-80F074A4A3D7"/>
+  <cim:IdentifiedObject.mRID>115a6bae-1ac9-4017-bffc-610cc99aa4de</cim:IdentifiedObject.mRID>
+  <cim:IdentifiedObject.name>EnergyConsumer_611_VA_1_C</cim:IdentifiedObject.name>
+</cim:Analog>
+<cim:Analog rdf:about="urn:uuid:2D6063D9-1C35-448A-9A1A-1D63AF801790">
+  <cim:Measurement.measurementType>PNV</cim:Measurement.measurementType>
+  <cim:Measurement.phases rdf:resource="http://iec.ch/TC57/CIM100#PhaseCode.A"/>
+  <cim:Measurement.PowerSystemResource rdf:resource="urn:uuid:EF316EA5-74D3-4209-89EA-BF8FAAC2BAF6"/>
+  <cim:Measurement.Terminal rdf:resource="urn:uuid:47611395-F360-43E5-BA7D-D27D3B0F129B"/>
+  <cim:IdentifiedObject.mRID>2d6063d9-1c35-448a-9a1a-1d63af801790</cim:IdentifiedObject.mRID>
+  <cim:IdentifiedObject.name>EnergyConsumer_652_PNV_1_A</cim:IdentifiedObject.name>
+</cim:Analog>
+<cim:Analog rdf:about="urn:uuid:86167B0F-D6F4-42F7-8B56-AF6BBEEA46FB">
+  <cim:Measurement.measurementType>VA</cim:Measurement.measurementType>
+  <cim:Measurement.phases rdf:resource="http://iec.ch/TC57/CIM100#PhaseCode.A"/>
+  <cim:Measurement.PowerSystemResource rdf:resource="urn:uuid:EF316EA5-74D3-4209-89EA-BF8FAAC2BAF6"/>
+  <cim:Measurement.Terminal rdf:resource="urn:uuid:47611395-F360-43E5-BA7D-D27D3B0F129B"/>
+  <cim:IdentifiedObject.mRID>86167b0f-d6f4-42f7-8b56-af6bbeea46fb</cim:IdentifiedObject.mRID>
+  <cim:IdentifiedObject.name>EnergyConsumer_652_VA_1_A</cim:IdentifiedObject.name>
+</cim:Analog>
+<cim:Analog rdf:about="urn:uuid:0094C0FE-74C2-439D-B3D8-7A7186462B92">
+  <cim:Measurement.measurementType>PNV</cim:Measurement.measurementType>
+  <cim:Measurement.phases rdf:resource="http://iec.ch/TC57/CIM100#PhaseCode.A"/>
+  <cim:Measurement.PowerSystemResource rdf:resource="urn:uuid:F20F52DF-B0B1-4615-B9D3-AC669CE18454"/>
+  <cim:Measurement.Terminal rdf:resource="urn:uuid:FDCBBF48-F1A6-4C38-8553-A5D1FB9EEC9B"/>
+  <cim:IdentifiedObject.mRID>0094c0fe-74c2-439d-b3d8-7a7186462b92</cim:IdentifiedObject.mRID>
+  <cim:IdentifiedObject.name>EnergyConsumer_670a_PNV_1_A</cim:IdentifiedObject.name>
+</cim:Analog>
+<cim:Analog rdf:about="urn:uuid:45186A0C-61FA-4EC7-977F-C25805EA8CB5">
+  <cim:Measurement.measurementType>VA</cim:Measurement.measurementType>
+  <cim:Measurement.phases rdf:resource="http://iec.ch/TC57/CIM100#PhaseCode.A"/>
+  <cim:Measurement.PowerSystemResource rdf:resource="urn:uuid:F20F52DF-B0B1-4615-B9D3-AC669CE18454"/>
+  <cim:Measurement.Terminal rdf:resource="urn:uuid:FDCBBF48-F1A6-4C38-8553-A5D1FB9EEC9B"/>
+  <cim:IdentifiedObject.mRID>45186a0c-61fa-4ec7-977f-c25805ea8cb5</cim:IdentifiedObject.mRID>
+  <cim:IdentifiedObject.name>EnergyConsumer_670a_VA_1_A</cim:IdentifiedObject.name>
+</cim:Analog>
+<cim:Analog rdf:about="urn:uuid:EACD8821-15A8-462B-B66D-CF68320B43FC">
+  <cim:Measurement.measurementType>PNV</cim:Measurement.measurementType>
+  <cim:Measurement.phases rdf:resource="http://iec.ch/TC57/CIM100#PhaseCode.B"/>
+  <cim:Measurement.PowerSystemResource rdf:resource="urn:uuid:4FE57842-43D5-4EBB-8FF1-795E6FE1C507"/>
+  <cim:Measurement.Terminal rdf:resource="urn:uuid:E10FFA58-B87C-4425-815D-79ED4DB73F58"/>
+  <cim:IdentifiedObject.mRID>eacd8821-15a8-462b-b66d-cf68320b43fc</cim:IdentifiedObject.mRID>
+  <cim:IdentifiedObject.name>EnergyConsumer_670b_PNV_1_B</cim:IdentifiedObject.name>
+</cim:Analog>
+<cim:Analog rdf:about="urn:uuid:BA594DC6-5AF1-45A8-AE74-4D4E8F4823CE">
+  <cim:Measurement.measurementType>VA</cim:Measurement.measurementType>
+  <cim:Measurement.phases rdf:resource="http://iec.ch/TC57/CIM100#PhaseCode.B"/>
+  <cim:Measurement.PowerSystemResource rdf:resource="urn:uuid:4FE57842-43D5-4EBB-8FF1-795E6FE1C507"/>
+  <cim:Measurement.Terminal rdf:resource="urn:uuid:E10FFA58-B87C-4425-815D-79ED4DB73F58"/>
+  <cim:IdentifiedObject.mRID>ba594dc6-5af1-45a8-ae74-4d4e8f4823ce</cim:IdentifiedObject.mRID>
+  <cim:IdentifiedObject.name>EnergyConsumer_670b_VA_1_B</cim:IdentifiedObject.name>
+</cim:Analog>
+<cim:Analog rdf:about="urn:uuid:F590B0FB-8D0A-4993-92DF-DDAEDAE5E8A2">
+  <cim:Measurement.measurementType>PNV</cim:Measurement.measurementType>
+  <cim:Measurement.phases rdf:resource="http://iec.ch/TC57/CIM100#PhaseCode.C"/>
+  <cim:Measurement.PowerSystemResource rdf:resource="urn:uuid:7E0E4F76-E0FD-4BB5-BB58-BC5B05A5A59A"/>
+  <cim:Measurement.Terminal rdf:resource="urn:uuid:7140598B-D8E1-4459-86EB-99BF218FB320"/>
+  <cim:IdentifiedObject.mRID>f590b0fb-8d0a-4993-92df-ddaedae5e8a2</cim:IdentifiedObject.mRID>
+  <cim:IdentifiedObject.name>EnergyConsumer_670c_PNV_1_C</cim:IdentifiedObject.name>
+</cim:Analog>
+<cim:Analog rdf:about="urn:uuid:E5739A29-A50E-4E9D-8245-976461F4A1E3">
+  <cim:Measurement.measurementType>VA</cim:Measurement.measurementType>
+  <cim:Measurement.phases rdf:resource="http://iec.ch/TC57/CIM100#PhaseCode.C"/>
+  <cim:Measurement.PowerSystemResource rdf:resource="urn:uuid:7E0E4F76-E0FD-4BB5-BB58-BC5B05A5A59A"/>
+  <cim:Measurement.Terminal rdf:resource="urn:uuid:7140598B-D8E1-4459-86EB-99BF218FB320"/>
+  <cim:IdentifiedObject.mRID>e5739a29-a50e-4e9d-8245-976461f4a1e3</cim:IdentifiedObject.mRID>
+  <cim:IdentifiedObject.name>EnergyConsumer_670c_VA_1_C</cim:IdentifiedObject.name>
+</cim:Analog>
+<cim:Analog rdf:about="urn:uuid:B939DD16-6E40-4F21-B5C6-A4119E47452F">
+  <cim:Measurement.measurementType>PNV</cim:Measurement.measurementType>
+  <cim:Measurement.phases rdf:resource="http://iec.ch/TC57/CIM100#PhaseCode.A"/>
+  <cim:Measurement.PowerSystemResource rdf:resource="urn:uuid:6ECF60CD-E1E5-4C59-8941-3EC0E9DF30DD"/>
+  <cim:Measurement.Terminal rdf:resource="urn:uuid:FB232D9A-027E-4CF2-A75C-C95F2C454D93"/>
+  <cim:IdentifiedObject.mRID>b939dd16-6e40-4f21-b5c6-a4119e47452f</cim:IdentifiedObject.mRID>
+  <cim:IdentifiedObject.name>PowerTransformer_sub_PNV_1_A</cim:IdentifiedObject.name>
+</cim:Analog>
+<cim:Analog rdf:about="urn:uuid:BC2C03B4-1BFA-44B4-81E5-D3D37AD2E984">
+  <cim:Measurement.measurementType>PNV</cim:Measurement.measurementType>
+  <cim:Measurement.phases rdf:resource="http://iec.ch/TC57/CIM100#PhaseCode.B"/>
+  <cim:Measurement.PowerSystemResource rdf:resource="urn:uuid:6ECF60CD-E1E5-4C59-8941-3EC0E9DF30DD"/>
+  <cim:Measurement.Terminal rdf:resource="urn:uuid:FB232D9A-027E-4CF2-A75C-C95F2C454D93"/>
+  <cim:IdentifiedObject.mRID>bc2c03b4-1bfa-44b4-81e5-d3d37ad2e984</cim:IdentifiedObject.mRID>
+  <cim:IdentifiedObject.name>PowerTransformer_sub_PNV_1_B</cim:IdentifiedObject.name>
+</cim:Analog>
+<cim:Analog rdf:about="urn:uuid:7CE38656-58E9-4D10-AFC0-7908D999549C">
+  <cim:Measurement.measurementType>PNV</cim:Measurement.measurementType>
+  <cim:Measurement.phases rdf:resource="http://iec.ch/TC57/CIM100#PhaseCode.C"/>
+  <cim:Measurement.PowerSystemResource rdf:resource="urn:uuid:6ECF60CD-E1E5-4C59-8941-3EC0E9DF30DD"/>
+  <cim:Measurement.Terminal rdf:resource="urn:uuid:FB232D9A-027E-4CF2-A75C-C95F2C454D93"/>
+  <cim:IdentifiedObject.mRID>7ce38656-58e9-4d10-afc0-7908d999549c</cim:IdentifiedObject.mRID>
+  <cim:IdentifiedObject.name>PowerTransformer_sub_PNV_1_C</cim:IdentifiedObject.name>
+</cim:Analog>
+<cim:Analog rdf:about="urn:uuid:9E78C5FE-35EF-40BA-92E3-82DBD5FA0AB2">
+  <cim:Measurement.measurementType>VA</cim:Measurement.measurementType>
+  <cim:Measurement.phases rdf:resource="http://iec.ch/TC57/CIM100#PhaseCode.A"/>
+  <cim:Measurement.PowerSystemResource rdf:resource="urn:uuid:6ECF60CD-E1E5-4C59-8941-3EC0E9DF30DD"/>
+  <cim:Measurement.Terminal rdf:resource="urn:uuid:FB232D9A-027E-4CF2-A75C-C95F2C454D93"/>
+  <cim:IdentifiedObject.mRID>9e78c5fe-35ef-40ba-92e3-82dbd5fa0ab2</cim:IdentifiedObject.mRID>
+  <cim:IdentifiedObject.name>PowerTransformer_sub_VA_1_A</cim:IdentifiedObject.name>
+</cim:Analog>
+<cim:Analog rdf:about="urn:uuid:3BA447D1-9E90-4281-99F0-B6F6C4A4553A">
+  <cim:Measurement.measurementType>VA</cim:Measurement.measurementType>
+  <cim:Measurement.phases rdf:resource="http://iec.ch/TC57/CIM100#PhaseCode.B"/>
+  <cim:Measurement.PowerSystemResource rdf:resource="urn:uuid:6ECF60CD-E1E5-4C59-8941-3EC0E9DF30DD"/>
+  <cim:Measurement.Terminal rdf:resource="urn:uuid:FB232D9A-027E-4CF2-A75C-C95F2C454D93"/>
+  <cim:IdentifiedObject.mRID>3ba447d1-9e90-4281-99f0-b6f6c4a4553a</cim:IdentifiedObject.mRID>
+  <cim:IdentifiedObject.name>PowerTransformer_sub_VA_1_B</cim:IdentifiedObject.name>
+</cim:Analog>
+<cim:Analog rdf:about="urn:uuid:B9B6B558-9099-483F-AE83-3C7AC0A40386">
+  <cim:Measurement.measurementType>VA</cim:Measurement.measurementType>
+  <cim:Measurement.phases rdf:resource="http://iec.ch/TC57/CIM100#PhaseCode.C"/>
+  <cim:Measurement.PowerSystemResource rdf:resource="urn:uuid:6ECF60CD-E1E5-4C59-8941-3EC0E9DF30DD"/>
+  <cim:Measurement.Terminal rdf:resource="urn:uuid:FB232D9A-027E-4CF2-A75C-C95F2C454D93"/>
+  <cim:IdentifiedObject.mRID>b9b6b558-9099-483f-ae83-3c7ac0a40386</cim:IdentifiedObject.mRID>
+  <cim:IdentifiedObject.name>PowerTransformer_sub_VA_1_C</cim:IdentifiedObject.name>
+</cim:Analog>
+<cim:Analog rdf:about="urn:uuid:DBB70450-51D1-4428-913D-DB55A19902FE">
+  <cim:Measurement.measurementType>PNV</cim:Measurement.measurementType>
+  <cim:Measurement.phases rdf:resource="http://iec.ch/TC57/CIM100#PhaseCode.A"/>
+  <cim:Measurement.PowerSystemResource rdf:resource="urn:uuid:6ECF60CD-E1E5-4C59-8941-3EC0E9DF30DD"/>
+  <cim:Measurement.Terminal rdf:resource="urn:uuid:67A4EE9A-AE33-4CB8-8716-4F181BB8262E"/>
+  <cim:IdentifiedObject.mRID>dbb70450-51d1-4428-913d-db55a19902fe</cim:IdentifiedObject.mRID>
+  <cim:IdentifiedObject.name>PowerTransformer_sub_PNV_2_A</cim:IdentifiedObject.name>
+</cim:Analog>
+<cim:Analog rdf:about="urn:uuid:10362D6E-E3C0-4A90-AFB3-98EA30930596">
+  <cim:Measurement.measurementType>PNV</cim:Measurement.measurementType>
+  <cim:Measurement.phases rdf:resource="http://iec.ch/TC57/CIM100#PhaseCode.B"/>
+  <cim:Measurement.PowerSystemResource rdf:resource="urn:uuid:6ECF60CD-E1E5-4C59-8941-3EC0E9DF30DD"/>
+  <cim:Measurement.Terminal rdf:resource="urn:uuid:67A4EE9A-AE33-4CB8-8716-4F181BB8262E"/>
+  <cim:IdentifiedObject.mRID>10362d6e-e3c0-4a90-afb3-98ea30930596</cim:IdentifiedObject.mRID>
+  <cim:IdentifiedObject.name>PowerTransformer_sub_PNV_2_B</cim:IdentifiedObject.name>
+</cim:Analog>
+<cim:Analog rdf:about="urn:uuid:C05D9671-0693-4436-AFA2-3E27D036B52B">
+  <cim:Measurement.measurementType>PNV</cim:Measurement.measurementType>
+  <cim:Measurement.phases rdf:resource="http://iec.ch/TC57/CIM100#PhaseCode.C"/>
+  <cim:Measurement.PowerSystemResource rdf:resource="urn:uuid:6ECF60CD-E1E5-4C59-8941-3EC0E9DF30DD"/>
+  <cim:Measurement.Terminal rdf:resource="urn:uuid:67A4EE9A-AE33-4CB8-8716-4F181BB8262E"/>
+  <cim:IdentifiedObject.mRID>c05d9671-0693-4436-afa2-3e27d036b52b</cim:IdentifiedObject.mRID>
+  <cim:IdentifiedObject.name>PowerTransformer_sub_PNV_2_C</cim:IdentifiedObject.name>
+</cim:Analog>
+<cim:Analog rdf:about="urn:uuid:6A6E5F8C-0BE0-4239-844E-739254EF658B">
+  <cim:Measurement.measurementType>PNV</cim:Measurement.measurementType>
+  <cim:Measurement.phases rdf:resource="http://iec.ch/TC57/CIM100#PhaseCode.A"/>
+  <cim:Measurement.PowerSystemResource rdf:resource="urn:uuid:F229083B-D5FC-40F0-BFE0-9E92C8C69574"/>
+  <cim:Measurement.Terminal rdf:resource="urn:uuid:582C742F-9898-46BE-B6A8-5934F90D1F0C"/>
+  <cim:IdentifiedObject.mRID>6a6e5f8c-0be0-4239-844e-739254ef658b</cim:IdentifiedObject.mRID>
+  <cim:IdentifiedObject.name>PowerTransformer_xfm1_PNV_1_A</cim:IdentifiedObject.name>
+</cim:Analog>
+<cim:Analog rdf:about="urn:uuid:37C077AA-370F-4CC3-8BA4-8B562A19D350">
+  <cim:Measurement.measurementType>PNV</cim:Measurement.measurementType>
+  <cim:Measurement.phases rdf:resource="http://iec.ch/TC57/CIM100#PhaseCode.B"/>
+  <cim:Measurement.PowerSystemResource rdf:resource="urn:uuid:F229083B-D5FC-40F0-BFE0-9E92C8C69574"/>
+  <cim:Measurement.Terminal rdf:resource="urn:uuid:582C742F-9898-46BE-B6A8-5934F90D1F0C"/>
+  <cim:IdentifiedObject.mRID>37c077aa-370f-4cc3-8ba4-8b562a19d350</cim:IdentifiedObject.mRID>
+  <cim:IdentifiedObject.name>PowerTransformer_xfm1_PNV_1_B</cim:IdentifiedObject.name>
+</cim:Analog>
+<cim:Analog rdf:about="urn:uuid:5D963FA9-943C-4F31-9E57-F6D561670DFA">
+  <cim:Measurement.measurementType>PNV</cim:Measurement.measurementType>
+  <cim:Measurement.phases rdf:resource="http://iec.ch/TC57/CIM100#PhaseCode.C"/>
+  <cim:Measurement.PowerSystemResource rdf:resource="urn:uuid:F229083B-D5FC-40F0-BFE0-9E92C8C69574"/>
+  <cim:Measurement.Terminal rdf:resource="urn:uuid:582C742F-9898-46BE-B6A8-5934F90D1F0C"/>
+  <cim:IdentifiedObject.mRID>5d963fa9-943c-4f31-9e57-f6d561670dfa</cim:IdentifiedObject.mRID>
+  <cim:IdentifiedObject.name>PowerTransformer_xfm1_PNV_1_C</cim:IdentifiedObject.name>
+</cim:Analog>
+<cim:Analog rdf:about="urn:uuid:E4B787C8-B271-4F30-9CDE-994BA803F76A">
+  <cim:Measurement.measurementType>VA</cim:Measurement.measurementType>
+  <cim:Measurement.phases rdf:resource="http://iec.ch/TC57/CIM100#PhaseCode.A"/>
+  <cim:Measurement.PowerSystemResource rdf:resource="urn:uuid:F229083B-D5FC-40F0-BFE0-9E92C8C69574"/>
+  <cim:Measurement.Terminal rdf:resource="urn:uuid:582C742F-9898-46BE-B6A8-5934F90D1F0C"/>
+  <cim:IdentifiedObject.mRID>e4b787c8-b271-4f30-9cde-994ba803f76a</cim:IdentifiedObject.mRID>
+  <cim:IdentifiedObject.name>PowerTransformer_xfm1_VA_1_A</cim:IdentifiedObject.name>
+</cim:Analog>
+<cim:Analog rdf:about="urn:uuid:AD570B80-4152-4704-BE39-1B6C1F689F50">
+  <cim:Measurement.measurementType>VA</cim:Measurement.measurementType>
+  <cim:Measurement.phases rdf:resource="http://iec.ch/TC57/CIM100#PhaseCode.B"/>
+  <cim:Measurement.PowerSystemResource rdf:resource="urn:uuid:F229083B-D5FC-40F0-BFE0-9E92C8C69574"/>
+  <cim:Measurement.Terminal rdf:resource="urn:uuid:582C742F-9898-46BE-B6A8-5934F90D1F0C"/>
+  <cim:IdentifiedObject.mRID>ad570b80-4152-4704-be39-1b6c1f689f50</cim:IdentifiedObject.mRID>
+  <cim:IdentifiedObject.name>PowerTransformer_xfm1_VA_1_B</cim:IdentifiedObject.name>
+</cim:Analog>
+<cim:Analog rdf:about="urn:uuid:C10CD3B2-9193-40DF-A475-B94FA8F58CD4">
+  <cim:Measurement.measurementType>VA</cim:Measurement.measurementType>
+  <cim:Measurement.phases rdf:resource="http://iec.ch/TC57/CIM100#PhaseCode.C"/>
+  <cim:Measurement.PowerSystemResource rdf:resource="urn:uuid:F229083B-D5FC-40F0-BFE0-9E92C8C69574"/>
+  <cim:Measurement.Terminal rdf:resource="urn:uuid:582C742F-9898-46BE-B6A8-5934F90D1F0C"/>
+  <cim:IdentifiedObject.mRID>c10cd3b2-9193-40df-a475-b94fa8f58cd4</cim:IdentifiedObject.mRID>
+  <cim:IdentifiedObject.name>PowerTransformer_xfm1_VA_1_C</cim:IdentifiedObject.name>
+</cim:Analog>
+<cim:Analog rdf:about="urn:uuid:26B89A3F-FAFF-44F9-9F55-BBCF9F79A5BD">
+  <cim:Measurement.measurementType>PNV</cim:Measurement.measurementType>
+  <cim:Measurement.phases rdf:resource="http://iec.ch/TC57/CIM100#PhaseCode.A"/>
+  <cim:Measurement.PowerSystemResource rdf:resource="urn:uuid:F229083B-D5FC-40F0-BFE0-9E92C8C69574"/>
+  <cim:Measurement.Terminal rdf:resource="urn:uuid:3E1DEBD3-2916-483A-BC92-7A1C941A9762"/>
+  <cim:IdentifiedObject.mRID>26b89a3f-faff-44f9-9f55-bbcf9f79a5bd</cim:IdentifiedObject.mRID>
+  <cim:IdentifiedObject.name>PowerTransformer_xfm1_PNV_2_A</cim:IdentifiedObject.name>
+</cim:Analog>
+<cim:Analog rdf:about="urn:uuid:B2E7D7B7-9755-4CD8-ABB6-2243B533104E">
+  <cim:Measurement.measurementType>PNV</cim:Measurement.measurementType>
+  <cim:Measurement.phases rdf:resource="http://iec.ch/TC57/CIM100#PhaseCode.B"/>
+  <cim:Measurement.PowerSystemResource rdf:resource="urn:uuid:F229083B-D5FC-40F0-BFE0-9E92C8C69574"/>
+  <cim:Measurement.Terminal rdf:resource="urn:uuid:3E1DEBD3-2916-483A-BC92-7A1C941A9762"/>
+  <cim:IdentifiedObject.mRID>b2e7d7b7-9755-4cd8-abb6-2243b533104e</cim:IdentifiedObject.mRID>
+  <cim:IdentifiedObject.name>PowerTransformer_xfm1_PNV_2_B</cim:IdentifiedObject.name>
+</cim:Analog>
+<cim:Analog rdf:about="urn:uuid:07220A0F-480A-40E9-B59D-9C61826CCB33">
+  <cim:Measurement.measurementType>PNV</cim:Measurement.measurementType>
+  <cim:Measurement.phases rdf:resource="http://iec.ch/TC57/CIM100#PhaseCode.C"/>
+  <cim:Measurement.PowerSystemResource rdf:resource="urn:uuid:F229083B-D5FC-40F0-BFE0-9E92C8C69574"/>
+  <cim:Measurement.Terminal rdf:resource="urn:uuid:3E1DEBD3-2916-483A-BC92-7A1C941A9762"/>
+  <cim:IdentifiedObject.mRID>07220a0f-480a-40e9-b59d-9c61826ccb33</cim:IdentifiedObject.mRID>
+  <cim:IdentifiedObject.name>PowerTransformer_xfm1_PNV_2_C</cim:IdentifiedObject.name>
+</cim:Analog>
+<cim:Analog rdf:about="urn:uuid:9B425C49-EF7C-4898-9A4A-05C7EF1FDE0C">
+  <cim:Measurement.measurementType>VA</cim:Measurement.measurementType>
+  <cim:Measurement.phases rdf:resource="http://iec.ch/TC57/CIM100#PhaseCode.A"/>
+  <cim:Measurement.PowerSystemResource rdf:resource="urn:uuid:34A04257-8486-40AC-BE74-4022F7D395E4"/>
+  <cim:Measurement.Terminal rdf:resource="urn:uuid:395CB268-01A1-418E-A61D-9AF2BF55C72D"/>
+  <cim:IdentifiedObject.mRID>9b425c49-ef7c-4898-9a4a-05c7ef1fde0c</cim:IdentifiedObject.mRID>
+  <cim:IdentifiedObject.name>PowerTransformer_Reg_VA_1_A</cim:IdentifiedObject.name>
+</cim:Analog>
+<cim:Analog rdf:about="urn:uuid:AD9A9DF1-E46E-4EBB-B5DC-CFC2DE3AE949">
+  <cim:Measurement.measurementType>PNV</cim:Measurement.measurementType>
+  <cim:Measurement.phases rdf:resource="http://iec.ch/TC57/CIM100#PhaseCode.A"/>
+  <cim:Measurement.PowerSystemResource rdf:resource="urn:uuid:34A04257-8486-40AC-BE74-4022F7D395E4"/>
+  <cim:Measurement.Terminal rdf:resource="urn:uuid:69556E23-9E03-486A-B584-799FC0A2725B"/>
+  <cim:IdentifiedObject.mRID>ad9a9df1-e46e-4ebb-b5dc-cfc2de3ae949</cim:IdentifiedObject.mRID>
+  <cim:IdentifiedObject.name>PowerTransformer_Reg_PNV_2_A</cim:IdentifiedObject.name>
+</cim:Analog>
+<cim:Analog rdf:about="urn:uuid:44F7A927-CBFE-49CD-AA08-33CA14A1A71B">
+  <cim:Measurement.measurementType>VA</cim:Measurement.measurementType>
+  <cim:Measurement.phases rdf:resource="http://iec.ch/TC57/CIM100#PhaseCode.B"/>
+  <cim:Measurement.PowerSystemResource rdf:resource="urn:uuid:34A04257-8486-40AC-BE74-4022F7D395E4"/>
+  <cim:Measurement.Terminal rdf:resource="urn:uuid:77761EA2-B88B-42FA-B53B-2389D5FF10C6"/>
+  <cim:IdentifiedObject.mRID>44f7a927-cbfe-49cd-aa08-33ca14a1a71b</cim:IdentifiedObject.mRID>
+  <cim:IdentifiedObject.name>PowerTransformer_Reg_VA_1_B</cim:IdentifiedObject.name>
+</cim:Analog>
+<cim:Analog rdf:about="urn:uuid:EFE76A34-5623-4CEC-AACF-8248AB390E7E">
+  <cim:Measurement.measurementType>PNV</cim:Measurement.measurementType>
+  <cim:Measurement.phases rdf:resource="http://iec.ch/TC57/CIM100#PhaseCode.B"/>
+  <cim:Measurement.PowerSystemResource rdf:resource="urn:uuid:34A04257-8486-40AC-BE74-4022F7D395E4"/>
+  <cim:Measurement.Terminal rdf:resource="urn:uuid:7A9A50A7-5B0F-4DA6-A53E-53575FBC68CC"/>
+  <cim:IdentifiedObject.mRID>efe76a34-5623-4cec-aacf-8248ab390e7e</cim:IdentifiedObject.mRID>
+  <cim:IdentifiedObject.name>PowerTransformer_Reg_PNV_2_B</cim:IdentifiedObject.name>
+</cim:Analog>
+<cim:Analog rdf:about="urn:uuid:39C921AB-B9C6-41CE-99E0-C495AA516707">
+  <cim:Measurement.measurementType>VA</cim:Measurement.measurementType>
+  <cim:Measurement.phases rdf:resource="http://iec.ch/TC57/CIM100#PhaseCode.C"/>
+  <cim:Measurement.PowerSystemResource rdf:resource="urn:uuid:34A04257-8486-40AC-BE74-4022F7D395E4"/>
+  <cim:Measurement.Terminal rdf:resource="urn:uuid:06871ECF-88FB-462A-82BB-05FB228C3A65"/>
+  <cim:IdentifiedObject.mRID>39c921ab-b9c6-41ce-99e0-c495aa516707</cim:IdentifiedObject.mRID>
+  <cim:IdentifiedObject.name>PowerTransformer_Reg_VA_1_C</cim:IdentifiedObject.name>
+</cim:Analog>
+<cim:Analog rdf:about="urn:uuid:9E3ADFD4-BC83-437D-A43A-66581B52CD62">
+  <cim:Measurement.measurementType>PNV</cim:Measurement.measurementType>
+  <cim:Measurement.phases rdf:resource="http://iec.ch/TC57/CIM100#PhaseCode.C"/>
+  <cim:Measurement.PowerSystemResource rdf:resource="urn:uuid:34A04257-8486-40AC-BE74-4022F7D395E4"/>
+  <cim:Measurement.Terminal rdf:resource="urn:uuid:542544DA-AA1C-4F45-A8FA-10ABCF5BE28F"/>
+  <cim:IdentifiedObject.mRID>9e3adfd4-bc83-437d-a43a-66581b52cd62</cim:IdentifiedObject.mRID>
+  <cim:IdentifiedObject.name>PowerTransformer_Reg_PNV_2_C</cim:IdentifiedObject.name>
+</cim:Analog>
+<cim:Analog rdf:about="urn:uuid:073C22F8-6E5A-4306-8EDC-BA29499B5F7E">
+  <cim:Measurement.measurementType>PNV</cim:Measurement.measurementType>
+  <cim:Measurement.phases rdf:resource="http://iec.ch/TC57/CIM100#PhaseCode.A"/>
+  <cim:Measurement.PowerSystemResource rdf:resource="urn:uuid:6DEF3353-8276-402F-AC8E-3DEF4A396FFE"/>
+  <cim:Measurement.Terminal rdf:resource="urn:uuid:60290BDE-69A0-49FC-BEE2-B8C355B51330"/>
+  <cim:IdentifiedObject.mRID>073c22f8-6e5a-4306-8edc-ba29499b5f7e</cim:IdentifiedObject.mRID>
+  <cim:IdentifiedObject.name>ACLineSegment_650632_PNV_2_A</cim:IdentifiedObject.name>
+</cim:Analog>
+<cim:Analog rdf:about="urn:uuid:629E3A5B-B7E5-4C59-9F88-041CEEC0CB88">
+  <cim:Measurement.measurementType>VA</cim:Measurement.measurementType>
+  <cim:Measurement.phases rdf:resource="http://iec.ch/TC57/CIM100#PhaseCode.A"/>
+  <cim:Measurement.PowerSystemResource rdf:resource="urn:uuid:6DEF3353-8276-402F-AC8E-3DEF4A396FFE"/>
+  <cim:Measurement.Terminal rdf:resource="urn:uuid:82C4B32A-62D0-41FB-8A29-C64F3870E3EF"/>
+  <cim:IdentifiedObject.mRID>629e3a5b-b7e5-4c59-9f88-041ceec0cb88</cim:IdentifiedObject.mRID>
+  <cim:IdentifiedObject.name>ACLineSegment_650632_VA_1_A</cim:IdentifiedObject.name>
+</cim:Analog>
+<cim:Analog rdf:about="urn:uuid:1F2441FD-4A70-48F4-B2B8-344E652094A0">
+  <cim:Measurement.measurementType>PNV</cim:Measurement.measurementType>
+  <cim:Measurement.phases rdf:resource="http://iec.ch/TC57/CIM100#PhaseCode.B"/>
+  <cim:Measurement.PowerSystemResource rdf:resource="urn:uuid:6DEF3353-8276-402F-AC8E-3DEF4A396FFE"/>
+  <cim:Measurement.Terminal rdf:resource="urn:uuid:60290BDE-69A0-49FC-BEE2-B8C355B51330"/>
+  <cim:IdentifiedObject.mRID>1f2441fd-4a70-48f4-b2b8-344e652094a0</cim:IdentifiedObject.mRID>
+  <cim:IdentifiedObject.name>ACLineSegment_650632_PNV_2_B</cim:IdentifiedObject.name>
+</cim:Analog>
+<cim:Analog rdf:about="urn:uuid:619F68D6-50AA-4507-932F-BA30FFD78C18">
+  <cim:Measurement.measurementType>VA</cim:Measurement.measurementType>
+  <cim:Measurement.phases rdf:resource="http://iec.ch/TC57/CIM100#PhaseCode.B"/>
+  <cim:Measurement.PowerSystemResource rdf:resource="urn:uuid:6DEF3353-8276-402F-AC8E-3DEF4A396FFE"/>
+  <cim:Measurement.Terminal rdf:resource="urn:uuid:82C4B32A-62D0-41FB-8A29-C64F3870E3EF"/>
+  <cim:IdentifiedObject.mRID>619f68d6-50aa-4507-932f-ba30ffd78c18</cim:IdentifiedObject.mRID>
+  <cim:IdentifiedObject.name>ACLineSegment_650632_VA_1_B</cim:IdentifiedObject.name>
+</cim:Analog>
+<cim:Analog rdf:about="urn:uuid:0C4BDBA6-A3BD-40AF-B3FC-F46E40A42446">
+  <cim:Measurement.measurementType>PNV</cim:Measurement.measurementType>
+  <cim:Measurement.phases rdf:resource="http://iec.ch/TC57/CIM100#PhaseCode.C"/>
+  <cim:Measurement.PowerSystemResource rdf:resource="urn:uuid:6DEF3353-8276-402F-AC8E-3DEF4A396FFE"/>
+  <cim:Measurement.Terminal rdf:resource="urn:uuid:60290BDE-69A0-49FC-BEE2-B8C355B51330"/>
+  <cim:IdentifiedObject.mRID>0c4bdba6-a3bd-40af-b3fc-f46e40a42446</cim:IdentifiedObject.mRID>
+  <cim:IdentifiedObject.name>ACLineSegment_650632_PNV_2_C</cim:IdentifiedObject.name>
+</cim:Analog>
+<cim:Analog rdf:about="urn:uuid:6CBDFDB6-94DB-4057-BA6E-A9A3914E5087">
+  <cim:Measurement.measurementType>VA</cim:Measurement.measurementType>
+  <cim:Measurement.phases rdf:resource="http://iec.ch/TC57/CIM100#PhaseCode.C"/>
+  <cim:Measurement.PowerSystemResource rdf:resource="urn:uuid:6DEF3353-8276-402F-AC8E-3DEF4A396FFE"/>
+  <cim:Measurement.Terminal rdf:resource="urn:uuid:82C4B32A-62D0-41FB-8A29-C64F3870E3EF"/>
+  <cim:IdentifiedObject.mRID>6cbdfdb6-94db-4057-ba6e-a9a3914e5087</cim:IdentifiedObject.mRID>
+  <cim:IdentifiedObject.name>ACLineSegment_650632_VA_1_C</cim:IdentifiedObject.name>
+</cim:Analog>
+<cim:Analog rdf:about="urn:uuid:4D14B564-4B3F-422F-B93C-4F5569178F58">
+  <cim:Measurement.measurementType>PNV</cim:Measurement.measurementType>
+  <cim:Measurement.phases rdf:resource="http://iec.ch/TC57/CIM100#PhaseCode.A"/>
+  <cim:Measurement.PowerSystemResource rdf:resource="urn:uuid:8A62F620-7C58-4662-AE5C-F41F5E3F0022"/>
+  <cim:Measurement.Terminal rdf:resource="urn:uuid:B6000E34-260D-470F-B6F4-069DBEC65631"/>
+  <cim:IdentifiedObject.mRID>4d14b564-4b3f-422f-b93c-4f5569178f58</cim:IdentifiedObject.mRID>
+  <cim:IdentifiedObject.name>ACLineSegment_632670_PNV_2_A</cim:IdentifiedObject.name>
+</cim:Analog>
+<cim:Analog rdf:about="urn:uuid:EE3E0406-1C52-4C09-92BD-B65A76220C74">
+  <cim:Measurement.measurementType>VA</cim:Measurement.measurementType>
+  <cim:Measurement.phases rdf:resource="http://iec.ch/TC57/CIM100#PhaseCode.A"/>
+  <cim:Measurement.PowerSystemResource rdf:resource="urn:uuid:8A62F620-7C58-4662-AE5C-F41F5E3F0022"/>
+  <cim:Measurement.Terminal rdf:resource="urn:uuid:CE8A51BA-8160-4AAA-907B-853BD19141E3"/>
+  <cim:IdentifiedObject.mRID>ee3e0406-1c52-4c09-92bd-b65a76220c74</cim:IdentifiedObject.mRID>
+  <cim:IdentifiedObject.name>ACLineSegment_632670_VA_1_A</cim:IdentifiedObject.name>
+</cim:Analog>
+<cim:Analog rdf:about="urn:uuid:33D00E5E-EB9E-40E6-9F64-8C9206DF6542">
+  <cim:Measurement.measurementType>PNV</cim:Measurement.measurementType>
+  <cim:Measurement.phases rdf:resource="http://iec.ch/TC57/CIM100#PhaseCode.B"/>
+  <cim:Measurement.PowerSystemResource rdf:resource="urn:uuid:8A62F620-7C58-4662-AE5C-F41F5E3F0022"/>
+  <cim:Measurement.Terminal rdf:resource="urn:uuid:B6000E34-260D-470F-B6F4-069DBEC65631"/>
+  <cim:IdentifiedObject.mRID>33d00e5e-eb9e-40e6-9f64-8c9206df6542</cim:IdentifiedObject.mRID>
+  <cim:IdentifiedObject.name>ACLineSegment_632670_PNV_2_B</cim:IdentifiedObject.name>
+</cim:Analog>
+<cim:Analog rdf:about="urn:uuid:B5340D6A-1716-4BE5-94F2-98E0DA077768">
+  <cim:Measurement.measurementType>VA</cim:Measurement.measurementType>
+  <cim:Measurement.phases rdf:resource="http://iec.ch/TC57/CIM100#PhaseCode.B"/>
+  <cim:Measurement.PowerSystemResource rdf:resource="urn:uuid:8A62F620-7C58-4662-AE5C-F41F5E3F0022"/>
+  <cim:Measurement.Terminal rdf:resource="urn:uuid:CE8A51BA-8160-4AAA-907B-853BD19141E3"/>
+  <cim:IdentifiedObject.mRID>b5340d6a-1716-4be5-94f2-98e0da077768</cim:IdentifiedObject.mRID>
+  <cim:IdentifiedObject.name>ACLineSegment_632670_VA_1_B</cim:IdentifiedObject.name>
+</cim:Analog>
+<cim:Analog rdf:about="urn:uuid:FF7CAB29-516E-458B-961E-E4B08FE61D34">
+  <cim:Measurement.measurementType>PNV</cim:Measurement.measurementType>
+  <cim:Measurement.phases rdf:resource="http://iec.ch/TC57/CIM100#PhaseCode.C"/>
+  <cim:Measurement.PowerSystemResource rdf:resource="urn:uuid:8A62F620-7C58-4662-AE5C-F41F5E3F0022"/>
+  <cim:Measurement.Terminal rdf:resource="urn:uuid:B6000E34-260D-470F-B6F4-069DBEC65631"/>
+  <cim:IdentifiedObject.mRID>ff7cab29-516e-458b-961e-e4b08fe61d34</cim:IdentifiedObject.mRID>
+  <cim:IdentifiedObject.name>ACLineSegment_632670_PNV_2_C</cim:IdentifiedObject.name>
+</cim:Analog>
+<cim:Analog rdf:about="urn:uuid:58E0F2BB-113E-4723-B152-E02AB368036E">
+  <cim:Measurement.measurementType>VA</cim:Measurement.measurementType>
+  <cim:Measurement.phases rdf:resource="http://iec.ch/TC57/CIM100#PhaseCode.C"/>
+  <cim:Measurement.PowerSystemResource rdf:resource="urn:uuid:8A62F620-7C58-4662-AE5C-F41F5E3F0022"/>
+  <cim:Measurement.Terminal rdf:resource="urn:uuid:CE8A51BA-8160-4AAA-907B-853BD19141E3"/>
+  <cim:IdentifiedObject.mRID>58e0f2bb-113e-4723-b152-e02ab368036e</cim:IdentifiedObject.mRID>
+  <cim:IdentifiedObject.name>ACLineSegment_632670_VA_1_C</cim:IdentifiedObject.name>
+</cim:Analog>
+<cim:Analog rdf:about="urn:uuid:5D7A4251-4E6D-439F-AABB-32E3036F55B4">
+  <cim:Measurement.measurementType>PNV</cim:Measurement.measurementType>
+  <cim:Measurement.phases rdf:resource="http://iec.ch/TC57/CIM100#PhaseCode.A"/>
+  <cim:Measurement.PowerSystemResource rdf:resource="urn:uuid:4774208A-B9AB-4051-8BC9-4F7C8EA6552A"/>
+  <cim:Measurement.Terminal rdf:resource="urn:uuid:04DCA1EA-04D2-48D8-8394-82E412AF5616"/>
+  <cim:IdentifiedObject.mRID>5d7a4251-4e6d-439f-aabb-32e3036f55b4</cim:IdentifiedObject.mRID>
+  <cim:IdentifiedObject.name>ACLineSegment_670671_PNV_2_A</cim:IdentifiedObject.name>
+</cim:Analog>
+<cim:Analog rdf:about="urn:uuid:F262916E-5F17-4C9C-86F0-E4C0EAFEBC9B">
+  <cim:Measurement.measurementType>VA</cim:Measurement.measurementType>
+  <cim:Measurement.phases rdf:resource="http://iec.ch/TC57/CIM100#PhaseCode.A"/>
+  <cim:Measurement.PowerSystemResource rdf:resource="urn:uuid:4774208A-B9AB-4051-8BC9-4F7C8EA6552A"/>
+  <cim:Measurement.Terminal rdf:resource="urn:uuid:AF113CF9-9B02-4D61-B831-1E02709C8E93"/>
+  <cim:IdentifiedObject.mRID>f262916e-5f17-4c9c-86f0-e4c0eafebc9b</cim:IdentifiedObject.mRID>
+  <cim:IdentifiedObject.name>ACLineSegment_670671_VA_1_A</cim:IdentifiedObject.name>
+</cim:Analog>
+<cim:Analog rdf:about="urn:uuid:34862BD4-E294-4517-8206-AA51037CD779">
+  <cim:Measurement.measurementType>PNV</cim:Measurement.measurementType>
+  <cim:Measurement.phases rdf:resource="http://iec.ch/TC57/CIM100#PhaseCode.B"/>
+  <cim:Measurement.PowerSystemResource rdf:resource="urn:uuid:4774208A-B9AB-4051-8BC9-4F7C8EA6552A"/>
+  <cim:Measurement.Terminal rdf:resource="urn:uuid:04DCA1EA-04D2-48D8-8394-82E412AF5616"/>
+  <cim:IdentifiedObject.mRID>34862bd4-e294-4517-8206-aa51037cd779</cim:IdentifiedObject.mRID>
+  <cim:IdentifiedObject.name>ACLineSegment_670671_PNV_2_B</cim:IdentifiedObject.name>
+</cim:Analog>
+<cim:Analog rdf:about="urn:uuid:26831A69-2811-4C7A-BDDC-1DCDDE4E3FBC">
+  <cim:Measurement.measurementType>VA</cim:Measurement.measurementType>
+  <cim:Measurement.phases rdf:resource="http://iec.ch/TC57/CIM100#PhaseCode.B"/>
+  <cim:Measurement.PowerSystemResource rdf:resource="urn:uuid:4774208A-B9AB-4051-8BC9-4F7C8EA6552A"/>
+  <cim:Measurement.Terminal rdf:resource="urn:uuid:AF113CF9-9B02-4D61-B831-1E02709C8E93"/>
+  <cim:IdentifiedObject.mRID>26831a69-2811-4c7a-bddc-1dcdde4e3fbc</cim:IdentifiedObject.mRID>
+  <cim:IdentifiedObject.name>ACLineSegment_670671_VA_1_B</cim:IdentifiedObject.name>
+</cim:Analog>
+<cim:Analog rdf:about="urn:uuid:227CE7F4-CCBA-459C-80F7-8DD8D89B47B9">
+  <cim:Measurement.measurementType>PNV</cim:Measurement.measurementType>
+  <cim:Measurement.phases rdf:resource="http://iec.ch/TC57/CIM100#PhaseCode.C"/>
+  <cim:Measurement.PowerSystemResource rdf:resource="urn:uuid:4774208A-B9AB-4051-8BC9-4F7C8EA6552A"/>
+  <cim:Measurement.Terminal rdf:resource="urn:uuid:04DCA1EA-04D2-48D8-8394-82E412AF5616"/>
+  <cim:IdentifiedObject.mRID>227ce7f4-ccba-459c-80f7-8dd8d89b47b9</cim:IdentifiedObject.mRID>
+  <cim:IdentifiedObject.name>ACLineSegment_670671_PNV_2_C</cim:IdentifiedObject.name>
+</cim:Analog>
+<cim:Analog rdf:about="urn:uuid:90476A3D-06AE-4308-A87F-1B59F47B9785">
+  <cim:Measurement.measurementType>VA</cim:Measurement.measurementType>
+  <cim:Measurement.phases rdf:resource="http://iec.ch/TC57/CIM100#PhaseCode.C"/>
+  <cim:Measurement.PowerSystemResource rdf:resource="urn:uuid:4774208A-B9AB-4051-8BC9-4F7C8EA6552A"/>
+  <cim:Measurement.Terminal rdf:resource="urn:uuid:AF113CF9-9B02-4D61-B831-1E02709C8E93"/>
+  <cim:IdentifiedObject.mRID>90476a3d-06ae-4308-a87f-1b59f47b9785</cim:IdentifiedObject.mRID>
+  <cim:IdentifiedObject.name>ACLineSegment_670671_VA_1_C</cim:IdentifiedObject.name>
+</cim:Analog>
+<cim:Analog rdf:about="urn:uuid:45C11147-C6EA-4CD1-9872-E3AFC4465720">
+  <cim:Measurement.measurementType>PNV</cim:Measurement.measurementType>
+  <cim:Measurement.phases rdf:resource="http://iec.ch/TC57/CIM100#PhaseCode.A"/>
+  <cim:Measurement.PowerSystemResource rdf:resource="urn:uuid:603106B5-1DC7-40B1-A264-98774F6FD16D"/>
+  <cim:Measurement.Terminal rdf:resource="urn:uuid:2DC3EF16-F881-42A9-BF65-1158799F132A"/>
+  <cim:IdentifiedObject.mRID>45c11147-c6ea-4cd1-9872-e3afc4465720</cim:IdentifiedObject.mRID>
+  <cim:IdentifiedObject.name>ACLineSegment_671680_PNV_2_A</cim:IdentifiedObject.name>
+</cim:Analog>
+<cim:Analog rdf:about="urn:uuid:0D3C0351-791D-4117-81DC-4BCED6D3A0DE">
+  <cim:Measurement.measurementType>VA</cim:Measurement.measurementType>
+  <cim:Measurement.phases rdf:resource="http://iec.ch/TC57/CIM100#PhaseCode.A"/>
+  <cim:Measurement.PowerSystemResource rdf:resource="urn:uuid:603106B5-1DC7-40B1-A264-98774F6FD16D"/>
+  <cim:Measurement.Terminal rdf:resource="urn:uuid:78ED9EED-991C-4622-9475-A17212AED8AF"/>
+  <cim:IdentifiedObject.mRID>0d3c0351-791d-4117-81dc-4bced6d3a0de</cim:IdentifiedObject.mRID>
+  <cim:IdentifiedObject.name>ACLineSegment_671680_VA_1_A</cim:IdentifiedObject.name>
+</cim:Analog>
+<cim:Analog rdf:about="urn:uuid:7789FDCA-EC4B-4974-AB0E-BB33865E8518">
+  <cim:Measurement.measurementType>PNV</cim:Measurement.measurementType>
+  <cim:Measurement.phases rdf:resource="http://iec.ch/TC57/CIM100#PhaseCode.B"/>
+  <cim:Measurement.PowerSystemResource rdf:resource="urn:uuid:603106B5-1DC7-40B1-A264-98774F6FD16D"/>
+  <cim:Measurement.Terminal rdf:resource="urn:uuid:2DC3EF16-F881-42A9-BF65-1158799F132A"/>
+  <cim:IdentifiedObject.mRID>7789fdca-ec4b-4974-ab0e-bb33865e8518</cim:IdentifiedObject.mRID>
+  <cim:IdentifiedObject.name>ACLineSegment_671680_PNV_2_B</cim:IdentifiedObject.name>
+</cim:Analog>
+<cim:Analog rdf:about="urn:uuid:CBAE2F2D-D8A1-4D4A-B172-2E9DDF1DD9D3">
+  <cim:Measurement.measurementType>VA</cim:Measurement.measurementType>
+  <cim:Measurement.phases rdf:resource="http://iec.ch/TC57/CIM100#PhaseCode.B"/>
+  <cim:Measurement.PowerSystemResource rdf:resource="urn:uuid:603106B5-1DC7-40B1-A264-98774F6FD16D"/>
+  <cim:Measurement.Terminal rdf:resource="urn:uuid:78ED9EED-991C-4622-9475-A17212AED8AF"/>
+  <cim:IdentifiedObject.mRID>cbae2f2d-d8a1-4d4a-b172-2e9ddf1dd9d3</cim:IdentifiedObject.mRID>
+  <cim:IdentifiedObject.name>ACLineSegment_671680_VA_1_B</cim:IdentifiedObject.name>
+</cim:Analog>
+<cim:Analog rdf:about="urn:uuid:E13D70B5-228B-4468-AF00-843B747462FB">
+  <cim:Measurement.measurementType>PNV</cim:Measurement.measurementType>
+  <cim:Measurement.phases rdf:resource="http://iec.ch/TC57/CIM100#PhaseCode.C"/>
+  <cim:Measurement.PowerSystemResource rdf:resource="urn:uuid:603106B5-1DC7-40B1-A264-98774F6FD16D"/>
+  <cim:Measurement.Terminal rdf:resource="urn:uuid:2DC3EF16-F881-42A9-BF65-1158799F132A"/>
+  <cim:IdentifiedObject.mRID>e13d70b5-228b-4468-af00-843b747462fb</cim:IdentifiedObject.mRID>
+  <cim:IdentifiedObject.name>ACLineSegment_671680_PNV_2_C</cim:IdentifiedObject.name>
+</cim:Analog>
+<cim:Analog rdf:about="urn:uuid:AAB4A3E1-BB7F-4F74-B00C-0D7DF1548255">
+  <cim:Measurement.measurementType>VA</cim:Measurement.measurementType>
+  <cim:Measurement.phases rdf:resource="http://iec.ch/TC57/CIM100#PhaseCode.C"/>
+  <cim:Measurement.PowerSystemResource rdf:resource="urn:uuid:603106B5-1DC7-40B1-A264-98774F6FD16D"/>
+  <cim:Measurement.Terminal rdf:resource="urn:uuid:78ED9EED-991C-4622-9475-A17212AED8AF"/>
+  <cim:IdentifiedObject.mRID>aab4a3e1-bb7f-4f74-b00c-0d7df1548255</cim:IdentifiedObject.mRID>
+  <cim:IdentifiedObject.name>ACLineSegment_671680_VA_1_C</cim:IdentifiedObject.name>
+</cim:Analog>
+<cim:Analog rdf:about="urn:uuid:EAE448AF-EC2F-4F5F-8107-4E5660714267">
+  <cim:Measurement.measurementType>VA</cim:Measurement.measurementType>
+  <cim:Measurement.phases rdf:resource="http://iec.ch/TC57/CIM100#PhaseCode.A"/>
+  <cim:Measurement.PowerSystemResource rdf:resource="urn:uuid:67A2574B-8146-464D-B93C-B9FCBCE913BC"/>
+  <cim:Measurement.Terminal rdf:resource="urn:uuid:2E9A8734-C4F8-4C76-8AF3-F0627DCBCBEB"/>
+  <cim:IdentifiedObject.mRID>eae448af-ec2f-4f5f-8107-4e5660714267</cim:IdentifiedObject.mRID>
+  <cim:IdentifiedObject.name>ACLineSegment_632633_VA_1_A</cim:IdentifiedObject.name>
+</cim:Analog>
+<cim:Analog rdf:about="urn:uuid:F79CFF61-C7F2-49D8-85E8-4DA3AC2BF21D">
+  <cim:Measurement.measurementType>VA</cim:Measurement.measurementType>
+  <cim:Measurement.phases rdf:resource="http://iec.ch/TC57/CIM100#PhaseCode.B"/>
+  <cim:Measurement.PowerSystemResource rdf:resource="urn:uuid:67A2574B-8146-464D-B93C-B9FCBCE913BC"/>
+  <cim:Measurement.Terminal rdf:resource="urn:uuid:2E9A8734-C4F8-4C76-8AF3-F0627DCBCBEB"/>
+  <cim:IdentifiedObject.mRID>f79cff61-c7f2-49d8-85e8-4da3ac2bf21d</cim:IdentifiedObject.mRID>
+  <cim:IdentifiedObject.name>ACLineSegment_632633_VA_1_B</cim:IdentifiedObject.name>
+</cim:Analog>
+<cim:Analog rdf:about="urn:uuid:8DD1380D-C8DF-4602-B672-8F97E9AE8A09">
+  <cim:Measurement.measurementType>VA</cim:Measurement.measurementType>
+  <cim:Measurement.phases rdf:resource="http://iec.ch/TC57/CIM100#PhaseCode.C"/>
+  <cim:Measurement.PowerSystemResource rdf:resource="urn:uuid:67A2574B-8146-464D-B93C-B9FCBCE913BC"/>
+  <cim:Measurement.Terminal rdf:resource="urn:uuid:2E9A8734-C4F8-4C76-8AF3-F0627DCBCBEB"/>
+  <cim:IdentifiedObject.mRID>8dd1380d-c8df-4602-b672-8f97e9ae8a09</cim:IdentifiedObject.mRID>
+  <cim:IdentifiedObject.name>ACLineSegment_632633_VA_1_C</cim:IdentifiedObject.name>
+</cim:Analog>
+<cim:Analog rdf:about="urn:uuid:FC4426F4-EBAE-47E0-B69F-3D6B21FAA6E8">
+  <cim:Measurement.measurementType>PNV</cim:Measurement.measurementType>
+  <cim:Measurement.phases rdf:resource="http://iec.ch/TC57/CIM100#PhaseCode.C"/>
+  <cim:Measurement.PowerSystemResource rdf:resource="urn:uuid:A98417B1-4A7F-484F-97C8-9B91F29A26F1"/>
+  <cim:Measurement.Terminal rdf:resource="urn:uuid:3242BCAC-B8AB-4548-888E-5EA967691090"/>
+  <cim:IdentifiedObject.mRID>fc4426f4-ebae-47e0-b69f-3d6b21faa6e8</cim:IdentifiedObject.mRID>
+  <cim:IdentifiedObject.name>ACLineSegment_632645_PNV_2_C</cim:IdentifiedObject.name>
+</cim:Analog>
+<cim:Analog rdf:about="urn:uuid:E6F5946E-9F75-4F76-80F3-AB2215C6B5BF">
+  <cim:Measurement.measurementType>VA</cim:Measurement.measurementType>
+  <cim:Measurement.phases rdf:resource="http://iec.ch/TC57/CIM100#PhaseCode.C"/>
+  <cim:Measurement.PowerSystemResource rdf:resource="urn:uuid:A98417B1-4A7F-484F-97C8-9B91F29A26F1"/>
+  <cim:Measurement.Terminal rdf:resource="urn:uuid:E34BA9AE-07FD-4350-B7F3-325DD010A768"/>
+  <cim:IdentifiedObject.mRID>e6f5946e-9f75-4f76-80f3-ab2215c6b5bf</cim:IdentifiedObject.mRID>
+  <cim:IdentifiedObject.name>ACLineSegment_632645_VA_1_C</cim:IdentifiedObject.name>
+</cim:Analog>
+<cim:Analog rdf:about="urn:uuid:8720487D-A747-443C-B66C-DF7BBBF58838">
+  <cim:Measurement.measurementType>PNV</cim:Measurement.measurementType>
+  <cim:Measurement.phases rdf:resource="http://iec.ch/TC57/CIM100#PhaseCode.B"/>
+  <cim:Measurement.PowerSystemResource rdf:resource="urn:uuid:A98417B1-4A7F-484F-97C8-9B91F29A26F1"/>
+  <cim:Measurement.Terminal rdf:resource="urn:uuid:3242BCAC-B8AB-4548-888E-5EA967691090"/>
+  <cim:IdentifiedObject.mRID>8720487d-a747-443c-b66c-df7bbbf58838</cim:IdentifiedObject.mRID>
+  <cim:IdentifiedObject.name>ACLineSegment_632645_PNV_2_B</cim:IdentifiedObject.name>
+</cim:Analog>
+<cim:Analog rdf:about="urn:uuid:26047E85-F318-4F3C-88FD-C410560189A1">
+  <cim:Measurement.measurementType>VA</cim:Measurement.measurementType>
+  <cim:Measurement.phases rdf:resource="http://iec.ch/TC57/CIM100#PhaseCode.B"/>
+  <cim:Measurement.PowerSystemResource rdf:resource="urn:uuid:A98417B1-4A7F-484F-97C8-9B91F29A26F1"/>
+  <cim:Measurement.Terminal rdf:resource="urn:uuid:E34BA9AE-07FD-4350-B7F3-325DD010A768"/>
+  <cim:IdentifiedObject.mRID>26047e85-f318-4f3c-88fd-c410560189a1</cim:IdentifiedObject.mRID>
+  <cim:IdentifiedObject.name>ACLineSegment_632645_VA_1_B</cim:IdentifiedObject.name>
+</cim:Analog>
+<cim:Analog rdf:about="urn:uuid:598E6495-4D12-4CE1-A5CF-18DF76B0211F">
+  <cim:Measurement.measurementType>PNV</cim:Measurement.measurementType>
+  <cim:Measurement.phases rdf:resource="http://iec.ch/TC57/CIM100#PhaseCode.C"/>
+  <cim:Measurement.PowerSystemResource rdf:resource="urn:uuid:173879C4-4FDB-4521-A60D-5B102B3781B2"/>
+  <cim:Measurement.Terminal rdf:resource="urn:uuid:91E21558-6FAE-47D6-9756-D3703B4CCFE6"/>
+  <cim:IdentifiedObject.mRID>598e6495-4d12-4ce1-a5cf-18df76b0211f</cim:IdentifiedObject.mRID>
+  <cim:IdentifiedObject.name>ACLineSegment_645646_PNV_2_C</cim:IdentifiedObject.name>
+</cim:Analog>
+<cim:Analog rdf:about="urn:uuid:01E1A5F2-2D39-4741-9D08-904F1C5DC3DC">
+  <cim:Measurement.measurementType>VA</cim:Measurement.measurementType>
+  <cim:Measurement.phases rdf:resource="http://iec.ch/TC57/CIM100#PhaseCode.C"/>
+  <cim:Measurement.PowerSystemResource rdf:resource="urn:uuid:173879C4-4FDB-4521-A60D-5B102B3781B2"/>
+  <cim:Measurement.Terminal rdf:resource="urn:uuid:CA7CF6E9-DC73-4970-AED7-97D2F1AB9C7D"/>
+  <cim:IdentifiedObject.mRID>01e1a5f2-2d39-4741-9d08-904f1c5dc3dc</cim:IdentifiedObject.mRID>
+  <cim:IdentifiedObject.name>ACLineSegment_645646_VA_1_C</cim:IdentifiedObject.name>
+</cim:Analog>
+<cim:Analog rdf:about="urn:uuid:440AC35A-7C9E-4751-8D15-D72D23969E8A">
+  <cim:Measurement.measurementType>PNV</cim:Measurement.measurementType>
+  <cim:Measurement.phases rdf:resource="http://iec.ch/TC57/CIM100#PhaseCode.B"/>
+  <cim:Measurement.PowerSystemResource rdf:resource="urn:uuid:173879C4-4FDB-4521-A60D-5B102B3781B2"/>
+  <cim:Measurement.Terminal rdf:resource="urn:uuid:91E21558-6FAE-47D6-9756-D3703B4CCFE6"/>
+  <cim:IdentifiedObject.mRID>440ac35a-7c9e-4751-8d15-d72d23969e8a</cim:IdentifiedObject.mRID>
+  <cim:IdentifiedObject.name>ACLineSegment_645646_PNV_2_B</cim:IdentifiedObject.name>
+</cim:Analog>
+<cim:Analog rdf:about="urn:uuid:7637CE0C-2BF0-4BFB-B898-4A15E25F805A">
+  <cim:Measurement.measurementType>VA</cim:Measurement.measurementType>
+  <cim:Measurement.phases rdf:resource="http://iec.ch/TC57/CIM100#PhaseCode.B"/>
+  <cim:Measurement.PowerSystemResource rdf:resource="urn:uuid:173879C4-4FDB-4521-A60D-5B102B3781B2"/>
+  <cim:Measurement.Terminal rdf:resource="urn:uuid:CA7CF6E9-DC73-4970-AED7-97D2F1AB9C7D"/>
+  <cim:IdentifiedObject.mRID>7637ce0c-2bf0-4bfb-b898-4a15e25f805a</cim:IdentifiedObject.mRID>
+  <cim:IdentifiedObject.name>ACLineSegment_645646_VA_1_B</cim:IdentifiedObject.name>
+</cim:Analog>
+<cim:Analog rdf:about="urn:uuid:F2794345-C0FF-4C77-82F7-BB56530D52C1">
+  <cim:Measurement.measurementType>PNV</cim:Measurement.measurementType>
+  <cim:Measurement.phases rdf:resource="http://iec.ch/TC57/CIM100#PhaseCode.A"/>
+  <cim:Measurement.PowerSystemResource rdf:resource="urn:uuid:6EBB2188-CBE1-4FEC-9406-83DE8E61F9CB"/>
+  <cim:Measurement.Terminal rdf:resource="urn:uuid:30DE3992-164E-4202-9928-92BB035621B3"/>
+  <cim:IdentifiedObject.mRID>f2794345-c0ff-4c77-82f7-bb56530d52c1</cim:IdentifiedObject.mRID>
+  <cim:IdentifiedObject.name>ACLineSegment_692675_PNV_1_A</cim:IdentifiedObject.name>
+</cim:Analog>
+<cim:Analog rdf:about="urn:uuid:123314C9-A619-47CB-BC7E-CE552C462534">
+  <cim:Measurement.measurementType>VA</cim:Measurement.measurementType>
+  <cim:Measurement.phases rdf:resource="http://iec.ch/TC57/CIM100#PhaseCode.A"/>
+  <cim:Measurement.PowerSystemResource rdf:resource="urn:uuid:6EBB2188-CBE1-4FEC-9406-83DE8E61F9CB"/>
+  <cim:Measurement.Terminal rdf:resource="urn:uuid:30DE3992-164E-4202-9928-92BB035621B3"/>
+  <cim:IdentifiedObject.mRID>123314c9-a619-47cb-bc7e-ce552c462534</cim:IdentifiedObject.mRID>
+  <cim:IdentifiedObject.name>ACLineSegment_692675_VA_1_A</cim:IdentifiedObject.name>
+</cim:Analog>
+<cim:Analog rdf:about="urn:uuid:93B68C77-FF4C-491F-A738-FDC9E3277E7F">
+  <cim:Measurement.measurementType>PNV</cim:Measurement.measurementType>
+  <cim:Measurement.phases rdf:resource="http://iec.ch/TC57/CIM100#PhaseCode.B"/>
+  <cim:Measurement.PowerSystemResource rdf:resource="urn:uuid:6EBB2188-CBE1-4FEC-9406-83DE8E61F9CB"/>
+  <cim:Measurement.Terminal rdf:resource="urn:uuid:30DE3992-164E-4202-9928-92BB035621B3"/>
+  <cim:IdentifiedObject.mRID>93b68c77-ff4c-491f-a738-fdc9e3277e7f</cim:IdentifiedObject.mRID>
+  <cim:IdentifiedObject.name>ACLineSegment_692675_PNV_1_B</cim:IdentifiedObject.name>
+</cim:Analog>
+<cim:Analog rdf:about="urn:uuid:3A19975A-3FB7-4DDE-ADE8-0667D950BFCC">
+  <cim:Measurement.measurementType>VA</cim:Measurement.measurementType>
+  <cim:Measurement.phases rdf:resource="http://iec.ch/TC57/CIM100#PhaseCode.B"/>
+  <cim:Measurement.PowerSystemResource rdf:resource="urn:uuid:6EBB2188-CBE1-4FEC-9406-83DE8E61F9CB"/>
+  <cim:Measurement.Terminal rdf:resource="urn:uuid:30DE3992-164E-4202-9928-92BB035621B3"/>
+  <cim:IdentifiedObject.mRID>3a19975a-3fb7-4dde-ade8-0667d950bfcc</cim:IdentifiedObject.mRID>
+  <cim:IdentifiedObject.name>ACLineSegment_692675_VA_1_B</cim:IdentifiedObject.name>
+</cim:Analog>
+<cim:Analog rdf:about="urn:uuid:2961DA6C-A793-44B1-933D-4F483898B9DF">
+  <cim:Measurement.measurementType>PNV</cim:Measurement.measurementType>
+  <cim:Measurement.phases rdf:resource="http://iec.ch/TC57/CIM100#PhaseCode.C"/>
+  <cim:Measurement.PowerSystemResource rdf:resource="urn:uuid:6EBB2188-CBE1-4FEC-9406-83DE8E61F9CB"/>
+  <cim:Measurement.Terminal rdf:resource="urn:uuid:30DE3992-164E-4202-9928-92BB035621B3"/>
+  <cim:IdentifiedObject.mRID>2961da6c-a793-44b1-933d-4f483898b9df</cim:IdentifiedObject.mRID>
+  <cim:IdentifiedObject.name>ACLineSegment_692675_PNV_1_C</cim:IdentifiedObject.name>
+</cim:Analog>
+<cim:Analog rdf:about="urn:uuid:557ECD24-EC63-4AFF-97FC-93D6BAA2E824">
+  <cim:Measurement.measurementType>VA</cim:Measurement.measurementType>
+  <cim:Measurement.phases rdf:resource="http://iec.ch/TC57/CIM100#PhaseCode.C"/>
+  <cim:Measurement.PowerSystemResource rdf:resource="urn:uuid:6EBB2188-CBE1-4FEC-9406-83DE8E61F9CB"/>
+  <cim:Measurement.Terminal rdf:resource="urn:uuid:30DE3992-164E-4202-9928-92BB035621B3"/>
+  <cim:IdentifiedObject.mRID>557ecd24-ec63-4aff-97fc-93d6baa2e824</cim:IdentifiedObject.mRID>
+  <cim:IdentifiedObject.name>ACLineSegment_692675_VA_1_C</cim:IdentifiedObject.name>
+</cim:Analog>
+<cim:Analog rdf:about="urn:uuid:8EBADBBA-E9E2-44C6-9275-7FD8733920D3">
+  <cim:Measurement.measurementType>PNV</cim:Measurement.measurementType>
+  <cim:Measurement.phases rdf:resource="http://iec.ch/TC57/CIM100#PhaseCode.A"/>
+  <cim:Measurement.PowerSystemResource rdf:resource="urn:uuid:08848DC6-BB11-4647-9C21-475BAD66A8B8"/>
+  <cim:Measurement.Terminal rdf:resource="urn:uuid:38B542B8-1A65-4211-9B2C-73FC39382959"/>
+  <cim:IdentifiedObject.mRID>8ebadbba-e9e2-44c6-9275-7fd8733920d3</cim:IdentifiedObject.mRID>
+  <cim:IdentifiedObject.name>ACLineSegment_671684_PNV_2_A</cim:IdentifiedObject.name>
+</cim:Analog>
+<cim:Analog rdf:about="urn:uuid:6EA3097C-6C8F-4846-B8D6-C282575A43C7">
+  <cim:Measurement.measurementType>VA</cim:Measurement.measurementType>
+  <cim:Measurement.phases rdf:resource="http://iec.ch/TC57/CIM100#PhaseCode.A"/>
+  <cim:Measurement.PowerSystemResource rdf:resource="urn:uuid:08848DC6-BB11-4647-9C21-475BAD66A8B8"/>
+  <cim:Measurement.Terminal rdf:resource="urn:uuid:636377F0-4E50-4C65-9320-35E0A68731BE"/>
+  <cim:IdentifiedObject.mRID>6ea3097c-6c8f-4846-b8d6-c282575a43c7</cim:IdentifiedObject.mRID>
+  <cim:IdentifiedObject.name>ACLineSegment_671684_VA_1_A</cim:IdentifiedObject.name>
+</cim:Analog>
+<cim:Analog rdf:about="urn:uuid:6AD4DAEA-D6DA-4408-952F-9B00ED121628">
+  <cim:Measurement.measurementType>PNV</cim:Measurement.measurementType>
+  <cim:Measurement.phases rdf:resource="http://iec.ch/TC57/CIM100#PhaseCode.C"/>
+  <cim:Measurement.PowerSystemResource rdf:resource="urn:uuid:08848DC6-BB11-4647-9C21-475BAD66A8B8"/>
+  <cim:Measurement.Terminal rdf:resource="urn:uuid:38B542B8-1A65-4211-9B2C-73FC39382959"/>
+  <cim:IdentifiedObject.mRID>6ad4daea-d6da-4408-952f-9b00ed121628</cim:IdentifiedObject.mRID>
+  <cim:IdentifiedObject.name>ACLineSegment_671684_PNV_2_C</cim:IdentifiedObject.name>
+</cim:Analog>
+<cim:Analog rdf:about="urn:uuid:E4FEB0C2-184D-4AD0-BDB9-026A09F58674">
+  <cim:Measurement.measurementType>VA</cim:Measurement.measurementType>
+  <cim:Measurement.phases rdf:resource="http://iec.ch/TC57/CIM100#PhaseCode.C"/>
+  <cim:Measurement.PowerSystemResource rdf:resource="urn:uuid:08848DC6-BB11-4647-9C21-475BAD66A8B8"/>
+  <cim:Measurement.Terminal rdf:resource="urn:uuid:636377F0-4E50-4C65-9320-35E0A68731BE"/>
+  <cim:IdentifiedObject.mRID>e4feb0c2-184d-4ad0-bdb9-026a09f58674</cim:IdentifiedObject.mRID>
+  <cim:IdentifiedObject.name>ACLineSegment_671684_VA_1_C</cim:IdentifiedObject.name>
+</cim:Analog>
+<cim:Analog rdf:about="urn:uuid:67DFD419-E132-492A-AAFF-2F9072811179">
+  <cim:Measurement.measurementType>VA</cim:Measurement.measurementType>
+  <cim:Measurement.phases rdf:resource="http://iec.ch/TC57/CIM100#PhaseCode.C"/>
+  <cim:Measurement.PowerSystemResource rdf:resource="urn:uuid:8C536493-14B8-41D0-8EE4-CAE4DFF33839"/>
+  <cim:Measurement.Terminal rdf:resource="urn:uuid:53964AFB-BE4E-4890-A694-957172605378"/>
+  <cim:IdentifiedObject.mRID>67dfd419-e132-492a-aaff-2f9072811179</cim:IdentifiedObject.mRID>
+  <cim:IdentifiedObject.name>ACLineSegment_684611_VA_1_C</cim:IdentifiedObject.name>
+</cim:Analog>
+<cim:Analog rdf:about="urn:uuid:EDD761AC-EC68-4A06-98D7-40F15818476C">
+  <cim:Measurement.measurementType>PNV</cim:Measurement.measurementType>
+  <cim:Measurement.phases rdf:resource="http://iec.ch/TC57/CIM100#PhaseCode.A"/>
+  <cim:Measurement.PowerSystemResource rdf:resource="urn:uuid:E062E187-F149-4555-8E27-2EE0C9D75274"/>
+  <cim:Measurement.Terminal rdf:resource="urn:uuid:CE782974-DCE7-4E04-8623-D139AE89EC0F"/>
+  <cim:IdentifiedObject.mRID>edd761ac-ec68-4a06-98d7-40f15818476c</cim:IdentifiedObject.mRID>
+  <cim:IdentifiedObject.name>ACLineSegment_684652_PNV_2_A</cim:IdentifiedObject.name>
+</cim:Analog>
+<cim:Analog rdf:about="urn:uuid:EAB67BED-7F4E-42A3-8F96-6C0C0727CE9F">
+  <cim:Measurement.measurementType>VA</cim:Measurement.measurementType>
+  <cim:Measurement.phases rdf:resource="http://iec.ch/TC57/CIM100#PhaseCode.A"/>
+  <cim:Measurement.PowerSystemResource rdf:resource="urn:uuid:E062E187-F149-4555-8E27-2EE0C9D75274"/>
+  <cim:Measurement.Terminal rdf:resource="urn:uuid:AF8E4B1E-76E3-4B5D-9505-E73E89BEDB1C"/>
+  <cim:IdentifiedObject.mRID>eab67bed-7f4e-42a3-8f96-6c0c0727ce9f</cim:IdentifiedObject.mRID>
+  <cim:IdentifiedObject.name>ACLineSegment_684652_VA_1_A</cim:IdentifiedObject.name>
+</cim:Analog>
+<cim:Analog rdf:about="urn:uuid:2413993E-069C-4117-9422-E6920FE53731">
+  <cim:Measurement.measurementType>A</cim:Measurement.measurementType>
+  <cim:Measurement.phases rdf:resource="http://iec.ch/TC57/CIM100#PhaseCode.A"/>
+  <cim:Measurement.PowerSystemResource rdf:resource="urn:uuid:4E1B3F09-CB88-4A5E-8198-24490EE7FC58"/>
+  <cim:Measurement.Terminal rdf:resource="urn:uuid:91D60890-17F3-4D7E-A79D-A03966031476"/>
+  <cim:IdentifiedObject.mRID>2413993e-069c-4117-9422-e6920fe53731</cim:IdentifiedObject.mRID>
+  <cim:IdentifiedObject.name>LoadBreakSwitch_671692_A_1_A</cim:IdentifiedObject.name>
+</cim:Analog>
+<cim:Analog rdf:about="urn:uuid:1F4F54D9-FFFF-4D22-8ECE-331350FA5975">
+  <cim:Measurement.measurementType>A</cim:Measurement.measurementType>
+  <cim:Measurement.phases rdf:resource="http://iec.ch/TC57/CIM100#PhaseCode.B"/>
+  <cim:Measurement.PowerSystemResource rdf:resource="urn:uuid:4E1B3F09-CB88-4A5E-8198-24490EE7FC58"/>
+  <cim:Measurement.Terminal rdf:resource="urn:uuid:91D60890-17F3-4D7E-A79D-A03966031476"/>
+  <cim:IdentifiedObject.mRID>1f4f54d9-ffff-4d22-8ece-331350fa5975</cim:IdentifiedObject.mRID>
+  <cim:IdentifiedObject.name>LoadBreakSwitch_671692_A_1_B</cim:IdentifiedObject.name>
+</cim:Analog>
+<cim:Analog rdf:about="urn:uuid:A04947D3-E748-4222-88E8-F826FDAF137F">
+  <cim:Measurement.measurementType>A</cim:Measurement.measurementType>
+  <cim:Measurement.phases rdf:resource="http://iec.ch/TC57/CIM100#PhaseCode.C"/>
+  <cim:Measurement.PowerSystemResource rdf:resource="urn:uuid:4E1B3F09-CB88-4A5E-8198-24490EE7FC58"/>
+  <cim:Measurement.Terminal rdf:resource="urn:uuid:91D60890-17F3-4D7E-A79D-A03966031476"/>
+  <cim:IdentifiedObject.mRID>a04947d3-e748-4222-88e8-f826fdaf137f</cim:IdentifiedObject.mRID>
+  <cim:IdentifiedObject.name>LoadBreakSwitch_671692_A_1_C</cim:IdentifiedObject.name>
+</cim:Analog>
+<cim:Discrete rdf:about="urn:uuid:2CB79182-7535-460F-9DAB-5E0A6A2C235A">
+  <cim:Measurement.measurementType>Pos</cim:Measurement.measurementType>
+  <cim:Measurement.phases rdf:resource="http://iec.ch/TC57/CIM100#PhaseCode.A"/>
+  <cim:Measurement.PowerSystemResource rdf:resource="urn:uuid:6A7D7AF8-A0F7-41B6-BB0C-160EAE054DEA"/>
+  <cim:Measurement.Terminal rdf:resource="urn:uuid:B419F939-0900-4F5B-A5E8-888DA638A60E"/>
+  <cim:IdentifiedObject.mRID>2cb79182-7535-460f-9dab-5e0a6a2c235a</cim:IdentifiedObject.mRID>
+  <cim:IdentifiedObject.name>LinearShuntCompensator_cap1_Pos_1_A</cim:IdentifiedObject.name>
+</cim:Discrete>
+<cim:Discrete rdf:about="urn:uuid:02B3770C-090B-469B-9269-79F92BFBCABB">
+  <cim:Measurement.measurementType>Pos</cim:Measurement.measurementType>
+  <cim:Measurement.phases rdf:resource="http://iec.ch/TC57/CIM100#PhaseCode.B"/>
+  <cim:Measurement.PowerSystemResource rdf:resource="urn:uuid:6A7D7AF8-A0F7-41B6-BB0C-160EAE054DEA"/>
+  <cim:Measurement.Terminal rdf:resource="urn:uuid:B419F939-0900-4F5B-A5E8-888DA638A60E"/>
+  <cim:IdentifiedObject.mRID>02b3770c-090b-469b-9269-79f92bfbcabb</cim:IdentifiedObject.mRID>
+  <cim:IdentifiedObject.name>LinearShuntCompensator_cap1_Pos_1_B</cim:IdentifiedObject.name>
+</cim:Discrete>
+<cim:Discrete rdf:about="urn:uuid:12771012-42E9-4BE5-A3FB-AD18A4F7F8EE">
+  <cim:Measurement.measurementType>Pos</cim:Measurement.measurementType>
+  <cim:Measurement.phases rdf:resource="http://iec.ch/TC57/CIM100#PhaseCode.C"/>
+  <cim:Measurement.PowerSystemResource rdf:resource="urn:uuid:6A7D7AF8-A0F7-41B6-BB0C-160EAE054DEA"/>
+  <cim:Measurement.Terminal rdf:resource="urn:uuid:B419F939-0900-4F5B-A5E8-888DA638A60E"/>
+  <cim:IdentifiedObject.mRID>12771012-42e9-4be5-a3fb-ad18a4f7f8ee</cim:IdentifiedObject.mRID>
+  <cim:IdentifiedObject.name>LinearShuntCompensator_cap1_Pos_1_C</cim:IdentifiedObject.name>
+</cim:Discrete>
+<cim:Discrete rdf:about="urn:uuid:EF1F39E3-B997-464C-A135-4810B86B8599">
+  <cim:Measurement.measurementType>Pos</cim:Measurement.measurementType>
+  <cim:Measurement.phases rdf:resource="http://iec.ch/TC57/CIM100#PhaseCode.C"/>
+  <cim:Measurement.PowerSystemResource rdf:resource="urn:uuid:28456F60-7196-47E4-9BE6-54F7EAABC04A"/>
+  <cim:Measurement.Terminal rdf:resource="urn:uuid:E4552638-C557-445F-B802-A3651855C49C"/>
+  <cim:IdentifiedObject.mRID>ef1f39e3-b997-464c-a135-4810b86b8599</cim:IdentifiedObject.mRID>
+  <cim:IdentifiedObject.name>LinearShuntCompensator_cap2_Pos_1_C</cim:IdentifiedObject.name>
+</cim:Discrete>
+<cim:Discrete rdf:about="urn:uuid:C6158528-8BED-48A4-BB58-4DDD3057D6C8">
+  <cim:Measurement.measurementType>Pos</cim:Measurement.measurementType>
+  <cim:Measurement.phases rdf:resource="http://iec.ch/TC57/CIM100#PhaseCode.A"/>
+  <cim:Measurement.PowerSystemResource rdf:resource="urn:uuid:34A04257-8486-40AC-BE74-4022F7D395E4"/>
+  <cim:Measurement.Terminal rdf:resource="urn:uuid:69556E23-9E03-486A-B584-799FC0A2725B"/>
+  <cim:IdentifiedObject.mRID>c6158528-8bed-48a4-bb58-4ddd3057d6c8</cim:IdentifiedObject.mRID>
+  <cim:IdentifiedObject.name>RatioTapChanger_Reg_Pos_2_A</cim:IdentifiedObject.name>
+</cim:Discrete>
+<cim:Discrete rdf:about="urn:uuid:DFC0429B-5C68-42EB-8E0E-DC0C1EE7E4FB">
+  <cim:Measurement.measurementType>Pos</cim:Measurement.measurementType>
+  <cim:Measurement.phases rdf:resource="http://iec.ch/TC57/CIM100#PhaseCode.B"/>
+  <cim:Measurement.PowerSystemResource rdf:resource="urn:uuid:34A04257-8486-40AC-BE74-4022F7D395E4"/>
+  <cim:Measurement.Terminal rdf:resource="urn:uuid:7A9A50A7-5B0F-4DA6-A53E-53575FBC68CC"/>
+  <cim:IdentifiedObject.mRID>dfc0429b-5c68-42eb-8e0e-dc0c1ee7e4fb</cim:IdentifiedObject.mRID>
+  <cim:IdentifiedObject.name>RatioTapChanger_Reg_Pos_2_B</cim:IdentifiedObject.name>
+</cim:Discrete>
+<cim:Discrete rdf:about="urn:uuid:02873594-DA94-4B92-AA89-BFCB96627ACF">
+  <cim:Measurement.measurementType>Pos</cim:Measurement.measurementType>
+  <cim:Measurement.phases rdf:resource="http://iec.ch/TC57/CIM100#PhaseCode.C"/>
+  <cim:Measurement.PowerSystemResource rdf:resource="urn:uuid:34A04257-8486-40AC-BE74-4022F7D395E4"/>
+  <cim:Measurement.Terminal rdf:resource="urn:uuid:542544DA-AA1C-4F45-A8FA-10ABCF5BE28F"/>
+  <cim:IdentifiedObject.mRID>02873594-da94-4b92-aa89-bfcb96627acf</cim:IdentifiedObject.mRID>
+  <cim:IdentifiedObject.name>RatioTapChanger_Reg_Pos_2_C</cim:IdentifiedObject.name>
+</cim:Discrete>
+<cim:Discrete rdf:about="urn:uuid:38AB3F89-002B-4683-8180-7DCAED1554E6">
+  <cim:Measurement.measurementType>Pos</cim:Measurement.measurementType>
+  <cim:Measurement.phases rdf:resource="http://iec.ch/TC57/CIM100#PhaseCode.A"/>
+  <cim:Measurement.PowerSystemResource rdf:resource="urn:uuid:4E1B3F09-CB88-4A5E-8198-24490EE7FC58"/>
+  <cim:Measurement.Terminal rdf:resource="urn:uuid:91D60890-17F3-4D7E-A79D-A03966031476"/>
+  <cim:IdentifiedObject.mRID>38ab3f89-002b-4683-8180-7dcaed1554e6</cim:IdentifiedObject.mRID>
+  <cim:IdentifiedObject.name>LoadBreakSwitch_671692_Pos_1_A</cim:IdentifiedObject.name>
+</cim:Discrete>
+<cim:Discrete rdf:about="urn:uuid:9A3485D2-B0C1-4610-BE74-637A6224F2C5">
+  <cim:Measurement.measurementType>Pos</cim:Measurement.measurementType>
+  <cim:Measurement.phases rdf:resource="http://iec.ch/TC57/CIM100#PhaseCode.B"/>
+  <cim:Measurement.PowerSystemResource rdf:resource="urn:uuid:4E1B3F09-CB88-4A5E-8198-24490EE7FC58"/>
+  <cim:Measurement.Terminal rdf:resource="urn:uuid:91D60890-17F3-4D7E-A79D-A03966031476"/>
+  <cim:IdentifiedObject.mRID>9a3485d2-b0c1-4610-be74-637a6224f2c5</cim:IdentifiedObject.mRID>
+  <cim:IdentifiedObject.name>LoadBreakSwitch_671692_Pos_1_B</cim:IdentifiedObject.name>
+</cim:Discrete>
+<cim:Discrete rdf:about="urn:uuid:6D6CBC92-60CD-4FE8-9B6B-CD198D67215E">
+  <cim:Measurement.measurementType>Pos</cim:Measurement.measurementType>
+  <cim:Measurement.phases rdf:resource="http://iec.ch/TC57/CIM100#PhaseCode.C"/>
+  <cim:Measurement.PowerSystemResource rdf:resource="urn:uuid:4E1B3F09-CB88-4A5E-8198-24490EE7FC58"/>
+  <cim:Measurement.Terminal rdf:resource="urn:uuid:91D60890-17F3-4D7E-A79D-A03966031476"/>
+  <cim:IdentifiedObject.mRID>6d6cbc92-60cd-4fe8-9b6b-cd198d67215e</cim:IdentifiedObject.mRID>
+  <cim:IdentifiedObject.name>LoadBreakSwitch_671692_Pos_1_C</cim:IdentifiedObject.name>
+</cim:Discrete>
 </rdf:RDF>
