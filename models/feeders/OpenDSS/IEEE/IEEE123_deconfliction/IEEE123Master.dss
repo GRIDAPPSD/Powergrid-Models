@@ -1,6 +1,6 @@
 ! Annotated Master file for the IEEE 123-bus test case.
 !
-! This file is meant to be invoked from the Compile command in the "Run_IEEE123Bus.DSS"  file.
+! This file is meant to be invoked from the Compile command in the "Run_IEEE123Bus.dss"  file.
 ! 
 ! Note: DSS commands, property names, etc., are NOT case sensitive. Capitalize as you please.
 ! You should always do a "Clear" before making a new circuit:
@@ -28,7 +28,7 @@ new regcontrol.creg1a transformer=reg1a winding=2 vreg=120 band=2 ptratio=20 ctp
 ! REDIRECT INPUT STREAM TO FILE CONTAINING DEFINITIONS OF LINECODES
 ! This file defines the line impedances is a similar manner to the description in the test case.
 
-Redirect        IEEELinecodes.DSS
+Redirect        IEEELinecodes.dss
 
 ! LINE DEFINITIONS
 ! Lines are defined by referring to a "linecode" that contains the impedances per unit length
@@ -203,19 +203,19 @@ New Line.Sw6    phases=3  Bus1=61     Bus2=61s    switch=True r1=0.001 r0=0.001 
 
 !REGULATORS - REDIRECT TO DEFINITIONS FILE
 ! This file contains definitions for the remainder of regulators on the feeder:
-Redirect IEEE123Regulators.DSS
+Redirect IEEE123Regulators.dss
 
 ! SPOT LOADS -- REDIRECT INPUT STREAM TO LOAD DEFINITIONS FILE
-Redirect IEEE123Loads.DSS
+Redirect IEEE123Loads.dss
 
 ! Batteries
-Redirect IEEE123Batteries.DSS
+Redirect IEEE123Batteries.dss
 
 ! Generators
-!Redirect IEEE123Generators.DSS
+!Redirect IEEE123Generators.dss
 
 ! Solar PVs
-Redirect IEEE123PVs.DSS
+Redirect IEEE123PVs.dss
 
 ! All devices in the test feeder are now defined.
 !
