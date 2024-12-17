@@ -3,7 +3,8 @@
 -->
 <rdf:RDF xmlns:cim="http://iec.ch/TC57/CIM100#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
 <!--
---><cim:IEC61970CIMVersion rdf:about="urn:uuid:134E2032-A78F-43F9-AC83-898868AF30C8">
+-->
+<cim:IEC61970CIMVersion rdf:about="urn:uuid:134E2032-A78F-43F9-AC83-898868AF30C8">
   <cim:IEC61970CIMVersion.date>2019-04-01</cim:IEC61970CIMVersion.date>
   <cim:IEC61970CIMVersion.version>IEC61970CIM100</cim:IEC61970CIMVersion.version>
 </cim:IEC61970CIMVersion>
@@ -23,6 +24,7 @@
 </cim:SubGeographicalRegion>
 <cim:Substation rdf:about="urn:uuid:22B12048-23DF-007B-9291-826A16DBCB21">
   <cim:Substation.Region rdf:resource="urn:uuid:2F8FC9BF-FF32-A197-D541-0A2529D04DF7"/>
+  <cim:Substation.SchedulingArea rdf:resource="urn:uuid:ba7e0ebd-3d04-4ed3-8b7a-86f1e61b8b1f"/>
   <cim:IdentifiedObject.mRID>22B12048-23DF-007B-9291-826A16DBCB21</cim:IdentifiedObject.mRID>
   <cim:IdentifiedObject.name>UAF</cim:IdentifiedObject.name>
 </cim:Substation>
@@ -97,6 +99,8 @@
   <cim:IdentifiedObject.name>load480_Loc</cim:IdentifiedObject.name>
 </cim:Location>
 <cim:Feeder rdf:about="urn:uuid:77966920-E1EC-EE8A-23EE-4EFD23B205BD">
+  <cim:Feeder.DistributionArea rdf:resource="urn:uuid:ba7e0ebd-3d04-4ed3-8b7a-86f1e61b8b1f"/>
+  <cim:Feeder.FeederArea rdf:resource="urn:uuid:ac9284a4-408f-48cf-8574-8da7abf2909a"/>
   <cim:Feeder.NormalEnergizingSubstation rdf:resource="urn:uuid:22B12048-23DF-007B-9291-826A16DBCB21"/>
   <cim:PowerSystemResource.Location rdf:resource="urn:uuid:2E8E7E7B-9D98-4B7F-9717-C7EFE16DA1FB"/>
   <cim:IdentifiedObject.mRID>77966920-E1EC-EE8A-23EE-4EFD23B205BD</cim:IdentifiedObject.mRID>
@@ -375,6 +379,7 @@
   <cim:RotatingMachine.ratedS>120000.0</cim:RotatingMachine.ratedS>
   <cim:RotatingMachine.ratedU>480.0</cim:RotatingMachine.ratedU>
   <cim:Equipment.EquipmentContainer rdf:resource="urn:uuid:77966920-E1EC-EE8A-23EE-4EFD23B205BD"/>
+  <cim:Equipment.SubSchedulingArea rdf:resource="urn:uuid:ac9284a4-408f-48cf-8574-8da7abf2909a"/>
   <cim:PowerSystemResource.Location rdf:resource="urn:uuid:B814B54D-EA19-4EF2-B6ED-9152AF2F7617"/>
   <cim:IdentifiedObject.mRID>AAE52506-E7E1-43CA-A603-3B06F5E14756</cim:IdentifiedObject.mRID>
   <cim:IdentifiedObject.name>wind</cim:IdentifiedObject.name>
@@ -650,6 +655,7 @@
   <cim:PowerElectronicsUnit.maxP>25000.0</cim:PowerElectronicsUnit.maxP>
   <cim:PowerElectronicsUnit.minP>5000.0</cim:PowerElectronicsUnit.minP>
   <cim:PowerElectronicsUnit.PowerElectronicsConnection rdf:resource="urn:uuid:6C33817B-05D5-4AD0-BBAA-E93C77C51DD3"/>
+  <cim:Equipment.SubSchedulingArea rdf:resource="urn:uuid:ac9284a4-408f-48cf-8574-8da7abf2909a"/>
   <cim:PowerSystemResource.Location rdf:resource="urn:uuid:16879DD7-72CB-463F-8B8E-94F8A102D7D5"/>
   <cim:IdentifiedObject.mRID>D6095B35-F2D7-4C33-82C3-5A598F5DB09A</cim:IdentifiedObject.mRID>
   <cim:IdentifiedObject.name>solar</cim:IdentifiedObject.name>
@@ -664,6 +670,7 @@
   <cim:PowerElectronicsConnection.ratedS>25000.0</cim:PowerElectronicsConnection.ratedS>
   <cim:PowerElectronicsConnection.ratedU>480.0</cim:PowerElectronicsConnection.ratedU>
   <cim:Equipment.EquipmentContainer rdf:resource="urn:uuid:77966920-E1EC-EE8A-23EE-4EFD23B205BD"/>
+  <cim:Equipment.SubSchedulingArea rdf:resource="urn:uuid:ac9284a4-408f-48cf-8574-8da7abf2909a"/>
   <cim:PowerSystemResource.Location rdf:resource="urn:uuid:16879DD7-72CB-463F-8B8E-94F8A102D7D5"/>
   <cim:IdentifiedObject.mRID>6C33817B-05D5-4AD0-BBAA-E93C77C51DD3</cim:IdentifiedObject.mRID>
   <cim:IdentifiedObject.name>solar</cim:IdentifiedObject.name>
@@ -678,6 +685,7 @@
   <cim:PowerElectronicsConnection.ratedS>313000.0</cim:PowerElectronicsConnection.ratedS>
   <cim:PowerElectronicsConnection.ratedU>318.0</cim:PowerElectronicsConnection.ratedU>
   <cim:Equipment.EquipmentContainer rdf:resource="urn:uuid:77966920-E1EC-EE8A-23EE-4EFD23B205BD"/>
+  <cim:Equipment.SubSchedulingArea rdf:resource="urn:uuid:ac9284a4-408f-48cf-8574-8da7abf2909a"/>
   <cim:PowerSystemResource.Location rdf:resource="urn:uuid:409F9E62-0FC3-4A47-AC4F-73AF17C2C118"/>
   <cim:IdentifiedObject.mRID>D53E5067-06FC-4B99-B01E-A521D0D6CA2E</cim:IdentifiedObject.mRID>
   <cim:IdentifiedObject.name>leadacid</cim:IdentifiedObject.name>
@@ -689,6 +697,7 @@
   <cim:PowerElectronicsUnit.maxP>100000.0</cim:PowerElectronicsUnit.maxP>
   <cim:PowerElectronicsUnit.minP>-100000.0</cim:PowerElectronicsUnit.minP>
   <cim:PowerElectronicsUnit.PowerElectronicsConnection rdf:resource="urn:uuid:D53E5067-06FC-4B99-B01E-A521D0D6CA2E"/>
+  <cim:Equipment.SubSchedulingArea rdf:resource="urn:uuid:ac9284a4-408f-48cf-8574-8da7abf2909a"/>
   <cim:PowerSystemResource.Location rdf:resource="urn:uuid:409F9E62-0FC3-4A47-AC4F-73AF17C2C118"/>
   <cim:IdentifiedObject.mRID>870B7D12-960D-4FDE-BBE3-103D17F06954</cim:IdentifiedObject.mRID>
   <cim:IdentifiedObject.name>leadacid</cim:IdentifiedObject.name>
@@ -703,6 +712,7 @@
   <cim:EnergySource.x0>0.06</cim:EnergySource.x0>
   <cim:ConductingEquipment.BaseVoltage rdf:resource="urn:uuid:EB96009C-035B-420D-8DF4-187FE7E43448"/>
   <cim:Equipment.EquipmentContainer rdf:resource="urn:uuid:77966920-E1EC-EE8A-23EE-4EFD23B205BD"/>
+  <cim:Equipment.SubSchedulingArea rdf:resource="urn:uuid:ac9284a4-408f-48cf-8574-8da7abf2909a"/>
   <cim:PowerSystemResource.Location rdf:resource="urn:uuid:FB624A97-DE05-4514-907F-952403176305"/>
   <cim:IdentifiedObject.mRID>76247D06-8F9C-4569-8203-9A0D95F77FB5</cim:IdentifiedObject.mRID>
   <cim:IdentifiedObject.name>source</cim:IdentifiedObject.name>
@@ -808,6 +818,7 @@
 <cim:PowerTransformer rdf:about="urn:uuid:6F3BE149-214F-4739-BF25-B17944B73E75">
   <cim:PowerTransformer.vectorGroup>Dy1</cim:PowerTransformer.vectorGroup>
   <cim:Equipment.EquipmentContainer rdf:resource="urn:uuid:77966920-E1EC-EE8A-23EE-4EFD23B205BD"/>
+  <cim:Equipment.SubSchedulingArea rdf:resource="urn:uuid:ac9284a4-408f-48cf-8574-8da7abf2909a"/>
   <cim:PowerSystemResource.Location rdf:resource="urn:uuid:ABDBE101-5F84-439D-9E21-EAD146BB2C06"/>
   <cim:IdentifiedObject.mRID>6F3BE149-214F-4739-BF25-B17944B73E75</cim:IdentifiedObject.mRID>
   <cim:IdentifiedObject.name>load1</cim:IdentifiedObject.name>
@@ -815,6 +826,7 @@
 <cim:PowerTransformer rdf:about="urn:uuid:B1921094-59DB-4F81-84C4-20F18BFF9DBB">
   <cim:PowerTransformer.vectorGroup>Yd1</cim:PowerTransformer.vectorGroup>
   <cim:Equipment.EquipmentContainer rdf:resource="urn:uuid:77966920-E1EC-EE8A-23EE-4EFD23B205BD"/>
+  <cim:Equipment.SubSchedulingArea rdf:resource="urn:uuid:ac9284a4-408f-48cf-8574-8da7abf2909a"/>
   <cim:PowerSystemResource.Location rdf:resource="urn:uuid:F93A6C69-D91F-4B39-A767-8A48E6D20927"/>
   <cim:IdentifiedObject.mRID>B1921094-59DB-4F81-84C4-20F18BFF9DBB</cim:IdentifiedObject.mRID>
   <cim:IdentifiedObject.name>batt</cim:IdentifiedObject.name>
@@ -824,6 +836,7 @@
   <cim:Conductor.length>3.81</cim:Conductor.length>
   <cim:ConductingEquipment.BaseVoltage rdf:resource="urn:uuid:EB96009C-035B-420D-8DF4-187FE7E43448"/>
   <cim:Equipment.EquipmentContainer rdf:resource="urn:uuid:77966920-E1EC-EE8A-23EE-4EFD23B205BD"/>
+  <cim:Equipment.SubSchedulingArea rdf:resource="urn:uuid:ac9284a4-408f-48cf-8574-8da7abf2909a"/>
   <cim:PowerSystemResource.Location rdf:resource="urn:uuid:86DA8210-974C-46A9-B7AF-4BF311E0C97D"/>
   <cim:IdentifiedObject.mRID>EF064889-8AB5-4220-AD2E-24504CE3BA61</cim:IdentifiedObject.mRID>
   <cim:IdentifiedObject.name>seg1</cim:IdentifiedObject.name>
@@ -833,6 +846,7 @@
   <cim:Conductor.length>11.43</cim:Conductor.length>
   <cim:ConductingEquipment.BaseVoltage rdf:resource="urn:uuid:EB96009C-035B-420D-8DF4-187FE7E43448"/>
   <cim:Equipment.EquipmentContainer rdf:resource="urn:uuid:77966920-E1EC-EE8A-23EE-4EFD23B205BD"/>
+  <cim:Equipment.SubSchedulingArea rdf:resource="urn:uuid:ac9284a4-408f-48cf-8574-8da7abf2909a"/>
   <cim:PowerSystemResource.Location rdf:resource="urn:uuid:D764A00C-8567-4705-8D74-697373559DF8"/>
   <cim:IdentifiedObject.mRID>257C60C7-343F-495D-A3AA-ECA742ED318A</cim:IdentifiedObject.mRID>
   <cim:IdentifiedObject.name>seg2</cim:IdentifiedObject.name>
@@ -842,6 +856,7 @@
   <cim:Conductor.length>7.62</cim:Conductor.length>
   <cim:ConductingEquipment.BaseVoltage rdf:resource="urn:uuid:EB96009C-035B-420D-8DF4-187FE7E43448"/>
   <cim:Equipment.EquipmentContainer rdf:resource="urn:uuid:77966920-E1EC-EE8A-23EE-4EFD23B205BD"/>
+  <cim:Equipment.SubSchedulingArea rdf:resource="urn:uuid:ac9284a4-408f-48cf-8574-8da7abf2909a"/>
   <cim:PowerSystemResource.Location rdf:resource="urn:uuid:7AD3255D-F1AA-4DA6-8CF4-B3155175B625"/>
   <cim:IdentifiedObject.mRID>A831E00E-8117-426C-BAB7-ACD8BB09F654</cim:IdentifiedObject.mRID>
   <cim:IdentifiedObject.name>seg3</cim:IdentifiedObject.name>
@@ -851,6 +866,7 @@
   <cim:Conductor.length>7.62</cim:Conductor.length>
   <cim:ConductingEquipment.BaseVoltage rdf:resource="urn:uuid:EB96009C-035B-420D-8DF4-187FE7E43448"/>
   <cim:Equipment.EquipmentContainer rdf:resource="urn:uuid:77966920-E1EC-EE8A-23EE-4EFD23B205BD"/>
+  <cim:Equipment.SubSchedulingArea rdf:resource="urn:uuid:ac9284a4-408f-48cf-8574-8da7abf2909a"/>
   <cim:PowerSystemResource.Location rdf:resource="urn:uuid:9EB81841-8674-4DA2-9443-FCA017EF8AE5"/>
   <cim:IdentifiedObject.mRID>8B9073BC-9111-4E42-B37A-E82EBFF827BD</cim:IdentifiedObject.mRID>
   <cim:IdentifiedObject.name>seg4</cim:IdentifiedObject.name>
@@ -860,6 +876,7 @@
   <cim:Conductor.length>7.62</cim:Conductor.length>
   <cim:ConductingEquipment.BaseVoltage rdf:resource="urn:uuid:EB96009C-035B-420D-8DF4-187FE7E43448"/>
   <cim:Equipment.EquipmentContainer rdf:resource="urn:uuid:77966920-E1EC-EE8A-23EE-4EFD23B205BD"/>
+  <cim:Equipment.SubSchedulingArea rdf:resource="urn:uuid:ac9284a4-408f-48cf-8574-8da7abf2909a"/>
   <cim:PowerSystemResource.Location rdf:resource="urn:uuid:403DC802-45A8-4D74-9BF4-F446140DE66E"/>
   <cim:IdentifiedObject.mRID>26BCEC9C-72B2-4E1E-A2BB-DA3D5394A4DE</cim:IdentifiedObject.mRID>
   <cim:IdentifiedObject.name>seg5</cim:IdentifiedObject.name>
@@ -978,6 +995,7 @@
   <cim:EnergyConsumer.LoadResponse rdf:resource="urn:uuid:502264AD-0E36-4447-86BF-CE3BBA3AAE73"/>
   <cim:ConductingEquipment.BaseVoltage rdf:resource="urn:uuid:B36CCB9A-8B68-4AE9-866B-0BFE6EBD1754"/>
   <cim:Equipment.EquipmentContainer rdf:resource="urn:uuid:77966920-E1EC-EE8A-23EE-4EFD23B205BD"/>
+  <cim:Equipment.SubSchedulingArea rdf:resource="urn:uuid:ac9284a4-408f-48cf-8574-8da7abf2909a"/>
   <cim:PowerSystemResource.Location rdf:resource="urn:uuid:CA20EBB8-E8F6-4EA8-B345-F4C4B4166D47"/>
   <cim:IdentifiedObject.mRID>7E9280A7-C321-4E76-A6AD-FFE634B8DEE7</cim:IdentifiedObject.mRID>
   <cim:IdentifiedObject.name>load208</cim:IdentifiedObject.name>
@@ -991,6 +1009,7 @@
   <cim:EnergyConsumer.LoadResponse rdf:resource="urn:uuid:502264AD-0E36-4447-86BF-CE3BBA3AAE73"/>
   <cim:ConductingEquipment.BaseVoltage rdf:resource="urn:uuid:EB96009C-035B-420D-8DF4-187FE7E43448"/>
   <cim:Equipment.EquipmentContainer rdf:resource="urn:uuid:77966920-E1EC-EE8A-23EE-4EFD23B205BD"/>
+  <cim:Equipment.SubSchedulingArea rdf:resource="urn:uuid:ac9284a4-408f-48cf-8574-8da7abf2909a"/>
   <cim:PowerSystemResource.Location rdf:resource="urn:uuid:89142907-8680-446C-99E8-2088F5A5B7F1"/>
   <cim:IdentifiedObject.mRID>8D85B6E7-7357-4D3F-8879-149AA11FF5D3</cim:IdentifiedObject.mRID>
   <cim:IdentifiedObject.name>load480</cim:IdentifiedObject.name>
@@ -1633,4 +1652,14 @@
   <cim:IdentifiedObject.mRID>7729eab1-c1e5-4a01-a6de-25de9ed0ff31</cim:IdentifiedObject.mRID>
   <cim:IdentifiedObject.name>ACLineSegment_seg5_VA_1_C</cim:IdentifiedObject.name>
 </cim:Analog>
+<cim:FeederArea rdf:about="urn:uuid:ac9284a4-408f-48cf-8574-8da7abf2909a">
+  <cim:FeederArea.DistributionArea rdf:resource="urn:uuid:ba7e0ebd-3d04-4ed3-8b7a-86f1e61b8b1f"/>
+  <cim:FeederArea.Feeder rdf:resource="urn:uuid:77966920-E1EC-EE8A-23EE-4EFD23B205BD"/>
+  <cim:IdentifiedObject.mRID>ac9284a4-408f-48cf-8574-8da7abf2909a</cim:IdentifiedObject.mRID>
+  <cim:IdentifiedObject.name>77966920-E1EC-EE8A-23EE-4EFD23B205BD</cim:IdentifiedObject.name>
+</cim:FeederArea>
+<cim:DistributionArea rdf:about="urn:uuid:ba7e0ebd-3d04-4ed3-8b7a-86f1e61b8b1f">
+  <cim:IdentifiedObject.mRID>ba7e0ebd-3d04-4ed3-8b7a-86f1e61b8b1f</cim:IdentifiedObject.mRID>
+  <cim:IdentifiedObject.name>2F8FC9BF-FF32-A197-D541-0A2529D04DF7</cim:IdentifiedObject.name>
+</cim:DistributionArea>
 </rdf:RDF>
