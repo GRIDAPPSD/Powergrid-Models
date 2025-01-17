@@ -1,0 +1,3 @@
+new line.j1 phases=3 bus1=CAP1.1.2.3 bus2=node_675.1.2.3 switch=yes
+new line.j2 phases=3 bus1=CAP2.1.2.3 bus2=node_675.1.2.3 switch=yes
+

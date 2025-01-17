@@ -1,0 +1,5 @@
+! Triplex linecodes
+new linecode.triplex_line_configuration_1 nphases=3 units=mi
+~ rmatrix=[ 1.065302 | 0.095302 1.065302 | 0.095302 0.095302 1.065302 ]
+~ xmatrix=[ 1.508869 | 1.040227 1.508869 | 1.040227 1.040227 1.508869 ]
+~ neutral=3 kron=yes

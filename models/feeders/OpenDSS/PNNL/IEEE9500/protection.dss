@@ -1,0 +1,128 @@
+// Master file for 9500-Node IEEE Test Feeder Case
+// Unbalanced Load Case
+// Line definitions can use either geometry or lineconstants matrices.
+
+Clear
+
+New Circuit.final9500node
+
+! Make the source stiff with small impedance
+~ pu=1.05  r1=0  x1=0.001  r0=0  x0=0.001  
+
+Redirect  WireData.dss
+Redirect  CableData.dss
+! Use either LineGeometry or LineConstantsCodes
+Redirect  LineGeometry.dss
+!Redirect  LineCodes.dss
+Redirect  TriplexLineCodes.dss
+
+! Use either LineGeometry or LineConstantsCodes
+Redirect  LinesSwitchesGeometry.dss
+!Redirect  LinesSwitchesLineCodes.dss
+Redirect  Transformers.dss
+Redirect  LoadXfmrCodes.dss
+Redirect  TriplexLines.dss
+Redirect  BalancedLoads.dss
+Redirect  Capacitors.dss
+Redirect  CapControls.dss
+Redirect  Regulators.dss
+
+Redirect  Generators.dss
+Redirect  EnergyStorage.dss
+Redirect  PV_10pen_DSSPV.dss
+Redirect  PV_NN_100_DSSPV.dss
+
+! Let DSS estimate the voltage bases
+Set voltagebases=[115, 69, 12.47,  0.480, 0.208] 
+Calcvoltagebases     ! This also establishes the bus list
+! Ensure that DERs use correct voltage base
+setkvbase M1209DER480-1 kVll=0.480 
+setkvbase M1209-DIES1   kVll=0.480
+setkvbase m2001DER480-1 kVll=0.480
+setkvbase m2001-MT1     kVll=0.480
+setkvbase m2001-MT2     kVll=0.480
+setkvbase m2001-MT3     kVll=0.480
+setkvbase m2001der-1    kVll=0.480
+setkvbase m2001der-2    kVll=0.480
+setkvbase m2001der-3    kVll=0.480
+setkvbase m1142DER480-1 kVll=0.480
+setkvbase m1142-LNG1    kVll=0.480
+setkvbase m1089DER480-1 kVll=0.480
+setkvbase m1089-LNG1    kVll=0.480
+setkvbase m1089DER480-1 kVll=0.480
+setkvbase m1089-DIES1   kVll=0.480
+setkvbase m1069DER480-1 kVll=0.480
+setkvbase m1069-MT1     kVll=0.480
+
+! Load in bus coordintes now that bus list is established
+!Buscoords  BusCoords.dss
+LatLongCoords LatLongCoords.dss
+
+New Energymeter.m1 Element=Line.LN5710794-3 Terminal=1
+
+
+Set Maxiterations=30     ! Sometimes the solution takes more than the default 15 iterations
+Set MaxControlIter=100
+
+Set loadmult=1.0
+
+! Generator Configuration
+! CHP at 30% capacity, MT-1 at 25%, MT-2 at 50%, all other DG off.
+Generator.SteamGen1.kw=1000
+Generator.SteamGen1.vpu=1.00
+Generator.MicroTurb-1.kw=50
+Generator.MicroTurb-2.kw=0
+Generator.MicroTurb-3.kw=0
+Generator.WindTurb-1.kw=20
+Generator.WindTurb-2.kw=20
+Generator.WindTurb-3.kw=20
+Generator.MicroTurb-4.kw=100
+Generator.Diesel620.kw=0
+Generator.Diesel590.kw=0
+Generator.LNGEngine100.kw=0
+Generator.LNGEngine1800.kw=0
+
+
+! Set normal feeder configuration
+open Line.WF856_48332_sw
+open Line.WG127_48332_sw
+open LINE.LN0653457_SW
+open LINE.V7173_48332_SW
+open LINE.TSW803273_SW 
+open LINE.A333_48332_SW 
+solve
+open LINE.TSW320328_SW  
+open LINE.A8645_48332_SW
+open LINE.TSW568613_SW
+solve
+
+
+//set MarkPVSystems=true PVMarkerCode=18
+//set Markswitches=true SwitchMarkerCode=9
+//set MarkRegulators=true RegMarkerCode=15         
+//set MarkCapacitors=true CapMarkerCode=38
+//set MarkStorage=true StoreMarkerCode=36
+//set MarkTransformers=true TransmarkerCode=14
+
+set marktransformers=no
+set reclosermarkercode=26
+set reclosermarkersize=4
+set markreclosers=yes
+
+edit transformer.HVMV69_11Sub1 sub=y subname=S1
+edit transformer.HVMV69_11Sub2 sub=y subname=S2
+edit transformer.HVMV69_11Sub3 sub=y subname=S3
+
+new recloser.r1 monitoredobj=LINE.LN6044631-1
+new recloser.r2 monitoredobj=LINE.LN5742828-2
+new recloser.r3 monitoredobj=LINE.LN5774497-1
+new recloser.r4 monitoredobj=LINE.LN5534968-1
+new recloser.r5 monitoredobj=LINE.LN5803273-1
+new recloser.r6 monitoredobj=LINE.LN6350556-2
+new recloser.r7 monitoredobj=LINE.LN5502532-1
+new recloser.r8 monitoredobj=LINE.LN5533709-1
+new recloser.r9 monitoredobj=LINE.LN6413954-1
+new recloser.r10 monitoredobj=LINE.LN6359077-1
+new recloser.r11 monitoredobj=LINE.LN2001100-1
+
+//Plot daisy Power Max=1000 dots=n labels=n 1ph=3

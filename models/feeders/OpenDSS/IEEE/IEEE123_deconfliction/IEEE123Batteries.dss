@@ -1,0 +1,26 @@
+! Batteries added into the base model
+
+!New utility-scale battery storage systems
+
+New Storage.Battery1 phases=1 bus1=23.1 kVA=125 kV=2.4
+~ kWrated=125 kWHrated=500 %reserve=30 %stored=60
+~ state=charge kW=-0.0 PF=1
+
+
+New Storage.Battery2 phases=1 bus1=44.2 kVA=200 kV=2.4
+~ kWrated=200 kWHrated=600 %reserve=30 %stored=40
+~ state=charge kW=-0.0 PF=1
+
+
+New Storage.Battery3 phases=1 bus1=65.3 kVA=100 kV=2.4
+~ kWrated=100 kWHrated=400 %reserve=30 %stored=35
+~ state=charge kW=0.0 PF=1
+
+New Storage.Battery4 phases=1 bus1=86.2 kVA=150 kV=2.4
+~ kWrated=150 kWHrated=500 %reserve=30 %stored=75
+~ state=charge kW=-0.0 PF=1
+
+
+New Storage.Battery5 phases=1 bus1=108.1 kVA=250 kV=2.4
+~ kWrated=250 kWHrated=750 %reserve=30 %stored=55
+~ state=charge kW=-0.0 PF=1

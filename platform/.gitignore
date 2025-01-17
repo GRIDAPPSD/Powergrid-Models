@@ -3,6 +3,9 @@ ConvertCIM100.dss
 both
 test/dss
 test/glm
-convert_xml.sh
+convert_xml.*
 check.dss
-check_glm.sh
+check_glm.*
+cimhubconfig.json
+envars.sh
+envars.bat

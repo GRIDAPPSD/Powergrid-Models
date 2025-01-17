@@ -1,0 +1,12 @@
+{
+    "master": "Master.dss",
+    "feeder": "67AB291F-DCCD-31B7-B499-338206B9828F",
+    "substation": "A3C31EE7-4EE6-A167-87C7-915B1C6E97F0",
+    "sub_geo_region": "096FDFB8-2692-D811-F483-553D578399F2",
+    "geo_region": "9A1E61E4-5CF1-982B-C7EF-0918D26645C7",
+    "uuids": null,
+    "insert_measurements": true,
+    "insert_houses": true,
+    "insert_end_device": false,
+    "distributed": true
+}

@@ -1,0 +1,67 @@
+! transformer definitions
+
+/********************************************************************************************************  xfmr definitions for 2 wdgs  ***/
+
+New Transformer.8_5_0_1_1 windings=2
+~ buses=[5_olive, 8_olive] kVs=[138.0, 138.0] kVA=100000.0
+~ %rs=[0.0005, 0.0005] taps=[1.0, 0.985]
+~ Xhl=2.6700000000000004 conns=[wye,wye]
+! ANG1 record in the raw file is: 0.0
+! VECGRP record not in the raw or gic files, assumed: given by ANG1 (record in table is " ")
+
+New Transformer.30_17_0_1_1 windings=2
+~ buses=[17_sorenson, 30_sorenson] kVs=[138.0, 138.0] kVA=100000.0
+~ %rs=[0.0005, 0.0005] taps=[1.0, 0.96]
+~ Xhl=3.88 conns=[wye,wye]
+! ANG1 record in the raw file is: 0.0
+! VECGRP record not in the raw or gic files, assumed: given by ANG1 (record in table is " ")
+
+New Transformer.26_25_0_1_1 windings=2
+~ buses=[25_tannrsck, 26_tannrsck] kVs=[138.0, 138.0] kVA=100000.0
+~ %rs=[0.0005, 0.0005] taps=[1.0, 0.96]
+~ Xhl=3.82 conns=[wye,wye]
+! ANG1 record in the raw file is: 0.0
+! VECGRP record not in the raw or gic files, assumed: given by ANG1 (record in table is " ")
+
+New Transformer.38_37_0_1_1 windings=2
+~ buses=[37_eastlima, 38_eastlima] kVs=[138.0, 138.0] kVA=100000.0
+~ %rs=[0.0005, 0.0005] taps=[1.0, 0.935]
+~ Xhl=3.75 conns=[wye,wye]
+! ANG1 record in the raw file is: 0.0
+! VECGRP record not in the raw or gic files, assumed: given by ANG1 (record in table is " ")
+
+New Transformer.63_59_0_1_1 windings=2
+~ buses=[59_tidd, 63_tidd] kVs=[138.0, 138.0] kVA=100000.0
+~ %rs=[0.0005, 0.0005] taps=[1.0, 0.96]
+~ Xhl=3.8600000000000003 conns=[wye,wye]
+! ANG1 record in the raw file is: 0.0
+! VECGRP record not in the raw or gic files, assumed: given by ANG1 (record in table is " ")
+
+New Transformer.64_61_0_1_1 windings=2
+~ buses=[61_wkammer, 64_kammer] kVs=[138.0, 138.0] kVA=100000.0
+~ %rs=[0.0005, 0.0005] taps=[1.0, 0.985]
+~ Xhl=2.68 conns=[wye,wye]
+! ANG1 record in the raw file is: 0.0
+! VECGRP record not in the raw or gic files, assumed: given by ANG1 (record in table is " ")
+
+New Transformer.65_66_0_1_1 windings=2
+~ buses=[66_muskngum, 65_muskngum] kVs=[138.0, 138.0] kVA=100000.0
+~ %rs=[0.0005, 0.0005] taps=[1.0, 0.935]
+~ Xhl=3.6999999999999997 conns=[wye,wye]
+! ANG1 record in the raw file is: 0.0
+! VECGRP record not in the raw or gic files, assumed: given by ANG1 (record in table is " ")
+
+New Transformer.68_69_0_1_1 windings=2
+~ buses=[69_sporn, 68_sporn] kVs=[138.0, 138.0] kVA=100000.0
+~ %rs=[0.0005, 0.0005] taps=[1.0, 0.935]
+~ Xhl=3.6999999999999997 conns=[wye,wye]
+! ANG1 record in the raw file is: 0.0
+! VECGRP record not in the raw or gic files, assumed: given by ANG1 (record in table is " ")
+
+New Transformer.81_80_0_1_1 windings=2
+~ buses=[80_cabincrk, 81_kanawha] kVs=[138.0, 138.0] kVA=100000.0
+~ %rs=[0.0005, 0.0005] taps=[1.0, 0.935]
+~ Xhl=3.6999999999999997 conns=[wye,wye]
+! ANG1 record in the raw file is: 0.0
+! VECGRP record not in the raw or gic files, assumed: given by ANG1 (record in table is " ")
+

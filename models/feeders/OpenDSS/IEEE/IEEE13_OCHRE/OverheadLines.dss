@@ -1,0 +1,10 @@
+! Overhead Line Definitions
+new line.632-645 bus1=node_632.2.3 bus2=node_645.2.3 phases=2 linecode=OBJECT_16 length=500 units=Ft
+new line.645-646 bus1=node_645.2.3 bus2=node_646.2.3 phases=2 linecode=OBJECT_16 length=300 units=Ft
+new line.630-632 bus1=node_630.1.2.3 bus2=node_632.1.2.3 phases=3 linecode=OBJECT_14 length=2000 units=Ft
+new line.632-6321 bus1=node_632.1.2.3 bus2=node_6321.1.2.3 phases=3 linecode=OBJECT_14 length=500 units=Ft
+new line.6321-671 bus1=node_6321.1.2.3 bus2=node_671.1.2.3 phases=3 linecode=OBJECT_14 length=1500 units=Ft
+new line.671-680 bus1=node_671.1.2.3 bus2=node_680.1.2.3 phases=3 linecode=OBJECT_14 length=1000 units=Ft
+new line.671-684 bus1=node_671.1.3 bus2=node_684.1.3 phases=2 linecode=OBJECT_17 length=300 units=Ft
+new line.684-611 bus1=node_684.3 bus2=node_611.3 phases=1 linecode=OBJECT_18 length=300 units=Ft
+new line.632-633 bus1=node_632.1.2.3 bus2=node_633.1.2.3 phases=3 linecode=OBJECT_15 length=500 units=Ft

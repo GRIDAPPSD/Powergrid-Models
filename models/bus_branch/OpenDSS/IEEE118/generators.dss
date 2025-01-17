@@ -1,0 +1,61 @@
+
+/********************************************************************************************************  generators definitions for 138.0kV  ***/
+
+New Generator.Gen_at_1_1    bus1=1_riversde   phases=3 kV=138.0 kW=0.001              model=3 PVFactor=0.005 Vpu=0.955              maxkvar=15000.0   minkvar=-5000.0
+New Generator.Gen_at_4_1    bus1=4_nwcarlsl   phases=3 kV=138.0 kW=0.001              model=3 PVFactor=0.005 Vpu=0.998              maxkvar=300000.0  minkvar=-300000.0
+New Generator.Gen_at_6_1    bus1=6_kankakee   phases=3 kV=138.0 kW=0.001              model=3 PVFactor=0.005 Vpu=0.99               maxkvar=50000.0   minkvar=-13000.0
+New Generator.Gen_at_8_1    bus1=8_olive      phases=3 kV=138.0 kW=0.001              model=3 PVFactor=0.005 Vpu=1.015              maxkvar=300000.0  minkvar=-300000.0
+New Generator.Gen_at_10_1   bus1=10_breed     phases=3 kV=138.0 kW=450000.0           model=3 PVFactor=0.005 Vpu=1.05               maxkvar=200000.0  minkvar=-147000.0
+New Generator.Gen_at_12_1   bus1=12_twinbrch  phases=3 kV=138.0 kW=85000.0            model=3 PVFactor=0.005 Vpu=0.99               maxkvar=120000.0  minkvar=-35000.0
+New Generator.Gen_at_15_1   bus1=15_ftwayne   phases=3 kV=138.0 kW=0.001              model=3 PVFactor=0.005 Vpu=0.97               maxkvar=30000.0   minkvar=-10000.0
+New Generator.Gen_at_18_1   bus1=18_mckinley  phases=3 kV=138.0 kW=0.001              model=3 PVFactor=0.005 Vpu=0.973              maxkvar=50000.0   minkvar=-16000.0
+New Generator.Gen_at_19_1   bus1=19_lincoln   phases=3 kV=138.0 kW=0.001              model=3 PVFactor=0.005 Vpu=0.9634299999999999 maxkvar=24000.0   minkvar=-8000.0
+New Generator.Gen_at_24_1   bus1=24_trenton   phases=3 kV=138.0 kW=0.001              model=3 PVFactor=0.005 Vpu=0.992              maxkvar=300000.0  minkvar=-300000.0
+New Generator.Gen_at_25_1   bus1=25_tannrsck  phases=3 kV=138.0 kW=220000.0           model=3 PVFactor=0.005 Vpu=1.05               maxkvar=140000.0  minkvar=-47000.0
+New Generator.Gen_at_26_1   bus1=26_tannrsck  phases=3 kV=138.0 kW=314000.0           model=3 PVFactor=0.005 Vpu=1.015              maxkvar=1000000.0 minkvar=-1000000.0
+New Generator.Gen_at_27_1   bus1=27_madison   phases=3 kV=138.0 kW=0.001              model=3 PVFactor=0.005 Vpu=0.968              maxkvar=300000.0  minkvar=-300000.0
+New Generator.Gen_at_31_1   bus1=31_deercrk   phases=3 kV=138.0 kW=7000.0             model=3 PVFactor=0.005 Vpu=0.967              maxkvar=300000.0  minkvar=-300000.0
+New Generator.Gen_at_32_1   bus1=32_delaware  phases=3 kV=138.0 kW=0.001              model=3 PVFactor=0.005 Vpu=0.96359            maxkvar=42000.0   minkvar=-14000.0
+New Generator.Gen_at_34_1   bus1=34_rockhill  phases=3 kV=138.0 kW=0.001              model=3 PVFactor=0.005 Vpu=0.9858600000000001 maxkvar=24000.0   minkvar=-8000.0
+New Generator.Gen_at_36_1   bus1=36_sterling  phases=3 kV=138.0 kW=0.001              model=3 PVFactor=0.005 Vpu=0.98               maxkvar=24000.0   minkvar=-8000.0
+New Generator.Gen_at_40_1   bus1=40_westend   phases=3 kV=138.0 kW=0.001              model=3 PVFactor=0.005 Vpu=0.97               maxkvar=300000.0  minkvar=-300000.0
+New Generator.Gen_at_42_1   bus1=42_howard    phases=3 kV=138.0 kW=0.001              model=3 PVFactor=0.005 Vpu=0.985              maxkvar=300000.0  minkvar=-300000.0
+New Generator.Gen_at_46_1   bus1=46_wlancst   phases=3 kV=138.0 kW=19000.0            model=3 PVFactor=0.005 Vpu=1.005              maxkvar=100000.0  minkvar=-100000.0
+New Generator.Gen_at_49_1   bus1=49_philo     phases=3 kV=138.0 kW=204000.0           model=3 PVFactor=0.005 Vpu=1.025              maxkvar=210000.0  minkvar=-85000.0
+New Generator.Gen_at_54_1   bus1=54_torrey    phases=3 kV=138.0 kW=48000.0            model=3 PVFactor=0.005 Vpu=0.955              maxkvar=300000.0  minkvar=-300000.0
+New Generator.Gen_at_55_1   bus1=55_wagenhls  phases=3 kV=138.0 kW=0.001              model=3 PVFactor=0.005 Vpu=0.952              maxkvar=23000.0   minkvar=-8000.0
+New Generator.Gen_at_56_1   bus1=56_sunnysde  phases=3 kV=138.0 kW=0.001              model=3 PVFactor=0.005 Vpu=0.954              maxkvar=15000.0   minkvar=-8000.0
+New Generator.Gen_at_59_1   bus1=59_tidd      phases=3 kV=138.0 kW=155000.0           model=3 PVFactor=0.005 Vpu=0.985              maxkvar=180000.0  minkvar=-60000.0
+New Generator.Gen_at_61_1   bus1=61_wkammer   phases=3 kV=138.0 kW=160000.0           model=3 PVFactor=0.005 Vpu=0.995              maxkvar=300000.0  minkvar=-100000.0
+New Generator.Gen_at_62_1   bus1=62_natrium   phases=3 kV=138.0 kW=0.001              model=3 PVFactor=0.005 Vpu=0.998              maxkvar=20000.0   minkvar=-20000.0
+New Generator.Gen_at_65_1   bus1=65_muskngum  phases=3 kV=138.0 kW=391000.0           model=3 PVFactor=0.005 Vpu=1.005              maxkvar=200000.0  minkvar=-67000.0
+New Generator.Gen_at_66_1   bus1=66_muskngum  phases=3 kV=138.0 kW=392000.0           model=3 PVFactor=0.005 Vpu=1.05               maxkvar=200000.0  minkvar=-67000.0
+New Generator.Gen_at_69_1   bus1=69_sporn     phases=3 kV=138.0 kW=513388.00000000006 model=3 PVFactor=0.005 Vpu=1.035              maxkvar=300000.0  minkvar=-300000.0
+New Generator.Gen_at_70_1   bus1=70_portsmth  phases=3 kV=138.0 kW=0.001              model=3 PVFactor=0.005 Vpu=0.984              maxkvar=32000.0   minkvar=-10000.0
+New Generator.Gen_at_72_1   bus1=72_hillsbro  phases=3 kV=138.0 kW=0.001              model=3 PVFactor=0.005 Vpu=0.98               maxkvar=100000.0  minkvar=-100000.0
+New Generator.Gen_at_73_1   bus1=73_sargents  phases=3 kV=138.0 kW=0.001              model=3 PVFactor=0.005 Vpu=0.991              maxkvar=100000.0  minkvar=-100000.0
+New Generator.Gen_at_74_1   bus1=74_bellefnt  phases=3 kV=138.0 kW=0.001              model=3 PVFactor=0.005 Vpu=0.958              maxkvar=9000.0    minkvar=-6000.0
+New Generator.Gen_at_76_1   bus1=76_darrah    phases=3 kV=138.0 kW=0.001              model=3 PVFactor=0.005 Vpu=0.943              maxkvar=23000.0   minkvar=-8000.0
+New Generator.Gen_at_77_1   bus1=77_turner    phases=3 kV=138.0 kW=0.001              model=3 PVFactor=0.005 Vpu=1.006              maxkvar=70000.0   minkvar=-20000.0
+New Generator.Gen_at_80_1   bus1=80_cabincrk  phases=3 kV=138.0 kW=477000.0           model=3 PVFactor=0.005 Vpu=1.04               maxkvar=280000.0  minkvar=-165000.0
+New Generator.Gen_at_85_1   bus1=85_beaverck  phases=3 kV=138.0 kW=0.001              model=3 PVFactor=0.005 Vpu=0.985              maxkvar=23000.0   minkvar=-8000.0
+New Generator.Gen_at_87_1   bus1=87_pinevlle  phases=3 kV=138.0 kW=4000.0             model=3 PVFactor=0.005 Vpu=1.015              maxkvar=1000000.0 minkvar=-100000.0
+! swing bus - bus: 89_clinchrv
+! New Generator.Gen_at_89_1 bus1=89_clinchrv  phases=3 kV=138.0 kW=607000.0           model=3 PVFactor=0.005 Vpu=1.005              maxkvar=300000.0  minkvar=-210000.0
+New Generator.Gen_at_90_1   bus1=90_holston   phases=3 kV=138.0 kW=0.001              model=3 PVFactor=0.005 Vpu=0.985              maxkvar=300000.0  minkvar=-300000.0
+New Generator.Gen_at_91_1   bus1=91_holstont  phases=3 kV=138.0 kW=0.001              model=3 PVFactor=0.005 Vpu=0.98               maxkvar=100000.0  minkvar=-100000.0
+New Generator.Gen_at_92_1   bus1=92_saltvlle  phases=3 kV=138.0 kW=0.001              model=3 PVFactor=0.005 Vpu=0.9922799999999999 maxkvar=9000.0    minkvar=-3000.0
+New Generator.Gen_at_99_1   bus1=99_hinton    phases=3 kV=138.0 kW=0.001              model=3 PVFactor=0.005 Vpu=1.01               maxkvar=100000.0  minkvar=-100000.0
+New Generator.Gen_at_100_1  bus1=100_glenlyn  phases=3 kV=138.0 kW=252000.0           model=3 PVFactor=0.005 Vpu=1.017              maxkvar=155000.0  minkvar=-50000.0
+New Generator.Gen_at_103_1  bus1=103_claytor  phases=3 kV=138.0 kW=40000.0            model=3 PVFactor=0.005 Vpu=1.00072            maxkvar=40000.0   minkvar=-15000.0
+New Generator.Gen_at_104_1  bus1=104_hancock  phases=3 kV=138.0 kW=0.001              model=3 PVFactor=0.005 Vpu=0.971              maxkvar=23000.0   minkvar=-8000.0
+New Generator.Gen_at_105_1  bus1=105_roanoke  phases=3 kV=138.0 kW=0.001              model=3 PVFactor=0.005 Vpu=0.96599            maxkvar=23000.0   minkvar=-8000.0
+New Generator.Gen_at_107_1  bus1=107_reusens  phases=3 kV=138.0 kW=0.001              model=3 PVFactor=0.005 Vpu=0.952              maxkvar=200000.0  minkvar=-200000.0
+New Generator.Gen_at_110_1  bus1=110_fieldale phases=3 kV=138.0 kW=0.001              model=3 PVFactor=0.005 Vpu=0.973              maxkvar=23000.0   minkvar=-8000.0
+New Generator.Gen_at_111_1  bus1=111_danriver phases=3 kV=138.0 kW=36000.0            model=3 PVFactor=0.005 Vpu=0.98               maxkvar=1000000.0 minkvar=-100000.0
+New Generator.Gen_at_112_1  bus1=112_danville phases=3 kV=138.0 kW=0.001              model=3 PVFactor=0.005 Vpu=0.975              maxkvar=1000000.0 minkvar=-100000.0
+New Generator.Gen_at_113_1  bus1=113_deercrk  phases=3 kV=138.0 kW=0.001              model=3 PVFactor=0.005 Vpu=0.993              maxkvar=200000.0  minkvar=-100000.0
+New Generator.Gen_at_116_1  bus1=116_kygercrk phases=3 kV=138.0 kW=0.001              model=3 PVFactor=0.005 Vpu=1.005              maxkvar=1000000.0 minkvar=-1000000.0
+
+/********************************************************************************************************  generators definitions for 20.0kV  ***/
+

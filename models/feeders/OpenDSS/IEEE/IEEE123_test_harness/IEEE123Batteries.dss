@@ -1,0 +1,51 @@
+! Batteries added into the base model
+
+!New utility-scale battery storage systems
+
+New Transformer.xfm_batt1  Phases=3   Windings=2 Xhl=2.72
+~ wdg=1 bus=23       conn=wye kv=4.16    kva=150    %r=0.635
+~ wdg=2 bus=23_batt       conn=wye kv=0.48    kva=150    %r=0.635
+
+New Storage.Battery1 phases=3 bus1=23_batt.1.2.3 kVA=125 kV=0.48
+~ kWrated=125 kWHrated=500 %reserve=30 %stored=60
+~ state=charge kW=-0.0 PF=1
+
+
+
+New Transformer.xfm_batt2  Phases=3   Windings=2 Xhl=2.72
+~ wdg=1 bus=44       conn=wye kv=4.16    kva=250    %r=0.635
+~ wdg=2 bus=44_batt       conn=wye kv=0.48    kva=250    %r=0.635
+
+New Storage.Battery2 phases=3 bus1=44.1.2.3 kVA=200 kV=0.48
+~ kWrated=200 kWHrated=600 %reserve=30 %stored=40
+~ state=charge kW=-0.0 PF=1
+
+
+
+New Transformer.xfm_batt3  Phases=3   Windings=2 Xhl=2.72
+~ wdg=1 bus=65       conn=wye kv=4.16    kva=125    %r=0.635
+~ wdg=2 bus=65_batt       conn=wye kv=0.48    kva=125    %r=0.635
+
+New Storage.Battery3 phases=3 bus1=65.1.2.3 kVA=100 kV=0.48
+~ kWrated=100 kWHrated=400 %reserve=30 %stored=35
+~ state=charge kW=0.0 PF=1
+
+
+
+New Transformer.xfm_batt4  Phases=3   Windings=2 Xhl=2.72
+~ wdg=1 bus=86       conn=wye kv=4.16    kva=150    %r=0.635
+~ wdg=2 bus=86_batt       conn=wye kv=0.48    kva=150    %r=0.635
+
+New Storage.Battery4 phases=3 bus1=86.1.2.3 kVA=150 kV=0.48
+~ kWrated=150 kWHrated=500 %reserve=30 %stored=75
+~ state=charge kW=-0.0 PF=1
+
+
+
+New Transformer.xfm_batt5  Phases=3   Windings=2 Xhl=2.72
+~ wdg=1 bus=108       conn=wye kv=4.16    kva=250    %r=0.635
+~ wdg=2 bus=108_batt       conn=wye kv=0.48    kva=250    %r=0.635
+
+New Storage.Battery5 phases=1 bus1=108.1.2.3 kVA=250 kV=0.48
+~ kWrated=250 kWHrated=750 %reserve=30 %stored=55
+~ state=charge kW=-0.0 PF=1

@@ -1,0 +1,4 @@
+! Capacitor Controls 
+
+new capcontrol.CAP1_ctrl capacitor=CAP1 type=voltage element=capacitor.CAP1 terminal=1 ptphase=1 ptratio=1 offsetting=2500.0 onsetting=1950.0 delay=0.0 delayoff=0.0 deadtime=0
+new capcontrol.CAP2_ctrl capacitor=CAP2 type=voltage element=capacitor.CAP2 terminal=1 ptphase=1 ptratio=1 offsetting=2600.0 onsetting=2050.0 delay=300.0 delayoff=0.0 deadtime=0

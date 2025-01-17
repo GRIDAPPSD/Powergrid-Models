@@ -1,0 +1,4 @@
+new circuit.ieee13ochre bus1=sourcebus phases=3 MVAsc3=50000 basekv=115
+new line.trunk bus1=sourcebus bus2=rootbus phases=3 switch=yes
+new energymeter.feeder element=line.trunk terminal=1
+new transformer.source_650 phases=3 %noloadloss=0.0001 %imag=0.0001 %loadloss=0.0001 xhl=0.0001 windings=2 wdg=1 kva=100000 kv=115 bus=rootbus wdg=2 kva=100000 kv=4.160 bus=node_650

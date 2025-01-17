@@ -1,0 +1,31 @@
+[tool.poetry]
+name = "powergrid-models"
+version = "0.0.1"
+description = "Repository of CIM models for the GridAPPS-D Platform"
+authors = ["A. Anderson <19935503+AAndersn@users.noreply.github.com>",
+        "C. Allwardt <3979063+craig8@users.noreply.github.com>"]
+packages = [
+    { include = "models" }
+]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = ">=3.10,<4.0"
+"OpenDSSDirect.py" = "^0.8.2"
+#cim-graph = "^0.1.5a0"
+cim-graph = { git = "https://github.com/PNNL-CIM-Tools/CIM-Graph.git", branch = "feature/68"}
+cim-loader = "^0.1.2a0"
+cim-builder = { git = "https://github.com/PNNL-CIM-Tools/CIM-Builder.git", branch = "feature/68"}
+
+[tool.poetry.extras]
+gridappsd = ["gridappsd-python"]
+
+[tool.poetry.group.dev.dependencies]
+pre-commit = "^2.17.0"
+graphviz = "^0.19.1"
+ipykernel = "^6.25.1"
+
+
+[build-system]
+requires = ["poetry-core>=1.2.0"]
+build-backend = "poetry.core.masonry.api"
