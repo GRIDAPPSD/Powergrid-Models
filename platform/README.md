@@ -1,6 +1,6 @@
 # GridAPPS-D Platform Feeder Model Testing and Import
 
-Copyright (c) 2017-2021, Battelle Memorial Institute
+Copyright (c) 2017-2022, Battelle Memorial Institute
 
 If there have been no changes to the CIM XML files in ```platform/cimxml```, you may follow these [import instructions](../BLAZEGRAPH_IMPORT.md).
 
@@ -20,6 +20,7 @@ Verify that the Blazegraph namespace is _kb_ and use that for the rest of these 
 * You can use a different namespace, but you'll have to specify that using the -u option for the CIMImporter, handediting the default _-u=http://localhost:8889/bigdata/namespace/kb/sparql_
 * You can use a different namespace, but you may have to hand-edit some of the Python files (e.g. under the Meas directory)
 * The GridAPPS-D platform itself may use a different namespace
+* Please ```pip3 install cimhub --upgrade```. (Earlier versions used a local copy of the Python utilities, with a CIMHUB_UTILS environtment variable point to it. This has been removed.)
 
 This process assumes you have the [CIMHub](https://github.com/GRIDAPPSD/CIMHub), Powergrid-Models and OpenDSS 
 repositories cloned under ~/src. CIMHub needs to have been built from that repository using ```mvn clean install```. 
@@ -47,7 +48,6 @@ Bash scripts include [envars.sh](envars.sh), which defines:
 * ```SRC_PATH``` is the fully qualified path to the ```platform``` scripts
 * ```CIMHUB_PATH``` is the relative path to CIMHub code (you must have cloned this repository)
 * ```CIMHUB_PROG``` is the Java program name for CIMHub
-* ```CIMHUB_UTILS``` is the relative path to CIMHub Python utilities (may become a PyPi distribution later)
 
 Python scripts configure CIMHub from [cimhubconfig.json](cimhubconfig.json), which defines:
 
@@ -61,7 +61,13 @@ If there have not been any changes to the CIM XML, you may skip ahead to the [Pr
 To test all 11 feeder models at once, before importing into the platform:
 
 1. Change to the ```platform``` directory
-2. Start Blazegraph with ```docker restart blazegraph```
+2. Start Blazegraph using either:
+    - if using Docker:
+        - invoke ```docker restart blazegraph```
+        - invoke ```python3 configure_tests.py docker```
+    - if using the Jar file:
+        - from the Jar directory, invoke ```./go.sh &```
+        - invoke ```python3 configure_tests.py```
 3. Issue ```./test_all.sh```
 
 If any errors occur, you might need the [Step-by-step Testing Process](#step-by-step-testing-process) to localize the problem.
@@ -83,32 +89,32 @@ GridLAB-D and OpenDSSCmd must have already been installed.
         - ```rootname_i.csv``` contains exported branch currents
         - ```rootname_v.csv``` contains exported bus voltages
         - ```rootname_t.csv``` contains exported regulator tap positions
-4. Issue ```python3 MakeLoopScript.py -b``` to create the script for step 5
-    - optionally specify the non-default source path and Blazegraph URL:
-      ```python3 MakeLoopScript.py -b /home/tom/src/Powergrid-Models/platform/ http://localhost:8889/bigdata/namespace/kb/sparql```
+4. Issue ```python3 -m cimhub.MakeLoopScript -b``` to create the script for step 5
+    - optionally specify the non-default source path:
+      ```python3 -m cimhub.MakeLoopScript -b /home/tom/src/Powergrid-Models/platform/```
 5. Issue ```./convert_xml.sh``` to:
     - Empty and create a new ```test``` directory
     - Sequentially ingest the CIM XML files into Blazegraph, and export both OpenDSS and GridLAB-D models
     - This step may take a few minutes. When finished, all of the GridLAB-D and OpenDSS models will be in ```both``` subdirectory
     - When finished, only the last CIM XML will still be in Blazegraph. _This should be deleted before doing any more work in Blazegraph, to ensure compatible namespaces_.
-6. Issue ```python3 MakeLoopScript.py -d``` to make a sequential solution script for OpenDSS.
+6. Issue ```python3 -m cimhub.MakeLoopScript -d``` to make a sequential solution script for OpenDSS.
     - optionally specify the non-default source path and Blazegraph URL:
-     ```python3 MakeLoopScript.py -d /home/tom/src/Powergrid-Models/platform/```
+     ```python3 -m cimhub.MakeLoopScript -d /home/tom/src/Powergrid-Models/platform/```
 7. Issue ```opendsscmd check.dss``` to run OpenDSS power flows on the exported models.
     - Results will be in the ```test/dss``` subdirectory
         - ```rootname_s.csv``` contains exported snapshot loadflow summary
         - ```rootname_i.csv``` contains exported branch currents
         - ```rootname_v.csv``` contains exported bus voltages
         - ```rootname_t.csv``` contains exported regulator tap positions
-8. Issue ```python3 MakeGlmTestScript.py``` to create the GridLAB-D wrapper files, ```*run.glm``` and a script execution file in ```both``` subdirectory
+8. Issue ```python3 -m cimhub.MakeGlmTestScript``` to create the GridLAB-D wrapper files, ```*run.glm``` and a script execution file in ```both``` subdirectory
     - optionally specify the non-default source path and Blazegraph URL:
-     ```python3 MakeGlmTestScript.py /home/tom/src/Powergrid-Models/platform/```
+     ```python3 -m cimhub.MakeGlmTestScript /home/tom/src/Powergrid-Models/platform/```
 9. Issue ```./check_glm.sh```.  This runs GridLAB-D power flow on the exported models.
     - Results will be in the ```tests/glm``` directory
         - ```rootname.log``` contains the GridLAB-D error, warning and information messages
         - ```rootname_volt.csv``` contains the output from a GridLAB-D voltdump, i.e., the node (bus) voltages
         - ```rootname_curr.csv``` contains the output from a GridLAB-D currdump, i.e., the link (branch) currents
-10. Issue ```python3 Compare_Cases.py``` to compare the power flow solutions from steps 7 and 9 to the baseline solutions from step 3
+10. Issue ```python3 -m cimhub.Compare_Cases``` to compare the power flow solutions from steps 7 and 9 to the baseline solutions from step 3
 11. In the ```test/dss``` directory, OpenDSS comparison results are in a set of files:
     - ```*Summary.log``` compares the OpenDSS snapshot load flow solutions
     - ```*Missing_Nodes_DSS.txt``` identifies nodes (buses) that appear in one OpenDSS model (baseline step 2 or exported step 5), but not the other.
@@ -130,26 +136,61 @@ a summary of the model output differences as shown below.
 * MAEi  is the mean absolute link current error between Base OpenDSS and [Converted OpenDSS, Converted GridLAB-D], in Amperes
 
 ```
-ACEP_PSIL      Nbus=[  24,  24,   39] Nlink=[   39,   39,  21] MAEv=[0.0008,0.0316] MAEi=[ 0.9958,22.6701]
-EPRI_DPV_J1    Nbus=[4245,4245, 5674] Nlink=[ 7887, 7831,4186] MAEv=[0.0008,0.1860] MAEi=[ 0.1231,54.4130]
-IEEE123        Nbus=[ 274, 274,  433] Nlink=[  470,  470, 257] MAEv=[0.0004,0.0038] MAEi=[ 0.0179, 3.1347]
-IEEE123_PV     Nbus=[ 442, 442,  655] Nlink=[  744,  748, 338] MAEv=[0.0001,0.0160] MAEi=[ 0.0573, 2.3041]
-Transactive    Nbus=[3036,3036, 5602] Nlink=[ 6888, 6888, 363] MAEv=[0.0002,0.0042] MAEi=[ 0.0220, 0.6304]
-IEEE13         Nbus=[  56,  56,   90] Nlink=[  103,  103,  44] MAEv=[0.0197,0.0450] MAEi=[ 9.5887,35.5342]
-IEEE13_Assets  Nbus=[  41,  41,   66] Nlink=[   77,   79,  37] MAEv=[0.0099,0.0355] MAEi=[14.1490,29.2863]
-IEEE13_OCHRE   Nbus=[ 160, 160,  246] Nlink=[  283,  289,  59] MAEv=[0.0183,0.0181] MAEi=[10.0164,38.1205]
-IEEE37         Nbus=[ 117, 117,    0] Nlink=[  180,  180,   0] MAEv=[0.2536,0.0000] MAEi=[ 5.4502, 0.0000]
-IEEE8500       Nbus=[8531,8531,10915] Nlink=[12086,12086,4958] MAEv=[0.0017,0.0706] MAEi=[ 0.2038, 1.2057]
-IEEE8500_3subs Nbus=[9493,9493,12463] Nlink=[13874,13897,5570] MAEv=[0.0036,0.0547] MAEi=[ 0.1925, 0.5880]
-R2_12_47_2     Nbus=[1631,1632, 1665] Nlink=[ 2246, 2269, 638] MAEv=[0.0158,0.0134] MAEi=[10.0851, 6.5670]
+  OpenDSS branch flow in LINE.SEG4 from BATT, Base case
+  Phs     Volts     rad      Amps     rad         kW          kVAR   PhsPhs     Volts     rad
+    A    284.27 -0.0663    346.27 -0.7681     75.172 + j    63.548     AB      492.36  0.4573
+    B    284.27 -2.1607    346.27 -2.8625     75.172 + j    63.548     BC      492.36 -1.6371
+    C    284.27  2.0281    346.27  1.3263     75.172 + j    63.548     CA      492.36  2.5517
+    Total S =   225.515 + j   190.643
+  OpenDSS branch flow in LINE.SEG4 from BATT, Converted case
+  Phs     Volts     rad      Amps     rad         kW          kVAR   PhsPhs     Volts     rad
+    A    284.27 -0.0663    346.27 -0.7681     75.172 + j    63.548     AB      492.36  0.4573
+    B    284.27 -2.1607    346.27 -2.8625     75.172 + j    63.548     BC      492.36 -1.6371
+    C    284.27  2.0281    346.27  1.3263     75.172 + j    63.548     CA      492.36  2.5517
+    Total S =   225.515 + j   190.643
+  GridLAB-D branch flow in LINE_SEG4 from BATT
+  Phs     Volts     rad      Amps     rad         kW          kVAR   PhsPhs     Volts     rad
+    A    272.49 -0.0185    361.46 -0.7213     75.160 + j    63.658     AB      471.97  0.5051
+    B    272.49  4.1702    361.46  3.4675     75.160 + j    63.658     BC      471.97 -1.5893
+    C    272.49  2.0758    361.46  1.3731     75.160 + j    63.658     CA      471.97  2.5994
+    Total S =   225.481 + j   190.973
+ACEP_PSIL        Nbus=[    24,    24,    39] Nlink=[    39,    39,    21] MAEv=[ 0.0000, 0.0427] MAEi=[   0.0012,  67.2664]
+EPRI_DPV_J1      Nbus=[  4245,  4245,  5674] Nlink=[  5674,  5674, 10341] MAEv=[ 0.0007, 0.1690] MAEi=[   0.1019,  52.5269]
+IEEE123          Nbus=[   274,   274,   433] Nlink=[   386,   386,   393] MAEv=[ 0.0000, 0.0025] MAEi=[   0.0216,   0.0860]
+IEEE123_PV       Nbus=[   442,   442,   655] Nlink=[   564,   564,   639] MAEv=[ 0.0000, 0.0015] MAEi=[   0.0031,   0.4758]
+Transactive      Nbus=[  3036,  3036,  5602] Nlink=[  5507,  5507,   690] MAEv=[ 0.0006, 0.0022] MAEi=[   0.0100,   0.1158]
+IEEE13           Nbus=[    56,    56,    90] Nlink=[    90,    90,    60] MAEv=[ 0.0000, 0.0175] MAEi=[   0.0199,   2.0720]
+IEEE13_Assets    Nbus=[    41,    41,    66] Nlink=[    64,    64,    45] MAEv=[ 0.0000, 0.0040] MAEi=[   0.0248,   0.8783]
+IEEE13_OCHRE     Nbus=[   160,   160,   246] Nlink=[   231,   231,    99] MAEv=[ 0.0000, 0.0005] MAEi=[   0.0010,   0.0438]
+  OpenDSS branch flow in LOAD.S728 from 728, Base case
+  Phs     Volts     rad      Amps     rad         kW          kVAR   PhsPhs     Volts     rad
+    A   2647.75 -0.0820     17.25 -0.5541     40.687 + j    20.776     AB     4684.00  0.4607
+    B   2776.82 -2.1660     17.26 -2.6473     42.490 + j    22.195     BC     4835.86 -1.6691
+    C   2736.31  1.9775     17.28  1.5404     42.832 + j    20.010     CA     4615.27  2.5086
+    Total S =   126.010 + j    62.980
+  OpenDSS branch flow in LOAD.S728 from 728, Converted case
+  Phs     Volts     rad      Amps     rad         kW          kVAR   PhsPhs     Volts     rad
+    A   2647.47 -0.0820     17.25 -0.5541     40.683 + j    20.774     AB     4684.26  0.4608
+    B   2777.39 -2.1660     17.26 -2.6473     42.499 + j    22.199     BC     4836.09 -1.6692
+    C   2736.00  1.9775     17.28  1.5404     42.827 + j    20.007     CA     4614.76  2.5086
+    Total S =   126.008 + j    62.979
+IEEE37           Nbus=[   117,   117,     0] Nlink=[   180,   180,     0] MAEv=[ 0.0001,-1.0000] MAEi=[   0.0006,  -1.0000]
+IEEE8500         Nbus=[  8531,  8531, 10915] Nlink=[  9720,  9720, 11112] MAEv=[ 0.0014, 0.0077] MAEi=[   0.1094,   0.8632]
+IEEE9500bal      Nbus=[  9549,  9549, 12528] Nlink=[ 11254, 11254, 12159] MAEv=[ 0.0002, 0.0021] MAEi=[   0.0289,   0.1647]
+R2_12_47_2       Nbus=[  1631,  1631,  1665] Nlink=[  1857,  1857,  1404] MAEv=[ 0.0006, 0.0050] MAEi=[   0.3401,   0.6481]
 ```
 
 Some notes about these comparisons:
 
-* The IEEE37 example has zero entries for Nbus, Nlink, MAEv and MAEi for GridLAB-D because that model doesn't solve
+* The IEEE37 example has zero entries for Nbus, Nlink, MAEv and MAEi for GridLAB-D because that model doesn't solve. The open-delta regulator bank is not implemented in GridLAB-D, and it was left out of this feeder in GridLAB-D's autotest suite.
 * GridLAB-D doesn't export load currents and other shunt currents to the CSV file, but Nlink includes them for OpenDSS
+* The EPRI J1 model does not solve properly in GridLAB-D, probably due to staggered single-phase regulators.
+* In the ACEP_PSIL model, GridLAB-D must swap the windings on a wye/delta transformer, which spoils the MAEi comparison. The detailed branch output illustrates that the currents agree outside of that transformer.
+* In the IEEE37 example, a delta load comparison has been included to show the agreement of line-to-line voltages.
+* The IEEE13 and IEEE13_Assets examples include a mixture of constant power, constant impedance and constant current load models. The IEEE8500 example solves in GridLAB-D only with a constant-current load model. The EPRI J1 uses a CVR load model, approximated with constant-current in GridLAB-D. The other examples all use constant-power load models.
+* For line constants, OpenDSS defaults to the Deri earth model, while GridLAB-D implements reduced-order Carson. Except for the IEEE123 example, which is distributed with OpenDSS, all of these examples use the reduced-order Carson earth model.
 * Only voltage errors within 0.8 per-unit are included in MAEv. This means the comparison doesn't try to match voltages in a de-energized part of the network due to wiring, phasing or switching errors. However, such errors would still appear in MAEi.
-* Efforts may be undertaken to reduce MAEv and MAEi.
+* Further efforts may be undertaken to reduce MAEv and MAEi.
 
 ### Preparation for Batch Import
 

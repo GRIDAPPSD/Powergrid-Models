@@ -1,0 +1,28 @@
+! Linecodes
+new linecode.OBJECT_14 nphases=4 units=mi
+~ rmatrix=[ 0.281202 | 0.095302 0.281202 | 0.095302 0.095302 0.281202 | 0.095302 0.095302 0.095302 0.687302 ]
+~ xmatrix=[ 1.383077 | 0.851546 1.383077 | 0.780223 0.726610 1.383077 | 0.786532 0.752461 0.767438 1.546504 ]
+~ neutral=4 kron=yes
+new linecode.OBJECT_15 nphases=4 units=mi
+~ rmatrix=[ 0.687302 | 0.095302 0.687302 | 0.095302 0.095302 0.687302 | 0.095302 0.095302 0.095302 0.687302 ]
+~ xmatrix=[ 1.546504 | 0.780223 1.546504 | 0.851546 0.726610 1.546504 | 0.786532 0.767438 0.752461 1.546504 ]
+~ neutral=4 kron=yes
+new linecode.OBJECT_16 nphases=3 units=mi
+~ rmatrix=[ 1.215302 | 0.095302 1.215302 | 0.095302 0.095302 1.215302 ]
+~ xmatrix=[ 1.619508 | 0.726610 1.619508 | 0.767438 0.752461 1.619508 ]
+~ neutral=3 kron=yes
+new linecode.OBJECT_17 nphases=3 units=mi
+~ rmatrix=[ 1.215302 | 0.095302 1.215302 | 0.095302 0.095302 1.215302 ]
+~ xmatrix=[ 1.619508 | 0.726610 1.619508 | 0.752461 0.767438 1.619508 ]
+~ neutral=3 kron=yes
+new linecode.OBJECT_18 nphases=2 units=mi
+~ rmatrix=[ 1.215302 | 0.095302 1.215302 ]
+~ xmatrix=[ 1.619508 | 0.767438 1.619508 ]
+~ neutral=2 kron=yes
+new linecode.OBJECT_21 nphases=3 units=mi
+~ rmatrix=[ 0.505302 | 0.095302 0.505302 | 0.095302 0.095302 0.505302 ]
+~ xmatrix=[ 1.456433 | 1.046839 1.456433 | 0.962731 1.046839 1.456433 ]
+new linecode.OBJECT_22 nphases=2 units=mi
+~ rmatrix=[ 1.065302 | 0.095302 1.065302 ]
+~ xmatrix=[ 1.508869 | 1.264255 1.508869 ]
+~ neutral=2 kron=yes

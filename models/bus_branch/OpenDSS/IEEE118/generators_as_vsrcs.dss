@@ -1,0 +1,61 @@
+
+/********************************************************************************************************  generators definitions as Vsources for 138.0kV  ***/
+
+New Vsource.Vsrc_at_1_1 bus1=1_riversde basekv=138.0 phases=3 pu=0.7804804179887121 angle=11.046858401037541 frequency=60.0 baseMVA=3.7247999999999992 puZ1=[0.001, 0.2] !Model=ideal
+New Vsource.Vsrc_at_4_1 bus1=4_nwcarlsl basekv=138.0 phases=3 pu=0.8309997515105423 angle=15.641171828662817 frequency=60.0 baseMVA=18.006 puZ1=[0.001, 0.2] !Model=ideal
+New Vsource.Vsrc_at_6_1 bus1=6_kankakee basekv=138.0 phases=3 pu=1.1583504741922208 angle=13.26016426370681 frequency=60.0 baseMVA=19.116 puZ1=[0.001, 0.2] !Model=ideal
+New Vsource.Vsrc_at_8_1 bus1=8_olive basekv=138.0 phases=3 pu=1.1792038982954989 angle=21.009307939137607 frequency=60.0 baseMVA=75.3096 puZ1=[0.001, 0.2] !Model=ideal
+New Vsource.Vsrc_at_10_1 bus1=10_breed basekv=138.0 phases=3 pu=1.0448846573562858 angle=44.57078491918578 frequency=60.0 baseMVA=543.4626127896564 puZ1=[0.001, 0.2] !Model=ideal
+New Vsource.Vsrc_at_12_1 bus1=12_twinbrch basekv=138.0 phases=3 pu=1.1196049845090805 angle=18.34934121030433 frequency=60.0 baseMVA=149.66815970486172 puZ1=[0.001, 0.2] !Model=ideal
+New Vsource.Vsrc_at_15_1 bus1=15_ftwayne basekv=138.0 phases=3 pu=1.1418216290378222 angle=11.446290654662429 frequency=60.0 baseMVA=3.6719999999999997 puZ1=[0.001, 0.2] !Model=ideal
+New Vsource.Vsrc_at_18_1 bus1=18_mckinley basekv=138.0 phases=3 pu=1.1442918587105964 angle=11.749116346469396 frequency=60.0 baseMVA=30.638399999999994 puZ1=[0.001, 0.2] !Model=ideal
+New Vsource.Vsrc_at_19_1 bus1=19_lincoln basekv=138.0 phases=3 pu=0.7904374517984882 angle=11.370098015956687 frequency=60.0 baseMVA=9.6 puZ1=[0.001, 0.2] !Model=ideal
+New Vsource.Vsrc_at_24_1 bus1=24_trenton basekv=138.0 phases=3 pu=0.8239896755274534 angle=21.17651279930624 frequency=60.0 baseMVA=18.3384 puZ1=[0.001, 0.2] !Model=ideal
+New Vsource.Vsrc_at_25_1 bus1=25_tannrsck basekv=138.0 phases=3 pu=1.0967731133766339 angle=36.289769403718964 frequency=60.0 baseMVA=270.6787223956844 puZ1=[0.001, 0.2] !Model=ideal
+New Vsource.Vsrc_at_26_1 bus1=26_tannrsck basekv=138.0 phases=3 pu=1.0341005622869728 angle=39.095568386212015 frequency=60.0 baseMVA=376.98742286182437 puZ1=[0.001, 0.2] !Model=ideal
+New Vsource.Vsrc_at_27_1 bus1=27_madison basekv=138.0 phases=3 pu=1.1401766335409642 angle=15.56933926101185 frequency=60.0 baseMVA=3.3972 puZ1=[0.001, 0.2] !Model=ideal
+New Vsource.Vsrc_at_31_1 bus1=31_deercrk basekv=138.0 phases=3 pu=1.1361225106047572 angle=14.829133517246582 frequency=60.0 baseMVA=39.27988021162997 puZ1=[0.001, 0.2] !Model=ideal
+New Vsource.Vsrc_at_32_1 bus1=32_delaware basekv=138.0 phases=3 pu=0.790626176280046 angle=15.122672641518058 frequency=60.0 baseMVA=16.8 puZ1=[0.001, 0.2] !Model=ideal
+New Vsource.Vsrc_at_34_1 bus1=34_rockhill basekv=138.0 phases=3 pu=0.8168033028315441 angle=11.565793724704553 frequency=60.0 baseMVA=9.6 puZ1=[0.001, 0.2] !Model=ideal
+New Vsource.Vsrc_at_36_1 bus1=36_sterling basekv=138.0 phases=3 pu=0.8099324191711403 angle=11.143854290338142 frequency=60.0 baseMVA=1.5024 puZ1=[0.001, 0.2] !Model=ideal
+New Vsource.Vsrc_at_40_1 bus1=40_westend basekv=138.0 phases=3 pu=1.1418216290378222 angle=7.48089065466243 frequency=60.0 baseMVA=32.2632 puZ1=[0.001, 0.2] !Model=ideal
+New Vsource.Vsrc_at_42_1 bus1=42_howard basekv=138.0 phases=3 pu=1.1542050477972239 angle=8.631402617332478 frequency=60.0 baseMVA=49.2048 puZ1=[0.001, 0.2] !Model=ideal
+New Vsource.Vsrc_at_46_1 bus1=46_wlancst basekv=138.0 phases=3 pu=0.9750152788447808 angle=28.03412326255781 frequency=60.0 baseMVA=23.648324250145084 puZ1=[0.001, 0.2] !Model=ideal
+New Vsource.Vsrc_at_49_1 bus1=49_philo basekv=138.0 phases=3 pu=1.1148555669288351 angle=28.296971782594635 frequency=60.0 baseMVA=281.39994526822494 puZ1=[0.001, 0.2] !Model=ideal
+New Vsource.Vsrc_at_54_1 bus1=54_torrey basekv=138.0 phases=3 pu=0.9854706149067752 angle=25.516116800286014 frequency=60.0 baseMVA=57.79000665997539 puZ1=[0.001, 0.2] !Model=ideal
+New Vsource.Vsrc_at_55_1 bus1=55_wagenhls basekv=138.0 phases=3 pu=1.1270703679358467 angle=15.019200672282432 frequency=60.0 baseMVA=5.596799999999999 puZ1=[0.001, 0.2] !Model=ideal
+New Vsource.Vsrc_at_56_1 bus1=56_sunnysde basekv=138.0 phases=3 pu=0.7792974846702305 angle=15.314622887546307 frequency=60.0 baseMVA=2.7432 puZ1=[0.001, 0.2] !Model=ideal
+New Vsource.Vsrc_at_59_1 bus1=59_tidd basekv=138.0 phases=3 pu=1.0716309740985033 angle=27.565481186431704 frequency=60.0 baseMVA=207.59813949224113 puZ1=[0.001, 0.2] !Model=ideal
+New Vsource.Vsrc_at_61_1 bus1=61_wkammer basekv=138.0 phases=3 pu=0.9685583512308226 angle=33.79099037191297 frequency=60.0 baseMVA=198.02427209774058 puZ1=[0.001, 0.2] !Model=ideal
+New Vsource.Vsrc_at_62_1 bus1=62_natrium basekv=138.0 phases=3 pu=1.1650009672430532 angle=23.468033792586002 frequency=60.0 baseMVA=1.5108000000000001 puZ1=[0.001, 0.2] !Model=ideal
+New Vsource.Vsrc_at_65_1 bus1=65_muskngum basekv=138.0 phases=3 pu=1.051963609452971 angle=36.5941482959711 frequency=60.0 baseMVA=479.11655602302034 puZ1=[0.001, 0.2] !Model=ideal
+New Vsource.Vsrc_at_66_1 bus1=66_muskngum basekv=138.0 phases=3 pu=1.0619338708876949 angle=36.15988021819758 frequency=60.0 baseMVA=470.4058260879004 puZ1=[0.001, 0.2] !Model=ideal
+New Vsource.Vsrc_at_69_1 bus1=69_sporn basekv=138.0 phases=3 pu=1.0227370891921872 angle=38.95082523199313 frequency=60.0 baseMVA=623.9461977897773 puZ1=[0.001, 0.2] !Model=ideal
+New Vsource.Vsrc_at_70_1 bus1=70_portsmth basekv=138.0 phases=3 pu=1.153377004685095 angle=22.578429755260725 frequency=60.0 baseMVA=11.5968 puZ1=[0.001, 0.2] !Model=ideal
+New Vsource.Vsrc_at_72_1 bus1=72_hillsbro basekv=138.0 phases=3 pu=0.8099324191711403 angle=21.172154290338145 frequency=60.0 baseMVA=13.356 puZ1=[0.001, 0.2] !Model=ideal
+New Vsource.Vsrc_at_73_1 bus1=73_sargents basekv=138.0 phases=3 pu=1.1591805942766422 angle=21.956536063952445 frequency=60.0 baseMVA=11.581199999999999 puZ1=[0.001, 0.2] !Model=ideal
+New Vsource.Vsrc_at_74_1 bus1=74_bellefnt basekv=138.0 phases=3 pu=0.7840269265342144 angle=21.73536894268856 frequency=60.0 baseMVA=6.753599999999999 puZ1=[0.001, 0.2] !Model=ideal
+New Vsource.Vsrc_at_76_1 bus1=76_darrah basekv=138.0 phases=3 pu=1.1197412465554606 angle=21.75898192575224 frequency=60.0 baseMVA=6.3228 puZ1=[0.001, 0.2] !Model=ideal
+New Vsource.Vsrc_at_77_1 bus1=77_turner basekv=138.0 phases=3 pu=1.1716729237043955 angle=26.718192350087378 frequency=60.0 baseMVA=14.3316 puZ1=[0.001, 0.2] !Model=ideal
+New Vsource.Vsrc_at_80_1 bus1=80_cabincrk basekv=138.0 phases=3 pu=1.0865553912448918 angle=37.27232957194807 frequency=60.0 baseMVA=586.1167832437491 puZ1=[0.001, 0.2] !Model=ideal
+New Vsource.Vsrc_at_85_1 bus1=85_beaverck basekv=138.0 phases=3 pu=0.8157957009533241 angle=32.61821879242631 frequency=60.0 baseMVA=6.9216 puZ1=[0.001, 0.2] !Model=ideal
+New Vsource.Vsrc_at_87_1 bus1=87_pinevlle basekv=138.0 phases=3 pu=1.1709374535259476 angle=34.15281331487336 frequency=60.0 baseMVA=14.070453331716076 puZ1=[0.001, 0.2] !Model=ideal
+! swing bus - bus: 89
+! New Vsource.Vsrc_at_89_1 bus1=89_clinchrv basekv=138.0 phases=3 pu=1.0162276665500547 angle=49.136995333567725 frequency=60.0 baseMVA=728.5374813610073 puZ1=[0.001, 0.2] !Model=ideal
+New Vsource.Vsrc_at_90_1 bus1=90_holston basekv=138.0 phases=3 pu=1.1542050477972239 angle=33.29910261733247 frequency=60.0 baseMVA=71.16 puZ1=[0.001, 0.2] !Model=ideal
+New Vsource.Vsrc_at_91_1 bus1=91_holstont basekv=138.0 phases=3 pu=0.8099324191711402 angle=33.42025429033815 frequency=60.0 baseMVA=17.8164 puZ1=[0.001, 0.2] !Model=ideal
+New Vsource.Vsrc_at_92_1 bus1=92_saltvlle basekv=138.0 phases=3 pu=0.8243170841241318 angle=33.91757312216333 frequency=60.0 baseMVA=3.5999999999999996 puZ1=[0.001, 0.2] !Model=ideal
+New Vsource.Vsrc_at_99_1 bus1=99_hinton basekv=138.0 phases=3 pu=0.8449839011748514 angle=27.145046335686757 frequency=60.0 baseMVA=21.0444 puZ1=[0.001, 0.2] !Model=ideal
+New Vsource.Vsrc_at_100_1 bus1=100_glenlyn basekv=138.0 phases=3 pu=1.0936566239934689 angle=35.961833167661574 frequency=60.0 baseMVA=329.98202866847157 puZ1=[0.001, 0.2] !Model=ideal
+New Vsource.Vsrc_at_103_1 bus1=103_claytor basekv=138.0 phases=3 pu=1.1251932298407061 angle=30.47111460355907 frequency=60.0 baseMVA=67.88225099390856 puZ1=[0.001, 0.2] !Model=ideal
+New Vsource.Vsrc_at_104_1 bus1=104_hancock basekv=138.0 phases=3 pu=1.1426446751990145 angle=21.704866071183037 frequency=60.0 baseMVA=6.771599999999999 puZ1=[0.001, 0.2] !Model=ideal
+New Vsource.Vsrc_at_105_1 bus1=105_roanoke basekv=138.0 phases=3 pu=0.793455901663527 angle=20.68819397533807 frequency=60.0 baseMVA=9.6 puZ1=[0.001, 0.2] !Model=ideal
+New Vsource.Vsrc_at_107_1 bus1=107_reusens basekv=138.0 phases=3 pu=1.1270703679358467 angle=17.543300672282435 frequency=60.0 baseMVA=6.8328 puZ1=[0.001, 0.2] !Model=ideal
+New Vsource.Vsrc_at_110_1 bus1=110_fieldale basekv=138.0 phases=3 pu=1.1442918587105961 angle=18.104516346469396 frequency=60.0 baseMVA=5.8248 puZ1=[0.001, 0.2] !Model=ideal
+New Vsource.Vsrc_at_111_1 bus1=111_danriver basekv=138.0 phases=3 pu=0.9868822737259945 angle=29.70517585706759 frequency=60.0 baseMVA=43.256635142368616 puZ1=[0.001, 0.2] !Model=ideal
+New Vsource.Vsrc_at_112_1 bus1=112_danville basekv=138.0 phases=3 pu=1.145940489679957 angle=15.005465881865634 frequency=60.0 baseMVA=49.8144 puZ1=[0.001, 0.2] !Model=ideal
+New Vsource.Vsrc_at_113_1 bus1=113_deercrk basekv=138.0 phases=3 pu=1.160841860914075 angle=13.962279139686938 frequency=60.0 baseMVA=7.587599999999999 puZ1=[0.001, 0.2] !Model=ideal
+New Vsource.Vsrc_at_116_1 bus1=116_kygercrk basekv=138.0 phases=3 pu=1.1708377728856392 angle=27.125823121368366 frequency=60.0 baseMVA=61.58879999999999 puZ1=[0.001, 0.2] !Model=ideal
+
+/********************************************************************************************************  generators definitions as Vsources for 20.0kV  ***/
+

@@ -1,0 +1,12 @@
+{
+    "master": "Master-unbal-initial-config.dss",
+    "feeder": "EE71F6C9-56F0-4167-A14E-7F4C71F10EAA",
+    "substation": "4AE25EA5-C364-43BB-BD7D-C8E870EE8F5D",
+    "sub_geo_region": "1CD7D2EE-3C91-3248-5662-A43EFEFAC224",
+    "geo_region": "73C512BD-7249-4F50-50DA-D93849B89C43",
+    "uuids": "final9500node_exp_uuids.dat",
+    "insert_measurements": true,
+    "insert_houses": true,
+    "insert_end_device": false,
+    "distributed": true
+}

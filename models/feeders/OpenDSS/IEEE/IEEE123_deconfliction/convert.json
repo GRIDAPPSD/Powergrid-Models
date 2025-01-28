@@ -1,0 +1,12 @@
+{
+    "master": "IEEE123Master.dss",
+    "feeder": "F49D1288-9EC6-47DB-8769-57E2B6EDB124",
+    "substation": "FE44B314-385E-C2BF-3983-3A10C6060022",
+    "sub_geo_region": "A1170111-942A-6ABD-D325-C64886DC4D7D",
+    "geo_region": "73C512BD-7249-4F50-50DA-D93849B89C43",
+    "uuids": null,
+    "insert_measurements": true,
+    "insert_houses": true,
+    "insert_end_device": false,
+    "distributed": true
+}

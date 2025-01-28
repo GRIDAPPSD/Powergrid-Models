@@ -1,0 +1,3 @@
+! Underground Line Definitions
+new line.684-652 bus1=node_684.1 bus2=node_652.1 phases=1 linecode=OBJECT_22 length=800 units=Ft
+new line.692-675 bus1=node_692.1.2.3 bus2=node_675.1.2.3 phases=3 linecode=OBJECT_21 length=500 units=Ft

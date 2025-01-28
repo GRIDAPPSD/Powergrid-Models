@@ -1,0 +1,12 @@
+{
+    "master": "ieee37.dss",
+    "feeder": "49003F52-A359-C2EA-10C4-F4ED3FD368CC",
+    "substation": "1A0B112A-9C7E-D629-E186-15C5E9148498",
+    "sub_geo_region": "ABEB635F-729D-24BF-B8A4-E2EF268D8B9E",
+    "geo_region": "73C512BD-7249-4F50-50DA-D93849B89C43",
+    "uuids": "ieee37_uuids.dat",
+    "insert_measurements": true,
+    "insert_houses": true,
+    "insert_end_device": false,
+    "distributed": true
+}

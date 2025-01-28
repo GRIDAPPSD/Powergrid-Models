@@ -1,0 +1,353 @@
+!--- OpenDSS Linecodes file generated from Show LINECONSTANTS command
+!--- Frequency = 60 Hz, Earth resistivity = 100 ohm-m
+!--- Earth Model = Deri
+
+New Linecode.3ph-69kv_397_treewire nphases=3  Units=km
+~ Rmatrix=[0.26293  |0.093208  0.26998  |0.0989238  0.103135  0.283358  ]
+~ Xmatrix=[0.751932  |0.321999  0.734311  |0.274056  0.297849  0.702036  ]
+~ Cmatrix=[8.28811  |-2.03445  8.59444  |-1.30498  -1.92464  8.6056  ]
+
+New Linecode.1p_1/0_axnj_db nphases=1  Units=km
+~ Rmatrix=[0.907569  ]
+~ Xmatrix=[0.277902  ]
+~ Cmatrix=[233.559  ]
+
+New Linecode.3p_1/0_axnj_db nphases=3  Units=km
+~ Rmatrix=[0.776533  |0.114154  0.762173  |0.0906869  0.114154  0.776533  ]
+~ Xmatrix=[0.250064  |-0.0130109  0.232002  |-0.0308568  -0.0130109  0.250064  ]
+~ Cmatrix=[233.559  |0  233.559  |0  0  233.559  ]
+
+New Linecode.1ph-x4_acsrx4_acsr nphases=1  Units=km
+~ Rmatrix=[1.67466  ]
+~ Xmatrix=[0.93456  ]
+~ Cmatrix=[6.71463  ]
+
+New Linecode.1ph-xx4_acsr4_acsr nphases=1  Units=km
+~ Rmatrix=[1.67466  ]
+~ Xmatrix=[0.93456  ]
+~ Cmatrix=[6.71463  ]
+
+New Linecode.1ph-x2_acsrx2_acsr nphases=1  Units=km
+~ Rmatrix=[1.1223  ]
+~ Xmatrix=[0.896365  ]
+~ Cmatrix=[6.92246  ]
+
+New Linecode.1ph-x4_acsrx4_wpal nphases=1  Units=km
+~ Rmatrix=[1.67723  ]
+~ Xmatrix=[0.932411  ]
+~ Cmatrix=[6.71463  ]
+
+New Linecode.3ph_h-4_acsr4_acsr4_acsr4_acsr nphases=3  Units=km
+~ Rmatrix=[1.6834  |0.138324  1.67686  |0.142669  0.139294  1.68543  ]
+~ Xmatrix=[0.9273  |0.432623  0.932728  |0.412253  0.450469  0.925637  ]
+~ Cmatrix=[7.82083  |-1.84256  7.99732  |-1.43993  -2.16417  8.01691  ]
+
+New Linecode.3ph_h-2/0_acsr2/0_acsr2/0_acsr2_acsr nphases=3  Units=km
+~ Rmatrix=[0.66087  |0.137499  0.653999  |0.142066  0.138518  0.663007  ]
+~ Xmatrix=[0.869947  |0.388579  0.878528  |0.366115  0.405953  0.8673  ]
+~ Cmatrix=[8.59677  |-2.14452  8.83789  |-1.65121  -2.53899  8.84822  ]
+
+New Linecode.1ph-4_wpalxx2_wpal nphases=1  Units=km
+~ Rmatrix=[1.63092  ]
+~ Xmatrix=[0.861221  ]
+~ Cmatrix=[6.72636  ]
+
+New Linecode.3ph_h-4_acsr2_acsr2_acsr4_wpal nphases=3  Units=km
+~ Rmatrix=[1.68626  |0.141078  1.12824  |0.145566  0.14208  1.1371  ]
+~ Xmatrix=[0.924966  |0.430359  0.933765  |0.409898  0.448185  0.926495  ]
+~ Cmatrix=[7.84445  |-1.89289  8.29791  |-1.47239  -2.31806  8.3189  ]
+
+New Linecode.1ph-4_acsrxx4_acsr nphases=1  Units=km
+~ Rmatrix=[1.67466  ]
+~ Xmatrix=[0.93456  ]
+~ Cmatrix=[6.71463  ]
+
+New Linecode.3ph_h-4_acsr4_acsr4_acsr4_wpal nphases=3  Units=km
+~ Rmatrix=[1.68626  |0.141078  1.6795  |0.145566  0.14208  1.68836  ]
+~ Xmatrix=[0.924966  |0.430359  0.930531  |0.409898  0.448185  0.923261  ]
+~ Cmatrix=[7.82083  |-1.84256  7.99732  |-1.43993  -2.16417  8.01691  ]
+
+New Linecode.1ph-2_acsrxx2_acsr nphases=1  Units=km
+~ Rmatrix=[1.1223  ]
+~ Xmatrix=[0.896365  ]
+~ Cmatrix=[6.92246  ]
+
+New Linecode.1ph-4_wpalxx4_acsr nphases=1  Units=km
+~ Rmatrix=[1.63124  ]
+~ Xmatrix=[0.898979  ]
+~ Cmatrix=[6.71463  ]
+
+New Linecode.3ph_h-397_acsr397_acsr397_acsr2/0_acsr nphases=3  Units=km
+~ Rmatrix=[0.270019  |0.109951  0.264634  |0.113538  0.110747  0.271698  ]
+~ Xmatrix=[0.695974  |0.33351  0.708729  |0.308271  0.350259  0.692021  ]
+~ Cmatrix=[9.42724  |-2.47648  9.74792  |-1.87339  -2.95755  9.74739  ]
+
+New Linecode.1ph-2_acsrxx4_acsr nphases=1  Units=km
+~ Rmatrix=[1.12339  ]
+~ Xmatrix=[0.937794  ]
+~ Cmatrix=[6.91002  ]
+
+New Linecode.1ph-xx2_acsr2_acsr nphases=1  Units=km
+~ Rmatrix=[1.1223  ]
+~ Xmatrix=[0.896365  ]
+~ Cmatrix=[6.92246  ]
+
+New Linecode.1ph-xx4_wpal4_wpal nphases=1  Units=km
+~ Rmatrix=[1.63382  ]
+~ Xmatrix=[0.89683  ]
+~ Cmatrix=[6.71463  ]
+
+New Linecode.1ph-x4_wpalx4_wpal nphases=1  Units=km
+~ Rmatrix=[1.63382  ]
+~ Xmatrix=[0.89683  ]
+~ Cmatrix=[6.71463  ]
+
+New Linecode.1ph-xx4_wpal4_acsr nphases=1  Units=km
+~ Rmatrix=[1.63124  ]
+~ Xmatrix=[0.898979  ]
+~ Cmatrix=[6.71463  ]
+
+New Linecode.1ph-x2_acsrx1/0_tpx nphases=1  Units=km
+~ Rmatrix=[1.03207  ]
+~ Xmatrix=[0.801436  ]
+~ Cmatrix=[6.93545  ]
+
+New Linecode.1ph-4_acsrxx4_wpal nphases=1  Units=km
+~ Rmatrix=[1.67723  ]
+~ Xmatrix=[0.932411  ]
+~ Cmatrix=[6.71463  ]
+
+New Linecode.1ph-xx4_acsr1/0_tpx nphases=1  Units=km
+~ Rmatrix=[1.58334  ]
+~ Xmatrix=[0.798203  ]
+~ Cmatrix=[6.73863  ]
+
+New Linecode.3ph_h-4_wpal4_wpal4_wpal4_acsr nphases=3  Units=km
+~ Rmatrix=[1.63999  |0.138324  1.63344  |0.142669  0.139294  1.64202  ]
+~ Xmatrix=[0.891719  |0.432623  0.897146  |0.412253  0.450469  0.890056  ]
+~ Cmatrix=[7.82083  |-1.84256  7.99732  |-1.43993  -2.16417  8.01691  ]
+
+New Linecode.1ph-x4_wpalx4_acsr nphases=1  Units=km
+~ Rmatrix=[1.63124  ]
+~ Xmatrix=[0.898979  ]
+~ Cmatrix=[6.71463  ]
+
+New Linecode.1ph-4_wpalxx4_wpal nphases=1  Units=km
+~ Rmatrix=[1.63382  ]
+~ Xmatrix=[0.89683  ]
+~ Cmatrix=[6.71463  ]
+
+New Linecode.3ph_h-4_wpal4_wpal4_wpal4_wpal nphases=3  Units=km
+~ Rmatrix=[1.64285  |0.141078  1.63609  |0.145566  0.14208  1.64495  ]
+~ Xmatrix=[0.889385  |0.430359  0.89495  |0.409898  0.448185  0.88768  ]
+~ Cmatrix=[7.82083  |-1.84256  7.99732  |-1.43993  -2.16417  8.01691  ]
+
+New Linecode.3ph_h-2_acsr2_acsr2_acsr2_acsr nphases=3  Units=km
+~ Rmatrix=[1.13148  |0.137499  1.12461  |0.142066  0.138518  1.13362  ]
+~ Xmatrix=[0.884886  |0.388579  0.893467  |0.366115  0.405953  0.882239  ]
+~ Cmatrix=[8.11989  |-1.95238  8.31713  |-1.51496  -2.30054  8.33636  ]
+
+New Linecode.1ph-4_acsrxx1/0_tpx nphases=1  Units=km
+~ Rmatrix=[1.58334  ]
+~ Xmatrix=[0.798203  ]
+~ Cmatrix=[6.73863  ]
+
+New Linecode.3ph_h-4_acsr2_acsr2_acsr4_acsr nphases=3  Units=km
+~ Rmatrix=[1.6834  |0.138324  1.12559  |0.142669  0.139294  1.13417  ]
+~ Xmatrix=[0.9273  |0.432623  0.935962  |0.412253  0.450469  0.928871  ]
+~ Cmatrix=[7.84445  |-1.89289  8.29791  |-1.47239  -2.31806  8.3189  ]
+
+New Linecode.1ph-xx4_acsr4_wpal nphases=1  Units=km
+~ Rmatrix=[1.67723  ]
+~ Xmatrix=[0.932411  ]
+~ Cmatrix=[6.71463  ]
+
+New Linecode.1ph-4_acsrxx2_acsr nphases=1  Units=km
+~ Rmatrix=[1.67357  ]
+~ Xmatrix=[0.893131  ]
+~ Cmatrix=[6.72636  ]
+
+New Linecode.1ph-x4_wpalx1/0_tpx nphases=1  Units=km
+~ Rmatrix=[1.53992  ]
+~ Xmatrix=[0.762621  ]
+~ Cmatrix=[6.73863  ]
+
+New Linecode.1ph-xx4_acsr1/0_acsr nphases=1  Units=km
+~ Rmatrix=[1.65698  ]
+~ Xmatrix=[0.855269  ]
+~ Cmatrix=[6.73863  ]
+
+New Linecode.1ph-2_acsrxx4_wpal nphases=1  Units=km
+~ Rmatrix=[1.12597  ]
+~ Xmatrix=[0.935645  ]
+~ Cmatrix=[6.91002  ]
+
+New Linecode.1ph-xx2/0_acsr1/0_tpx nphases=1  Units=km
+~ Rmatrix=[0.561461  ]
+~ Xmatrix=[0.786498  ]
+~ Cmatrix=[7.24887  ]
+
+New Linecode.2ph_h-2_acsrx2_acsr2_acsr nphases=2  Units=km
+~ Rmatrix=[1.13148  |0.142066  1.13362  ]
+~ Xmatrix=[0.884886  |0.366115  0.882239  ]
+~ Cmatrix=[7.66159  |-2.05499  7.70003  ]
+
+New Linecode.1ph-2_wpalxx2_wpal nphases=1  Units=km
+~ Rmatrix=[1.16232  ]
+~ Xmatrix=[0.900036  ]
+~ Cmatrix=[6.92246  ]
+
+New Linecode.1ph-2_acsrxx4/0_tpx nphases=1  Units=km
+~ Rmatrix=[1.07236  ]
+~ Xmatrix=[0.807978  ]
+~ Cmatrix=[6.95654  ]
+
+New Linecode.3ph_h-397_acsr397_acsr397_acsr4_wpal nphases=3  Units=km
+~ Rmatrix=[0.301838  |0.141078  0.295078  |0.145566  0.14208  0.303936  ]
+~ Xmatrix=[0.796484  |0.430359  0.802049  |0.409898  0.448185  0.794778  ]
+~ Cmatrix=[9.40427  |-2.49158  9.73801  |-1.8973  -2.97326  9.72251  ]
+
+New Linecode.3ph_h-397_acsr397_acsr397_acsr397_acsr nphases=3  Units=km
+~ Rmatrix=[0.214162  |0.0557957  0.212131  |0.0571636  0.0560892  0.214801  ]
+~ Xmatrix=[0.634957  |0.27487  0.652375  |0.246528  0.29092  0.629544  ]
+~ Cmatrix=[9.45082  |-2.461  9.7581  |-1.84886  -2.94143  9.77293  ]
+
+New Linecode.1ph-xx2_acsr1/0_tpx nphases=1  Units=km
+~ Rmatrix=[1.03207  ]
+~ Xmatrix=[0.801436  ]
+~ Cmatrix=[6.93545  ]
+
+New Linecode.1ph-x4_acsrx2_wpal nphases=1  Units=km
+~ Rmatrix=[1.67434  ]
+~ Xmatrix=[0.896802  ]
+~ Cmatrix=[6.72636  ]
+
+New Linecode.1ph-x4_acsrx4_dpx nphases=1  Units=km
+~ Rmatrix=[1.6773  ]
+~ Xmatrix=[0.932059  ]
+~ Cmatrix=[6.71463  ]
+
+New Linecode.3ph_h-2_acsr2_acsr4_acsr4_acsr nphases=3  Units=km
+~ Rmatrix=[1.13214  |0.138324  1.12559  |0.142669  0.139294  1.68543  ]
+~ Xmatrix=[0.930534  |0.432623  0.935962  |0.412253  0.450469  0.925637  ]
+~ Cmatrix=[8.10301  |-1.97184  8.29189  |-1.47109  -2.22778  8.04614  ]
+
+New Linecode.1ph-4_wpalxx1/0_tpx nphases=1  Units=km
+~ Rmatrix=[1.53992  ]
+~ Xmatrix=[0.762621  ]
+~ Cmatrix=[6.73863  ]
+
+New Linecode.1ph-x4_acsrx1/0_tpx nphases=1  Units=km
+~ Rmatrix=[1.58334  ]
+~ Xmatrix=[0.798203  ]
+~ Cmatrix=[6.73863  ]
+
+New Linecode.1ph-4_acsrxx1/0_3w_cs nphases=1  Units=km
+~ Rmatrix=[1.66186  ]
+~ Xmatrix=[0.844051  ]
+~ Cmatrix=[6.73863  ]
+
+New Linecode.1ph-x2_acsrx4_acsr nphases=1  Units=km
+~ Rmatrix=[1.12339  ]
+~ Xmatrix=[0.937794  ]
+~ Cmatrix=[6.91002  ]
+
+New Linecode.1ph-x2_acsrx1/0_3w_cs nphases=1  Units=km
+~ Rmatrix=[1.11059  ]
+~ Xmatrix=[0.847285  ]
+~ Cmatrix=[6.93545  ]
+
+New Linecode.3ph_h-2/0_acsr2/0_acsr2/0_acsr2/0_acsr nphases=3  Units=km
+~ Rmatrix=[0.63257  |0.109951  0.627184  |0.113538  0.110747  0.634249  ]
+~ Xmatrix=[0.812752  |0.33351  0.825507  |0.308271  0.350259  0.808799  ]
+~ Cmatrix=[8.60955  |-2.13581  8.84383  |-1.63794  -2.52994  8.86201  ]
+
+New Linecode.1ph-2_acsrxx1/0_tpx nphases=1  Units=km
+~ Rmatrix=[1.03207  ]
+~ Xmatrix=[0.801436  ]
+~ Cmatrix=[6.93545  ]
+
+New Linecode.3ph_h-4_wpal4_wpal4_wpal1/0_tpx nphases=3  Units=km
+~ Rmatrix=[1.54119  |0.0423582  1.54023  |0.043017  0.0424921  1.5415  ]
+~ Xmatrix=[0.740322  |0.286955  0.756994  |0.259106  0.303117  0.73514  ]
+~ Cmatrix=[7.83546  |-1.83225  8.00458  |-1.42476  -2.15347  8.03265  ]
+
+New Linecode.1ph-x4_wpalx2_acsr nphases=1  Units=km
+~ Rmatrix=[1.63015  ]
+~ Xmatrix=[0.85755  ]
+~ Cmatrix=[6.72636  ]
+
+New Linecode.3ph_h-2/0_acsr2/0_acsr2/0_acsr2_wpal nphases=3  Units=km
+~ Rmatrix=[0.661672  |0.138291  0.654779  |0.142872  0.139313  0.663816  ]
+~ Xmatrix=[0.874001  |0.392488  0.882296  |0.370214  0.409905  0.871444  ]
+~ Cmatrix=[8.59677  |-2.14452  8.83789  |-1.65121  -2.53899  8.84822  ]
+
+New Linecode.1ph-xx4_acsr2_acsr nphases=1  Units=km
+~ Rmatrix=[1.67357  ]
+~ Xmatrix=[0.893131  ]
+~ Cmatrix=[6.72636  ]
+
+New Linecode.1ph-x4_acsrx4_tpx nphases=1  Units=km
+~ Rmatrix=[1.6773  ]
+~ Xmatrix=[0.932059  ]
+~ Cmatrix=[6.71463  ]
+
+New Linecode.3ph_h-4_acsr4_acsr4_acsr4_tpx nphases=3  Units=km
+~ Rmatrix=[1.68634  |0.141153  1.67957  |0.145647  0.142157  1.68844  ]
+~ Xmatrix=[0.92458  |0.429986  0.930171  |0.409508  0.447808  0.922866  ]
+~ Cmatrix=[7.82083  |-1.84256  7.99732  |-1.43993  -2.16417  8.01691  ]
+
+New Linecode.1ph-4_acsrxx6_wpal nphases=1  Units=km
+~ Rmatrix=[1.66227  ]
+~ Xmatrix=[0.967202  ]
+~ Cmatrix=[6.7036  ]
+
+New Linecode.1ph-xx4_acsr4_tpx nphases=1  Units=km
+~ Rmatrix=[1.6773  ]
+~ Xmatrix=[0.932059  ]
+~ Cmatrix=[6.71463  ]
+
+New Linecode.3ph_h-397_acsr397_acsr397_acsr2/0_wpal nphases=3  Units=km
+~ Rmatrix=[0.270019  |0.109951  0.264634  |0.113538  0.110747  0.271698  ]
+~ Xmatrix=[0.695974  |0.33351  0.708729  |0.308271  0.350259  0.692021  ]
+~ Cmatrix=[9.42724  |-2.47648  9.74792  |-1.87339  -2.95755  9.74739  ]
+
+New Linecode.1ph-2/0_acsrxx2_acsr nphases=1  Units=km
+~ Rmatrix=[0.651691  ]
+~ Xmatrix=[0.881426  ]
+~ Cmatrix=[7.23467  ]
+
+New Linecode.3ph_h-2/0_acsr2/0_acsr2/0_acsr4_acsr nphases=3  Units=km
+~ Rmatrix=[0.661525  |0.138324  0.654981  |0.142669  0.139294  0.663555  ]
+~ Xmatrix=[0.915595  |0.432623  0.921023  |0.412253  0.450469  0.913932  ]
+~ Cmatrix=[8.58881  |-2.14995  8.8342  |-1.65948  -2.54462  8.83963  ]
+
+New Linecode.1ph-xx4_wpal1/0_tpx nphases=1  Units=km
+~ Rmatrix=[1.53992  ]
+~ Xmatrix=[0.762621  ]
+~ Cmatrix=[6.73863  ]
+
+New Linecode.1ph-xx6_wpal6_wpal nphases=1  Units=km
+~ Rmatrix=[2.50305  ]
+~ Xmatrix=[0.974922  ]
+~ Cmatrix=[6.52038  ]
+
+New Linecode.1ph-x2_acsrx4_tpx nphases=1  Units=km
+~ Rmatrix=[1.12603  ]
+~ Xmatrix=[0.935293  ]
+~ Cmatrix=[6.91002  ]
+
+New Linecode.3ph_h-4_acsr4_acsr4_acsr2_wpal nphases=3  Units=km
+~ Rmatrix=[1.68355  |0.138291  1.67665  |0.142872  0.139313  1.68569  ]
+~ Xmatrix=[0.885706  |0.392488  0.894001  |0.370214  0.409905  0.883149  ]
+~ Cmatrix=[7.82797  |-1.83753  8.00086  |-1.43253  -2.15895  8.02459  ]
+
+New Linecode.1ph-x4_acsrx1/0_3w_cs nphases=1  Units=km
+~ Rmatrix=[1.66186  ]
+~ Xmatrix=[0.844051  ]
+~ Cmatrix=[6.73863  ]
+
+New Linecode.1ph-xx2_acsr4_dpx nphases=1  Units=km
+~ Rmatrix=[1.12603  ]
+~ Xmatrix=[0.935293  ]
+~ Cmatrix=[6.91002  ]

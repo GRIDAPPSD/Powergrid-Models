@@ -1,0 +1,18 @@
+!
+! PV DEFINITIONS
+!
+
+New "PVSystem.dg_6" bus1=7.1.2.3 phases=3 kv=4.16 Pmpp=120 kVA=120 pf=1 irradiance=1 %Cutin=0.1 %Cutout=0.1
+New "PVSystem.dg_12" bus1=17.3 phases=1 kv=2.4 Pmpp=120 kVA=120 pf=1 irradiance=1 %Cutin=0.1 %Cutout=0.1
+New "PVSystem.dg_18" bus1=29.1.2.3 phases=3 kv=4.16 Pmpp=250 kVA=250 pf=1 irradiance=1 %Cutin=0.1 %Cutout=0.1
+New "PVSystem.dg_30" bus1=42.1.2.3 phases=3 kv=4.16 Pmpp=300 kVA=300 pf=1 irradiance=1 %Cutin=0.1 %Cutout=0.1
+New "PVSystem.dg_36" bus1=49.1.2.3 phases=3 kv=4.16 Pmpp=400 kVA=400 pf=1 irradiance=1 %Cutin=0.1 %Cutout=0.1
+New "PVSystem.dg_42" bus1=55.1 phases=1 kv=2.4 Pmpp=150 kVA=150 pf=1 irradiance=1 %Cutin=0.1 %Cutout=0.1
+New "PVSystem.dg_48" bus1=63.1.2.3 phases=3 kv=4.16 Pmpp=250 kVA=250 pf=1 irradiance=1 %Cutin=0.1 %Cutout=0.1
+New "PVSystem.dg_54" bus1=68.1 phases=1 kv=2.4 Pmpp=130 kVA=130 pf=1 irradiance=1 %Cutin=0.1 %Cutout=0.1
+New "PVSystem.dg_60" bus1=75.3 phases=1 kv=2.4 Pmpp=260 kVA=260 pf=1 irradiance=1 %Cutin=0.1 %Cutout=0.1
+New "PVSystem.dg_66" bus1=80.2 phases=1 kv=2.4 Pmpp=260 kVA=260 pf=1 irradiance=1 %Cutin=0.1 %Cutout=0.1
+New "PVSystem.dg_72" bus1=87.1.2.3 phases=3 kv=4.16 Pmpp=280 kVA=280 pf=1 irradiance=1 %Cutin=0.1 %Cutout=0.1
+New "PVSystem.dg_78" bus1=96.2 phases=1 kv=2.4 Pmpp=150 kVA=150 pf=1 irradiance=1 %Cutin=0.1 %Cutout=0.1
+New "PVSystem.dg_84" bus1=104.3 phases=1 kv=2.4 Pmpp=300 kVA=300 pf=1 irradiance=1 %Cutin=0.1 %Cutout=0.1
+New "PVSystem.dg_90" bus1=113.1 phases=1 kv=2.4 Pmpp=350 kVA=350 pf=1 irradiance=1 %Cutin=0.1 %Cutout=0.1

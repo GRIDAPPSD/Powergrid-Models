@@ -1,0 +1,111 @@
+
+/********************************************************************************************************  load definitions for 138.0kV  ***/
+
+New Load.Load_at_1_1   phases=3 bus=1_riversde   kv=138.0 kW=51000.0  kvar=27000.0  model=1 daily=Default spectrum=Linear
+New Load.Load_at_2_1   phases=3 bus=2_pokagon    kv=138.0 kW=20000.0  kvar=9000.0   model=1 daily=Default spectrum=Linear
+New Load.Load_at_3_1   phases=3 bus=3_hickryck   kv=138.0 kW=39000.0  kvar=10000.0  model=1 daily=Default spectrum=Linear
+New Load.Load_at_4_1   phases=3 bus=4_nwcarlsl   kv=138.0 kW=39000.0  kvar=12000.0  model=1 daily=Default spectrum=Linear
+New Load.Load_at_6_1   phases=3 bus=6_kankakee   kv=138.0 kW=52000.0  kvar=22000.0  model=1 daily=Default spectrum=Linear
+New Load.Load_at_7_1   phases=3 bus=7_jacksnrd   kv=138.0 kW=19000.0  kvar=2000.0   model=1 daily=Default spectrum=Linear
+New Load.Load_at_8_1   phases=3 bus=8_olive      kv=138.0 kW=28000.0  kvar=0.0      model=1 daily=Default spectrum=Linear
+New Load.Load_at_11_1  phases=3 bus=11_southbnd  kv=138.0 kW=70000.0  kvar=23000.0  model=1 daily=Default spectrum=Linear
+New Load.Load_at_12_1  phases=3 bus=12_twinbrch  kv=138.0 kW=47000.0  kvar=10000.0  model=1 daily=Default spectrum=Linear
+New Load.Load_at_13_1  phases=3 bus=13_concord   kv=138.0 kW=34000.0  kvar=16000.0  model=1 daily=Default spectrum=Linear
+New Load.Load_at_14_1  phases=3 bus=14_goshenjt  kv=138.0 kW=14000.0  kvar=1000.0   model=1 daily=Default spectrum=Linear
+New Load.Load_at_15_1  phases=3 bus=15_ftwayne   kv=138.0 kW=90000.0  kvar=30000.0  model=1 daily=Default spectrum=Linear
+New Load.Load_at_16_1  phases=3 bus=16_ne        kv=138.0 kW=25000.0  kvar=10000.0  model=1 daily=Default spectrum=Linear
+New Load.Load_at_17_1  phases=3 bus=17_sorenson  kv=138.0 kW=11000.0  kvar=3000.0   model=1 daily=Default spectrum=Linear
+New Load.Load_at_18_1  phases=3 bus=18_mckinley  kv=138.0 kW=60000.0  kvar=34000.0  model=1 daily=Default spectrum=Linear
+New Load.Load_at_19_1  phases=3 bus=19_lincoln   kv=138.0 kW=45000.0  kvar=25000.0  model=1 daily=Default spectrum=Linear
+New Load.Load_at_20_1  phases=3 bus=20_adams     kv=138.0 kW=18000.0  kvar=3000.0   model=1 daily=Default spectrum=Linear
+New Load.Load_at_21_1  phases=3 bus=21_jay       kv=138.0 kW=14000.0  kvar=8000.0   model=1 daily=Default spectrum=Linear
+New Load.Load_at_22_1  phases=3 bus=22_randolph  kv=138.0 kW=10000.0  kvar=5000.0   model=1 daily=Default spectrum=Linear
+New Load.Load_at_23_1  phases=3 bus=23_collcrnr  kv=138.0 kW=7000.0   kvar=3000.0   model=1 daily=Default spectrum=Linear
+New Load.Load_at_24_1  phases=3 bus=24_trenton   kv=138.0 kW=13000.0  kvar=0.0      model=1 daily=Default spectrum=Linear
+New Load.Load_at_27_1  phases=3 bus=27_madison   kv=138.0 kW=71000.0  kvar=13000.0  model=1 daily=Default spectrum=Linear
+New Load.Load_at_28_1  phases=3 bus=28_mullin    kv=138.0 kW=17000.0  kvar=7000.0   model=1 daily=Default spectrum=Linear
+New Load.Load_at_29_1  phases=3 bus=29_grant     kv=138.0 kW=24000.0  kvar=4000.0   model=1 daily=Default spectrum=Linear
+New Load.Load_at_31_1  phases=3 bus=31_deercrk   kv=138.0 kW=43000.0  kvar=27000.0  model=1 daily=Default spectrum=Linear
+New Load.Load_at_32_1  phases=3 bus=32_delaware  kv=138.0 kW=59000.0  kvar=23000.0  model=1 daily=Default spectrum=Linear
+New Load.Load_at_33_1  phases=3 bus=33_haviland  kv=138.0 kW=23000.0  kvar=9000.0   model=1 daily=Default spectrum=Linear
+New Load.Load_at_34_1  phases=3 bus=34_rockhill  kv=138.0 kW=59000.0  kvar=26000.0  model=1 daily=Default spectrum=Linear
+New Load.Load_at_35_1  phases=3 bus=35_westlima  kv=138.0 kW=33000.0  kvar=9000.0   model=1 daily=Default spectrum=Linear
+New Load.Load_at_36_1  phases=3 bus=36_sterling  kv=138.0 kW=31000.0  kvar=17000.0  model=1 daily=Default spectrum=Linear
+New Load.Load_at_39_1  phases=3 bus=39_nwlibrty  kv=138.0 kW=27000.0  kvar=11000.0  model=1 daily=Default spectrum=Linear
+New Load.Load_at_40_1  phases=3 bus=40_westend   kv=138.0 kW=66000.0  kvar=23000.0  model=1 daily=Default spectrum=Linear
+New Load.Load_at_41_1  phases=3 bus=41_stiffin   kv=138.0 kW=37000.0  kvar=10000.0  model=1 daily=Default spectrum=Linear
+New Load.Load_at_42_1  phases=3 bus=42_howard    kv=138.0 kW=96000.0  kvar=23000.0  model=1 daily=Default spectrum=Linear
+New Load.Load_at_43_1  phases=3 bus=43_skenton   kv=138.0 kW=18000.0  kvar=7000.0   model=1 daily=Default spectrum=Linear
+New Load.Load_at_44_1  phases=3 bus=44_wmvernon  kv=138.0 kW=16000.0  kvar=8000.0   model=1 daily=Default spectrum=Linear
+New Load.Load_at_45_1  phases=3 bus=45_nnewark   kv=138.0 kW=53000.0  kvar=22000.0  model=1 daily=Default spectrum=Linear
+New Load.Load_at_46_1  phases=3 bus=46_wlancst   kv=138.0 kW=28000.0  kvar=10000.0  model=1 daily=Default spectrum=Linear
+New Load.Load_at_47_1  phases=3 bus=47_crooksvl  kv=138.0 kW=34000.0  kvar=0.0      model=1 daily=Default spectrum=Linear
+New Load.Load_at_48_1  phases=3 bus=48_zanesvll  kv=138.0 kW=20000.0  kvar=11000.0  model=1 daily=Default spectrum=Linear
+New Load.Load_at_49_1  phases=3 bus=49_philo     kv=138.0 kW=87000.0  kvar=30000.0  model=1 daily=Default spectrum=Linear
+New Load.Load_at_50_1  phases=3 bus=50_wcambrdg  kv=138.0 kW=17000.0  kvar=4000.0   model=1 daily=Default spectrum=Linear
+New Load.Load_at_51_1  phases=3 bus=51_newcmrst  kv=138.0 kW=17000.0  kvar=8000.0   model=1 daily=Default spectrum=Linear
+New Load.Load_at_52_1  phases=3 bus=52_scoshoct  kv=138.0 kW=18000.0  kvar=5000.0   model=1 daily=Default spectrum=Linear
+New Load.Load_at_53_1  phases=3 bus=53_wooster   kv=138.0 kW=23000.0  kvar=11000.0  model=1 daily=Default spectrum=Linear
+New Load.Load_at_54_1  phases=3 bus=54_torrey    kv=138.0 kW=113000.0 kvar=32000.0  model=1 daily=Default spectrum=Linear
+New Load.Load_at_55_1  phases=3 bus=55_wagenhls  kv=138.0 kW=63000.0  kvar=22000.0  model=1 daily=Default spectrum=Linear
+New Load.Load_at_56_1  phases=3 bus=56_sunnysde  kv=138.0 kW=84000.0  kvar=18000.0  model=1 daily=Default spectrum=Linear
+New Load.Load_at_57_1  phases=3 bus=57_wnwphil1  kv=138.0 kW=12000.0  kvar=3000.0   model=1 daily=Default spectrum=Linear
+New Load.Load_at_58_1  phases=3 bus=58_wnwphil2  kv=138.0 kW=12000.0  kvar=3000.0   model=1 daily=Default spectrum=Linear
+New Load.Load_at_59_1  phases=3 bus=59_tidd      kv=138.0 kW=277000.0 kvar=113000.0 model=1 daily=Default spectrum=Linear
+New Load.Load_at_60_1  phases=3 bus=60_swkammer  kv=138.0 kW=78000.0  kvar=3000.0   model=1 daily=Default spectrum=Linear
+New Load.Load_at_62_1  phases=3 bus=62_natrium   kv=138.0 kW=77000.0  kvar=14000.0  model=1 daily=Default spectrum=Linear
+New Load.Load_at_66_1  phases=3 bus=66_muskngum  kv=138.0 kW=39000.0  kvar=18000.0  model=1 daily=Default spectrum=Linear
+New Load.Load_at_67_1  phases=3 bus=67_summerfl  kv=138.0 kW=28000.0  kvar=7000.0   model=1 daily=Default spectrum=Linear
+New Load.Load_at_70_1  phases=3 bus=70_portsmth  kv=138.0 kW=66000.0  kvar=20000.0  model=1 daily=Default spectrum=Linear
+New Load.Load_at_72_1  phases=3 bus=72_hillsbro  kv=138.0 kW=12000.0  kvar=0.0      model=1 daily=Default spectrum=Linear
+New Load.Load_at_73_1  phases=3 bus=73_sargents  kv=138.0 kW=6000.0   kvar=0.0      model=1 daily=Default spectrum=Linear
+New Load.Load_at_74_1  phases=3 bus=74_bellefnt  kv=138.0 kW=68000.0  kvar=27000.0  model=1 daily=Default spectrum=Linear
+New Load.Load_at_75_1  phases=3 bus=75_sthpoint  kv=138.0 kW=47000.0  kvar=11000.0  model=1 daily=Default spectrum=Linear
+New Load.Load_at_76_1  phases=3 bus=76_darrah    kv=138.0 kW=68000.0  kvar=36000.0  model=1 daily=Default spectrum=Linear
+New Load.Load_at_77_1  phases=3 bus=77_turner    kv=138.0 kW=61000.0  kvar=28000.0  model=1 daily=Default spectrum=Linear
+New Load.Load_at_78_1  phases=3 bus=78_chemical  kv=138.0 kW=71000.0  kvar=26000.0  model=1 daily=Default spectrum=Linear
+New Load.Load_at_79_1  phases=3 bus=79_capitlhl  kv=138.0 kW=39000.0  kvar=32000.0  model=1 daily=Default spectrum=Linear
+New Load.Load_at_80_1  phases=3 bus=80_cabincrk  kv=138.0 kW=130000.0 kvar=26000.0  model=1 daily=Default spectrum=Linear
+New Load.Load_at_82_1  phases=3 bus=82_logan     kv=138.0 kW=54000.0  kvar=27000.0  model=1 daily=Default spectrum=Linear
+New Load.Load_at_83_1  phases=3 bus=83_sprigg    kv=138.0 kW=20000.0  kvar=10000.0  model=1 daily=Default spectrum=Linear
+New Load.Load_at_84_1  phases=3 bus=84_betsylne  kv=138.0 kW=11000.0  kvar=7000.0   model=1 daily=Default spectrum=Linear
+New Load.Load_at_85_1  phases=3 bus=85_beaverck  kv=138.0 kW=24000.0  kvar=15000.0  model=1 daily=Default spectrum=Linear
+New Load.Load_at_86_1  phases=3 bus=86_hazard    kv=138.0 kW=21000.0  kvar=10000.0  model=1 daily=Default spectrum=Linear
+New Load.Load_at_88_1  phases=3 bus=88_fremont   kv=138.0 kW=48000.0  kvar=10000.0  model=1 daily=Default spectrum=Linear
+New Load.Load_at_90_1  phases=3 bus=90_holston   kv=138.0 kW=163000.0 kvar=42000.0  model=1 daily=Default spectrum=Linear
+New Load.Load_at_91_1  phases=3 bus=91_holstont  kv=138.0 kW=10000.0  kvar=0.0      model=1 daily=Default spectrum=Linear
+New Load.Load_at_92_1  phases=3 bus=92_saltvlle  kv=138.0 kW=65000.0  kvar=10000.0  model=1 daily=Default spectrum=Linear
+New Load.Load_at_93_1  phases=3 bus=93_tazewell  kv=138.0 kW=12000.0  kvar=7000.0   model=1 daily=Default spectrum=Linear
+New Load.Load_at_94_1  phases=3 bus=94_switchbk  kv=138.0 kW=30000.0  kvar=16000.0  model=1 daily=Default spectrum=Linear
+New Load.Load_at_95_1  phases=3 bus=95_caldwell  kv=138.0 kW=42000.0  kvar=31000.0  model=1 daily=Default spectrum=Linear
+New Load.Load_at_96_1  phases=3 bus=96_baileysv  kv=138.0 kW=38000.0  kvar=15000.0  model=1 daily=Default spectrum=Linear
+New Load.Load_at_97_1  phases=3 bus=97_sundial   kv=138.0 kW=15000.0  kvar=9000.0   model=1 daily=Default spectrum=Linear
+New Load.Load_at_98_1  phases=3 bus=98_bradley   kv=138.0 kW=34000.0  kvar=8000.0   model=1 daily=Default spectrum=Linear
+New Load.Load_at_99_1  phases=3 bus=99_hinton    kv=138.0 kW=42000.0  kvar=0.0      model=1 daily=Default spectrum=Linear
+New Load.Load_at_100_1 phases=3 bus=100_glenlyn  kv=138.0 kW=37000.0  kvar=18000.0  model=1 daily=Default spectrum=Linear
+New Load.Load_at_101_1 phases=3 bus=101_wythe    kv=138.0 kW=22000.0  kvar=15000.0  model=1 daily=Default spectrum=Linear
+New Load.Load_at_102_1 phases=3 bus=102_smythe   kv=138.0 kW=5000.0   kvar=3000.0   model=1 daily=Default spectrum=Linear
+New Load.Load_at_103_1 phases=3 bus=103_claytor  kv=138.0 kW=23000.0  kvar=16000.0  model=1 daily=Default spectrum=Linear
+New Load.Load_at_104_1 phases=3 bus=104_hancock  kv=138.0 kW=38000.0  kvar=25000.0  model=1 daily=Default spectrum=Linear
+New Load.Load_at_105_1 phases=3 bus=105_roanoke  kv=138.0 kW=31000.0  kvar=26000.0  model=1 daily=Default spectrum=Linear
+New Load.Load_at_106_1 phases=3 bus=106_cloverdl kv=138.0 kW=43000.0  kvar=16000.0  model=1 daily=Default spectrum=Linear
+New Load.Load_at_107_1 phases=3 bus=107_reusens  kv=138.0 kW=50000.0  kvar=12000.0  model=1 daily=Default spectrum=Linear
+New Load.Load_at_108_1 phases=3 bus=108_blaine   kv=138.0 kW=2000.0   kvar=1000.0   model=1 daily=Default spectrum=Linear
+New Load.Load_at_109_1 phases=3 bus=109_franklin kv=138.0 kW=8000.0   kvar=3000.0   model=1 daily=Default spectrum=Linear
+New Load.Load_at_110_1 phases=3 bus=110_fieldale kv=138.0 kW=39000.0  kvar=30000.0  model=1 daily=Default spectrum=Linear
+New Load.Load_at_112_1 phases=3 bus=112_danville kv=138.0 kW=68000.0  kvar=13000.0  model=1 daily=Default spectrum=Linear
+New Load.Load_at_113_1 phases=3 bus=113_deercrk  kv=138.0 kW=6000.0   kvar=0.0      model=1 daily=Default spectrum=Linear
+New Load.Load_at_114_1 phases=3 bus=114_wmedford kv=138.0 kW=8000.0   kvar=3000.0   model=1 daily=Default spectrum=Linear
+New Load.Load_at_115_1 phases=3 bus=115_medford  kv=138.0 kW=22000.0  kvar=7000.0   model=1 daily=Default spectrum=Linear
+New Load.Load_at_116_1 phases=3 bus=116_kygercrk kv=138.0 kW=184000.0 kvar=0.0      model=1 daily=Default spectrum=Linear
+New Load.Load_at_117_1 phases=3 bus=117_corey    kv=138.0 kW=20000.0  kvar=8000.0   model=1 daily=Default spectrum=Linear
+New Load.Load_at_118_1 phases=3 bus=118_whuntngd kv=138.0 kW=33000.0  kvar=15000.0  model=1 daily=Default spectrum=Linear
+
+/*******************************************************  shunts as loads (active power only) definitions for 138.0kV  ***/
+
+
+/********************************************************************************************************  load definitions for 20.0kV  ***/
+
+
+/*******************************************************  shunts as loads (active power only) definitions for 20.0kV  ***/
+
