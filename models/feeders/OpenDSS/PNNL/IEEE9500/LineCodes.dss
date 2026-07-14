@@ -212,6 +212,11 @@ New Linecode.3ph_h-397_acsr397_acsr397_acsr397_acsr nphases=3  Units=km
 ~ Xmatrix=[0.634957  |0.27487  0.652375  |0.246528  0.29092  0.629544  ]
 ~ Cmatrix=[9.45082  |-2.461  9.7581  |-1.84886  -2.94143  9.77293  ]
 
+New Linecode.3ph_h-397_acsr nphases=1  Units=km
+~ Rmatrix=[0.3]
+~ Xmatrix=[0.6]
+~ Cmatrix=[9.4]
+
 New Linecode.1ph-xx2_acsr1/0_tpx nphases=1  Units=km
 ~ Rmatrix=[1.03207  ]
 ~ Xmatrix=[0.801436  ]

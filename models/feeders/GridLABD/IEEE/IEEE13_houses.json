@@ -1,0 +1,1541 @@
+{
+  "__preamble": {
+    "comments": [
+      "// This file has a model of the IEEE 13 node test feeder with houses attached"
+    ]
+  },
+  "_directives": {
+    "defines": [
+      "stylesheet=http://gridlab-d.svn.sourceforge.net/viewvc/gridlab-d/trunk/core/gridlabd-2_0"
+    ],
+    "sets": [
+      "profiler=1",
+      "threadcount=1;",
+      "randomseed=1;",
+      "relax_naming_rules=1;"
+    ]
+  },
+  "_legacy": {},
+  "classes": {},
+  "clock": {
+    "timestamp": "'2000-01-01 0:00:00'",
+    "stoptime": "'2000-01-01 1:00:00'",
+    "timezone": "EST+8EDT"
+  },
+  "modules": {
+    "climate": {},
+    "powerflow": {
+      "solver_method": "FBS",
+      "default_maximum_voltage_error": 1e-09,
+      "line_limits": "FALSE",
+      "outside_comments": [
+        "//module generators;"
+      ]
+    },
+    "residential": {
+      "implicit_enduses": "NONE",
+      "ANSI_voltage_check": "FALSE"
+    },
+    "tape": {}
+  },
+  "objects": {
+    "triplex_line_conductor": {
+      "instances": [
+        {
+          "name": "tp_line_conductor",
+          "resistance": 0.97,
+          "geometric_mean_radius": 0.0111
+        }
+      ]
+    },
+    "triplex_line_configuration": {
+      "instances": [
+        {
+          "name": "triplex_line_configuration_1",
+          "conductor_1": "tp_line_conductor",
+          "conductor_2": "tp_line_conductor",
+          "conductor_N": "tp_line_conductor",
+          "insulation_thickness": 0.08,
+          "diameter": 0.368,
+          "outside_comments": [
+            "// Triplex Line"
+          ]
+        }
+      ]
+    },
+    "overhead_line_conductor": {
+      "instances": [
+        {
+          "name": "overhead_line_conductor:6010",
+          "geometric_mean_radius": 0.0313,
+          "resistance": 0.1859,
+          "outside_comments": [
+            "// Phase Conductor for 601: 556,500 26/7 ACSR"
+          ]
+        },
+        {
+          "name": "overhead_line_conductor:6020",
+          "geometric_mean_radius": 0.00814,
+          "resistance": 0.592,
+          "outside_comments": [
+            "// Phase Conductor for 602: 4/0 6/1 ACSR"
+          ]
+        },
+        {
+          "name": "overhead_line_conductor:6030",
+          "geometric_mean_radius": 0.00446,
+          "resistance": 1.12,
+          "outside_comments": [
+            "// Phase Conductor for 603, 604, 605: 1/0 ACSR"
+          ]
+        }
+      ]
+    },
+    "underground_line_conductor": {
+      "instances": [
+        {
+          "name": "underground_line_conductor:6060",
+          "outer_diameter": 1.29,
+          "conductor_gmr": 0.0171,
+          "conductor_diameter": 0.567,
+          "conductor_resistance": 0.41,
+          "neutral_gmr": 0.00208,
+          "neutral_resistance": 14.872,
+          "neutral_diameter": 0.0640837,
+          "neutral_strands": 13.0,
+          "shield_gmr": 0.0,
+          "shield_resistance": 0.0,
+          "outside_comments": [
+            "// Phase Conductor for 606: 250,000 AA,CN"
+          ]
+        },
+        {
+          "name": "underground_line_conductor:6070",
+          "outer_diameter": 1.06,
+          "conductor_gmr": 0.0111,
+          "conductor_diameter": 0.368,
+          "conductor_resistance": 0.97,
+          "neutral_gmr": 0.0111,
+          "neutral_resistance": 0.97,
+          "neutral_diameter": 0.0640837,
+          "neutral_strands": 6.0,
+          "shield_gmr": 0.0,
+          "shield_resistance": 0.0,
+          "outside_comments": [
+            "// Phase Conductor for 607: 1/0 AA,TS N: 1/0 Cu"
+          ]
+        }
+      ]
+    },
+    "line_spacing": {
+      "instances": [
+        {
+          "name": "line_spacing:500601",
+          "distance_AB": 2.5,
+          "distance_AC": 4.5,
+          "distance_BC": 7.0,
+          "distance_BN": 5.656854,
+          "distance_AN": 4.272002,
+          "distance_CN": 5.0,
+          "outside_comments": [
+            "// Overhead line configurations"
+          ]
+        },
+        {
+          "name": "line_spacing:500602",
+          "distance_AC": 2.5,
+          "distance_AB": 4.5,
+          "distance_BC": 7.0,
+          "distance_CN": 5.656854,
+          "distance_AN": 4.272002,
+          "distance_BN": 5.0,
+          "outside_comments": [
+            "// Overhead line configurations"
+          ]
+        },
+        {
+          "name": "line_spacing:505603",
+          "distance_AC": 0.0,
+          "distance_AB": 0.0,
+          "distance_BC": 7.0,
+          "distance_AN": 0.0,
+          "distance_CN": 5.656854,
+          "distance_BN": 5.0
+        },
+        {
+          "name": "line_spacing:505604",
+          "distance_AC": 7.0,
+          "distance_AB": 0.0,
+          "distance_BC": 0.0,
+          "distance_AN": 5.656854,
+          "distance_CN": 5.0,
+          "distance_BN": 0.0
+        },
+        {
+          "name": "line_spacing:510",
+          "distance_AC": 0.0,
+          "distance_AB": 0.0,
+          "distance_BC": 0.0,
+          "distance_AN": 0.0,
+          "distance_CN": 5.0,
+          "distance_BN": 0.0
+        },
+        {
+          "name": "line_spacing:515",
+          "distance_AB": 0.5,
+          "distance_BC": 0.5,
+          "distance_AC": 1.0,
+          "distance_AN": 0.0,
+          "distance_BN": 0.0,
+          "distance_CN": 0.0,
+          "outside_comments": [
+            "// Underground line configuration"
+          ]
+        },
+        {
+          "name": "line_spacing:520",
+          "distance_AB": 0.0,
+          "distance_BC": 0.0,
+          "distance_AC": 0.0,
+          "distance_AN": 0.083333,
+          "distance_BN": 0.0,
+          "distance_CN": 0.0
+        }
+      ]
+    },
+    "line_configuration": {
+      "instances": [
+        {
+          "name": "line_configuration:601",
+          "conductor_A": "overhead_line_conductor:6010",
+          "conductor_B": "overhead_line_conductor:6010",
+          "conductor_C": "overhead_line_conductor:6010",
+          "conductor_N": "overhead_line_conductor:6020",
+          "spacing": "line_spacing:500601"
+        },
+        {
+          "name": "line_configuration:602",
+          "conductor_A": "overhead_line_conductor:6020",
+          "conductor_B": "overhead_line_conductor:6020",
+          "conductor_C": "overhead_line_conductor:6020",
+          "conductor_N": "overhead_line_conductor:6020",
+          "spacing": "line_spacing:500602"
+        },
+        {
+          "name": "line_configuration:603",
+          "conductor_B": "overhead_line_conductor:6030",
+          "conductor_C": "overhead_line_conductor:6030",
+          "conductor_N": "overhead_line_conductor:6030",
+          "spacing": "line_spacing:505603"
+        },
+        {
+          "name": "line_configuration:604",
+          "conductor_A": "overhead_line_conductor:6030",
+          "conductor_C": "overhead_line_conductor:6030",
+          "conductor_N": "overhead_line_conductor:6030",
+          "spacing": "line_spacing:505604"
+        },
+        {
+          "name": "line_configuration:605",
+          "conductor_C": "overhead_line_conductor:6030",
+          "conductor_N": "overhead_line_conductor:6030",
+          "spacing": "line_spacing:510"
+        },
+        {
+          "name": "line_configuration:606",
+          "conductor_A": "underground_line_conductor:6060",
+          "conductor_B": "underground_line_conductor:6060",
+          "conductor_C": "underground_line_conductor:6060",
+          "spacing": "line_spacing:515"
+        },
+        {
+          "name": "line_configuration:607",
+          "conductor_A": "underground_line_conductor:6070",
+          "conductor_N": "underground_line_conductor:6070",
+          "spacing": "line_spacing:520"
+        }
+      ]
+    },
+    "overhead_line": {
+      "instances": [
+        {
+          "name": "overhead_line:632645",
+          "phases": "\"BCN\"",
+          "from": "node:632",
+          "to": "node:645",
+          "length": 500,
+          "configuration": "line_configuration:603",
+          "outside_comments": [
+            "// Define line objects"
+          ]
+        },
+        {
+          "name": "overhead_line:645646",
+          "phases": "\"BCN\"",
+          "from": "node:645",
+          "to": "node:646",
+          "length": 300,
+          "configuration": "line_configuration:603"
+        },
+        {
+          "name": "overhead_line:630632",
+          "phases": "\"ABCN\"",
+          "from": "node:630",
+          "to": "node:632",
+          "length": 2000,
+          "configuration": "line_configuration:601"
+        },
+        {
+          "name": "overhead_line:6326321",
+          "phases": "\"ABCN\"",
+          "from": "node:632",
+          "to": "node:6321",
+          "length": 500,
+          "configuration": "line_configuration:601",
+          "outside_comments": [
+            "// Split line for distributed load"
+          ]
+        },
+        {
+          "name": "overhead_line:6321671",
+          "phases": "\"ABCN\"",
+          "from": "node:6321",
+          "to": "node:671",
+          "length": 1500,
+          "configuration": "line_configuration:601"
+        },
+        {
+          "name": "overhead_line:671680",
+          "phases": "\"ABCN\"",
+          "from": "node:671",
+          "to": "node:680",
+          "length": 1000,
+          "configuration": "line_configuration:601",
+          "outside_comments": [
+            "// End split line"
+          ]
+        },
+        {
+          "name": "overhead_line:671684",
+          "phases": "\"ACN\"",
+          "from": "node:671",
+          "to": "node:684",
+          "length": 300,
+          "configuration": "line_configuration:604"
+        },
+        {
+          "name": "overhead_line:684611",
+          "phases": "\"CN\"",
+          "from": "node:684",
+          "to": "node:611",
+          "length": 300,
+          "configuration": "line_configuration:605"
+        },
+        {
+          "name": "overhead_line:632633",
+          "phases": "\"ABCN\"",
+          "from": "node:632",
+          "to": "node:633",
+          "length": 500,
+          "configuration": "line_configuration:602"
+        }
+      ]
+    },
+    "underground_line": {
+      "instances": [
+        {
+          "name": "underground_line:684652",
+          "phases": "\"AN\"",
+          "from": "node:684",
+          "to": "node:652",
+          "length": 800,
+          "configuration": "line_configuration:607"
+        },
+        {
+          "name": "underground_line:692675",
+          "phases": "\"ABC\"",
+          "from": "node:692",
+          "to": "node:675",
+          "length": 500,
+          "configuration": "line_configuration:606"
+        }
+      ]
+    },
+    "node": {
+      "instances": [
+        {
+          "name": "node:633",
+          "phases": "\"ABCN\"",
+          "voltage_A": 2401.7771,
+          "voltage_B": "-1200.8886-2080.000j",
+          "voltage_C": "-1200.8886+2080.000j",
+          "nominal_voltage": 2401.7771,
+          "outside_comments": [
+            "// Create node objects"
+          ]
+        },
+        {
+          "name": "node:630",
+          "phases": "\"ABCN\"",
+          "voltage_A": "2401.7771+0j",
+          "voltage_B": "-1200.8886-2080.000j",
+          "voltage_C": "-1200.8886+2080.000j",
+          "nominal_voltage": 2401.7771
+        },
+        {
+          "name": "node:632",
+          "phases": "\"ABCN\"",
+          "voltage_A": 2401.7771,
+          "voltage_B": "-1200.8886-2080.000j",
+          "voltage_C": "-1200.8886+2080.000j",
+          "nominal_voltage": 2401.7771
+        },
+        {
+          "name": "node:650",
+          "phases": "\"ABCN\"",
+          "bustype": "SWING",
+          "voltage_A": 2401.7771,
+          "voltage_B": "-1200.8886-2080.000j",
+          "voltage_C": "-1200.8886+2080.000j",
+          "nominal_voltage": 2401.7771
+        },
+        {
+          "name": "node:671",
+          "phases": "\"ABCN\"",
+          "voltage_A": 2401.7771,
+          "voltage_B": "-1200.8886-2080.000j",
+          "voltage_C": "-1200.8886+2080.000j",
+          "nominal_voltage": 2401.7771
+        },
+        {
+          "name": "node:680",
+          "phases": "\"ABCN\"",
+          "voltage_A": 2401.7771,
+          "voltage_B": "-1200.8886-2080.000j",
+          "voltage_C": "-1200.8886+2080.000j",
+          "nominal_voltage": 2401.7771
+        },
+        {
+          "name": "node:684",
+          "phases": "\"ACN\"",
+          "voltage_A": 2401.7771,
+          "voltage_B": "-1200.8886-2080.000j",
+          "voltage_C": "-1200.8886+2080.000j",
+          "nominal_voltage": 2401.7771
+        },
+        {
+          "name": "node:6711",
+          "parent": "gld_611",
+          "phases": "\"CN\"",
+          "voltage_C": "-1200.8886+2080.000j",
+          "nominal_voltage": 2401.7771,
+          "outside_comments": [
+            "// distributed load between node 632 and 671",
+            "// 2/3 of load 1/4 of length down line: Kersting p.56"
+          ]
+        },
+        {
+          "name": "node:6321",
+          "phases": "\"ABCN\"",
+          "voltage_A": 2401.7771,
+          "voltage_B": "-1200.8886-2080.000j",
+          "voltage_C": "-1200.8886+2080.000j",
+          "nominal_voltage": 2401.7771
+        },
+        {
+          "name": "node:611",
+          "phases": "\"CN\"",
+          "voltage_C": "-1200.8886+2080.000j",
+          "nominal_voltage": 2401.7771,
+          "outside_comments": [
+            "// Create node objects with attached loads"
+          ]
+        },
+        {
+          "name": "node:634",
+          "phases": "\"ABCN\"",
+          "voltage_A": "480.000+0j",
+          "voltage_B": "-240.000-415.6922j",
+          "voltage_C": "-240.000+415.6922j",
+          "nominal_voltage": 480.0
+        },
+        {
+          "name": "node:645",
+          "phases": "\"BCN\"",
+          "voltage_A": 2401.7771,
+          "voltage_B": "-1200.8886-2080.000j",
+          "voltage_C": "-1200.8886+2080.000j",
+          "nominal_voltage": 2401.7771
+        },
+        {
+          "name": "node:646",
+          "phases": "\"BCN\"",
+          "voltage_A": 2401.7771,
+          "voltage_B": "-1200.8886-2080.000j",
+          "voltage_C": "-1200.8886+2080.000j",
+          "nominal_voltage": 2401.7771
+        },
+        {
+          "name": "node:652",
+          "phases": "\"AN\"",
+          "voltage_A": 2401.7771,
+          "voltage_B": "-1200.8886-2080.000j",
+          "voltage_C": "-1200.8886+2080.000j",
+          "nominal_voltage": 2401.7771
+        },
+        {
+          "name": "node:675",
+          "phases": "\"ABCN\"",
+          "voltage_A": 2401.7771,
+          "voltage_B": "-1200.8886-2080.000j",
+          "voltage_C": "-1200.8886+2080.000j",
+          "nominal_voltage": 2401.7771
+        },
+        {
+          "name": "node:692",
+          "phases": "\"ABCN\"",
+          "voltage_A": 2401.7771,
+          "voltage_B": "-1200.8886-2080.000j",
+          "voltage_C": "-1200.8886+2080.000j",
+          "nominal_voltage": 2401.7771
+        }
+      ]
+    },
+    "transformer": {
+      "instances": [
+        {
+          "name": "center_tap_1",
+          "phases": "CS",
+          "from": "node:611",
+          "to": "trip_node1",
+          "configuration": "CS_config"
+        },
+        {
+          "name": "center_tap_2",
+          "phases": "AS",
+          "from": "node:634",
+          "to": "trip_node2",
+          "configuration": "AS_config"
+        },
+        {
+          "name": "center_tap_3",
+          "phases": "BS",
+          "from": "node:634",
+          "to": "trip_node3",
+          "configuration": "BS_config"
+        },
+        {
+          "name": "center_tap_4",
+          "phases": "CS",
+          "from": "node:634",
+          "to": "trip_node4",
+          "configuration": "CS_config"
+        },
+        {
+          "name": "center_tap_5",
+          "phases": "BS",
+          "from": "node:645",
+          "to": "trip_node5",
+          "configuration": "BS_config"
+        },
+        {
+          "name": "center_tap_6",
+          "phases": "CS",
+          "from": "node:645",
+          "to": "trip_node6",
+          "configuration": "CS_config"
+        },
+        {
+          "name": "center_tap_7",
+          "phases": "BS",
+          "from": "node:646",
+          "to": "trip_node7",
+          "configuration": "BS_config"
+        },
+        {
+          "name": "center_tap_8",
+          "phases": "CS",
+          "from": "node:646",
+          "to": "trip_node8",
+          "configuration": "CS_config"
+        },
+        {
+          "name": "center_tap_9",
+          "phases": "AS",
+          "from": "node:652",
+          "to": "trip_node9",
+          "configuration": "AS_config"
+        },
+        {
+          "name": "center_tap_10",
+          "phases": "AS",
+          "from": "node:675",
+          "to": "trip_node10",
+          "configuration": "AS_config"
+        },
+        {
+          "name": "center_tap_11",
+          "phases": "BS",
+          "from": "node:675",
+          "to": "trip_node11",
+          "configuration": "BS_config"
+        },
+        {
+          "name": "center_tap_12",
+          "phases": "CS",
+          "from": "node:675",
+          "to": "trip_node12",
+          "configuration": "CS_config"
+        },
+        {
+          "name": "center_tap_13",
+          "phases": "AS",
+          "from": "node:692",
+          "to": "trip_node13",
+          "configuration": "AS_config"
+        },
+        {
+          "name": "center_tap_14",
+          "phases": "BS",
+          "from": "node:692",
+          "to": "trip_node14",
+          "configuration": "BS_config"
+        },
+        {
+          "name": "center_tap_15",
+          "phases": "CS",
+          "from": "node:692",
+          "to": "trip_node15",
+          "configuration": "CS_config"
+        },
+        {
+          "name": "transformer:633634",
+          "phases": "\"ABCN\"",
+          "from": "node:633",
+          "to": "node:634",
+          "configuration": "transformer_configuration:400"
+        }
+      ]
+    },
+    "triplex_node": {
+      "instances": [
+        {
+          "name": "trip_node1",
+          "phases": "CS",
+          "nominal_voltage": 120
+        },
+        {
+          "name": "trip_node2",
+          "phases": "AS",
+          "nominal_voltage": 120
+        },
+        {
+          "name": "trip_node3",
+          "phases": "BS",
+          "nominal_voltage": 120
+        },
+        {
+          "name": "trip_node4",
+          "phases": "CS",
+          "nominal_voltage": 120
+        },
+        {
+          "name": "trip_node5",
+          "phases": "BS",
+          "nominal_voltage": 120
+        },
+        {
+          "name": "trip_node6",
+          "phases": "CS",
+          "nominal_voltage": 120
+        },
+        {
+          "name": "trip_node7",
+          "phases": "BS",
+          "nominal_voltage": 120
+        },
+        {
+          "name": "trip_node8",
+          "phases": "CS",
+          "nominal_voltage": 120
+        },
+        {
+          "name": "trip_node9",
+          "phases": "AS",
+          "nominal_voltage": 120
+        },
+        {
+          "name": "trip_node10",
+          "phases": "AS",
+          "nominal_voltage": 120
+        },
+        {
+          "name": "trip_node11",
+          "phases": "BS",
+          "nominal_voltage": 120
+        },
+        {
+          "name": "trip_node12",
+          "phases": "CS",
+          "nominal_voltage": 120
+        },
+        {
+          "name": "trip_node13",
+          "phases": "AS",
+          "nominal_voltage": 120
+        },
+        {
+          "name": "trip_node14",
+          "phases": "BS",
+          "nominal_voltage": 120
+        },
+        {
+          "name": "trip_node15",
+          "phases": "CS",
+          "nominal_voltage": 120
+        }
+      ]
+    },
+    "triplex_line": {
+      "instances": [
+        {
+          "name": "trip_line1",
+          "phases": "CS",
+          "from": "trip_node1",
+          "to": "trip_meter1",
+          "length": 0,
+          "configuration": "triplex_line_configuration_1"
+        },
+        {
+          "name": "trip_line2",
+          "phases": "AS",
+          "from": "trip_node2",
+          "to": "trip_meter2",
+          "length": 0,
+          "configuration": "triplex_line_configuration_1"
+        },
+        {
+          "name": "trip_line3",
+          "phases": "BS",
+          "from": "trip_node3",
+          "to": "trip_meter3",
+          "length": 0,
+          "configuration": "triplex_line_configuration_1"
+        },
+        {
+          "name": "trip_line4",
+          "phases": "CS",
+          "from": "trip_node4",
+          "to": "trip_meter4",
+          "length": 0,
+          "configuration": "triplex_line_configuration_1"
+        },
+        {
+          "name": "trip_line5",
+          "phases": "BS",
+          "from": "trip_node5",
+          "to": "trip_meter5",
+          "length": 0,
+          "configuration": "triplex_line_configuration_1"
+        },
+        {
+          "name": "trip_line6",
+          "phases": "CS",
+          "from": "trip_node6",
+          "to": "trip_meter6",
+          "length": 0,
+          "configuration": "triplex_line_configuration_1"
+        },
+        {
+          "name": "trip_line7",
+          "phases": "BS",
+          "from": "trip_node7",
+          "to": "trip_meter7",
+          "length": 0,
+          "configuration": "triplex_line_configuration_1"
+        },
+        {
+          "name": "trip_line8",
+          "phases": "CS",
+          "from": "trip_node8",
+          "to": "trip_meter8",
+          "length": 0,
+          "configuration": "triplex_line_configuration_1"
+        },
+        {
+          "name": "trip_line9",
+          "phases": "AS",
+          "from": "trip_node9",
+          "to": "trip_meter9",
+          "length": 0,
+          "configuration": "triplex_line_configuration_1"
+        },
+        {
+          "name": "trip_line10",
+          "phases": "AS",
+          "from": "trip_node10",
+          "to": "trip_meter10",
+          "length": 0,
+          "configuration": "triplex_line_configuration_1"
+        },
+        {
+          "name": "trip_line11",
+          "phases": "BS",
+          "from": "trip_node11",
+          "to": "trip_meter11",
+          "length": 0,
+          "configuration": "triplex_line_configuration_1"
+        },
+        {
+          "name": "trip_line12",
+          "phases": "CS",
+          "from": "trip_node12",
+          "to": "trip_meter12",
+          "length": 0,
+          "configuration": "triplex_line_configuration_1"
+        },
+        {
+          "name": "trip_line13",
+          "phases": "AS",
+          "from": "trip_node13",
+          "to": "trip_meter13",
+          "length": 0,
+          "configuration": "triplex_line_configuration_1"
+        },
+        {
+          "name": "trip_line14",
+          "phases": "BS",
+          "from": "trip_node14",
+          "to": "trip_meter14",
+          "length": 0,
+          "configuration": "triplex_line_configuration_1"
+        },
+        {
+          "name": "trip_line15",
+          "phases": "CS",
+          "from": "trip_node15",
+          "to": "trip_meter15",
+          "length": 0,
+          "configuration": "triplex_line_configuration_1"
+        }
+      ]
+    },
+    "triplex_meter": {
+      "instances": [
+        {
+          "name": "trip_meter1",
+          "phases": "CS",
+          "nominal_voltage": 120,
+          "outside_comments": [
+            "// House 1 meter"
+          ]
+        },
+        {
+          "name": "trip_meter2",
+          "phases": "AS",
+          "nominal_voltage": 120,
+          "outside_comments": [
+            "// House 2 meter"
+          ]
+        },
+        {
+          "name": "trip_meter3",
+          "phases": "BS",
+          "nominal_voltage": 120,
+          "outside_comments": [
+            "// House 3 meter"
+          ]
+        },
+        {
+          "name": "trip_meter4",
+          "phases": "CS",
+          "nominal_voltage": 120,
+          "outside_comments": [
+            "// House 4 meter"
+          ]
+        },
+        {
+          "name": "trip_meter5",
+          "phases": "BS",
+          "nominal_voltage": 120,
+          "outside_comments": [
+            "// House 5 meter"
+          ]
+        },
+        {
+          "name": "trip_meter6",
+          "phases": "CS",
+          "nominal_voltage": 120,
+          "outside_comments": [
+            "// House 6 meter"
+          ]
+        },
+        {
+          "name": "trip_meter7",
+          "phases": "BS",
+          "nominal_voltage": 120,
+          "outside_comments": [
+            "// House 7 meter"
+          ]
+        },
+        {
+          "name": "trip_meter8",
+          "phases": "CS",
+          "nominal_voltage": 120,
+          "outside_comments": [
+            "// House 8 meter"
+          ]
+        },
+        {
+          "name": "trip_meter9",
+          "phases": "AS",
+          "nominal_voltage": 120,
+          "outside_comments": [
+            "// House 9 meter"
+          ]
+        },
+        {
+          "name": "trip_meter10",
+          "phases": "AS",
+          "nominal_voltage": 120,
+          "outside_comments": [
+            "// House 10 meter"
+          ]
+        },
+        {
+          "name": "trip_meter11",
+          "phases": "BS",
+          "nominal_voltage": 120,
+          "outside_comments": [
+            "// House 11 meter"
+          ]
+        },
+        {
+          "name": "trip_meter12",
+          "phases": "CS",
+          "nominal_voltage": 120,
+          "outside_comments": [
+            "// House 12 meter"
+          ]
+        },
+        {
+          "name": "trip_meter13",
+          "phases": "AS",
+          "nominal_voltage": 120,
+          "outside_comments": [
+            "// House 13 meter"
+          ]
+        },
+        {
+          "name": "trip_meter14",
+          "phases": "BS",
+          "nominal_voltage": 120,
+          "outside_comments": [
+            "// House 14 meter"
+          ]
+        },
+        {
+          "name": "trip_meter15",
+          "phases": "CS",
+          "nominal_voltage": 120,
+          "outside_comments": [
+            "// House 15 meter"
+          ]
+        }
+      ]
+    },
+    "switch": {
+      "instances": [
+        {
+          "name": "switch:671692",
+          "phases": "\"ABCN\"",
+          "from": "node:671",
+          "to": "node:692",
+          "status": "CLOSED",
+          "outside_comments": [
+            "// Switch"
+          ]
+        }
+      ]
+    },
+    "transformer_configuration": {
+      "instances": [
+        {
+          "name": "transformer_configuration:400",
+          "connect_type": "WYE_WYE",
+          "install_type": "PADMOUNT",
+          "power_rating": 500,
+          "primary_voltage": 4160,
+          "secondary_voltage": 480,
+          "resistance": 0.011,
+          "reactance": 0.02,
+          "outside_comments": [
+            "// Transformer"
+          ]
+        },
+        {
+          "name": "AS_config",
+          "connect_type": "SINGLE_PHASE_CENTER_TAPPED",
+          "install_type": "POLETOP",
+          "powerA_rating": 75,
+          "primary_voltage": 2401,
+          "secondary_voltage": 120.0,
+          "impedance": "0.006+0.0136j"
+        },
+        {
+          "name": "BS_config",
+          "connect_type": "SINGLE_PHASE_CENTER_TAPPED",
+          "install_type": "POLETOP",
+          "powerB_rating": 75,
+          "primary_voltage": 2401,
+          "secondary_voltage": 120.0,
+          "impedance": "0.006+0.0136j"
+        },
+        {
+          "name": "CS_config",
+          "connect_type": "SINGLE_PHASE_CENTER_TAPPED",
+          "install_type": "POLETOP",
+          "powerC_rating": 75,
+          "primary_voltage": 2401,
+          "secondary_voltage": 120.0,
+          "impedance": "0.006+0.0136j"
+        }
+      ]
+    },
+    "capacitor": {
+      "instances": [
+        {
+          "name": "CAP1",
+          "phases": "ABCN",
+          "pt_phase": "ABCN",
+          "parent": "gld_675",
+          "phases_connected": "ABCN",
+          "control": "VOLT",
+          "voltage_set_high": 2500.0,
+          "voltage_set_low": 1950.0,
+          "capacitor_A": "0.300 MVAr",
+          "capacitor_B": "0.300 MVAr",
+          "capacitor_C": "0.300 MVAr",
+          "control_level": "INDIVIDUAL",
+          "time_delay": 0.0,
+          "dwell_time": 0.0,
+          "switchA": "CLOSED",
+          "switchB": "CLOSED",
+          "switchC": "CLOSED",
+          "nominal_voltage": 2401.7771,
+          "inline_comments": {
+            "switchA": "manual controls for load manipulation (don't use the switch player)"
+          }
+        },
+        {
+          "name": "CAP2",
+          "phases": "ABCN",
+          "pt_phase": "ABCN",
+          "parent": "gld_675",
+          "phases_connected": "ABCN",
+          "control": "VOLT",
+          "voltage_set_high": 2600.0,
+          "voltage_set_low": 2050.0,
+          "capacitor_A": "0.250 MVAr",
+          "capacitor_B": "0.250 MVAr",
+          "capacitor_C": "0.250 MVAr",
+          "control_level": "INDIVIDUAL",
+          "time_delay": 300.0,
+          "dwell_time": 0.0,
+          "switchA": "CLOSED",
+          "switchB": "CLOSED",
+          "switchC": "CLOSED",
+          "nominal_voltage": 2401.7771,
+          "inline_comments": {
+            "switchA": "manual controls for load manipulation (don't use the switch player)"
+          }
+        }
+      ]
+    },
+    "regulator_configuration": {
+      "instances": [
+        {
+          "name": "regulator_configuration:6506321",
+          "connect_type": "WYE_WYE",
+          "band_center": 2000.0,
+          "band_width": 80.0,
+          "time_delay": 0.0,
+          "dwell_time": 0.0,
+          "raise_taps": 16,
+          "lower_taps": 16,
+          "regulation": 0.1,
+          "Control": "REMOTE_NODE",
+          "tap_pos_A": 9,
+          "tap_pos_B": 7,
+          "tap_pos_C": 10,
+          "outside_comments": [
+            "// Regulator"
+          ]
+        }
+      ]
+    },
+    "regulator": {
+      "instances": [
+        {
+          "name": "regulator:650630",
+          "phases": "\"ABCN\"",
+          "from": "node:650",
+          "to": "node:630",
+          "sense_node": 671,
+          "configuration": "regulator_configuration:6506321"
+        }
+      ]
+    },
+    "ZIPload": {
+      "instances": [
+        {
+          "name": "ZIPload_120",
+          "parent": "house:..20",
+          "base_power": "ZIP1base_power*random.normal(1,.25)",
+          "power_fraction": 0.2,
+          "impedance_fraction": 0.3,
+          "current_fraction": 0.5,
+          "power_pf": 0.9,
+          "current_pf": 0.6,
+          "impedance_pf": 0.8,
+          "outside_comments": [
+            "// House 1"
+          ]
+        },
+        {
+          "name": "ZIPload_123",
+          "parent": "house:..20",
+          "base_power": "ZIP1base_power*random.normal(1,.25)",
+          "power_fraction": 0.2,
+          "impedance_fraction": 0.3,
+          "current_fraction": 0.5,
+          "power_pf": 0.9,
+          "current_pf": 0.6,
+          "impedance_pf": 0.8,
+          "outside_comments": [
+            "// House 2"
+          ]
+        },
+        {
+          "name": "ZIPload_126",
+          "parent": "house:..20",
+          "base_power": "ZIP1base_power*random.normal(1,.25)",
+          "power_fraction": 0.2,
+          "impedance_fraction": 0.3,
+          "current_fraction": 0.5,
+          "power_pf": 0.9,
+          "current_pf": 0.6,
+          "impedance_pf": 0.8,
+          "outside_comments": [
+            "// House 3"
+          ]
+        },
+        {
+          "name": "ZIPload_129",
+          "parent": "house:..20",
+          "base_power": "ZIP1base_power*random.normal(1,.25)",
+          "power_fraction": 0.2,
+          "impedance_fraction": 0.3,
+          "current_fraction": 0.5,
+          "power_pf": 0.9,
+          "current_pf": 0.6,
+          "impedance_pf": 0.8,
+          "outside_comments": [
+            "// House 4"
+          ]
+        },
+        {
+          "name": "ZIPload_132",
+          "parent": "house:..20",
+          "base_power": "ZIP1base_power*random.normal(1,.25)",
+          "power_fraction": 0.2,
+          "impedance_fraction": 0.3,
+          "current_fraction": 0.5,
+          "power_pf": 0.9,
+          "current_pf": 0.6,
+          "impedance_pf": 0.8,
+          "outside_comments": [
+            "// House 5"
+          ]
+        },
+        {
+          "name": "ZIPload_135",
+          "parent": "house:..20",
+          "base_power": "ZIP1base_power*random.normal(1,.25)",
+          "power_fraction": 0.2,
+          "impedance_fraction": 0.3,
+          "current_fraction": 0.5,
+          "power_pf": 0.9,
+          "current_pf": 0.6,
+          "impedance_pf": 0.8,
+          "outside_comments": [
+            "// House 6"
+          ]
+        },
+        {
+          "name": "ZIPload_138",
+          "parent": "house:..20",
+          "base_power": "ZIP1base_power*random.normal(1,.25)",
+          "power_fraction": 0.2,
+          "impedance_fraction": 0.3,
+          "current_fraction": 0.5,
+          "power_pf": 0.9,
+          "current_pf": 0.6,
+          "impedance_pf": 0.8,
+          "outside_comments": [
+            "// House 7"
+          ]
+        },
+        {
+          "name": "ZIPload_141",
+          "parent": "house:..20",
+          "base_power": "ZIP1base_power*random.normal(1,.25)",
+          "power_fraction": 0.2,
+          "impedance_fraction": 0.3,
+          "current_fraction": 0.5,
+          "power_pf": 0.9,
+          "current_pf": 0.6,
+          "impedance_pf": 0.8,
+          "outside_comments": [
+            "// House 8"
+          ]
+        },
+        {
+          "name": "ZIPload_144",
+          "parent": "house:..20",
+          "base_power": "ZIP1base_power*random.normal(1,.25)",
+          "power_fraction": 0.2,
+          "impedance_fraction": 0.3,
+          "current_fraction": 0.5,
+          "power_pf": 0.9,
+          "current_pf": 0.6,
+          "impedance_pf": 0.8,
+          "outside_comments": [
+            "// House 9"
+          ]
+        },
+        {
+          "name": "ZIPload_147",
+          "parent": "house:..20",
+          "base_power": "ZIP1base_power*random.normal(1,.25)",
+          "power_fraction": 0.2,
+          "impedance_fraction": 0.3,
+          "current_fraction": 0.5,
+          "power_pf": 0.9,
+          "current_pf": 0.6,
+          "impedance_pf": 0.8,
+          "outside_comments": [
+            "// House 10"
+          ]
+        },
+        {
+          "name": "ZIPload_150",
+          "parent": "house:..20",
+          "base_power": "ZIP1base_power*random.normal(1,.25)",
+          "power_fraction": 0.2,
+          "impedance_fraction": 0.3,
+          "current_fraction": 0.5,
+          "power_pf": 0.9,
+          "current_pf": 0.6,
+          "impedance_pf": 0.8,
+          "outside_comments": [
+            "// House 11"
+          ]
+        },
+        {
+          "name": "ZIPload_153",
+          "parent": "house:..20",
+          "base_power": "ZIP1base_power*random.normal(1,.25)",
+          "power_fraction": 0.2,
+          "impedance_fraction": 0.3,
+          "current_fraction": 0.5,
+          "power_pf": 0.9,
+          "current_pf": 0.6,
+          "impedance_pf": 0.8,
+          "outside_comments": [
+            "// House 12"
+          ]
+        },
+        {
+          "name": "ZIPload_156",
+          "parent": "house:..20",
+          "base_power": "ZIP1base_power*random.normal(1,.25)",
+          "power_fraction": 0.2,
+          "impedance_fraction": 0.3,
+          "current_fraction": 0.5,
+          "power_pf": 0.9,
+          "current_pf": 0.6,
+          "impedance_pf": 0.8,
+          "outside_comments": [
+            "// House 13"
+          ]
+        },
+        {
+          "name": "ZIPload_159",
+          "parent": "house:..20",
+          "base_power": "ZIP1base_power*random.normal(1,.25)",
+          "power_fraction": 0.2,
+          "impedance_fraction": 0.3,
+          "current_fraction": 0.5,
+          "power_pf": 0.9,
+          "current_pf": 0.6,
+          "impedance_pf": 0.8,
+          "outside_comments": [
+            "// House 14"
+          ]
+        },
+        {
+          "name": "ZIPload_162",
+          "parent": "house:..20",
+          "base_power": "ZIP1base_power*random.normal(1,.25)",
+          "power_fraction": 0.2,
+          "impedance_fraction": 0.3,
+          "current_fraction": 0.5,
+          "power_pf": 0.9,
+          "current_pf": 0.6,
+          "impedance_pf": 0.8,
+          "outside_comments": [
+            "// House 15"
+          ]
+        }
+      ]
+    },
+    "waterheater": {
+      "instances": [
+        {
+          "name": "waterheater_121",
+          "parent": "house:..20",
+          "location": "INSIDE",
+          "water_demand": "waterdemand1*random.normal(1,.2)"
+        },
+        {
+          "name": "waterheater_124",
+          "parent": "house:..20",
+          "location": "INSIDE",
+          "water_demand": "waterdemand3*random.normal(1,.2)"
+        },
+        {
+          "name": "waterheater_127",
+          "parent": "house:..20",
+          "location": "INSIDE",
+          "water_demand": "waterdemand2*random.normal(1,.2)"
+        },
+        {
+          "name": "waterheater_130",
+          "parent": "house:..20",
+          "location": "INSIDE",
+          "water_demand": "waterdemand3*random.normal(1,.2)"
+        },
+        {
+          "name": "waterheater_133",
+          "parent": "house:..20",
+          "location": "INSIDE",
+          "water_demand": "waterdemand3*random.normal(1,.2)"
+        },
+        {
+          "name": "waterheater_136",
+          "parent": "house:..20",
+          "location": "INSIDE",
+          "water_demand": "waterdemand1*random.normal(1,.2)"
+        },
+        {
+          "name": "waterheater_139",
+          "parent": "house:..20",
+          "location": "INSIDE",
+          "water_demand": "waterdemand2*random.normal(1,.2)"
+        },
+        {
+          "name": "waterheater_142",
+          "parent": "house:..20",
+          "location": "INSIDE",
+          "water_demand": "waterdemand2*random.normal(1,.2)"
+        },
+        {
+          "name": "waterheater_145",
+          "parent": "house:..20",
+          "location": "INSIDE",
+          "water_demand": "waterdemand3*random.normal(1,.2)"
+        },
+        {
+          "name": "waterheater_148",
+          "parent": "house:..20",
+          "location": "INSIDE",
+          "water_demand": "waterdemand3*random.normal(1,.2)"
+        },
+        {
+          "name": "waterheater_151",
+          "parent": "house:..20",
+          "location": "INSIDE",
+          "water_demand": "waterdemand2*random.normal(1,.2)"
+        },
+        {
+          "name": "waterheater_154",
+          "parent": "house:..20",
+          "location": "INSIDE",
+          "water_demand": "waterdemand3*random.normal(1,.2)"
+        },
+        {
+          "name": "waterheater_157",
+          "parent": "house:..20",
+          "location": "INSIDE",
+          "water_demand": "waterdemand2*random.normal(1,.2)"
+        },
+        {
+          "name": "waterheater_160",
+          "parent": "house:..20",
+          "location": "INSIDE",
+          "water_demand": "waterdemand1*random.normal(1,.2)"
+        },
+        {
+          "name": "waterheater_163",
+          "parent": "house:..20",
+          "location": "INSIDE",
+          "water_demand": "waterdemand3*random.normal(1,.2)"
+        }
+      ]
+    },
+    "house": {
+      "instances": [
+        {
+          "name": "house:..20",
+          "object_count": 20,
+          "parent": "trip_meter15",
+          "floor_area": "random.normal(1750,400)",
+          "heating_setpoint": "heatingsetpoint2+random.normal(0,4)",
+          "cooling_setpoint": "random.normal (80,2)",
+          "thermostat_deadband": "random.normal (2,.5)"
+        }
+      ]
+    },
+    "multi_recorder": {
+      "instances": [
+        {
+          "name": "multi_recorder_164",
+          "property": "trip_meter1:measured_real_power,trip_meter2:measured_real_power,trip_meter3:measured_real_power,trip_meter4:measured_real_power,trip_meter5:measured_real_power,trip_meter6:measured_real_power,trip_meter7:measured_real_power,trip_meter8:measured_real_power,trip_meter9:measured_real_power,trip_meter10:measured_real_power,trip_meter11:measured_real_power,trip_meter12:measured_real_power,trip_meter13:measured_real_power,trip_meter14:measured_real_power,trip_meter15:measured_real_power",
+          "file": "\"IEEE_13_Node_With_Houses.csv\"",
+          "interval": 60,
+          "limit": 60
+        }
+      ]
+    }
+  },
+  "schedules": [
+    {
+      "waterdemand1": [
+        {
+          "name": "",
+          "items": [
+            "* 0-5 * * * 0",
+            "* 8-16 * * * .05",
+            "* 17 * * * 0",
+            "* 19-21 * * * 0",
+            "* 23 * * * 0"
+          ]
+        }
+      ]
+    },
+    {
+      "waterdemand2": [
+        {
+          "name": "",
+          "items": [
+            "* 0-4 * * * 0",
+            "* 7-16 * * * 0.01",
+            "* 18-23 * * * 0"
+          ]
+        }
+      ]
+    },
+    {
+      "waterdemand3": [
+        {
+          "name": "",
+          "items": [
+            "* 0-6 * * * 0",
+            "* 9-15 * * * 0.005",
+            "* 16 * * * 0.1",
+            "* 17 * * * 0.2",
+            "* 19-23 * * * 0"
+          ]
+        }
+      ]
+    },
+    {
+      "heatingsetpoint1": [
+        {
+          "name": "",
+          "items": [
+            "* 0-4 * * * 60",
+            "* 5 * * * 70",
+            "* 7-16 * * * 60",
+            "* 17-21 * * * 70",
+            "* 22-23 * * * 60"
+          ]
+        }
+      ]
+    },
+    {
+      "heatingsetpoint2": [
+        {
+          "name": "",
+          "items": [
+            "* 0-5 * * * 60",
+            "* 6 * * * 70",
+            "* 8-17 * * * 60",
+            "* 18-22 * * * 70",
+            "* 23 * * * 60"
+          ]
+        }
+      ]
+    },
+    {
+      "heatingsetpoint3": [
+        {
+          "name": "",
+          "items": [
+            "* 0-6 * * * 60",
+            "* 7 * * * 70",
+            "* 9-18 * * * 60",
+            "* 19-20 * * * 70",
+            "* 21-23 * * * 60"
+          ]
+        }
+      ]
+    },
+    {
+      "heatingsetpoint4": [
+        {
+          "name": "",
+          "items": [
+            "* 0-4 * * * 60",
+            "* 6-7 * * * 70",
+            "* 9-17 * * * 60",
+            "* 19-20 * * * 70",
+            "* 22-23 * * * 60"
+          ]
+        }
+      ]
+    },
+    {
+      "heatingsetpoint5": [
+        {
+          "name": "",
+          "items": [
+            "* 0-6 * * * 60",
+            "* 8 * * * 70",
+            "* 10-16 * * * 60",
+            "* 18-22 * * * 70"
+          ]
+        }
+      ]
+    },
+    {
+      "ZIP1base_power": [
+        {
+          "name": "",
+          "items": []
+        }
+      ]
+    }
+  ]
+}

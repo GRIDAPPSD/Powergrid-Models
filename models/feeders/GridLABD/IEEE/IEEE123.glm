@@ -1,0 +1,3382 @@
+object regulator_configuration {
+  name "rcon_creg3c";
+  connect_type WYE_WYE;
+  Control MANUAL; // LINE_DROP_COMP;
+  // use these for OUTPUT_VOLTAGE mode
+  // band_center 2400.000000;
+  // band_width 20.000000;
+  // use these for LINE_DROP_COMP mode
+  // band_center 120.000000;
+  // band_width 1.000000;
+  // transducer ratios only apply to LINE_DROP_COMP mode
+  current_transducer_ratio 250.000000;
+  power_transducer_ratio 20.000000;
+  dwell_time 15.000000;
+  raise_taps 16;
+  lower_taps 16;
+  regulation 0.100000;
+  Type B;
+  compensator_r_setting_C 0.400000;
+  compensator_x_setting_C 0.400000;
+  // comment out the manual tap setting if using automatic control
+  tap_pos_C 0;
+  compensator_r_setting_A 0.400000;
+  compensator_x_setting_A 0.400000;
+  // comment out the manual tap setting if using automatic control
+  tap_pos_A 2;
+}
+object regulator {
+  name "xf_reg3";
+  from "25";
+  to "25r";
+  phases CA;
+  configuration "rcon_creg3c";
+  continuous_rating_A 915.90;
+  continuous_rating_C 915.90;
+  emergency_rating_A 1248.96;
+  emergency_rating_C 1248.96;
+}
+object regulator_configuration {
+  name "rcon_creg1a";
+  connect_type WYE_WYE;
+  Control MANUAL; // LINE_DROP_COMP;
+  // use these for OUTPUT_VOLTAGE mode
+  // band_center 2400.000000;
+  // band_width 40.000000;
+  // use these for LINE_DROP_COMP mode
+  // band_center 120.000000;
+  // band_width 2.000000;
+  // transducer ratios only apply to LINE_DROP_COMP mode
+  current_transducer_ratio 3500.000000;
+  power_transducer_ratio 20.000000;
+  dwell_time 15.000000;
+  raise_taps 16;
+  lower_taps 16;
+  regulation 0.100000;
+  Type B;
+  compensator_r_setting_A 3.000000;
+  compensator_r_setting_B 3.000000;
+  compensator_r_setting_C 3.000000;
+  compensator_x_setting_A 7.500000;
+  compensator_x_setting_B 7.500000;
+  compensator_x_setting_C 7.500000;
+  // comment out the manual tap settings if using automatic control
+  tap_pos_A 6;
+  tap_pos_B 6;
+  tap_pos_C 6;
+}
+object regulator {
+  name "xf_reg1a";
+  from "150";
+  to "150r";
+  phases ABC;
+  configuration "rcon_creg1a";
+  continuous_rating_A 763.32;
+  continuous_rating_B 763.32;
+  continuous_rating_C 763.32;
+  emergency_rating_A 1040.90;
+  emergency_rating_B 1040.90;
+  emergency_rating_C 1040.90;
+}
+object regulator_configuration {
+  name "rcon_creg2a";
+  connect_type WYE_WYE;
+  Control MANUAL; // LINE_DROP_COMP;
+  // use these for OUTPUT_VOLTAGE mode
+  // band_center 2400.000000;
+  // band_width 40.000000;
+  // use these for LINE_DROP_COMP mode
+  // band_center 120.000000;
+  // band_width 2.000000;
+  // transducer ratios only apply to LINE_DROP_COMP mode
+  current_transducer_ratio 250.000000;
+  power_transducer_ratio 20.000000;
+  dwell_time 15.000000;
+  raise_taps 16;
+  lower_taps 16;
+  regulation 0.100000;
+  Type B;
+  compensator_r_setting_A 0.400000;
+  compensator_x_setting_A 0.400000;
+  // comment out the manual tap setting if using automatic control
+  tap_pos_A 0;
+}
+object regulator {
+  name "xf_reg2";
+  from "9";
+  to "9r";
+  phases A;
+  configuration "rcon_creg2a";
+  continuous_rating_A 915.90;
+  emergency_rating_A 1248.96;
+}
+object regulator_configuration {
+  name "rcon_creg4c";
+  connect_type WYE_WYE;
+  Control MANUAL; // LINE_DROP_COMP;
+  // use these for OUTPUT_VOLTAGE mode
+  // band_center 2480.000000;
+  // band_width 40.000000;
+  // use these for LINE_DROP_COMP mode
+  // band_center 124.000000;
+  // band_width 2.000000;
+  // transducer ratios only apply to LINE_DROP_COMP mode
+  current_transducer_ratio 1500.000000;
+  power_transducer_ratio 20.000000;
+  dwell_time 15.000000;
+  raise_taps 16;
+  lower_taps 16;
+  regulation 0.100000;
+  Type B;
+  compensator_r_setting_C 0.200000;
+  compensator_x_setting_C 1.400000;
+  // comment out the manual tap setting if using automatic control
+  tap_pos_C 6;
+  compensator_r_setting_B 1.400000;
+  compensator_x_setting_B 2.600000;
+  // comment out the manual tap setting if using automatic control
+  tap_pos_B 4;
+  compensator_r_setting_A 0.600000;
+  compensator_x_setting_A 1.300000;
+  // comment out the manual tap setting if using automatic control
+  tap_pos_A 10;
+}
+object regulator {
+  name "xf_reg4";
+  from "160";
+  to "160r";
+  phases CBA;
+  configuration "rcon_creg4c";
+  continuous_rating_A 915.90;
+  continuous_rating_B 915.90;
+  continuous_rating_C 915.90;
+  emergency_rating_A 1248.96;
+  emergency_rating_B 1248.96;
+  emergency_rating_C 1248.96;
+}
+object line_configuration {
+  name "lcon_1_ABC";
+  z11 0.457600+1.07800j;
+  c11 15.0570;
+  z12 0.156000+0.501700j;
+  c12 -4.8592;
+  z13 0.153500+0.384900j;
+  c13 -1.8520;
+  z21 0.156000+0.501700j;
+  c21 -4.8592;
+  z22 0.466600+1.04820j;
+  c22 15.8645;
+  z23 0.158000+0.423600j;
+  c23 -3.0889;
+  z31 0.153500+0.384900j;
+  c31 -1.8520;
+  z32 0.158000+0.423600j;
+  c32 -3.0889;
+  z33 0.461500+1.06510j;
+  c33 14.3159;
+}
+object line_configuration {
+  name "lcon_9_A";
+  z11 1.32920+1.34750j;
+  c11 11.9875;
+}
+object line_configuration {
+  name "lcon_3_ABC";
+  z11 0.461500+1.06510j;
+  c11 14.3159;
+  z12 0.153500+0.384900j;
+  c12 -1.8520;
+  z13 0.158000+0.423600j;
+  c13 -3.0889;
+  z21 0.153500+0.384900j;
+  c21 -1.8520;
+  z22 0.457600+1.07800j;
+  c22 15.0570;
+  z23 0.156000+0.501700j;
+  c23 -4.8592;
+  z31 0.158000+0.423600j;
+  c31 -3.0889;
+  z32 0.156000+0.501700j;
+  c32 -4.8592;
+  z33 0.466600+1.04820j;
+  c33 15.8645;
+}
+object line_configuration {
+  name "lcon_4_ABC";
+  z11 0.461500+1.06510j;
+  c11 14.3159;
+  z12 0.158000+0.423600j;
+  c12 -3.0889;
+  z13 0.153500+0.384900j;
+  c13 -1.8520;
+  z21 0.158000+0.423600j;
+  c21 -3.0889;
+  z22 0.466600+1.04820j;
+  c22 15.8645;
+  z23 0.156000+0.501700j;
+  c23 -4.8592;
+  z31 0.153500+0.384900j;
+  c31 -1.8520;
+  z32 0.156000+0.501700j;
+  c32 -4.8592;
+  z33 0.457600+1.07800j;
+  c33 15.0570;
+}
+object line_configuration {
+  name "lcon_11_C";
+  z33 1.32920+1.34750j;
+  c33 11.9875;
+}
+object line_configuration {
+  name "lcon_5_ABC";
+  z11 0.466600+1.04820j;
+  c11 15.8645;
+  z12 0.156000+0.501700j;
+  c12 -4.8592;
+  z13 0.158000+0.423600j;
+  c13 -3.0889;
+  z21 0.156000+0.501700j;
+  c21 -4.8592;
+  z22 0.457600+1.07800j;
+  c22 15.0570;
+  z23 0.153500+0.384900j;
+  c23 -1.8520;
+  z31 0.158000+0.423600j;
+  c31 -3.0889;
+  z32 0.153500+0.384900j;
+  c32 -1.8520;
+  z33 0.461500+1.06510j;
+  c33 14.3159;
+}
+object line_configuration {
+  name "lcon_10_B";
+  z22 1.32920+1.34750j;
+  c22 11.9875;
+}
+object line_configuration {
+  name "lcon_8_AB";
+  z11 0.457600+1.07800j;
+  c11 13.5687;
+  z12 0.153500+0.384900j;
+  c12 -2.7981;
+  z21 0.153500+0.384900j;
+  c21 -2.7981;
+  z22 0.461500+1.06510j;
+  c22 13.7146;
+}
+object line_configuration {
+  name "lcon_6_ABC";
+  z11 0.457600+1.07800j;
+  c11 15.0570;
+  z12 0.153500+0.384900j;
+  c12 -1.8520;
+  z13 0.156000+0.501700j;
+  c13 -4.8592;
+  z21 0.153500+0.384900j;
+  c21 -1.8520;
+  z22 0.461500+1.06510j;
+  c22 14.3159;
+  z23 0.158000+0.423600j;
+  c23 -3.0889;
+  z31 0.156000+0.501700j;
+  c31 -4.8592;
+  z32 0.158000+0.423600j;
+  c32 -3.0889;
+  z33 0.466600+1.04820j;
+  c33 15.8645;
+}
+object line_configuration {
+  name "lcon_12_ABC";
+  z11 1.52090+0.752100j;
+  c11 178.3135;
+  z12 0.519800+0.277500j;
+  c12 0.0000;
+  z13 0.492400+0.215700j;
+  c13 0.0000;
+  z21 0.519800+0.277500j;
+  c21 0.0000;
+  z22 1.53290+0.716200j;
+  c22 178.3135;
+  z23 0.519800+0.277500j;
+  c23 0.0000;
+  z31 0.492400+0.215700j;
+  c31 0.0000;
+  z32 0.519800+0.277500j;
+  c32 0.0000;
+  z33 1.52090+0.752100j;
+  c33 178.3135;
+}
+object line_configuration {
+  name "lcon_7_AC";
+  z11 0.457600+1.07800j;
+  c11 13.5687;
+  z13 0.153500+0.384900j;
+  c13 -2.7981;
+  z31 0.153500+0.384900j;
+  c31 -2.7981;
+  z33 0.461500+1.06510j;
+  c33 13.7146;
+}
+object line_configuration {
+  name "lcon_2_ABC";
+  z11 0.466600+1.04820j;
+  c11 15.8645;
+  z12 0.158000+0.423600j;
+  c12 -3.0889;
+  z13 0.156000+0.501700j;
+  c13 -4.8592;
+  z21 0.158000+0.423600j;
+  c21 -3.0889;
+  z22 0.461500+1.06510j;
+  c22 14.3159;
+  z23 0.153500+0.384900j;
+  c23 -1.8520;
+  z31 0.156000+0.501700j;
+  c31 -4.8592;
+  z32 0.153500+0.384900j;
+  c32 -1.8520;
+  z33 0.457600+1.07800j;
+  c33 15.0570;
+}
+object capacitor {
+  name "cap_c83";
+  parent "83";
+  phases ABCN;
+  phases_connected ABCN;
+  cap_nominal_voltage 2401.78;
+  nominal_voltage 2401.78;
+  capacitor_A 200000.00;
+  switchA CLOSED;
+  capacitor_B 200000.00;
+  switchB CLOSED;
+  capacitor_C 200000.00;
+  switchC CLOSED;
+}
+object capacitor {
+  name "cap_c88a";
+  parent "88";
+  phases AN;
+  phases_connected AN;
+  cap_nominal_voltage 2402.00;
+  nominal_voltage 2402.00;
+  capacitor_A 50000.00;
+  switchA CLOSED;
+}
+object capacitor {
+  name "cap_c90b";
+  parent "90";
+  phases BN;
+  phases_connected BN;
+  cap_nominal_voltage 2402.00;
+  nominal_voltage 2402.00;
+  capacitor_B 50000.00;
+  switchB CLOSED;
+}
+object capacitor {
+  name "cap_c92c";
+  parent "92";
+  phases CN;
+  phases_connected CN;
+  cap_nominal_voltage 2402.00;
+  nominal_voltage 2402.00;
+  capacitor_C 50000.00;
+  switchC CLOSED;
+}
+object overhead_line {
+  name "line_l85";
+  from "84";
+  to "85";
+  phases C;
+  length 475.0000;
+  continuous_rating_C 400.00;
+  emergency_rating_C 600.00;
+  configuration "lcon_11_C";
+}
+object overhead_line {
+  name "line_l106";
+  from "106";
+  to "107";
+  phases B;
+  length 575.0000;
+  continuous_rating_B 400.00;
+  emergency_rating_B 600.00;
+  configuration "lcon_10_B";
+}
+object overhead_line {
+  name "line_l77";
+  from "76";
+  to "86";
+  phases ABC;
+  length 700.0000;
+  continuous_rating_A 400.00;
+  continuous_rating_B 400.00;
+  continuous_rating_C 400.00;
+  emergency_rating_A 600.00;
+  emergency_rating_B 600.00;
+  emergency_rating_C 600.00;
+  configuration "lcon_3_ABC";
+}
+object overhead_line {
+  name "line_l96";
+  from "97";
+  to "98";
+  phases ABC;
+  length 275.0000;
+  continuous_rating_A 400.00;
+  continuous_rating_B 400.00;
+  continuous_rating_C 400.00;
+  emergency_rating_A 600.00;
+  emergency_rating_B 600.00;
+  emergency_rating_C 600.00;
+  configuration "lcon_3_ABC";
+}
+object overhead_line {
+  name "line_l67";
+  from "67";
+  to "72";
+  phases ABC;
+  length 275.0000;
+  continuous_rating_A 400.00;
+  continuous_rating_B 400.00;
+  continuous_rating_C 400.00;
+  emergency_rating_A 600.00;
+  emergency_rating_B 600.00;
+  emergency_rating_C 600.00;
+  configuration "lcon_3_ABC";
+}
+object overhead_line {
+  name "line_l82";
+  from "81";
+  to "82";
+  phases ABC;
+  length 250.0000;
+  continuous_rating_A 400.00;
+  continuous_rating_B 400.00;
+  continuous_rating_C 400.00;
+  emergency_rating_A 600.00;
+  emergency_rating_B 600.00;
+  emergency_rating_C 600.00;
+  configuration "lcon_6_ABC";
+}
+object overhead_line {
+  name "line_l88";
+  from "87";
+  to "89";
+  phases ABC;
+  length 275.0000;
+  continuous_rating_A 400.00;
+  continuous_rating_B 400.00;
+  continuous_rating_C 400.00;
+  emergency_rating_A 600.00;
+  emergency_rating_B 600.00;
+  emergency_rating_C 600.00;
+  configuration "lcon_6_ABC";
+}
+object overhead_line {
+  name "line_l93";
+  from "93";
+  to "94";
+  phases A;
+  length 275.0000;
+  continuous_rating_A 400.00;
+  emergency_rating_A 600.00;
+  configuration "lcon_9_A";
+}
+object overhead_line {
+  name "line_l79";
+  from "78";
+  to "79";
+  phases ABC;
+  length 225.0000;
+  continuous_rating_A 400.00;
+  continuous_rating_B 400.00;
+  continuous_rating_C 400.00;
+  emergency_rating_A 600.00;
+  emergency_rating_B 600.00;
+  emergency_rating_C 600.00;
+  configuration "lcon_6_ABC";
+}
+object overhead_line {
+  name "line_l87";
+  from "87";
+  to "88";
+  phases A;
+  length 175.0000;
+  continuous_rating_A 400.00;
+  emergency_rating_A 600.00;
+  configuration "lcon_9_A";
+}
+object overhead_line {
+  name "line_l92";
+  from "91";
+  to "93";
+  phases ABC;
+  length 225.0000;
+  continuous_rating_A 400.00;
+  continuous_rating_B 400.00;
+  continuous_rating_C 400.00;
+  emergency_rating_A 600.00;
+  emergency_rating_B 600.00;
+  emergency_rating_C 600.00;
+  configuration "lcon_6_ABC";
+}
+object overhead_line {
+  name "line_l11";
+  from "9r";
+  to "14";
+  phases A;
+  length 425.0000;
+  continuous_rating_A 400.00;
+  emergency_rating_A 600.00;
+  configuration "lcon_9_A";
+}
+object overhead_line {
+  name "line_l114";
+  from "135";
+  to "35";
+  phases ABC;
+  length 375.0000;
+  continuous_rating_A 400.00;
+  continuous_rating_B 400.00;
+  continuous_rating_C 400.00;
+  emergency_rating_A 600.00;
+  emergency_rating_B 600.00;
+  emergency_rating_C 600.00;
+  configuration "lcon_4_ABC";
+}
+object overhead_line {
+  name "line_l35";
+  from "35";
+  to "36";
+  phases AB;
+  length 650.0000;
+  continuous_rating_A 400.00;
+  continuous_rating_B 400.00;
+  emergency_rating_A 600.00;
+  emergency_rating_B 600.00;
+  configuration "lcon_8_AB";
+}
+object overhead_line {
+  name "line_l46";
+  from "45";
+  to "46";
+  phases A;
+  length 300.0000;
+  continuous_rating_A 400.00;
+  emergency_rating_A 600.00;
+  configuration "lcon_9_A";
+}
+object overhead_line {
+  name "line_l65";
+  from "65";
+  to "66";
+  phases ABC;
+  length 325.0000;
+  continuous_rating_A 400.00;
+  continuous_rating_B 400.00;
+  continuous_rating_C 400.00;
+  emergency_rating_A 600.00;
+  emergency_rating_B 600.00;
+  emergency_rating_C 600.00;
+  configuration "lcon_12_ABC";
+}
+object overhead_line {
+  name "line_l102";
+  from "102";
+  to "103";
+  phases C;
+  length 325.0000;
+  continuous_rating_C 400.00;
+  emergency_rating_C 600.00;
+  configuration "lcon_11_C";
+}
+object overhead_line {
+  name "line_l16";
+  from "15";
+  to "16";
+  phases C;
+  length 375.0000;
+  continuous_rating_C 400.00;
+  emergency_rating_C 600.00;
+  configuration "lcon_11_C";
+}
+object overhead_line {
+  name "line_l19";
+  from "18";
+  to "21";
+  phases ABC;
+  length 300.0000;
+  continuous_rating_A 400.00;
+  continuous_rating_B 400.00;
+  continuous_rating_C 400.00;
+  emergency_rating_A 600.00;
+  emergency_rating_B 600.00;
+  emergency_rating_C 600.00;
+  configuration "lcon_2_ABC";
+}
+object overhead_line {
+  name "line_l54";
+  from "54";
+  to "55";
+  phases ABC;
+  length 275.0000;
+  continuous_rating_A 400.00;
+  continuous_rating_B 400.00;
+  continuous_rating_C 400.00;
+  emergency_rating_A 600.00;
+  emergency_rating_B 600.00;
+  emergency_rating_C 600.00;
+  configuration "lcon_1_ABC";
+}
+object overhead_line {
+  name "line_l4";
+  from "3";
+  to "4";
+  phases C;
+  length 200.0000;
+  continuous_rating_C 400.00;
+  emergency_rating_C 600.00;
+  configuration "lcon_11_C";
+}
+object overhead_line {
+  name "line_l81";
+  from "80";
+  to "81";
+  phases ABC;
+  length 175.0000;
+  continuous_rating_A 400.00;
+  continuous_rating_B 400.00;
+  continuous_rating_C 400.00;
+  emergency_rating_A 600.00;
+  emergency_rating_B 600.00;
+  emergency_rating_C 600.00;
+  configuration "lcon_6_ABC";
+}
+object overhead_line {
+  name "line_l21";
+  from "21";
+  to "22";
+  phases B;
+  length 525.0000;
+  continuous_rating_B 400.00;
+  emergency_rating_B 600.00;
+  configuration "lcon_10_B";
+}
+object overhead_line {
+  name "line_l70";
+  from "69";
+  to "70";
+  phases A;
+  length 325.0000;
+  continuous_rating_A 400.00;
+  emergency_rating_A 600.00;
+  configuration "lcon_9_A";
+}
+object overhead_line {
+  name "line_l45";
+  from "44";
+  to "47";
+  phases ABC;
+  length 250.0000;
+  continuous_rating_A 400.00;
+  continuous_rating_B 400.00;
+  continuous_rating_C 400.00;
+  emergency_rating_A 600.00;
+  emergency_rating_B 600.00;
+  emergency_rating_C 600.00;
+  configuration "lcon_1_ABC";
+}
+object overhead_line {
+  name "line_l97";
+  from "98";
+  to "99";
+  phases ABC;
+  length 550.0000;
+  continuous_rating_A 400.00;
+  continuous_rating_B 400.00;
+  continuous_rating_C 400.00;
+  emergency_rating_A 600.00;
+  emergency_rating_B 600.00;
+  emergency_rating_C 600.00;
+  configuration "lcon_3_ABC";
+}
+object overhead_line {
+  name "line_l12";
+  from "13";
+  to "34";
+  phases C;
+  length 150.0000;
+  continuous_rating_C 400.00;
+  emergency_rating_C 600.00;
+  configuration "lcon_11_C";
+}
+object overhead_line {
+  name "line_l5";
+  from "3";
+  to "5";
+  phases C;
+  length 325.0000;
+  continuous_rating_C 400.00;
+  emergency_rating_C 600.00;
+  configuration "lcon_11_C";
+}
+object overhead_line {
+  name "line_l48";
+  from "47";
+  to "49";
+  phases ABC;
+  length 250.0000;
+  continuous_rating_A 400.00;
+  continuous_rating_B 400.00;
+  continuous_rating_C 400.00;
+  emergency_rating_A 600.00;
+  emergency_rating_B 600.00;
+  emergency_rating_C 600.00;
+  configuration "lcon_4_ABC";
+}
+object overhead_line {
+  name "line_l9";
+  from "8";
+  to "9";
+  phases A;
+  length 225.0000;
+  continuous_rating_A 400.00;
+  emergency_rating_A 600.00;
+  configuration "lcon_9_A";
+}
+object overhead_line {
+  name "line_l55";
+  from "54";
+  to "57";
+  phases ABC;
+  length 350.0000;
+  continuous_rating_A 400.00;
+  continuous_rating_B 400.00;
+  continuous_rating_C 400.00;
+  emergency_rating_A 600.00;
+  emergency_rating_B 600.00;
+  emergency_rating_C 600.00;
+  configuration "lcon_3_ABC";
+}
+object overhead_line {
+  name "line_l108";
+  from "108";
+  to "300";
+  phases ABC;
+  length 1000.0000;
+  continuous_rating_A 400.00;
+  continuous_rating_B 400.00;
+  continuous_rating_C 400.00;
+  emergency_rating_A 600.00;
+  emergency_rating_B 600.00;
+  emergency_rating_C 600.00;
+  configuration "lcon_3_ABC";
+}
+object overhead_line {
+  name "line_l105";
+  from "105";
+  to "108";
+  phases ABC;
+  length 325.0000;
+  continuous_rating_A 400.00;
+  continuous_rating_B 400.00;
+  continuous_rating_C 400.00;
+  emergency_rating_A 600.00;
+  emergency_rating_B 600.00;
+  emergency_rating_C 600.00;
+  configuration "lcon_3_ABC";
+}
+object overhead_line {
+  name "line_l115";
+  from "149";
+  to "1";
+  phases ABC;
+  length 400.0000;
+  continuous_rating_A 400.00;
+  continuous_rating_B 400.00;
+  continuous_rating_C 400.00;
+  emergency_rating_A 600.00;
+  emergency_rating_B 600.00;
+  emergency_rating_C 600.00;
+  configuration "lcon_1_ABC";
+}
+object overhead_line {
+  name "line_l116";
+  from "152";
+  to "52";
+  phases ABC;
+  length 400.0000;
+  continuous_rating_A 400.00;
+  continuous_rating_B 400.00;
+  continuous_rating_C 400.00;
+  emergency_rating_A 600.00;
+  emergency_rating_B 600.00;
+  emergency_rating_C 600.00;
+  configuration "lcon_1_ABC";
+}
+object overhead_line {
+  name "line_l99";
+  from "100";
+  to "450";
+  phases ABC;
+  length 800.0000;
+  continuous_rating_A 400.00;
+  continuous_rating_B 400.00;
+  continuous_rating_C 400.00;
+  emergency_rating_A 600.00;
+  emergency_rating_B 600.00;
+  emergency_rating_C 600.00;
+  configuration "lcon_3_ABC";
+}
+object overhead_line {
+  name "line_l25";
+  from "25r";
+  to "26";
+  phases AC;
+  length 350.0000;
+  continuous_rating_A 400.00;
+  continuous_rating_C 400.00;
+  emergency_rating_A 600.00;
+  emergency_rating_C 600.00;
+  configuration "lcon_7_AC";
+}
+object overhead_line {
+  name "line_l41";
+  from "40";
+  to "42";
+  phases ABC;
+  length 250.0000;
+  continuous_rating_A 400.00;
+  continuous_rating_B 400.00;
+  continuous_rating_C 400.00;
+  emergency_rating_A 600.00;
+  emergency_rating_B 600.00;
+  emergency_rating_C 600.00;
+  configuration "lcon_1_ABC";
+}
+object overhead_line {
+  name "line_l26";
+  from "25";
+  to "28";
+  phases ABC;
+  length 200.0000;
+  continuous_rating_A 400.00;
+  continuous_rating_B 400.00;
+  continuous_rating_C 400.00;
+  emergency_rating_A 600.00;
+  emergency_rating_B 600.00;
+  emergency_rating_C 600.00;
+  configuration "lcon_2_ABC";
+}
+object overhead_line {
+  name "line_l78";
+  from "77";
+  to "78";
+  phases ABC;
+  length 100.0000;
+  continuous_rating_A 400.00;
+  continuous_rating_B 400.00;
+  continuous_rating_C 400.00;
+  emergency_rating_A 600.00;
+  emergency_rating_B 600.00;
+  emergency_rating_C 600.00;
+  configuration "lcon_6_ABC";
+}
+object overhead_line {
+  name "line_l10";
+  from "8";
+  to "13";
+  phases ABC;
+  length 300.0000;
+  continuous_rating_A 400.00;
+  continuous_rating_B 400.00;
+  continuous_rating_C 400.00;
+  emergency_rating_A 600.00;
+  emergency_rating_B 600.00;
+  emergency_rating_C 600.00;
+  configuration "lcon_1_ABC";
+}
+object overhead_line {
+  name "line_l32";
+  from "30";
+  to "250";
+  phases ABC;
+  length 200.0000;
+  continuous_rating_A 400.00;
+  continuous_rating_B 400.00;
+  continuous_rating_C 400.00;
+  emergency_rating_A 600.00;
+  emergency_rating_B 600.00;
+  emergency_rating_C 600.00;
+  configuration "lcon_2_ABC";
+}
+object overhead_line {
+  name "line_l80";
+  from "78";
+  to "80";
+  phases ABC;
+  length 475.0000;
+  continuous_rating_A 400.00;
+  continuous_rating_B 400.00;
+  continuous_rating_C 400.00;
+  emergency_rating_A 600.00;
+  emergency_rating_B 600.00;
+  emergency_rating_C 600.00;
+  configuration "lcon_6_ABC";
+}
+object overhead_line {
+  name "line_l39";
+  from "38";
+  to "39";
+  phases B;
+  length 325.0000;
+  continuous_rating_B 400.00;
+  emergency_rating_B 600.00;
+  configuration "lcon_10_B";
+}
+object overhead_line {
+  name "line_l22";
+  from "21";
+  to "23";
+  phases ABC;
+  length 250.0000;
+  continuous_rating_A 400.00;
+  continuous_rating_B 400.00;
+  continuous_rating_C 400.00;
+  emergency_rating_A 600.00;
+  emergency_rating_B 600.00;
+  emergency_rating_C 600.00;
+  configuration "lcon_2_ABC";
+}
+object overhead_line {
+  name "line_l69";
+  from "68";
+  to "69";
+  phases A;
+  length 275.0000;
+  continuous_rating_A 400.00;
+  emergency_rating_A 600.00;
+  configuration "lcon_9_A";
+}
+object overhead_line {
+  name "line_l30";
+  from "28";
+  to "29";
+  phases ABC;
+  length 300.0000;
+  continuous_rating_A 400.00;
+  continuous_rating_B 400.00;
+  continuous_rating_C 400.00;
+  emergency_rating_A 600.00;
+  emergency_rating_B 600.00;
+  emergency_rating_C 600.00;
+  configuration "lcon_2_ABC";
+}
+object overhead_line {
+  name "line_l86";
+  from "86";
+  to "87";
+  phases ABC;
+  length 450.0000;
+  continuous_rating_A 400.00;
+  continuous_rating_B 400.00;
+  continuous_rating_C 400.00;
+  emergency_rating_A 600.00;
+  emergency_rating_B 600.00;
+  emergency_rating_C 600.00;
+  configuration "lcon_6_ABC";
+}
+object overhead_line {
+  name "line_l111";
+  from "110";
+  to "112";
+  phases A;
+  length 125.0000;
+  continuous_rating_A 400.00;
+  emergency_rating_A 600.00;
+  configuration "lcon_9_A";
+}
+object overhead_line {
+  name "line_l113";
+  from "113";
+  to "114";
+  phases A;
+  length 325.0000;
+  continuous_rating_A 400.00;
+  emergency_rating_A 600.00;
+  configuration "lcon_9_A";
+}
+object overhead_line {
+  name "line_l107";
+  from "108";
+  to "109";
+  phases A;
+  length 450.0000;
+  continuous_rating_A 400.00;
+  emergency_rating_A 600.00;
+  configuration "lcon_9_A";
+}
+object overhead_line {
+  name "line_l117";
+  from "160r";
+  to "67";
+  phases ABC;
+  length 350.0000;
+  continuous_rating_A 400.00;
+  continuous_rating_B 400.00;
+  continuous_rating_C 400.00;
+  emergency_rating_A 600.00;
+  emergency_rating_B 600.00;
+  emergency_rating_C 600.00;
+  configuration "lcon_6_ABC";
+}
+object overhead_line {
+  name "line_l109";
+  from "109";
+  to "110";
+  phases A;
+  length 300.0000;
+  continuous_rating_A 400.00;
+  emergency_rating_A 600.00;
+  configuration "lcon_9_A";
+}
+object overhead_line {
+  name "line_l90";
+  from "89";
+  to "91";
+  phases ABC;
+  length 225.0000;
+  continuous_rating_A 400.00;
+  continuous_rating_B 400.00;
+  continuous_rating_C 400.00;
+  emergency_rating_A 600.00;
+  emergency_rating_B 600.00;
+  emergency_rating_C 600.00;
+  configuration "lcon_6_ABC";
+}
+object overhead_line {
+  name "line_l14";
+  from "14";
+  to "11";
+  phases A;
+  length 250.0000;
+  continuous_rating_A 400.00;
+  emergency_rating_A 600.00;
+  configuration "lcon_9_A";
+}
+object overhead_line {
+  name "line_l76";
+  from "76";
+  to "77";
+  phases ABC;
+  length 400.0000;
+  continuous_rating_A 400.00;
+  continuous_rating_B 400.00;
+  continuous_rating_C 400.00;
+  emergency_rating_A 600.00;
+  emergency_rating_B 600.00;
+  emergency_rating_C 600.00;
+  configuration "lcon_6_ABC";
+}
+object overhead_line {
+  name "line_l63";
+  from "63";
+  to "64";
+  phases ABC;
+  length 350.0000;
+  continuous_rating_A 400.00;
+  continuous_rating_B 400.00;
+  continuous_rating_C 400.00;
+  emergency_rating_A 600.00;
+  emergency_rating_B 600.00;
+  emergency_rating_C 600.00;
+  configuration "lcon_12_ABC";
+}
+object overhead_line {
+  name "line_l23";
+  from "23";
+  to "24";
+  phases C;
+  length 550.0000;
+  continuous_rating_C 400.00;
+  emergency_rating_C 600.00;
+  configuration "lcon_11_C";
+}
+object overhead_line {
+  name "line_l18";
+  from "18";
+  to "19";
+  phases A;
+  length 250.0000;
+  continuous_rating_A 400.00;
+  emergency_rating_A 600.00;
+  configuration "lcon_9_A";
+}
+object overhead_line {
+  name "line_l89";
+  from "89";
+  to "90";
+  phases B;
+  length 250.0000;
+  continuous_rating_B 400.00;
+  emergency_rating_B 600.00;
+  configuration "lcon_10_B";
+}
+object overhead_line {
+  name "line_l36";
+  from "35";
+  to "40";
+  phases ABC;
+  length 250.0000;
+  continuous_rating_A 400.00;
+  continuous_rating_B 400.00;
+  continuous_rating_C 400.00;
+  emergency_rating_A 600.00;
+  emergency_rating_B 600.00;
+  emergency_rating_C 600.00;
+  configuration "lcon_1_ABC";
+}
+object overhead_line {
+  name "line_l62";
+  from "62";
+  to "63";
+  phases ABC;
+  length 175.0000;
+  continuous_rating_A 400.00;
+  continuous_rating_B 400.00;
+  continuous_rating_C 400.00;
+  emergency_rating_A 600.00;
+  emergency_rating_B 600.00;
+  emergency_rating_C 600.00;
+  configuration "lcon_12_ABC";
+}
+object overhead_line {
+  name "line_l84";
+  from "82";
+  to "83";
+  phases ABC;
+  length 250.0000;
+  continuous_rating_A 400.00;
+  continuous_rating_B 400.00;
+  continuous_rating_C 400.00;
+  emergency_rating_A 600.00;
+  emergency_rating_B 600.00;
+  emergency_rating_C 600.00;
+  configuration "lcon_6_ABC";
+}
+object overhead_line {
+  name "line_l15";
+  from "14";
+  to "10";
+  phases A;
+  length 250.0000;
+  continuous_rating_A 400.00;
+  emergency_rating_A 600.00;
+  configuration "lcon_9_A";
+}
+object overhead_line {
+  name "line_l118";
+  from "197";
+  to "101";
+  phases ABC;
+  length 250.0000;
+  continuous_rating_A 400.00;
+  continuous_rating_B 400.00;
+  continuous_rating_C 400.00;
+  emergency_rating_A 600.00;
+  emergency_rating_B 600.00;
+  emergency_rating_C 600.00;
+  configuration "lcon_3_ABC";
+}
+object overhead_line {
+  name "line_l68";
+  from "67";
+  to "97";
+  phases ABC;
+  length 250.0000;
+  continuous_rating_A 400.00;
+  continuous_rating_B 400.00;
+  continuous_rating_C 400.00;
+  emergency_rating_A 600.00;
+  emergency_rating_B 600.00;
+  emergency_rating_C 600.00;
+  configuration "lcon_3_ABC";
+}
+object overhead_line {
+  name "line_l40";
+  from "40";
+  to "41";
+  phases C;
+  length 325.0000;
+  continuous_rating_C 400.00;
+  emergency_rating_C 600.00;
+  configuration "lcon_11_C";
+}
+object overhead_line {
+  name "line_l51";
+  from "51";
+  to "151";
+  phases ABC;
+  length 500.0000;
+  continuous_rating_A 400.00;
+  continuous_rating_B 400.00;
+  continuous_rating_C 400.00;
+  emergency_rating_A 600.00;
+  emergency_rating_B 600.00;
+  emergency_rating_C 600.00;
+  configuration "lcon_4_ABC";
+}
+object overhead_line {
+  name "line_l1";
+  from "1";
+  to "2";
+  phases B;
+  length 175.0000;
+  continuous_rating_B 400.00;
+  emergency_rating_B 600.00;
+  configuration "lcon_10_B";
+}
+object overhead_line {
+  name "line_l28";
+  from "26";
+  to "31";
+  phases C;
+  length 225.0000;
+  continuous_rating_C 400.00;
+  emergency_rating_C 600.00;
+  configuration "lcon_11_C";
+}
+object overhead_line {
+  name "line_l52";
+  from "52";
+  to "53";
+  phases ABC;
+  length 200.0000;
+  continuous_rating_A 400.00;
+  continuous_rating_B 400.00;
+  continuous_rating_C 400.00;
+  emergency_rating_A 600.00;
+  emergency_rating_B 600.00;
+  emergency_rating_C 600.00;
+  configuration "lcon_1_ABC";
+}
+object overhead_line {
+  name "line_l7";
+  from "7";
+  to "8";
+  phases ABC;
+  length 200.0000;
+  continuous_rating_A 400.00;
+  continuous_rating_B 400.00;
+  continuous_rating_C 400.00;
+  emergency_rating_A 600.00;
+  emergency_rating_B 600.00;
+  emergency_rating_C 600.00;
+  configuration "lcon_1_ABC";
+}
+object overhead_line {
+  name "line_l49";
+  from "49";
+  to "50";
+  phases ABC;
+  length 250.0000;
+  continuous_rating_A 400.00;
+  continuous_rating_B 400.00;
+  continuous_rating_C 400.00;
+  emergency_rating_A 600.00;
+  emergency_rating_B 600.00;
+  emergency_rating_C 600.00;
+  configuration "lcon_4_ABC";
+}
+object overhead_line {
+  name "line_l64";
+  from "64";
+  to "65";
+  phases ABC;
+  length 425.0000;
+  continuous_rating_A 400.00;
+  continuous_rating_B 400.00;
+  continuous_rating_C 400.00;
+  emergency_rating_A 600.00;
+  emergency_rating_B 600.00;
+  emergency_rating_C 600.00;
+  configuration "lcon_12_ABC";
+}
+object overhead_line {
+  name "line_l110";
+  from "110";
+  to "111";
+  phases A;
+  length 575.0000;
+  continuous_rating_A 400.00;
+  emergency_rating_A 600.00;
+  configuration "lcon_9_A";
+}
+object overhead_line {
+  name "line_l94";
+  from "93";
+  to "95";
+  phases ABC;
+  length 300.0000;
+  continuous_rating_A 400.00;
+  continuous_rating_B 400.00;
+  continuous_rating_C 400.00;
+  emergency_rating_A 600.00;
+  emergency_rating_B 600.00;
+  emergency_rating_C 600.00;
+  configuration "lcon_6_ABC";
+}
+object overhead_line {
+  name "line_l72";
+  from "72";
+  to "73";
+  phases C;
+  length 275.0000;
+  continuous_rating_C 400.00;
+  emergency_rating_C 600.00;
+  configuration "lcon_11_C";
+}
+object overhead_line {
+  name "line_l59";
+  from "58";
+  to "59";
+  phases B;
+  length 250.0000;
+  continuous_rating_B 400.00;
+  emergency_rating_B 600.00;
+  configuration "lcon_10_B";
+}
+object overhead_line {
+  name "line_l38";
+  from "36";
+  to "38";
+  phases B;
+  length 250.0000;
+  continuous_rating_B 400.00;
+  emergency_rating_B 600.00;
+  configuration "lcon_10_B";
+}
+object overhead_line {
+  name "line_l6";
+  from "5";
+  to "6";
+  phases C;
+  length 250.0000;
+  continuous_rating_C 400.00;
+  emergency_rating_C 600.00;
+  configuration "lcon_11_C";
+}
+object overhead_line {
+  name "line_l29";
+  from "27";
+  to "33";
+  phases A;
+  length 500.0000;
+  continuous_rating_A 400.00;
+  emergency_rating_A 600.00;
+  configuration "lcon_9_A";
+}
+object overhead_line {
+  name "line_l31";
+  from "29";
+  to "30";
+  phases ABC;
+  length 350.0000;
+  continuous_rating_A 400.00;
+  continuous_rating_B 400.00;
+  continuous_rating_C 400.00;
+  emergency_rating_A 600.00;
+  emergency_rating_B 600.00;
+  emergency_rating_C 600.00;
+  configuration "lcon_2_ABC";
+}
+object overhead_line {
+  name "line_l101";
+  from "101";
+  to "105";
+  phases ABC;
+  length 275.0000;
+  continuous_rating_A 400.00;
+  continuous_rating_B 400.00;
+  continuous_rating_C 400.00;
+  emergency_rating_A 600.00;
+  emergency_rating_B 600.00;
+  emergency_rating_C 600.00;
+  configuration "lcon_3_ABC";
+}
+object overhead_line {
+  name "line_l74";
+  from "73";
+  to "74";
+  phases C;
+  length 350.0000;
+  continuous_rating_C 400.00;
+  emergency_rating_C 600.00;
+  configuration "lcon_11_C";
+}
+object overhead_line {
+  name "line_l61";
+  from "60";
+  to "62";
+  phases ABC;
+  length 250.0000;
+  continuous_rating_A 400.00;
+  continuous_rating_B 400.00;
+  continuous_rating_C 400.00;
+  emergency_rating_A 600.00;
+  emergency_rating_B 600.00;
+  emergency_rating_C 600.00;
+  configuration "lcon_12_ABC";
+}
+object overhead_line {
+  name "line_l27";
+  from "26";
+  to "27";
+  phases AC;
+  length 275.0000;
+  continuous_rating_A 400.00;
+  continuous_rating_C 400.00;
+  emergency_rating_A 600.00;
+  emergency_rating_C 600.00;
+  configuration "lcon_7_AC";
+}
+object overhead_line {
+  name "line_l8";
+  from "8";
+  to "12";
+  phases B;
+  length 225.0000;
+  continuous_rating_B 400.00;
+  emergency_rating_B 600.00;
+  configuration "lcon_10_B";
+}
+object overhead_line {
+  name "line_l66";
+  from "67";
+  to "68";
+  phases A;
+  length 200.0000;
+  continuous_rating_A 400.00;
+  emergency_rating_A 600.00;
+  configuration "lcon_9_A";
+}
+object overhead_line {
+  name "line_l57";
+  from "57";
+  to "58";
+  phases B;
+  length 250.0000;
+  continuous_rating_B 400.00;
+  emergency_rating_B 600.00;
+  configuration "lcon_10_B";
+}
+object overhead_line {
+  name "line_l75";
+  from "74";
+  to "75";
+  phases C;
+  length 400.0000;
+  continuous_rating_C 400.00;
+  emergency_rating_C 600.00;
+  configuration "lcon_11_C";
+}
+object overhead_line {
+  name "line_l33";
+  from "31";
+  to "32";
+  phases C;
+  length 300.0000;
+  continuous_rating_C 400.00;
+  emergency_rating_C 600.00;
+  configuration "lcon_11_C";
+}
+object overhead_line {
+  name "line_l47";
+  from "47";
+  to "48";
+  phases ABC;
+  length 150.0000;
+  continuous_rating_A 400.00;
+  continuous_rating_B 400.00;
+  continuous_rating_C 400.00;
+  emergency_rating_A 600.00;
+  emergency_rating_B 600.00;
+  emergency_rating_C 600.00;
+  configuration "lcon_4_ABC";
+}
+object overhead_line {
+  name "line_l50";
+  from "50";
+  to "51";
+  phases ABC;
+  length 250.0000;
+  continuous_rating_A 400.00;
+  continuous_rating_B 400.00;
+  continuous_rating_C 400.00;
+  emergency_rating_A 600.00;
+  emergency_rating_B 600.00;
+  emergency_rating_C 600.00;
+  configuration "lcon_4_ABC";
+}
+object overhead_line {
+  name "line_l56";
+  from "55";
+  to "56";
+  phases ABC;
+  length 275.0000;
+  continuous_rating_A 400.00;
+  continuous_rating_B 400.00;
+  continuous_rating_C 400.00;
+  emergency_rating_A 600.00;
+  emergency_rating_B 600.00;
+  emergency_rating_C 600.00;
+  configuration "lcon_1_ABC";
+}
+object overhead_line {
+  name "line_l13";
+  from "13";
+  to "18";
+  phases ABC;
+  length 825.0000;
+  continuous_rating_A 400.00;
+  continuous_rating_B 400.00;
+  continuous_rating_C 400.00;
+  emergency_rating_A 600.00;
+  emergency_rating_B 600.00;
+  emergency_rating_C 600.00;
+  configuration "lcon_2_ABC";
+}
+object overhead_line {
+  name "line_l60";
+  from "60";
+  to "61";
+  phases ABC;
+  length 550.0000;
+  continuous_rating_A 400.00;
+  continuous_rating_B 400.00;
+  continuous_rating_C 400.00;
+  emergency_rating_A 600.00;
+  emergency_rating_B 600.00;
+  emergency_rating_C 600.00;
+  configuration "lcon_5_ABC";
+}
+object overhead_line {
+  name "line_l34";
+  from "34";
+  to "15";
+  phases C;
+  length 100.0000;
+  continuous_rating_C 400.00;
+  emergency_rating_C 600.00;
+  configuration "lcon_11_C";
+}
+object overhead_line {
+  name "line_l44";
+  from "44";
+  to "45";
+  phases A;
+  length 200.0000;
+  continuous_rating_A 400.00;
+  emergency_rating_A 600.00;
+  configuration "lcon_9_A";
+}
+object overhead_line {
+  name "line_l95";
+  from "95";
+  to "96";
+  phases B;
+  length 200.0000;
+  continuous_rating_B 400.00;
+  emergency_rating_B 600.00;
+  configuration "lcon_10_B";
+}
+object overhead_line {
+  name "line_l100";
+  from "101";
+  to "102";
+  phases C;
+  length 225.0000;
+  continuous_rating_C 400.00;
+  emergency_rating_C 600.00;
+  configuration "lcon_11_C";
+}
+object overhead_line {
+  name "line_l37";
+  from "36";
+  to "37";
+  phases A;
+  length 300.0000;
+  continuous_rating_A 400.00;
+  emergency_rating_A 600.00;
+  configuration "lcon_9_A";
+}
+object overhead_line {
+  name "line_l71";
+  from "70";
+  to "71";
+  phases A;
+  length 275.0000;
+  continuous_rating_A 400.00;
+  emergency_rating_A 600.00;
+  configuration "lcon_9_A";
+}
+object overhead_line {
+  name "line_l98";
+  from "99";
+  to "100";
+  phases ABC;
+  length 300.0000;
+  continuous_rating_A 400.00;
+  continuous_rating_B 400.00;
+  continuous_rating_C 400.00;
+  emergency_rating_A 600.00;
+  emergency_rating_B 600.00;
+  emergency_rating_C 600.00;
+  configuration "lcon_3_ABC";
+}
+object overhead_line {
+  name "line_l2";
+  from "1";
+  to "3";
+  phases C;
+  length 250.0000;
+  continuous_rating_C 400.00;
+  emergency_rating_C 600.00;
+  configuration "lcon_11_C";
+}
+object overhead_line {
+  name "line_l103";
+  from "103";
+  to "104";
+  phases C;
+  length 700.0000;
+  continuous_rating_C 400.00;
+  emergency_rating_C 600.00;
+  configuration "lcon_11_C";
+}
+object overhead_line {
+  name "line_l104";
+  from "105";
+  to "106";
+  phases B;
+  length 225.0000;
+  continuous_rating_B 400.00;
+  emergency_rating_B 600.00;
+  configuration "lcon_10_B";
+}
+object overhead_line {
+  name "line_l91";
+  from "91";
+  to "92";
+  phases C;
+  length 300.0000;
+  continuous_rating_C 400.00;
+  emergency_rating_C 600.00;
+  configuration "lcon_11_C";
+}
+object overhead_line {
+  name "line_l17";
+  from "15";
+  to "17";
+  phases C;
+  length 350.0000;
+  continuous_rating_C 400.00;
+  emergency_rating_C 600.00;
+  configuration "lcon_11_C";
+}
+object overhead_line {
+  name "line_l112";
+  from "112";
+  to "113";
+  phases A;
+  length 525.0000;
+  continuous_rating_A 400.00;
+  emergency_rating_A 600.00;
+  configuration "lcon_9_A";
+}
+object overhead_line {
+  name "line_l73";
+  from "72";
+  to "76";
+  phases ABC;
+  length 200.0000;
+  continuous_rating_A 400.00;
+  continuous_rating_B 400.00;
+  continuous_rating_C 400.00;
+  emergency_rating_A 600.00;
+  emergency_rating_B 600.00;
+  emergency_rating_C 600.00;
+  configuration "lcon_3_ABC";
+}
+object overhead_line {
+  name "line_l3";
+  from "1";
+  to "7";
+  phases ABC;
+  length 300.0000;
+  continuous_rating_A 400.00;
+  continuous_rating_B 400.00;
+  continuous_rating_C 400.00;
+  emergency_rating_A 600.00;
+  emergency_rating_B 600.00;
+  emergency_rating_C 600.00;
+  configuration "lcon_1_ABC";
+}
+object overhead_line {
+  name "line_l43";
+  from "42";
+  to "44";
+  phases ABC;
+  length 200.0000;
+  continuous_rating_A 400.00;
+  continuous_rating_B 400.00;
+  continuous_rating_C 400.00;
+  emergency_rating_A 600.00;
+  emergency_rating_B 600.00;
+  emergency_rating_C 600.00;
+  configuration "lcon_1_ABC";
+}
+object overhead_line {
+  name "line_l42";
+  from "42";
+  to "43";
+  phases B;
+  length 500.0000;
+  continuous_rating_B 400.00;
+  emergency_rating_B 600.00;
+  configuration "lcon_10_B";
+}
+object overhead_line {
+  name "line_l83";
+  from "81";
+  to "84";
+  phases C;
+  length 675.0000;
+  continuous_rating_C 400.00;
+  emergency_rating_C 600.00;
+  configuration "lcon_11_C";
+}
+object overhead_line {
+  name "line_l24";
+  from "23";
+  to "25";
+  phases ABC;
+  length 275.0000;
+  continuous_rating_A 400.00;
+  continuous_rating_B 400.00;
+  continuous_rating_C 400.00;
+  emergency_rating_A 600.00;
+  emergency_rating_B 600.00;
+  emergency_rating_C 600.00;
+  configuration "lcon_2_ABC";
+}
+object overhead_line {
+  name "line_l53";
+  from "53";
+  to "54";
+  phases ABC;
+  length 125.0000;
+  continuous_rating_A 400.00;
+  continuous_rating_B 400.00;
+  continuous_rating_C 400.00;
+  emergency_rating_A 600.00;
+  emergency_rating_B 600.00;
+  emergency_rating_C 600.00;
+  configuration "lcon_1_ABC";
+}
+object overhead_line {
+  name "line_l20";
+  from "19";
+  to "20";
+  phases A;
+  length 325.0000;
+  continuous_rating_A 400.00;
+  emergency_rating_A 600.00;
+  configuration "lcon_9_A";
+}
+object overhead_line {
+  name "line_l58";
+  from "57";
+  to "60";
+  phases ABC;
+  length 750.0000;
+  continuous_rating_A 400.00;
+  continuous_rating_B 400.00;
+  continuous_rating_C 400.00;
+  emergency_rating_A 600.00;
+  emergency_rating_B 600.00;
+  emergency_rating_C 600.00;
+  configuration "lcon_3_ABC";
+}
+object switch { // CIM LoadBreakSwitch
+  name "swt_sw2";
+  from "13";
+  to "152";
+  phases ABC;
+  status CLOSED;
+  continuous_rating_A 400.00;
+  continuous_rating_B 400.00;
+  continuous_rating_C 400.00;
+  emergency_rating_A 600.00;
+  emergency_rating_B 600.00;
+  emergency_rating_C 600.00;
+}
+object switch { // CIM LoadBreakSwitch
+  name "swt_sw4";
+  from "60";
+  to "160";
+  phases ABC;
+  status CLOSED;
+  continuous_rating_A 400.00;
+  continuous_rating_B 400.00;
+  continuous_rating_C 400.00;
+  emergency_rating_A 600.00;
+  emergency_rating_B 600.00;
+  emergency_rating_C 600.00;
+}
+object switch { // CIM LoadBreakSwitch
+  name "swt_sw7";
+  from "151";
+  to "300";
+  phases ABC;
+  status OPEN;
+  continuous_rating_A 400.00;
+  continuous_rating_B 400.00;
+  continuous_rating_C 400.00;
+  emergency_rating_A 600.00;
+  emergency_rating_B 600.00;
+  emergency_rating_C 600.00;
+}
+object switch { // CIM LoadBreakSwitch
+  name "swt_sw8";
+  from "54";
+  to "94";
+  phases A;
+  status OPEN;
+  continuous_rating_A 400.00;
+  emergency_rating_A 600.00;
+}
+object switch { // CIM LoadBreakSwitch
+  name "swt_sw3";
+  from "18";
+  to "135";
+  phases ABC;
+  status CLOSED;
+  continuous_rating_A 400.00;
+  continuous_rating_B 400.00;
+  continuous_rating_C 400.00;
+  emergency_rating_A 600.00;
+  emergency_rating_B 600.00;
+  emergency_rating_C 600.00;
+}
+object switch { // CIM LoadBreakSwitch
+  name "swt_sw5";
+  from "97";
+  to "197";
+  phases ABC;
+  status CLOSED;
+  continuous_rating_A 400.00;
+  continuous_rating_B 400.00;
+  continuous_rating_C 400.00;
+  emergency_rating_A 600.00;
+  emergency_rating_B 600.00;
+  emergency_rating_C 600.00;
+}
+object switch { // CIM LoadBreakSwitch
+  name "swt_sw1";
+  from "150r";
+  to "149";
+  phases ABC;
+  status CLOSED;
+  continuous_rating_A 400.00;
+  continuous_rating_B 400.00;
+  continuous_rating_C 400.00;
+  emergency_rating_A 600.00;
+  emergency_rating_B 600.00;
+  emergency_rating_C 600.00;
+}
+object switch { // CIM LoadBreakSwitch
+  name "swt_sw6";
+  from "61";
+  to "61s";
+  phases ABC;
+  status CLOSED;
+  continuous_rating_A 400.00;
+  continuous_rating_B 400.00;
+  continuous_rating_C 400.00;
+  emergency_rating_A 600.00;
+  emergency_rating_B 600.00;
+  emergency_rating_C 600.00;
+}
+object transformer_configuration {
+  name "xcon_xfm1";
+  connect_type DELTA_DELTA;
+  primary_voltage 4160.000;
+  secondary_voltage 480.000;
+  power_rating 150.000;
+  resistance 0.012700;
+  reactance 0.027200;
+}
+object transformer {
+  name "xf_xfm1";
+  from "61s";
+  to "610";
+  phases ABCN;
+  configuration "xcon_xfm1";
+  continuous_rating_A 22.90;
+  continuous_rating_B 22.90;
+  continuous_rating_C 22.90;
+  emergency_rating_A 31.23;
+  emergency_rating_B 31.23;
+  emergency_rating_C 31.23;
+  // vector group Dd;
+}
+object node {
+  name "88";
+  phases AN;
+  nominal_voltage 2401.78;
+}
+object load {
+  name "ld_s88a";
+  parent "88";
+  phases AN;
+  nominal_voltage 2401.78;
+  base_power_A ieeezipload.value*44721.36;
+  current_fraction_A 1.000000;
+  current_pf_A 0.894427;
+}
+object node {
+  name "89";
+  phases ABCN;
+  nominal_voltage 2401.78;
+}
+object node {
+  name "197";
+  phases ABCN;
+  nominal_voltage 2401.78;
+}
+object node {
+  name "110";
+  phases AN;
+  nominal_voltage 2401.78;
+}
+object node {
+  name "111";
+  phases AN;
+  nominal_voltage 2401.78;
+}
+object load {
+  name "ld_s111a";
+  parent "111";
+  phases AN;
+  nominal_voltage 2401.78;
+  base_power_A ieeezipload.value*22360.68;
+  current_fraction_A 1.000000;
+  current_pf_A 0.894427;
+}
+object node {
+  name "112";
+  phases AN;
+  nominal_voltage 2401.78;
+}
+object load {
+  name "ld_s112a";
+  parent "112";
+  phases AN;
+  nominal_voltage 2401.78;
+  base_power_A ieeezipload.value*22360.68;
+  current_fraction_A 1.000000;
+  current_pf_A 0.894427;
+}
+object node {
+  name "113";
+  phases AN;
+  nominal_voltage 2401.78;
+}
+object load {
+  name "ld_s113a";
+  parent "113";
+  phases AN;
+  nominal_voltage 2401.78;
+  base_power_A ieeezipload.value*44721.36;
+  current_fraction_A 1.000000;
+  current_pf_A 0.894427;
+}
+object node {
+  name "114";
+  phases AN;
+  nominal_voltage 2401.78;
+}
+object load {
+  name "ld_s114a";
+  parent "114";
+  phases AN;
+  nominal_voltage 2401.78;
+  base_power_A ieeezipload.value*22360.68;
+  current_fraction_A 1.000000;
+  current_pf_A 0.894427;
+}
+object node {
+  name "90";
+  phases BN;
+  nominal_voltage 2401.78;
+}
+object load {
+  name "ld_s90b";
+  parent "90";
+  phases BN;
+  nominal_voltage 2401.78;
+  base_power_B ieeezipload.value*44721.36;
+  current_fraction_B 1.000000;
+  current_pf_B 0.894427;
+}
+object node {
+  name "61s";
+  phases ABCN;
+  nominal_voltage 2401.78;
+}
+object node {
+  name "91";
+  phases ABCN;
+  nominal_voltage 2401.78;
+}
+object node {
+  name "92";
+  phases CN;
+  nominal_voltage 2401.78;
+}
+object load {
+  name "ld_s92c";
+  parent "92";
+  phases CN;
+  nominal_voltage 2401.78;
+  base_power_C ieeezipload.value*44721.36;
+  current_fraction_C 1.000000;
+  current_pf_C 0.894427;
+}
+object node {
+  name "93";
+  phases ABCN;
+  nominal_voltage 2401.78;
+}
+object node {
+  name "94";
+  phases AN;
+  nominal_voltage 2401.78;
+}
+object load {
+  name "ld_s94a";
+  parent "94";
+  phases AN;
+  nominal_voltage 2401.78;
+  base_power_A ieeezipload.value*44721.36;
+  current_fraction_A 1.000000;
+  current_pf_A 0.894427;
+}
+object node {
+  name "95";
+  phases ABCN;
+  nominal_voltage 2401.78;
+}
+object load {
+  name "ld_s95b";
+  parent "95";
+  phases ABCN;
+  nominal_voltage 2401.78;
+  base_power_B ieeezipload.value*22360.68;
+  current_fraction_B 1.000000;
+  current_pf_B 0.894427;
+}
+object node {
+  name "96";
+  phases BN;
+  nominal_voltage 2401.78;
+}
+object load {
+  name "ld_s96b";
+  parent "96";
+  phases BN;
+  nominal_voltage 2401.78;
+  base_power_B ieeezipload.value*22360.68;
+  current_fraction_B 1.000000;
+  current_pf_B 0.894427;
+}
+object node {
+  name "97";
+  phases ABCN;
+  nominal_voltage 2401.78;
+}
+object node {
+  name "10";
+  phases AN;
+  nominal_voltage 2401.78;
+}
+object load {
+  name "ld_s10a";
+  parent "10";
+  phases AN;
+  nominal_voltage 2401.78;
+  base_power_A ieeezipload.value*22360.68;
+  current_fraction_A 1.000000;
+  current_pf_A 0.894427;
+}
+object node {
+  name "98";
+  phases ABCN;
+  nominal_voltage 2401.78;
+}
+object load {
+  name "ld_s98a";
+  parent "98";
+  phases ABCN;
+  nominal_voltage 2401.78;
+  base_power_A ieeezipload.value*44721.36;
+  current_fraction_A 1.000000;
+  current_pf_A 0.894427;
+}
+object node {
+  name "99";
+  phases ABCN;
+  nominal_voltage 2401.78;
+}
+object load {
+  name "ld_s99b";
+  parent "99";
+  phases ABCN;
+  nominal_voltage 2401.78;
+  base_power_B ieeezipload.value*44721.36;
+  current_fraction_B 1.000000;
+  current_pf_B 0.894427;
+}
+object node {
+  name "11";
+  phases AN;
+  nominal_voltage 2401.78;
+}
+object load {
+  name "ld_s11a";
+  parent "11";
+  phases AN;
+  nominal_voltage 2401.78;
+  base_power_A ieeezipload.value*44721.36;
+  current_fraction_A 1.000000;
+  current_pf_A 0.894427;
+}
+object node {
+  name "12";
+  phases BN;
+  nominal_voltage 2401.78;
+}
+object load {
+  name "ld_s12b";
+  parent "12";
+  phases BN;
+  nominal_voltage 2401.78;
+  base_power_B ieeezipload.value*22360.68;
+  current_fraction_B 1.000000;
+  current_pf_B 0.894427;
+}
+object node {
+  name "13";
+  phases ABCN;
+  nominal_voltage 2401.78;
+}
+object node {
+  name "14";
+  phases AN;
+  nominal_voltage 2401.78;
+}
+object node {
+  name "15";
+  phases CN;
+  nominal_voltage 2401.78;
+}
+object node {
+  name "16";
+  phases CN;
+  nominal_voltage 2401.78;
+}
+object load {
+  name "ld_s16c";
+  parent "16";
+  phases CN;
+  nominal_voltage 2401.78;
+  base_power_C ieeezipload.value*44721.36;
+  current_fraction_C 1.000000;
+  current_pf_C 0.894427;
+}
+object node {
+  name "17";
+  phases CN;
+  nominal_voltage 2401.78;
+}
+object load {
+  name "ld_s17c";
+  parent "17";
+  phases CN;
+  nominal_voltage 2401.78;
+  base_power_C ieeezipload.value*22360.68;
+  current_fraction_C 1.000000;
+  current_pf_C 0.894427;
+}
+object node {
+  name "18";
+  phases ABCN;
+  nominal_voltage 2401.78;
+}
+object node {
+  name "19";
+  phases AN;
+  nominal_voltage 2401.78;
+}
+object load {
+  name "ld_s19a";
+  parent "19";
+  phases AN;
+  nominal_voltage 2401.78;
+  base_power_A ieeezipload.value*44721.36;
+  current_fraction_A 1.000000;
+  current_pf_A 0.894427;
+}
+object node {
+  name "160r";
+  phases ABCN;
+  nominal_voltage 2401.78;
+}
+object node {
+  name "1";
+  phases ABCN;
+  nominal_voltage 2401.78;
+}
+object load {
+  name "ld_s1a";
+  parent "1";
+  phases ABCN;
+  nominal_voltage 2401.78;
+  base_power_A ieeezipload.value*44721.36;
+  current_fraction_A 1.000000;
+  current_pf_A 0.894427;
+}
+object node {
+  name "2";
+  phases BN;
+  nominal_voltage 2401.78;
+}
+object load {
+  name "ld_s2b";
+  parent "2";
+  phases BN;
+  nominal_voltage 2401.78;
+  base_power_B ieeezipload.value*22360.68;
+  current_fraction_B 1.000000;
+  current_pf_B 0.894427;
+}
+object node {
+  name "3";
+  phases CN;
+  nominal_voltage 2401.78;
+}
+object node {
+  name "4";
+  phases CN;
+  nominal_voltage 2401.78;
+}
+object load {
+  name "ld_s4c";
+  parent "4";
+  phases CN;
+  nominal_voltage 2401.78;
+  base_power_C ieeezipload.value*44721.36;
+  current_fraction_C 1.000000;
+  current_pf_C 0.894427;
+}
+object node {
+  name "5";
+  phases CN;
+  nominal_voltage 2401.78;
+}
+object load {
+  name "ld_s5c";
+  parent "5";
+  phases CN;
+  nominal_voltage 2401.78;
+  base_power_C ieeezipload.value*22360.68;
+  current_fraction_C 1.000000;
+  current_pf_C 0.894427;
+}
+object node {
+  name "6";
+  phases CN;
+  nominal_voltage 2401.78;
+}
+object load {
+  name "ld_s6c";
+  parent "6";
+  phases CN;
+  nominal_voltage 2401.78;
+  base_power_C ieeezipload.value*44721.36;
+  current_fraction_C 1.000000;
+  current_pf_C 0.894427;
+}
+object node {
+  name "7";
+  phases ABCN;
+  nominal_voltage 2401.78;
+}
+object load {
+  name "ld_s7a";
+  parent "7";
+  phases ABCN;
+  nominal_voltage 2401.78;
+  base_power_A ieeezipload.value*22360.68;
+  current_fraction_A 1.000000;
+  current_pf_A 0.894427;
+}
+object node {
+  name "8";
+  phases ABCN;
+  nominal_voltage 2401.78;
+}
+object node {
+  name "9";
+  phases AN;
+  nominal_voltage 2401.78;
+}
+object load {
+  name "ld_s9a";
+  parent "9";
+  phases AN;
+  nominal_voltage 2401.78;
+  base_power_A ieeezipload.value*44721.36;
+  current_fraction_A 1.000000;
+  current_pf_A 0.894427;
+}
+object node {
+  name "20";
+  phases AN;
+  nominal_voltage 2401.78;
+}
+object load {
+  name "ld_s20a";
+  parent "20";
+  phases AN;
+  nominal_voltage 2401.78;
+  base_power_A ieeezipload.value*44721.36;
+  current_fraction_A 1.000000;
+  current_pf_A 0.894427;
+}
+object node {
+  name "21";
+  phases ABCN;
+  nominal_voltage 2401.78;
+}
+object node {
+  name "22";
+  phases BN;
+  nominal_voltage 2401.78;
+}
+object load {
+  name "ld_s22b";
+  parent "22";
+  phases BN;
+  nominal_voltage 2401.78;
+  base_power_B ieeezipload.value*44721.36;
+  current_fraction_B 1.000000;
+  current_pf_B 0.894427;
+}
+object node {
+  name "23";
+  phases ABCN;
+  nominal_voltage 2401.78;
+}
+object node {
+  name "24";
+  phases CN;
+  nominal_voltage 2401.78;
+}
+object load {
+  name "ld_s24c";
+  parent "24";
+  phases CN;
+  nominal_voltage 2401.78;
+  base_power_C ieeezipload.value*44721.36;
+  current_fraction_C 1.000000;
+  current_pf_C 0.894427;
+}
+object node {
+  name "25";
+  phases ABCN;
+  nominal_voltage 2401.78;
+}
+object node {
+  name "26";
+  phases ACN;
+  nominal_voltage 2401.78;
+}
+object node {
+  name "27";
+  phases ACN;
+  nominal_voltage 2401.78;
+}
+object node {
+  name "28";
+  phases ABCN;
+  nominal_voltage 2401.78;
+}
+object load {
+  name "ld_s28a";
+  parent "28";
+  phases ABCN;
+  nominal_voltage 2401.78;
+  base_power_A ieeezipload.value*44721.36;
+  current_fraction_A 1.000000;
+  current_pf_A 0.894427;
+}
+object node {
+  name "29";
+  phases ABCN;
+  nominal_voltage 2401.78;
+}
+object load {
+  name "ld_s29a";
+  parent "29";
+  phases ABCN;
+  nominal_voltage 2401.78;
+  base_power_A ieeezipload.value*44721.36;
+  current_fraction_A 1.000000;
+  current_pf_A 0.894427;
+}
+object node {
+  name "250";
+  phases ABCN;
+  nominal_voltage 2401.78;
+}
+object node {
+  name "135";
+  phases ABCN;
+  nominal_voltage 2401.78;
+}
+object node {
+  name "9r";
+  phases AN;
+  nominal_voltage 2401.78;
+}
+object node {
+  name "30";
+  phases ABCN;
+  nominal_voltage 2401.78;
+}
+object load {
+  name "ld_s30c";
+  parent "30";
+  phases ABCN;
+  nominal_voltage 2401.78;
+  base_power_C ieeezipload.value*44721.36;
+  current_fraction_C 1.000000;
+  current_pf_C 0.894427;
+}
+object node {
+  name "31";
+  phases CN;
+  nominal_voltage 2401.78;
+}
+object load {
+  name "ld_s31c";
+  parent "31";
+  phases CN;
+  nominal_voltage 2401.78;
+  base_power_C ieeezipload.value*22360.68;
+  current_fraction_C 1.000000;
+  current_pf_C 0.894427;
+}
+object node {
+  name "32";
+  phases CN;
+  nominal_voltage 2401.78;
+}
+object load {
+  name "ld_s32c";
+  parent "32";
+  phases CN;
+  nominal_voltage 2401.78;
+  base_power_C ieeezipload.value*22360.68;
+  current_fraction_C 1.000000;
+  current_pf_C 0.894427;
+}
+object node {
+  name "33";
+  phases AN;
+  nominal_voltage 2401.78;
+}
+object load {
+  name "ld_s33a";
+  parent "33";
+  phases AN;
+  nominal_voltage 2401.78;
+  base_power_A ieeezipload.value*44721.36;
+  current_fraction_A 1.000000;
+  current_pf_A 0.894427;
+}
+object node {
+  name "34";
+  phases CN;
+  nominal_voltage 2401.78;
+}
+object load {
+  name "ld_s34c";
+  parent "34";
+  phases CN;
+  nominal_voltage 2401.78;
+  base_power_C ieeezipload.value*44721.36;
+  current_fraction_C 1.000000;
+  current_pf_C 0.894427;
+}
+object node {
+  name "35";
+  phases ABCN;
+  nominal_voltage 2401.78;
+}
+object load {
+  name "ld_s35a";
+  parent "35";
+  phases ABCD;
+  nominal_voltage 2401.78;
+  base_power_A ieeezipload.value*44721.36;
+  current_fraction_A 1.000000;
+  current_pf_A 0.894427;
+}
+object node {
+  name "36";
+  phases ABN;
+  nominal_voltage 2401.78;
+}
+object node {
+  name "37";
+  phases AN;
+  nominal_voltage 2401.78;
+}
+object load {
+  name "ld_s37a";
+  parent "37";
+  phases AN;
+  nominal_voltage 2401.78;
+  base_power_A ieeezipload.value*44721.36;
+  current_fraction_A 1.000000;
+  current_pf_A 0.894427;
+}
+object node {
+  name "38";
+  phases BN;
+  nominal_voltage 2401.78;
+}
+object load {
+  name "ld_s38b";
+  parent "38";
+  phases BN;
+  nominal_voltage 2401.78;
+  base_power_B ieeezipload.value*22360.68;
+  current_fraction_B 1.000000;
+  current_pf_B 0.894427;
+}
+object node {
+  name "39";
+  phases BN;
+  nominal_voltage 2401.78;
+}
+object load {
+  name "ld_s39b";
+  parent "39";
+  phases BN;
+  nominal_voltage 2401.78;
+  base_power_B ieeezipload.value*22360.68;
+  current_fraction_B 1.000000;
+  current_pf_B 0.894427;
+}
+object node {
+  name "150r";
+  phases ABCN;
+  nominal_voltage 2401.78;
+}
+object node {
+  name "300";
+  phases ABCN;
+  nominal_voltage 2401.78;
+}
+object node {
+  name "149";
+  phases ABCN;
+  nominal_voltage 2401.78;
+}
+object node {
+  name "40";
+  phases ABCN;
+  nominal_voltage 2401.78;
+}
+object node {
+  name "41";
+  phases CN;
+  nominal_voltage 2401.78;
+}
+object load {
+  name "ld_s41c";
+  parent "41";
+  phases CN;
+  nominal_voltage 2401.78;
+  base_power_C ieeezipload.value*22360.68;
+  current_fraction_C 1.000000;
+  current_pf_C 0.894427;
+}
+object node {
+  name "42";
+  phases ABCN;
+  nominal_voltage 2401.78;
+}
+object load {
+  name "ld_s42a";
+  parent "42";
+  phases ABCN;
+  nominal_voltage 2401.78;
+  base_power_A ieeezipload.value*22360.68;
+  current_fraction_A 1.000000;
+  current_pf_A 0.894427;
+}
+object node {
+  name "43";
+  phases BN;
+  nominal_voltage 2401.78;
+}
+object load {
+  name "ld_s43b";
+  parent "43";
+  phases BN;
+  nominal_voltage 2401.78;
+  base_power_B ieeezipload.value*44721.36;
+  current_fraction_B 1.000000;
+  current_pf_B 0.894427;
+}
+object node {
+  name "44";
+  phases ABCN;
+  nominal_voltage 2401.78;
+}
+object node {
+  name "45";
+  phases AN;
+  nominal_voltage 2401.78;
+}
+object load {
+  name "ld_s45a";
+  parent "45";
+  phases AN;
+  nominal_voltage 2401.78;
+  base_power_A ieeezipload.value*22360.68;
+  current_fraction_A 1.000000;
+  current_pf_A 0.894427;
+}
+object node {
+  name "46";
+  phases AN;
+  nominal_voltage 2401.78;
+}
+object load {
+  name "ld_s46a";
+  parent "46";
+  phases AN;
+  nominal_voltage 2401.78;
+  base_power_A ieeezipload.value*22360.68;
+  current_fraction_A 1.000000;
+  current_pf_A 0.894427;
+}
+object node {
+  name "47";
+  phases ABCN;
+  nominal_voltage 2401.78;
+}
+object load {
+  name "ld_s47";
+  parent "47";
+  phases ABCN;
+  nominal_voltage 2401.78;
+  base_power_A ieeezipload.value*43011.63;
+  current_fraction_A 1.000000;
+  current_pf_A 0.813733;
+  base_power_B ieeezipload.value*43011.63;
+  current_fraction_B 1.000000;
+  current_pf_B 0.813733;
+  base_power_C ieeezipload.value*43011.63;
+  current_fraction_C 1.000000;
+  current_pf_C 0.813733;
+}
+object node {
+  name "48";
+  phases ABCN;
+  nominal_voltage 2401.78;
+}
+object load {
+  name "ld_s48";
+  parent "48";
+  phases ABCN;
+  nominal_voltage 2401.78;
+  base_power_A ieeezipload.value*86023.25;
+  current_fraction_A 1.000000;
+  current_pf_A 0.813733;
+  base_power_B ieeezipload.value*86023.25;
+  current_fraction_B 1.000000;
+  current_pf_B 0.813733;
+  base_power_C ieeezipload.value*86023.25;
+  current_fraction_C 1.000000;
+  current_pf_C 0.813733;
+}
+object node {
+  name "49";
+  phases ABCN;
+  nominal_voltage 2401.78;
+}
+object load {
+  name "ld_s49b";
+  parent "49";
+  phases ABCN;
+  nominal_voltage 2401.78;
+  base_power_A ieeezipload.value*43011.63;
+  current_fraction_A 1.000000;
+  current_pf_A 0.813733;
+  base_power_B ieeezipload.value*86023.25;
+  current_fraction_B 1.000000;
+  current_pf_B 0.813733;
+  base_power_C ieeezipload.value*40311.29;
+  current_fraction_C 1.000000;
+  current_pf_C 0.868243;
+}
+object substation {
+  name "150";
+  bustype SWING;
+  phases ABCN;
+  nominal_voltage 2401.78;
+  base_power 12MVA;
+  power_convergence_value 100VA;
+  positive_sequence_voltage ${VSOURCE};
+}
+object node {
+  name "151";
+  phases ABCN;
+  nominal_voltage 2401.78;
+}
+object node {
+  name "152";
+  phases ABCN;
+  nominal_voltage 2401.78;
+}
+object node {
+  name "25r";
+  phases ACN;
+  nominal_voltage 2401.78;
+}
+object node {
+  name "50";
+  phases ABCN;
+  nominal_voltage 2401.78;
+}
+object load {
+  name "ld_s50c";
+  parent "50";
+  phases ABCN;
+  nominal_voltage 2401.78;
+  base_power_C ieeezipload.value*44721.36;
+  current_fraction_C 1.000000;
+  current_pf_C 0.894427;
+}
+object node {
+  name "51";
+  phases ABCN;
+  nominal_voltage 2401.78;
+}
+object load {
+  name "ld_s51a";
+  parent "51";
+  phases ABCN;
+  nominal_voltage 2401.78;
+  base_power_A ieeezipload.value*22360.68;
+  current_fraction_A 1.000000;
+  current_pf_A 0.894427;
+}
+object node {
+  name "52";
+  phases ABCN;
+  nominal_voltage 2401.78;
+}
+object load {
+  name "ld_s52a";
+  parent "52";
+  phases ABCN;
+  nominal_voltage 2401.78;
+  base_power_A ieeezipload.value*44721.36;
+  current_fraction_A 1.000000;
+  current_pf_A 0.894427;
+}
+object node {
+  name "53";
+  phases ABCN;
+  nominal_voltage 2401.78;
+}
+object load {
+  name "ld_s53a";
+  parent "53";
+  phases ABCN;
+  nominal_voltage 2401.78;
+  base_power_A ieeezipload.value*44721.36;
+  current_fraction_A 1.000000;
+  current_pf_A 0.894427;
+}
+object node {
+  name "54";
+  phases ABCN;
+  nominal_voltage 2401.78;
+}
+object node {
+  name "55";
+  phases ABCN;
+  nominal_voltage 2401.78;
+}
+object load {
+  name "ld_s55a";
+  parent "55";
+  phases ABCN;
+  nominal_voltage 2401.78;
+  base_power_A ieeezipload.value*22360.68;
+  current_fraction_A 1.000000;
+  current_pf_A 0.894427;
+}
+object node {
+  name "56";
+  phases ABCN;
+  nominal_voltage 2401.78;
+}
+object load {
+  name "ld_s56b";
+  parent "56";
+  phases ABCN;
+  nominal_voltage 2401.78;
+  base_power_B ieeezipload.value*22360.68;
+  current_fraction_B 1.000000;
+  current_pf_B 0.894427;
+}
+object node {
+  name "57";
+  phases ABCN;
+  nominal_voltage 2401.78;
+}
+object node {
+  name "58";
+  phases BN;
+  nominal_voltage 2401.78;
+}
+object load {
+  name "ld_s58b";
+  parent "58";
+  phases BN;
+  nominal_voltage 2401.78;
+  base_power_B ieeezipload.value*22360.68;
+  current_fraction_B 1.000000;
+  current_pf_B 0.894427;
+}
+object node {
+  name "59";
+  phases BN;
+  nominal_voltage 2401.78;
+}
+object load {
+  name "ld_s59b";
+  parent "59";
+  phases BN;
+  nominal_voltage 2401.78;
+  base_power_B ieeezipload.value*22360.68;
+  current_fraction_B 1.000000;
+  current_pf_B 0.894427;
+}
+object node {
+  name "160";
+  phases ABCN;
+  nominal_voltage 2401.78;
+}
+object node {
+  name "60";
+  phases ABCN;
+  nominal_voltage 2401.78;
+}
+object load {
+  name "ld_s60a";
+  parent "60";
+  phases ABCN;
+  nominal_voltage 2401.78;
+  base_power_A ieeezipload.value*22360.68;
+  current_fraction_A 1.000000;
+  current_pf_A 0.894427;
+}
+object node {
+  name "61";
+  phases ABCN;
+  nominal_voltage 2401.78;
+}
+object node {
+  name "62";
+  phases ABCN;
+  nominal_voltage 2401.78;
+}
+object load {
+  name "ld_s62c";
+  parent "62";
+  phases ABCN;
+  nominal_voltage 2401.78;
+  base_power_C ieeezipload.value*44721.36;
+  current_fraction_C 1.000000;
+  current_pf_C 0.894427;
+}
+object node {
+  name "63";
+  phases ABCN;
+  nominal_voltage 2401.78;
+}
+object load {
+  name "ld_s63a";
+  parent "63";
+  phases ABCN;
+  nominal_voltage 2401.78;
+  base_power_A ieeezipload.value*44721.36;
+  current_fraction_A 1.000000;
+  current_pf_A 0.894427;
+}
+object node {
+  name "64";
+  phases ABCN;
+  nominal_voltage 2401.78;
+}
+object load {
+  name "ld_s64b";
+  parent "64";
+  phases ABCN;
+  nominal_voltage 2401.78;
+  base_power_B ieeezipload.value*82764.73;
+  current_fraction_B 1.000000;
+  current_pf_B 0.906183;
+}
+object node {
+  name "65";
+  phases ABCN;
+  nominal_voltage 2401.78;
+}
+object load {
+  name "ld_s65c";
+  parent "65";
+  phases ABCD;
+  nominal_voltage 2401.78;
+  base_power_A ieeezipload.value*43011.63;
+  current_fraction_A 1.000000;
+  current_pf_A 0.813733;
+  base_power_B ieeezipload.value*43011.63;
+  current_fraction_B 1.000000;
+  current_pf_B 0.813733;
+  base_power_C ieeezipload.value*86023.25;
+  current_fraction_C 1.000000;
+  current_pf_C 0.813733;
+}
+object node {
+  name "66";
+  phases ABCN;
+  nominal_voltage 2401.78;
+}
+object load {
+  name "ld_s66c";
+  parent "66";
+  phases ABCN;
+  nominal_voltage 2401.78;
+  base_power_C ieeezipload.value*82764.73;
+  current_fraction_C 1.000000;
+  current_pf_C 0.906183;
+}
+object node {
+  name "67";
+  phases ABCN;
+  nominal_voltage 2401.78;
+}
+object node {
+  name "68";
+  phases AN;
+  nominal_voltage 2401.78;
+}
+object load {
+  name "ld_s68a";
+  parent "68";
+  phases AN;
+  nominal_voltage 2401.78;
+  base_power_A ieeezipload.value*22360.68;
+  current_fraction_A 1.000000;
+  current_pf_A 0.894427;
+}
+object node {
+  name "69";
+  phases AN;
+  nominal_voltage 2401.78;
+}
+object load {
+  name "ld_s69a";
+  parent "69";
+  phases AN;
+  nominal_voltage 2401.78;
+  base_power_A ieeezipload.value*44721.36;
+  current_fraction_A 1.000000;
+  current_pf_A 0.894427;
+}
+object node {
+  name "450";
+  phases ABCN;
+  nominal_voltage 2401.78;
+}
+object node {
+  name "610";
+  phases ABCN;
+  nominal_voltage 277.13;
+}
+object node {
+  name "70";
+  phases AN;
+  nominal_voltage 2401.78;
+}
+object load {
+  name "ld_s70a";
+  parent "70";
+  phases AN;
+  nominal_voltage 2401.78;
+  base_power_A ieeezipload.value*22360.68;
+  current_fraction_A 1.000000;
+  current_pf_A 0.894427;
+}
+object node {
+  name "71";
+  phases AN;
+  nominal_voltage 2401.78;
+}
+object load {
+  name "ld_s71a";
+  parent "71";
+  phases AN;
+  nominal_voltage 2401.78;
+  base_power_A ieeezipload.value*44721.36;
+  current_fraction_A 1.000000;
+  current_pf_A 0.894427;
+}
+object node {
+  name "72";
+  phases ABCN;
+  nominal_voltage 2401.78;
+}
+object node {
+  name "73";
+  phases CN;
+  nominal_voltage 2401.78;
+}
+object load {
+  name "ld_s73c";
+  parent "73";
+  phases CN;
+  nominal_voltage 2401.78;
+  base_power_C ieeezipload.value*44721.36;
+  current_fraction_C 1.000000;
+  current_pf_C 0.894427;
+}
+object node {
+  name "74";
+  phases CN;
+  nominal_voltage 2401.78;
+}
+object load {
+  name "ld_s74c";
+  parent "74";
+  phases CN;
+  nominal_voltage 2401.78;
+  base_power_C ieeezipload.value*44721.36;
+  current_fraction_C 1.000000;
+  current_pf_C 0.894427;
+}
+object node {
+  name "75";
+  phases CN;
+  nominal_voltage 2401.78;
+}
+object load {
+  name "ld_s75c";
+  parent "75";
+  phases CN;
+  nominal_voltage 2401.78;
+  base_power_C ieeezipload.value*44721.36;
+  current_fraction_C 1.000000;
+  current_pf_C 0.894427;
+}
+object node {
+  name "76";
+  phases ABCN;
+  nominal_voltage 2401.78;
+}
+object load {
+  name "ld_s76c";
+  parent "76";
+  phases ABCD;
+  nominal_voltage 2401.78;
+  base_power_A ieeezipload.value*132003.79;
+  current_fraction_A 1.000000;
+  current_pf_A 0.795432;
+  base_power_B ieeezipload.value*86023.25;
+  current_fraction_B 1.000000;
+  current_pf_B 0.813733;
+  base_power_C ieeezipload.value*86023.25;
+  current_fraction_C 1.000000;
+  current_pf_C 0.813733;
+}
+object node {
+  name "77";
+  phases ABCN;
+  nominal_voltage 2401.78;
+}
+object load {
+  name "ld_s77b";
+  parent "77";
+  phases ABCN;
+  nominal_voltage 2401.78;
+  base_power_B ieeezipload.value*44721.36;
+  current_fraction_B 1.000000;
+  current_pf_B 0.894427;
+}
+object node {
+  name "78";
+  phases ABCN;
+  nominal_voltage 2401.78;
+}
+object node {
+  name "79";
+  phases ABCN;
+  nominal_voltage 2401.78;
+}
+object load {
+  name "ld_s79a";
+  parent "79";
+  phases ABCN;
+  nominal_voltage 2401.78;
+  base_power_A ieeezipload.value*44721.36;
+  current_fraction_A 1.000000;
+  current_pf_A 0.894427;
+}
+object node {
+  name "100";
+  phases ABCN;
+  nominal_voltage 2401.78;
+}
+object load {
+  name "ld_s100c";
+  parent "100";
+  phases ABCN;
+  nominal_voltage 2401.78;
+  base_power_C ieeezipload.value*44721.36;
+  current_fraction_C 1.000000;
+  current_pf_C 0.894427;
+}
+object node {
+  name "101";
+  phases ABCN;
+  nominal_voltage 2401.78;
+}
+object node {
+  name "102";
+  phases CN;
+  nominal_voltage 2401.78;
+}
+object load {
+  name "ld_s102c";
+  parent "102";
+  phases CN;
+  nominal_voltage 2401.78;
+  base_power_C ieeezipload.value*22360.68;
+  current_fraction_C 1.000000;
+  current_pf_C 0.894427;
+}
+object node {
+  name "103";
+  phases CN;
+  nominal_voltage 2401.78;
+}
+object load {
+  name "ld_s103c";
+  parent "103";
+  phases CN;
+  nominal_voltage 2401.78;
+  base_power_C ieeezipload.value*44721.36;
+  current_fraction_C 1.000000;
+  current_pf_C 0.894427;
+}
+object node {
+  name "104";
+  phases CN;
+  nominal_voltage 2401.78;
+}
+object load {
+  name "ld_s104c";
+  parent "104";
+  phases CN;
+  nominal_voltage 2401.78;
+  base_power_C ieeezipload.value*44721.36;
+  current_fraction_C 1.000000;
+  current_pf_C 0.894427;
+}
+object node {
+  name "105";
+  phases ABCN;
+  nominal_voltage 2401.78;
+}
+object node {
+  name "106";
+  phases BN;
+  nominal_voltage 2401.78;
+}
+object load {
+  name "ld_s106b";
+  parent "106";
+  phases BN;
+  nominal_voltage 2401.78;
+  base_power_B ieeezipload.value*44721.36;
+  current_fraction_B 1.000000;
+  current_pf_B 0.894427;
+}
+object node {
+  name "80";
+  phases ABCN;
+  nominal_voltage 2401.78;
+}
+object load {
+  name "ld_s80b";
+  parent "80";
+  phases ABCN;
+  nominal_voltage 2401.78;
+  base_power_B ieeezipload.value*44721.36;
+  current_fraction_B 1.000000;
+  current_pf_B 0.894427;
+}
+object node {
+  name "107";
+  phases BN;
+  nominal_voltage 2401.78;
+}
+object load {
+  name "ld_s107b";
+  parent "107";
+  phases BN;
+  nominal_voltage 2401.78;
+  base_power_B ieeezipload.value*44721.36;
+  current_fraction_B 1.000000;
+  current_pf_B 0.894427;
+}
+object node {
+  name "81";
+  phases ABCN;
+  nominal_voltage 2401.78;
+}
+object node {
+  name "108";
+  phases ABCN;
+  nominal_voltage 2401.78;
+}
+object node {
+  name "109";
+  phases AN;
+  nominal_voltage 2401.78;
+}
+object load {
+  name "ld_s109a";
+  parent "109";
+  phases AN;
+  nominal_voltage 2401.78;
+  base_power_A ieeezipload.value*44721.36;
+  current_fraction_A 1.000000;
+  current_pf_A 0.894427;
+}
+object node {
+  name "82";
+  phases ABCN;
+  nominal_voltage 2401.78;
+}
+object load {
+  name "ld_s82a";
+  parent "82";
+  phases ABCN;
+  nominal_voltage 2401.78;
+  base_power_A ieeezipload.value*44721.36;
+  current_fraction_A 1.000000;
+  current_pf_A 0.894427;
+}
+object node {
+  name "83";
+  phases ABCN;
+  nominal_voltage 2401.78;
+}
+object load {
+  name "ld_s83c";
+  parent "83";
+  phases ABCN;
+  nominal_voltage 2401.78;
+  base_power_C ieeezipload.value*22360.68;
+  current_fraction_C 1.000000;
+  current_pf_C 0.894427;
+}
+object node {
+  name "84";
+  phases CN;
+  nominal_voltage 2401.78;
+}
+object load {
+  name "ld_s84c";
+  parent "84";
+  phases CN;
+  nominal_voltage 2401.78;
+  base_power_C ieeezipload.value*22360.68;
+  current_fraction_C 1.000000;
+  current_pf_C 0.894427;
+}
+object node {
+  name "85";
+  phases CN;
+  nominal_voltage 2401.78;
+}
+object load {
+  name "ld_s85c";
+  parent "85";
+  phases CN;
+  nominal_voltage 2401.78;
+  base_power_C ieeezipload.value*44721.36;
+  current_fraction_C 1.000000;
+  current_pf_C 0.894427;
+}
+object node {
+  name "86";
+  phases ABCN;
+  nominal_voltage 2401.78;
+}
+object load {
+  name "ld_s86b";
+  parent "86";
+  phases ABCN;
+  nominal_voltage 2401.78;
+  base_power_B ieeezipload.value*22360.68;
+  current_fraction_B 1.000000;
+  current_pf_B 0.894427;
+}
+object node {
+  name "87";
+  phases ABCN;
+  nominal_voltage 2401.78;
+}
+object load {
+  name "ld_s87b";
+  parent "87";
+  phases ABCN;
+  nominal_voltage 2401.78;
+  base_power_B ieeezipload.value*44721.36;
+  current_fraction_B 1.000000;
+  current_pf_B 0.894427;
+}

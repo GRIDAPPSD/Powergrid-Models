@@ -1,0 +1,654 @@
+object regulator_configuration {
+  name "rcon_reg2";
+  connect_type WYE_WYE;
+  Control MANUAL; // LINE_DROP_COMP;
+  // use these for OUTPUT_VOLTAGE mode
+  // band_center 2440.000000;
+  // band_width 40.000000;
+  // use these for LINE_DROP_COMP mode
+  // band_center 122.000000;
+  // band_width 2.000000;
+  // transducer ratios only apply to LINE_DROP_COMP mode
+  current_transducer_ratio 3500.000000;
+  power_transducer_ratio 20.000000;
+  dwell_time 15.000000;
+  raise_taps 16;
+  lower_taps 16;
+  regulation 0.100000;
+  Type B;
+  compensator_r_setting_B 3.000000;
+  compensator_x_setting_B 9.000000;
+  // comment out the manual tap setting if using automatic control
+  tap_pos_B 8;
+  compensator_r_setting_C 3.000000;
+  compensator_x_setting_C 9.000000;
+  // comment out the manual tap setting if using automatic control
+  tap_pos_C 11;
+  compensator_r_setting_A 3.000000;
+  compensator_x_setting_A 9.000000;
+  // comment out the manual tap setting if using automatic control
+  tap_pos_A 10;
+}
+object regulator {
+  name "xf_Reg";
+  from "650";
+  to "rg60";
+  phases BCA;
+  configuration "rcon_reg2";
+  continuous_rating_A 763.58;
+  continuous_rating_B 763.58;
+  continuous_rating_C 763.58;
+  emergency_rating_A 1041.25;
+  emergency_rating_B 1041.25;
+  emergency_rating_C 1041.25;
+}
+object overhead_line_conductor {
+  name "wire_acsr_4/0";
+  geometric_mean_radius 0.008140;
+  diameter 0.563000;
+  resistance 0.603840;
+  rating.summer.continuous 340.00;
+  rating.summer.emergency 340.00;
+  rating.winter.continuous 340.00;
+  rating.winter.emergency 340.00;
+}
+object overhead_line_conductor {
+  name "wire_acsr_556_5";
+  geometric_mean_radius 0.031100;
+  diameter 0.927000;
+  resistance 0.189720;
+  rating.summer.continuous 730.00;
+  rating.summer.emergency 730.00;
+  rating.winter.continuous 730.00;
+  rating.winter.emergency 730.00;
+}
+object overhead_line_conductor {
+  name "wire_acsr_1/0";
+  geometric_mean_radius 0.004460;
+  diameter 0.398000;
+  resistance 1.142400;
+  rating.summer.continuous 230.00;
+  rating.summer.emergency 230.00;
+  rating.winter.continuous 230.00;
+  rating.winter.emergency 230.00;
+}
+object overhead_line_conductor {
+  name "wire_cu_1/0";
+  geometric_mean_radius 0.011130;
+  diameter 0.368000;
+  resistance 0.607000;
+  rating.summer.continuous 100.00;
+  rating.summer.emergency 100.00;
+  rating.winter.continuous 100.00;
+  rating.winter.emergency 100.00;
+}
+object underground_line_conductor {
+  name "ugwire_cu_1/0";
+  conductor_gmr 0.011130;
+  conductor_diameter 0.368000;
+  outer_diameter 0.441600;
+  conductor_resistance 0.607000;
+  rating.summer.continuous 100.00;
+  rating.summer.emergency 100.00;
+  rating.winter.continuous 100.00;
+  rating.winter.emergency 100.00;
+}
+object underground_line_conductor {
+  name "cncab_cn_250";
+  neutral_gmr 0.002080;
+  neutral_diameter 0.064100;
+  neutral_resistance 14.872200;
+  neutral_strands 13;
+  rating.summer.continuous 260.00;
+  rating.summer.emergency 260.00;
+  rating.winter.continuous 260.00;
+  rating.winter.emergency 260.00;
+  conductor_gmr 0.017100;
+  conductor_diameter 0.567000;
+  conductor_resistance 0.410000;
+  outer_diameter 1.290000;
+  insulation_relative_permitivitty 2.30;
+}
+object underground_line_conductor {
+  name "tscab_ts_1/0";
+  shield_gmr 0.036250;
+  shield_diameter 0.870000;
+  shield_resistance 4.327833;
+  shield_thickness 0.005000;
+  rating.summer.continuous 165.00;
+  rating.summer.emergency 165.00;
+  rating.winter.continuous 165.00;
+  rating.winter.emergency 165.00;
+  conductor_gmr 0.011100;
+  conductor_diameter 0.368000;
+  conductor_resistance 0.970000;
+  outer_diameter 1.060000;
+  insulation_relative_permitivitty 2.30;
+}
+object line_spacing {
+  name "spc_602_ABCN";
+  distance_AB 3.0000;
+  distance_AC 7.0000;
+  distance_AN 5.6569;
+  distance_AE 28.0000;
+  distance_BC 4.0000;
+  distance_BN 4.1231;
+  distance_BE 28.0000;
+  distance_CN 5.0000;
+  distance_CE 28.0000;
+  distance_NE 24.0000;
+}
+object line_spacing {
+  name "spc_603_CBN";
+  distance_BC 7.0000;
+  distance_BN 5.0000;
+  distance_BE 28.0000;
+  distance_CN 5.6569;
+  distance_CE 28.0000;
+  distance_NE 24.0000;
+}
+object line_spacing {
+  name "spc_606_ABC";
+  distance_AB 0.5000;
+  distance_AC 1.0000;
+  distance_AE -4.0000;
+  distance_BC 0.5000;
+  distance_BE -4.0000;
+  distance_CE -4.0000;
+}
+object line_spacing {
+  name "spc_607_AN";
+  distance_AN 0.2500;
+  distance_AE -4.0000;
+  distance_NE -4.0000;
+}
+object line_spacing {
+  name "spc_510_CN";
+  distance_CN 5.0249;
+  distance_CE 29.0000;
+  distance_NE 24.0000;
+}
+object line_spacing {
+  name "spc_601_ABCN";
+  distance_AB 3.0000;
+  distance_AC 7.0000;
+  distance_AN 5.6569;
+  distance_AE 28.0000;
+  distance_BC 4.0000;
+  distance_BN 4.1231;
+  distance_BE 28.0000;
+  distance_CN 5.0000;
+  distance_CE 28.0000;
+  distance_NE 24.0000;
+}
+object line_spacing {
+  name "spc_604_ACN";
+  distance_AC 7.0000;
+  distance_AN 5.6569;
+  distance_AE 28.0000;
+  distance_CN 5.0000;
+  distance_CE 28.0000;
+  distance_NE 24.0000;
+}
+object line_configuration {
+  name "lcon_510_5";
+  spacing "spc_510_CN";
+  conductor_C "wire_acsr_1/0";
+  conductor_N "wire_acsr_1/0";
+}
+object line_configuration {
+  name "lcon_607_4";
+  spacing "spc_607_AN";
+  conductor_A "tscab_ts_1/0";
+  conductor_N "ugwire_cu_1/0";
+}
+object line_configuration {
+  name "lcon_603_6";
+  spacing "spc_603_CBN";
+  conductor_B "wire_acsr_1/0";
+  conductor_C "wire_acsr_1/0";
+  conductor_N "wire_acsr_1/0";
+}
+object line_configuration {
+  name "lcon_606_0";
+  spacing "spc_606_ABC";
+  conductor_A "cncab_cn_250";
+  conductor_B "cncab_cn_250";
+  conductor_C "cncab_cn_250";
+}
+object line_configuration {
+  name "lcon_604_1";
+  spacing "spc_604_ACN";
+  conductor_A "wire_acsr_1/0";
+  conductor_C "wire_acsr_1/0";
+  conductor_N "wire_acsr_1/0";
+}
+object line_configuration {
+  name "lcon_602_3";
+  spacing "spc_602_ABCN";
+  conductor_A "wire_acsr_4/0";
+  conductor_B "wire_acsr_4/0";
+  conductor_C "wire_acsr_4/0";
+  conductor_N "wire_acsr_4/0";
+}
+object line_configuration {
+  name "lcon_601_2";
+  spacing "spc_601_ABCN";
+  conductor_A "wire_acsr_556_5";
+  conductor_B "wire_acsr_556_5";
+  conductor_C "wire_acsr_556_5";
+  conductor_N "wire_acsr_4/0";
+}
+object line_configuration {
+  name "lcon_645646_PUZ_CB";
+  z33 1.32380+1.35690j;
+  c33 2.8000;
+  z32 0.206601+0.459101j;
+  c32 -0.6000;
+  z23 0.206601+0.459101j;
+  c23 -0.6000;
+  z22 1.32940+1.34710j;
+  c22 2.8000;
+}
+object transformer_configuration {
+  name "xcon_subxfmr";
+  power_rating 5000.000;
+  primary_voltage 115000.000;
+  secondary_voltage 4160.000;
+  connect_type DELTA_GWYE;
+  resistance 0.000010;
+  reactance 0.000080;
+}
+object transformer_configuration {
+  name "xcon_fdrxfmr";
+  power_rating 500.000;
+  primary_voltage 4160.000;
+  secondary_voltage 480.000;
+  connect_type WYE_WYE;
+  resistance 0.011000;
+  reactance 0.020000;
+  shunt_reactance 90.909092;
+  shunt_resistance 166.666667;
+}
+object capacitor {
+  name "cap_cap2";
+  parent "611";
+  phases CN;
+  phases_connected CN;
+  cap_nominal_voltage 2400.00;
+  nominal_voltage 2400.00;
+  capacitor_C 100000.00;
+  switchC CLOSED;
+}
+object capacitor {
+  name "cap_cap1";
+  parent "675";
+  phases ABCN;
+  phases_connected ABCN;
+  cap_nominal_voltage 2401.78;
+  nominal_voltage 2401.78;
+  capacitor_A 200000.00;
+  switchA OPEN;
+  capacitor_B 200000.00;
+  switchB OPEN;
+  capacitor_C 200000.00;
+  switchC OPEN;
+}
+object underground_line {
+  name "line_692675";
+  from "692";
+  to "675";
+  phases ABC;
+  length 500.0000;
+  continuous_rating_A 260.00;
+  continuous_rating_B 260.00;
+  continuous_rating_C 260.00;
+  emergency_rating_A 390.00;
+  emergency_rating_B 390.00;
+  emergency_rating_C 390.00;
+  configuration "lcon_606_0";
+}
+object overhead_line {
+  name "line_671684";
+  from "671";
+  to "684";
+  phases ACN;
+  length 300.0000;
+  continuous_rating_A 230.00;
+  continuous_rating_C 230.00;
+  emergency_rating_A 345.00;
+  emergency_rating_C 345.00;
+  configuration "lcon_604_1";
+}
+object overhead_line {
+  name "line_650632";
+  from "rg60";
+  to "632";
+  phases ABCN;
+  length 2000.0000;
+  continuous_rating_A 730.00;
+  continuous_rating_B 730.00;
+  continuous_rating_C 730.00;
+  emergency_rating_A 1095.00;
+  emergency_rating_B 1095.00;
+  emergency_rating_C 1095.00;
+  configuration "lcon_601_2";
+}
+object overhead_line {
+  name "line_632633";
+  from "632";
+  to "633";
+  phases ABCN;
+  length 500.0000;
+  continuous_rating_A 340.00;
+  continuous_rating_B 340.00;
+  continuous_rating_C 340.00;
+  emergency_rating_A 510.00;
+  emergency_rating_B 510.00;
+  emergency_rating_C 510.00;
+  configuration "lcon_602_3";
+}
+object underground_line {
+  name "line_684652";
+  from "684";
+  to "652";
+  phases AN;
+  length 800.0000;
+  continuous_rating_A 165.00;
+  emergency_rating_A 247.50;
+  configuration "lcon_607_4";
+}
+object overhead_line {
+  name "line_632670";
+  from "632";
+  to "670";
+  phases ABCN;
+  length 667.0000;
+  continuous_rating_A 730.00;
+  continuous_rating_B 730.00;
+  continuous_rating_C 730.00;
+  emergency_rating_A 1095.00;
+  emergency_rating_B 1095.00;
+  emergency_rating_C 1095.00;
+  configuration "lcon_601_2";
+}
+object overhead_line {
+  name "line_684611";
+  from "684";
+  to "611";
+  phases CN;
+  length 300.0000;
+  continuous_rating_C 230.00;
+  emergency_rating_C 345.00;
+  configuration "lcon_510_5";
+}
+object overhead_line {
+  name "line_671680";
+  from "671";
+  to "680";
+  phases ABCN;
+  length 1000.0000;
+  continuous_rating_A 730.00;
+  continuous_rating_B 730.00;
+  continuous_rating_C 730.00;
+  emergency_rating_A 1095.00;
+  emergency_rating_B 1095.00;
+  emergency_rating_C 1095.00;
+  configuration "lcon_601_2";
+}
+object overhead_line {
+  name "line_632645";
+  from "632";
+  to "645";
+  phases CBN;
+  length 500.0000;
+  continuous_rating_B 230.00;
+  continuous_rating_C 230.00;
+  emergency_rating_B 345.00;
+  emergency_rating_C 345.00;
+  configuration "lcon_603_6";
+}
+object overhead_line {
+  name "line_670671";
+  from "670";
+  to "671";
+  phases ABCN;
+  length 1333.0000;
+  continuous_rating_A 730.00;
+  continuous_rating_B 730.00;
+  continuous_rating_C 730.00;
+  emergency_rating_A 1095.00;
+  emergency_rating_B 1095.00;
+  emergency_rating_C 1095.00;
+  configuration "lcon_601_2";
+}
+object overhead_line {
+  name "line_645646";
+  from "645";
+  to "646";
+  phases CB;
+  length 299.9040;
+  continuous_rating_B 230.00;
+  continuous_rating_C 230.00;
+  emergency_rating_B 600.00;
+  emergency_rating_C 600.00;
+  configuration "lcon_645646_PUZ_CB";
+}
+object switch { // CIM LoadBreakSwitch
+  name "swt_671692";
+  from "671";
+  to "692";
+  phases ABC;
+  status CLOSED;
+  continuous_rating_A 400.00;
+  continuous_rating_B 400.00;
+  continuous_rating_C 400.00;
+  emergency_rating_A 600.00;
+  emergency_rating_B 600.00;
+  emergency_rating_C 600.00;
+}
+object transformer {
+  name "xf_sub";
+  from "sourcebus";
+  to "650";
+  phases ABC;
+  configuration "xcon_subxfmr";
+  // vector group Dy1;
+}
+object transformer {
+  name "xf_xfm1";
+  from "633";
+  to "634";
+  phases ABCN;
+  configuration "xcon_fdrxfmr";
+  // vector group Yy;
+}
+object substation {
+  name "sourcebus";
+  bustype SWING;
+  phases ABCN;
+  nominal_voltage 66395.28;
+  base_power 12MVA;
+  power_convergence_value 100VA;
+  positive_sequence_voltage ${VSOURCE};
+}
+object node {
+  name "680";
+  phases ABCN;
+  nominal_voltage 2401.78;
+}
+object node {
+  name "692";
+  phases ABCN;
+  nominal_voltage 2401.78;
+}
+object load {
+  name "ld_692";
+  parent "692";
+  phases ABCD;
+  nominal_voltage 2401.78;
+  base_power_C ieeezipload.value*227378.54;
+  current_fraction_C 1.000000;
+  current_pf_C 0.747652;
+}
+object node {
+  name "670";
+  phases ABCN;
+  nominal_voltage 2401.78;
+}
+object load {
+  name "ld_670a";
+  parent "670";
+  phases ABCN;
+  nominal_voltage 2401.78;
+  base_power_A ieeezipload.value*19723.08;
+  current_fraction_A 1.000000;
+  current_pf_A 0.861934;
+  base_power_B ieeezipload.value*76157.73;
+  current_fraction_B 1.000000;
+  current_pf_B 0.866622;
+  base_power_C ieeezipload.value*135325.53;
+  current_fraction_C 1.000000;
+  current_pf_C 0.864582;
+}
+object node {
+  name "671";
+  phases ABCN;
+  nominal_voltage 2401.78;
+}
+object load {
+  name "ld_671";
+  parent "671";
+  phases ABCD;
+  nominal_voltage 2401.78;
+  base_power_A ieeezipload.value*443424.18;
+  current_fraction_A 1.000000;
+  current_pf_A 0.868243;
+  base_power_B ieeezipload.value*443424.18;
+  current_fraction_B 1.000000;
+  current_pf_B 0.868243;
+  base_power_C ieeezipload.value*443424.18;
+  current_fraction_C 1.000000;
+  current_pf_C 0.868243;
+}
+object node {
+  name "650";
+  phases ABCN;
+  nominal_voltage 2401.78;
+}
+object node {
+  name "684";
+  phases ACN;
+  nominal_voltage 2401.78;
+}
+object node {
+  name "652";
+  phases AN;
+  nominal_voltage 2401.78;
+}
+object load {
+  name "ld_652";
+  parent "652";
+  phases AN;
+  nominal_voltage 2401.78;
+  base_power_A ieeezipload.value*154207.65;
+  current_fraction_A 1.000000;
+  current_pf_A 0.830050;
+}
+object node {
+  name "675";
+  phases ABCN;
+  nominal_voltage 2401.78;
+}
+object load {
+  name "ld_675a";
+  parent "675";
+  phases ABCN;
+  nominal_voltage 2401.78;
+  base_power_A ieeezipload.value*520888.66;
+  current_fraction_A 1.000000;
+  current_pf_A 0.931101;
+  base_power_B ieeezipload.value*90686.27;
+  current_fraction_B 1.000000;
+  current_pf_B 0.749838;
+  base_power_C ieeezipload.value*359226.95;
+  current_fraction_C 1.000000;
+  current_pf_C 0.807289;
+}
+object node {
+  name "632";
+  phases ABCN;
+  nominal_voltage 2401.78;
+}
+object node {
+  name "633";
+  phases ABCN;
+  nominal_voltage 2401.78;
+}
+object node {
+  name "611";
+  phases CN;
+  nominal_voltage 2401.78;
+}
+object load {
+  name "ld_611";
+  parent "611";
+  phases CN;
+  nominal_voltage 2401.78;
+  base_power_C ieeezipload.value*187882.94;
+  current_fraction_C 1.000000;
+  current_pf_C 0.904819;
+}
+object node {
+  name "634";
+  phases ABCN;
+  nominal_voltage 277.13;
+}
+object load {
+  name "ld_634a";
+  parent "634";
+  phases ABCN;
+  nominal_voltage 277.13;
+  base_power_A ieeezipload.value*194164.88;
+  current_fraction_A 1.000000;
+  current_pf_A 0.824042;
+  base_power_B ieeezipload.value*150000.00;
+  current_fraction_B 1.000000;
+  current_pf_B 0.800000;
+  base_power_C ieeezipload.value*150000.00;
+  current_fraction_C 1.000000;
+  current_pf_C 0.800000;
+}
+object node {
+  name "645";
+  phases BCN;
+  nominal_voltage 2401.78;
+}
+object load {
+  name "ld_645";
+  parent "645";
+  phases BCN;
+  nominal_voltage 2401.78;
+  base_power_B ieeezipload.value*211009.48;
+  current_fraction_B 1.000000;
+  current_pf_B 0.805651;
+}
+object node {
+  name "646";
+  phases BCN;
+  nominal_voltage 2401.78;
+}
+object load {
+  name "ld_646";
+  parent "646";
+  phases BCD;
+  nominal_voltage 2401.78;
+  base_power_B ieeezipload.value*265186.73;
+  current_fraction_B 1.000000;
+  current_pf_B 0.867313;
+}
+object node {
+  name "rg60";
+  phases ABCN;
+  nominal_voltage 2401.78;
+}

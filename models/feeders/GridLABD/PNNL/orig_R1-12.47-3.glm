@@ -4,7 +4,7 @@
 clock { 
 	timezone EST+5EDT;
      timestamp '2000-01-01 0:00:00'; 
-     stoptime '2000-01-01 0:01:00'; 
+     stoptime '2000-01-01 1:00:00'; 
 } 
 
 #set profiler=1 
@@ -47,7 +47,6 @@ object fuse:208 {
      to R1-12-47-3_node_20; 
      mean_replacement_time 1000; 
      current_limit 50000;// 10000; 
-		 mean_replacement_time 3600;
      status CLOSED; 
 } 
 
@@ -58,7 +57,6 @@ object fuse:209 {
      to R1-12-47-3_node_23; 
      mean_replacement_time 1000; 
      current_limit 50000;// 100000; 
-		 mean_replacement_time 3600;
      status CLOSED; 
 } 
 
@@ -69,7 +67,6 @@ object fuse:210 {
      to R1-12-47-3_node_28; 
      mean_replacement_time 1000; 
      current_limit 50000;// 400000; 
-		 mean_replacement_time 3600;
      status CLOSED; 
 } 
 
@@ -80,7 +77,6 @@ object fuse:211 {
      to R1-12-47-3_node_33; 
      mean_replacement_time 1000; 
      current_limit 50000;// 100000; 
-		 mean_replacement_time 3600;
      status CLOSED; 
 } 
 
@@ -91,7 +87,6 @@ object fuse:212 {
      to R1-12-47-3_node_35; 
      mean_replacement_time 1000; 
      current_limit 50000;// 80000; 
-		 mean_replacement_time 3600;
      status CLOSED; 
 } 
 
@@ -102,7 +97,6 @@ object fuse:213 {
      to R1-12-47-3_node_37; 
      mean_replacement_time 1000; 
      current_limit 50000;// 400000; 
-		 mean_replacement_time 3600;
      status CLOSED; 
 } 
 
@@ -113,7 +107,6 @@ object fuse:214 {
      to R1-12-47-3_node_40; 
      mean_replacement_time 1000; 
      current_limit 50000;// 400000; 
-		 mean_replacement_time 3600;
      status CLOSED; 
 } 
 
@@ -1844,10 +1837,6 @@ object triplex_line_conductor: {
      name triplex_4/0 AA; 
      resistance 0.48; 
      geometric_mean_radius 0.0158; 
-  rating.summer.continuous 1000.0; 
-  rating.summer.emergency 1000.0; 
-  rating.winter.continuous 1000.0; 
-  rating.winter.emergency 1000.0; 
 } 
 
 object triplex_line_configuration:1 { 
@@ -1976,11 +1965,12 @@ object underground_line_conductor:2 {
      conductor_gmr 0.0371 ft; 
      conductor_diameter 1.152; 
      conductor_resistance 0.091872; 
-     neutral_gmr 0.00330 ft; 
-     neutral_resistance 5.9026; 
+     neutral_gmr 0.0842565914341201 ft; 
+     neutral_resistance 5.3856; 
      neutral_diameter 0.1019; 
      neutral_strands 20.0; 
-		 insulation_relative_permitivitty 2.3;
+     shield_gmr 0.00; 
+     shield_resistance 0.00; 
 } 
 
 object underground_line_conductor:8 { 
@@ -1990,19 +1980,20 @@ object underground_line_conductor:8 {
      conductor_gmr 0.01142 ft; 
      conductor_diameter 0.362; 
      conductor_resistance 0.88704; 
-     neutral_gmr 0.00208 ft; 
-     neutral_resistance 14.87; 
+     neutral_gmr 0.0489686771417213 ft; 
+     neutral_resistance 13.86528; 
      neutral_diameter 0.0641; 
      neutral_strands 16.0; 
-		 insulation_relative_permitivitty 2.3;
+     shield_gmr 0.00; 
+     shield_resistance 0.00; 
 } 
 
 // Recorders
 
-//object recorder {
-//    parent R1-12-47-3_reg_1;
-//    property tap_A,tap_B,tap_C,power_in_A.real,power_in_A.imag,power_in_B.real,power_in_B.imag,power_in_C.real,power_in_C.imag,power_in.real,power_in.imag;
-//    limit 1440;
-//    interval 60;
-//    file "R1-12.47-3_reg1_output.csv";
-//};
+object recorder { 
+    parent R1-12-47-3_reg_1; 
+    property tap_A,tap_B,tap_C,power_in_A.real,power_in_A.imag,power_in_B.real,power_in_B.imag,power_in_C.real,power_in_C.imag,power_in.real,power_in.imag; 
+    limit 1440; 
+    interval 60; 
+    file "R1-12.47-3_reg1_output.csv"; 
+}; 

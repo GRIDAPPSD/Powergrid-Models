@@ -1,0 +1,106 @@
+Clear
+
+! Modified Kersting YDY Test
+! Impedances of the transformer changed per Roger Dugan
+! Name changed to reflect that the OpenDSS model is YYD
+! Includes scripts for SLG fault cases
+
+New Circuit.YYDTestCase
+~ BasekV=69  Bus1=B1 Isc3=1000000  Isc1=1100000  ! near-infinite source
+
+Set Earthmodel=Carson
+
+New Wiredata.ACSR336  GMR=0.0255000 DIAM=0.7410000 RAC=0.3060000     NormAmps=530.0000           Runits=mi radunits=in gmrunits=ft
+New Wiredata.ACSR4/0  GMR=0.0081400 DIAM=0.5630000 RAC=0.5920000     NormAmps=340.0000           Runits=mi radunits=in gmrunits=ft
+
+New LineGeometry.Line1-2 nconds=4 nphases=3
+~ cond=1 wire=ACSR336 x=-6  h=50 units=ft
+~ cond=2 wire=ACSR336 x=-8  h=42 units=ft
+~ cond=3 wire=ACSR336 x=8   h=42 units=ft
+~ cond=4 wire=ACSR4/0 x=0   h=58 units=ft
+~ Reduce=Y
+
+New LineGeometry.Line3-4 nconds=4 nphases=3
+~ cond=1 wire=ACSR336 x=-3   h=28 units=ft
+~ cond=2 wire=ACSR336 x=-1.5 h=28 units=ft
+~ cond=3 wire=ACSR336 x=3    h=28 units=ft
+~ cond=4 wire=ACSR4/0 x=0    h=24 units=ft
+~ Reduce=Y
+
+New LineGeometry.Line5-6 nconds=3 nphases=3
+~ cond=1 wire=ACSR336 x=-7   h=28 units=ft
+~ cond=2 wire=ACSR336 x=-4.5 h=28 units=ft
+~ cond=3 wire=ACSR336 x=0    h=28 units=ft
+
+// Lines
+New Line.TLine1-2 Bus1=B1.1.2.3 Bus2=B2.1.2.3 Geometry=Line1-2 Length=10   units=mi
+New Line.DLine3-4 Bus1=B3.1.2.3 Bus2=B4.1.2.3 Geometry=Line3-4 Length=1    units=mi
+New Line.DLine5-6 Bus1=B5.1.2.3 Bus2=B6.1.2.3 Geometry=Line5-6 Length=150  units=ft
+
+// The Transformer
+// Model as 3 1-phase transformers so we can see the delta currents
+
+New XfmrCode.YYD1Phase phases=1 windings=3 
+~ conns=[wye  wye delta ]
+~ kVs=[39.83, 7.62,  2.4]
+~ kVAs=[5000 5000 1666]    ! 15 MVA 3-phase
+~ XHL=7.5   XHT=36  XLT=28   
+~ %Rs = [0.11  0.11  0.275]   
+
+// Connect up the three 1-ph transformer in YYD
+New Transformer.YYDA XfmrCode=YYD1Phase ppm=0   !<------------ set ppm
+~ Buses=[B2.1.0 B3.1.0 B5.1.2]
+
+New Transformer.YYDB  XfmrCode=YYD1Phase  ppm=0   
+~ Buses=[B2.2.0 B3.2.0 B5.2.3]
+
+New Transformer.YYDC  XfmrCode=YYD1Phase ppm=0  
+~ Buses=[B2.3.0 B3.3.0 B5.3.1]
+
+
+// Loads
+New Load.B4a phases=1 Bus1=B4.1.0  kV=7.62 kW=1250 kvar=500 Model=1
+New Load.B4b phases=1 Bus1=B4.2.0  kV=7.62 kW=1500 kvar=750 Model=1
+New Load.B4c phases=1 Bus1=B4.3.0  kV=7.62 kW=1000 kvar=250 Model=1
+
+New Load.B6 phases=3 Bus1=B6.1.2.3 Model=2 Conn=delta kV=2.4 kW=2250 kvar=1125
+
+Set voltagebases=[69, 13.2, 2.4]
+Calcvoltagebases
+
+solve
+
+// Show results
+Show Currents residual=yes Elements
+Show Powers kva Elements
+Show Voltage LN Nodes
+
+
+// Export to CSV
+Export Voltages
+fileedit [YDY_Test3_EXP_VOLTAGES.CSV]
+Export Currents
+fileedit [YDY_Test3_EXP_CURRENTS.CSV]
+
+/*  SLG Fault to ground at Bus B4
+New Fault.SLGFault phases=1 Bus1=B4.1 Bus2=B4.0
+! Disable Loads
+Batchedit Load..* Enabled=no
+! Direct mode solution -- loads ignored
+Solve mode=Direct
+// Show results
+Show Currents residual=yes Elements
+Show Powers kva Elements
+Show Voltage LN Nodes
+*/
+
+!  SLG Fault to ground at Bus B2
+New Fault.SLGFault phases=1 Bus1=B2.1 Bus2=B2.0
+! Disable Loads
+Batchedit Load..* Enabled=no
+! Direct mode solution -- loads ignored
+Solve mode=Direct
+// Show results
+Show Currents residual=yes Elements
+Show Powers kva Elements
+Show Voltage LN Nodes

@@ -1,0 +1,428 @@
+New Line.2002200004641085_sw bus1=D5587291-3_INT      bus2=Q14734              switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001
+New SwtControl.2002200004641085 SwitchedObj=Line.2002200004641085_sw state = Closed normal = Closed  
+New Fuse.2002200004641085 SwitchedObj = Line.2002200004641085_sw MonitoredObj = Line.2002200004641085_sw ratedCurrent=100
+
+New Line.2002200004868472_sw bus1=D5563942-4_INT      bus2=Q16483              switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001
+New SwtControl.2002200004868472 SwitchedObj=Line.2002200004868472_sw state = Closed normal = Closed  
+New Fuse.2002200004868472 SwitchedObj=Line.2002200004868472_sw MonitoredObj = Line.2002200004868472_sw ratedCurrent=65
+
+New Line.200220000499_sw bus1=R42246   bus2=Q16642          switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001
+New SwtControl.200220000499 SwitchedObj=Line.200220000499_sw state = Closed normal = Closed  
+New Fuse.200220000499 SwitchedObj = Line.200220000499_sw MonitoredObj = Line.200220000499_sw ratedCurrent=65
+
+
+New Line.A333_48332_sw       bus1=D5746546-1_INT      bus2=E182723             switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001
+New SwtControl.A333_48332 SwitchedObj=Line.A333_48332_sw state = Open normal = Open
+New Recloser.A333_48332 SwitchedObj = Line.A333_48332_sw MonitoredObj = Line.A333_48332_sw phaseTrip=200 groundTrip=40 shots=3
+
+New Line.A1009_48332_sw      bus1=M1009805            bus2=D5621886-1_INT      switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001
+New SwtControl.A1009_48332 SwitchedObj=Line.A1009_48332_sw state = Closed normal = Closed  
+
+
+New Line.A8645_48332_sw      bus1=D5958866-1_INT      bus2=E183493             switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001
+New SwtControl.A8645_48332 SwitchedObj=Line.A8645_48332_sw state = Open normal = Open
+
+
+New Line.A8611_48332_sw      bus1=D5799561-2_INT      bus2=E193509             switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001
+New SwtControl.a8611_48332 SwitchedObj=Line.a8611_48332_sw state = Closed normal = Closed  
+New Recloser.a8611_48332 SwitchedObj = Line.a8611_48332_sw MonitoredObj = Line.a8611_48332_sw phaseTrip=200 groundTrip=40 shots=3
+
+New Line.A8869_48332_sw      bus1=D6198039-1_INT      bus2=E206217             switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001
+New SwtControl.A8869_48332 SwitchedObj=Line.A8869_48332_sw state = Closed normal = Closed  
+
+New Line.DG1069MT1_sw        bus1=M1069DER480-1       bus2=M1069-MT1           switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001
+New SwtControl.DG1069MT1 SwitchedObj=Line.DG1069MT1_sw state = Closed normal = Closed  
+
+New Line.DG1089DIES_sw       bus1=M1089DER480-2       bus2=M1089-DIES1         switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001
+New SwtControl.DG1089DIES SwitchedObj=Line.DG1089DIES_sw state = Closed normal = Closed  
+
+New Line.DG1089LNG_sw        bus1=M1089186      bus2=M1089-LNG1          switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001
+New SwtControl.DG1089LNG SwitchedObj=Line.DG1089LNG_sw state = Closed normal = Closed  
+
+New Line.DG1142LNG_sw        bus1=M1142DER480-1       bus2=M1142-LNG1          switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001
+New SwtControl.DG1142LNG SwitchedObj=Line.DG1142LNG_sw state = Closed normal = Closed  
+
+New Line.DG1209DIES_sw       bus1=M1209DER480-1       bus2=M1209-DIES1         switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001
+New SwtControl.DG1209DIES SwitchedObj=Line.DG1209DIES_sw state = Closed normal = Closed  
+
+New Line.G9343_48332_sw      bus1=D5682346-3_INT      bus2=E206211             switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001
+New SwtControl.G9343_48332 SwitchedObj=Line.G9343_48332_sw state = Closed normal = Closed  
+New Recloser.G9343_48332 SwitchedObj = Line.G9343_48332_sw MonitoredObj = Line.G9343_48332_sw phaseTrip=200 groundTrip=40 shots=3
+
+New Line.HVMV115B1_sw        bus1=HVMV115_HSB1        bus2=HVMV115_HSB2        switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001
+New SwtControl.HVMV115B1 SwitchedObj=Line.HVMV115B1_sw state = Closed normal = Closed  
+
+New Line.HVMV69S1B1_sw       bus1=HVMV69s1_LSB2     bus2=HVMV69s1_HSB      switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001
+New SwtControl.HVMV69S1B1 SwitchedObj=Line.HVMV69S1B1_sw state = Closed normal = Closed  
+
+New Line.hvmv11s1b2_sw       bus1=D5710794-3_INT      bus2=E192860             switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001
+New SwtControl.hvmv11s1b2 SwitchedObj=Line.hvmv11s1b2_sw state = Closed normal = Closed  
+
+New Line.HVMV69S1B3_sw       bus1=HVMV69s1_LSB2     bus2=HVMV69S1S2_1        switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001
+New SwtControl.HVMV69S1B3 SwitchedObj=Line.HVMV69S1B3_sw state = Closed normal = Closed  
+
+New Line.HVMV69S1B4_sw       bus1=regxfmr_HVMV69s1_LSB1 bus2=HVMV69s1_LSB2 switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001
+New SwtControl.HVMV69S1B4 SwitchedObj=Line.HVMV69S1B4_sw state = Closed normal = Closed  
+
+New Line.HVMV69S2B1_sw       bus1=HVMV69sub2_LNB      bus2=HVMV69sub2_HSB      switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001
+New SwtControl.HVMV69S2B1 SwitchedObj=Line.HVMV69S2B1_sw state = Closed normal = Closed  
+
+New Line.hvmv11s2b2_sw       bus1=HVMV11sub2_LSB      bus2=e1047300            switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001
+New SwtControl.hvmv11s2b2 SwitchedObj=Line.hvmv11s2b2_sw state = Closed normal = Closed  
+
+New Line.HVMV69S2B3_sw       bus1=HVMV69S1S2_10       bus2=HVMV69sub2_LNB      switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001
+New SwtControl.HVMV69S2B3 SwitchedObj=Line.HVMV69S2B3_sw state = Closed normal = Closed  
+
+New Line.HVMV69S2B4_sw       bus1=HVMV69Sub2_LNB      bus2=HVMV69S2S3_1        switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001
+New SwtControl.HVMV69S2B4 SwitchedObj=Line.HVMV69S2B4_sw state = Closed normal = Closed  
+
+New Line.HVMV69S3B1_sw       bus1=HVMV69S2S3_2        bus2=HVMV69s3_HSB      switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001
+New SwtControl.HVMV69S3B1 SwitchedObj=Line.HVMV69S3B1_sw state = Closed normal = Closed  
+
+New Line.hvmv11s3b2_sw       bus1=HVMV11s3_LSB      bus2=e203026             switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001
+New SwtControl.hvmv11s3b2 SwitchedObj=Line.hvmv11s3b2_sw state = Closed normal = Closed  
+
+New Line.L5397_48332_sw      bus1=D6049822-1_INT.1    bus2=E182722.1           switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001 phases=1
+New SwtControl.L5397_48332 SwitchedObj=Line.L5397_48332_sw state = Closed normal = Closed  
+New Recloser.L5397_48332 SwitchedObj = Line.L5397_48332_sw MonitoredObj = Line.L5397_48332_sw phaseTrip=200 groundTrip=40 shots=3
+
+New Line.L5437_48332_sw      bus1=D5535139-1_INT      bus2=E183473             switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001
+New SwtControl.L5437_48332 SwitchedObj=Line.L5437_48332_sw state = Closed normal = Closed  
+New Recloser.L5437_48332 SwitchedObj = Line.L5437_48332_sw MonitoredObj = Line.L5437_48332_sw phaseTrip=200 groundTrip=40 shots=3
+
+New Line.L5491_48332_sw      bus1=D5655682-1_INT.2    bus2=E182725.2           switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001 phases=1
+New SwtControl.L5491_48332 SwitchedObj=Line.L5491_48332_sw state = Closed normal = Closed  
+New Fuse.L5491_48332 SwitchedObj = Line.L5491_48332_sw MonitoredObj = Line.L5491_48332_sw ratedCurrent=15
+
+New Line.L5523_48332_sw      bus1=D6049825-1_INT      bus2=E182748             switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001
+New SwtControl.L5523_48332 SwitchedObj=Line.L5523_48332_sw state = Closed normal = Closed  
+New Recloser.L5523_48332 SwitchedObj = Line.L5523_48332_sw MonitoredObj = Line.L5523_48332_sw phaseTrip=200 groundTrip=40 shots=3
+
+New Line.L5565_48332_sw      bus1=D6140778-1_INT.2    bus2=E182731.2           switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001 phases=1
+New SwtControl.L5565_48332 SwitchedObj=Line.L5565_48332_sw state = Closed normal = Closed  
+New Fuse.L5565_48332 SwitchedObj = Line.L5565_48332_sw MonitoredObj = Line.L5565_48332_sw ratedCurrent=65
+
+New Line.L5659_48332_sw      bus1=D6231996-1_INT.2    bus2=E206614.2           switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001 phases=1
+New SwtControl.L5659_48332 SwitchedObj=Line.L5659_48332_sw state = Closed normal = Closed  
+New Fuse.L5659_48332 SwitchedObj = Line.L5659_48332_sw MonitoredObj = Line.L5659_48332_sw ratedCurrent=50
+
+New Line.L9191_48332_sw      bus1=D5534970-1_INT      bus2=E182732             switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001
+New SwtControl.L9191_48332 SwitchedObj=Line.L9191_48332_sw state = Closed normal = Closed  
+New Recloser.L9191_48332 SwitchedObj = Line.L9191_48332_sw MonitoredObj = Line.L9191_48332_sw phaseTrip=200 groundTrip=40 shots=3
+
+New Line.L9407_48332_sw      bus1=D6023352-1_INT      bus2=E184626             switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001
+New SwtControl.L9407_48332 SwitchedObj=Line.L9407_48332_sw state = Closed normal = Closed  
+New Recloser.L9407_48332 SwitchedObj = Line.L9407_48332_sw MonitoredObj = Line.L9407_48332_sw phaseTrip=200 groundTrip=40 shots=3
+
+New Line.LN0017295_sw        bus1=L2973156            bus2=D6017295-1_INT      switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001
+New SwtControl.LN0017295 SwitchedObj=Line.LN0017295_sw state = Closed normal = Closed  
+New Recloser.LN0017295 SwitchedObj = Line.LN0017295_sw MonitoredObj = Line.LN0017295_sw phaseTrip=200 groundTrip=40 shots=3
+
+New Line.LN0017316_sw        bus1=L2729430.2          bus2=D6017316-1_INT.2    switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001 phases=1
+New SwtControl.LN0017316 SwitchedObj=Line.LN0017316_sw state = Closed normal = Closed  
+New Fuse.LN0017316 SwitchedObj = Line.LN0017316_sw MonitoredObj = Line.LN0017316_sw ratedCurrent=60
+
+New Line.LN0048634_sw        bus1=M1186072            bus2=D6048634-1_INT      switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001
+New SwtControl.LN0048634 SwitchedObj=Line.LN0048634_sw state = Closed normal = Closed  
+New Recloser.LN0048634 SwitchedObj = Line.LN0048634_sw MonitoredObj = Line.LN0048634_sw phaseTrip=200 groundTrip=40 shots=3
+
+New Line.LN0077781_sw        bus1=D6077791-3_INT      bus2=M1047522            switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001
+New SwtControl.LN0077781 SwitchedObj=Line.LN0077781_sw state = Closed normal = Closed  
+New Recloser.LN0077781 SwitchedObj = Line.LN0077781_sw MonitoredObj = Line.LN0077781_sw phaseTrip=200 groundTrip=40 shots=3
+
+New Line.LN0108145_sw        bus1=L2879078            bus2=D6108145-1_INT      switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001
+New SwtControl.LN0108145 SwitchedObj=Line.LN0108145_sw state = Closed normal = Closed  
+New Recloser.LN0108145 SwitchedObj = Line.LN0108145_sw MonitoredObj = Line.LN0108145_sw phaseTrip=200 groundTrip=40 shots=3
+
+New Line.LN0138609_sw        bus1=M1089112            bus2=D6138609-1_INT     switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001
+New SwtControl.LN0138609 SwitchedObj=Line.LN0138609_sw state = Closed normal = Closed  
+New Recloser.LN0138609 SwitchedObj = Line.LN0138609_sw MonitoredObj = Line.LN0138609_sw phaseTrip=200 groundTrip=40 shots=3
+
+New Line.LN0141147_sw        bus1=D6141147-1_INT.3    bus2=M1108317.3          switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001  phases=1
+New SwtControl.LN0141147 SwitchedObj=Line.LN0141147_sw state = Closed normal = Closed  
+New Recloser.LN0141147 SwitchedObj = Line.LN0141147_sw MonitoredObj = Line.LN0141147_sw phaseTrip=200 groundTrip=40 shots=3
+
+New Line.LN0170302_sw        bus1=D6170302-1_INT      bus2=L2879773            switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001
+New SwtControl.LN0170302 SwitchedObj=Line.LN0170302_sw state = Closed normal = Closed  
+New Recloser.LN0170302 SwitchedObj = Line.LN0170302_sw MonitoredObj = Line.LN0170302_sw phaseTrip=200 groundTrip=40 shots=3
+
+New Line.LN0247162_sw        bus1=D5472341-1_INT.2    bus2=F739842.2           switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001 phases=1
+New SwtControl.LN0247162 SwitchedObj=Line.LN0247162_sw state = Closed normal = Closed  
+New Fuse.LN0247162 SwitchedObj = Line.LN0247162_sw MonitoredObj = Line.LN0247162_sw ratedCurrent=2.75
+
+New Line.LN0409774_sw        bus1=N1136027.1          bus2=D6409775-4_INT.1    switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001 phases=1
+New SwtControl.LN0409774 SwitchedObj=Line.LN0409774_sw state = Closed normal = Closed  
+New Fuse.LN0409774 SwitchedObj = Line.LN0409774_sw MonitoredObj = Line.LN0409774_sw ratedCurrent=20
+
+New Line.LN0440002_sw        bus1=N1137999.3          bus2=D6440002-2_INT.3    switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001 phases=1
+New SwtControl.LN0440002 SwitchedObj=Line.LN0440002_sw state = Closed normal = Closed  
+New Fuse.LN0440002 SwitchedObj = Line.LN0440002_sw MonitoredObj = Line.LN0440002_sw ratedCurrent=40
+
+New Line.LN0504019_sw        bus1=M3032981            bus2=D6504019-6_INT      switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001
+New SwtControl.LN0504019 SwitchedObj=Line.LN0504019_sw state = Closed normal = Closed  
+New Recloser.LN0504019 SwitchedObj = Line.LN0504019_sw MonitoredObj = Line.LN0504019_sw phaseTrip=200 groundTrip=40 shots=3
+
+New Line.LN0504876_sw        bus1=M1142818            bus2=D5504876-1_INT      switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001
+New SwtControl.LN0504876 SwitchedObj=Line.LN0504876_sw state = Closed normal = Closed  
+New Recloser.LN0504876 SwitchedObj = Line.LN0504876_sw MonitoredObj = Line.LN0504876_sw phaseTrip=200 groundTrip=40 shots=3
+
+New Line.LN05534967_sw       bus1=M1089174            bus2=D5534967-1_INT      switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001
+New SwtControl.LN05534967 SwitchedObj=Line.LN05534967_sw state = Closed normal = Closed  
+New Recloser.LN05534967 SwitchedObj = Line.LN05534967_sw MonitoredObj = Line.LN05534967_sw phaseTrip=200 groundTrip=40 shots=3
+
+New Line.LN0623395_sw        bus1=M1047767.2          bus2=D5623395-1_INT.2    switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001 phases=1
+New SwtControl.LN0623395 SwitchedObj=Line.LN0623395_sw state = Closed normal = Closed  
+New Fuse.LN0623395 SwitchedObj = Line.LN0623395_sw MonitoredObj = Line.LN0623395_sw ratedCurrent=50
+
+New Line.LN0653457_sw        bus1=L3085398            bus2=D5653457-1_INT      switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001
+New SwtControl.LN0653457 SwitchedObj=Line.LN0653457_sw state = Open normal = Open
+New Recloser.LN0653457 SwitchedObj = Line.LN0653457_sw MonitoredObj = Line.LN0653457_sw phaseTrip=200 groundTrip=40 shots=3
+
+New Line.LN0653469_sw        bus1=L3066818.2          bus2=D5653469-1_INT.2    switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001 phases=1
+New SwtControl.LN0653469 SwitchedObj=Line.LN0653469_sw state = Closed normal = Closed  
+New Fuse.LN0653469 SwitchedObj = Line.LN0653469_sw MonitoredObj = Line.LN0653469_sw ratedCurrent=65
+
+New Line.LN0712477_sw        bus1=N1139545.3          bus2=D5712477-3_INT.3    switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001 phases=1
+New SwtControl.LN0712477 SwitchedObj=Line.LN0712477_sw state = Closed normal = Closed  
+New Fuse.LN0712477 SwitchedObj = Line.LN0712477_sw MonitoredObj = Line.LN0712477_sw ratedCurrent=25
+
+New Line.LN0712587_sw        bus1=N1144667.1          bus2=D5712587-2_INT.1    switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001 phases=1
+New SwtControl.LN0712587 SwitchedObj=Line.LN0712587_sw state = Closed normal = Closed  
+New Fuse.LN0712587 SwitchedObj = Line.LN0712587_sw MonitoredObj = Line.LN0712587_sw ratedCurrent=50
+
+New Line.LN0742811_sw        bus1=D5742811-3_INT      bus2=N1137992            switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001
+New SwtControl.LN0742811 SwitchedObj=Line.LN0742811_sw state = Closed normal = Closed  
+New Recloser.LN0742811 SwitchedObj = Line.LN0742811_sw MonitoredObj = Line.LN0742811_sw phaseTrip=200 groundTrip=40 shots=3
+
+New Line.LN0746703_sw        bus1=P829957             bus2=D5746703-1_INT    switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001 phases=3
+New SwtControl.LN0746703 SwitchedObj=Line.LN0746703_sw state = Closed normal = Closed  
+New Recloser.LN0746703 SwitchedObj = Line.LN0746703_sw MonitoredObj = Line.LN0746703_sw phaseTrip=200 groundTrip=40 shots=3
+
+New Line.LN0774458_sw        bus1=M1026915            bus2=D5774457-1_INT      switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001
+New SwtControl.LN0774458 SwitchedObj=Line.LN0774458_sw state = Closed normal = Closed  
+New Recloser.LN0774458 SwitchedObj = Line.LN0774458_sw MonitoredObj = Line.LN0774458_sw phaseTrip=200 groundTrip=40 shots=3
+
+New Line.LN0774470_sw        bus1=N1138594.1          bus2=D5774470-2_INT.1    switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001 phases=1
+New SwtControl.LN0774470 SwitchedObj=Line.LN0774470_sw state = Closed normal = Closed  
+New Recloser.LN0774470 SwitchedObj = Line.LN0774470_sw MonitoredObj = Line.LN0774470_sw phaseTrip=200 groundTrip=40 shots=3
+
+New Line.LN0804798_sw        bus1=N1136030.2          bus2=D5804798-3_INT.2    switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001 phases=1
+New SwtControl.LN0804798 SwitchedObj=Line.LN0804798_sw state = Closed normal = Closed  
+New Fuse.LN0804798 SwitchedObj = Line.LN0804798_sw MonitoredObj = Line.LN0804798_sw ratedCurrent=65
+
+New Line.LN0863704_sw        bus1=L2858166            bus2=D5863704-2_INT      switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001
+New SwtControl.LN0863704 SwitchedObj=Line.LN0863704_sw state = Closed normal = Closed  
+New Recloser.LN0863704 SwitchedObj = Line.LN0863704_sw MonitoredObj = Line.LN0863704_sw phaseTrip=200 groundTrip=40 shots=3
+
+New Line.LN0895780_sw        bus1=N1140519            bus2=D5895780-3_INT      switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001
+New SwtControl.LN0895780 SwitchedObj=Line.LN0895780_sw state = Closed normal = Closed  
+New Recloser.LN0895780 SwitchedObj = Line.LN0895780_sw MonitoredObj = Line.LN0895780_sw phaseTrip=200 groundTrip=40 shots=3
+
+New Line.LN0955074_sw        bus1=N1139546.2          bus2=D5955074-2_INT.2    switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001 phases=1
+New SwtControl.LN0955074 SwitchedObj=Line.LN0955074_sw state = Closed normal = Closed  
+New Fuse.LN0955074 SwitchedObj = Line.LN0955074_sw MonitoredObj = Line.LN0955074_sw ratedCurrent=25
+
+New Line.LN0956471_sw        bus1=N1136670            bus2=D5956471-2_INT      switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001
+New SwtControl.LN0956471 SwitchedObj=Line.LN0956471_sw state = Closed normal = Closed  
+New Recloser.LN0956471 SwitchedObj = Line.LN0956471_sw MonitoredObj = Line.LN0956471_sw phaseTrip=200 groundTrip=40 shots=3
+
+New Line.LN1047PVFRM_sw      bus1=M1047PV-2           bus2=M1047PV-1           switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001
+New SwtControl.LN1047PVFRM SwitchedObj=Line.LN1047PVFRM_sw state = Closed normal = Closed  
+New Recloser.LN1047PVFRM SwitchedObj = Line.LN1047PVFRM_sw MonitoredObj = Line.LN1047PVFRM_sw phaseTrip=200 groundTrip=40 shots=3
+
+New Line.ln1186wt1_SW        bus1=M1186DER-1          bus2=m1186-WT1           switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001
+New SwtControl.ln1186wt1 SwitchedObj=Line.ln1186wt1_SW state = Closed normal = Closed  
+New Recloser.ln1186wt1 SwitchedObj = Line.ln1186wt1_SW MonitoredObj = Line.ln1186wt1_SW phaseTrip=200 groundTrip=40 shots=3
+
+New Line.ln1186wt2_SW        bus1=M1186DER-2          bus2=m1186-WT2           switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001
+New SwtControl.ln1186wt2 SwitchedObj=Line.ln1186wt2_SW state = Closed normal = Closed  
+New Recloser.ln1186wt2 SwitchedObj = Line.ln1186wt2_SW MonitoredObj = Line.ln1186wt2_SW phaseTrip=200 groundTrip=40 shots=3
+
+New Line.ln1186wt3_SW        bus1=M1186DER-3          bus2=m1186-WT3           switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001
+New SwtControl.ln1186wt3 SwitchedObj=Line.ln1186wt3_SW state = Closed normal = Closed  
+New Recloser.ln1186wt3 SwitchedObj = Line.ln1186wt3_SW MonitoredObj = Line.ln1186wt3_SW phaseTrip=200 groundTrip=40 shots=3
+
+New Line.LN2000001_sw        bus1=M2000100            bus2=D2000100_INT        switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001
+New SwtControl.LN2000001 SwitchedObj=Line.LN2000001_sw state = Closed normal = Closed  
+New Recloser.LN2000001 SwitchedObj = Line.LN2000001_sw MonitoredObj = Line.LN2000001_sw phaseTrip=200 groundTrip=40 shots=3
+
+New Line.LN2000401_sw        bus1=M2000401.1          bus2=D2000401_INT.1      switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001 phases=1
+New SwtControl.LN2000401 SwitchedObj=Line.LN2000401_sw state = Closed normal = Closed  
+New Fuse.LN2000401 SwitchedObj = Line.LN2000401_sw MonitoredObj = Line.LN2000401_sw ratedCurrent=50
+
+New Line.LN2000701_sw        bus1=M2000701.2          bus2=D2000701_INT.2      switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001 phases=1
+New SwtControl.LN2000701 SwitchedObj=Line.LN2000701_sw state = Closed normal = Closed  
+New Fuse.LN2000701 SwitchedObj = Line.LN2000701_sw MonitoredObj = Line.LN2000701_sw ratedCurrent=50
+
+New Line.LN2000901_sw        bus1=M2000901.3          bus2=D2000901_INT.3      switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001 phases=1
+New SwtControl.LN2000901 SwitchedObj=Line.LN2000901_sw state = Closed normal = Closed  
+New Fuse.LN2000901 SwitchedObj = Line.LN2000901_sw MonitoredObj = Line.LN2000901_sw ratedCurrent=50
+
+New Line.LN2001001_sw        bus1=M2001001.2          bus2=D2001001_INT.2      switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001 phases=1
+New SwtControl.LN2001001 SwitchedObj=Line.LN2001001_sw state = Closed normal = Closed  
+New Fuse.LN2001001 SwitchedObj = Line.LN2001001_sw MonitoredObj = Line.LN2001001_sw ratedCurrent=50
+
+New Line.LN2001201_sw        bus1=M2001201.3          bus2=D2001201_INT.3      switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001 phases=1
+New SwtControl.LN2001201 SwitchedObj=Line.LN2001201_sw state = Closed normal = Closed  
+New Fuse.LN2001201 SwitchedObj = Line.LN2001201_sw MonitoredObj = Line.LN2001201_sw ratedCurrent=50
+
+New Line.LN2001301_sw        bus1=M2001301.1          bus2=D2001301_INT.1      switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001 phases=1
+New SwtControl.LN2001301 SwitchedObj=Line.LN2001301_sw state = Closed normal = Closed  
+New Fuse.LN2001301 SwitchedObj = Line.LN2001301_sw MonitoredObj = Line.LN2001301_sw ratedCurrent=50
+
+New Line.LN2001ESS1_SW       bus1=M2001DER-4          bus2=m2001-ESS1          switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001
+New SwtControl.LN2001ESS1 SwitchedObj=Line.LN2001ESS1_SW state = Closed normal = Closed  
+
+
+New Line.LN2001ESS2_SW       bus1=M2001DER-5          bus2=m2001-ESS2          switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001
+New SwtControl.LN2001ESS2 SwitchedObj=Line.LN2001ESS2_SW state = Closed normal = Closed  
+
+
+New Line.LN2001MT1_SW        bus1=M2001DER-1          bus2=m2001-MT1           switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001
+New SwtControl.LN2001MT1 SwitchedObj=Line.LN2001MT1_SW state = Closed normal = Closed  
+
+
+New Line.LN2001MT2_SW        bus1=M2001DER-2          bus2=m2001-MT2           switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001
+New SwtControl.LN2001MT2 SwitchedObj=Line.LN2001MT2_SW state = Closed normal = Closed  
+
+
+New Line.LN2001MT3_SW        bus1=M2001DER-3          bus2=m2001-MT3           switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001
+New SwtControl.LN2001MT3 SwitchedObj=Line.LN2001MT3_SW state = Closed normal = Closed  
+
+
+New Line.LN247160_sw         bus1=D5865224-1_INT.2    bus2=F739841.2           switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001 phases=1
+New SwtControl.LN247160 SwitchedObj=Line.LN247160_sw state = Closed normal = Closed  
+New Fuse.LN247160 SwitchedObj = Line.LN247160_sw MonitoredObj = Line.LN247160_sw ratedCurrent = 2.75
+
+New Line.LN247171_sw         bus1=D6047588-1_INT.2    bus2=F739844.2           switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001 phases=1
+New SwtControl.LN247171 SwitchedObj=Line.LN247171_sw state = Closed normal = Closed  
+New Fuse.LN247171 SwitchedObj = Line.LN247171_sw MonitoredObj = Line.LN247171_sw ratedCurrent = 2.75
+
+New Line.LN293471_sw         bus1=D5686080-1_INT      bus2=F739845             switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001
+New SwtControl.LN293471 SwitchedObj=Line.LN293471_sw state = Closed normal = Closed  
+New Recloser.LN293471 SwitchedObj = Line.LN293471_sw MonitoredObj = Line.LN293471_sw phaseTrip=200 groundTrip=40 shots=3
+
+New Line.LN3693186_sw        bus1=D5861005-2_INT      bus2=Q1301               switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001
+New SwtControl.LN3693186 SwitchedObj=Line.LN3693186_sw state = Closed normal = Closed  
+New Recloser.LN3693186 SwitchedObj = Line.LN3693186_sw MonitoredObj = Line.LN3693186_sw phaseTrip=200 groundTrip=40 shots=3
+
+New Line.LN4586093_sw        bus1=D6138608-3_INT      bus2=Q14404              switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001
+New SwtControl.LN4586093 SwitchedObj=Line.LN4586093_sw state = Closed normal = Closed  
+New Fuse.LN4586093 SwitchedObj = Line.LN4586093_sw MonitoredObj = Line.LN4586093_sw ratedCurrent=100
+
+New Line.LN4625680_sw        bus1=D5956499-2_INT      bus2=Q14411              switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001
+New SwtControl.LN4625680 SwitchedObj=Line.LN4625680_sw state = Closed normal = Closed  
+New Recloser.LN4625680 SwitchedObj = Line.LN4625680_sw MonitoredObj = Line.LN4625680_sw phaseTrip=200 groundTrip=40 shots=3
+
+New Line.LN4625696_sw        bus1=D5926308-3_INT      bus2=Q14412              switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001
+New SwtControl.LN4625696 SwitchedObj=Line.LN4625696_sw state = Closed normal = Closed  
+New Recloser.LN4625696 SwitchedObj = Line.LN4625696_sw MonitoredObj = Line.LN4625696_sw phaseTrip=200 groundTrip=40 shots=3
+
+New Line.LN4625713_sw        bus1=D5502543-2_INT      bus2=Q14413              switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001
+New SwtControl.LN4625713 SwitchedObj=Line.LN4625713_sw state = Closed normal = Closed  
+New Recloser.LN4625713 SwitchedObj = Line.LN4625713_sw MonitoredObj = Line.LN4625713_sw phaseTrip=200 groundTrip=40 shots=3
+
+New Line.LN4625876_sw        bus1=D5835167-6_INT      bus2=Q14414              switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001
+New SwtControl.LN4625876 SwitchedObj=Line.LN4625876_sw state = Closed normal = Closed  
+New Recloser.LN4625876 SwitchedObj = Line.LN4625876_sw MonitoredObj = Line.LN4625876_sw phaseTrip=200 groundTrip=40 shots=3
+
+New Line.LN4641075_sw        bus1=D5860423-3_INT      bus2=Q14733              switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001
+New SwtControl.LN4641075 SwitchedObj=Line.LN4641075_sw state = Closed normal = Closed  
+New Fuse.LN4641075 SwitchedObj = Line.LN4641075_sw MonitoredObj = Line.LN4641075_sw ratedCurrent=100
+
+New Line.LN4651075_sw        bus1=D5860450-1_INT      bus2=M1047575            switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001
+New SwtControl.LN4651075 SwitchedObj=Line.LN4651075_sw state = Closed normal = Closed  
+New Fuse.LN4651075 SwitchedObj = Line.LN4651075_sw MonitoredObj = Line.LN4651075_sw ratedCurrent=100
+
+New Line.LN5001CHP_sw        bus1=M1026CHP-1          bus2=M1026CHP-2          switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001
+New SwtControl.LN5001CHP SwitchedObj=Line.LN5001CHP_sw state = Closed normal = Closed  
+New Recloser.LN5001CHP SwitchedObj = Line.LN5001CHP_sw MonitoredObj = Line.LN5001CHP_sw phaseTrip=200 groundTrip=40 shots=3
+
+New Line.LN5472335_sw        bus1=D5472350-1_INT      bus2=m1089120            switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001
+New SwtControl.LN5472335 SwitchedObj=Line.LN5472335_sw state = Closed normal = Closed  
+New Fuse.LN5472335 SwitchedObj = Line.LN5472335_sw MonitoredObj = Line.LN5472335_sw ratedCurrent=100
+
+New Line.LN5587300_sw      bus1=D5578300-1_INT      bus2=L2692635            switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001
+New SwtControl.LN5587300 SwitchedObj=Line.LN5587300_sw state = Closed normal = Closed  
+New Fuse.LN5587300 SwitchedObj = Line.LN5587300_sw MonitoredObj = Line.LN5587300_sw ratedCurrent=100
+
+New Line.TSW10691069_sw      bus1=M1069230            bus2=M1069300            switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001
+New SwtControl.TSW10691069 SwitchedObj=Line.TSW10691069_sw state = Closed normal = Closed  
+New Recloser.TSW10691069 SwitchedObj = Line.TSW10691069_sw MonitoredObj = Line.TSW10691069_sw phaseTrip=200 groundTrip=40 shots=3
+
+New Line.TSW10891089_sw      bus1=L2990827            bus2=L2990828            switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001
+New SwtControl.TSW10891089 SwitchedObj=Line.TSW10891089_sw state = Closed normal = Closed  
+
+New Line.TSW30473047_sw      bus1=L3047059            bus2=L3047060            switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001
+New SwtControl.TSW30473047 SwitchedObj=Line.TSW30473047_sw state = Closed normal = Closed  
+New Recloser.TSW30473047 SwitchedObj = Line.TSW30473047_sw MonitoredObj = Line.TSW30473047_sw phaseTrip=200 groundTrip=40 shots=3
+
+New Line.TSW320328_sw        bus1=D6320328-1_INT.3    bus2=L2879062.3          switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001 phases=1
+New SwtControl.TSW320328 SwitchedObj=Line.TSW320328_sw state = Open normal = Open
+
+New Line.TSW568613_sw        bus1=L2692000.1          bus2=L2841000.1          switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001 phases=1
+New SwtControl.TSW568613 SwitchedObj=Line.TSW568613_sw state = Open normal = Open
+New Recloser.TSW568613 SwitchedObj = Line.TSW568613_sw MonitoredObj = Line.TSW568613_sw phaseTrip=200 groundTrip=40 shots=3
+
+New Line.TSW803273_sw        bus1=D5803273-1_INT      bus2=M1069457            switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001
+New SwtControl.TSW803273 SwitchedObj=Line.TSW803273_sw state = Open normal = Open 
+
+New Line.V7041_48332_sw      bus1=D5867591-1_INT      bus2=E183472             switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001
+New SwtControl.V7041_48332 SwitchedObj=Line.V7041_48332_sw state = Closed normal = Closed  
+New Recloser.V7041_48332 SwitchedObj = Line.V7041_48332_sw MonitoredObj = Line.V7041_48332_sw phaseTrip=200 groundTrip=40 shots=3
+
+New Line.V7173_48332_sw      bus1=D5534969-2_INT      bus2=E182729             switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001
+New SwtControl.V7173_48332 SwitchedObj=Line.V7173_48332_sw state = Open normal = Open
+New Recloser.V7173_48332 SwitchedObj = Line.V7173_48332_sw MonitoredObj = Line.V7173_48332_sw phaseTrip=200 groundTrip=40 shots=3
+
+New Line.V7313_48332_sw      bus1=D5806920-1_INT.2    bus2=E182726.2           switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001 phases=1
+New SwtControl.V7313_48332 SwitchedObj=Line.V7313_48332_sw state = Closed normal = Closed  
+New Recloser.V7313_48332 SwitchedObj = Line.V7313_48332_sw MonitoredObj = Line.V7313_48332_sw phaseTrip=200 groundTrip=40 shots=3
+
+New Line.V7995_48332_sw      bus1=D5837361-8_INT      bus2=E182745             switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001
+New SwtControl.V7995_48332 SwitchedObj=Line.V7995_48332_sw state = Closed normal = Closed  
+New Recloser.V7995_48332 SwitchedObj = Line.V7995_48332_sw MonitoredObj = Line.V7995_48332_sw phaseTrip=200 groundTrip=40 shots=3
+
+New Line.V9109_48332_sw      bus1=D6140776-1_INT.1    bus2=E182730.1           switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001 phases=1
+New SwtControl.V9109_48332 SwitchedObj=Line.V9109_48332_sw state = Closed normal = Closed  
+New Recloser.V9109_48332 SwitchedObj = Line.V9109_48332_sw MonitoredObj = Line.V9109_48332_sw phaseTrip=200 groundTrip=40 shots=3
+
+New Line.V9111_48332_sw      bus1=D6108141-1_INT      bus2=E206209             switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001
+New SwtControl.V9111_48332 SwitchedObj=Line.V9111_48332_sw state = Closed normal = Closed  
+New Recloser.V9111_48332 SwitchedObj = Line.V9111_48332_sw MonitoredObj = Line.V9111_48332_sw phaseTrip=200 groundTrip=40 shots=3
+
+New Line.V9287_48332_sw      bus1=D6019477-1_INT.3    bus2=E182727.3           switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001 phases=1
+New SwtControl.V9287_48332 SwitchedObj=Line.V9287_48332_sw state = Closed normal = Closed  
+New Recloser.V9287_48332 SwitchedObj = Line.V9287_48332_sw MonitoredObj = Line.V9287_48332_sw phaseTrip=200 groundTrip=40 shots=3
+
+New Line.WD701_48332_sw      bus1=228-1048090-1_INT.2 bus2=193-51796.2         switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001 phases=1
+New SwtControl.WD701_48332 SwitchedObj=Line.WD701_48332_sw state = Open normal = Open Lock = Yes 
+New Recloser.WD701_48332 SwitchedObj = Line.WD701_48332_sw MonitoredObj = Line.WD701_48332_sw phaseTrip=200 groundTrip=40 shots=3
+
+New Line.WF586_48332_sw      bus1=228-979371-2_INT.3  bus2=193-48013.3         switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001 phases=1
+New SwtControl.WF586_48332 SwitchedObj=Line.WF586_48332_sw state = Open normal = Open Lock = Yes
+New Recloser.WF586_48332 SwitchedObj = Line.WF586_48332_sw MonitoredObj = Line.WF586_48332_sw phaseTrip=200 groundTrip=40 shots=3
+
+New Line.WF856_48332_sw      bus1=228-1353934-4_INT.3 bus2=193-103041.3        switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001 phases=1
+New SwtControl.WF856_48332 SwitchedObj=Line.WF856_48332_sw state = Open normal = Open  Lock = Yes
+New Recloser.WF856_48332 SwitchedObj = Line.WF856_48332_sw MonitoredObj = Line.WF856_48332_sw phaseTrip=200 groundTrip=40 shots=3
+
+New Line.WG127_48332_sw      bus1=228-961799-3_INT.3  bus2=193-46661.3         switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001 phases=1
+New SwtControl.WG127_48332 SwitchedObj=Line.WG127_48332_sw state = Open normal = Open 
+New Recloser.WG127_48332 SwitchedObj = Line.WG127_48332_sw MonitoredObj = Line.WG127_48332_sw phaseTrip=200 groundTrip=40 shots=3
+
+New Line.X8223_48332_sw      bus1=D6413567-3_INT      bus2=E182724             switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001
+New SwtControl.X8223_48332 SwitchedObj=Line.X8223_48332_sw state = Closed normal = Closed  
+New Recloser.X8223_48332 SwitchedObj = Line.X8223_48332_sw MonitoredObj = Line.X8223_48332_sw phaseTrip=200 groundTrip=40 shots=3
+
+New Line.X8225_48332_sw      bus1=D5565090-1_INT.2    bus2=E182744.2           switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001 phases=1
+New SwtControl.X8225_48332 SwitchedObj=Line.X8225_48332_sw state = Closed normal = Closed  
+New Fuse.X8225_48332 SwitchedObj = Line.X8225_48332_sw MonitoredObj = Line.X8225_48332_sw ratedCurrent=4
+
+New Line.X8271_48332_sw      bus1=D5712486-1_INT.3    bus2=E206210.3           switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001 phases=1
+New SwtControl.X8271_48332 SwitchedObj=Line.X8271_48332_sw state = Closed normal = Closed  
+New Fuse.X8271_48332 SwitchedObj = Line.X8271_48332_sw MonitoredObj = Line.X8271_48332_sw ratedCurrent=10
+
+New Line.XJ171_48332_sw      bus1=D5513564-1_INT      bus2=R20185             switch=True r1=0.001 r0=0.001 x1=0.001 x0=0.001 C1=0 C0=0 length=0.001
+New SwtControl.XJ171_48332 SwitchedObj=Line.XJ171_48332_sw state = Closed normal = Closed  
+New Fuse.XJ171_48332_sw SwitchedObj=Line.XJ171_48332_sw MonitoredObj=Line.XJ171_48332_sw ratedCurrent=65
